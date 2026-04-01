@@ -1,0 +1,229 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"third_party/zlib/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 227,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 234,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 241,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 251,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 258,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 275,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 278,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 282,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 286,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 296,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Runtime",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"third_party/zlib/zd.lib"
+			],
+			"targetId" : "zlib::@88168bcd04ba00925e4e",
+			"targetIndex" : 4,
+			"targetIsImportLibrary" : true,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 1,
+			"component" : "Runtime",
+			"destination" : "bin",
+			"paths" : 
+			[
+				"third_party/zlib/zd.dll"
+			],
+			"targetId" : "zlib::@88168bcd04ba00925e4e",
+			"targetIndex" : 4,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/zlib",
+			"exportName" : "zlibSharedExport",
+			"exportTargets" : 
+			[
+				{
+					"id" : "zlib::@88168bcd04ba00925e4e",
+					"index" : 4
+				}
+			],
+			"paths" : 
+			[
+				"third_party/zlib/CMakeFiles/Export/93f1ef598f1f2f8b07b376ab081bbce6/ZLIB-shared.cmake"
+			],
+			"type" : "export"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Runtime",
+			"destination" : "bin",
+			"isOptional" : true,
+			"paths" : 
+			[
+				"out/build/x64-Debug/third_party/zlib/zd.pdb"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "Development",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"third_party/zlib/zsd.lib"
+			],
+			"targetId" : "zlibstatic::@88168bcd04ba00925e4e",
+			"targetIndex" : 7,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 5,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/zlib",
+			"exportName" : "zlibStaticExport",
+			"exportTargets" : 
+			[
+				{
+					"id" : "zlibstatic::@88168bcd04ba00925e4e",
+					"index" : 7
+				}
+			],
+			"paths" : 
+			[
+				"third_party/zlib/CMakeFiles/Export/93f1ef598f1f2f8b07b376ab081bbce6/ZLIB-static.cmake"
+			],
+			"type" : "export"
+		},
+		{
+			"backtrace" : 6,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/zlib",
+			"paths" : 
+			[
+				"out/build/x64-Debug/third_party/zlib/ZLIBConfig.cmake",
+				"out/build/x64-Debug/third_party/zlib/ZLIBConfigVersion.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 7,
+			"component" : "Development",
+			"destination" : "include",
+			"paths" : 
+			[
+				"out/build/x64-Debug/third_party/zlib/zconf.h",
+				"third_party/zlib/zlib.h"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 8,
+			"component" : "Docs",
+			"destination" : "share/man/man3",
+			"paths" : 
+			[
+				"third_party/zlib/zlib.3"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 9,
+			"component" : "Docs",
+			"destination" : "share/doc/zlib/zlib",
+			"paths" : 
+			[
+				"third_party/zlib/LICENSE",
+				"third_party/zlib/doc/algorithm.txt",
+				"third_party/zlib/doc/crc-doc.1.0.pdf",
+				"third_party/zlib/doc/rfc1950.txt",
+				"third_party/zlib/doc/rfc1951.txt",
+				"third_party/zlib/doc/rfc1952.txt",
+				"third_party/zlib/doc/txtvsbin.txt"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 10,
+			"component" : "Development",
+			"destination" : "lib/pkgconfig",
+			"paths" : 
+			[
+				"out/build/x64-Debug/third_party/zlib/zlib.pc"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "third_party/zlib",
+		"source" : "third_party/zlib"
+	}
+}

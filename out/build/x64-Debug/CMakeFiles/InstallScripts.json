@@ -1,0 +1,10 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/user/KVDB/out/build/x64-Debug/cmake_install.cmake",
+		"C:/Users/user/KVDB/out/build/x64-Debug/third_party/zlib/cmake_install.cmake",
+		"C:/Users/user/KVDB/out/build/x64-Debug/third_party/zlib/test/cmake_install.cmake",
+		"C:/Users/user/KVDB/out/build/x64-Debug/third_party/zlib/contrib/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

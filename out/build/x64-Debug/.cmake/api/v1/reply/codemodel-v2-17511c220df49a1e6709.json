@@ -1,0 +1,190 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				},
+				{
+					"build" : "third_party/zlib",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-third_party.zlib-Debug-2115651a66352b3572f8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "third_party/zlib",
+					"targetIndexes" : 
+					[
+						4,
+						7
+					]
+				},
+				{
+					"build" : "third_party/zlib/test",
+					"jsonFile" : "directory-third_party.zlib.test-Debug-173880d942a242bfbf53.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "third_party/zlib/test",
+					"targetIndexes" : 
+					[
+						2,
+						3,
+						5,
+						6
+					]
+				},
+				{
+					"build" : "third_party/zlib/contrib",
+					"jsonFile" : "directory-third_party.zlib.contrib-Debug-783d92cf2df511557271.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.12"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "third_party/zlib/contrib"
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "KVDB",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"name" : "zlib",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2,
+						3,
+						4,
+						5,
+						6,
+						7
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "kvdb_app::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-kvdb_app-Debug-facd4a54502965a5f3bb.json",
+					"name" : "kvdb_app",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "kvdb_core::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-kvdb_core-Debug-90540cfebd2ac6ba90ec.json",
+					"name" : "kvdb_core",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "minigzip::@8937c3d444f31b72df1c",
+					"jsonFile" : "target-minigzip-Debug-169175a7e1e56b859076.json",
+					"name" : "minigzip",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "static_minigzip::@8937c3d444f31b72df1c",
+					"jsonFile" : "target-static_minigzip-Debug-50aeedc32c56f5444af2.json",
+					"name" : "static_minigzip",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "zlib::@88168bcd04ba00925e4e",
+					"jsonFile" : "target-zlib-Debug-03faac4b68676d19ef21.json",
+					"name" : "zlib",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "zlib_example::@8937c3d444f31b72df1c",
+					"jsonFile" : "target-zlib_example-Debug-0ca3dc0454818c424a02.json",
+					"name" : "zlib_example",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "zlib_static_example::@8937c3d444f31b72df1c",
+					"jsonFile" : "target-zlib_static_example-Debug-bd1f1658c9fc38cd1fa9.json",
+					"name" : "zlib_static_example",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "zlibstatic::@88168bcd04ba00925e4e",
+					"jsonFile" : "target-zlibstatic-Debug-66e9aefa76d702b77011.json",
+					"name" : "zlibstatic",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/user/KVDB/out/build/x64-Debug",
+		"source" : "C:/Users/user/KVDB"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}
