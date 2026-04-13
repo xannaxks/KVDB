@@ -2,6 +2,7 @@
 
 #include "type.h"
 #include "bytes.h"
+#include "arena.h"
 
 struct Record
 {
@@ -11,21 +12,19 @@ struct Record
 
 struct InternalRecord
 {
-    Bytes key, value;
+    ArenaEntry key_entry, value_entry;
     Type type;
     uint64_t seq_num;
 
     InternalRecord() = default;
-    InternalRecord(const std::string& key, const std::string& value, Type type, uint64_t seq_num);
-    InternalRecord(const Bytes& key, const Bytes& value, Type type, uint64_t seq_num);
+    InternalRecord(ArenaEntry key_entry, ArenaEntry value_entry, Type type, uint64_t seq_num);
 };
 
 struct ByteRecord
 {
-    Bytes key, value;
+    ArenaEntry key, value;
     Type type;
 
     ByteRecord(const InternalRecord& entry);
-    ByteRecord(const std::string& key, const std::string& value, Type type);
-    ByteRecord(const Bytes& key, const Bytes& value, Type type);
+    ByteRecord(ArenaEntry key_entry, ArenaEntry value_entry, Type type);
 };

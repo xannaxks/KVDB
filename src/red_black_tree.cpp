@@ -14,9 +14,9 @@
 //{
 //}
 
-RBTree::Node::Node(const Bytes& key, const Bytes& value, Type type, uint64_t seq_num)
-    : key(key),
-    value(value),
+RBTree::Node::Node(ArenaEntry key_entry, ArenaEntry value_entry, Type type, uint64_t seq_num)
+    : key_entry(key_entry),
+    value_entry(value_entry),
     seq_number(seq_num),
     type(type),
     color(Color::Red),
@@ -28,24 +28,20 @@ RBTree::Node::Node(const Bytes& key, const Bytes& value, Type type, uint64_t seq
 
 bool RBTree::Node::operator<(const Node& other) const
 {
-    if (this->key != other.key)
-        return this->key < other.key;
-    return this->seq_number > other.seq_number;
+    if (this->key_entry == other.key_entry)
+		return this->seq_number > other.seq_number; // For the same keys, the one with higher seq_number is considered "less" to ensure it comes first in the search
+    return this->key_entry < other.key_entry;
 }
-
 bool RBTree::Node::operator>(const Node& other) const
 {
-    return other < *this;
-}
-
-bool RBTree::Node::operator==(const Node& other) const
-{
-    return this->key == other.key && this->seq_number == other.seq_number;
+    if (this->key_entry == other.key_entry)
+		return this->seq_number < other.seq_number; // For the same keys, the one with lower seq_number is considered "greater"
+    return this->key_entry > other.key_entry;
 }
 
 size_t RBTree::Node::approximate_memory_usage() const
 {
-    return sizeof(Node) + key.size() + value.size();
+    return sizeof(Node) + this->key_entry.size + this->value_entry.size;
 }
 
 void RBTree::left_rotate(Node* v)
@@ -226,7 +222,7 @@ Status RBTree::insert(const InternalRecord& entry)
     try
     {
         std::unique_ptr<RBTree::Node> new_node;
-        new_node = std::make_unique<RBTree::Node>(entry.key, entry.value, entry.type, entry.seq_num);
+        new_node = std::make_unique<RBTree::Node>(entry.key_entry, entry.value_entry, entry.type, entry.seq_num);
         RBTree::Node* raw = new_node.get();
         bst_insert(raw);
         balance(raw);
@@ -240,20 +236,20 @@ Status RBTree::insert(const InternalRecord& entry)
     }
 }
 
-std::variant<InternalRecord, RBTree::Status> RBTree::find_latest_by_key(const Bytes& key) const
+std::variant<InternalRecord, RBTree::Status> RBTree::find_latest_by_key(ArenaEntry key) const
 {
     Node* current = root;
     Node* result = nullptr;
 
     while (current != nullptr)
     {
-        if (current->key < key)
+        if (current->key_entry < key)
         {
             current = current->right;
         }
         else
         {
-            if (current->key == key)
+            if (current->key_entry == key)
                 result = current;
             current = current->left;
         }
@@ -262,7 +258,7 @@ std::variant<InternalRecord, RBTree::Status> RBTree::find_latest_by_key(const By
     if (result == nullptr)
         return Status::KeyNotFound;
 
-    return InternalRecord(result->key, result->value, result->type, result->seq_number);
+    return InternalRecord(result->key_entry, result->value_entry, result->type, result->seq_number);
 }
 
 // Validators implementation
@@ -379,6 +375,6 @@ void RBTree::dump_inorder(std::vector<InternalRecord>& out) const
     while (it.has_next())
     {
         auto node = it.next();
-        out.emplace_back(node->key, node->value, node->type, node->seq_number);
+        out.emplace_back(node->key_entry, node->value_entry, node->type, node->seq_number);
     }
 }

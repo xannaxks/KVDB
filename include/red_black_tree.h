@@ -9,6 +9,7 @@
 #include <functional>
 #include "type.h"
 #include "record.h"
+#include "arena.h"
 
 class MemTable;
 
@@ -33,7 +34,8 @@ public:
             Black
         };
 
-        Bytes key, value;
+        ArenaEntry key_entry;
+        ArenaEntry value_entry;
         const uint64_t seq_number;
         Type type;
         Color color;
@@ -41,12 +43,10 @@ public:
         Node* right;
         Node* parent;
 
-        //Node(const Bytes& key, const Bytes& value, Type type);
-        Node(const Bytes& key, const Bytes& value, Type type, uint64_t seq_num);
+        Node(ArenaEntry key_entry, ArenaEntry value_entry, Type type, uint64_t seq_num);
 
         bool operator<(const Node& other) const;
         bool operator>(const Node& other) const;
-        bool operator==(const Node& other) const;
 
         size_t approximate_memory_usage() const;
     };
@@ -98,7 +98,7 @@ public:
     };
 
     Status insert(const InternalRecord& entry);
-    std::variant<InternalRecord, RBTree::Status> find_latest_by_key(const Bytes& key) const;
+    std::variant<InternalRecord, RBTree::Status> find_latest_by_key(ArenaEntry key) const;
 
     bool root_is_black() const;
     bool no_red_node_has_red_child() const;
