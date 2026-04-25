@@ -13,7 +13,9 @@
 //#include "C:\Users\user\KVDB\third_party\zlib\zlib.h"
 #include <bitset>
 
-
+void ensure_fits_in_block(uint64_t& offset, std::size_t size, const uint32_t BLOCK_SIZE, std::ofstream& file);
+void write_to_stream(std::ofstream& file, uint64_t& offset, void* ptr, std::size_t size, const uint32_t BLOCK_SIZE);
+void align_to_block_boundary(uint64_t& offset, const uint32_t BLOCK_SIZE, std::ofstream& file);
 template <typename T>
 inline void crc32_add_pod(uint32_t& crc, const T& value)
 {
