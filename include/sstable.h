@@ -13,6 +13,13 @@
 //#include "C:\Users\user\KVDB\third_party\zlib\zlib.h"
 #include <bitset>
 
+
+template <typename T>
+inline void crc32_add_pod(uint32_t& crc, const T& value)
+{
+	compute_crc32(crc, &value, sizeof(T));
+}
+
 inline void compute_crc32(uint32_t& crc, const void* ptr, std::size_t size);
 inline uint32_t crc32_of(const void* ptr, std::size_t size);
 

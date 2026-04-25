@@ -226,11 +226,11 @@ inline uint32_t crc32_of(const void* ptr, std::size_t size)
     compute_crc32(crc, ptr, size);
     return crc;
 }
-template <typename T>
-inline void crc32_add_pod(uint32_t& crc, const T& value)
-{
-    compute_crc32(crc, &value, sizeof(T));
-}
+//template <typename T>
+//inline void crc32_add_pod(uint32_t& crc, const T& value)
+//{
+//    compute_crc32(crc, &value, sizeof(T));
+//}
 
 /// constructors
 
