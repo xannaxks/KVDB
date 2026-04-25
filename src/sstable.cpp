@@ -1425,3 +1425,96 @@ void FileFooterSection::rebuild(MetaSection& meta_block, uint64_t meta_offset)
     this->meta_offset = meta_offset;
     this->meta_size = static_cast<uint32_t>(MetaSection::disk_size());
 }
+
+
+///*
+
+//SSTable::SSTable(const MemTable& mem_table, uint32_t table_id)
+//    : file_header(table_id),
+//    data_block(),
+//    index_block(),
+//    bloom_block(),
+//    meta_block(),
+//    file_footer()
+//{
+//    std::vector<InternalRecord> records = mem_table.get_oldest_table();
+//
+//    if (records.empty())
+//        return;
+//
+//    meta_block.payload.record_count = records.size();
+//    meta_block.payload.min_seq_num = std::numeric_limits<uint64_t>::max();
+//    meta_block.payload.max_seq_num = 0;
+//    meta_block.payload.min_key_size = std::numeric_limits<uint32_t>::max();
+//    meta_block.payload.max_key_size = 0;
+//    meta_block.payload.data_block_count = 1; // for now: single logical data block
+//    meta_block.payload.data_bytes = 0;
+//
+//    for (const auto& record : records)
+//    {
+//        data_block.add_data(record);
+//
+//        const uint32_t key_size = static_cast<uint32_t>(record.key_entry.size);
+//        const uint32_t value_size = static_cast<uint32_t>(record.value_entry.size);
+//
+//        if (record.type == ::Type::Tombstone)
+//            ++meta_block.payload.tombstone_count;
+//
+//        meta_block.payload.min_seq_num = std::min(meta_block.payload.min_seq_num, record.seq_num);
+//        meta_block.payload.max_seq_num = std::max(meta_block.payload.max_seq_num, record.seq_num);
+//        meta_block.payload.min_key_size = std::min(meta_block.payload.min_key_size, key_size);
+//        meta_block.payload.max_key_size = std::max(meta_block.payload.max_key_size, key_size);
+//
+//        meta_block.payload.data_bytes +=
+//            sizeof(uint32_t) + // key_size
+//            sizeof(uint32_t) + // value_size
+//            sizeof(::Type) +
+//            sizeof(uint32_t) + // flags
+//            sizeof(uint32_t) + // reserved
+//            sizeof(uint64_t) + // seq_num
+//            key_size +
+//            value_size;
+//
+//        // Later you should add bloom filter updates here
+//        // bloom_block.add_key(...)
+//    }
+//
+//    // Build one simple index entry covering the whole data block for now
+//    {
+//        IndexSection::Payload idx{};
+//        idx.first_key_size = static_cast<uint32_t>(records.front().key_entry.size);
+//        idx.last_key_size = static_cast<uint32_t>(records.back().key_entry.size);
+//        idx.first_key_offset = 0; // for now, whole block starts at offset 0
+//        idx.first_key_ptr = records.front().key_entry.data;
+//        idx.last_key_ptr = records.back().key_entry.data;
+//
+//        index_block.payloads.emplace_back(idx);
+//
+//        index_block.header.payload_size +=
+//            sizeof(idx.first_key_size) +
+//            sizeof(idx.last_key_size) +
+//            sizeof(idx.first_key_offset) +
+//            idx.first_key_size +
+//            idx.last_key_size;
+//
+//        crc32_add_pod(index_block.header.crc32, idx.first_key_size);
+//        crc32_add_pod(index_block.header.crc32, idx.last_key_size);
+//        crc32_add_pod(index_block.header.crc32, idx.first_key_offset);
+//
+//        if (idx.first_key_ptr && idx.first_key_size > 0)
+//            compute_crc32(index_block.header.crc32, idx.first_key_ptr, idx.first_key_size);
+//
+//        if (idx.last_key_ptr && idx.last_key_size > 0)
+//            compute_crc32(index_block.header.crc32, idx.last_key_ptr, idx.last_key_size);
+//    }
+//
+//    // Recompute meta crc after payload finalized
+//    meta_block.header.crc32 = ::crc32(0L, Z_NULL, 0);
+//    compute_crc32(meta_block.header.crc32, &meta_block.payload, sizeof(meta_block.payload));
+//}
+
+
+//void SSTableManager::add_to_pool(MemTable& mem_table)
+//{
+//	this->immutable_pool.emplace_back(SSTable(mem_table, static_cast<uint32_t>(this->immutable_pool.size())));
+//}
