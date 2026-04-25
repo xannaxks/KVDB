@@ -4,118 +4,307 @@
 #include <format>
 #include "record.h"
 #include <memory>
+#include <algorithm>
 #include "MurmurHash3.h"
+#include <algorithm>
+#include <limits>
+#include <stdexcept>
+#include <optional>
+//#include "C:\Users\user\KVDB\third_party\zlib\zlib.h"
+#include <bitset>
+
+inline void compute_crc32(uint32_t& crc, const void* ptr, std::size_t size);
+inline uint32_t crc32_of(const void* ptr, std::size_t size);
 
 namespace SSTableEntities {
-	struct Data
+
+	constexpr uint32_t FILE_HEADER_MAGIC = 0x53535431; // SST1
+	constexpr uint32_t FILE_FOOTER_MAGIC = 0x46545231; // FTR1
+	constexpr uint32_t SSTABLE_VERSION = 1;
+	constexpr uint32_t BLOCK_SIZE = 4096;
+	constexpr uint32_t BLOOM_HASH_COUNT = 2;
+	
+	struct FileHeaderSection;
+	struct DataSection;
+	struct IndexSection;
+	struct BloomSection;
+	struct MetaSection;
+	struct FileFooterSection;
+
+	enum class Status : uint8_t
 	{
-		uint32_t key_size, value_size;
-		Type type;
-		uint64_t seq_num;
-		Bytes key, value;
-
-		Data(uint32_t key_size, const Bytes& key, uint32_t value_size, const Bytes& value, Type type, uint64_t seq_num);
-		Data(const InternalRecord& record);
-		Data() = default;
-
-		void write(std::ofstream& file, int& in_block_offset, uint32_t& block_offset) const;
-		uint32_t get_size() const;
-
-		static Data read(std::ifstream& file);
+		Corrupted = 1,
 	};
-	struct Index
+	enum class BlockType : uint8_t
 	{
-		uint32_t key_size;
-		uint32_t block_offset;
-		uint32_t data_coverage;
-		Bytes key;
-
-		Index(uint32_t key_size, const Bytes& key, uint32_t block_offset, uint32_t data_coverage);
-		Index(const Data& data, uint32_t block_offset, uint32_t data_coverage);
-		Index() = default;
-
-		void write(std::ofstream& file, int& in_block_offset, uint32_t& block_offset) const;
-		uint32_t get_size() const;
-
-		static Index read(std::ifstream& file);
+		Data = 1, 
+		Index = 2, 
+		Bloom = 3,
+		Meta = 4
 	};
-	struct Footer
+
+	struct FileHeaderSection
 	{
 		uint32_t magic;
-		int in_block_offset;
-		uint32_t block_offset;
-		uint32_t index_count;
+		uint32_t version;
+		uint32_t flags;
+		uint32_t block_size;
+		uint32_t table_id;
+		uint32_t crc32;
 
-		Footer(int in_block_offset, uint32_t block_offset, uint32_t index_count);
-		Footer() = default;
+		static std::size_t disk_size();
 
-		void write(std::ofstream& file, int& in_block_offset, uint32_t& block_offset) const;
-		uint32_t get_size() const;
+		void write(std::ofstream& file, uint64_t& offset);
+		static std::optional<FileHeaderSection> load(std::ifstream& file);
 
-		static Footer read(std::ifstream& file);
+		FileHeaderSection() = default;
+		FileHeaderSection(uint32_t table_id);
 	};
-	struct SSTableBloomFilter
+	struct DataSection
 	{
-		static uint32_t bloom_bits;
-		std::unique_ptr<uint8_t[]> bloom_ptr;
+		struct Header {
+			BlockType type;
+			uint32_t payload_disk_size;
+			uint32_t crc32;
 
-		SSTableBloomFilter();
+			static std::size_t disk_size();
 
-		void add_key(const Bytes& key);
-		bool may_contain(const Bytes& key) const;
+			Header();
+		};
+		struct Payload {
+			uint32_t key_size;
+			uint32_t value_size;
+			::Type type;
+			uint32_t flags;
+			uint32_t reserved;
+			uint64_t seq_num;
+			void* key_ptr;
+			void* value_ptr;
 
-		void write(std::ofstream& file, int& in_block_offset, uint32_t& block_offset) const;
-		static SSTableBloomFilter read(std::ifstream& file);
+			std::size_t disk_size();
+			std::size_t disk_size() const;
 
-		static uint32_t get_storage_size();
-		static uint32_t get_hash1(const Bytes& key);
-		static uint32_t get_hash2(const Bytes& key);
+			static std::size_t fixed_part_disk_size();
+		};
+		struct DataBlock
+		{
+			Header header;
+			std::vector<Payload> payloads;
 
-	private:
-		std::vector<uint32_t> get_hashes(const Bytes& key, int hash_amount = 3) const;
-		void set_bit(uint32_t bit_index);
-		bool test_bit(uint32_t bit_index) const;
+			std::size_t disk_size() const;
+			std::size_t disk_size();
+
+			bool can_payload_fit(Payload& payload);
+			void add_payload(Payload& payload);
+			void write(std::ofstream& file, uint64_t& offset, IndexSection& index_section);
+			static std::optional<DataBlock> load(std::ifstream& file);
+		};
+		std::vector<DataBlock> data_blocks;
+
+		std::size_t disk_size();
+
+		DataSection() = default;
+
+		void add_payload(const InternalRecord& record);
+		void write(std::ofstream& file, uint64_t& data_block_offset, IndexSection& index_section, uint64_t& data_offset);
+		static std::optional<DataSection> load(std::ifstream& file, uint64_t first_data_block_offset, uint32_t data_block_count);
+		void init_new_block();
 	};
+	struct IndexSection
+	{
+		struct Header {
+			BlockType type;
+			uint32_t payload_size;
+			uint32_t crc32;
 
-	constexpr uint32_t SSTableMagic = 0xBADCAFFE;
-	constexpr int BLOCK_SIZE = 4096;
-	
-	void next_block(std::ofstream& file, int& in_block_offset, uint32_t& block_offset);
-	void ensure_block(std::ofstream& file, int& in_block_offset, uint32_t& block_offset, uint32_t size);
+			static std::size_t disk_size();
+		};
+		struct Payload {
+			uint64_t data_block_offset;
+			uint32_t first_key_size;
+			uint32_t last_key_size;
+			void* first_key_ptr;
+			void* last_key_ptr;
 
-	std::string construct_sstable_name(const std::string& sstable_dir, uint32_t sstable_num);
+			std::size_t disk_size();
+		};
+		Header header;
+		std::vector<Payload> payloads;
 
-	constexpr uint32_t seed1 = 0x9747b28c;
-	constexpr uint32_t seed2 = 0x85ebca6b;
+		std::size_t disk_size();
+
+		IndexSection();
+
+		//void rebuild(std::vector<std::tuple<DataSection::Payload*, DataSection::Payload*, uint64_t, uint64_t>>& index_boundaries);
+		void add_index(uint64_t data_block_offset, uint32_t first_key_size, uint32_t last_key_size, void* first_key_ptr, void* last_key_ptr);
+		void write(std::ofstream& file, uint64_t& offset, uint64_t& index_offset);
+		static std::optional<IndexSection> load(std::ifstream& file, Arena& arena, uint64_t index_offset = 0);
+	};
+	struct BloomSection
+	{
+		struct Header {
+			BlockType type;
+			uint32_t payload_size;
+			uint32_t crc32;
+
+			static std::size_t disk_size();
+		};
+		struct Payload {
+			uint64_t bloom_bits;
+			uint32_t hash_count;
+			uint32_t key_count;
+			std::bitset<128> mask;
+
+			static std::size_t disk_size();
+		};
+		Header header;
+		Payload payload;
+
+		static std::size_t disk_size();
+
+		BloomSection();
+
+		//void rebuild(DataSection& data_block);
+		void write(std::ofstream& file, uint64_t& offset, uint64_t& bloom_offset);
+		static std::optional<BloomSection> load(std::ifstream& file, uint64_t bloom_offset = 0);
+		void add_key(const void* key_ptr, uint32_t key_size);
+		bool may_contain(const void* key_ptr, uint32_t key_size) const;
+		void rebuild(const DataSection& data_section);
+		void recompute_crc32();
+	};
+	struct MetaSection
+	{
+		struct Header {
+			BlockType type;
+			uint32_t payload_size;
+			uint32_t crc32;
+
+			static std::size_t disk_size();
+		};
+		struct Payload {
+			uint64_t record_count;
+			uint64_t tombstone_count;
+			uint64_t min_seq_num;
+			uint64_t max_seq_num;
+
+			uint32_t min_key_size;	
+			uint32_t max_key_size;
+
+			uint64_t data_block_count;
+			uint64_t data_bytes;
+		
+			static std::size_t disk_size();
+		};
+
+		Header header;
+		Payload payload;
+
+		static std::size_t disk_size();
+
+		MetaSection();
+
+		//void rebuild(DataSection& data_block, IndexSection& index_block);
+		void write(std::ofstream& file, uint64_t& offset, uint64_t& meta_offset);
+		static std::optional<MetaSection> load(
+			std::ifstream& file,
+			DataSection& data_block,
+			IndexSection& index_block,
+			uint64_t meta_offset = 0
+		);
+		void rebuild(DataSection& data_section, IndexSection& index_section);
+	};
+	struct FileFooterSection
+	{
+		uint32_t magic;
+		uint32_t version;
+		uint32_t reserved;
+
+		uint64_t data_offset;
+		uint32_t data_block_count;
+
+		uint64_t index_offset;
+		uint32_t index_size;
+
+		uint64_t bloom_offset;
+		uint32_t bloom_size;
+
+		uint64_t meta_offset;
+		uint32_t meta_size;
+
+		uint64_t file_size;
+		uint32_t footer_crc32;
+
+		static std::size_t disk_size();
+
+		FileFooterSection();
+		
+		void finalize(uint64_t offset);
+		void rebuild(IndexSection& index_block, uint64_t index_offset);
+		void rebuild(BloomSection& bloom_block, uint64_t bloom_offset);
+		void rebuild(MetaSection& meta_block, uint64_t meta_offset);
+		void write(std::ofstream& file, uint64_t& offset);
+		static std::optional<FileFooterSection> load(
+			std::ifstream& file,
+			uint64_t file_footer_offset = 0,
+			auto dir = std::ios::beg
+		);
+	};
 }
 
 class SSTable
 {
 public:
-	enum class Status
-	{
-		KeyNotFound,
-		Corrupted,
-		KeyWasDeleted
-	};
-
 	SSTable(const std::string& path);
-
-	std::variant<ByteRecord, SSTable::Status> get(const Bytes& key);
+	//SSTable(const MemTable& mem_table, uint32_t id);
 
 private:
 	std::string path;
-	std::ifstream file;
-	std::vector<SSTableEntities::Index> indexes;
-	SSTableEntities::Footer footer{};
+	std::ifstream file_in;
+	std::ofstream file_out;
+	SSTableEntities::FileHeaderSection file_header_section{};
+	SSTableEntities::DataSection data_section{};
+	SSTableEntities::IndexSection index_section{};
+	SSTableEntities::BloomSection bloom_section{};
+	SSTableEntities::MetaSection meta_section{};
+	SSTableEntities::FileFooterSection file_footer_section{};
 
-	void load_footer();
-	void load_indexes();
+	void write();
+
+	friend class SSTableManager;
+	friend class SSTableWriter;
+	friend class SSTableLoader;
 };
 
-class SSTableBuilder
+class SSTableWriter
 {
 public:
-	static void build_from_records(const std::vector<InternalRecord>& records, const std::string& path);
-	static void build_from_memtable(MemTable& mem_table, const std::string& sstable_dir, uint32_t& sstable_num);
+	SSTableWriter();
+
+	static void write(SSTable& sstable);
+};
+class SSTableLoader
+{
+public:
+	SSTableLoader();
+
+	static std::optional<SSTable> load(const std::string& path, Arena& arena);
+};
+
+class SSTableManager
+{
+private:
+	SSTableWriter sstable_writer;
+	SSTableLoader sstable_loader;
+	
+	std::vector<SSTable> immutable_pool;
+	std::vector<SSTable> pool;
+
+public:
+	SSTableManager();
+	void write_latest(bool erase = false);
+	void write_all(bool erase = false);
+	void add_to_pool(SSTable& sstable);
+	//void add_to_pool(MemTable& mem_table);
+	void load(Arena& arena);
+	//void get_latest();
 };

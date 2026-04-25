@@ -1,0 +1,10 @@
+^C:\USERS\USER\KVDB\THIRD_PARTY\ZLIB\BUILD\CMAKEFILES\D1E04F9A8092379FCF54FBB0CA89CF52\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -SC:/Users/user/KVDB/third_party/zlib -BC:/Users/user/KVDB/third_party/zlib/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/user/KVDB/third_party/zlib/build/zlib.slnx
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

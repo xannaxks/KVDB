@@ -1,0 +1,15 @@
+C:\Users\user\KVDB\third_party\zlib\adler32.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\adler32.obj
+C:\Users\user\KVDB\third_party\zlib\compress.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\compress.obj
+C:\Users\user\KVDB\third_party\zlib\crc32.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\crc32.obj
+C:\Users\user\KVDB\third_party\zlib\deflate.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\deflate.obj
+C:\Users\user\KVDB\third_party\zlib\gzclose.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\gzclose.obj
+C:\Users\user\KVDB\third_party\zlib\gzlib.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\gzlib.obj
+C:\Users\user\KVDB\third_party\zlib\gzread.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\gzread.obj
+C:\Users\user\KVDB\third_party\zlib\gzwrite.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\gzwrite.obj
+C:\Users\user\KVDB\third_party\zlib\inflate.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\inflate.obj
+C:\Users\user\KVDB\third_party\zlib\infback.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\infback.obj
+C:\Users\user\KVDB\third_party\zlib\inftrees.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\inftrees.obj
+C:\Users\user\KVDB\third_party\zlib\inffast.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\inffast.obj
+C:\Users\user\KVDB\third_party\zlib\trees.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\trees.obj
+C:\Users\user\KVDB\third_party\zlib\uncompr.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\uncompr.obj
+C:\Users\user\KVDB\third_party\zlib\zutil.c;C:\Users\user\KVDB\third_party\zlib\build\zlib.dir\Debug\zutil.obj

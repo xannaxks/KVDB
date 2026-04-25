@@ -101,14 +101,39 @@ target_include_directories(kvdb_core
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
+find_package(Threads REQUIRED)
 
-add_subdirectory(third_party/zlib)
+# Try system zlib first
+find_package(ZLIB QUIET)
+
+if(ZLIB_FOUND)
+    message(STATUS "Using system zlib")
+    set(KVDB_ZLIB_TARGET ZLIB::ZLIB)
+else()
+    message(STATUS "Using bundled zlib")
+
+    # Optional but nice: don't build zlib examples/tests
+    set(ZLIB_BUILD_EXAMPLES OFF CACHE BOOL "Disable zlib examples" FORCE)
+
+    add_subdirectory(third_party/zlib EXCLUDE_FROM_ALL)
+
+    if(TARGET zlibstatic)
+        set(KVDB_ZLIB_TARGET zlibstatic)
+    elseif(TARGET zlib)
+        set(KVDB_ZLIB_TARGET zlib)
+    else()
+        message(FATAL_ERROR "Bundled zlib target not found")
+    endif()
+endif()
+
 
 target_link_libraries(kvdb_core PRIVATE
-    zlibstatic
+    ${KVDB_ZLIB_TARGET}
     Threads::Threads
 )
-
+target_include_directories(kvdb_core PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/zlib
+)
 kvdb_apply_warnings(kvdb_core)
 kvdb_apply_sanitizers(kvdb_core)
 

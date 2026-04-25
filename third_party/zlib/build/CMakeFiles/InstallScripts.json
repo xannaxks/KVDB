@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/user/KVDB/third_party/zlib/build/cmake_install.cmake",
+		"C:/Users/user/KVDB/third_party/zlib/build/test/cmake_install.cmake",
+		"C:/Users/user/KVDB/third_party/zlib/build/contrib/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

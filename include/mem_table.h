@@ -39,8 +39,12 @@ private:
     std::unique_ptr<RBTree> mutable_table;
     std::vector<std::unique_ptr<RBTree>> immutable_tables;
 
+
+
     std::variant<InternalRecord, Status> read_latest(const Bytes& key) const;
     Status freeze_mutable();
 
-    friend class SSTableBuilder;
+    friend class SSTable;
+    friend class SSTLoader;
+    friend class SSTWriter;
 };

@@ -1,560 +1,1427 @@
 #include "sstable.h"
+#include "arena.h"
+#include <cassert>
 
 using namespace SSTableEntities;
 
-/* =========================
-   Data
-   ========================= */
+// bloom hashes
 
-Data::Data(
-    uint32_t key_size,
-    const Bytes& key,
-    uint32_t value_size,
-    const Bytes& value,
-    Type type,
-    uint64_t seq_num
-)
-    : key_size(key_size),
-    value_size(value_size),
-    type(type),
-    seq_num(seq_num),
-    key(key),
-    value(value)
+static uint64_t fnv1a64(const void* data, uint32_t size, uint64_t seed)
 {
-}
-Data::Data(const InternalRecord& record)
-    : key_size(static_cast<uint32_t>(record.key.size())),
-    value_size(static_cast<uint32_t>(record.value.size())),
-    type(record.type),
-    seq_num(record.seq_num),
-    key(record.key),
-    value(record.value)
-{
+    const auto* p = static_cast<const uint8_t*>(data);
+    uint64_t h = 14695981039346656037ull ^ seed;
+
+    for (uint32_t i = 0; i < size; ++i) {
+        h ^= p[i];
+        h *= 1099511628211ull;
+    }
+
+    return h;
 }
 
-uint32_t Data::get_size() const
+static uint64_t bloom_hash_i(const void* key, uint32_t key_size, uint32_t i)
 {
-    return static_cast<uint32_t>(
+    uint64_t h1 = fnv1a64(key, key_size, 0x9E3779B97F4A7C15ull);
+    uint64_t h2 = fnv1a64(key, key_size, 0xC2B2AE3D27D4EB4Full);
+
+    return h1 + i * h2;
+}
+
+/// can fit
+
+
+bool DataSection::DataBlock::can_payload_fit(DataSection::Payload& payload)
+{
+    return this->disk_size() + payload.disk_size() <= BLOCK_SIZE;
+}
+
+
+/// init new block
+
+
+void DataSection::init_new_block()
+{
+    data_blocks.emplace_back(DataSection::Header());
+}
+
+
+/// disk_size
+
+
+std::size_t FileHeaderSection::disk_size()
+{
+    return (
+        sizeof(magic) +
+        sizeof(version) +
+        sizeof(flags) +
+        sizeof(block_size) +
+        sizeof(table_id) +
+        sizeof(crc32)
+        );
+}
+
+std::size_t DataSection::Header::disk_size()
+{
+    return (
+        sizeof(type) +
+        sizeof(payload_disk_size) +
+        sizeof(crc32)
+    );
+}
+std::size_t DataSection::Payload::disk_size()
+{
+    return (
         sizeof(key_size) +
         sizeof(value_size) +
-        sizeof(type) +
-        sizeof(seq_num) +
         key_size +
-        value_size
+        value_size +
+        sizeof(type) +
+        sizeof(flags) +
+        sizeof(reserved) +
+        sizeof(seq_num)
         );
 }
-
-void Data::write(std::ofstream& file, int& in_block_offset, uint32_t& block_offset) const
+std::size_t DataSection::Payload::disk_size() const
 {
-    ensure_block(file, in_block_offset, block_offset, get_size());
-
-    file.write(reinterpret_cast<const char*>(&key_size), sizeof(key_size));
-    if (!file) throw std::runtime_error("Failed to write sstable data: key_size");
-
-    file.write(reinterpret_cast<const char*>(&value_size), sizeof(value_size));
-    if (!file) throw std::runtime_error("Failed to write sstable data: value_size");
-
-    file.write(reinterpret_cast<const char*>(&type), sizeof(type));
-    if (!file) throw std::runtime_error("Failed to write sstable data: type");
-
-    file.write(reinterpret_cast<const char*>(&seq_num), sizeof(seq_num));
-    if (!file) throw std::runtime_error("Failed to write sstable data: seq_num");
-
-    file.write(reinterpret_cast<const char*>(key.data()), static_cast<std::streamsize>(key_size));
-    if (!file) throw std::runtime_error("Failed to write sstable data: key");
-
-    file.write(reinterpret_cast<const char*>(value.data()), static_cast<std::streamsize>(value_size));
-    if (!file) throw std::runtime_error("Failed to write sstable data: value");
-
-    in_block_offset += static_cast<int>(get_size());
-}
-Data Data::read(std::ifstream& file)
-{
-    Data data;
-
-    file.read(reinterpret_cast<char*>(&data.key_size), sizeof(data.key_size));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable data: key_size");
-
-    file.read(reinterpret_cast<char*>(&data.value_size), sizeof(data.value_size));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable data: value_size");
-
-    file.read(reinterpret_cast<char*>(&data.type), sizeof(data.type));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable data: type");
-
-    file.read(reinterpret_cast<char*>(&data.seq_num), sizeof(data.seq_num));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable data: seq_num");
-
-    if (data.key_size > SSTableEntities::BLOCK_SIZE)
-        throw std::runtime_error("Failed to read sstable data: key size corrupted");
-    if (data.value_size > SSTableEntities::BLOCK_SIZE)
-        throw std::runtime_error("Failed to read sstable data: value size corrupted");
-
-    data.key.resize(data.key_size);
-    data.value.resize(data.value_size);
-
-    file.read(reinterpret_cast<char*>(data.key.data()), static_cast<std::streamsize>(data.key_size));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable data: key");
-
-    file.read(reinterpret_cast<char*>(data.value.data()), static_cast<std::streamsize>(data.value_size));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable data: value");
-
-    if (data.key_size != data.key.size())
-        throw std::runtime_error("Failed to read sstable: key size doesn't correspond");
-    if (data.value_size != data.value.size())
-        throw std::runtime_error("Failed to read sstable: value size doesn't correpond");
-
-    return data;
-}
-
-/* =========================
-   Index
-   ========================= */
-
-Index::Index(uint32_t key_size, const Bytes& key, uint32_t block_offset, uint32_t data_coverage)
-    : key_size(key_size),
-    block_offset(block_offset),
-    data_coverage(data_coverage),
-    key(key)
-{
-}
-Index::Index(const Data& data, uint32_t block_offset, uint32_t data_coverage)
-    : key_size(data.key_size),
-    block_offset(block_offset),
-    data_coverage(data_coverage),
-    key(data.key)
-{
-}
-
-uint32_t Index::get_size() const
-{
-    return static_cast<uint32_t>(
+    return (
         sizeof(key_size) +
-        sizeof(block_offset) +
-        sizeof(data_coverage) +
-        key_size
+        sizeof(value_size) +
+        key_size +
+        value_size +
+        sizeof(type) +
+        sizeof(flags) +
+        sizeof(reserved) +
+        sizeof(seq_num)
+    );
+}
+std::size_t DataSection::Payload::fixed_part_disk_size()
+{
+    return sizeof(key_size) + sizeof(value_size) + sizeof(type) + sizeof(flags) + sizeof(reserved) + sizeof(seq_num);
+}
+std::size_t DataSection::disk_size()
+{
+    std::size_t cnt = 0;
+    for (auto& block : data_blocks)
+        cnt += block.disk_size();
+    return cnt;
+}
+std::size_t DataSection::DataBlock::disk_size()
+{
+    std::size_t res = Header::disk_size();
+    for (auto& payload : this->payloads)
+        res += payload.disk_size();
+    return res;
+}
+std::size_t DataSection::DataBlock::disk_size() const
+{
+    std::size_t res = Header::disk_size();
+    for (auto& payload : this->payloads)
+        res += payload.disk_size();
+    return res;
+}
+
+std::size_t IndexSection::Header::disk_size()
+{
+    return (
+        sizeof(type) +
+        sizeof(payload_size) +
+        sizeof(crc32)
+        );
+}
+std::size_t IndexSection::Payload::disk_size()
+{
+    return (
+        sizeof(first_key_size) +
+        sizeof(last_key_size) +
+        first_key_size +
+        last_key_size +
+        sizeof(data_block_offset)
+        );
+}
+std::size_t IndexSection::disk_size()
+{
+    std::size_t cnt = 0;
+    for (auto& i : payloads)
+        cnt += i.disk_size();
+    return (
+        Header::disk_size() + cnt
         );
 }
 
-void Index::write(std::ofstream& file, int& in_block_offset, uint32_t& block_offset) const
+std::size_t BloomSection::disk_size()
 {
-    ensure_block(file, in_block_offset, block_offset, get_size());
-
-    file.write(reinterpret_cast<const char*>(&key_size), sizeof(key_size));
-    if (!file) throw std::runtime_error("Failed to write sstable index: key_size");
-
-    file.write(reinterpret_cast<const char*>(&block_offset), sizeof(block_offset));
-    if (!file) throw std::runtime_error("Failed to write sstable index: block_offset");
-
-    file.write(reinterpret_cast<const char*>(&data_coverage), sizeof(data_coverage));
-    if (!file) throw std::runtime_error("Failed to write sstable index: data_coverage");
-
-    file.write(reinterpret_cast<const char*>(key.data()), static_cast<std::streamsize>(key_size));
-    if (!file) throw std::runtime_error("Failed to write sstable index: key");
-
-    in_block_offset += static_cast<int>(get_size());
+    return Header::disk_size() + Payload::disk_size();
 }
-Index Index::read(std::ifstream& file)
+std::size_t BloomSection::Header::disk_size()
 {
-    Index index;
-
-    file.read(reinterpret_cast<char*>(&index.key_size), sizeof(index.key_size));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable index: key_size");
-
-    file.read(reinterpret_cast<char*>(&index.block_offset), sizeof(index.block_offset));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable index: block_offset");
-
-    file.read(reinterpret_cast<char*>(&index.data_coverage), sizeof(index.data_coverage));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable index: data_coverage");
-
-    index.key.resize(index.key_size);
-    file.read(reinterpret_cast<char*>(index.key.data()), static_cast<std::streamsize>(index.key_size));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable index: key");
-
-    return index;
+    return (
+        sizeof(type) +
+        sizeof(payload_size) +
+        sizeof(crc32)
+        );
+}
+std::size_t BloomSection::Payload::disk_size()
+{
+    return (
+        sizeof(bloom_bits) +
+        sizeof(hash_count) +
+        sizeof(key_count) +
+        sizeof(mask)
+        );
 }
 
-/* =========================
-   Footer
-   ========================= */
-
-Footer::Footer(int in_block_offset, uint32_t block_offset, uint32_t index_count)
-    : magic(SSTableMagic),
-    in_block_offset(in_block_offset),
-    block_offset(block_offset),
-    index_count(index_count)
+std::size_t MetaSection::disk_size()
 {
+    return Header::disk_size() + Payload::disk_size();
+}
+std::size_t MetaSection::Payload::disk_size()
+{
+    return (
+        sizeof(record_count) +
+        sizeof(tombstone_count) +
+        sizeof(min_seq_num) +
+        sizeof(max_seq_num) +
+        sizeof(min_key_size) +
+        sizeof(max_key_size) +
+        sizeof(data_block_count) +
+        sizeof(data_bytes)
+        );
+}
+std::size_t MetaSection::Header::disk_size()
+{
+    return (
+        sizeof(type) +
+        sizeof(payload_size) +
+        sizeof(crc32)
+        );
 }
 
-uint32_t Footer::get_size() const
+std::size_t FileFooterSection::disk_size()
 {
-    return static_cast<uint32_t>(
+    return (
         sizeof(magic) +
-        sizeof(in_block_offset) +
-        sizeof(block_offset) +
-        sizeof(index_count)
+        sizeof(version) +
+        sizeof(reserved) +
+        sizeof(index_offset) +
+        sizeof(index_size) +
+        sizeof(bloom_offset) +
+        sizeof(bloom_size) +
+        sizeof(meta_offset) +
+        sizeof(meta_size) +
+        sizeof(file_size) +
+        sizeof(footer_crc32)
         );
 }
 
-void Footer::write(std::ofstream& file, int& in_block_offset, uint32_t& block_offset) const
+/// helpers
+
+inline void compute_crc32(uint32_t& crc, const void* ptr, std::size_t size)
 {
-    ensure_block(file, in_block_offset, block_offset, get_size());
-
-    file.write(reinterpret_cast<const char*>(&magic), sizeof(magic));
-    if (!file) throw std::runtime_error("Failed to write sstable footer: magic");
-
-    file.write(reinterpret_cast<const char*>(&in_block_offset), sizeof(in_block_offset));
-    if (!file) throw std::runtime_error("Failed to write sstable footer: in_block_offset");
-
-    file.write(reinterpret_cast<const char*>(&block_offset), sizeof(block_offset));
-    if (!file) throw std::runtime_error("Failed to write sstable footer: block_offset");
-
-    file.write(reinterpret_cast<const char*>(&index_count), sizeof(index_count));
-    if (!file) throw std::runtime_error("Failed to write sstable footer: index_count");
+    crc = ::crc32(crc, reinterpret_cast<const Bytef*>(ptr), static_cast<uInt>(size));
 }
-Footer Footer::read(std::ifstream& file)
+inline uint32_t crc32_of(const void* ptr, std::size_t size)
 {
-    Footer footer;
-
-    file.read(reinterpret_cast<char*>(&footer.magic), sizeof(footer.magic));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable footer: magic");
-
-    if (footer.magic != SSTableMagic)
-        throw std::runtime_error("Corrupted sstable: footer magic mismatch");
-
-    file.read(reinterpret_cast<char*>(&footer.in_block_offset), sizeof(footer.in_block_offset));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable footer: in_block_offset");
-
-    file.read(reinterpret_cast<char*>(&footer.block_offset), sizeof(footer.block_offset));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable footer: block_offset");
-
-    file.read(reinterpret_cast<char*>(&footer.index_count), sizeof(footer.index_count));
-    if (!file)
-        throw std::runtime_error("Failed to read sstable footer: index_count");
-
-    return footer;
+    uint32_t crc = 0;
+    crc = ::crc32(0L, Z_NULL, 0);
+    compute_crc32(crc, ptr, size);
+    return crc;
+}
+template <typename T>
+inline void crc32_add_pod(uint32_t& crc, const T& value)
+{
+    compute_crc32(crc, &value, sizeof(T));
 }
 
-/* =========================
-   Block helpers
-   ========================= */
+/// constructors
 
-void SSTableEntities::next_block(std::ofstream& file, int& in_block_offset, uint32_t& block_offset)
+FileHeaderSection::FileHeaderSection(uint32_t table_id)
+    : magic(FILE_HEADER_MAGIC),
+    version(SSTABLE_VERSION),
+    flags(0),
+    block_size(BLOCK_SIZE),
+    table_id(table_id),
+    crc32(0)
 {
-    static const char zeros[BLOCK_SIZE] = {};
-    const int remaining = BLOCK_SIZE - in_block_offset;
-
-    file.write(zeros, static_cast<std::streamsize>(remaining));
-    if (!file)
-        throw std::runtime_error("Failed to advance to next sstable block");
-
-    ++block_offset;
-    in_block_offset = 0;
-}
-void SSTableEntities::ensure_block(std::ofstream& file, int& in_block_offset, uint32_t& block_offset, uint32_t size)
-{
-    if (size > static_cast<uint32_t>(BLOCK_SIZE))
-        throw std::runtime_error("SSTable record is larger than block size");
-
-    if (in_block_offset + static_cast<int>(size) > BLOCK_SIZE)
-        next_block(file, in_block_offset, block_offset);
-}
-std::string SSTableEntities::construct_sstable_name(const std::string& sstable_dir, uint32_t sstable_num)
-{
-    return std::format("{}/{:05}.sst", sstable_dir, sstable_num);
+    crc32 = ::crc32(0L, Z_NULL, 0);
+    crc32_add_pod(crc32, magic);
+    crc32_add_pod(crc32, version);
+    crc32_add_pod(crc32, flags);
+    crc32_add_pod(crc32, block_size);
+    crc32_add_pod(crc32, this->table_id);
 }
 
-/* =========================
-   Builder
-   ========================= */
-
-void SSTableBuilder::build_from_records(const std::vector<InternalRecord>& records, const std::string& path)
+DataSection::Header::Header()
+    : type(BlockType::Data), payload_disk_size(0), crc32(::crc32(0L, Z_NULL, 0))
 {
-    std::ofstream file(path, std::ios::binary | std::ios::trunc);
-    if (!file)
-        throw std::runtime_error("Failed to open/create sstable file");
-
-    uint32_t block_offset = 0;
-    int in_block_offset = 0;
-    std::vector<Index> indexes;
-
-    bool block_has_data = false;
-    uint32_t current_block_offset = 0;
-    Bytes first_key_of_block;
-    uint32_t current_block_coverage = 0;
-    const InternalRecord* prev_record = nullptr;
-    for (const auto& record : records)
-    {
-        if (prev_record != nullptr && record.key == prev_record->key) continue;
-        Data data(record);
-
-        if (data.get_size() > SSTableEntities::BLOCK_SIZE)
-            throw std::runtime_error("Failed to write data in sstable: larger than block size");
-
-        // If record doesn't fit, finish previous block first.
-        if (in_block_offset + static_cast<int>(data.get_size()) > BLOCK_SIZE)
-        {
-            if (block_has_data)
-            {
-                indexes.emplace_back(
-                    static_cast<uint32_t>(first_key_of_block.size()),
-                    first_key_of_block,
-                    current_block_offset,
-                    current_block_coverage
-                );
-            }
-
-            next_block(file, in_block_offset, block_offset);
-            block_has_data = false;
-            current_block_coverage = 0;
-        }
-
-        // New block starts here
-        if (!block_has_data)
-        {
-            block_has_data = true;
-            current_block_offset = block_offset;
-            first_key_of_block = data.key;
-            current_block_coverage = 0;
-        }
-
-        data.write(file, in_block_offset, block_offset);
-        current_block_coverage += data.get_size();
-        prev_record = &record;
-    }
-
-    // Final block
-    if (block_has_data)
-    {
-        indexes.emplace_back(
-            static_cast<uint32_t>(first_key_of_block.size()),
-            first_key_of_block,
-            current_block_offset,
-            current_block_coverage
-        );
-    }
-
-    const uint32_t index_block_offset = block_offset;
-    const int index_in_block_offset = in_block_offset;
-
-    for (const auto& index : indexes)
-        index.write(file, in_block_offset, block_offset);
-
-    Footer footer(index_in_block_offset, index_block_offset,
-        static_cast<uint32_t>(indexes.size()));
-    footer.write(file, in_block_offset, block_offset);
-}
-void SSTableBuilder::build_from_memtable(MemTable& mem_table, const std::string& sstable_dir, uint32_t& sstable_num)
-{
-    while (mem_table.has_immutable())
-    {
-        std::vector<InternalRecord> out;
-        mem_table.dump_oldest_immutable(out);
-
-        build_from_records(out, construct_sstable_name(sstable_dir, sstable_num));
-
-        mem_table.drop_oldest_immutable();
-        ++sstable_num;
-    }
 }
 
-/* =========================
-   SSTable reader
-   ========================= */
+IndexSection::IndexSection()
+{
+    header.type = BlockType::Index;
+    header.payload_size = 0;
+    header.crc32 = ::crc32(0L, Z_NULL, 0);
+}
+
+BloomSection::BloomSection()
+{
+    header.type = BlockType::Bloom;
+    header.payload_size = Payload::disk_size();
+    header.crc32 = ::crc32(0L, Z_NULL, 0);
+
+    payload.bloom_bits = payload.mask.size();
+    payload.hash_count = BLOOM_HASH_COUNT;
+    payload.key_count = 0;
+    payload.mask.reset();
+
+    crc32_add_pod(header.crc32, payload.bloom_bits);
+    crc32_add_pod(header.crc32, payload.hash_count);
+    crc32_add_pod(header.crc32, payload.key_count);
+
+    // bitset object representation is implementation-defined,
+    // but okay if this is in-memory init only.
+    compute_crc32(header.crc32, &payload.mask, sizeof(payload.mask));
+}
+
+MetaSection::MetaSection()
+{
+    header.type = BlockType::Meta;
+    header.payload_size = Payload::disk_size();
+    header.crc32 = ::crc32(0L, Z_NULL, 0);
+
+    payload.record_count = 0;
+    payload.tombstone_count = 0;
+    payload.min_seq_num = 0;
+    payload.max_seq_num = 0;
+    payload.min_key_size = 0;
+    payload.max_key_size = 0;
+    payload.data_block_count = 0;
+    payload.data_bytes = 0;
+
+    crc32_add_pod(header.crc32, payload.record_count);
+    crc32_add_pod(header.crc32, payload.tombstone_count);
+    crc32_add_pod(header.crc32, payload.min_seq_num);
+    crc32_add_pod(header.crc32, payload.max_seq_num);
+    crc32_add_pod(header.crc32, payload.min_key_size);
+    crc32_add_pod(header.crc32, payload.max_key_size);
+    crc32_add_pod(header.crc32, payload.data_block_count);
+    crc32_add_pod(header.crc32, payload.data_bytes);
+}
+
+FileFooterSection::FileFooterSection()
+    : magic(FILE_FOOTER_MAGIC),
+    version(SSTABLE_VERSION),
+    reserved(0),
+    index_offset(0),
+    index_size(0),
+    bloom_offset(0),
+    bloom_size(0),
+    meta_offset(0),
+    meta_size(0),
+    file_size(0),
+    footer_crc32(0)
+{
+    footer_crc32 = ::crc32(0L, Z_NULL, 0);
+
+    crc32_add_pod(footer_crc32, magic);
+    crc32_add_pod(footer_crc32, version);
+    crc32_add_pod(footer_crc32, reserved);
+    crc32_add_pod(footer_crc32, index_offset);
+    crc32_add_pod(footer_crc32, index_size);
+    crc32_add_pod(footer_crc32, bloom_offset);
+    crc32_add_pod(footer_crc32, bloom_size);
+    crc32_add_pod(footer_crc32, meta_offset);
+    crc32_add_pod(footer_crc32, meta_size);
+    crc32_add_pod(footer_crc32, file_size);
+}
 
 SSTable::SSTable(const std::string& path)
-    : path(path), file(path, std::ios::binary)
+    : path(path),
+    file_header_section(),
+    data_section(),
+    index_section(),
+    bloom_section(),
+    meta_section(),
+    file_footer_section()
 {
-    if (!file)
-        throw std::runtime_error("Failed to open sstable");
-
-    load_footer();
-    load_indexes();
-
-    if (this->footer.index_count != this->indexes.size())
-        throw std::runtime_error("Failed to open sstable: indexes count doesn't correspond");
 }
 
-void SSTable::load_footer()
+SSTableWriter::SSTableWriter()
 {
-    Footer temp;
-    file.seekg(-static_cast<std::streamoff>(temp.get_size()), std::ios::end);
-    footer = Footer::read(file);
-}
-void SSTable::load_indexes()
-{
-    file.seekg(
-        static_cast<std::streamoff>(footer.block_offset) * BLOCK_SIZE +
-        static_cast<std::streamoff>(footer.in_block_offset),
-        std::ios::beg
-    );
-
-    indexes.clear();
-    indexes.reserve(footer.index_count);
-
-    for (uint32_t i = 0; i < footer.index_count; ++i)
-        indexes.emplace_back(Index::read(file));
 }
 
-std::variant<ByteRecord, SSTable::Status> SSTable::get(const Bytes& key)
+SSTableLoader::SSTableLoader()
 {
-    auto it = std::upper_bound(
-        indexes.begin(),
-        indexes.end(),
-        key,
-        [](const Bytes& key, const Index& node)
-        {
-            return key < node.key;
-        }
-    );
+}
 
-    if (it == indexes.begin())
-        return Status::KeyNotFound;
+SSTableManager::SSTableManager()
+    : sstable_writer(), sstable_loader()
+{
+}
 
-    --it;
+/// so-called adds"
 
-    file.seekg(
-        static_cast<std::streamoff>(it->block_offset) * BLOCK_SIZE,
-        std::ios::beg
-    );
 
-    std::vector<Data> datas;
-    datas.reserve(16);
+void SSTableManager::add_to_pool(SSTable& sstable)
+{
+    this->immutable_pool.emplace_back(sstable);
+}
 
-    uint32_t bytes_read = 0;
-    while (bytes_read < it->data_coverage)
+/// block write related
+
+void ensure_fits_in_block(uint64_t& offset, std::size_t size, const uint32_t BLOCK_SIZE, std::ofstream& file)
+{
+    static uint8_t poison[4096] = { 0xCD };
+    if ((offset % BLOCK_SIZE) + size <= BLOCK_SIZE)
+        return;
+    file.write(reinterpret_cast<const char*>(poison), BLOCK_SIZE - (offset % BLOCK_SIZE));
+    offset += BLOCK_SIZE - (offset % BLOCK_SIZE);
+}
+void write_to_stream(std::ofstream& file, uint64_t& offset, void* ptr, std::size_t size, const uint32_t BLOCK_SIZE)
+{
+    ensure_fits_in_block(offset, size, BLOCK_SIZE, file);
+    file.write(reinterpret_cast<const char*>(ptr), size);
+    offset += size;
+}
+void align_to_block_boundary(uint64_t& offset, const uint32_t BLOCK_SIZE, std::ofstream& file)
+{
+    ensure_fits_in_block(offset, BLOCK_SIZE, BLOCK_SIZE, file);
+}
+
+/// block load related
+
+bool fits_in_block(std::ifstream& file, std::size_t size, const uint32_t BLOCK_SIZE)
+{
+    uint64_t current = file.tellg();
+    if (current / BLOCK_SIZE == (current + size - 1) / BLOCK_SIZE) 
+        return true;
+    return false;
+}
+void align_to_block_boundary(std::ifstream& file, const uint32_t BLOCK_SIZE)
+{
+    uint64_t current = file.tellg();
+    uint64_t in_block_offset = current % BLOCK_SIZE;
+
+    if (in_block_offset == 0) return;
+
+    file.seekg(current + (BLOCK_SIZE - in_block_offset), std::ios::beg);
+}
+void ensure_fits_in_block(std::ifstream& file, std::size_t size, const uint32_t BLOCK_SIZE)
+{
+    if (fits_in_block(file, size, BLOCK_SIZE)) return;
+    align_to_block_boundary(file, BLOCK_SIZE);
+}
+void move_g_to_next_block(std::ifstream& file, const uint32_t BLOCK_SIZE)
+{
+    uint64_t current = file.tellg();
+    uint64_t in_block_offset = current % BLOCK_SIZE;
+
+    file.seekg(current + (BLOCK_SIZE - in_block_offset), std::ios::beg);
+}
+
+/// writes
+
+
+void SSTable::write()
+{
+    file_out = std::ofstream(path, std::ios::binary | std::ios::trunc);
+    if (!file_out)
+        throw std::runtime_error("failed to open SSTable for write");
+
+    uint64_t offset = 0;
+
+    file_header_section.write(file_out, offset);
+
+    // Data write also fills index_block
+    uint64_t data_offset = 0;
+    data_section.write(file_out, offset, index_section, data_offset);
+
+    // Build bloom/meta after data/index are finalized
+    bloom_section.rebuild(data_section);
+    meta_section.rebuild(data_section, index_section);
+
+    uint64_t index_offset = 0;
+    uint64_t bloom_offset = 0;
+    uint64_t meta_offset = 0;
+
+    index_section.write(file_out, offset, index_offset);
+    bloom_section.write(file_out, offset, bloom_offset);
+    meta_section.write(file_out, offset, meta_offset);
+
+    file_footer_section.data_offset = data_offset;
+    file_footer_section.data_block_count = data_section.data_blocks.size();
+
+    file_footer_section.index_offset = index_offset;
+    file_footer_section.index_size = static_cast<uint32_t>(index_section.disk_size());
+
+    file_footer_section.bloom_offset = bloom_offset;
+    file_footer_section.bloom_size = static_cast<uint32_t>(bloom_section.disk_size());
+
+    file_footer_section.meta_offset = meta_offset;
+    file_footer_section.meta_size = static_cast<uint32_t>(meta_section.disk_size());
+
+    file_footer_section.finalize(offset);
+    file_footer_section.write(file_out, offset);
+
+    file_out.flush();
+}
+void SSTableWriter::write(SSTable& sstable)
+{
+    sstable.write();
+}
+void SSTableManager::write_latest(bool erase)
+{
+    if (this->immutable_pool.empty()) return;
+    this->sstable_writer.write(this->immutable_pool.front());
+
+    if (!erase) return;
+    this->immutable_pool.erase(this->immutable_pool.begin());
+}
+void SSTableManager::write_all(bool erase)
+{
+    if (erase)
     {
-        Data data = Data::read(file);
-        bytes_read += data.get_size();
-        datas.emplace_back(std::move(data));
-    }
-    if (bytes_read != it->data_coverage)
-        throw std::runtime_error("sstable corrupted: failed to load data");
-    if (bytes_read > SSTableEntities::BLOCK_SIZE)
-        throw std::runtime_error("sstable corrupted: blocks size big");
-
-    auto result = std::lower_bound(
-        datas.begin(),
-        datas.end(),
-        key,
-        [](const Data& data, const Bytes& key)
+        while (!this->immutable_pool.empty())
         {
-            return data.key < key;
+            this->write_latest(true);
         }
-    );
-
-    if (result == datas.end() || result->key != key)
-        return Status::KeyNotFound;
-
-    if (result->type == Type::Tombstone)
-        return SSTable::Status::KeyWasDeleted;
-
-    return ByteRecord(result->key, result->value, result->type);
-}
-
-
-/* ========================
-   SSTable Bloom Filters
-   ======================== */
-
-SSTableEntities::SSTableBloomFilter::SSTableBloomFilter()
-{
-    this->bloom_ptr = std::make_unique<uint8_t[]>(SSTableBloomFilter::get_storage_size());
-    std::fill_n(bloom_ptr.get(), get_storage_size(), 0);
-}
-std::vector<uint32_t> SSTableEntities::SSTableBloomFilter::get_hashes(const Bytes& key, const int hash_amount) const
-{
-    std::vector<uint32_t> hashes;
-    uint32_t h1 = get_hash1(key);
-    uint32_t h2 = get_hash2(key);
-    if (h2 == 0) h2 = 1;
-
-    hashes.reserve(hash_amount);
-    for (int i = 0; i < hash_amount; i++)
+    } 
+    else
     {
-        hashes.push_back((h1 + i * h2) % SSTableEntities::SSTableBloomFilter::get_size());
+        for (auto& sstable : this->immutable_pool)
+            this->sstable_writer.write(sstable);
     }
-    return hashes;
 }
-void SSTableEntities::SSTableBloomFilter::add_key(const Bytes& key)
+
+
+
+/// loading
+
+
+
+std::optional<SSTable> SSTableLoader::load(const std::string& path, Arena& arena)
 {
-    auto hashes = get_hashes(key);
-    for (auto hash : hashes)
-        set_bit(hash);
-}
-uint32_t SSTableEntities::SSTableBloomFilter::get_storage_size()
-{
-    return (SSTableEntities::SSTableBloomFilter::bloom_bits + 7) / 8;
-}
-SSTableEntities::SSTableBloomFilter SSTableEntities::SSTableBloomFilter::read(std::ifstream& file)
-{
-    if (!file)
-        throw std::runtime_error("Failed to read bloom filter in sstable: file failed");
-    SSTableBloomFilter bloom;
-    auto size = SSTableBloomFilter::get_storage_size();
-    file.read(reinterpret_cast<char*>(bloom.bloom_ptr.get()), static_cast<std::streamsize>(size));
-    return bloom;
-}
-void SSTableEntities::SSTableBloomFilter::write(std::ofstream& file, int& in_block_offset, uint32_t& block_offset) const
-{
-    auto size = SSTableBloomFilter::get_storage_size();
-    file.write(reinterpret_cast<const char*>(this->bloom_ptr.get()), static_cast<std::streamsize>(size));
-    if (!file)
-        throw std::runtime_error("Failed to write bloom filter in sstable");
-    in_block_offset += size;
-    block_offset += in_block_offset / SSTableEntities::BLOCK_SIZE;
-    in_block_offset %= SSTableEntities::BLOCK_SIZE;
-}
-void SSTableEntities::SSTableBloomFilter::set_bit(uint32_t bit_index)
-{
-    bloom_ptr[bit_index / 8] |= static_cast<uint8_t>(1u << (bit_index % 8));
-}
-bool SSTableEntities::SSTableBloomFilter::test_bit(uint32_t bit_index) const
-{
-    return (bloom_ptr[bit_index / 8] & static_cast<uint8_t>(1u << (bit_index % 8))) != 0;
-}
-std::vector<uint32_t> SSTableEntities::SSTableBloomFilter::get_hashes(const Bytes& key, int hash_amount) const
-{
-    std::vector<uint32_t> hashes;
-    hashes.reserve(hash_amount);
-    uint32_t hash1 = get_hash1(key);
-    uint32_t hash2 = get_hash2(key);
-    if (hash2 == 0) hash2 = 1;
+    SSTable result(path);
+    std::ifstream file(path, std::ios::binary | std::ios::beg);
     
-    for (int i = 0; i < hash_amount; i++)
-        hashes.push_back((hash1 + (i * hash2)) % bloom_bits);
-    
-    return hashes;
+    auto file_header_opt = FileHeaderSection::load(file);
+    if (!file_header_opt) return std::nullopt;
+    auto file_header_section = std::move(*file_header_opt);
+
+    auto file_footer_opt = FileFooterSection::load(file, FileFooterSection::disk_size(), std::ios::end);
+    if (!file_footer_opt) return std::nullopt;
+    auto file_footer_section = std::move(*file_footer_opt);
+
+    auto data_opt = DataSection::load(file, file_footer_section.data_offset, file_footer_section.data_block_count);
+    if (!data_opt) return std::nullopt;
+    auto data_section = std::move(*data_opt);
+
+    auto index_opt = IndexSection::load(file, arena, file_footer_section.index_offset);
+    if (!index_opt) return std::nullopt;
+    auto index_section = std::move(*index_opt);
+
+    auto bloom_opt = BloomSection::load(file, file_footer_section.bloom_offset);
+    if (!bloom_opt) return std::nullopt;
+    auto bloom_section = std::move(*bloom_opt);
+
+    auto meta_opt = MetaSection::load(file, data_section, index_section, file_footer_section.meta_offset);
+    if (!meta_opt) return std::nullopt;
+    auto meta_section = std::move(*meta_opt);
+
+    result.file_header_section = std::move(file_header_section);
+    result.data_section = std::move(data_section);
+    result.index_section = std::move(index_section);
+    result.bloom_section = std::move(bloom_section);
+    result.meta_section = std::move(meta_section);
+    result.file_footer_section = std::move(file_footer_section);
+
+    return result;
 }
-bool SSTableEntities::SSTableBloomFilter::may_contain(const Bytes& key) const
+void SSTableManager::load(Arena& arena)
 {
-    auto hashes = get_hashes(key);
-    for (auto hash : hashes)
-        if (!test_bit(hash))
+    while (true)
+    {
+        std::string next_name = std::move(get_next_name());
+        if (next_name.empty()) break;
+
+        auto sstable = this->sstable_loader.load(next_name, arena);
+        if (!sstable) continue;
+
+        this->immutable_pool.emplace_back(std::move(*sstable));
+    }
+}
+
+
+
+/// DataSection 
+
+
+void DataSection::DataBlock::add_payload(Payload& payload)
+{
+    header.payload_disk_size += payload.disk_size();
+
+    // CRC of logical serialized content
+    crc32_add_pod(header.crc32, payload.key_size);
+    crc32_add_pod(header.crc32, payload.value_size);
+    crc32_add_pod(header.crc32, payload.type);
+    crc32_add_pod(header.crc32, payload.flags);
+    crc32_add_pod(header.crc32, payload.reserved);
+    crc32_add_pod(header.crc32, payload.seq_num);
+
+    if (payload.key_ptr && payload.key_size > 0)
+        compute_crc32(header.crc32, payload.key_ptr, payload.key_size);
+
+    if (payload.value_ptr && payload.value_size > 0)
+        compute_crc32(header.crc32, payload.value_ptr, payload.value_size);
+
+    payloads.emplace_back(payload);
+}
+void DataSection::add_payload(const InternalRecord& record)
+{
+    Payload payload{};
+    payload.key_size = static_cast<uint32_t>(record.key_entry.size);
+    payload.value_size = static_cast<uint32_t>(record.value_entry.size);
+    payload.type = record.type;
+    payload.flags = 0;
+    payload.reserved = 0;
+    payload.seq_num = record.seq_num;
+    payload.key_ptr = record.key_entry.data;
+    payload.value_ptr = record.value_entry.data;
+
+    if (!data_blocks.back().can_payload_fit(payload))
+        init_new_block();
+
+    data_blocks.back().add_payload(payload);
+}
+
+void DataSection::DataBlock::write(std::ofstream& file, uint64_t& offset, IndexSection& index_section) {
+    align_to_block_boundary(offset, BLOCK_SIZE, file); // each datablock less or equal to the size of physical block size. it was adjusted during .add;
+    
+    uint64_t data_block_offset = offset;
+
+    write_to_stream(file, offset, &this->header.type, sizeof(this->header.type), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->header.payload_disk_size, sizeof(this->header.payload_disk_size), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->header.crc32, sizeof(this->header.crc32), BLOCK_SIZE);
+
+    bool first_key_set = false;
+    uint32_t first_key_size = 0, last_key_size = 0;
+    void* first_key_ptr = nullptr;
+    void* last_key_ptr = nullptr;
+
+    for (auto& payload : this->payloads)
+    {
+        if (payload.disk_size() > BLOCK_SIZE - Header::disk_size())
+            throw std::runtime_error("DataSection payload too large for a block");
+
+        write_to_stream(file, offset, &payload.key_size, sizeof(payload.key_size), BLOCK_SIZE);
+        write_to_stream(file, offset, &payload.value_size, sizeof(payload.value_size), BLOCK_SIZE);
+        write_to_stream(file, offset, &payload.type, sizeof(payload.type), BLOCK_SIZE);
+        write_to_stream(file, offset, &payload.flags, sizeof(payload.flags), BLOCK_SIZE);
+        write_to_stream(file, offset, &payload.reserved, sizeof(payload.reserved), BLOCK_SIZE);
+        write_to_stream(file, offset, &payload.seq_num, sizeof(payload.seq_num), BLOCK_SIZE);
+
+        uint64_t key_offset = offset;
+
+        if (!first_key_set)
+        {
+            first_key_ptr = payload.key_ptr;
+            first_key_size = payload.key_size;
+            first_key_set = true;
+        }
+
+        last_key_ptr = payload.key_ptr;
+        last_key_size = payload.key_size;
+
+        write_to_stream(file, offset, payload.key_ptr, payload.key_size, BLOCK_SIZE);
+        write_to_stream(file, offset, payload.value_ptr, payload.value_size, BLOCK_SIZE);
+    }
+
+    if(!payloads.empty())
+        index_section.add_index(data_block_offset, first_key_size, last_key_size, first_key_ptr, last_key_ptr);
+}
+void DataSection::write(std::ofstream& file, uint64_t& offset, IndexSection& index_section, uint64_t& data_offset)
+{
+    align_to_block_boundary(offset, BLOCK_SIZE, file);
+    data_offset = offset;
+    for (auto& data_block : this->data_blocks)
+    {
+        data_block.write(file, offset, index_section);
+    }
+}
+
+std::optional<DataSection> DataSection::load(std::ifstream& file, uint64_t first_data_block_offset, uint32_t data_block_count)
+{
+    file.seekg(first_data_block_offset, std::ios::beg);
+    if (file.eof()) return std::nullopt;
+
+    DataSection result;
+    while (data_block_count--)
+    {
+        auto data_block = DataSection::DataBlock::load(file);
+        if (!data_block) return std::nullopt;
+        result.data_blocks.emplace_back(std::move(*data_block));
+    }
+
+    return result;
+}
+std::optional<DataSection::DataBlock> DataSection::DataBlock::load(std::ifstream& file)
+{
+    DataSection::DataBlock result{};
+    align_to_block_boundary(file, BLOCK_SIZE);
+    if (file.eof()) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.header.type), sizeof(result.header.type));
+    if (!file) return std::nullopt;
+    if (result.header.type != BlockType::Data) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.header.payload_disk_size), sizeof(result.header.payload_disk_size));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.header.crc32), sizeof(result.header.crc32));
+    if (!file) return std::nullopt;
+
+    if (result.header.payload_disk_size > BLOCK_SIZE - Header::disk_size())
+        return std::nullopt;
+
+    // payload
+
+    uint32_t must_be_crc32 = ::crc32(0L, Z_NULL, 0);
+    uint64_t payload_bytes_read = 0;
+
+    while (payload_bytes_read < result.header.payload_disk_size)
+    {
+        DataSection::Payload payload{};
+
+        file.read(reinterpret_cast<char*>(&payload.key_size), sizeof(payload.key_size));
+        if (!file) return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(&payload.value_size), sizeof(payload.value_size));
+        if (!file) return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(&payload.type), sizeof(payload.type));
+        if (!file) return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(&payload.flags), sizeof(payload.flags));
+        if (!file) return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(&payload.reserved), sizeof(payload.reserved));
+        if (!file) return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(&payload.seq_num), sizeof(payload.seq_num));
+        if (!file) return std::nullopt;
+
+        const uint64_t record_size =
+            sizeof(payload.key_size) +
+            sizeof(payload.value_size) +
+            sizeof(payload.type) +
+            sizeof(payload.flags) +
+            sizeof(payload.reserved) +
+            sizeof(payload.seq_num) +
+            payload.key_size +
+            payload.value_size;
+
+        if (record_size > result.header.payload_disk_size - payload_bytes_read)
+            return std::nullopt;
+        if (payload.key_size > BLOCK_SIZE)
+            return std::nullopt;
+        if (payload.value_size > BLOCK_SIZE)
+            return std::nullopt;
+
+        std::vector<std::byte> key_buf(payload.key_size);
+        std::vector<std::byte> value_buf(payload.value_size);
+
+        file.read(reinterpret_cast<char*>(key_buf.data()), payload.key_size);
+        if (!file) return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(value_buf.data()), payload.value_size);
+        if (!file) return std::nullopt;
+
+        payload.key_ptr = nullptr;
+        payload.value_ptr = nullptr; // the acutal data wouldn't be loaded (since it takes too much ram)
+
+        crc32_add_pod(must_be_crc32, payload.key_size);
+        crc32_add_pod(must_be_crc32, payload.value_size);
+        crc32_add_pod(must_be_crc32, payload.type);
+        crc32_add_pod(must_be_crc32, payload.flags);
+        crc32_add_pod(must_be_crc32, payload.reserved);
+        crc32_add_pod(must_be_crc32, payload.seq_num);
+
+        compute_crc32(must_be_crc32, key_buf.data(), payload.key_size);
+        compute_crc32(must_be_crc32, value_buf.data(), payload.value_size);
+
+        result.payloads.emplace_back(std::move(payload));
+        payload_bytes_read += record_size;
+    }
+
+    if (payload_bytes_read != result.header.payload_disk_size)
+        return std::nullopt;
+
+    if (must_be_crc32 != result.header.crc32) return std::nullopt;
+
+    return result;
+}
+
+
+
+// FileHeaderSection
+
+
+
+void FileHeaderSection::write(std::ofstream& file, uint64_t& offset)
+{
+    ensure_fits_in_block(offset, FileHeaderSection::disk_size(), BLOCK_SIZE, file);
+    write_to_stream(file, offset, &this->magic, sizeof(this->magic), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->version, sizeof(this->version), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->flags, sizeof(this->flags), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->block_size, sizeof(this->block_size), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->table_id, sizeof(this->table_id), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->crc32, sizeof(this->crc32), BLOCK_SIZE);
+}
+
+std::optional<FileHeaderSection> FileHeaderSection::load(std::ifstream& file)
+{
+    FileHeaderSection result{};
+    ensure_fits_in_block(file, FileHeaderSection::disk_size(), BLOCK_SIZE);
+    uint64_t file_header_offset = file.tellg();
+
+    file.read(reinterpret_cast<char*>(&result.magic), sizeof(result.magic));
+    if (!file) return std::nullopt;
+    if (result.magic != FILE_HEADER_MAGIC) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.version), sizeof(result.version));
+    if (!file) return std::nullopt;
+    if (result.version != SSTABLE_VERSION) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.flags), sizeof(result.flags));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.block_size), sizeof(result.block_size));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.table_id), sizeof(result.table_id));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.crc32), sizeof(result.crc32));
+    if (!file) return std::nullopt;
+
+    uint32_t must_be_crc32 = ::crc32(0L, Z_NULL, 0);
+    crc32_add_pod(must_be_crc32, result.magic);
+    crc32_add_pod(must_be_crc32, result.version);
+    crc32_add_pod(must_be_crc32, result.flags);
+    crc32_add_pod(must_be_crc32, result.block_size);
+    crc32_add_pod(must_be_crc32, result.table_id);
+
+    if (must_be_crc32 != result.crc32) return std::nullopt;
+    if (result.block_size != BLOCK_SIZE) return std::nullopt;
+    return result;
+}
+
+
+
+// IndexSection
+
+
+
+std::optional<IndexSection> IndexSection::load(std::ifstream& file, Arena& arena, uint64_t index_offset)
+{
+    if (index_offset)
+    {
+        file.seekg(index_offset, std::ios::beg);
+        if (!file) return std::nullopt;
+    }
+
+    IndexSection result{};
+    uint64_t index_block_offset = file.tellg();
+    
+    file.read(reinterpret_cast<char*>(&result.header.type), sizeof(result.header.type));
+    if (!file) return std::nullopt;
+    if (result.header.type != BlockType::Index) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.header.payload_size), sizeof(result.header.payload_size));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.header.crc32), sizeof(result.header.crc32));
+    if (!file) return std::nullopt;
+
+    // payload
+
+    uint32_t must_be_crc32 = ::crc32(0L, Z_NULL, 0);
+    uint64_t payload_bytes_read = 0;
+    while (payload_bytes_read < result.header.payload_size)
+    {
+        IndexSection::Payload payload{};
+
+        file.read(reinterpret_cast<char*>(&payload.data_block_offset), sizeof(payload.data_block_offset));
+        if (!file) return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(&payload.first_key_size), sizeof(payload.first_key_size));
+        if (!file) return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(&payload.last_key_size), sizeof(payload.last_key_size));
+        if (!file) return std::nullopt;
+
+
+        const uint64_t record_size =
+            sizeof(payload.first_key_size) +
+            sizeof(payload.last_key_size) +
+            sizeof(payload.data_block_offset) +
+            payload.first_key_size +
+            payload.last_key_size;
+
+        if (record_size > result.header.payload_size - payload_bytes_read)
+            return std::nullopt;
+        if (payload.first_key_size > BLOCK_SIZE)
+            return std::nullopt;
+        if (payload.last_key_size > BLOCK_SIZE)
+            return std::nullopt;
+
+        void* first_key_ptr = arena.alloc(payload.first_key_size, alignof(std::byte)); // Arena arena will be handled and provided in some other place
+        void* last_key_ptr = arena.alloc(payload.last_key_size, alignof(std::byte));
+
+        if (payload.first_key_size > 0 && first_key_ptr == nullptr)
+            return std::nullopt;
+        if (payload.last_key_size > 0 && last_key_ptr == nullptr)
+            return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(first_key_ptr), payload.first_key_size);
+        if (!file) return std::nullopt;
+
+        file.read(reinterpret_cast<char*>(last_key_ptr), payload.last_key_size);
+        if (!file) return std::nullopt;
+
+        payload.first_key_ptr = first_key_ptr;
+        payload.last_key_ptr = last_key_ptr;
+
+        crc32_add_pod(must_be_crc32, payload.data_block_offset);
+        crc32_add_pod(must_be_crc32, payload.first_key_size);
+        crc32_add_pod(must_be_crc32, payload.last_key_size);
+
+        compute_crc32(must_be_crc32, payload.first_key_ptr, payload.first_key_size);
+        compute_crc32(must_be_crc32, payload.last_key_ptr, payload.last_key_size);
+
+        result.payloads.emplace_back(std::move(payload));
+        payload_bytes_read += record_size;
+    }
+
+    if (payload_bytes_read != result.header.payload_size)
+        return std::nullopt;
+
+    if (must_be_crc32 != result.header.crc32) return std::nullopt;
+
+    return result;
+}
+
+void IndexSection::write(std::ofstream& file, uint64_t& offset, uint64_t& index_offset)
+{
+    align_to_block_boundary(offset, BLOCK_SIZE, file);
+    index_offset = offset;
+    write_to_stream(file, offset, &this->header.type, sizeof(this->header.type), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->header.payload_size, sizeof(this->header.payload_size), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->header.crc32, sizeof(this->header.crc32), BLOCK_SIZE);
+    for (auto& payload : this->payloads)
+    {
+        ensure_fits_in_block(offset, payload.disk_size(), BLOCK_SIZE, file);
+        write_to_stream(file, offset, &payload.data_block_offset, sizeof(payload.data_block_offset), BLOCK_SIZE);
+        write_to_stream(file, offset, &payload.first_key_size, sizeof(payload.first_key_size), BLOCK_SIZE);
+        write_to_stream(file, offset, &payload.last_key_size, sizeof(payload.last_key_size), BLOCK_SIZE);
+        write_to_stream(file, offset, payload.first_key_ptr, payload.first_key_size, BLOCK_SIZE);
+        write_to_stream(file, offset, payload.last_key_ptr, payload.last_key_size, BLOCK_SIZE);
+    }
+}
+
+void IndexSection::add_index(
+    uint64_t data_block_offset,
+    uint32_t first_key_size,
+    uint32_t last_key_size,
+    void* first_key_ptr,
+    void* last_key_ptr
+)
+{
+    Payload payload{};
+    payload.data_block_offset = data_block_offset;
+    payload.first_key_size = first_key_size;
+    payload.last_key_size = last_key_size;
+    payload.first_key_ptr = first_key_ptr;
+    payload.last_key_ptr = last_key_ptr;
+
+    this->payloads.emplace_back(payload);
+
+    this->header.payload_size +=
+        sizeof(payload.data_block_offset) +
+        sizeof(payload.first_key_size) +
+        sizeof(payload.last_key_size) +
+        payload.first_key_size +
+        payload.last_key_size;
+
+    crc32_add_pod(this->header.crc32, payload.data_block_offset);
+    crc32_add_pod(this->header.crc32, payload.first_key_size);
+    crc32_add_pod(this->header.crc32, payload.last_key_size);
+
+    if (payload.first_key_ptr && payload.first_key_size > 0)
+        compute_crc32(this->header.crc32, payload.first_key_ptr, payload.first_key_size);
+
+    if (payload.last_key_ptr && payload.last_key_size > 0)
+        compute_crc32(this->header.crc32, payload.last_key_ptr, payload.last_key_size);
+}
+
+
+
+// BloomSection
+
+
+std::optional<BloomSection> BloomSection::load(std::ifstream& file, uint64_t bloom_offset)
+{
+    if (bloom_offset)
+    {
+        file.seekg(bloom_offset, std::ios::beg);
+        if (!file) return std::nullopt;
+    } 
+
+    BloomSection result{};
+    uint64_t bloom_block_offset = file.tellg();
+
+    file.read(reinterpret_cast<char*>(&result.header.type), sizeof(result.header.type));
+    if (!file) return std::nullopt;
+    if (result.header.type != BlockType::Bloom) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.header.payload_size), sizeof(result.header.payload_size));
+    if (!file) return std::nullopt;
+    if (result.header.payload_size != BloomSection::Payload::disk_size()) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.header.crc32), sizeof(result.header.crc32));
+    if (!file) return std::nullopt;
+
+    uint64_t payload_size = 0;
+
+    file.read(reinterpret_cast<char*>(&result.payload.bloom_bits), sizeof(result.payload.bloom_bits));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.bloom_bits);
+
+    file.read(reinterpret_cast<char*>(&result.payload.hash_count), sizeof(result.payload.hash_count));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.hash_count);
+
+    file.read(reinterpret_cast<char*>(&result.payload.key_count), sizeof(result.payload.key_count));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.key_count);
+
+    file.read(reinterpret_cast<char*>(&result.payload.mask), sizeof(result.payload.mask));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.mask);
+
+    uint32_t must_be_crc32 = ::crc32(0L, Z_NULL, 0);
+    crc32_add_pod(must_be_crc32, result.payload.bloom_bits);
+    crc32_add_pod(must_be_crc32, result.payload.hash_count);
+    crc32_add_pod(must_be_crc32, result.payload.key_count);
+
+    compute_crc32(must_be_crc32, &result.payload.mask, sizeof(result.payload.mask));
+
+    if (must_be_crc32 != result.header.crc32) return std::nullopt;
+    if (result.payload.hash_count != BLOOM_HASH_COUNT) return std::nullopt;
+    if (payload_size != result.header.payload_size) return std::nullopt;
+    if (result.payload.bloom_bits != result.payload.mask.size()) return std::nullopt;
+
+    return result;
+}
+
+void BloomSection::write(std::ofstream& file, uint64_t& offset, uint64_t& bloom_offset)
+{
+    align_to_block_boundary(offset, BLOCK_SIZE, file);
+    bloom_offset = offset;
+    write_to_stream(file, offset, &this->header.type, sizeof(this->header.type), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->header.payload_size, sizeof(this->header.payload_size), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->header.crc32, sizeof(this->header.crc32), BLOCK_SIZE);
+
+    write_to_stream(file, offset, &this->payload.bloom_bits, sizeof(this->payload.bloom_bits), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->payload.hash_count, sizeof(this->payload.hash_count), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->payload.key_count, sizeof(this->payload.key_count), BLOCK_SIZE);
+
+    write_to_stream(file, offset, &this->payload.mask, sizeof(this->payload.mask), BLOCK_SIZE);
+}
+
+void BloomSection::add_key(const void* key_ptr, uint32_t key_size)
+{
+    if (!key_ptr || key_size == 0)
+        return;
+
+    for (uint32_t i = 0; i < payload.hash_count; ++i) {
+        uint64_t h = bloom_hash_i(key_ptr, key_size, i);
+        uint64_t bit = h % payload.bloom_bits;
+        payload.mask.set(bit);
+    }
+
+    ++payload.key_count;
+}
+
+bool BloomSection::may_contain(const void* key_ptr, uint32_t key_size) const
+{
+    if (!key_ptr || !key_size) return false;
+
+    for (std::size_t i = 0; i < payload.hash_count; i++)
+    {
+        uint64_t h = bloom_hash_i(key_ptr, key_size, i);
+        uint64_t bit = h % payload.bloom_bits;
+
+        if (!payload.mask.test(bit))
             return false;
+    }
+
     return true;
 }
-uint32_t SSTableEntities::SSTableBloomFilter::get_hash1(const Bytes& key)
+
+void BloomSection::recompute_crc32()
 {
-    uint32_t out = 0;
-    MurmurHash3_x86_32(key.data(), static_cast<int>(key.size()), SSTableEntities::seed1, &out);
-    return out;
+    header.type = BlockType::Bloom;
+    header.payload_size = Payload::disk_size();
+    header.crc32 = ::crc32(0L, Z_NULL, 0);
+
+    crc32_add_pod(header.crc32, payload.bloom_bits);
+    crc32_add_pod(header.crc32, payload.hash_count);
+    crc32_add_pod(header.crc32, payload.key_count);
+    compute_crc32(header.crc32, &payload.mask, sizeof(payload.mask));
 }
-uint32_t SSTableEntities::SSTableBloomFilter::get_hash2(const Bytes& key)
+
+void BloomSection::rebuild(const DataSection& data_section)
 {
-    uint32_t out = 0;
-    MurmurHash3_x86_32(key.data(), static_cast<int>(key.size()), SSTableEntities::seed2, &out);
-    return out;
+    payload.bloom_bits = static_cast<uint32_t>(payload.mask.size());   
+    payload.hash_count = BLOOM_HASH_COUNT;
+    payload.key_count = 0;
+    payload.mask.reset();
+
+    for (const auto& block : data_section.data_blocks)
+    {
+        for (const auto& data_block_payload : block.payloads)
+        {
+            add_key(data_block_payload.key_ptr, data_block_payload.key_size);
+        }
+    }
+
+    recompute_crc32();
+}
+
+
+
+// MetaSection
+
+
+void MetaSection::write(std::ofstream& file, uint64_t& offset, uint64_t& meta_offset)
+{
+    align_to_block_boundary(offset, BLOCK_SIZE, file);
+    meta_offset = offset;
+
+    write_to_stream(file, offset, &this->header.type, sizeof(this->header.type), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->header.payload_size, sizeof(this->header.payload_size), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->header.crc32, sizeof(this->header.crc32), BLOCK_SIZE);
+
+    write_to_stream(file, offset, &this->payload.record_count, sizeof(this->payload.record_count), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->payload.tombstone_count, sizeof(this->payload.tombstone_count), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->payload.min_seq_num, sizeof(this->payload.min_seq_num), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->payload.max_seq_num, sizeof(this->payload.max_seq_num), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->payload.min_key_size, sizeof(this->payload.min_key_size), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->payload.max_key_size, sizeof(this->payload.max_key_size), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->payload.data_block_count, sizeof(this->payload.data_block_count), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->payload.data_bytes, sizeof(this->payload.data_bytes), BLOCK_SIZE);
+}
+
+std::optional<MetaSection> MetaSection::load(
+    std::ifstream& file,
+    DataSection& data_section,
+    IndexSection& index_section,
+    uint64_t meta_offset
+) {
+    if (meta_offset)
+    {
+        file.seekg(meta_offset, std::ios::beg);
+        if (!file) return std::nullopt;
+    }
+
+    MetaSection result{};
+    uint64_t meta_block_offset = file.tellg();
+    
+    file.read(reinterpret_cast<char*>(&result.header.type), sizeof(result.header.type));
+    if (!file) return std::nullopt;
+    if (result.header.type != BlockType::Meta) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.header.payload_size), sizeof(result.header.payload_size));
+    if (!file) return std::nullopt;
+    if (result.header.payload_size != MetaSection::Payload::disk_size()) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.header.crc32), sizeof(result.header.crc32));
+    if (!file) return std::nullopt;
+
+    uint64_t payload_size = 0;
+
+    file.read(reinterpret_cast<char*>(&result.payload.record_count), sizeof(result.payload.record_count));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.record_count);
+
+    file.read(reinterpret_cast<char*>(&result.payload.tombstone_count), sizeof(result.payload.tombstone_count));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.tombstone_count);
+
+    file.read(reinterpret_cast<char*>(&result.payload.min_seq_num), sizeof(result.payload.min_seq_num));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.min_seq_num);
+
+    file.read(reinterpret_cast<char*>(&result.payload.max_seq_num), sizeof(result.payload.max_seq_num));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.max_seq_num);
+
+    file.read(reinterpret_cast<char*>(&result.payload.min_key_size), sizeof(result.payload.min_key_size));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.min_key_size);
+
+    file.read(reinterpret_cast<char*>(&result.payload.max_key_size), sizeof(result.payload.max_key_size));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.max_key_size);
+
+    file.read(reinterpret_cast<char*>(&result.payload.data_block_count), sizeof(result.payload.data_block_count));
+    if (!file) return std::nullopt;
+    if (result.payload.data_block_count != index_section.payloads.size()) return std::nullopt;
+    payload_size += sizeof(result.payload.data_block_count);
+
+    file.read(reinterpret_cast<char*>(&result.payload.data_bytes), sizeof(result.payload.data_bytes));
+    if (!file) return std::nullopt;
+    payload_size += sizeof(result.payload.data_bytes);
+
+    uint32_t must_be_crc32 = ::crc32(0L, Z_NULL, 0);
+    crc32_add_pod(must_be_crc32, result.payload.record_count);
+    crc32_add_pod(must_be_crc32, result.payload.tombstone_count);
+    crc32_add_pod(must_be_crc32, result.payload.min_seq_num);
+    crc32_add_pod(must_be_crc32, result.payload.max_seq_num);
+    crc32_add_pod(must_be_crc32, result.payload.min_key_size);
+    crc32_add_pod(must_be_crc32, result.payload.max_key_size);
+    crc32_add_pod(must_be_crc32, result.payload.data_block_count);
+    crc32_add_pod(must_be_crc32, result.payload.data_bytes);
+
+    if (must_be_crc32 != result.header.crc32) return std::nullopt;
+
+    uint32_t must_be_tombstone_count = 0;
+    uint32_t must_be_min_key_size = std::numeric_limits<uint32_t>::max(), must_be_max_key_size = std::numeric_limits<uint32_t>::min();
+    uint64_t must_be_min_seq_num = std::numeric_limits<uint64_t>::max(), must_be_max_seq_num = std::numeric_limits<uint64_t>::min();
+    uint64_t must_be_data_bytes = 0;
+
+    for (const auto& block : data_section.data_blocks)
+    {
+        
+        for (const auto& payload : block.payloads)
+        {
+            must_be_tombstone_count += (payload.type == Type::Tombstone);
+            must_be_min_key_size = std::min(must_be_min_key_size, payload.key_size);
+            must_be_max_key_size = std::max(must_be_max_key_size, payload.key_size);
+            must_be_min_seq_num = std::min(must_be_min_seq_num, payload.seq_num);
+            must_be_max_seq_num = std::max(must_be_max_seq_num, payload.seq_num);
+            must_be_data_bytes += payload.disk_size();
+        }
+    }
+
+    if (data_section.data_blocks.empty())
+    {
+        must_be_min_key_size = 0;
+        must_be_max_key_size = 0;
+        must_be_min_seq_num = 0;
+        must_be_max_seq_num = 0;
+    }
+
+    if (result.payload.tombstone_count != must_be_tombstone_count) return std::nullopt;
+    if (result.payload.min_key_size != must_be_min_key_size) return std::nullopt;
+    if (result.payload.max_key_size != must_be_max_key_size) return std::nullopt;
+    if (result.payload.min_seq_num != must_be_min_seq_num) return std::nullopt;
+    if (result.payload.max_seq_num != must_be_max_seq_num) return std::nullopt;
+    if (result.payload.data_bytes != must_be_data_bytes) return std::nullopt;
+    if (result.header.payload_size != payload_size) return std::nullopt;
+
+    return result;
+}
+
+void MetaSection::rebuild(DataSection& data_section, IndexSection& index_section)
+{
+    this->payload.record_count = 0;
+    this->payload.tombstone_count = 0;
+    this->payload.min_seq_num = std::numeric_limits<uint64_t>::max();
+    this->payload.max_seq_num = 0;
+    this->payload.min_key_size = std::numeric_limits<uint32_t>::max();
+    this->payload.max_key_size = 0;
+    this->payload.data_block_count = 0;
+    this->payload.data_bytes = 0;
+
+    this->payload.data_block_count = data_section.data_blocks.size();
+
+    for (const auto& block : data_section.data_blocks)
+    {
+        this->payload.data_bytes += block.disk_size();
+        for (const auto& payload : block.payloads)
+        {
+            ++this->payload.record_count;
+            this->payload.tombstone_count += (payload.type == Type::Tombstone);
+            this->payload.min_key_size = std::min(this->payload.min_key_size, payload.key_size);
+            this->payload.max_key_size = std::max(this->payload.max_key_size, payload.key_size);
+            this->payload.min_seq_num = std::min(this->payload.min_seq_num, payload.seq_num);
+            this->payload.max_seq_num = std::max(this->payload.max_seq_num, payload.seq_num);
+        }
+    }
+
+    if (data_section.data_blocks.empty())
+    {
+        this->payload.min_seq_num = 0;
+        this->payload.max_seq_num = 0;
+        this->payload.min_key_size = 0;
+        this->payload.max_key_size = 0;
+    }
+
+    this->header.payload_size = Payload::disk_size();
+    this->header.crc32 = ::crc32(0L, Z_NULL, 0);
+
+    crc32_add_pod(this->header.crc32, this->payload.record_count);
+    crc32_add_pod(this->header.crc32, this->payload.tombstone_count);
+    crc32_add_pod(this->header.crc32, this->payload.min_seq_num);
+    crc32_add_pod(this->header.crc32, this->payload.max_seq_num);
+    crc32_add_pod(this->header.crc32, this->payload.min_key_size);
+    crc32_add_pod(this->header.crc32, this->payload.max_key_size);
+    crc32_add_pod(this->header.crc32, this->payload.data_block_count);
+    crc32_add_pod(this->header.crc32, this->payload.data_bytes);
+}
+
+
+
+// FileFooterSection
+
+
+void FileFooterSection::write(std::ofstream& file, uint64_t& offset)
+{
+    ensure_fits_in_block(offset, FileFooterSection::disk_size(), BLOCK_SIZE, file);
+    write_to_stream(file, offset, &this->magic, sizeof(this->magic), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->version, sizeof(this->version), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->reserved, sizeof(this->reserved), BLOCK_SIZE);
+
+    write_to_stream(file, offset, &this->data_offset, sizeof(this->data_offset), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->data_block_count, sizeof(this->data_block_count), BLOCK_SIZE);
+
+    write_to_stream(file, offset, &this->index_offset, sizeof(this->index_offset), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->index_size, sizeof(this->index_size), BLOCK_SIZE);
+
+    write_to_stream(file, offset, &this->bloom_offset, sizeof(this->bloom_offset), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->bloom_size, sizeof(this->bloom_size), BLOCK_SIZE);
+
+    write_to_stream(file, offset, &this->meta_offset, sizeof(this->meta_offset), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->meta_size, sizeof(this->meta_size), BLOCK_SIZE);
+
+    write_to_stream(file, offset, &this->file_size, sizeof(this->file_size), BLOCK_SIZE);
+    write_to_stream(file, offset, &this->footer_crc32, sizeof(this->footer_crc32), BLOCK_SIZE);
+}
+
+void FileFooterSection::finalize(uint64_t current_offset)
+{
+    this->file_size = current_offset + FileFooterSection::disk_size();
+
+    this->footer_crc32 = ::crc32(0L, Z_NULL, 0);
+    crc32_add_pod(this->footer_crc32, this->magic);
+    crc32_add_pod(this->footer_crc32, this->version);
+    crc32_add_pod(this->footer_crc32, this->reserved);
+    crc32_add_pod(this->footer_crc32, this->data_offset);
+    crc32_add_pod(this->footer_crc32, this->data_block_count);
+    crc32_add_pod(this->footer_crc32, this->index_offset);
+    crc32_add_pod(this->footer_crc32, this->index_size);
+    crc32_add_pod(this->footer_crc32, this->bloom_offset);
+    crc32_add_pod(this->footer_crc32, this->bloom_size);
+    crc32_add_pod(this->footer_crc32, this->meta_offset);
+    crc32_add_pod(this->footer_crc32, this->meta_size);
+    crc32_add_pod(this->footer_crc32, this->file_size);
+}
+
+std::optional<FileFooterSection> FileFooterSection::load(
+    std::ifstream& file,
+    uint64_t file_footer_offset,
+    auto dir
+) {
+    if (file_footer_offset)
+    {
+        if(dir == std::ios::beg)
+            file.seekg(file_footer_offset, dir);
+        else
+            file.seekg(-static_cast<std::streamoff>(FileFooterSection::disk_size()), std::ios::end);
+        if (!file) return std::nullopt;
+    }
+
+    FileFooterSection result{};
+
+    file.read(reinterpret_cast<char*>(&result.magic), sizeof(result.magic));
+    if (!file) return std::nullopt;
+    if (result.magic != FILE_FOOTER_MAGIC) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.version), sizeof(result.version));
+    if (!file) return std::nullopt;
+    if (result.version != SSTABLE_VERSION) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.reserved), sizeof(result.reserved));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.data_offset), sizeof(result.data_offset));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.data_block_count), sizeof(result.data_block_count));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.index_offset), sizeof(result.index_offset));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.index_size), sizeof(result.index_size));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.bloom_offset), sizeof(result.bloom_offset));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.bloom_size), sizeof(result.bloom_size));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.meta_offset), sizeof(result.meta_offset));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.meta_size), sizeof(result.meta_size));
+    if (!file) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.file_size), sizeof(result.file_size));
+    if (!file) return std::nullopt;
+
+    auto cur = file.tellg();
+    file.seekg(0, std::ios::end);
+    auto actual_file_size = file.tellg();
+    file.seekg(cur);
+    if (result.file_size != static_cast<uint64_t>(actual_file_size)) return std::nullopt;
+
+    file.read(reinterpret_cast<char*>(&result.footer_crc32), sizeof(result.footer_crc32));
+    if (!file) return std::nullopt;
+
+    uint32_t must_be_footer_crc32 = ::crc32(0L, Z_NULL, 0);
+    crc32_add_pod(must_be_footer_crc32, result.magic);
+    crc32_add_pod(must_be_footer_crc32, result.version);
+    crc32_add_pod(must_be_footer_crc32, result.reserved);
+    crc32_add_pod(must_be_footer_crc32, result.data_offset);
+    crc32_add_pod(must_be_footer_crc32, result.data_block_count);
+    crc32_add_pod(must_be_footer_crc32, result.index_offset);
+    crc32_add_pod(must_be_footer_crc32, result.index_size);
+    crc32_add_pod(must_be_footer_crc32, result.bloom_offset);
+    crc32_add_pod(must_be_footer_crc32, result.bloom_size);
+    crc32_add_pod(must_be_footer_crc32, result.meta_offset);
+    crc32_add_pod(must_be_footer_crc32, result.meta_size);
+    crc32_add_pod(must_be_footer_crc32, result.file_size);
+
+    if (must_be_footer_crc32 != result.footer_crc32) return std::nullopt;
+
+    return result;
+}
+
+void FileFooterSection::rebuild(IndexSection& index_block, uint64_t index_offset)
+{
+    this->index_offset = index_offset;
+    this->index_size = static_cast<uint32_t>(index_block.disk_size());
+}
+void FileFooterSection::rebuild(BloomSection& bloom_block, uint64_t bloom_offset)
+{
+    this->bloom_offset = bloom_offset;
+    this->bloom_size = static_cast<uint32_t>(BloomSection::disk_size());
+}
+void FileFooterSection::rebuild(MetaSection& meta_block, uint64_t meta_offset)
+{
+    this->meta_offset = meta_offset;
+    this->meta_size = static_cast<uint32_t>(MetaSection::disk_size());
 }

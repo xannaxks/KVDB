@@ -1,7 +1,7 @@
 #pragma once
 
-enum class Type
+enum class Type : uint8_t
 {
-    Put,
-    Tombstone
+    Put = 0,
+    Tombstone = 1,
 };

@@ -1,0 +1,7 @@
+# CMake generation dependency list for this directory.
+C:/Users/user/KVDB/third_party/zlib/test/CMakeLists.txt
+C:/Users/user/KVDB/third_party/zlib/test/add_subdirectory_exclude_test.cmake.in
+C:/Users/user/KVDB/third_party/zlib/test/add_subdirectory_test.cmake.in
+C:/Users/user/KVDB/third_party/zlib/test/find_package_no_components_test.cmake.in
+C:/Users/user/KVDB/third_party/zlib/test/find_package_test.cmake.in
+C:/Users/user/KVDB/third_party/zlib/test/find_package_wrong_components_test.cmake.in
