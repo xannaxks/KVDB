@@ -22,6 +22,11 @@ inline void crc32_add_pod(uint32_t& crc, const T& value)
 	compute_crc32(crc, &value, sizeof(T));
 }
 
+bool fits_in_block(std::ifstream& file, std::size_t size, const uint32_t BLOCK_SIZE);
+void align_to_block_boundary(std::ifstream& file, const uint32_t BLOCK_SIZE);
+void ensure_fits_in_block(std::ifstream& file, std::size_t size, const uint32_t BLOCK_SIZE);
+void move_g_to_next_block(std::ifstream& file, const uint32_t BLOCK_SIZE);
+
 inline void compute_crc32(uint32_t& crc, const void* ptr, std::size_t size);
 inline uint32_t crc32_of(const void* ptr, std::size_t size);
 

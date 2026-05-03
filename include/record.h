@@ -16,8 +16,11 @@ struct InternalRecord
     Type type;
     uint64_t seq_num;
 
+    uint32_t disk_size();
     InternalRecord() = default;
     InternalRecord(ArenaEntry key_entry, ArenaEntry value_entry, Type type, uint64_t seq_num);
+
+    std::vector<std::byte> return_byte_sequence();
 };
 
 struct ByteRecord

@@ -27,6 +27,7 @@ struct ArenaEntry
 	bool operator==(const ArenaEntry& other) const;
 
 	ArenaEntry(void* ptr, std::size_t size);
+	ArenaEntry() = default;
 
 };
 
