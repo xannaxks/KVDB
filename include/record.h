@@ -20,14 +20,16 @@ struct InternalRecord
     InternalRecord() = default;
     InternalRecord(ArenaEntry key_entry, ArenaEntry value_entry, Type type, uint64_t seq_num);
 
-    std::vector<std::byte> return_byte_sequence();
+    bool operator==(const InternalRecord& other) const;
+
+    //std::vector<std::byte> return_byte_sequence();
 };
 
-struct ByteRecord
-{
-    ArenaEntry key, value;
-    Type type;
-
-    ByteRecord(const InternalRecord& entry);
-    ByteRecord(ArenaEntry key_entry, ArenaEntry value_entry, Type type);
-};
+//struct ByteRecord
+//{
+//    ArenaEntry key, value;
+//    Type type;
+//
+//    ByteRecord(const InternalRecord& entry);
+//    ByteRecord(ArenaEntry key_entry, ArenaEntry value_entry, Type type);
+//};

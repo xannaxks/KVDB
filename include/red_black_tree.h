@@ -24,6 +24,7 @@ public:
         KeyNotFound,
         MemoryAllocationFailed,
         KeyWasDeleted,
+        Duplicate
     };
 
     struct Node
@@ -47,6 +48,7 @@ public:
 
         bool operator<(const Node& other) const;
         bool operator>(const Node& other) const;
+        bool operator==(const Node& other) const;
 
         size_t approximate_memory_usage() const;
     };
@@ -57,7 +59,7 @@ private:
     void left_rotate(Node* v);
     void right_rotate(Node* v);
     void balance(Node* v);
-    void bst_insert(Node* v);
+    RBTree::Status bst_insert(Node* v);
     void destroy(Node* node);
 
     template<typename Collection>
@@ -112,6 +114,8 @@ public:
 
     Node* root_getter();
     void dump_inorder(std::vector<InternalRecord>& out) const; 
+
+    static bool expect_parent_links_valid(RBTree::Node* node, RBTree::Node* expected_parent);
 
     friend class MemTable;
 };

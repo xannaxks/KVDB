@@ -14,11 +14,11 @@
 //{
 //}
 
-RBTree::Node::Node(ArenaEntry key_entry, ArenaEntry value_entry, Type type, uint64_t seq_num)
-    : key_entry(key_entry),
-    value_entry(value_entry),
-    seq_number(seq_num),
-    type(type),
+RBTree::Node::Node(ArenaEntry key, ArenaEntry value, Type record_type, uint64_t sequence_number)
+    : key_entry(key),
+    value_entry(value),
+    seq_number(sequence_number),
+    type(record_type),
     color(Color::Red),
     left(nullptr),
     right(nullptr),
@@ -29,14 +29,19 @@ RBTree::Node::Node(ArenaEntry key_entry, ArenaEntry value_entry, Type type, uint
 bool RBTree::Node::operator<(const Node& other) const
 {
     if (this->key_entry == other.key_entry)
-		return this->seq_number > other.seq_number; // For the same keys, the one with higher seq_number is considered "less" to ensure it comes first in the search
+        return this->seq_number > other.seq_number; // For the same keys, the one with higher seq_number is considered "less" to ensure it comes first in the search
     return this->key_entry < other.key_entry;
 }
 bool RBTree::Node::operator>(const Node& other) const
 {
     if (this->key_entry == other.key_entry)
-		return this->seq_number < other.seq_number; // For the same keys, the one with lower seq_number is considered "greater"
+        return this->seq_number < other.seq_number; // For the same keys, the one with lower seq_number is considered "greater"
     return this->key_entry > other.key_entry;
+}
+
+bool RBTree::Node::operator==(const Node& other) const
+{
+    return this->key_entry == other.key_entry && this->seq_number == other.seq_number && this->value_entry == other.value_entry;
 }
 
 size_t RBTree::Node::approximate_memory_usage() const
@@ -164,7 +169,7 @@ void RBTree::balance(Node* v)
         root->color = Node::Color::Black;
 }
 
-void RBTree::bst_insert(Node* v)
+RBTree::Status RBTree::bst_insert(Node* v)
 {
     Node* current = root;
     Node* parent = nullptr;
@@ -172,6 +177,13 @@ void RBTree::bst_insert(Node* v)
     while (current != nullptr)
     {
         parent = current;
+
+		if (!(*v < *current) && !(*current < *v))
+        {
+            // Duplicate entry, do not insert
+            return RBTree::Status::Duplicate;
+        }
+
         if (*v < *current)
             current = current->left;
         else
@@ -185,6 +197,8 @@ void RBTree::bst_insert(Node* v)
         parent->left = v;
     else
         parent->right = v;
+
+    return RBTree::Status::OK;
 }
 
 void RBTree::destroy(Node* node)
@@ -208,7 +222,8 @@ size_t RBTree::approximate_memory_usage() const
 }
 
 RBTree::RBTree()
-    : root(nullptr) {}
+    : root(nullptr) {
+}
 
 RBTree::~RBTree()
 {
@@ -224,7 +239,9 @@ Status RBTree::insert(const InternalRecord& entry)
         std::unique_ptr<RBTree::Node> new_node;
         new_node = std::make_unique<RBTree::Node>(entry.key_entry, entry.value_entry, entry.type, entry.seq_num);
         RBTree::Node* raw = new_node.get();
-        bst_insert(raw);
+        RBTree::Status insert_res = bst_insert(raw);
+        if (insert_res != RBTree::Status::OK)
+            return insert_res;
         balance(raw);
 
         new_node.release();
@@ -263,13 +280,13 @@ std::variant<InternalRecord, RBTree::Status> RBTree::find_latest_by_key(ArenaEnt
 
 // Validators implementation
 bool RBTree::validate() const
-{   
+{
     return (
         RBTree::root_is_black() &&
         RBTree::no_red_node_has_red_child() &&
         RBTree::bst_ordering_correct() &&
         RBTree::subtree_black_height_info(root).first
-    );
+        );
 }
 
 bool RBTree::subtree_has_no_red_node_with_red_child(Node* node) const
@@ -283,7 +300,7 @@ bool RBTree::subtree_has_no_red_node_with_red_child(Node* node) const
     return (
         subtree_has_no_red_node_with_red_child(node->left) &&
         subtree_has_no_red_node_with_red_child(node->right)
-    );
+        );
 }
 
 bool RBTree::no_red_node_has_red_child() const
@@ -377,4 +394,15 @@ void RBTree::dump_inorder(std::vector<InternalRecord>& out) const
         auto node = it.next();
         out.emplace_back(node->key_entry, node->value_entry, node->type, node->seq_number);
     }
+}
+
+bool RBTree::expect_parent_links_valid(RBTree::Node* node, RBTree::Node* expected_parent)
+{
+    if (node == nullptr)
+        return true;
+
+    if (node->parent != expected_parent)
+        return false;
+
+    return (expect_parent_links_valid(node->right, node) && expect_parent_links_valid(node->left, node));
 }

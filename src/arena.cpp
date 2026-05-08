@@ -1,15 +1,49 @@
 #include "arena.h"
 
-Arena::Arena(std::size_t page_size, std::size_t large_threshold)
+ArenaEntry ArenaEntry::make_entry(Arena& arena, const std::string& str)
 {
-	if (page_size == 0
-		|| large_threshold == 0
-		|| large_threshold < alignof(std::max_align_t)
-		|| page_size < alignof(std::max_align_t)
+	if (str.size() > std::numeric_limits<std::uint32_t>::max())
+		std::terminate();
+
+	return arena_copy_bytes(
+		arena,
+		str.data(),
+		static_cast<std::uint32_t>(str.size())
+	);
+}
+
+std::string ArenaEntry::generate_random_key(const std::string& prefix, std::size_t length, bool fixed)
+{
+	int sz = fixed ? static_cast<int>(length) : rand() % length + 1;
+	std::string result = prefix;
+	while (sz--)
+	{
+		result += static_cast<char>(rand() % 256);
+	}
+	return result;
+}
+
+std::string ArenaEntry::generate_random_value(const std::string& prefix, std::size_t length, bool fixed)
+{
+	int sz = fixed ? static_cast<int>(length) : rand() % length + 1;
+	std::string result = prefix;
+	while (sz--)
+	{
+		result += static_cast<char>(rand() % 256);
+	}
+	return result;
+}
+
+Arena::Arena(std::size_t initial_page_size, std::size_t initial_large_threshold)
+{
+	if (initial_page_size == 0
+		|| initial_large_threshold == 0
+		|| initial_large_threshold < alignof(std::max_align_t)
+		|| initial_page_size < alignof(std::max_align_t)
 		)
 		std::terminate();
-	this->page_size = page_size;
-	this->large_threshold = large_threshold;
+	this->page_size = initial_page_size;
+	this->large_threshold = initial_large_threshold;
 }
 Arena::~Arena()
 {
@@ -39,7 +73,7 @@ void* Arena::alloc_small(size_t n, size_t align)
 	Page& p = this->pages.back();
 	size_t off = Arena::align_up(p.used, align);
 
-	void* out = p.base + off;
+	void* out = reinterpret_cast<std::byte*>(p.base) + off;
 	if (off > std::numeric_limits<std::size_t>::max() - n)
 		std::terminate();
 	p.used = off + n;
@@ -63,13 +97,13 @@ Arena::Page Arena::alloc_page(size_t cap)
 		::operator new(
 			cap,
 			std::align_val_t(alignof(std::max_align_t))
-		)
-	);
+			)
+		);
 	memset(ptr, 0xCD, cap);
 	return Page{ ptr, cap, 0 };
 }
 
-// =============================================================================== \\
+// =============================================================================== 
 
 bool Arena::fits_in(const Page& p, std::size_t n, std::size_t align) const
 {
@@ -80,16 +114,16 @@ bool Arena::fits_in(const Page& p, std::size_t n, std::size_t align) const
 }
 std::size_t Arena::align_up(std::size_t x, std::size_t a) // x refers to the offset, a is the alignment
 {
-	if (x > std::numeric_limits<std::size_t>::max() - a + 1) 
+	if (x > std::numeric_limits<std::size_t>::max() - a + 1)
 		std::terminate();
-	
+
 	return (x + a - 1) & ~(a - 1);
 }
 size_t Arena::get_next_page_size(size_t n) const
 {
 	size_t required = Arena::align_up(n, alignof(std::max_align_t));
 
-	if(this->pages.empty())
+	if (this->pages.empty())
 		return std::max(this->page_size, required);
 
 	if (required > this->max_page_size)
@@ -103,7 +137,7 @@ size_t Arena::get_next_page_size(size_t n) const
 	return std::max(doubled, required);
 }
 
-// =============================================================================== \\
+// =============================================================================== 
 
 uint64_t Arena::get_reserved_bytes() const
 {
@@ -140,7 +174,7 @@ uint64_t Arena::get_used_bytes() const
 	return result;
 }
 
-// =============================================================================== \\
+// =============================================================================== 
 
 Arena::Checkpoint Arena::checkpoint() const {
 	return Arena::Checkpoint{
@@ -166,7 +200,7 @@ void Arena::rollback(const Arena::Checkpoint& cp)
 		if (!this->pages.empty())
 		{
 			this->pages.back().used = std::min(this->pages.back().used, cp.page_used);
-			memset(this->pages.back().base + this->pages.back().used, 0xCD, this->pages.back().cap - this->pages.back().used);
+			memset(reinterpret_cast<std::byte*>(this->pages.back().base) + this->pages.back().used, 0xCD, this->pages.back().cap - this->pages.back().used);
 		}
 	}
 
@@ -177,7 +211,7 @@ void Arena::rollback(const Arena::Checkpoint& cp)
 		this->large.pop_back();
 	}
 }
-void Arena::reset(bool release_all = false)
+void Arena::reset(bool release_all)
 {
 	if (release_all)
 	{
@@ -218,19 +252,23 @@ void Arena::free_page(Page& p)
 	p.cap = p.used = 0;
 }
 
-// =============================================================================== \\
+// =============================================================================== 
 
-ByteSpan arena_copy_bytes(Arena& a, const void* src, std::uint32_t n)
+ArenaEntry arena_copy_bytes(Arena& a, const void* src, std::uint32_t n)
 {
-	if (!n)
-		return ByteSpan{ nullptr, 0 };
+	if (n == 0)
+		return ArenaEntry{ nullptr, 0 };
 
-	std::byte* dst = static_cast<std::byte*>(a.alloc(n, alignof(std::byte)));
+	if (src == nullptr)
+		std::terminate();
+
+	void* dst = a.alloc(n, alignof(std::byte));
 	std::memcpy(dst, src, n);
-	return ByteSpan{ dst, n };
+
+	return ArenaEntry{ dst, n };
 }
 
-// =============================================================================== \\
+// =============================================================================== 
 
 std::size_t Arena::get_pages_size() const
 {
@@ -241,25 +279,75 @@ std::size_t Arena::get_large_size() const
 	return this->large.size();
 }
 
-// ================================================================================ \\
-
-ArenaEntry::ArenaEntry(void* ptr, std::size_t size)
-	: data(ptr), size(size)
-{}
-
-bool ArenaEntry::operator<(const ArenaEntry & other) const
+// ================================================================================ 
+ArenaEntry::ArenaEntry(void* ptr, std::size_t entry_size)
+	: data(ptr)
 {
-	int result = std::memcmp(this->data, other.data, std::min(this->size, other.size));
-	if (result < 0) true;
-	if (result > 0) return false;
-	return this->size < other.size;
+	if (entry_size > std::numeric_limits<std::uint32_t>::max())
+		std::terminate();
+
+	size = static_cast<std::uint32_t>(entry_size);
+
+	if (size > 0 && data == nullptr)
+		std::terminate();
 }
+
+ArenaEntry::ArenaEntry(ArenaEntry&& other) noexcept
+	: data(other.data), size(other.size)
+{
+	other.data = nullptr;
+	other.size = 0;
+}
+
+ArenaEntry& ArenaEntry::operator=(ArenaEntry&& other) noexcept
+{
+	if (this == &other)
+		return *this;
+
+	data = other.data;
+	size = other.size;
+
+	other.data = nullptr;
+	other.size = 0;
+
+	return *this;
+}
+
+bool ArenaEntry::operator<(const ArenaEntry& other) const
+{
+	assert(data != nullptr || size == 0);
+	assert(other.data != nullptr || other.size == 0);
+
+	const std::size_t common = std::min<std::size_t>(size, other.size);
+
+	if (common > 0)
+	{
+		assert(data != nullptr && other.data != nullptr);
+
+		const int result = std::memcmp(data, other.data, common);
+
+		if (result < 0) return true;
+		if (result > 0) return false;
+	}
+
+	return size < other.size;
+}
+
 bool ArenaEntry::operator>(const ArenaEntry& other) const
 {
 	return other < *this;
 }
+
 bool ArenaEntry::operator==(const ArenaEntry& other) const
 {
-	if (this->size != other.size) return false;
-	return std::memcmp(this->data, other.data, this->size) == 0;
+	assert(data != nullptr || size == 0);
+	assert(other.data != nullptr || other.size == 0);
+
+	if (size != other.size)
+		return false;
+
+	if (size == 0)
+		return true;
+
+	return std::memcmp(data, other.data, size) == 0;
 }

@@ -11,32 +11,40 @@
 #include <limits>
 #include <cassert>
 
-struct ByteSpan
-{
-	const std::byte* data = nullptr;
-	std::uint32_t size = 0;
-};
+class Arena;
 
 struct ArenaEntry
 {
-	void* data;
-	std::size_t size;
+	void* data = nullptr;
+	std::uint32_t size = 0;
+
+	ArenaEntry() = default;
+
+	ArenaEntry(void* ptr, std::size_t entry_size);
+
+	ArenaEntry(const ArenaEntry&) = default;
+	ArenaEntry& operator=(const ArenaEntry&) = default;
+
+	ArenaEntry(ArenaEntry&& other) noexcept;
+	ArenaEntry& operator=(ArenaEntry&& other) noexcept;
+
+	static std::string generate_random_key(const std::string& prefix, const std::size_t length = 100, bool fixed = true);
+	static std::string generate_random_value(const std::string& prefix, const std::size_t length = 1000, bool fixed = true);
 
 	bool operator<(const ArenaEntry& other) const;
 	bool operator>(const ArenaEntry& other) const;
 	bool operator==(const ArenaEntry& other) const;
 
-	ArenaEntry(void* ptr, std::size_t size);
-	ArenaEntry() = default;
-
+	static ArenaEntry make_entry(Arena& arena, const std::string& str);
 };
+
 
 class Arena
 {
 private: 
 	struct Page
 	{
-		std::byte* base = nullptr;
+		void* base = nullptr;
 		std::size_t cap = 0;
 		std::size_t used = 0;
 	};
@@ -105,6 +113,26 @@ template<typename T, class... Args>
 inline T* arena_new(Arena& a, Args&&... args)
 {
 	void* mem = a.alloc(sizeof(T), alignof(T));
+	assert(mem != nullptr);
+
 	return new (mem) T(std::forward<Args>(args)...);
 }
-ByteSpan arena_copy_bytes(Arena& a, const void* src, std::uint32_t n);
+
+template <class T>
+T* arena_new_array(Arena& arena, std::size_t count)
+{
+	if (count == 0)
+		return nullptr;
+
+	void* mem = arena.alloc(sizeof(T) * count, alignof(T));
+	assert(mem != nullptr);
+
+	T* ptr = static_cast<T*>(mem);
+
+	for (std::size_t i = 0; i < count; ++i)
+		new (&ptr[i]) T();
+
+	return ptr;
+}
+
+ArenaEntry arena_copy_bytes(Arena& a, const void* src, std::uint32_t n);

@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/user/KVDB/out/build/x64-Debug/arena_test[1]_tests.cmake")
+  include("C:/Users/user/KVDB/out/build/x64-Debug/arena_test[1]_tests.cmake")
+else()
+  add_test(arena_test_NOT_BUILT arena_test_NOT_BUILT)
+endif()

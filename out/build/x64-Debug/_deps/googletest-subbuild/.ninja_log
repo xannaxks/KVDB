@@ -1,0 +1,21 @@
+# ninja log v6
+1973	2040	7995338720089064	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	ac02e1ed5c5225d
+7	125	7995338700893334	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	4bdd1a5d7d9433fc
+1772	1840	7995338718080256	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	d5e8a28bcedbdf62
+1906	1972	7995338719418712	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	3d7f8a644efeb87d
+7	125	7995338700893334	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-mkdir	4bdd1a5d7d9433fc
+1840	1906	7995338718748093	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	63295aa47e4f21ab
+126	1771	7995338717412541	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	9ae2367400f6e8e6
+1840	1906	7995338718748093	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-patch	63295aa47e4f21ab
+126	1771	7995338717412541	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-download	9ae2367400f6e8e6
+2173	2269	7995338722380877	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	9c0d408fd273cf8a
+1772	1840	7995338718080256	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-update	d5e8a28bcedbdf62
+1906	1972	7995338719418712	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-configure	3d7f8a644efeb87d
+2105	2173	7995338721409926	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	2e3b50c437e207e1
+2173	2269	7995338722380877	CMakeFiles/googletest-populate-complete	9c0d408fd273cf8a
+1973	2040	7995338720089064	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-build	ac02e1ed5c5225d
+2041	2105	7995338720738594	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	ce7d91cdf1e5348d
+2041	2105	7995338720738594	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-install	ce7d91cdf1e5348d
+2105	2173	7995338721409926	googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-test	2e3b50c437e207e1
+2173	2269	7995338722380877	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate-complete	9c0d408fd273cf8a
+2173	2269	7995338722380877	C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-subbuild/googletest-populate-prefix/src/googletest-populate-stamp/googletest-populate-done	9c0d408fd273cf8a

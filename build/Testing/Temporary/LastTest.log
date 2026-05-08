@@ -1,0 +1,1923 @@
+Start testing: May 08 07:19 Корейское время (зима)
+----------------------------------------------------------
+1/71 Testing: ArenaDeathTest.ConstructorRejectsZeroPageSize
+1/71 Test: ArenaDeathTest.ConstructorRejectsZeroPageSize
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaDeathTest.ConstructorRejectsZeroPageSize" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaDeathTest.ConstructorRejectsZeroPageSize" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaDeathTest.ConstructorRejectsZeroPageSize
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaDeathTest
+[ RUN      ] ArenaDeathTest.ConstructorRejectsZeroPageSize
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+[       OK ] ArenaDeathTest.ConstructorRejectsZeroPageSize (11 ms)
+[----------] 1 test from ArenaDeathTest (11 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (11 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaDeathTest.ConstructorRejectsZeroPageSize" end time: May 08 07:19 Корейское время (зима)
+"ArenaDeathTest.ConstructorRejectsZeroPageSize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/71 Testing: ArenaDeathTest.ConstructorRejectsZeroLargeThreshold
+2/71 Test: ArenaDeathTest.ConstructorRejectsZeroLargeThreshold
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaDeathTest.ConstructorRejectsZeroLargeThreshold" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaDeathTest.ConstructorRejectsZeroLargeThreshold" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaDeathTest.ConstructorRejectsZeroLargeThreshold
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaDeathTest
+[ RUN      ] ArenaDeathTest.ConstructorRejectsZeroLargeThreshold
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+[       OK ] ArenaDeathTest.ConstructorRejectsZeroLargeThreshold (11 ms)
+[----------] 1 test from ArenaDeathTest (11 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (11 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaDeathTest.ConstructorRejectsZeroLargeThreshold" end time: May 08 07:19 Корейское время (зима)
+"ArenaDeathTest.ConstructorRejectsZeroLargeThreshold" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/71 Testing: ArenaDeathTest.AllocRejectsInvalidAlignment
+3/71 Test: ArenaDeathTest.AllocRejectsInvalidAlignment
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaDeathTest.AllocRejectsInvalidAlignment" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaDeathTest.AllocRejectsInvalidAlignment" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaDeathTest.AllocRejectsInvalidAlignment
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaDeathTest
+[ RUN      ] ArenaDeathTest.AllocRejectsInvalidAlignment
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+[       OK ] ArenaDeathTest.AllocRejectsInvalidAlignment (12 ms)
+[----------] 1 test from ArenaDeathTest (12 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (12 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaDeathTest.AllocRejectsInvalidAlignment" end time: May 08 07:19 Корейское время (зима)
+"ArenaDeathTest.AllocRejectsInvalidAlignment" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/71 Testing: ArenaTest.AllocReturnsNonNullForValidSmallAllocation
+4/71 Test: ArenaTest.AllocReturnsNonNullForValidSmallAllocation
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.AllocReturnsNonNullForValidSmallAllocation" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.AllocReturnsNonNullForValidSmallAllocation" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.AllocReturnsNonNullForValidSmallAllocation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.AllocReturnsNonNullForValidSmallAllocation
+[       OK ] ArenaTest.AllocReturnsNonNullForValidSmallAllocation (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.AllocReturnsNonNullForValidSmallAllocation" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.AllocReturnsNonNullForValidSmallAllocation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/71 Testing: ArenaTest.AllocZeroSizeReturnsNull
+5/71 Test: ArenaTest.AllocZeroSizeReturnsNull
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.AllocZeroSizeReturnsNull" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.AllocZeroSizeReturnsNull" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.AllocZeroSizeReturnsNull
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.AllocZeroSizeReturnsNull
+[       OK ] ArenaTest.AllocZeroSizeReturnsNull (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.AllocZeroSizeReturnsNull" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.AllocZeroSizeReturnsNull" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/71 Testing: ArenaTest.ReturnedPointerProperlyAligned
+6/71 Test: ArenaTest.ReturnedPointerProperlyAligned
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.ReturnedPointerProperlyAligned" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.ReturnedPointerProperlyAligned" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.ReturnedPointerProperlyAligned
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.ReturnedPointerProperlyAligned
+[       OK ] ArenaTest.ReturnedPointerProperlyAligned (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.ReturnedPointerProperlyAligned" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.ReturnedPointerProperlyAligned" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/71 Testing: ArenaTest.AllocatedMemoryIsWritable
+7/71 Test: ArenaTest.AllocatedMemoryIsWritable
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.AllocatedMemoryIsWritable" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.AllocatedMemoryIsWritable" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.AllocatedMemoryIsWritable
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.AllocatedMemoryIsWritable
+[       OK ] ArenaTest.AllocatedMemoryIsWritable (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.AllocatedMemoryIsWritable" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.AllocatedMemoryIsWritable" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/71 Testing: ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit
+8/71 Test: ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit
+[       OK ] ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/71 Testing: ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit
+9/71 Test: ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit
+[       OK ] ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/71 Testing: ArenaTest.LargeAllocationGoesToLargeList
+10/71 Test: ArenaTest.LargeAllocationGoesToLargeList
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.LargeAllocationGoesToLargeList" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.LargeAllocationGoesToLargeList" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.LargeAllocationGoesToLargeList
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.LargeAllocationGoesToLargeList
+[       OK ] ArenaTest.LargeAllocationGoesToLargeList (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.LargeAllocationGoesToLargeList" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.LargeAllocationGoesToLargeList" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/71 Testing: ArenaTest.AllocationBelowLargeThresholdUsesSmallPage
+11/71 Test: ArenaTest.AllocationBelowLargeThresholdUsesSmallPage
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.AllocationBelowLargeThresholdUsesSmallPage" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.AllocationBelowLargeThresholdUsesSmallPage" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.AllocationBelowLargeThresholdUsesSmallPage
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.AllocationBelowLargeThresholdUsesSmallPage
+[       OK ] ArenaTest.AllocationBelowLargeThresholdUsesSmallPage (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.AllocationBelowLargeThresholdUsesSmallPage" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.AllocationBelowLargeThresholdUsesSmallPage" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/71 Testing: ArenaTest.AllocationAtLargeThresholdUsesLargeList
+12/71 Test: ArenaTest.AllocationAtLargeThresholdUsesLargeList
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.AllocationAtLargeThresholdUsesLargeList" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.AllocationAtLargeThresholdUsesLargeList" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.AllocationAtLargeThresholdUsesLargeList
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.AllocationAtLargeThresholdUsesLargeList
+[       OK ] ArenaTest.AllocationAtLargeThresholdUsesLargeList (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.AllocationAtLargeThresholdUsesLargeList" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.AllocationAtLargeThresholdUsesLargeList" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/71 Testing: ArenaTest.CheckpointRollbackRestoresUsedBytes
+13/71 Test: ArenaTest.CheckpointRollbackRestoresUsedBytes
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.CheckpointRollbackRestoresUsedBytes" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.CheckpointRollbackRestoresUsedBytes" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.CheckpointRollbackRestoresUsedBytes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.CheckpointRollbackRestoresUsedBytes
+[       OK ] ArenaTest.CheckpointRollbackRestoresUsedBytes (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.CheckpointRollbackRestoresUsedBytes" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.CheckpointRollbackRestoresUsedBytes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/71 Testing: ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint
+14/71 Test: ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint
+[       OK ] ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/71 Testing: ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint
+15/71 Test: ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint
+[       OK ] ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/71 Testing: ArenaTest.RollbackAllowsMemoryReuse
+16/71 Test: ArenaTest.RollbackAllowsMemoryReuse
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.RollbackAllowsMemoryReuse" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.RollbackAllowsMemoryReuse" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.RollbackAllowsMemoryReuse
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.RollbackAllowsMemoryReuse
+[       OK ] ArenaTest.RollbackAllowsMemoryReuse (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.RollbackAllowsMemoryReuse" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.RollbackAllowsMemoryReuse" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/71 Testing: ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse
+17/71 Test: ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse
+[       OK ] ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/71 Testing: ArenaTest.ResetTrueReleasesEverything
+18/71 Test: ArenaTest.ResetTrueReleasesEverything
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.ResetTrueReleasesEverything" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.ResetTrueReleasesEverything" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.ResetTrueReleasesEverything
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.ResetTrueReleasesEverything
+[       OK ] ArenaTest.ResetTrueReleasesEverything (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.ResetTrueReleasesEverything" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.ResetTrueReleasesEverything" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/71 Testing: ArenaTest.ArenaCopyBytesCopiesData
+19/71 Test: ArenaTest.ArenaCopyBytesCopiesData
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.ArenaCopyBytesCopiesData" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.ArenaCopyBytesCopiesData" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.ArenaCopyBytesCopiesData
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.ArenaCopyBytesCopiesData
+[       OK ] ArenaTest.ArenaCopyBytesCopiesData (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.ArenaCopyBytesCopiesData" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.ArenaCopyBytesCopiesData" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/71 Testing: ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan
+20/71 Test: ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan
+[       OK ] ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/71 Testing: ArenaTest.EqualEntriesCompareEqual
+21/71 Test: ArenaTest.EqualEntriesCompareEqual
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.EqualEntriesCompareEqual" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.EqualEntriesCompareEqual" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.EqualEntriesCompareEqual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.EqualEntriesCompareEqual
+[       OK ] ArenaTest.EqualEntriesCompareEqual (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.EqualEntriesCompareEqual" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.EqualEntriesCompareEqual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/71 Testing: ArenaTest.AllocationOfDifferentAlignments
+22/71 Test: ArenaTest.AllocationOfDifferentAlignments
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.AllocationOfDifferentAlignments" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.AllocationOfDifferentAlignments" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.AllocationOfDifferentAlignments
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.AllocationOfDifferentAlignments
+[       OK ] ArenaTest.AllocationOfDifferentAlignments (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.AllocationOfDifferentAlignments" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.AllocationOfDifferentAlignments" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/71 Testing: ArenaTest.RandomAllocations
+23/71 Test: ArenaTest.RandomAllocations
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.RandomAllocations" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.RandomAllocations" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.RandomAllocations
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.RandomAllocations
+[       OK ] ArenaTest.RandomAllocations (54 ms)
+[----------] 1 test from ArenaTest (54 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (54 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.RandomAllocations" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.RandomAllocations" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/71 Testing: ArenaTest.ConstructTest
+24/71 Test: ArenaTest.ConstructTest
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.ConstructTest" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.ConstructTest" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.ConstructTest
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.ConstructTest
+[       OK ] ArenaTest.ConstructTest (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.ConstructTest" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.ConstructTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/71 Testing: ArenaTest.NewFollowedByRest
+25/71 Test: ArenaTest.NewFollowedByRest
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.NewFollowedByRest" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.NewFollowedByRest" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.NewFollowedByRest
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.NewFollowedByRest
+[       OK ] ArenaTest.NewFollowedByRest (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.NewFollowedByRest" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.NewFollowedByRest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/71 Testing: ArenaTest.OldAllocsStableAfterPageGrowth
+26/71 Test: ArenaTest.OldAllocsStableAfterPageGrowth
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaTest.OldAllocsStableAfterPageGrowth" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaTest.OldAllocsStableAfterPageGrowth" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaTest.OldAllocsStableAfterPageGrowth
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaTest
+[ RUN      ] ArenaTest.OldAllocsStableAfterPageGrowth
+[       OK ] ArenaTest.OldAllocsStableAfterPageGrowth (0 ms)
+[----------] 1 test from ArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaTest.OldAllocsStableAfterPageGrowth" end time: May 08 07:19 Корейское время (зима)
+"ArenaTest.OldAllocsStableAfterPageGrowth" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/71 Testing: ArenaEntryTest.LexicographicComparisonWorks
+27/71 Test: ArenaEntryTest.LexicographicComparisonWorks
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.LexicographicComparisonWorks" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.LexicographicComparisonWorks" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.LexicographicComparisonWorks
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.LexicographicComparisonWorks
+[       OK ] ArenaEntryTest.LexicographicComparisonWorks (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.LexicographicComparisonWorks" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.LexicographicComparisonWorks" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/71 Testing: ArenaEntryTest.ShorterPrefixIsSmaller
+28/71 Test: ArenaEntryTest.ShorterPrefixIsSmaller
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.ShorterPrefixIsSmaller" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.ShorterPrefixIsSmaller" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.ShorterPrefixIsSmaller
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.ShorterPrefixIsSmaller
+[       OK ] ArenaEntryTest.ShorterPrefixIsSmaller (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.ShorterPrefixIsSmaller" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.ShorterPrefixIsSmaller" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/71 Testing: ArenaEntryTest.BinaryDataComparisonWorks
+29/71 Test: ArenaEntryTest.BinaryDataComparisonWorks
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.BinaryDataComparisonWorks" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.BinaryDataComparisonWorks" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.BinaryDataComparisonWorks
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.BinaryDataComparisonWorks
+[       OK ] ArenaEntryTest.BinaryDataComparisonWorks (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.BinaryDataComparisonWorks" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.BinaryDataComparisonWorks" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/71 Testing: ArenaEntryTest.DefaultConstructorCreatesEmptyEntry
+30/71 Test: ArenaEntryTest.DefaultConstructorCreatesEmptyEntry
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.DefaultConstructorCreatesEmptyEntry" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.DefaultConstructorCreatesEmptyEntry" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.DefaultConstructorCreatesEmptyEntry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.DefaultConstructorCreatesEmptyEntry
+[       OK ] ArenaEntryTest.DefaultConstructorCreatesEmptyEntry (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.DefaultConstructorCreatesEmptyEntry" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.DefaultConstructorCreatesEmptyEntry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/71 Testing: ArenaEntryTest.ConstructorStoresPointerAndSize
+31/71 Test: ArenaEntryTest.ConstructorStoresPointerAndSize
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.ConstructorStoresPointerAndSize" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.ConstructorStoresPointerAndSize" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.ConstructorStoresPointerAndSize
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.ConstructorStoresPointerAndSize
+[       OK ] ArenaEntryTest.ConstructorStoresPointerAndSize (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.ConstructorStoresPointerAndSize" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.ConstructorStoresPointerAndSize" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/71 Testing: ArenaEntryTest.EmptyEntriesAreEqual
+32/71 Test: ArenaEntryTest.EmptyEntriesAreEqual
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.EmptyEntriesAreEqual" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.EmptyEntriesAreEqual" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.EmptyEntriesAreEqual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.EmptyEntriesAreEqual
+[       OK ] ArenaEntryTest.EmptyEntriesAreEqual (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.EmptyEntriesAreEqual" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.EmptyEntriesAreEqual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/71 Testing: ArenaEntryTest.EqualBytesAreEqual
+33/71 Test: ArenaEntryTest.EqualBytesAreEqual
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.EqualBytesAreEqual" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.EqualBytesAreEqual" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.EqualBytesAreEqual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.EqualBytesAreEqual
+[       OK ] ArenaEntryTest.EqualBytesAreEqual (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.EqualBytesAreEqual" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.EqualBytesAreEqual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/71 Testing: ArenaEntryTest.DifferentBytesAreNotEqual
+34/71 Test: ArenaEntryTest.DifferentBytesAreNotEqual
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.DifferentBytesAreNotEqual" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.DifferentBytesAreNotEqual" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.DifferentBytesAreNotEqual
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.DifferentBytesAreNotEqual
+[       OK ] ArenaEntryTest.DifferentBytesAreNotEqual (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.DifferentBytesAreNotEqual" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.DifferentBytesAreNotEqual" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/71 Testing: ArenaEntryTest.LexicographicLessWorks
+35/71 Test: ArenaEntryTest.LexicographicLessWorks
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.LexicographicLessWorks" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.LexicographicLessWorks" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.LexicographicLessWorks
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.LexicographicLessWorks
+[       OK ] ArenaEntryTest.LexicographicLessWorks (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.LexicographicLessWorks" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.LexicographicLessWorks" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/71 Testing: ArenaEntryTest.PrefixShorterStringIsLess
+36/71 Test: ArenaEntryTest.PrefixShorterStringIsLess
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.PrefixShorterStringIsLess" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.PrefixShorterStringIsLess" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.PrefixShorterStringIsLess
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.PrefixShorterStringIsLess
+[       OK ] ArenaEntryTest.PrefixShorterStringIsLess (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.PrefixShorterStringIsLess" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.PrefixShorterStringIsLess" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/71 Testing: ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry
+37/71 Test: ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry
+[       OK ] ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/71 Testing: ArenaEntryTest.MakeEntryCopiesStringDataIntoArena
+38/71 Test: ArenaEntryTest.MakeEntryCopiesStringDataIntoArena
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.MakeEntryCopiesStringDataIntoArena" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.MakeEntryCopiesStringDataIntoArena" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.MakeEntryCopiesStringDataIntoArena
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.MakeEntryCopiesStringDataIntoArena
+[       OK ] ArenaEntryTest.MakeEntryCopiesStringDataIntoArena (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.MakeEntryCopiesStringDataIntoArena" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.MakeEntryCopiesStringDataIntoArena" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/71 Testing: ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes
+39/71 Test: ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes
+[       OK ] ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+40/71 Testing: ArenaEntryTest.ArenaCopyBytesCopiesRawBytes
+40/71 Test: ArenaEntryTest.ArenaCopyBytesCopiesRawBytes
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.ArenaCopyBytesCopiesRawBytes" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.ArenaCopyBytesCopiesRawBytes" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.ArenaCopyBytesCopiesRawBytes
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.ArenaCopyBytesCopiesRawBytes
+[       OK ] ArenaEntryTest.ArenaCopyBytesCopiesRawBytes (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.ArenaCopyBytesCopiesRawBytes" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.ArenaCopyBytesCopiesRawBytes" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/71 Testing: ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry
+41/71 Test: ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry
+[       OK ] ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/71 Testing: ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource
+42/71 Test: ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource
+[       OK ] ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/71 Testing: ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource
+43/71 Test: ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource
+[       OK ] ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/71 Testing: ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry
+44/71 Test: ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry
+[       OK ] ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+45/71 Testing: ArenaEntryTest.CopyAssignmentIsShallowHandleCopy
+45/71 Test: ArenaEntryTest.CopyAssignmentIsShallowHandleCopy
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.CopyAssignmentIsShallowHandleCopy" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.CopyAssignmentIsShallowHandleCopy" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.CopyAssignmentIsShallowHandleCopy
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.CopyAssignmentIsShallowHandleCopy
+[       OK ] ArenaEntryTest.CopyAssignmentIsShallowHandleCopy (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.CopyAssignmentIsShallowHandleCopy" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.CopyAssignmentIsShallowHandleCopy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+46/71 Testing: ArenaEntryTest.SortsLexicographically
+46/71 Test: ArenaEntryTest.SortsLexicographically
+Command: "C:/Users/user/KVDB/build/Debug/arena_test.exe" "--gtest_filter=ArenaEntryTest.SortsLexicographically" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"ArenaEntryTest.SortsLexicographically" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = ArenaEntryTest.SortsLexicographically
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ArenaEntryTest
+[ RUN      ] ArenaEntryTest.SortsLexicographically
+[       OK ] ArenaEntryTest.SortsLexicographically (0 ms)
+[----------] 1 test from ArenaEntryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ArenaEntryTest.SortsLexicographically" end time: May 08 07:19 Корейское время (зима)
+"ArenaEntryTest.SortsLexicographically" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/71 Testing: RBTreeTest.EmptyTree
+47/71 Test: RBTreeTest.EmptyTree
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.EmptyTree" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.EmptyTree" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.EmptyTree
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.EmptyTree
+[       OK ] RBTreeTest.EmptyTree (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.EmptyTree" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.EmptyTree" time elapsed: 00:00:00
+----------------------------------------------------------
+
+48/71 Testing: RBTreeTest.OrderingWithManyEntries
+48/71 Test: RBTreeTest.OrderingWithManyEntries
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.OrderingWithManyEntries" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.OrderingWithManyEntries" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.OrderingWithManyEntries
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.OrderingWithManyEntries
+[       OK ] RBTreeTest.OrderingWithManyEntries (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.OrderingWithManyEntries" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.OrderingWithManyEntries" time elapsed: 00:00:00
+----------------------------------------------------------
+
+49/71 Testing: RBTreeTest.LatestSequenceWins
+49/71 Test: RBTreeTest.LatestSequenceWins
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.LatestSequenceWins" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.LatestSequenceWins" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.LatestSequenceWins
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.LatestSequenceWins
+[       OK ] RBTreeTest.LatestSequenceWins (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.LatestSequenceWins" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.LatestSequenceWins" time elapsed: 00:00:00
+----------------------------------------------------------
+
+50/71 Testing: RBTreeTest.RejectDuplicates
+50/71 Test: RBTreeTest.RejectDuplicates
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.RejectDuplicates" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.RejectDuplicates" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.RejectDuplicates
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.RejectDuplicates
+[       OK ] RBTreeTest.RejectDuplicates (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.RejectDuplicates" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.RejectDuplicates" time elapsed: 00:00:00
+----------------------------------------------------------
+
+51/71 Testing: RBTreeTest.TombstoneBeatsOlderPut
+51/71 Test: RBTreeTest.TombstoneBeatsOlderPut
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.TombstoneBeatsOlderPut" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.TombstoneBeatsOlderPut" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.TombstoneBeatsOlderPut
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.TombstoneBeatsOlderPut
+[       OK ] RBTreeTest.TombstoneBeatsOlderPut (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.TombstoneBeatsOlderPut" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.TombstoneBeatsOlderPut" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/71 Testing: RBTreeTest.InsertedKeyOutOfSequence
+52/71 Test: RBTreeTest.InsertedKeyOutOfSequence
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.InsertedKeyOutOfSequence" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.InsertedKeyOutOfSequence" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.InsertedKeyOutOfSequence
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.InsertedKeyOutOfSequence
+[       OK ] RBTreeTest.InsertedKeyOutOfSequence (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.InsertedKeyOutOfSequence" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.InsertedKeyOutOfSequence" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/71 Testing: RBTreeTest.InsertSameKey
+53/71 Test: RBTreeTest.InsertSameKey
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.InsertSameKey" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.InsertSameKey" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.InsertSameKey
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.InsertSameKey
+[       OK ] RBTreeTest.InsertSameKey (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.InsertSameKey" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.InsertSameKey" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/71 Testing: RBTreeTest.TreeInvariantsAfterManyWritesAscending
+54/71 Test: RBTreeTest.TreeInvariantsAfterManyWritesAscending
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.TreeInvariantsAfterManyWritesAscending" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.TreeInvariantsAfterManyWritesAscending" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.TreeInvariantsAfterManyWritesAscending
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.TreeInvariantsAfterManyWritesAscending
+[       OK ] RBTreeTest.TreeInvariantsAfterManyWritesAscending (11530 ms)
+[----------] 1 test from RBTreeTest (11530 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (11530 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =  11.54 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.TreeInvariantsAfterManyWritesAscending" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.TreeInvariantsAfterManyWritesAscending" time elapsed: 00:00:11
+----------------------------------------------------------
+
+55/71 Testing: RBTreeTest.TreeInvariantsAfterManyWritesDescending
+55/71 Test: RBTreeTest.TreeInvariantsAfterManyWritesDescending
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.TreeInvariantsAfterManyWritesDescending" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.TreeInvariantsAfterManyWritesDescending" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.TreeInvariantsAfterManyWritesDescending
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.TreeInvariantsAfterManyWritesDescending
+[       OK ] RBTreeTest.TreeInvariantsAfterManyWritesDescending (118 ms)
+[----------] 1 test from RBTreeTest (118 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (119 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.13 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.TreeInvariantsAfterManyWritesDescending" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.TreeInvariantsAfterManyWritesDescending" time elapsed: 00:00:00
+----------------------------------------------------------
+
+56/71 Testing: RBTreeTest.TreeRandomInsert
+56/71 Test: RBTreeTest.TreeRandomInsert
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.TreeRandomInsert" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.TreeRandomInsert" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.TreeRandomInsert
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.TreeRandomInsert
+[       OK ] RBTreeTest.TreeRandomInsert (11483 ms)
+[----------] 1 test from RBTreeTest (11483 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (11483 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =  11.49 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.TreeRandomInsert" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.TreeRandomInsert" time elapsed: 00:00:11
+----------------------------------------------------------
+
+57/71 Testing: RBTreeTest.ApproximateMemoryUsage
+57/71 Test: RBTreeTest.ApproximateMemoryUsage
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.ApproximateMemoryUsage" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.ApproximateMemoryUsage" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.ApproximateMemoryUsage
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.ApproximateMemoryUsage
+[       OK ] RBTreeTest.ApproximateMemoryUsage (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.ApproximateMemoryUsage" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.ApproximateMemoryUsage" time elapsed: 00:00:00
+----------------------------------------------------------
+
+58/71 Testing: RBTreeTest.UAndPAreRedBalancing
+58/71 Test: RBTreeTest.UAndPAreRedBalancing
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.UAndPAreRedBalancing" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.UAndPAreRedBalancing" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.UAndPAreRedBalancing
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.UAndPAreRedBalancing
+[       OK ] RBTreeTest.UAndPAreRedBalancing (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.UAndPAreRedBalancing" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.UAndPAreRedBalancing" time elapsed: 00:00:00
+----------------------------------------------------------
+
+59/71 Testing: RBTreeTest.LLBalancing
+59/71 Test: RBTreeTest.LLBalancing
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.LLBalancing" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.LLBalancing" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.LLBalancing
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.LLBalancing
+[       OK ] RBTreeTest.LLBalancing (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.LLBalancing" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.LLBalancing" time elapsed: 00:00:00
+----------------------------------------------------------
+
+60/71 Testing: RBTreeTest.RRBalancing
+60/71 Test: RBTreeTest.RRBalancing
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.RRBalancing" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.RRBalancing" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.RRBalancing
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.RRBalancing
+[       OK ] RBTreeTest.RRBalancing (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.RRBalancing" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.RRBalancing" time elapsed: 00:00:00
+----------------------------------------------------------
+
+61/71 Testing: RBTreeTest.LRBalancing
+61/71 Test: RBTreeTest.LRBalancing
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.LRBalancing" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.LRBalancing" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.LRBalancing
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.LRBalancing
+[       OK ] RBTreeTest.LRBalancing (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.LRBalancing" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.LRBalancing" time elapsed: 00:00:00
+----------------------------------------------------------
+
+62/71 Testing: RBTreeTest.RLBalancing
+62/71 Test: RBTreeTest.RLBalancing
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.RLBalancing" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.RLBalancing" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.RLBalancing
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.RLBalancing
+[       OK ] RBTreeTest.RLBalancing (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.RLBalancing" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.RLBalancing" time elapsed: 00:00:00
+----------------------------------------------------------
+
+63/71 Testing: RBTreeTest.ParentPointerCorrectness
+63/71 Test: RBTreeTest.ParentPointerCorrectness
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.ParentPointerCorrectness" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.ParentPointerCorrectness" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.ParentPointerCorrectness
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.ParentPointerCorrectness
+[       OK ] RBTreeTest.ParentPointerCorrectness (6 ms)
+[----------] 1 test from RBTreeTest (6 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (6 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.ParentPointerCorrectness" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.ParentPointerCorrectness" time elapsed: 00:00:00
+----------------------------------------------------------
+
+64/71 Testing: RBTreeTest.IteratorCorrectness
+64/71 Test: RBTreeTest.IteratorCorrectness
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.IteratorCorrectness" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.IteratorCorrectness" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.IteratorCorrectness
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.IteratorCorrectness
+[       OK ] RBTreeTest.IteratorCorrectness (7 ms)
+[----------] 1 test from RBTreeTest (7 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (7 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.IteratorCorrectness" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.IteratorCorrectness" time elapsed: 00:00:00
+----------------------------------------------------------
+
+65/71 Testing: RBTreeTest.SupportsSmallBinaryKeys
+65/71 Test: RBTreeTest.SupportsSmallBinaryKeys
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.SupportsSmallBinaryKeys" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.SupportsSmallBinaryKeys" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.SupportsSmallBinaryKeys
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.SupportsSmallBinaryKeys
+[       OK ] RBTreeTest.SupportsSmallBinaryKeys (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.SupportsSmallBinaryKeys" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.SupportsSmallBinaryKeys" time elapsed: 00:00:00
+----------------------------------------------------------
+
+66/71 Testing: RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq
+66/71 Test: RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq
+[       OK ] RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq" time elapsed: 00:00:00
+----------------------------------------------------------
+
+67/71 Testing: RBTreeTest.DuplicateBehavior
+67/71 Test: RBTreeTest.DuplicateBehavior
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTest.DuplicateBehavior" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTest.DuplicateBehavior" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTest.DuplicateBehavior
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTest
+[ RUN      ] RBTreeTest.DuplicateBehavior
+[       OK ] RBTreeTest.DuplicateBehavior (0 ms)
+[----------] 1 test from RBTreeTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTest.DuplicateBehavior" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTest.DuplicateBehavior" time elapsed: 00:00:00
+----------------------------------------------------------
+
+68/71 Testing: RBTreeTests.SingleEntry
+68/71 Test: RBTreeTests.SingleEntry
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeTests.SingleEntry" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeTests.SingleEntry" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeTests.SingleEntry
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeTests
+[ RUN      ] RBTreeTests.SingleEntry
+[       OK ] RBTreeTests.SingleEntry (0 ms)
+[----------] 1 test from RBTreeTests (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeTests.SingleEntry" end time: May 08 07:19 Корейское время (зима)
+"RBTreeTests.SingleEntry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+69/71 Testing: RBTreeArenaTest.ArenaLifetime
+69/71 Test: RBTreeArenaTest.ArenaLifetime
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeArenaTest.ArenaLifetime" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeArenaTest.ArenaLifetime" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeArenaTest.ArenaLifetime
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeArenaTest
+[ RUN      ] RBTreeArenaTest.ArenaLifetime
+[       OK ] RBTreeArenaTest.ArenaLifetime (0 ms)
+[----------] 1 test from RBTreeArenaTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeArenaTest.ArenaLifetime" end time: May 08 07:19 Корейское время (зима)
+"RBTreeArenaTest.ArenaLifetime" time elapsed: 00:00:00
+----------------------------------------------------------
+
+70/71 Testing: RBTreeArenaTest.ManyWritesArenaStability
+70/71 Test: RBTreeArenaTest.ManyWritesArenaStability
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeArenaTest.ManyWritesArenaStability" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeArenaTest.ManyWritesArenaStability" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeArenaTest.ManyWritesArenaStability
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeArenaTest
+[ RUN      ] RBTreeArenaTest.ManyWritesArenaStability
+[       OK ] RBTreeArenaTest.ManyWritesArenaStability (8 ms)
+[----------] 1 test from RBTreeArenaTest (8 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (8 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeArenaTest.ManyWritesArenaStability" end time: May 08 07:19 Корейское время (зима)
+"RBTreeArenaTest.ManyWritesArenaStability" time elapsed: 00:00:00
+----------------------------------------------------------
+
+71/71 Testing: RBTreeStressTest.LongKeyOrValueInsertionBehavior
+71/71 Test: RBTreeStressTest.LongKeyOrValueInsertionBehavior
+Command: "C:/Users/user/KVDB/build/Debug/red_black_tree_test.exe" "--gtest_filter=RBTreeStressTest.LongKeyOrValueInsertionBehavior" "--gtest_also_run_disabled_tests"
+Directory: C:/Users/user/KVDB/build
+"RBTreeStressTest.LongKeyOrValueInsertionBehavior" start time: May 08 07:19 Корейское время (зима)
+Output:
+----------------------------------------------------------
+Running main() from C:\Users\user\KVDB\build\_deps\googletest-src\googletest\src\gtest_main.cc
+Note: Google Test filter = RBTreeStressTest.LongKeyOrValueInsertionBehavior
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RBTreeStressTest
+[ RUN      ] RBTreeStressTest.LongKeyOrValueInsertionBehavior
+[       OK ] RBTreeStressTest.LongKeyOrValueInsertionBehavior (828 ms)
+[----------] 1 test from RBTreeStressTest (828 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (828 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.84 sec
+----------------------------------------------------------
+Test Passed.
+"RBTreeStressTest.LongKeyOrValueInsertionBehavior" end time: May 08 07:19 Корейское время (зима)
+"RBTreeStressTest.LongKeyOrValueInsertionBehavior" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: May 08 07:19 Корейское время (зима)
