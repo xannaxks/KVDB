@@ -1,147 +1,181 @@
 Test project C:/Users/user/KVDB/build
       Start  1: ArenaDeathTest.ConstructorRejectsZeroPageSize
- 1/71 Test  #1: ArenaDeathTest.ConstructorRejectsZeroPageSize .........................   Passed    0.02 sec
+ 1/88 Test  #1: ArenaDeathTest.ConstructorRejectsZeroPageSize .........................   Passed    0.03 sec
       Start  2: ArenaDeathTest.ConstructorRejectsZeroLargeThreshold
- 2/71 Test  #2: ArenaDeathTest.ConstructorRejectsZeroLargeThreshold ...................   Passed    0.02 sec
+ 2/88 Test  #2: ArenaDeathTest.ConstructorRejectsZeroLargeThreshold ...................   Passed    0.02 sec
       Start  3: ArenaDeathTest.AllocRejectsInvalidAlignment
- 3/71 Test  #3: ArenaDeathTest.AllocRejectsInvalidAlignment ...........................   Passed    0.02 sec
+ 3/88 Test  #3: ArenaDeathTest.AllocRejectsInvalidAlignment ...........................   Passed    0.03 sec
       Start  4: ArenaTest.AllocReturnsNonNullForValidSmallAllocation
- 4/71 Test  #4: ArenaTest.AllocReturnsNonNullForValidSmallAllocation ..................   Passed    0.01 sec
+ 4/88 Test  #4: ArenaTest.AllocReturnsNonNullForValidSmallAllocation ..................   Passed    0.01 sec
       Start  5: ArenaTest.AllocZeroSizeReturnsNull
- 5/71 Test  #5: ArenaTest.AllocZeroSizeReturnsNull ....................................   Passed    0.01 sec
+ 5/88 Test  #5: ArenaTest.AllocZeroSizeReturnsNull ....................................   Passed    0.01 sec
       Start  6: ArenaTest.ReturnedPointerProperlyAligned
- 6/71 Test  #6: ArenaTest.ReturnedPointerProperlyAligned ..............................   Passed    0.01 sec
+ 6/88 Test  #6: ArenaTest.ReturnedPointerProperlyAligned ..............................   Passed    0.01 sec
       Start  7: ArenaTest.AllocatedMemoryIsWritable
- 7/71 Test  #7: ArenaTest.AllocatedMemoryIsWritable ...................................   Passed    0.01 sec
+ 7/88 Test  #7: ArenaTest.AllocatedMemoryIsWritable ...................................   Passed    0.01 sec
       Start  8: ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit
- 8/71 Test  #8: ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit ..............   Passed    0.01 sec
+ 8/88 Test  #8: ArenaTest.MultipleSmallAllocationsUseSamePageWhenTheyFit ..............   Passed    0.01 sec
       Start  9: ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit
- 9/71 Test  #9: ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit .....................   Passed    0.01 sec
+ 9/88 Test  #9: ArenaTest.CreatesNewPageWhenCurrentPageDoesNotFit .....................   Passed    0.01 sec
       Start 10: ArenaTest.LargeAllocationGoesToLargeList
-10/71 Test #10: ArenaTest.LargeAllocationGoesToLargeList ..............................   Passed    0.01 sec
+10/88 Test #10: ArenaTest.LargeAllocationGoesToLargeList ..............................   Passed    0.01 sec
       Start 11: ArenaTest.AllocationBelowLargeThresholdUsesSmallPage
-11/71 Test #11: ArenaTest.AllocationBelowLargeThresholdUsesSmallPage ..................   Passed    0.01 sec
+11/88 Test #11: ArenaTest.AllocationBelowLargeThresholdUsesSmallPage ..................   Passed    0.01 sec
       Start 12: ArenaTest.AllocationAtLargeThresholdUsesLargeList
-12/71 Test #12: ArenaTest.AllocationAtLargeThresholdUsesLargeList .....................   Passed    0.01 sec
+12/88 Test #12: ArenaTest.AllocationAtLargeThresholdUsesLargeList .....................   Passed    0.01 sec
       Start 13: ArenaTest.CheckpointRollbackRestoresUsedBytes
-13/71 Test #13: ArenaTest.CheckpointRollbackRestoresUsedBytes .........................   Passed    0.01 sec
+13/88 Test #13: ArenaTest.CheckpointRollbackRestoresUsedBytes .........................   Passed    0.01 sec
       Start 14: ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint
-14/71 Test #14: ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint ................   Passed    0.01 sec
+14/88 Test #14: ArenaTest.RollbackRemovesPagesAllocatedAfterCheckpoint ................   Passed    0.01 sec
       Start 15: ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint
-15/71 Test #15: ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint ..............   Passed    0.01 sec
+15/88 Test #15: ArenaTest.RollbackRemovesLargeAllocationsAfterCheckpoint ..............   Passed    0.01 sec
       Start 16: ArenaTest.RollbackAllowsMemoryReuse
-16/71 Test #16: ArenaTest.RollbackAllowsMemoryReuse ...................................   Passed    0.01 sec
+16/88 Test #16: ArenaTest.RollbackAllowsMemoryReuse ...................................   Passed    0.01 sec
       Start 17: ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse
-17/71 Test #17: ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse .............   Passed    0.01 sec
+17/88 Test #17: ArenaTest.ResetFalseKeepsFirstPageButClearsEverythingElse .............   Passed    0.01 sec
       Start 18: ArenaTest.ResetTrueReleasesEverything
-18/71 Test #18: ArenaTest.ResetTrueReleasesEverything .................................   Passed    0.01 sec
+18/88 Test #18: ArenaTest.ResetTrueReleasesEverything .................................   Passed    0.01 sec
       Start 19: ArenaTest.ArenaCopyBytesCopiesData
-19/71 Test #19: ArenaTest.ArenaCopyBytesCopiesData ....................................   Passed    0.01 sec
+19/88 Test #19: ArenaTest.ArenaCopyBytesCopiesData ....................................   Passed    0.01 sec
       Start 20: ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan
-20/71 Test #20: ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan .......................   Passed    0.01 sec
+20/88 Test #20: ArenaTest.ArenaCopyBytesZeroSizeReturnsNullSpan .......................   Passed    0.01 sec
       Start 21: ArenaTest.EqualEntriesCompareEqual
-21/71 Test #21: ArenaTest.EqualEntriesCompareEqual ....................................   Passed    0.01 sec
+21/88 Test #21: ArenaTest.EqualEntriesCompareEqual ....................................   Passed    0.01 sec
       Start 22: ArenaTest.AllocationOfDifferentAlignments
-22/71 Test #22: ArenaTest.AllocationOfDifferentAlignments .............................   Passed    0.01 sec
+22/88 Test #22: ArenaTest.AllocationOfDifferentAlignments .............................   Passed    0.01 sec
       Start 23: ArenaTest.RandomAllocations
-23/71 Test #23: ArenaTest.RandomAllocations ...........................................   Passed    0.07 sec
+23/88 Test #23: ArenaTest.RandomAllocations ...........................................   Passed    0.06 sec
       Start 24: ArenaTest.ConstructTest
-24/71 Test #24: ArenaTest.ConstructTest ...............................................   Passed    0.01 sec
+24/88 Test #24: ArenaTest.ConstructTest ...............................................   Passed    0.01 sec
       Start 25: ArenaTest.NewFollowedByRest
-25/71 Test #25: ArenaTest.NewFollowedByRest ...........................................   Passed    0.01 sec
+25/88 Test #25: ArenaTest.NewFollowedByRest ...........................................   Passed    0.01 sec
       Start 26: ArenaTest.OldAllocsStableAfterPageGrowth
-26/71 Test #26: ArenaTest.OldAllocsStableAfterPageGrowth ..............................   Passed    0.01 sec
+26/88 Test #26: ArenaTest.OldAllocsStableAfterPageGrowth ..............................   Passed    0.01 sec
       Start 27: ArenaEntryTest.LexicographicComparisonWorks
-27/71 Test #27: ArenaEntryTest.LexicographicComparisonWorks ...........................   Passed    0.01 sec
+27/88 Test #27: ArenaEntryTest.LexicographicComparisonWorks ...........................   Passed    0.01 sec
       Start 28: ArenaEntryTest.ShorterPrefixIsSmaller
-28/71 Test #28: ArenaEntryTest.ShorterPrefixIsSmaller .................................   Passed    0.01 sec
+28/88 Test #28: ArenaEntryTest.ShorterPrefixIsSmaller .................................   Passed    0.01 sec
       Start 29: ArenaEntryTest.BinaryDataComparisonWorks
-29/71 Test #29: ArenaEntryTest.BinaryDataComparisonWorks ..............................   Passed    0.01 sec
+29/88 Test #29: ArenaEntryTest.BinaryDataComparisonWorks ..............................   Passed    0.01 sec
       Start 30: ArenaEntryTest.DefaultConstructorCreatesEmptyEntry
-30/71 Test #30: ArenaEntryTest.DefaultConstructorCreatesEmptyEntry ....................   Passed    0.01 sec
+30/88 Test #30: ArenaEntryTest.DefaultConstructorCreatesEmptyEntry ....................   Passed    0.01 sec
       Start 31: ArenaEntryTest.ConstructorStoresPointerAndSize
-31/71 Test #31: ArenaEntryTest.ConstructorStoresPointerAndSize ........................   Passed    0.01 sec
+31/88 Test #31: ArenaEntryTest.ConstructorStoresPointerAndSize ........................   Passed    0.01 sec
       Start 32: ArenaEntryTest.EmptyEntriesAreEqual
-32/71 Test #32: ArenaEntryTest.EmptyEntriesAreEqual ...................................   Passed    0.01 sec
+32/88 Test #32: ArenaEntryTest.EmptyEntriesAreEqual ...................................   Passed    0.01 sec
       Start 33: ArenaEntryTest.EqualBytesAreEqual
-33/71 Test #33: ArenaEntryTest.EqualBytesAreEqual .....................................   Passed    0.01 sec
+33/88 Test #33: ArenaEntryTest.EqualBytesAreEqual .....................................   Passed    0.01 sec
       Start 34: ArenaEntryTest.DifferentBytesAreNotEqual
-34/71 Test #34: ArenaEntryTest.DifferentBytesAreNotEqual ..............................   Passed    0.01 sec
+34/88 Test #34: ArenaEntryTest.DifferentBytesAreNotEqual ..............................   Passed    0.01 sec
       Start 35: ArenaEntryTest.LexicographicLessWorks
-35/71 Test #35: ArenaEntryTest.LexicographicLessWorks .................................   Passed    0.01 sec
+35/88 Test #35: ArenaEntryTest.LexicographicLessWorks .................................   Passed    0.01 sec
       Start 36: ArenaEntryTest.PrefixShorterStringIsLess
-36/71 Test #36: ArenaEntryTest.PrefixShorterStringIsLess ..............................   Passed    0.01 sec
+36/88 Test #36: ArenaEntryTest.PrefixShorterStringIsLess ..............................   Passed    0.01 sec
       Start 37: ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry
-37/71 Test #37: ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry ......................   Passed    0.01 sec
+37/88 Test #37: ArenaEntryTest.EmptyEntryIsLessThanNonEmptyEntry ......................   Passed    0.01 sec
       Start 38: ArenaEntryTest.MakeEntryCopiesStringDataIntoArena
-38/71 Test #38: ArenaEntryTest.MakeEntryCopiesStringDataIntoArena .....................   Passed    0.01 sec
+38/88 Test #38: ArenaEntryTest.MakeEntryCopiesStringDataIntoArena .....................   Passed    0.01 sec
       Start 39: ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes
-39/71 Test #39: ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes .....................   Passed    0.01 sec
+39/88 Test #39: ArenaEntryTest.MakeEntrySupportsEmbeddedNullBytes .....................   Passed    0.01 sec
       Start 40: ArenaEntryTest.ArenaCopyBytesCopiesRawBytes
-40/71 Test #40: ArenaEntryTest.ArenaCopyBytesCopiesRawBytes ...........................   Passed    0.01 sec
+40/88 Test #40: ArenaEntryTest.ArenaCopyBytesCopiesRawBytes ...........................   Passed    0.01 sec
       Start 41: ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry
-41/71 Test #41: ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry ............   Passed    0.01 sec
+41/88 Test #41: ArenaEntryTest.ArenaCopyBytesWithZeroSizeReturnsEmptyEntry ............   Passed    0.01 sec
       Start 42: ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource
-42/71 Test #42: ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource .........   Passed    0.01 sec
+42/88 Test #42: ArenaEntryTest.MoveConstructorTransfersPointerAndClearsSource .........   Passed    0.01 sec
       Start 43: ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource
-43/71 Test #43: ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource ..........   Passed    0.01 sec
+43/88 Test #43: ArenaEntryTest.MoveAssignmentTransfersPointerAndClearsSource ..........   Passed    0.01 sec
       Start 44: ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry
-44/71 Test #44: ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry ..................   Passed    0.01 sec
+44/88 Test #44: ArenaEntryTest.SelfMoveAssignmentDoesNotDestroyEntry ..................   Passed    0.01 sec
       Start 45: ArenaEntryTest.CopyAssignmentIsShallowHandleCopy
-45/71 Test #45: ArenaEntryTest.CopyAssignmentIsShallowHandleCopy ......................   Passed    0.01 sec
+45/88 Test #45: ArenaEntryTest.CopyAssignmentIsShallowHandleCopy ......................   Passed    0.01 sec
       Start 46: ArenaEntryTest.SortsLexicographically
-46/71 Test #46: ArenaEntryTest.SortsLexicographically .................................   Passed    0.01 sec
+46/88 Test #46: ArenaEntryTest.SortsLexicographically .................................   Passed    0.01 sec
       Start 47: RBTreeTest.EmptyTree
-47/71 Test #47: RBTreeTest.EmptyTree ..................................................   Passed    0.01 sec
+47/88 Test #47: RBTreeTest.EmptyTree ..................................................   Passed    0.01 sec
       Start 48: RBTreeTest.OrderingWithManyEntries
-48/71 Test #48: RBTreeTest.OrderingWithManyEntries ....................................   Passed    0.01 sec
+48/88 Test #48: RBTreeTest.OrderingWithManyEntries ....................................   Passed    0.01 sec
       Start 49: RBTreeTest.LatestSequenceWins
-49/71 Test #49: RBTreeTest.LatestSequenceWins .........................................   Passed    0.01 sec
+49/88 Test #49: RBTreeTest.LatestSequenceWins .........................................   Passed    0.01 sec
       Start 50: RBTreeTest.RejectDuplicates
-50/71 Test #50: RBTreeTest.RejectDuplicates ...........................................   Passed    0.01 sec
+50/88 Test #50: RBTreeTest.RejectDuplicates ...........................................   Passed    0.01 sec
       Start 51: RBTreeTest.TombstoneBeatsOlderPut
-51/71 Test #51: RBTreeTest.TombstoneBeatsOlderPut .....................................   Passed    0.01 sec
+51/88 Test #51: RBTreeTest.TombstoneBeatsOlderPut .....................................   Passed    0.01 sec
       Start 52: RBTreeTest.InsertedKeyOutOfSequence
-52/71 Test #52: RBTreeTest.InsertedKeyOutOfSequence ...................................   Passed    0.01 sec
+52/88 Test #52: RBTreeTest.InsertedKeyOutOfSequence ...................................   Passed    0.01 sec
       Start 53: RBTreeTest.InsertSameKey
-53/71 Test #53: RBTreeTest.InsertSameKey ..............................................   Passed    0.01 sec
+53/88 Test #53: RBTreeTest.InsertSameKey ..............................................   Passed    0.01 sec
       Start 54: RBTreeTest.TreeInvariantsAfterManyWritesAscending
-54/71 Test #54: RBTreeTest.TreeInvariantsAfterManyWritesAscending .....................   Passed   11.54 sec
+54/88 Test #54: RBTreeTest.TreeInvariantsAfterManyWritesAscending .....................   Passed   11.62 sec
       Start 55: RBTreeTest.TreeInvariantsAfterManyWritesDescending
-55/71 Test #55: RBTreeTest.TreeInvariantsAfterManyWritesDescending ....................   Passed    0.13 sec
+55/88 Test #55: RBTreeTest.TreeInvariantsAfterManyWritesDescending ....................   Passed    0.13 sec
       Start 56: RBTreeTest.TreeRandomInsert
-56/71 Test #56: RBTreeTest.TreeRandomInsert ...........................................   Passed   11.49 sec
+56/88 Test #56: RBTreeTest.TreeRandomInsert ...........................................   Passed   11.65 sec
       Start 57: RBTreeTest.ApproximateMemoryUsage
-57/71 Test #57: RBTreeTest.ApproximateMemoryUsage .....................................   Passed    0.01 sec
+57/88 Test #57: RBTreeTest.ApproximateMemoryUsage .....................................   Passed    0.01 sec
       Start 58: RBTreeTest.UAndPAreRedBalancing
-58/71 Test #58: RBTreeTest.UAndPAreRedBalancing .......................................   Passed    0.01 sec
+58/88 Test #58: RBTreeTest.UAndPAreRedBalancing .......................................   Passed    0.01 sec
       Start 59: RBTreeTest.LLBalancing
-59/71 Test #59: RBTreeTest.LLBalancing ................................................   Passed    0.01 sec
+59/88 Test #59: RBTreeTest.LLBalancing ................................................   Passed    0.01 sec
       Start 60: RBTreeTest.RRBalancing
-60/71 Test #60: RBTreeTest.RRBalancing ................................................   Passed    0.01 sec
+60/88 Test #60: RBTreeTest.RRBalancing ................................................   Passed    0.01 sec
       Start 61: RBTreeTest.LRBalancing
-61/71 Test #61: RBTreeTest.LRBalancing ................................................   Passed    0.01 sec
+61/88 Test #61: RBTreeTest.LRBalancing ................................................   Passed    0.01 sec
       Start 62: RBTreeTest.RLBalancing
-62/71 Test #62: RBTreeTest.RLBalancing ................................................   Passed    0.01 sec
+62/88 Test #62: RBTreeTest.RLBalancing ................................................   Passed    0.01 sec
       Start 63: RBTreeTest.ParentPointerCorrectness
-63/71 Test #63: RBTreeTest.ParentPointerCorrectness ...................................   Passed    0.02 sec
+63/88 Test #63: RBTreeTest.ParentPointerCorrectness ...................................   Passed    0.02 sec
       Start 64: RBTreeTest.IteratorCorrectness
-64/71 Test #64: RBTreeTest.IteratorCorrectness ........................................   Passed    0.02 sec
+64/88 Test #64: RBTreeTest.IteratorCorrectness ........................................   Passed    0.02 sec
       Start 65: RBTreeTest.SupportsSmallBinaryKeys
-65/71 Test #65: RBTreeTest.SupportsSmallBinaryKeys ....................................   Passed    0.01 sec
+65/88 Test #65: RBTreeTest.SupportsSmallBinaryKeys ....................................   Passed    0.01 sec
       Start 66: RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq
-66/71 Test #66: RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq ...   Passed    0.01 sec
+66/88 Test #66: RBTreeTest.AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq ...   Passed    0.01 sec
       Start 67: RBTreeTest.DuplicateBehavior
-67/71 Test #67: RBTreeTest.DuplicateBehavior ..........................................   Passed    0.01 sec
+67/88 Test #67: RBTreeTest.DuplicateBehavior ..........................................   Passed    0.01 sec
       Start 68: RBTreeTests.SingleEntry
-68/71 Test #68: RBTreeTests.SingleEntry ...............................................   Passed    0.01 sec
+68/88 Test #68: RBTreeTests.SingleEntry ...............................................   Passed    0.01 sec
       Start 69: RBTreeArenaTest.ArenaLifetime
-69/71 Test #69: RBTreeArenaTest.ArenaLifetime .........................................   Passed    0.01 sec
+69/88 Test #69: RBTreeArenaTest.ArenaLifetime .........................................   Passed    0.01 sec
       Start 70: RBTreeArenaTest.ManyWritesArenaStability
-70/71 Test #70: RBTreeArenaTest.ManyWritesArenaStability ..............................   Passed    0.02 sec
+70/88 Test #70: RBTreeArenaTest.ManyWritesArenaStability ..............................   Passed    0.02 sec
       Start 71: RBTreeStressTest.LongKeyOrValueInsertionBehavior
-71/71 Test #71: RBTreeStressTest.LongKeyOrValueInsertionBehavior ......................   Passed    0.84 sec
+71/88 Test #71: RBTreeStressTest.LongKeyOrValueInsertionBehavior ......................   Passed    0.79 sec
+      Start 72: EndianIOTest.PutU8WritesExpectedByte
+72/88 Test #72: EndianIOTest.PutU8WritesExpectedByte ..................................   Passed    0.01 sec
+      Start 73: EndianIOTest.PutU16LEWritesExpectedBytes
+73/88 Test #73: EndianIOTest.PutU16LEWritesExpectedBytes ..............................   Passed    0.01 sec
+      Start 74: EndianIOTest.PutU32LEWritesExpectedBytes
+74/88 Test #74: EndianIOTest.PutU32LEWritesExpectedBytes ..............................   Passed    0.01 sec
+      Start 75: EndianIOTest.PutU64LEWritesExpectedBytes
+75/88 Test #75: EndianIOTest.PutU64LEWritesExpectedBytes ..............................   Passed    0.01 sec
+      Start 76: EndianIOTest.ReaderRoundTripsIntegersAndSizedBytes
+76/88 Test #76: EndianIOTest.ReaderRoundTripsIntegersAndSizedBytes ....................   Passed    0.01 sec
+      Start 77: EndianIOTest.PutBytesWithU32SizeWritesSizeThenBytes
+77/88 Test #77: EndianIOTest.PutBytesWithU32SizeWritesSizeThenBytes ...................   Passed    0.01 sec
+      Start 78: EndianIOTest.ReaderReturnsNulloptWhenU32IsTruncated
+78/88 Test #78: EndianIOTest.ReaderReturnsNulloptWhenU32IsTruncated ...................   Passed    0.02 sec
+      Start 79: EndianIOTest.ReaderReturnsNulloptWhenSizedBytesAreTruncated
+79/88 Test #79: EndianIOTest.ReaderReturnsNulloptWhenSizedBytesAreTruncated ...........   Passed    0.01 sec
+      Start 80: EndianIOTest.ReaderHandlesEmptySizedBytes
+80/88 Test #80: EndianIOTest.ReaderHandlesEmptySizedBytes .............................   Passed    0.01 sec
+      Start 81: EndianIOTest.FileRoundTripsU32
+81/88 Test #81: EndianIOTest.FileRoundTripsU32 ........................................   Passed    0.01 sec
+      Start 82: InternalRecordIOTest.RoundTripsMultipleRecords
+82/88 Test #82: InternalRecordIOTest.RoundTripsMultipleRecords ........................   Passed    0.01 sec
+      Start 83: InternalRecordIOTest.RoundTripsPutRecord
+83/88 Test #83: InternalRecordIOTest.RoundTripsPutRecord ..............................   Passed    0.02 sec
+      Start 84: InternalRecordIOTest.RoundTripsTombstoneRecord
+84/88 Test #84: InternalRecordIOTest.RoundTripsTombstoneRecord ........................   Passed    0.02 sec
+      Start 85: InternalRecordIOTest.RoundTripsEmptyKeyAndValue
+85/88 Test #85: InternalRecordIOTest.RoundTripsEmptyKeyAndValue .......................   Passed    0.01 sec
+      Start 86: InternalRecordIOTest.RoundTripsBinaryKeyAndValue
+86/88 Test #86: InternalRecordIOTest.RoundTripsBinaryKeyAndValue ......................   Passed    0.02 sec
+      Start 87: InternalRecordIOTest.ReadRejectsInvalidType
+87/88 Test #87: InternalRecordIOTest.ReadRejectsInvalidType ...........................   Passed    0.01 sec
+      Start 88: InternalRecordIOTest.ReadReturnsNulloptWhenValueIsMissing
+88/88 Test #88: InternalRecordIOTest.ReadReturnsNulloptWhenValueIsMissing .............   Passed    0.01 sec
 
-[0;32m100% tests passed[0;0m, 0 tests failed[0;0m out of 71
+[0;32m100% tests passed[0;0m, 0 tests failed[0;0m out of 88
 
-Total Test time (real) =  25.00 sec
+Total Test time (real) =  25.47 sec

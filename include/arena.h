@@ -8,6 +8,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cstring>
+#include <span>
 #include <limits>
 #include <cassert>
 
@@ -35,6 +36,7 @@ struct ArenaEntry
 	bool operator>(const ArenaEntry& other) const;
 	bool operator==(const ArenaEntry& other) const;
 
+	static ArenaEntry make_entry(Arena& arena, const std::span<const std::byte> str);
 	static ArenaEntry make_entry(Arena& arena, const std::string& str);
 };
 

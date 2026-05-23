@@ -1,4 +1,17 @@
 #include "arena.h"
+#include <span>
+
+ArenaEntry ArenaEntry::make_entry(Arena& arena, const std::span<const std::byte> str)
+{
+	if (str.size() > std::numeric_limits<std::uint32_t>::max())
+		std::terminate();
+
+	return arena_copy_bytes(
+		arena,
+		str.data(),
+		static_cast<std::uint32_t>(str.size())
+	);
+}
 
 ArenaEntry ArenaEntry::make_entry(Arena& arena, const std::string& str)
 {
@@ -7,7 +20,7 @@ ArenaEntry ArenaEntry::make_entry(Arena& arena, const std::string& str)
 
 	return arena_copy_bytes(
 		arena,
-		str.data(),
+		reinterpret_cast<const std::byte*>(str.data()),
 		static_cast<std::uint32_t>(str.size())
 	);
 }

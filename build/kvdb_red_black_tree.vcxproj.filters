@@ -4,9 +4,6 @@
     <ClCompile Include="C:\Users\user\KVDB\src\red_black_tree.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\user\KVDB\src\record.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\user\KVDB\CMakeLists.txt" />

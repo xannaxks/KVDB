@@ -1,0 +1,5 @@
+if(EXISTS "C:/Users/user/KVDB/out/build/x64-Debug/kvdb_red_black_tree_test[1]_tests.cmake")
+  include("C:/Users/user/KVDB/out/build/x64-Debug/kvdb_red_black_tree_test[1]_tests.cmake")
+else()
+  add_test(kvdb_red_black_tree_test_NOT_BUILT kvdb_red_black_tree_test_NOT_BUILT)
+endif()

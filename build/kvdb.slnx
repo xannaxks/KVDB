@@ -9,14 +9,25 @@
 	</Configurations>
 	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="40cba425-3dc8-3da0-ada0-34c13a6bff93" DefaultStartup="true">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
-		<BuildDependency Project="arena_test.vcxproj"/>
 		<BuildDependency Project="_deps/googletest-build/googlemock/gmock.vcxproj"/>
 		<BuildDependency Project="_deps/googletest-build/googlemock/gmock_main.vcxproj"/>
 		<BuildDependency Project="_deps/googletest-build/googletest/gtest.vcxproj"/>
 		<BuildDependency Project="_deps/googletest-build/googletest/gtest_main.vcxproj"/>
 		<BuildDependency Project="kvdb_arena.vcxproj"/>
+		<BuildDependency Project="kvdb_arena_test.vcxproj"/>
+		<BuildDependency Project="kvdb_crc32_helpers.vcxproj"/>
+		<BuildDependency Project="kvdb_crc32_helpers_test.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io_test.vcxproj"/>
+		<BuildDependency Project="kvdb_file.vcxproj"/>
+		<BuildDependency Project="kvdb_file_helpers.vcxproj"/>
+		<BuildDependency Project="kvdb_file_test.vcxproj"/>
+		<BuildDependency Project="kvdb_record.vcxproj"/>
+		<BuildDependency Project="kvdb_record_test.vcxproj"/>
 		<BuildDependency Project="kvdb_red_black_tree.vcxproj"/>
-		<BuildDependency Project="red_black_tree_test.vcxproj"/>
+		<BuildDependency Project="kvdb_red_black_tree_test.vcxproj"/>
+		<BuildDependency Project="kvdb_sstable.vcxproj"/>
+		<BuildDependency Project="kvdb_sstable_test.vcxproj"/>
 	</Project>
 	<Project Path="INSTALL.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="a93c837e-1b01-3341-a036-3b668f681009">
 		<BuildDependency Project="ALL_BUILD.vcxproj"/>
@@ -34,12 +45,6 @@
 		<Build Solution="RelWithDebInfo|*" Project="false"/>
 	</Project>
 	<Project Path="ZERO_CHECK.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="8e5a1e6f-0326-30f9-9a48-8076dca057a5"/>
-	<Project Path="arena_test.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="c6180061-f57e-3f58-b133-e97dcbecae0b">
-		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
-		<BuildDependency Project="_deps/googletest-build/googletest/gtest.vcxproj"/>
-		<BuildDependency Project="_deps/googletest-build/googletest/gtest_main.vcxproj"/>
-		<BuildDependency Project="kvdb_arena.vcxproj"/>
-	</Project>
 	<Project Path="_deps/googletest-build/googlemock/gmock.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="bf3bd327-129d-37ec-a7e6-44f6e0c7b37a">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
@@ -56,15 +61,93 @@
 	<Project Path="kvdb_arena.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="9f29ede5-a4de-31d2-916e-c9b2d7cf2001">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 	</Project>
-	<Project Path="kvdb_red_black_tree.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="b6686f64-56d8-36e1-89d6-31bdf4b38da2">
-		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
-		<BuildDependency Project="kvdb_arena.vcxproj"/>
-	</Project>
-	<Project Path="red_black_tree_test.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="d122bb58-bae1-3eb9-a49c-eab94cf98581">
+	<Project Path="kvdb_arena_test.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="7162daa9-4084-3433-8e1d-2580ee065a04">
 		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
 		<BuildDependency Project="_deps/googletest-build/googletest/gtest.vcxproj"/>
 		<BuildDependency Project="_deps/googletest-build/googletest/gtest_main.vcxproj"/>
 		<BuildDependency Project="kvdb_arena.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_crc32_helpers.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ee3346ad-c0b0-37b2-b7e3-5b53ee24936a">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_crc32_helpers_test.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="4d6c251b-a52c-318b-a476-464b99474c43">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest_main.vcxproj"/>
+		<BuildDependency Project="kvdb_crc32_helpers.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_endian_io.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="73cb23e8-e0b2-397f-96c4-2facd33a5cc6">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_endian_io_test.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="e9348047-0315-3eeb-b637-ce13941b9b46">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest_main.vcxproj"/>
+		<BuildDependency Project="kvdb_arena.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+		<BuildDependency Project="kvdb_record.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_file.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="80172d04-9380-382b-bb80-9130ef365cc4">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_file_helpers.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="c9bf730f-6215-3826-9951-2eb1cbeb6104">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_file_test.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="0a58d50e-ab6d-3f4e-a52a-6d9cee7f48a4">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest_main.vcxproj"/>
+		<BuildDependency Project="kvdb_file.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_record.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="db1c00fc-c018-304a-9689-b67775e7752a">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="kvdb_arena.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_record_test.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="a623287c-1ab0-36f3-97a8-1cb74461a429">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest_main.vcxproj"/>
+		<BuildDependency Project="kvdb_arena.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+		<BuildDependency Project="kvdb_record.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_red_black_tree.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="b6686f64-56d8-36e1-89d6-31bdf4b38da2">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="kvdb_arena.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+		<BuildDependency Project="kvdb_record.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_red_black_tree_test.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="8fe22669-a2e7-377d-9b73-d20e5297f228">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest_main.vcxproj"/>
+		<BuildDependency Project="kvdb_arena.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+		<BuildDependency Project="kvdb_record.vcxproj"/>
 		<BuildDependency Project="kvdb_red_black_tree.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_sstable.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="2ffa22b6-38fd-3286-a5bc-47fe35d2af8f">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="kvdb_arena.vcxproj"/>
+		<BuildDependency Project="kvdb_crc32_helpers.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+		<BuildDependency Project="kvdb_file_helpers.vcxproj"/>
+		<BuildDependency Project="kvdb_record.vcxproj"/>
+		<BuildDependency Project="kvdb_red_black_tree.vcxproj"/>
+	</Project>
+	<Project Path="kvdb_sstable_test.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="d6dd7792-56e5-3338-b660-252e8b97830f">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest.vcxproj"/>
+		<BuildDependency Project="_deps/googletest-build/googletest/gtest_main.vcxproj"/>
+		<BuildDependency Project="kvdb_arena.vcxproj"/>
+		<BuildDependency Project="kvdb_crc32_helpers.vcxproj"/>
+		<BuildDependency Project="kvdb_endian_io.vcxproj"/>
+		<BuildDependency Project="kvdb_file_helpers.vcxproj"/>
+		<BuildDependency Project="kvdb_record.vcxproj"/>
+		<BuildDependency Project="kvdb_red_black_tree.vcxproj"/>
+		<BuildDependency Project="kvdb_sstable.vcxproj"/>
 	</Project>
 </Solution>

@@ -219,10 +219,12 @@ install(TARGETS kvdb_core kvdb_app
     ARCHIVE DESTINATION lib
 )#]]
 cmake_minimum_required(VERSION 3.20)
+
 project(kvdb LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(KVDB_ENABLE_SANITIZERS "Enable AddressSanitizer" OFF)
 
@@ -241,9 +243,13 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+#find_package(ZLIB REQUIRED)
+
 # =========================
 # Libraries
 # =========================
+
+### Arena
 
 add_library(kvdb_arena
     src/arena.cpp
@@ -253,9 +259,69 @@ target_include_directories(kvdb_arena PUBLIC
     include
 )
 
+### Endian IO
+
+add_library(kvdb_endian_io
+    src/endian_io.cpp
+)
+
+target_include_directories(kvdb_endian_io PUBLIC
+    include
+)
+
+### File
+add_library(kvdb_file
+    src/file.cpp
+)
+
+target_include_directories(kvdb_file PUBLIC
+    include
+)
+
+### File helpers
+
+add_library(kvdb_file_helpers
+    src/file_helpers.cpp
+)
+
+target_include_directories(kvdb_file_helpers PUBLIC
+    include
+)
+
+### CRC32 helpers
+
+add_library(kvdb_crc32_helpers
+    src/crc32_helpers.cpp
+)
+
+target_include_directories(kvdb_crc32_helpers PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_crc32_helpers PUBLIC
+    kvdb_endian_io
+    #ZLIB::ZLIB
+)
+
+### Record
+
+add_library(kvdb_record
+    src/record.cpp
+)
+
+target_include_directories(kvdb_record PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_record PUBLIC
+    kvdb_arena
+    kvdb_endian_io
+)
+
+### Red-Black Tree
+
 add_library(kvdb_red_black_tree
     src/red_black_tree.cpp
-    src/record.cpp
 )
 
 target_include_directories(kvdb_red_black_tree PUBLIC
@@ -264,6 +330,26 @@ target_include_directories(kvdb_red_black_tree PUBLIC
 
 target_link_libraries(kvdb_red_black_tree PUBLIC
     kvdb_arena
+    kvdb_record
+)
+
+### SSTable
+
+add_library(kvdb_sstable
+    src/sstable.cpp
+)
+
+target_include_directories(kvdb_sstable PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_sstable PUBLIC
+    kvdb_crc32_helpers
+    kvdb_file_helpers
+    kvdb_arena
+    kvdb_red_black_tree
+    kvdb_endian_io
+    kvdb_record
 )
 
 # =========================
@@ -274,26 +360,93 @@ enable_testing()
 
 include(GoogleTest)
 
-add_executable(arena_test
+### Arena
+
+add_executable(kvdb_arena_test
     tests/arena_test.cpp
 )
 
-target_link_libraries(arena_test PRIVATE
+target_link_libraries(kvdb_arena_test PRIVATE
     kvdb_arena
     GTest::gtest_main
 )
 
-gtest_discover_tests(arena_test)
+gtest_discover_tests(kvdb_arena_test)
 
+### Endian IO
 
-add_executable(red_black_tree_test
+add_executable(kvdb_endian_io_test
+    tests/endian_io_test.cpp
+)
+
+target_link_libraries(kvdb_endian_io_test PRIVATE
+    kvdb_endian_io
+    kvdb_arena
+    kvdb_record
+    GTest::gtest_main
+)
+
+gtest_discover_tests(kvdb_endian_io_test)
+
+### Record
+
+add_executable(kvdb_record_test
+    tests/record_test.cpp
+)
+
+target_link_libraries(kvdb_record_test PRIVATE
+    kvdb_record
+    GTest::gtest_main
+)
+
+gtest_discover_tests(kvdb_record_test)
+
+### Red-Black Tree
+
+add_executable(kvdb_red_black_tree_test
     tests/red_black_tree_test.cpp
 )
 
-target_link_libraries(red_black_tree_test PRIVATE
+target_link_libraries(kvdb_red_black_tree_test PRIVATE
     kvdb_red_black_tree
-    kvdb_arena
     GTest::gtest_main
 )
 
-gtest_discover_tests(red_black_tree_test)
+gtest_discover_tests(kvdb_red_black_tree_test)
+
+### CRC32 helpers
+
+add_executable(kvdb_crc32_helpers_test
+    tests/crc32_helpers_test.cpp
+)
+
+target_link_libraries(kvdb_crc32_helpers_test PRIVATE
+    kvdb_crc32_helpers
+    GTest::gtest_main
+)
+
+gtest_discover_tests(kvdb_crc32_helpers_test)
+
+### SSTable
+
+add_executable(kvdb_sstable_test
+    tests/sstable_test.cpp
+)
+
+target_link_libraries(kvdb_sstable_test PRIVATE
+    kvdb_sstable
+    GTest::gtest_main
+)
+
+### File
+
+add_executable(kvdb_file_test
+    tests/file_test.cpp
+)
+
+target_link_libraries(kvdb_file_test PRIVATE
+    kvdb_file
+    GTest::gtest_main
+)
+
+gtest_discover_tests(kvdb_sstable_test)
