@@ -36,7 +36,6 @@
 
 void ensure_atomicity();
 
-void do_fsync();
 
 
 namespace SSTableEntities {
@@ -524,6 +523,7 @@ public:
 private:
 
 	const std::filesystem::path path;
+	const std::filesystem::path final_path;
 
 	std::unique_ptr<ReadableFile> file_in;
 	std::unique_ptr<WritableFile> file_out;
@@ -536,6 +536,8 @@ private:
 	SSTableEntities::FileFooterSection file_footer_section{};
 
 	void write();
+//#ifdef _WIN32
+	bool fsync(WritableFile& file_out);
 
 	friend class SSTableManager;
 	friend class SSTableWriter;

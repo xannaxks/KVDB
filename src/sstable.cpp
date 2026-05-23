@@ -440,7 +440,8 @@ void SSTable::write()
     if (!file_footer_section.write(*file_out, offset))
         ensure_atomicity();
 
-    do_fsync();
+    if (!this->fsync(*file_out))
+        ensure_atomicity();
 
     file_out = nullptr;
 }
@@ -1985,4 +1986,17 @@ std::filesystem::path SSTableManager::make_tmp_table_path(
 ) {
     //table_id++;
     return dir / std::format("table-{:09}.sst.tmp", table_id);
+}
+
+bool SSTable::fsync(WritableFile& file_out)
+{
+    if (!file_out.sync())
+        return false;
+    if (!file_out.close())
+        return false;
+    if (!durable_rename(this->path, this->final_path, true))
+        return false;
+    if (!sync_parent_directory(this->final_path))
+        return false;
+    return true;
 }
