@@ -12,7 +12,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "kvdb_sstable.lib"
+			"path" : "kvdb_endian_io.lib"
 		}
 	],
 	"backtrace" : 1,
@@ -36,19 +36,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 338,
+				"line" : 278,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 346,
+				"line" : 287,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 342,
+				"line" : 282,
 				"parent" : 0
 			}
 		]
@@ -88,32 +88,12 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_file_helpers::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_crc32_helpers::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_arena::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_red_black_tree::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "kvdb_sstable::@6890427a1f51a3e7e1df",
-	"name" : "kvdb_sstable",
-	"nameOnDisk" : "kvdb_sstable.lib",
+	"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df",
+	"name" : "kvdb_endian_io",
+	"nameOnDisk" : "kvdb_endian_io.lib",
 	"paths" : 
 	{
 		"build" : ".",
@@ -134,7 +114,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/sstable.cpp",
+			"path" : "src/endian_io.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

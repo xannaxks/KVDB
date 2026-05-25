@@ -41,13 +41,50 @@ include CMakeFiles\rules.ninja
 
 cmake_ninja_workdir = C$:\Users\user\KVDB\out\build\x64-Debug\
 # =============================================================================
+# Object build statements for STATIC_LIBRARY target kvdb_status
+
+
+#############################################
+# Order-only phony target for kvdb_status
+
+build cmake_object_order_depends_target_kvdb_status: phony || .
+
+build CMakeFiles\kvdb_status.dir\src\status.cpp.obj: CXX_COMPILER__kvdb_status_unscanned_Debug C$:\Users\user\KVDB\src\status.cpp || cmake_object_order_depends_target_kvdb_status
+  CONFIG = Debug
+  FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++20 -MDd
+  INCLUDES = -IC:\Users\user\KVDB\include
+  OBJECT_DIR = CMakeFiles\kvdb_status.dir
+  OBJECT_FILE_DIR = CMakeFiles\kvdb_status.dir\src
+  TARGET_COMPILE_PDB = CMakeFiles\kvdb_status.dir\kvdb_status.pdb
+  TARGET_PDB = kvdb_status.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target kvdb_status
+
+
+#############################################
+# Link the static library kvdb_status.lib
+
+build kvdb_status.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_status_Debug CMakeFiles\kvdb_status.dir\src\status.cpp.obj
+  CONFIG = Debug
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
+  LINK_FLAGS = /machine:x64
+  OBJECT_DIR = CMakeFiles\kvdb_status.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = CMakeFiles\kvdb_status.dir\kvdb_status.pdb
+  TARGET_FILE = kvdb_status.lib
+  TARGET_PDB = kvdb_status.pdb
+
+# =============================================================================
 # Object build statements for STATIC_LIBRARY target kvdb_arena
 
 
 #############################################
 # Order-only phony target for kvdb_arena
 
-build cmake_object_order_depends_target_kvdb_arena: phony || .
+build cmake_object_order_depends_target_kvdb_arena: phony || cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_arena.dir\src\arena.cpp.obj: CXX_COMPILER__kvdb_arena_unscanned_Debug C$:\Users\user\KVDB\src\arena.cpp || cmake_object_order_depends_target_kvdb_arena
   CONFIG = Debug
@@ -66,7 +103,7 @@ build CMakeFiles\kvdb_arena.dir\src\arena.cpp.obj: CXX_COMPILER__kvdb_arena_unsc
 #############################################
 # Link the static library kvdb_arena.lib
 
-build kvdb_arena.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_arena_Debug CMakeFiles\kvdb_arena.dir\src\arena.cpp.obj
+build kvdb_arena.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_arena_Debug CMakeFiles\kvdb_arena.dir\src\arena.cpp.obj || kvdb_status.lib
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
@@ -84,7 +121,7 @@ build kvdb_arena.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_arena_Debug CMakeFiles\kvd
 #############################################
 # Order-only phony target for kvdb_endian_io
 
-build cmake_object_order_depends_target_kvdb_endian_io: phony || .
+build cmake_object_order_depends_target_kvdb_endian_io: phony || cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_endian_io.dir\src\endian_io.cpp.obj: CXX_COMPILER__kvdb_endian_io_unscanned_Debug C$:\Users\user\KVDB\src\endian_io.cpp || cmake_object_order_depends_target_kvdb_endian_io
   CONFIG = Debug
@@ -103,7 +140,7 @@ build CMakeFiles\kvdb_endian_io.dir\src\endian_io.cpp.obj: CXX_COMPILER__kvdb_en
 #############################################
 # Link the static library kvdb_endian_io.lib
 
-build kvdb_endian_io.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_endian_io_Debug CMakeFiles\kvdb_endian_io.dir\src\endian_io.cpp.obj
+build kvdb_endian_io.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_endian_io_Debug CMakeFiles\kvdb_endian_io.dir\src\endian_io.cpp.obj || kvdb_status.lib
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
@@ -121,7 +158,7 @@ build kvdb_endian_io.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_endian_io_Debug CMakeF
 #############################################
 # Order-only phony target for kvdb_file
 
-build cmake_object_order_depends_target_kvdb_file: phony || .
+build cmake_object_order_depends_target_kvdb_file: phony || cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_file.dir\src\file.cpp.obj: CXX_COMPILER__kvdb_file_unscanned_Debug C$:\Users\user\KVDB\src\file.cpp || cmake_object_order_depends_target_kvdb_file
   CONFIG = Debug
@@ -140,7 +177,7 @@ build CMakeFiles\kvdb_file.dir\src\file.cpp.obj: CXX_COMPILER__kvdb_file_unscann
 #############################################
 # Link the static library kvdb_file.lib
 
-build kvdb_file.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_file_Debug CMakeFiles\kvdb_file.dir\src\file.cpp.obj
+build kvdb_file.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_file_Debug CMakeFiles\kvdb_file.dir\src\file.cpp.obj || kvdb_status.lib
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
@@ -158,7 +195,7 @@ build kvdb_file.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_file_Debug CMakeFiles\kvdb_
 #############################################
 # Order-only phony target for kvdb_file_helpers
 
-build cmake_object_order_depends_target_kvdb_file_helpers: phony || .
+build cmake_object_order_depends_target_kvdb_file_helpers: phony || cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_file_helpers.dir\src\file_helpers.cpp.obj: CXX_COMPILER__kvdb_file_helpers_unscanned_Debug C$:\Users\user\KVDB\src\file_helpers.cpp || cmake_object_order_depends_target_kvdb_file_helpers
   CONFIG = Debug
@@ -177,7 +214,7 @@ build CMakeFiles\kvdb_file_helpers.dir\src\file_helpers.cpp.obj: CXX_COMPILER__k
 #############################################
 # Link the static library kvdb_file_helpers.lib
 
-build kvdb_file_helpers.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_file_helpers_Debug CMakeFiles\kvdb_file_helpers.dir\src\file_helpers.cpp.obj
+build kvdb_file_helpers.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_file_helpers_Debug CMakeFiles\kvdb_file_helpers.dir\src\file_helpers.cpp.obj || kvdb_status.lib
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
@@ -195,7 +232,7 @@ build kvdb_file_helpers.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_file_helpers_Debug 
 #############################################
 # Order-only phony target for kvdb_crc32_helpers
 
-build cmake_object_order_depends_target_kvdb_crc32_helpers: phony || cmake_object_order_depends_target_kvdb_endian_io
+build cmake_object_order_depends_target_kvdb_crc32_helpers: phony || cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_crc32_helpers.dir\src\crc32_helpers.cpp.obj: CXX_COMPILER__kvdb_crc32_helpers_unscanned_Debug C$:\Users\user\KVDB\src\crc32_helpers.cpp || cmake_object_order_depends_target_kvdb_crc32_helpers
   CONFIG = Debug
@@ -214,7 +251,7 @@ build CMakeFiles\kvdb_crc32_helpers.dir\src\crc32_helpers.cpp.obj: CXX_COMPILER_
 #############################################
 # Link the static library kvdb_crc32_helpers.lib
 
-build kvdb_crc32_helpers.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_crc32_helpers_Debug CMakeFiles\kvdb_crc32_helpers.dir\src\crc32_helpers.cpp.obj || kvdb_endian_io.lib
+build kvdb_crc32_helpers.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_crc32_helpers_Debug CMakeFiles\kvdb_crc32_helpers.dir\src\crc32_helpers.cpp.obj || kvdb_endian_io.lib kvdb_status.lib
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
@@ -232,7 +269,7 @@ build kvdb_crc32_helpers.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_crc32_helpers_Debu
 #############################################
 # Order-only phony target for kvdb_record
 
-build cmake_object_order_depends_target_kvdb_record: phony || cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io
+build cmake_object_order_depends_target_kvdb_record: phony || cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_record.dir\src\record.cpp.obj: CXX_COMPILER__kvdb_record_unscanned_Debug C$:\Users\user\KVDB\src\record.cpp || cmake_object_order_depends_target_kvdb_record
   CONFIG = Debug
@@ -251,7 +288,7 @@ build CMakeFiles\kvdb_record.dir\src\record.cpp.obj: CXX_COMPILER__kvdb_record_u
 #############################################
 # Link the static library kvdb_record.lib
 
-build kvdb_record.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_record_Debug CMakeFiles\kvdb_record.dir\src\record.cpp.obj || kvdb_arena.lib kvdb_endian_io.lib
+build kvdb_record.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_record_Debug CMakeFiles\kvdb_record.dir\src\record.cpp.obj || kvdb_arena.lib kvdb_endian_io.lib kvdb_status.lib
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
@@ -269,7 +306,7 @@ build kvdb_record.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_record_Debug CMakeFiles\k
 #############################################
 # Order-only phony target for kvdb_red_black_tree
 
-build cmake_object_order_depends_target_kvdb_red_black_tree: phony || cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_record
+build cmake_object_order_depends_target_kvdb_red_black_tree: phony || cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_red_black_tree.dir\src\red_black_tree.cpp.obj: CXX_COMPILER__kvdb_red_black_tree_unscanned_Debug C$:\Users\user\KVDB\src\red_black_tree.cpp || cmake_object_order_depends_target_kvdb_red_black_tree
   CONFIG = Debug
@@ -288,7 +325,7 @@ build CMakeFiles\kvdb_red_black_tree.dir\src\red_black_tree.cpp.obj: CXX_COMPILE
 #############################################
 # Link the static library kvdb_red_black_tree.lib
 
-build kvdb_red_black_tree.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_red_black_tree_Debug CMakeFiles\kvdb_red_black_tree.dir\src\red_black_tree.cpp.obj || kvdb_arena.lib kvdb_endian_io.lib kvdb_record.lib
+build kvdb_red_black_tree.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_red_black_tree_Debug CMakeFiles\kvdb_red_black_tree.dir\src\red_black_tree.cpp.obj || kvdb_arena.lib kvdb_endian_io.lib kvdb_record.lib kvdb_status.lib
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
@@ -306,7 +343,7 @@ build kvdb_red_black_tree.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_red_black_tree_De
 #############################################
 # Order-only phony target for kvdb_sstable
 
-build cmake_object_order_depends_target_kvdb_sstable: phony || cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_crc32_helpers cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_file_helpers cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_red_black_tree
+build cmake_object_order_depends_target_kvdb_sstable: phony || cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_crc32_helpers cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_file_helpers cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_red_black_tree cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_sstable.dir\src\sstable.cpp.obj: CXX_COMPILER__kvdb_sstable_unscanned_Debug C$:\Users\user\KVDB\src\sstable.cpp || cmake_object_order_depends_target_kvdb_sstable
   CONFIG = Debug
@@ -325,7 +362,7 @@ build CMakeFiles\kvdb_sstable.dir\src\sstable.cpp.obj: CXX_COMPILER__kvdb_sstabl
 #############################################
 # Link the static library kvdb_sstable.lib
 
-build kvdb_sstable.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_sstable_Debug CMakeFiles\kvdb_sstable.dir\src\sstable.cpp.obj || kvdb_arena.lib kvdb_crc32_helpers.lib kvdb_endian_io.lib kvdb_file_helpers.lib kvdb_record.lib kvdb_red_black_tree.lib
+build kvdb_sstable.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_sstable_Debug CMakeFiles\kvdb_sstable.dir\src\sstable.cpp.obj || kvdb_arena.lib kvdb_crc32_helpers.lib kvdb_endian_io.lib kvdb_file_helpers.lib kvdb_record.lib kvdb_red_black_tree.lib kvdb_status.lib
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64
@@ -343,7 +380,7 @@ build kvdb_sstable.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_sstable_Debug CMakeFiles
 #############################################
 # Order-only phony target for kvdb_arena_test
 
-build cmake_object_order_depends_target_kvdb_arena_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena
+build cmake_object_order_depends_target_kvdb_arena_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_arena_test.dir\tests\arena_test.cpp.obj: CXX_COMPILER__kvdb_arena_test_unscanned_Debug C$:\Users\user\KVDB\tests\arena_test.cpp || cmake_object_order_depends_target_kvdb_arena_test
   CONFIG = Debug
@@ -362,11 +399,11 @@ build CMakeFiles\kvdb_arena_test.dir\tests\arena_test.cpp.obj: CXX_COMPILER__kvd
 #############################################
 # Link the executable kvdb_arena_test.exe
 
-build kvdb_arena_test.exe kvdb_arena_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_arena_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_arena_test_Debug CMakeFiles\kvdb_arena_test.dir\tests\arena_test.cpp.obj | kvdb_arena.lib lib\gtest_main.lib lib\gtest.lib || kvdb_arena.lib lib\gtest.lib lib\gtest_main.lib
+build kvdb_arena_test.exe kvdb_arena_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_arena_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_arena_test_Debug CMakeFiles\kvdb_arena_test.dir\tests\arena_test.cpp.obj | kvdb_arena.lib lib\gtest_main.lib kvdb_status.lib lib\gtest.lib || kvdb_arena.lib kvdb_status.lib lib\gtest.lib lib\gtest_main.lib
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kvdb_arena.lib  lib\gtest_main.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = kvdb_arena.lib  lib\gtest_main.lib  kvdb_status.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\kvdb_arena_test.dir
   POST_BUILD = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\user\KVDB\out\build\x64-Debug && "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=kvdb_arena_test -D TEST_EXECUTABLE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_arena_test.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=C:/Users/user/KVDB/out/build/x64-Debug -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=kvdb_arena_test_TESTS -D CTEST_FILE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_arena_test[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_DISCOVERY_EXTRA_ARGS= -D TEST_XML_OUTPUT_DIR= -P "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.1/Modules/GoogleTestAddTests.cmake""
   PRE_LINK = cd .
@@ -383,7 +420,7 @@ build kvdb_arena_test.exe kvdb_arena_test[1]_tests.cmake | ${cmake_ninja_workdir
 #############################################
 # Order-only phony target for kvdb_endian_io_test
 
-build cmake_object_order_depends_target_kvdb_endian_io_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_record
+build cmake_object_order_depends_target_kvdb_endian_io_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_endian_io_test.dir\tests\endian_io_test.cpp.obj: CXX_COMPILER__kvdb_endian_io_test_unscanned_Debug C$:\Users\user\KVDB\tests\endian_io_test.cpp || cmake_object_order_depends_target_kvdb_endian_io_test
   CONFIG = Debug
@@ -402,11 +439,11 @@ build CMakeFiles\kvdb_endian_io_test.dir\tests\endian_io_test.cpp.obj: CXX_COMPI
 #############################################
 # Link the executable kvdb_endian_io_test.exe
 
-build kvdb_endian_io_test.exe kvdb_endian_io_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_endian_io_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_endian_io_test_Debug CMakeFiles\kvdb_endian_io_test.dir\tests\endian_io_test.cpp.obj | kvdb_endian_io.lib kvdb_arena.lib kvdb_record.lib lib\gtest_main.lib kvdb_endian_io.lib kvdb_arena.lib lib\gtest.lib || kvdb_arena.lib kvdb_endian_io.lib kvdb_record.lib lib\gtest.lib lib\gtest_main.lib
+build kvdb_endian_io_test.exe kvdb_endian_io_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_endian_io_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_endian_io_test_Debug CMakeFiles\kvdb_endian_io_test.dir\tests\endian_io_test.cpp.obj | kvdb_endian_io.lib kvdb_arena.lib kvdb_record.lib lib\gtest_main.lib kvdb_endian_io.lib kvdb_arena.lib kvdb_status.lib lib\gtest.lib || kvdb_arena.lib kvdb_endian_io.lib kvdb_record.lib kvdb_status.lib lib\gtest.lib lib\gtest_main.lib
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kvdb_endian_io.lib  kvdb_arena.lib  kvdb_record.lib  lib\gtest_main.lib  kvdb_endian_io.lib  kvdb_arena.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = kvdb_endian_io.lib  kvdb_arena.lib  kvdb_record.lib  lib\gtest_main.lib  kvdb_endian_io.lib  kvdb_arena.lib  kvdb_status.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\kvdb_endian_io_test.dir
   POST_BUILD = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\user\KVDB\out\build\x64-Debug && "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=kvdb_endian_io_test -D TEST_EXECUTABLE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_endian_io_test.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=C:/Users/user/KVDB/out/build/x64-Debug -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=kvdb_endian_io_test_TESTS -D CTEST_FILE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_endian_io_test[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_DISCOVERY_EXTRA_ARGS= -D TEST_XML_OUTPUT_DIR= -P "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.1/Modules/GoogleTestAddTests.cmake""
   PRE_LINK = cd .
@@ -423,7 +460,7 @@ build kvdb_endian_io_test.exe kvdb_endian_io_test[1]_tests.cmake | ${cmake_ninja
 #############################################
 # Order-only phony target for kvdb_record_test
 
-build cmake_object_order_depends_target_kvdb_record_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_record
+build cmake_object_order_depends_target_kvdb_record_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_record_test.dir\tests\record_test.cpp.obj: CXX_COMPILER__kvdb_record_test_unscanned_Debug C$:\Users\user\KVDB\tests\record_test.cpp || cmake_object_order_depends_target_kvdb_record_test
   CONFIG = Debug
@@ -442,11 +479,11 @@ build CMakeFiles\kvdb_record_test.dir\tests\record_test.cpp.obj: CXX_COMPILER__k
 #############################################
 # Link the executable kvdb_record_test.exe
 
-build kvdb_record_test.exe kvdb_record_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_record_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_record_test_Debug CMakeFiles\kvdb_record_test.dir\tests\record_test.cpp.obj | kvdb_record.lib lib\gtest_main.lib kvdb_arena.lib kvdb_endian_io.lib lib\gtest.lib || kvdb_arena.lib kvdb_endian_io.lib kvdb_record.lib lib\gtest.lib lib\gtest_main.lib
+build kvdb_record_test.exe kvdb_record_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_record_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_record_test_Debug CMakeFiles\kvdb_record_test.dir\tests\record_test.cpp.obj | kvdb_record.lib lib\gtest_main.lib kvdb_arena.lib kvdb_endian_io.lib kvdb_status.lib lib\gtest.lib || kvdb_arena.lib kvdb_endian_io.lib kvdb_record.lib kvdb_status.lib lib\gtest.lib lib\gtest_main.lib
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kvdb_record.lib  lib\gtest_main.lib  kvdb_arena.lib  kvdb_endian_io.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = kvdb_record.lib  lib\gtest_main.lib  kvdb_arena.lib  kvdb_endian_io.lib  kvdb_status.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\kvdb_record_test.dir
   POST_BUILD = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\user\KVDB\out\build\x64-Debug && "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=kvdb_record_test -D TEST_EXECUTABLE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_record_test.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=C:/Users/user/KVDB/out/build/x64-Debug -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=kvdb_record_test_TESTS -D CTEST_FILE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_record_test[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_DISCOVERY_EXTRA_ARGS= -D TEST_XML_OUTPUT_DIR= -P "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.1/Modules/GoogleTestAddTests.cmake""
   PRE_LINK = cd .
@@ -463,7 +500,7 @@ build kvdb_record_test.exe kvdb_record_test[1]_tests.cmake | ${cmake_ninja_workd
 #############################################
 # Order-only phony target for kvdb_red_black_tree_test
 
-build cmake_object_order_depends_target_kvdb_red_black_tree_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_red_black_tree
+build cmake_object_order_depends_target_kvdb_red_black_tree_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_red_black_tree cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_red_black_tree_test.dir\tests\red_black_tree_test.cpp.obj: CXX_COMPILER__kvdb_red_black_tree_test_unscanned_Debug C$:\Users\user\KVDB\tests\red_black_tree_test.cpp || cmake_object_order_depends_target_kvdb_red_black_tree_test
   CONFIG = Debug
@@ -482,11 +519,11 @@ build CMakeFiles\kvdb_red_black_tree_test.dir\tests\red_black_tree_test.cpp.obj:
 #############################################
 # Link the executable kvdb_red_black_tree_test.exe
 
-build kvdb_red_black_tree_test.exe kvdb_red_black_tree_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_red_black_tree_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_red_black_tree_test_Debug CMakeFiles\kvdb_red_black_tree_test.dir\tests\red_black_tree_test.cpp.obj | kvdb_red_black_tree.lib lib\gtest_main.lib kvdb_record.lib kvdb_arena.lib kvdb_endian_io.lib lib\gtest.lib || kvdb_arena.lib kvdb_endian_io.lib kvdb_record.lib kvdb_red_black_tree.lib lib\gtest.lib lib\gtest_main.lib
+build kvdb_red_black_tree_test.exe kvdb_red_black_tree_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_red_black_tree_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_red_black_tree_test_Debug CMakeFiles\kvdb_red_black_tree_test.dir\tests\red_black_tree_test.cpp.obj | kvdb_red_black_tree.lib lib\gtest_main.lib kvdb_record.lib kvdb_arena.lib kvdb_endian_io.lib kvdb_status.lib lib\gtest.lib || kvdb_arena.lib kvdb_endian_io.lib kvdb_record.lib kvdb_red_black_tree.lib kvdb_status.lib lib\gtest.lib lib\gtest_main.lib
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kvdb_red_black_tree.lib  lib\gtest_main.lib  kvdb_record.lib  kvdb_arena.lib  kvdb_endian_io.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = kvdb_red_black_tree.lib  lib\gtest_main.lib  kvdb_record.lib  kvdb_arena.lib  kvdb_endian_io.lib  kvdb_status.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\kvdb_red_black_tree_test.dir
   POST_BUILD = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\user\KVDB\out\build\x64-Debug && "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=kvdb_red_black_tree_test -D TEST_EXECUTABLE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_red_black_tree_test.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=C:/Users/user/KVDB/out/build/x64-Debug -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=kvdb_red_black_tree_test_TESTS -D CTEST_FILE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_red_black_tree_test[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_DISCOVERY_EXTRA_ARGS= -D TEST_XML_OUTPUT_DIR= -P "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.1/Modules/GoogleTestAddTests.cmake""
   PRE_LINK = cd .
@@ -503,7 +540,7 @@ build kvdb_red_black_tree_test.exe kvdb_red_black_tree_test[1]_tests.cmake | ${c
 #############################################
 # Order-only phony target for kvdb_crc32_helpers_test
 
-build cmake_object_order_depends_target_kvdb_crc32_helpers_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_crc32_helpers cmake_object_order_depends_target_kvdb_endian_io
+build cmake_object_order_depends_target_kvdb_crc32_helpers_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_crc32_helpers cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_crc32_helpers_test.dir\tests\crc32_helpers_test.cpp.obj: CXX_COMPILER__kvdb_crc32_helpers_test_unscanned_Debug C$:\Users\user\KVDB\tests\crc32_helpers_test.cpp || cmake_object_order_depends_target_kvdb_crc32_helpers_test
   CONFIG = Debug
@@ -522,11 +559,11 @@ build CMakeFiles\kvdb_crc32_helpers_test.dir\tests\crc32_helpers_test.cpp.obj: C
 #############################################
 # Link the executable kvdb_crc32_helpers_test.exe
 
-build kvdb_crc32_helpers_test.exe kvdb_crc32_helpers_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_crc32_helpers_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_crc32_helpers_test_Debug CMakeFiles\kvdb_crc32_helpers_test.dir\tests\crc32_helpers_test.cpp.obj | kvdb_crc32_helpers.lib lib\gtest_main.lib kvdb_endian_io.lib lib\gtest.lib || kvdb_crc32_helpers.lib kvdb_endian_io.lib lib\gtest.lib lib\gtest_main.lib
+build kvdb_crc32_helpers_test.exe kvdb_crc32_helpers_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_crc32_helpers_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_crc32_helpers_test_Debug CMakeFiles\kvdb_crc32_helpers_test.dir\tests\crc32_helpers_test.cpp.obj | kvdb_crc32_helpers.lib lib\gtest_main.lib kvdb_endian_io.lib kvdb_status.lib lib\gtest.lib || kvdb_crc32_helpers.lib kvdb_endian_io.lib kvdb_status.lib lib\gtest.lib lib\gtest_main.lib
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kvdb_crc32_helpers.lib  lib\gtest_main.lib  kvdb_endian_io.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = kvdb_crc32_helpers.lib  lib\gtest_main.lib  kvdb_endian_io.lib  kvdb_status.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\kvdb_crc32_helpers_test.dir
   POST_BUILD = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\user\KVDB\out\build\x64-Debug && "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=kvdb_crc32_helpers_test -D TEST_EXECUTABLE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_crc32_helpers_test.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=C:/Users/user/KVDB/out/build/x64-Debug -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=kvdb_crc32_helpers_test_TESTS -D CTEST_FILE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_crc32_helpers_test[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_DISCOVERY_EXTRA_ARGS= -D TEST_XML_OUTPUT_DIR= -P "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.1/Modules/GoogleTestAddTests.cmake""
   PRE_LINK = cd .
@@ -543,7 +580,7 @@ build kvdb_crc32_helpers_test.exe kvdb_crc32_helpers_test[1]_tests.cmake | ${cma
 #############################################
 # Order-only phony target for kvdb_sstable_test
 
-build cmake_object_order_depends_target_kvdb_sstable_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_crc32_helpers cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_file_helpers cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_red_black_tree cmake_object_order_depends_target_kvdb_sstable
+build cmake_object_order_depends_target_kvdb_sstable_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_crc32_helpers cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_file_helpers cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_red_black_tree cmake_object_order_depends_target_kvdb_sstable cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_sstable_test.dir\tests\sstable_test.cpp.obj: CXX_COMPILER__kvdb_sstable_test_unscanned_Debug C$:\Users\user\KVDB\tests\sstable_test.cpp || cmake_object_order_depends_target_kvdb_sstable_test
   CONFIG = Debug
@@ -562,11 +599,11 @@ build CMakeFiles\kvdb_sstable_test.dir\tests\sstable_test.cpp.obj: CXX_COMPILER_
 #############################################
 # Link the executable kvdb_sstable_test.exe
 
-build kvdb_sstable_test.exe kvdb_sstable_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_sstable_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_sstable_test_Debug CMakeFiles\kvdb_sstable_test.dir\tests\sstable_test.cpp.obj | kvdb_sstable.lib lib\gtest_main.lib kvdb_crc32_helpers.lib kvdb_file_helpers.lib kvdb_red_black_tree.lib kvdb_record.lib kvdb_arena.lib kvdb_endian_io.lib lib\gtest.lib || kvdb_arena.lib kvdb_crc32_helpers.lib kvdb_endian_io.lib kvdb_file_helpers.lib kvdb_record.lib kvdb_red_black_tree.lib kvdb_sstable.lib lib\gtest.lib lib\gtest_main.lib
+build kvdb_sstable_test.exe kvdb_sstable_test[1]_tests.cmake | ${cmake_ninja_workdir}kvdb_sstable_test[1]_tests.cmake: CXX_EXECUTABLE_LINKER__kvdb_sstable_test_Debug CMakeFiles\kvdb_sstable_test.dir\tests\sstable_test.cpp.obj | kvdb_sstable.lib lib\gtest_main.lib kvdb_crc32_helpers.lib kvdb_file_helpers.lib kvdb_red_black_tree.lib kvdb_record.lib kvdb_arena.lib kvdb_endian_io.lib kvdb_status.lib lib\gtest.lib || kvdb_arena.lib kvdb_crc32_helpers.lib kvdb_endian_io.lib kvdb_file_helpers.lib kvdb_record.lib kvdb_red_black_tree.lib kvdb_sstable.lib kvdb_status.lib lib\gtest.lib lib\gtest_main.lib
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kvdb_sstable.lib  lib\gtest_main.lib  kvdb_crc32_helpers.lib  kvdb_file_helpers.lib  kvdb_red_black_tree.lib  kvdb_record.lib  kvdb_arena.lib  kvdb_endian_io.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = kvdb_sstable.lib  lib\gtest_main.lib  kvdb_crc32_helpers.lib  kvdb_file_helpers.lib  kvdb_red_black_tree.lib  kvdb_record.lib  kvdb_arena.lib  kvdb_endian_io.lib  kvdb_status.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\kvdb_sstable_test.dir
   POST_BUILD = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\user\KVDB\out\build\x64-Debug && "C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -D TEST_TARGET=kvdb_sstable_test -D TEST_EXECUTABLE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_sstable_test.exe -D TEST_EXECUTOR= -D TEST_WORKING_DIR=C:/Users/user/KVDB/out/build/x64-Debug -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=kvdb_sstable_test_TESTS -D CTEST_FILE=C:/Users/user/KVDB/out/build/x64-Debug/kvdb_sstable_test[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_DISCOVERY_EXTRA_ARGS= -D TEST_XML_OUTPUT_DIR= -P "C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.1/Modules/GoogleTestAddTests.cmake""
   PRE_LINK = cd .
@@ -583,7 +620,7 @@ build kvdb_sstable_test.exe kvdb_sstable_test[1]_tests.cmake | ${cmake_ninja_wor
 #############################################
 # Order-only phony target for kvdb_file_test
 
-build cmake_object_order_depends_target_kvdb_file_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_file
+build cmake_object_order_depends_target_kvdb_file_test: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main cmake_object_order_depends_target_kvdb_file cmake_object_order_depends_target_kvdb_status
 
 build CMakeFiles\kvdb_file_test.dir\tests\file_test.cpp.obj: CXX_COMPILER__kvdb_file_test_unscanned_Debug C$:\Users\user\KVDB\tests\file_test.cpp || cmake_object_order_depends_target_kvdb_file_test
   CONFIG = Debug
@@ -602,11 +639,11 @@ build CMakeFiles\kvdb_file_test.dir\tests\file_test.cpp.obj: CXX_COMPILER__kvdb_
 #############################################
 # Link the executable kvdb_file_test.exe
 
-build kvdb_file_test.exe: CXX_EXECUTABLE_LINKER__kvdb_file_test_Debug CMakeFiles\kvdb_file_test.dir\tests\file_test.cpp.obj | kvdb_file.lib lib\gtest_main.lib lib\gtest.lib || kvdb_file.lib lib\gtest.lib lib\gtest_main.lib
+build kvdb_file_test.exe: CXX_EXECUTABLE_LINKER__kvdb_file_test_Debug CMakeFiles\kvdb_file_test.dir\tests\file_test.cpp.obj | kvdb_file.lib lib\gtest_main.lib kvdb_status.lib lib\gtest.lib || kvdb_file.lib kvdb_status.lib lib\gtest.lib lib\gtest_main.lib
   CONFIG = Debug
   FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = kvdb_file.lib  lib\gtest_main.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = kvdb_file.lib  lib\gtest_main.lib  kvdb_status.lib  lib\gtest.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\kvdb_file_test.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -1210,6 +1247,8 @@ build kvdb_sstable: phony kvdb_sstable.lib
 
 build kvdb_sstable_test: phony kvdb_sstable_test.exe
 
+build kvdb_status: phony kvdb_status.lib
+
 # =============================================================================
 # Folder targets.
 
@@ -1218,7 +1257,7 @@ build kvdb_sstable_test: phony kvdb_sstable_test.exe
 #############################################
 # Folder: C:/Users/user/KVDB/out/build/x64-Debug
 
-build all: phony kvdb_arena.lib kvdb_endian_io.lib kvdb_file.lib kvdb_file_helpers.lib kvdb_crc32_helpers.lib kvdb_record.lib kvdb_red_black_tree.lib kvdb_sstable.lib kvdb_arena_test.exe kvdb_endian_io_test.exe kvdb_record_test.exe kvdb_red_black_tree_test.exe kvdb_crc32_helpers_test.exe kvdb_sstable_test.exe kvdb_file_test.exe _deps\googletest-build\all
+build all: phony kvdb_status.lib kvdb_arena.lib kvdb_endian_io.lib kvdb_file.lib kvdb_file_helpers.lib kvdb_crc32_helpers.lib kvdb_record.lib kvdb_red_black_tree.lib kvdb_sstable.lib kvdb_arena_test.exe kvdb_endian_io_test.exe kvdb_record_test.exe kvdb_red_black_tree_test.exe kvdb_crc32_helpers_test.exe kvdb_sstable_test.exe kvdb_file_test.exe _deps\googletest-build\all
 
 # =============================================================================
 

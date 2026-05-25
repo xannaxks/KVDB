@@ -21,6 +21,7 @@
 		"commands" : 
 		[
 			"add_library",
+			"target_link_libraries",
 			"target_include_directories"
 		],
 		"files" : 
@@ -35,13 +36,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 283,
+				"line" : 309,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 287,
+				"line" : 318,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 313,
 				"parent" : 0
 			}
 		]
@@ -58,7 +65,7 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 2,
+					"backtrace" : 3,
 					"path" : "C:/Users/user/KVDB/include"
 				}
 			],
@@ -75,6 +82,13 @@
 			[
 				0
 			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
 		}
 	],
 	"id" : "kvdb_file_helpers::@6890427a1f51a3e7e1df",

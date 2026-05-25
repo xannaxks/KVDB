@@ -29,13 +29,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 365,
+				"line" : 416,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 369,
+				"line" : 420,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 272,
 				"parent" : 0
 			},
 			{
@@ -45,7 +51,7 @@
 				"command" : 1,
 				"file" : 1,
 				"line" : 153,
-				"parent" : 3
+				"parent" : 4
 			}
 		]
 	},
@@ -94,15 +100,19 @@
 	[
 		{
 			"backtrace" : 2,
+			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
 			"id" : "kvdb_arena::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 2,
-			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
+			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
 			"backtrace" : 2,
-			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
+			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
 		}
 	],
 	"id" : "kvdb_arena_test::@6890427a1f51a3e7e1df",
@@ -133,7 +143,12 @@
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 4,
+				"backtrace" : 3,
+				"fragment" : "kvdb_status.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 5,
 				"fragment" : "lib\\gtest.lib",
 				"role" : "libraries"
 			},

@@ -38,8 +38,8 @@ namespace kvdb
         }
 
 
-        bool write_bytes(
-            std::ofstream& file,
+        Status write_bytes(
+            WritableFile& file,
             std::span<const std::byte> bytes
         )
         {
@@ -53,13 +53,13 @@ namespace kvdb
 
             return file.good();
         }
-        bool write_u8(std::ofstream& file, std::uint8_t value)
+        Status write_u8(WritableFile& file, std::uint8_t value)
         {
             char byte = static_cast<char>(value);
             file.write(&byte, 1);
             return file.good();
         }
-        bool write_u16_le(std::ofstream& file, std::uint16_t value)
+        Status write_u16_le(WritableFile& file, std::uint16_t value)
         {
             std::array<std::byte, 2> bytes{
                 static_cast<std::byte>((value >> 0) & 0xFF),
@@ -73,7 +73,7 @@ namespace kvdb
 
             return file.good();
         }
-        bool write_u32_le(std::ofstream& file, std::uint32_t value)
+        Status write_u32_le(WritableFile& file, std::uint32_t value)
         {
             std::array<std::byte, 4> bytes{
                 static_cast<std::byte>((value >> 0) & 0xFF),
@@ -89,7 +89,7 @@ namespace kvdb
 
             return file.good();
         }
-        bool write_u64_le(std::ofstream& file, std::uint64_t value)
+        Status write_u64_le(WritableFile& file, std::uint64_t value)
         {
             std::array<std::byte, 8> bytes{
                 static_cast<std::byte>((value >> 0) & 0xFF),
@@ -109,8 +109,8 @@ namespace kvdb
 
             return file.good();
         }
-        bool write_bytes_with_u32_size(
-            std::ofstream& file,
+        Status write_bytes_with_u32_size(
+            WritableFile& file,
             std::span<const std::byte> bytes
         )
         {
@@ -127,7 +127,7 @@ namespace kvdb
             return write_bytes(file, bytes);
         }
 
-        std::optional<std::uint8_t> read_u8(std::ifstream& file)
+        std::optional<std::uint8_t> read_u8(ReadableFile& file)
         {
             char byte = 0;
             file.read(&byte, 1);
@@ -139,7 +139,7 @@ namespace kvdb
 
             return static_cast<std::uint8_t>(static_cast<unsigned char>(byte));
         }
-        std::optional<std::uint16_t> read_u16_le(std::ifstream& file)
+        std::optional<std::uint16_t> read_u16_le(ReadableFile& file)
         {
             std::array<unsigned char, 2> bytes{};
 
@@ -157,7 +157,7 @@ namespace kvdb
 
             return value;
         }
-        std::optional<std::uint32_t> read_u32_le(std::ifstream& file)
+        std::optional<std::uint32_t> read_u32_le(ReadableFile& file)
         {
             std::array<unsigned char, 4> bytes{};
 
@@ -177,7 +177,7 @@ namespace kvdb
 
             return value;
         }
-        std::optional<std::uint64_t> read_u64_le(std::ifstream& file)
+        std::optional<std::uint64_t> read_u64_le(ReadableFile& file)
         {
             std::array<unsigned char, 8> bytes{};
 
@@ -202,7 +202,7 @@ namespace kvdb
             return value;
         }
         std::optional<std::vector<std::byte>> read_bytes(
-            std::ifstream& file,
+            ReadableFile& file,
             std::uint32_t size
         )
         {
@@ -226,7 +226,7 @@ namespace kvdb
             return bytes;
         }
         std::optional<std::vector<std::byte>> read_bytes_with_u32_size(
-            std::ifstream& file
+            ReadableFile& file
         )
         {
             auto size = read_u32_le(file);

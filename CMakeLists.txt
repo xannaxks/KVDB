@@ -249,6 +249,16 @@ FetchContent_MakeAvailable(googletest)
 # Libraries
 # =========================
 
+### Status
+
+add_library(kvdb_status
+    "src/status.cpp"
+)
+
+target_include_directories(kvdb_status PUBLIC 
+    include
+)
+
 ### Arena
 
 add_library(kvdb_arena
@@ -257,6 +267,10 @@ add_library(kvdb_arena
 
 target_include_directories(kvdb_arena PUBLIC
     include
+)
+
+target_link_libraries(kvdb_arena PUBLIC
+    kvdb_status
 )
 
 ### Endian IO
@@ -269,6 +283,12 @@ target_include_directories(kvdb_endian_io PUBLIC
     include
 )
 
+
+target_link_libraries(kvdb_endian_io PUBLIC
+    kvdb_status
+)
+
+
 ### File
 add_library(kvdb_file
     src/file.cpp
@@ -277,6 +297,12 @@ add_library(kvdb_file
 target_include_directories(kvdb_file PUBLIC
     include
 )
+
+
+target_link_libraries(kvdb_file PUBLIC
+    kvdb_status
+)
+
 
 ### File helpers
 
@@ -287,6 +313,12 @@ add_library(kvdb_file_helpers
 target_include_directories(kvdb_file_helpers PUBLIC
     include
 )
+
+
+target_link_libraries(kvdb_file_helpers PUBLIC
+    kvdb_status
+)
+
 
 ### CRC32 helpers
 
@@ -303,6 +335,12 @@ target_link_libraries(kvdb_crc32_helpers PUBLIC
     #ZLIB::ZLIB
 )
 
+
+target_link_libraries(kvdb_crc32_helpers PUBLIC
+    kvdb_status
+)
+
+
 ### Record
 
 add_library(kvdb_record
@@ -318,6 +356,12 @@ target_link_libraries(kvdb_record PUBLIC
     kvdb_endian_io
 )
 
+target_link_libraries(kvdb_record PUBLIC
+    kvdb_status
+)
+
+
+
 ### Red-Black Tree
 
 add_library(kvdb_red_black_tree
@@ -332,6 +376,12 @@ target_link_libraries(kvdb_red_black_tree PUBLIC
     kvdb_arena
     kvdb_record
 )
+
+
+target_link_libraries(kvdb_red_black_tree PUBLIC
+    kvdb_status
+)
+
 
 ### SSTable
 
@@ -350,6 +400,7 @@ target_link_libraries(kvdb_sstable PUBLIC
     kvdb_red_black_tree
     kvdb_endian_io
     kvdb_record
+    kvdb_status
 )
 
 # =========================

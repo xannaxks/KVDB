@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <new>
 #include <vector>
+#include "status.h"
 #include <utility>
 #include <iostream>
 #include <algorithm>
@@ -36,8 +37,8 @@ struct ArenaEntry
 	bool operator>(const ArenaEntry& other) const;
 	bool operator==(const ArenaEntry& other) const;
 
-	static ArenaEntry make_entry(Arena& arena, const std::span<const std::byte> str);
-	static ArenaEntry make_entry(Arena& arena, const std::string& str);
+	static Result<ArenaEntry> make_entry(Arena& arena, const std::span<const std::byte> str);
+	static Result<ArenaEntry> make_entry(Arena& arena, const std::string& str);
 };
 
 
@@ -78,7 +79,7 @@ public:
 
 	// Allocates raw memory with requested size and alignment.
 	// Precondition: align must be power of two.
-	void* alloc(std::size_t n, std::size_t align = alignof(std::max_align_t));
+	Result<void*> alloc(std::size_t n, std::size_t align = alignof(std::max_align_t));
 
 	// Save the current allocation state for later rollbacks.
 	[[nodiscard]] Checkpoint checkpoint() const;
@@ -90,25 +91,25 @@ public:
 	// Otherwise keeps one small block for reuse.
 	void reset(bool release_all = false);
 
-	uint64_t get_used_bytes() const;
-	uint64_t get_reserved_bytes() const;
+	Result<uint64_t> get_used_bytes() const;
+	Result<uint64_t> get_reserved_bytes() const;
 
 	std::size_t get_pages_size() const;
 	std::size_t get_large_size() const;
 
-	size_t get_next_page_size(size_t n) const;
+	Result<size_t> get_next_page_size(size_t n) const;
 
 private:
 
-	static std::size_t align_up(std::size_t x, std::size_t a);
+	static Result<std::size_t> align_up(std::size_t x, std::size_t a);
 
-	void* alloc_small(std::size_t n, std::size_t align = alignof(std::max_align_t));
-	void* alloc_large(std::size_t n, std::size_t align = alignof(std::max_align_t));
+	Result<void*> alloc_small(std::size_t n, std::size_t align = alignof(std::max_align_t));
+	Result<void*> alloc_large(std::size_t n, std::size_t align = alignof(std::max_align_t));
 
-	[[nodiscard]] bool fits_in(const Page& p, std::size_t n, std::size_t align) const;
+	Result<bool> fits_in(const Page& p, std::size_t n, std::size_t align) const;
 
-	[[nodiscard]] Page alloc_page(std::size_t cap);
-	void free_page(Page& p);
+	Result<Page> alloc_page(std::size_t cap);
+	void free_page(Page& p) noexcept;
 };
 
 template<typename T, class... Args>
@@ -137,4 +138,4 @@ T* arena_new_array(Arena& arena, std::size_t count)
 	return ptr;
 }
 
-ArenaEntry arena_copy_bytes(Arena& a, const void* src, std::uint32_t n);
+Result<ArenaEntry> arena_copy_bytes(Arena& a, const void* src, std::uint32_t n);

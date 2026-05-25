@@ -5,6 +5,7 @@
 #include <string>
 #include <cstdint>
 #include "bytes.h"
+#include "status.h"
 #include <stack>
 #include <functional>
 #include "type.h"
@@ -17,15 +18,6 @@ class RBTree
 {
 public:
     //inline static uint64_t seq_cnt = 1;
-
-    enum class Status
-    {
-        OK,
-        KeyNotFound,
-        MemoryAllocationFailed,
-        KeyWasDeleted,
-        Duplicate
-    };
 
     struct Node
     {
@@ -59,7 +51,7 @@ private:
     void left_rotate(Node* v);
     void right_rotate(Node* v);
     void balance(Node* v);
-    RBTree::Status bst_insert(Node* v);
+    Status bst_insert(Node* v);
     void destroy(Node* node);
 
     template<typename Collection>
@@ -100,7 +92,7 @@ public:
     };
 
     Status insert(const InternalRecord& entry);
-    std::variant<InternalRecord, RBTree::Status> find_latest_by_key(ArenaEntry key) const;
+    std::variant<InternalRecord, ::Status> find_latest_by_key(ArenaEntry key) const;
 
     bool root_is_black() const;
     bool no_red_node_has_red_child() const;

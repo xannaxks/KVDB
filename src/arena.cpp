@@ -1,10 +1,16 @@
 #include "arena.h"
+#include <bit>
 #include <span>
 
-ArenaEntry ArenaEntry::make_entry(Arena& arena, const std::span<const std::byte> str)
+Result<ArenaEntry> ArenaEntry::make_entry(Arena& arena, const std::span<const std::byte> str)
 {
 	if (str.size() > std::numeric_limits<std::uint32_t>::max())
-		std::terminate();
+		return Result<ArenaEntry>::fail(
+			Status{
+				StatusCode::AllocationTooLarge,
+				"Allocation size exceeds uint32_t limit"
+			}
+		);
 
 	return arena_copy_bytes(
 		arena,
@@ -13,10 +19,15 @@ ArenaEntry ArenaEntry::make_entry(Arena& arena, const std::span<const std::byte>
 	);
 }
 
-ArenaEntry ArenaEntry::make_entry(Arena& arena, const std::string& str)
+Result<ArenaEntry> ArenaEntry::make_entry(Arena& arena, const std::string& str)
 {
 	if (str.size() > std::numeric_limits<std::uint32_t>::max())
-		std::terminate();
+		return Result<ArenaEntry>::fail(
+			Status{
+				StatusCode::AllocationTooLarge,
+				"Allocation size exceeds uint32_t limit"
+			}
+		);
 
 	return arena_copy_bytes(
 		arena,
@@ -27,6 +38,8 @@ ArenaEntry ArenaEntry::make_entry(Arena& arena, const std::string& str)
 
 std::string ArenaEntry::generate_random_key(const std::string& prefix, std::size_t length, bool fixed)
 {
+	assert(fixed || length > 0);
+
 	int sz = fixed ? static_cast<int>(length) : rand() % length + 1;
 	std::string result = prefix;
 	while (sz--)
@@ -38,6 +51,8 @@ std::string ArenaEntry::generate_random_key(const std::string& prefix, std::size
 
 std::string ArenaEntry::generate_random_value(const std::string& prefix, std::size_t length, bool fixed)
 {
+	assert(fixed || length > 0);
+
 	int sz = fixed ? static_cast<int>(length) : rand() % length + 1;
 	std::string result = prefix;
 	while (sz--)
@@ -49,12 +64,15 @@ std::string ArenaEntry::generate_random_value(const std::string& prefix, std::si
 
 Arena::Arena(std::size_t initial_page_size, std::size_t initial_large_threshold)
 {
-	if (initial_page_size == 0
-		|| initial_large_threshold == 0
-		|| initial_large_threshold < alignof(std::max_align_t)
-		|| initial_page_size < alignof(std::max_align_t)
-		)
-		std::terminate();
+	if (initial_page_size == 0)
+		throw std::invalid_argument("Arena initial page size can not be zero");
+	if (initial_large_threshold == 0)
+		throw std::invalid_argument("Arena initial large threshold can not be zero");
+	if (initial_large_threshold < alignof(std::max_align_t))
+		throw std::invalid_argument("Arena initial large threshold can not be less than alignof(std::max_align_t)");
+	if (initial_page_size < alignof(std::max_align_t))
+		throw std::invalid_argument("Arena initial page size can not be less than alignof(std::max_align_t)");
+
 	this->page_size = initial_page_size;
 	this->large_threshold = initial_large_threshold;
 }
@@ -63,128 +81,266 @@ Arena::~Arena()
 	Arena::reset(true);
 }
 
-void* Arena::alloc(size_t n, size_t align)
+Result<void*> Arena::alloc(size_t n, size_t align)
 {
-	if (n == 0) return nullptr;
-	if (align & (align - 1) || align == 0 || align > alignof(std::max_align_t)) std::terminate();
+	if (n == 0)
+		return Result<void*>::ok(nullptr);
+
+	if (align == 0) {
+		return Result<void*>::fail(
+			Status{
+				StatusCode::InvalidAlignment,
+				"Alignment is zero"
+			}
+		);
+	}
+
+	if (!std::has_single_bit(align)) {
+		return Result<void*>::fail(
+			Status{
+				StatusCode::InvalidAlignment,
+				"Alignment is not a power of two"
+			}
+		);
+	}
+
+	if (align > alignof(std::max_align_t)) {
+		return Result<void*>::fail(
+			Status{
+				StatusCode::InvalidAlignment,
+				"Alignment is larger than alignof(std::max_align_t)"
+			}
+		);
+	}
 
 	if (n >= this->large_threshold)
 		return this->alloc_large(n, align);
 	return this->alloc_small(n, align);
 }
-void* Arena::alloc_small(size_t n, size_t align)
+
+Result<void*> Arena::alloc_small(size_t n, size_t align)
 {
-	if (pages.empty() || !fits_in(pages.back(), n, align))
-	{
-		this->pages.push_back(
-			alloc_page(
-				Arena::get_next_page_size(n)
-			)
+	if (pages.empty()) {
+		auto size_result = get_next_page_size(n);
+		if (!size_result.is_ok())
+			return Result<void*>::fail(std::move(size_result.status));
+
+		auto page_result = alloc_page(size_result.value);
+		if (!page_result.is_ok())
+			return Result<void*>::fail(std::move(page_result.status));
+
+		pages.emplace_back(page_result.value);
+	}
+
+	auto fit_result = fits_in(pages.back(), n, align);
+	if (!fit_result.is_ok())
+		return Result<void*>::fail(std::move(fit_result.status));
+
+	if (!fit_result.value) {
+		auto size_result = get_next_page_size(n);
+		if (!size_result.is_ok())
+			return Result<void*>::fail(std::move(size_result.status));
+
+		auto page_result = alloc_page(size_result.value);
+		if (!page_result.is_ok())
+			return Result<void*>::fail(std::move(page_result.status));
+
+		pages.emplace_back(page_result.value);
+	}
+
+	Page& p = pages.back();
+
+	auto off_result = align_up(p.used, align);
+	if (!off_result.is_ok())
+		return Result<void*>::fail(std::move(off_result.status));
+
+	size_t off = off_result.value;
+
+	if (off > p.cap || n > p.cap - off) {
+		return Result<void*>::fail(
+			Status{
+				StatusCode::AllocationFailed,
+				"Arena page does not have enough space"
+			}
 		);
 	}
 
-	Page& p = this->pages.back();
-	size_t off = Arena::align_up(p.used, align);
-
 	void* out = reinterpret_cast<std::byte*>(p.base) + off;
-	if (off > std::numeric_limits<std::size_t>::max() - n)
-		std::terminate();
 	p.used = off + n;
 
-	return out;
+	return Result<void*>::ok(out);
 }
-void* Arena::alloc_large(std::size_t n, std::size_t align)
+
+Result<void*> Arena::alloc_large(std::size_t n, std::size_t align)
 {
 	if (align > alignof(std::max_align_t))
-		std::terminate();
+		return Result<void*>::fail(
+			Status{
+				StatusCode::InvalidAlignment,
+				"Alignment is larger than alignof(std::max_align_t)"
+			}
+		);
 
-	Page p = alloc_page(n);
-	p.used = n;
-	this->large.push_back(p);
+	Result<Page> p = alloc_page(n);
+	if (!p.is_ok())
+		return Result<void*>::fail(std::move(p.status));
 
-	return p.base;
+	p.value.used = n;
+	this->large.emplace_back(p.value);
+
+	return Result<void*>::ok(p.value.base);
 }
-Arena::Page Arena::alloc_page(size_t cap)
+
+Result<Arena::Page> Arena::alloc_page(size_t cap) // consider catching std::bad_alloc on higher layers
 {
-	std::byte* ptr = static_cast<std::byte*>(
+	if (cap == 0) {
+		return Result<Page>::fail(
+			Status{
+				StatusCode::InvalidArgument,
+				"Arena page capacity is zero"
+			}
+		);
+	}
+
+	auto* ptr = static_cast<std::byte*>(
 		::operator new(
 			cap,
 			std::align_val_t(alignof(std::max_align_t))
 			)
 		);
-	memset(ptr, 0xCD, cap);
-	return Page{ ptr, cap, 0 };
+
+	std::memset(ptr, 0xCD, cap);
+
+	return Result<Arena::Page>::ok(Page{ ptr, cap, 0 });
 }
 
 // =============================================================================== 
 
-bool Arena::fits_in(const Page& p, std::size_t n, std::size_t align) const
+Result<bool> Arena::fits_in(const Page& p, std::size_t n, std::size_t align) const
 {
-	std::size_t require = Arena::align_up(p.used, align);
-	if (require > std::numeric_limits<std::size_t>::max() - n)
-		std::terminate();
-	return require + n <= p.cap;
-}
-std::size_t Arena::align_up(std::size_t x, std::size_t a) // x refers to the offset, a is the alignment
-{
-	if (x > std::numeric_limits<std::size_t>::max() - a + 1)
-		std::terminate();
+	auto off_result = Arena::align_up(p.used, align);
+	if (!off_result.is_ok())
+		return Result<bool>::fail(std::move(off_result.status));
 
-	return (x + a - 1) & ~(a - 1);
-}
-size_t Arena::get_next_page_size(size_t n) const
-{
-	size_t required = Arena::align_up(n, alignof(std::max_align_t));
+	std::size_t off = off_result.value;
 
-	if (this->pages.empty())
-		return std::max(this->page_size, required);
+	if (off > p.cap)
+		return Result<bool>::ok(false);
+
+	return Result<bool>::ok(n <= p.cap - off);
+}
+
+Result<std::size_t> Arena::align_up(std::size_t x, std::size_t a)
+{
+    if (a == 0) {
+        return Result<std::size_t>::fail(
+            Status{StatusCode::InvalidAlignment, "Alignment is zero"}
+        );
+    }
+
+    if (!std::has_single_bit(a)) {
+        return Result<std::size_t>::fail(
+            Status{StatusCode::InvalidAlignment, "Alignment is not a power of two"}
+        );
+    }
+
+    const std::size_t mask = a - 1;
+
+    if (x > std::numeric_limits<std::size_t>::max() - mask) {
+        return Result<std::size_t>::fail(
+            Status{
+                StatusCode::AllocationTooLarge,
+                "Arena align_up overflow"
+            }
+        );
+    }
+
+    return Result<std::size_t>::ok((x + mask) & ~mask);
+}
+
+Result<std::size_t> Arena::get_next_page_size(size_t n) const
+{
+	auto result_align_up = Arena::align_up(n, alignof(std::max_align_t));
+	if (!result_align_up.is_ok())
+		return Result<std::size_t>::fail(result_align_up.status);
+
+	size_t required = result_align_up.value;
 
 	if (required > this->max_page_size)
-		std::terminate();
+		return Result<std::size_t>::fail(
+			Status{
+				StatusCode::AllocationTooLarge,
+				"Requested allocation size exceeds max_page_size"
+			}
+		);
+	
+	if (this->pages.empty())
+		return Result<std::size_t>::ok(std::max(this->page_size, required));
+
 
 	if (required > (this->max_page_size - 1) / 2)
-		return this->max_page_size;
+		return Result<std::size_t>::ok(this->max_page_size);
 
 	size_t prev = this->pages.back().cap;
 	size_t doubled = (prev > this->max_page_size / 2) ? this->max_page_size : prev * 2;
-	return std::max(doubled, required);
+	return Result<std::size_t>::ok(std::max(doubled, required));
 }
 
 // =============================================================================== 
 
-uint64_t Arena::get_reserved_bytes() const
+Result<uint64_t> Arena::get_reserved_bytes() const
 {
 	uint64_t result = 0ull;
 	for (auto& p : this->pages)
 	{
 		if (result > std::numeric_limits<uint64_t>::max() - p.cap)
-			std::terminate();
+			return Result<std::uint64_t>::fail(
+				Status{
+					StatusCode::AllocationTooLarge,
+					"Amount of reserved bytes exceeds std::uint64_t::max"
+				}
+			);
 		result += p.cap;
 	}
 	for (auto& l : this->large)
 	{
 		if (result > std::numeric_limits<uint64_t>::max() - l.cap)
-			std::terminate();
+			return Result<std::uint64_t>::fail(
+				Status{
+					StatusCode::AllocationTooLarge,
+					"Amount of reserved bytes exceeds std::uint64_t::max"
+				}
+			);
 		result += l.cap;
 	}
-	return result;
+	return Result<std::uint64_t>::ok(result);
 }
-uint64_t Arena::get_used_bytes() const
+Result<std::uint64_t> Arena::get_used_bytes() const
 {
 	uint64_t result = 0ull;
 	for (auto& p : this->pages)
 	{
 		if (result > std::numeric_limits<uint64_t>::max() - p.used)
-			std::terminate();
+			return Result<std::uint64_t>::fail(
+				Status{
+					StatusCode::AllocationTooLarge,
+					"Amount of used bytes exceeds std::uint64_t::max"
+				}
+			);
 		result += p.used;
 	}
 	for (auto& l : this->large)
 	{
 		if (result > std::numeric_limits<uint64_t>::max() - l.used)
-			std::terminate();
+			return Result<std::uint64_t>::fail(
+				Status{
+					StatusCode::AllocationTooLarge,
+					"Amount of used bytes exceeds std::uint64_t::max"
+				}
+			);
 		result += l.used;
 	}
-	return result;
+	return Result<std::uint64_t>::ok(result);
 }
 
 // =============================================================================== 
@@ -258,27 +414,44 @@ void Arena::reset(bool release_all)
 		this->large.clear();
 	}
 }
-void Arena::free_page(Page& p)
+void Arena::free_page(Page& p) noexcept
 {
+	assert(p.base != nullptr || p.cap == 0);
+	assert(p.used <= p.cap);
+
 	::operator delete(p.base, std::align_val_t(alignof(std::max_align_t)));
+
 	p.base = nullptr;
 	p.cap = p.used = 0;
 }
 
 // =============================================================================== 
 
-ArenaEntry arena_copy_bytes(Arena& a, const void* src, std::uint32_t n)
+Result<ArenaEntry> arena_copy_bytes(Arena& a, const void* src, std::uint32_t n)
 {
 	if (n == 0)
-		return ArenaEntry{ nullptr, 0 };
+		return Result<ArenaEntry>::ok(
+			ArenaEntry{ nullptr, 0 }
+		);
 
 	if (src == nullptr)
-		std::terminate();
+		return Result<ArenaEntry>::fail(
+			Status{
+				StatusCode::NullPointer,
+				"Source pointer is null"
+			}
+		);
 
-	void* dst = a.alloc(n, alignof(std::byte));
+	auto result = a.alloc(n, alignof(std::byte));
+	if (!result.is_ok())
+		return Result<ArenaEntry>::fail(std::move(result.status));
+
+	void* dst = result.value;
 	std::memcpy(dst, src, n);
 
-	return ArenaEntry{ dst, n };
+	return Result<ArenaEntry>::ok(
+		ArenaEntry{ dst, n }
+	);
 }
 
 // =============================================================================== 
@@ -297,12 +470,12 @@ ArenaEntry::ArenaEntry(void* ptr, std::size_t entry_size)
 	: data(ptr)
 {
 	if (entry_size > std::numeric_limits<std::uint32_t>::max())
-		std::terminate();
+		throw std::invalid_argument("Entry size excceds std::uint32_t::max");
 
 	size = static_cast<std::uint32_t>(entry_size);
 
 	if (size > 0 && data == nullptr)
-		std::terminate();
+		throw std::invalid_argument("Provided size can not correspond to nullptr");
 }
 
 ArenaEntry::ArenaEntry(ArenaEntry&& other) noexcept

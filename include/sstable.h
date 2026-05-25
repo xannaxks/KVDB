@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <limits>
 #include <format>
+#include "status.h"
 #include "file.h"
 #include <stdexcept>
 #include <optional>
@@ -35,8 +36,6 @@
 // loading correction
 
 void ensure_atomicity();
-
-
 
 namespace SSTableEntities {
 
@@ -55,10 +54,6 @@ namespace SSTableEntities {
 	struct MetaSection;
 	struct FileFooterSection;
 
-	enum class Status : std::uint8_t
-	{
-		Corrupted = 1,
-	};
 	enum class BlockType : std::uint8_t
 	{
 		Data = 1,
@@ -84,10 +79,10 @@ namespace SSTableEntities {
 
 		static std::size_t disk_size();
 
-		void write(WritableFile& file, std::uint64_t& offset);
-		static std::optional<FileHeaderSection> load(ReadableFile& file, std::uint64_t& offset);
+		Status write(WritableFile& file, std::uint64_t& offset);
+		static Result<std::optional<FileHeaderSection>> load(ReadableFile& file, std::uint64_t& offset);
 
-		void calculate_crc32(std::uint32_t& crc_buffer);
+		Status calculate_crc32(std::uint32_t& crc_buffer);
 
 		FileHeaderSection& operator=(FileHeaderSection& other) = default;
 		FileHeaderSection& operator=(FileHeaderSection&& other) = default;

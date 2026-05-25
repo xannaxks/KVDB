@@ -908,10 +908,10 @@ void DataSection::DataBlock::calculate_crc32(std::uint32_t& crc_buffer)
 
 
 
-void FileHeaderSection::write(WritableFile& file, std::uint64_t& offset)
+Status FileHeaderSection::write(WritableFile& file, std::uint64_t& offset)
 {
     if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        ensure_atomicity();
+        return Status{ StatusCode::InvalidBlockAlignment };
     if (!kvdb::blockio::write_u32_t_le(file, this->magic, offset, BLOCK_SIZE))
         ensure_atomicity();
     if (!kvdb::blockio::write_u32_t_le(file, this->version, offset, BLOCK_SIZE))
@@ -966,7 +966,7 @@ std::optional<FileHeaderSection> FileHeaderSection::load(ReadableFile& file, std
     return result;
 }
 
-void FileHeaderSection::calculate_crc32(std::uint32_t& crc_buffer)
+Status FileHeaderSection::calculate_crc32(std::uint32_t& crc_buffer)
 {
     crc_buffer = ::crc32(0L, Z_NULL, 0);
     crc32_add_pod<std::uint32_t>(crc_buffer, this->magic);
@@ -974,6 +974,8 @@ void FileHeaderSection::calculate_crc32(std::uint32_t& crc_buffer)
     crc32_add_pod<std::uint32_t>(crc_buffer, this->flags);
     crc32_add_pod<std::uint32_t>(crc_buffer, this->block_size);
     crc32_add_pod<std::uint32_t>(crc_buffer, this->table_id);
+
+    return Status::ok();
 }
 
 // IndexSection
