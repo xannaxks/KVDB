@@ -1,6 +1,9 @@
 #include "arena.h"
 #include <bit>
+#include <limits>
+#include <numeric>
 #include <span>
+#include <format>
 
 Result<ArenaEntry> ArenaEntry::make_entry(Arena& arena, const std::span<const std::byte> str)
 {
@@ -201,17 +204,30 @@ Result<Arena::Page> Arena::alloc_page(size_t cap) // consider catching std::bad_
 			}
 		);
 	}
+	try {
+		auto* ptr = static_cast<std::byte*>(
+			::operator new(
+				cap,
+				std::align_val_t(alignof(std::max_align_t))
+				)
+			);
+		std::memset(ptr, 0xCD, cap);
 
-	auto* ptr = static_cast<std::byte*>(
-		::operator new(
-			cap,
-			std::align_val_t(alignof(std::max_align_t))
-			)
+		return Result<Arena::Page>::ok(Page{ ptr, cap, 0 });
+	}
+	catch(const std::bad_alloc&)
+	{
+		return Result<Arena::Page>::fail(
+			Status{
+				StatusCode::AllocationFailed,
+				std::format(
+					"Failed to allocate arena page of size {} and alignment {}",
+					cap,
+					std::align_val_t(alignof(std::max_align_t))
+				)
+			}
 		);
-
-	std::memset(ptr, 0xCD, cap);
-
-	return Result<Arena::Page>::ok(Page{ ptr, cap, 0 });
+	}
 }
 
 // =============================================================================== 

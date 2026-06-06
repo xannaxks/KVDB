@@ -14,16 +14,12 @@ C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_red_black_tree_test.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_crc32_helpers_test.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_sstable_test.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_file_test.dir
-C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/package.dir
-C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/package_source.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/test.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/edit_cache.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/list_install_components.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/install.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/install/local.dir
-C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/CMakeFiles/package.dir
-C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/CMakeFiles/package_source.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/CMakeFiles/test.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/CMakeFiles/edit_cache.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/CMakeFiles/rebuild_cache.dir
@@ -32,8 +28,6 @@ C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/CMakeFiles/install
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/CMakeFiles/install/local.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock/CMakeFiles/gmock.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock/CMakeFiles/gmock_main.dir
-C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock/CMakeFiles/package.dir
-C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock/CMakeFiles/package_source.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock/CMakeFiles/test.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock/CMakeFiles/edit_cache.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock/CMakeFiles/rebuild_cache.dir
@@ -42,8 +36,6 @@ C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock/CMakeFi
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock/CMakeFiles/install/local.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googletest/CMakeFiles/gtest.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googletest/CMakeFiles/gtest_main.dir
-C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googletest/CMakeFiles/package.dir
-C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googletest/CMakeFiles/package_source.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googletest/CMakeFiles/test.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googletest/CMakeFiles/edit_cache.dir
 C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googletest/CMakeFiles/rebuild_cache.dir

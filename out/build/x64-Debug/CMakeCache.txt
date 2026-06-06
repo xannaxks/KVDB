@@ -18,13 +18,13 @@
 BUILD_GMOCK:BOOL=ON
 
 //Path to a program.
-CMAKE_AR:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lib.exe
+CMAKE_AR:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/lib.exe
 
 //No help, variable specified on the command line.
 CMAKE_BUILD_TYPE:STRING=Debug
 
-//No help, variable specified on the command line.
-CMAKE_CXX_COMPILER:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe
+//CXX compiler
+CMAKE_CXX_COMPILER:STRING=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe
 
 //Flags used by the CXX compiler during all build types.
 CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /EHsc
@@ -44,8 +44,8 @@ CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=/Zi /O2 /Ob1 /DNDEBUG
 //Libraries linked by default with all C++ applications.
 CMAKE_CXX_STANDARD_LIBRARIES:STRING=kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
 
-//No help, variable specified on the command line.
-CMAKE_C_COMPILER:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe
+//C compiler
+CMAKE_C_COMPILER:STRING=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe
 
 //Flags used by the C compiler during all build types.
 CMAKE_C_FLAGS:STRING=/DWIN32 /D_WINDOWS
@@ -141,7 +141,7 @@ CMAKE_INSTALL_SHAREDSTATEDIR:PATH=com
 CMAKE_INSTALL_SYSCONFDIR:PATH=etc
 
 //Path to a program.
-CMAKE_LINKER:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/link.exe
+CMAKE_LINKER:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/link.exe
 
 //make program
 CMAKE_MAKE_PROGRAM:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe
@@ -182,13 +182,16 @@ CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 CMAKE_PROJECT_NAME:STATIC=kvdb
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION:STATIC=0.1.0
+CMAKE_PROJECT_SPDX_LICENSE:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION_MAJOR:STATIC=0
+CMAKE_PROJECT_VERSION:STATIC=1.14.0
 
 //Value Computed by CMake
-CMAKE_PROJECT_VERSION_MINOR:STATIC=1
+CMAKE_PROJECT_VERSION_MAJOR:STATIC=1
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_MINOR:STATIC=14
 
 //Value Computed by CMake
 CMAKE_PROJECT_VERSION_PATCH:STATIC=0
@@ -267,33 +270,6 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
-//Enable to build 7-Zip packages
-CPACK_BINARY_7Z:BOOL=OFF
-
-//Enable to build IFW packages
-CPACK_BINARY_IFW:BOOL=OFF
-
-//Enable to build Inno Setup packages
-CPACK_BINARY_INNOSETUP:BOOL=OFF
-
-//Enable to build NSIS packages
-CPACK_BINARY_NSIS:BOOL=ON
-
-//Enable to build NuGet packages
-CPACK_BINARY_NUGET:BOOL=OFF
-
-//Enable to build WiX packages
-CPACK_BINARY_WIX:BOOL=OFF
-
-//Enable to build ZIP packages
-CPACK_BINARY_ZIP:BOOL=OFF
-
-//Enable to build 7-Zip source packages
-CPACK_SOURCE_7Z:BOOL=ON
-
-//Enable to build ZIP source packages
-CPACK_SOURCE_ZIP:BOOL=ON
-
 //Directory under which to collect all populated content
 FETCHCONTENT_BASE_DIR:PATH=C:/Users/user/KVDB/out/build/x64-Debug/_deps
 
@@ -322,86 +298,8 @@ GTEST_HAS_ABSL:BOOL=OFF
 // may want to turn this OFF.)
 INSTALL_GTEST:BOOL=ON
 
-//Value Computed by CMake
-KVDB_BINARY_DIR:STATIC=C:/Users/user/KVDB/out/build/x64-Debug
-
-//Build benchmarks
-KVDB_ENABLE_BENCHMARKS:BOOL=OFF
-
-//Enable LTO
-KVDB_ENABLE_LTO:BOOL=OFF
-
 //Enable AddressSanitizer
 KVDB_ENABLE_SANITIZERS:BOOL=OFF
-
-//Build tests
-KVDB_ENABLE_TESTS:BOOL=OFF
-
-//Value Computed by CMake
-KVDB_IS_TOP_LEVEL:STATIC=ON
-
-//Value Computed by CMake
-KVDB_SOURCE_DIR:STATIC=C:/Users/user/KVDB
-
-//Enable building of Ada bindings
-ZLIB_BUILD_ADA:BOOL=OFF
-
-//Enable building of blast binary
-ZLIB_BUILD_BLAST:BOOL=OFF
-
-//Disable zlib examples
-ZLIB_BUILD_EXAMPLES:BOOL=OFF
-
-//Enable building of IOStream C++ bindings V3
-ZLIB_BUILD_IOSTREAM3:BOOL=OFF
-
-//Enable building of minizip library
-ZLIB_BUILD_MINIZIP:BOOL=OFF
-
-//Enable building of puff decompress library
-ZLIB_BUILD_PUFF:BOOL=OFF
-
-//Enable building zlib shared library
-ZLIB_BUILD_SHARED:BOOL=ON
-
-//Enable building zlib static library
-ZLIB_BUILD_STATIC:BOOL=ON
-
-//Enable Zlib Examples as tests
-ZLIB_BUILD_TESTING:BOOL=ON
-
-//Enable building of testzlib binary
-ZLIB_BUILD_TESTZLIB:BOOL=OFF
-
-//Build the legacy zlib + minizip DLL
-ZLIB_BUILD_ZLIB1_DLL:BOOL=OFF
-
-//zconf.h.cmakein was created
-ZLIB_CONF_WRITTEN:BOOL=TRUE
-
-//Path to a file.
-ZLIB_INCLUDE_DIR:PATH=ZLIB_INCLUDE_DIR-NOTFOUND
-
-//Enable installation of zlib
-ZLIB_INSTALL:BOOL=ON
-
-//Path to a library.
-ZLIB_LIBRARY_DEBUG:FILEPATH=ZLIB_LIBRARY_DEBUG-NOTFOUND
-
-//Path to a library.
-ZLIB_LIBRARY_RELEASE:FILEPATH=ZLIB_LIBRARY_RELEASE-NOTFOUND
-
-//prefix for all types and library functions, see zconf.h.in
-ZLIB_PREFIX:BOOL=OFF
-
-//Enable build with S390X-CRC32VX implementation
-ZLIB_WITH_CRC32VX:BOOL=OFF
-
-//Enable build of an optimized longest_match for 32 bits x86_64
-ZLIB_WITH_GVMAT64:BOOL=OFF
-
-//Enable build with support for method 9 deflate
-ZLIB_WITH_INFBACK9:BOOL=OFF
 
 //Value Computed by CMake
 gmock_BINARY_DIR:STATIC=C:/Users/user/KVDB/out/build/x64-Debug/_deps/googletest-build/googlemock
@@ -458,15 +356,6 @@ kvdb_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 kvdb_SOURCE_DIR:STATIC=C:/Users/user/KVDB
 
-//Value Computed by CMake
-zlib_BINARY_DIR:STATIC=C:/Users/user/KVDB/out/build/x64-Debug/third_party/zlib
-
-//Value Computed by CMake
-zlib_IS_TOP_LEVEL:STATIC=OFF
-
-//Value Computed by CMake
-zlib_SOURCE_DIR:STATIC=C:/Users/user/KVDB/third_party/zlib
-
 
 ########################
 # INTERNAL cache entries
@@ -479,9 +368,9 @@ CMAKE_CACHEFILE_DIR:INTERNAL=c:/Users/user/KVDB/out/build/x64-Debug
 //Major version of cmake used to create the current loaded cache
 CMAKE_CACHE_MAJOR_VERSION:INTERNAL=4
 //Minor version of cmake used to create the current loaded cache
-CMAKE_CACHE_MINOR_VERSION:INTERNAL=1
+CMAKE_CACHE_MINOR_VERSION:INTERNAL=2
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=2
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=3
 //Path to CMake executable.
 CMAKE_COMMAND:INTERNAL=C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin/cmake.exe
 //Path to cpack program executable.
@@ -619,7 +508,7 @@ CMAKE_RC_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_RC_FLAGS_RELWITHDEBINFO
 CMAKE_RC_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //Path to CMake installation.
-CMAKE_ROOT:INTERNAL=C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.1
+CMAKE_ROOT:INTERNAL=C:/Program Files/Microsoft Visual Studio/18/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-4.2
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS
 CMAKE_SHARED_LINKER_FLAGS-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_SHARED_LINKER_FLAGS_DEBUG
@@ -646,56 +535,10 @@ CMAKE_STATIC_LINKER_FLAGS_RELEASE-ADVANCED:INTERNAL=1
 CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CPACK_BINARY_7Z
-CPACK_BINARY_7Z-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CPACK_BINARY_IFW
-CPACK_BINARY_IFW-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CPACK_BINARY_INNOSETUP
-CPACK_BINARY_INNOSETUP-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CPACK_BINARY_NSIS
-CPACK_BINARY_NSIS-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CPACK_BINARY_NUGET
-CPACK_BINARY_NUGET-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CPACK_BINARY_WIX
-CPACK_BINARY_WIX-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CPACK_BINARY_ZIP
-CPACK_BINARY_ZIP-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CPACK_SOURCE_7Z
-CPACK_SOURCE_7Z-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: CPACK_SOURCE_ZIP
-CPACK_SOURCE_ZIP-ADVANCED:INTERNAL=1
 //Details about finding Python3
 FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[C:/Users/user/AppData/Local/Programs/Python/Python313/python.exe][found components: Interpreter ][v3.13.7()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
-//Have function fseeko
-HAVE_FSEEKO:INTERNAL=
-//Result of TRY_COMPILE
-HAVE_OFF64_T:INTERNAL=FALSE
-//Have include stdarg.h
-HAVE_STDARG_H:INTERNAL=1
-//Have include stddef.h
-HAVE_STDDEF_H:INTERNAL=1
-//Have include stdint.h
-HAVE_STDINT_H:INTERNAL=1
-//Have include sys/types.h
-HAVE_SYS_TYPES_H:INTERNAL=1
-//Have include unistd.h
-HAVE_UNISTD_H:INTERNAL=
-//Test HAVE___ATTR__VIS_HIDDEN
-HAVE___ATTR__VIS_HIDDEN:INTERNAL=
-//CHECK_TYPE_SIZE: off64_t unknown
-OFF64_T:INTERNAL=
-//ADVANCED property for variable: ZLIB_CONF_WRITTEN
-ZLIB_CONF_WRITTEN-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: ZLIB_INCLUDE_DIR
-ZLIB_INCLUDE_DIR-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: ZLIB_LIBRARY_DEBUG
-ZLIB_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: ZLIB_LIBRARY_RELEASE
-ZLIB_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: ZLIB_PREFIX
-ZLIB_PREFIX-ADVANCED:INTERNAL=1
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=C:/Users/user/KVDB/out/install/x64-Debug
 //Compiler reason failure

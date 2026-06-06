@@ -1,54 +1,88 @@
+#pragma once
+
 #include <cstdint>
 #include <string>
+#include <utility>
 
-enum class StatusCode : uint8_t {
-    Ok,
+enum class StatusCode : std::uint8_t {
+    Ok = 0,
 
     // Generic
     InvalidArgument,
+    FailedPrecondition,
     NotFound,
     AlreadyExists,
     NotSupported,
+    InternalError,
     InvariantViolation,
+    Duplicate,
 
-    // Memory / allocation
+    // Memory
     OutOfMemory,
     AllocationFailed,
     InvalidAlignment,
     AllocationTooLarge,
     BufferTooSmall,
     NullPointer,
+    BadAlloc,
 
-    // IO / OS
+    // File helpers
+    InvalidOffset,
+    InvalidReadSize,
+    SizeExceedsBlockSize,
+    SizeExceedsBlockBoundary,
+
+    // IO / syscalls
     IOError,
     OpenFailed,
     ReadFailed,
     WriteFailed,
     SyncFailed,
+    CloseFailed,
     RenameFailed,
     DirectorySyncFailed,
+    GetPositionFailed,
+    GetSizeFailed,
+    PermissionDenied,
 
-    // File format / corruption
+    // File format
     Corruption,
     BadMagic,
     UnsupportedVersion,
+    UnsupportedBlockSize,
     ChecksumMismatch,
-    InvalidBlockAlignment,
+    InvalidHeader,
+    InvalidFooter,
     InvalidBlockType,
-    InvalidSize,
+    InvalidBlockAlignment,
+    InvalidSectionOffset,
+    InvalidSectionSize,
+    InvalidPayloadSize,
+    OffsetOutOfRange,
+    OffsetOverlap,
     UnexpectedEOF,
-
-    BadAlloc,
 };
+struct Status {
+    Status() = default;
+    Status(const Status&) = default;
+    Status(Status&&) noexcept = default;
 
-struct Status
-{
-	StatusCode code = StatusCode::Ok;
-	std::string message;
+    Status(StatusCode code, std::string message = "")
+        : code(code), message(std::move(message)) {
+    }
 
-	static Status ok();
+    Status(StatusCode code, const char* message)
+        : code(code), message(message) {
+    }
 
-	bool is_ok() const;
+    StatusCode code = StatusCode::Ok;
+    std::string message;
+
+    static Status ok();
+    bool is_ok() const;
+
+    Status& operator=(const Status&) = default;
+    Status& operator=(Status&&) noexcept = default;
 };
 
 template <typename T>
@@ -72,3 +106,13 @@ struct [[nodiscard]] Result
 		return this->status.is_ok();
 	}
 };
+
+#include <system_error>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <cerrno>
+#endif
+
+Status syscall_error(StatusCode code, std::string op);

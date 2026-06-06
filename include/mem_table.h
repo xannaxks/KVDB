@@ -6,24 +6,25 @@
 #include "record.h"
 #include "red_black_tree.h"
 #include <algorithm>
+#include "status.h"
 
 class SSTableBuilder;
 
 class MemTable
 {
 public:
-    enum class Status
-    {
-        OK,
-        KeyNotFound,
-        KeyWasDeleted,
-        MemoryAllocationFailed
-    };
+    //enum class Status
+    //{
+    //    OK,
+    //    KeyNotFound,
+    //    KeyWasDeleted,
+    //    MemoryAllocationFailed
+    //};
 
     MemTable();
     ~MemTable();
 
-    static Status status_from(RBTree::Status rb_status);
+    static Status status_from(Status rb_status);
 
     Status manual_freeze();
     Status apply(const InternalRecord& entry);

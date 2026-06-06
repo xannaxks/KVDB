@@ -1,3 +1,4 @@
+C:/Users/user/KVDB/build/CMakeFiles/kvdb_status.dir
 C:/Users/user/KVDB/build/CMakeFiles/kvdb_arena.dir
 C:/Users/user/KVDB/build/CMakeFiles/kvdb_endian_io.dir
 C:/Users/user/KVDB/build/CMakeFiles/kvdb_file.dir

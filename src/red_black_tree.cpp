@@ -1,6 +1,7 @@
 #include "red_black_tree.h"
 #include <memory>
 #include <cassert>
+#include <format>
 
 //RBTree::Node::Node(const Bytes& key, const Bytes& value, Type type)
 //    : key(key),
@@ -169,7 +170,7 @@ void RBTree::balance(Node* v)
         root->color = Node::Color::Black;
 }
 
-RBTree::Status RBTree::bst_insert(Node* v)
+::Status RBTree::bst_insert(Node* v)
 {
     Node* current = root;
     Node* parent = nullptr;
@@ -181,7 +182,7 @@ RBTree::Status RBTree::bst_insert(Node* v)
 		if (!(*v < *current) && !(*current < *v))
         {
             // Duplicate entry, do not insert
-            return RBTree::Status::Duplicate;
+            return ::Status{ StatusCode::Duplicate, std::format("Duplicate entry for key: {}", v->key_entry) };
         }
 
         if (*v < *current)
@@ -198,7 +199,7 @@ RBTree::Status RBTree::bst_insert(Node* v)
     else
         parent->right = v;
 
-    return RBTree::Status::OK;
+    return ::Status::ok();
 }
 
 void RBTree::destroy(Node* node)
@@ -230,8 +231,6 @@ RBTree::~RBTree()
     destroy(root);
 }
 
-using Status = RBTree::Status;
-
 Status RBTree::insert(const InternalRecord& entry)
 {
     try
@@ -239,21 +238,21 @@ Status RBTree::insert(const InternalRecord& entry)
         std::unique_ptr<RBTree::Node> new_node;
         new_node = std::make_unique<RBTree::Node>(entry.key_entry, entry.value_entry, entry.type, entry.seq_num);
         RBTree::Node* raw = new_node.get();
-        RBTree::Status insert_res = bst_insert(raw);
-        if (insert_res != RBTree::Status::OK)
+        ::Status insert_res = bst_insert(raw);
+        if (!insert_res.is_ok())
             return insert_res;
         balance(raw);
 
         new_node.release();
-        return Status::OK;
+        return Status::ok();
     }
     catch (const std::bad_alloc&)
     {
-        return Status::MemoryAllocationFailed;
+        return Status{ StatusCode::OutOfMemory, "Failed to allocate memory for new node" };
     }
 }
 
-std::variant<InternalRecord, RBTree::Status> RBTree::find_latest_by_key(ArenaEntry key) const
+Result<InternalRecord> RBTree::find_latest_by_key(ArenaEntry key) const
 {
     Node* current = root;
     Node* result = nullptr;
@@ -273,9 +272,9 @@ std::variant<InternalRecord, RBTree::Status> RBTree::find_latest_by_key(ArenaEnt
     }
 
     if (result == nullptr)
-        return Status::KeyNotFound;
+        return Result<InternalRecord>::fail(Status{ StatusCode::NotFound, std::format("Key not found: {}", key) });
 
-    return InternalRecord(result->key_entry, result->value_entry, result->type, result->seq_number);
+    return Result<InternalRecord>::ok(InternalRecord(result->key_entry, result->value_entry, result->type, result->seq_number));
 }
 
 // Validators implementation

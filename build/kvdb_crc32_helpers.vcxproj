@@ -314,6 +314,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{73CB23E8-E0B2-397F-96C4-2FACD33A5CC6}</Project>
       <Name>kvdb_endian_io</Name>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\user\KVDB\build\kvdb_status.vcxproj">
+      <Project>{1F118E7B-0B4B-3E8D-8E1A-5F2C5D6FCBD6}</Project>
+      <Name>kvdb_status</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

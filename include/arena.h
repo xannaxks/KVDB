@@ -1,4 +1,5 @@
 #pragma once
+#define NOMINMAX
 
 #include <cstddef>
 #include <cstdint>
@@ -113,21 +114,29 @@ private:
 };
 
 template<typename T, class... Args>
-inline T* arena_new(Arena& a, Args&&... args)
+inline Result<T*> arena_new(Arena& a, Args&&... args)
 {
-	void* mem = a.alloc(sizeof(T), alignof(T));
+	Result<void*> alloc_result = a.alloc(sizeof(T), alignof(T));
+	if (!alloc_result.is_ok())
+		return Result<T*>::fail(std::move(alloc_result.status));
+
+	void* mem = alloc_result.value;
 	assert(mem != nullptr);
 
-	return new (mem) T(std::forward<Args>(args)...);
+	return Result<T*>::ok(new (mem) T(std::forward<Args>(args)...));
 }
 
 template <class T>
-T* arena_new_array(Arena& arena, std::size_t count)
+Result<T*> arena_new_array(Arena& arena, std::size_t count)
 {
 	if (count == 0)
-		return nullptr;
+		return Result<T*>::fail(Status{ StatusCode::InvalidArgument, "Count is zero" });
 
-	void* mem = arena.alloc(sizeof(T) * count, alignof(T));
+	Result<void*> alloc_result = arena.alloc(sizeof(T) * count, alignof(T));
+	if(!alloc_result.is_ok())
+		return Result<T*>::fail(std::move(alloc_result.status));
+
+	void* mem = alloc_result.value;
 	assert(mem != nullptr);
 
 	T* ptr = static_cast<T*>(mem);
@@ -135,7 +144,7 @@ T* arena_new_array(Arena& arena, std::size_t count)
 	for (std::size_t i = 0; i < count; ++i)
 		new (&ptr[i]) T();
 
-	return ptr;
+	return Result<T*>::ok(ptr);
 }
 
 Result<ArenaEntry> arena_copy_bytes(Arena& a, const void* src, std::uint32_t n);

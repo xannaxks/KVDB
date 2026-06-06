@@ -51,7 +51,7 @@ private:
     void left_rotate(Node* v);
     void right_rotate(Node* v);
     void balance(Node* v);
-    Status bst_insert(Node* v);
+    ::Status bst_insert(Node* v);
     void destroy(Node* node);
 
     template<typename Collection>
@@ -91,8 +91,8 @@ public:
         Node* next();
     };
 
-    Status insert(const InternalRecord& entry);
-    std::variant<InternalRecord, ::Status> find_latest_by_key(ArenaEntry key) const;
+    ::Status insert(const InternalRecord& entry);
+    Result<InternalRecord> find_latest_by_key(ArenaEntry key) const;
 
     bool root_is_black() const;
     bool no_red_node_has_red_child() const;

@@ -322,6 +322,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{DB1C00FC-C018-304A-9689-B67775E7752A}</Project>
       <Name>kvdb_record</Name>
     </ProjectReference>
+    <ProjectReference Include="C:\Users\user\KVDB\build\kvdb_status.vcxproj">
+      <Project>{1F118E7B-0B4B-3E8D-8E1A-5F2C5D6FCBD6}</Project>
+      <Name>kvdb_status</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

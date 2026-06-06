@@ -1,7 +1,3 @@
-#include "sstable.h"
-#include <algorithm>
-#include <limits>
-
 #ifdef _WIN32
 
     #ifndef NOMINMAX
@@ -13,6 +9,10 @@
     #endif
 
 #endif
+
+#include "sstable.h"
+#include <algorithm>
+#include <limits>
 
 using namespace SSTableEntities;
 
@@ -334,6 +334,8 @@ FileFooterSection::FileFooterSection()
     : magic(FILE_FOOTER_MAGIC),
     version(SSTABLE_VERSION),
     reserved(0),
+    data_offset(0),
+    data_block_count(0),
     index_offset(0),
     index_size(0),
     bloom_offset(0),
@@ -343,28 +345,29 @@ FileFooterSection::FileFooterSection()
     file_size(0),
     footer_crc32(0)
 {
-    footer_crc32 = ::crc32(0L, Z_NULL, 0);
-
-    crc32_add_pod<std::uint32_t>(footer_crc32, magic);
-    crc32_add_pod<std::uint32_t>(footer_crc32, version);
-    crc32_add_pod<std::uint32_t>(footer_crc32, reserved);
-    crc32_add_pod<std::uint64_t>(footer_crc32, index_offset);
-    crc32_add_pod<std::uint32_t>(footer_crc32, index_size);
-    crc32_add_pod<std::uint64_t>(footer_crc32, bloom_offset);
-    crc32_add_pod<std::uint32_t>(footer_crc32, bloom_size);
-    crc32_add_pod<std::uint64_t>(footer_crc32, meta_offset);
-    crc32_add_pod<std::uint32_t>(footer_crc32, meta_size);
-    crc32_add_pod<std::uint64_t>(footer_crc32, file_size);
+    this->calculate_crc32(footer_crc32);
 }
 
-SSTable::SSTable(const std::filesystem::path& path)
-    : path(path),
+SSTable::SSTable( std::filesystem::path& path,  std::filesystem::path& final_path)
+    : path(std::move(path)),
+    final_path(std::move(final_path)),
     file_header_section(),
     data_section(),
     index_section(),
     bloom_section(),
     meta_section(),
     file_footer_section()
+{
+}
+SSTable::SSTable(std::filesystem::path& path):
+	path(std::move(path)),
+	final_path(),
+	file_header_section(),
+	data_section(),
+	index_section(),
+	bloom_section(),
+	meta_section(),
+	file_footer_section()
 {
 }
 SSTableWriter::SSTableWriter()
@@ -391,19 +394,29 @@ void SSTableManager::add_to_pool(SSTable&& sstable)
 /// writes SSTable, manager, writer;
 
 
-void SSTable::write()
+Status SSTable::write()
 {
-    file_out = open_writable_file(path);
+	Result<std::unique_ptr<WritableFile>> file_out_opt = open_writable_file(this->path);
+    if(!file_out_opt.is_ok())
+		return std::move(file_out_opt.status);
+
+    file_out = std::move(file_out_opt.value);
     if (!file_out)
-        throw std::runtime_error("failed to open SSTable for write");
+        return Status{ StatusCode::OpenFailed, "Failed to open SSTable for writing path=" + path.string() };
+
+    Status write_result;
 
     std::uint64_t offset = 0;
 
-    file_header_section.write(*file_out, offset);
+    write_result = file_header_section.write(*file_out, offset);
+    if (!write_result.is_ok())
+        return write_result;
 
     // Data write also fills index_block
     std::uint64_t data_offset = 0;
-    data_section.write(*file_out, offset, index_section, data_offset);
+    write_result = data_section.write(*file_out, offset, index_section, data_offset);
+    if (!write_result.is_ok())
+        return write_result;
 
     // Build bloom/meta after data/index are finalized
     bloom_section.rebuild(data_section);
@@ -413,9 +426,17 @@ void SSTable::write()
     std::uint64_t bloom_offset = 0;
     std::uint64_t meta_offset = 0;
 
-    index_section.write(*file_out, offset, index_offset);
-    bloom_section.write(*file_out, offset, bloom_offset);
-    meta_section.write(*file_out, offset, meta_offset);
+    write_result = index_section.write(*file_out, offset, index_offset);
+    if (!write_result.is_ok())
+        return write_result;
+
+    write_result = bloom_section.write(*file_out, offset, bloom_offset);
+    if (!write_result.is_ok())
+        return write_result;
+
+    write_result = meta_section.write(*file_out, offset, meta_offset);
+    if (!write_result.is_ok())
+        return write_result;
 
     file_footer_section.data_offset = data_offset;
     file_footer_section.data_block_count = data_section.data_blocks.size();
@@ -432,84 +453,103 @@ void SSTable::write()
     //file_footer_section.finalize(*file_out, offset);
     //file_footer_section.write(*file_out, offset);
 
-    if (!align_to_block_boundary(*file_out, offset, BLOCK_SIZE))
-        ensure_atomicity();
+	Status align_to_block_result = align_to_block_boundary(*file_out, offset, BLOCK_SIZE);
+
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
 
     file_footer_section.finalize(*file_out, offset);
 
-    if (!file_footer_section.write(*file_out, offset))
-        ensure_atomicity();
+	write_result = file_footer_section.write(*file_out, offset);
+    if (!write_result.is_ok())
+        return write_result;
 
-    if (!this->fsync(*file_out))
-        ensure_atomicity();
+    Status fsync_result = this->fsync(*file_out);
+    if (!fsync_result.is_ok())
+        return fsync_result;
 
     file_out = nullptr;
-}
-void SSTableWriter::write(SSTable& sstable)
-{
-    sstable.write();
-}
-void SSTableManager::write_latest(bool erase)
-{
-    if (this->immutable_pool.empty()) return;
-    this->sstable_writer.write(this->immutable_pool.front());
 
-    if (!erase) return;
-    this->immutable_pool.erase(this->immutable_pool.begin());
+    return Status::ok();
 }
-void SSTableManager::write_all(bool erase)
+Status SSTableWriter::write(SSTable& sstable)
 {
-    if (erase)
-    {
-        while (!this->immutable_pool.empty())
-        {
-            this->write_latest(true);
-        }
-    }
-    else
-    {
-        for (auto& sstable : this->immutable_pool)
-            this->sstable_writer.write(sstable);
-    }
+    return sstable.write();
+}
+Status SSTableManager::write_latest(bool erase)
+{
+    if (this->immutable_pool.empty()) return Status::ok();
+
+    Status write_result = this->sstable_writer.write(this->immutable_pool.front());
+    if (!write_result.is_ok()) return write_result;
+
+    if (!erase) return Status::ok();
+
+    this->immutable_pool.erase(this->immutable_pool.begin());
+
+    return Status::ok();
+}
+std::vector<Status> SSTableManager::write_all()
+{
+    std::vector<Status> result;
+
+    for (auto& sstable : this->immutable_pool)
+        result.push_back(this->sstable_writer.write(sstable));
+
+    return result;
 }
 
 
 /// loading manager, loader;
 
+Result<SSTable> SSTableLoader::load( std::filesystem::path& path, Arena& arena)
+{
+    return SSTable::load(path, arena);
+}
 
-std::optional<SSTable> SSTableLoader::load(const std::filesystem::path& path, Arena& arena)
+
+Result<SSTable> SSTable::load( std::filesystem::path& path, Arena& arena)
 {
     SSTable result(path);
     std::uint64_t offset = 0ull;
 
-    std::unique_ptr<ReadableFile> file = open_readable_file(path);
+	Result<std::unique_ptr<ReadableFile>> readable_file_opt = open_readable_file(path);
+	if (!readable_file_opt.is_ok())
+		return Result<SSTable>::fail(std::move(readable_file_opt.status));
+
+    std::unique_ptr<ReadableFile> file = std::move(readable_file_opt.value);
 
     if (!file)
-        return std::nullopt;
+        return Result<SSTable>::fail(
+            Status{
+                StatusCode::OpenFailed,
+                "Failed to open SSTable for reading path=" + path.string()
+            }
+        );
 
     auto file_header_opt = FileHeaderSection::load(*file, offset);
-    if (!file_header_opt) return std::nullopt;
-    auto file_header_section = std::move(*file_header_opt);
+    if (!file_header_opt.is_ok()) return Result<SSTable>::fail(std::move(file_header_opt.status));
+    auto file_header_section = std::move(file_header_opt.value);
 
     auto file_footer_opt = FileFooterSection::load(*file, offset, FileFooterSection::disk_size());
-    if (!file_footer_opt) return std::nullopt;
-    auto file_footer_section = std::move(*file_footer_opt);
+    if (!file_footer_opt.is_ok()) return Result<SSTable>::fail(std::move(file_footer_opt.status));
+    auto file_footer_section = std::move(file_footer_opt.value);
 
     auto data_opt = DataSectionView::load(*file, offset, file_footer_section.data_offset, file_footer_section.data_block_count);
-    if (!data_opt) return std::nullopt;
-    auto data_section_view = std::move(*data_opt);
+    if (!data_opt.is_ok()) return Result<SSTable>::fail(std::move(data_opt.status));
+    auto data_section_view = std::move(data_opt.value);
 
     auto index_opt = IndexSection::load(*file, offset, arena, file_footer_section.index_offset);
-    if (!index_opt) return std::nullopt;
-    auto index_section = std::move(*index_opt);
+    if (!index_opt.is_ok()) return Result<SSTable>::fail(std::move(index_opt.status));
+    auto index_section = std::move(index_opt.value);
 
     auto bloom_opt = BloomSection::load(*file, offset, file_footer_section.bloom_offset);
-    if (!bloom_opt) return std::nullopt;
-    auto bloom_section = std::move(*bloom_opt);
+    if (!bloom_opt.is_ok()) return Result<SSTable>::fail(std::move(bloom_opt.status));
+    auto bloom_section = std::move(bloom_opt.value);
 
     auto meta_opt = MetaSection::load(*file, offset, index_section, arena, file_footer_section.meta_offset);
-    if (!meta_opt) return std::nullopt;
-    auto meta_section = std::move(*meta_opt);
+    if (!meta_opt.is_ok()) return Result<SSTable>::fail(std::move(meta_opt.status));
+    auto meta_section = std::move(meta_opt.value);
 
     result.file_header_section = std::move(file_header_section);
     result.data_section_view = std::move(data_section_view);
@@ -518,20 +558,12 @@ std::optional<SSTable> SSTableLoader::load(const std::filesystem::path& path, Ar
     result.meta_section = std::move(meta_section);
     result.file_footer_section = std::move(file_footer_section);
 
-    return result;
+    return Result<SSTable>::ok(std::move(result));
 }
-void SSTableManager::load(Arena& arena, const std::filesystem::path& root_path)
+std::vector<Status> SSTableManager::load(Arena& arena, const std::filesystem::path& root_path)
 {
-    //while (true)
-    //{
-    //    std::filesystem::path next_name = std::move(SSTableManager::make_table_path(root_path, table_id));
-    //    if (next_name.empty()) break;
+    std::vector<Status> load_results;
 
-    //    auto sstable = this->sstable_loader.load(next_name, arena);
-    //    if (!sstable) continue;
-
-    //    this->immutable_pool.emplace_back(std::move(*sstable));
-    //}
     for (std::uint32_t table_id = 1; ; table_id++)
     {
         auto path = make_table_path(root_path, table_id);
@@ -541,11 +573,17 @@ void SSTableManager::load(Arena& arena, const std::filesystem::path& root_path)
     
         auto sstable = sstable_loader.load(path, arena);
         
-        if (!sstable)
-            break;
+        if (!sstable.is_ok())
+        {
+			load_results.push_back(std::move(sstable.status));
+            continue;
+        }
     
-        immutable_pool.emplace_back(std::move(*sstable));
+        immutable_pool.emplace_back(std::move(sstable.value));
+		load_results.push_back(std::move(sstable.status));
     }
+
+    return load_results;
 }
 
 
@@ -573,7 +611,7 @@ void DataSection::DataBlock::add_payload(Payload& payload)
 
     payloads.emplace_back(payload);
 }
-void DataSection::add_payload(const InternalRecord& record)
+Status DataSection::add_payload(const InternalRecord& record)
 {
     Payload payload{};
     payload.key_size = static_cast<std::uint32_t>(record.key_entry.size);
@@ -586,7 +624,14 @@ void DataSection::add_payload(const InternalRecord& record)
     payload.value_ptr = record.value_entry.data;
 
     if (payload.disk_size() > BLOCK_SIZE - DataSection::Header::disk_size()) {
-        throw std::runtime_error("payload too large for one data block");
+        return Status{
+            StatusCode::InvalidPayloadSize,
+            std::format(
+                "data block payload exceeds block capacity: payload_size={}, capacity={}",
+                payload.disk_size(),
+                BLOCK_SIZE - DataSection::Header::disk_size()
+            )    
+        };
     }
 
     if (data_blocks.empty())
@@ -596,72 +641,136 @@ void DataSection::add_payload(const InternalRecord& record)
         init_new_block();
 
     data_blocks.back().add_payload(payload);
+
+    return Status::ok();
 }
 
-bool DataSection::Header::write(WritableFile& file, std::uint64_t& offset)
+Status DataSection::Header::write(WritableFile& file, std::uint64_t& offset)
 {
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return false;
+    Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
+
     assert(offset / BLOCK_SIZE == (offset + this->disk_size() - 1) / BLOCK_SIZE);
 
-    if (!kvdb::blockio::write_u8_t(file, static_cast<std::uint8_t>(this->type), offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->payload_disk_size, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->crc32, offset, BLOCK_SIZE))
-        return false;
-    return true;
+    Status write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u8_t(
+        file,
+        static_cast<std::uint8_t>(this->type),
+        offset,
+        BLOCK_SIZE
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(
+        file,
+        this->payload_disk_size,
+        offset,
+        BLOCK_SIZE
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(
+        file,
+        this->crc32,
+        offset,
+        BLOCK_SIZE
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    return Status::ok();
 }
-bool DataSection::Payload::write(WritableFile& file, std::uint64_t& offset)
+
+Status DataSection::Payload::write(WritableFile& file, std::uint64_t& offset)
 {
-    assert(file.current_position() == offset);
+    Result<std::uint64_t> get_position_result = file.current_position();
+	if (!get_position_result.is_ok())
+		return std::move(get_position_result.status);
+     
+    assert(get_position_result.value == offset);
     assert(offset / BLOCK_SIZE == (offset + this->disk_size() - 1) / BLOCK_SIZE);
 
     if (this->disk_size() > BLOCK_SIZE - Header::disk_size())
-        throw std::runtime_error("DataSection payload too large for a block");
+        return Status{
+            StatusCode::InvalidPayloadSize,
+            std::format(
+                "data block payload exceeds block capacity during writing: payload_size={}, capacity={}",
+                this->disk_size(),
+                BLOCK_SIZE - DataSection::Header::disk_size()
+            )
+        };
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->key_size, offset, BLOCK_SIZE)) // notice : block alignment handled by write_type_t_le()
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->value_size, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u8_t(file, static_cast<std::uint8_t>(this->type), offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->flags, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->reserved, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u64_t_le(file, this->seq_num, offset, BLOCK_SIZE))
-        return false;
+    Status write_endian_result;
 
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->key_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok()) // notice : block alignment handled by write_type_t_le()
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_bytes(
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->value_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u8_t(file, static_cast<std::uint8_t>(this->type), offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->flags, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->reserved, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->seq_num, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_bytes(
         file,
         std::span<std::byte>(reinterpret_cast<std::byte*>(this->key_ptr), this->key_size),
         offset,
         BLOCK_SIZE
-    ))
-        return false;
-    if (!kvdb::blockio::write_bytes(
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_bytes(
         file,
         std::span<std::byte>(reinterpret_cast<std::byte*>(this->value_ptr), this->value_size),
         offset,
         BLOCK_SIZE
-    ))
-        return false;
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    return true;
+    return Status::ok();
 }
-bool DataSection::DataBlock::write(WritableFile& file, std::uint64_t& offset, IndexSection& index_section) {
+
+Status DataSection::DataBlock::write(WritableFile& file, std::uint64_t& offset, IndexSection& index_section) {
     //assert(static_cast<std::uint64_t>(file.tellp()) == offset);
-    assert(file.current_position() == offset);
+	Result<std::uint64_t> get_position_result = file.current_position();
+    if(!get_position_result.is_ok())
+		return std::move(get_position_result.status);
 
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return false;// each datablock less or equal to the size of physical block size. it was adjusted during .add;
+    assert(get_position_result.value == offset);
 
+    Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
+
+    // each datablock less or equal to the size of physical block size. it was adjusted during .add;
+
+    Status write_result;
     std::uint64_t data_block_offset = offset;
 
-    if (!this->header.write(file, offset))
-        return false;
+    write_result = this->header.write(file, offset);
+    if (!write_result.is_ok())
+        return write_result;
 
     bool first_key_set = false;
     std::uint32_t first_key_size = 0, last_key_size = 0;
@@ -670,8 +779,9 @@ bool DataSection::DataBlock::write(WritableFile& file, std::uint64_t& offset, In
 
     for (auto& payload : this->payloads)
     {
-        if (!payload.write(file, offset))
-            return false;
+        write_result = payload.write(file, offset);
+        if (!write_result.is_ok())
+            return write_result;
 
         //std::uint64_t key_offset = offset;
 
@@ -689,21 +799,26 @@ bool DataSection::DataBlock::write(WritableFile& file, std::uint64_t& offset, In
     if (!payloads.empty())
         index_section.add_index(data_block_offset, first_key_size, last_key_size, first_key_ptr, last_key_ptr);
 
-    return true;
+    return Status::ok();
 }
-void DataSection::write(WritableFile& file, std::uint64_t& offset, IndexSection& index_section, std::uint64_t& data_offset)
+Status DataSection::write(WritableFile& file, std::uint64_t& offset, IndexSection& index_section, std::uint64_t& data_offset)
 {
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        ensure_atomicity();
+    Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
+
+    Status write_result;
     data_offset = offset;
     for (auto& data_block : this->data_blocks)
     {
-        if (!data_block.write(file, offset, index_section))
-            ensure_atomicity();
+        write_result = data_block.write(file, offset, index_section);
+        if (!write_result.is_ok())
+            return write_result;
     }
+    return Status::ok();
 }
 
-std::optional<DataSectionView> DataSectionView::load(
+Result<DataSectionView> DataSectionView::load(
     ReadableFile& file,
     std::uint64_t& offset,
     const std::uint64_t& first_data_block_offset,
@@ -711,16 +826,22 @@ std::optional<DataSectionView> DataSectionView::load(
 )
 {
     if (first_data_block_offset == 0 && data_block_count > 0)
-        return std::nullopt;
+        return Result<DataSectionView>::fail(
+            Status{
+                StatusCode::InvalidAlignment,
+                "First data block offset invalid"
+            }
+        );
 
     if (first_data_block_offset != 0)
     {
-        //file.seekg(static_cast<std::streamoff>(first_data_block_offset), std::ios::beg);
-        //if (!file)
-        //    return std::nullopt;
-
         if (first_data_block_offset % BLOCK_SIZE != 0)
-            return std::nullopt;
+            return Result<DataSectionView>::fail(
+                Status{
+                    StatusCode::InvalidAlignment,
+                    "First data block offset not aligned to block size"
+                }
+            );
 
         offset = first_data_block_offset;
     }
@@ -732,129 +853,90 @@ std::optional<DataSectionView> DataSectionView::load(
     while (data_block_count--)
     {
         auto data_block = DataSectionView::DataBlock::load(file, offset);
-        if (!data_block)
-            return std::nullopt;
+        if (!data_block.is_ok())
+            return Result<DataSectionView>::fail(std::move(data_block.status));
 
-        result.data_blocks.emplace_back(std::move(*data_block));
+        result.data_blocks.emplace_back(std::move(data_block.value));
     }
 
-    return result;
+    return Result<DataSectionView>::ok(std::move(result));
 }
-std::optional<DataSectionView::Header> DataSectionView::Header::load(ReadableFile& file, std::uint64_t& offset)
+Result<DataSectionView::Header> DataSectionView::Header::load(ReadableFile& file, std::uint64_t& offset)
 {
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return std::nullopt;
+    Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+    if (!align_to_block_result.is_ok())
+        return Result<Header>::fail(std::move(align_to_block_result));
 
     Header result{};
     result.header_offset = offset;
 
     uint8_t tmp_type;
 
-    if (!kvdb::blockio::read_u8_t(file, tmp_type, offset, BLOCK_SIZE))
-        return std::nullopt;
+    Status read_endian_result;
+
+	read_endian_result = std::move(kvdb::blockio::read_u8_t(file, tmp_type, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<Header>::fail(std::move(read_endian_result));
 
     result.header.type = static_cast<BlockType>(tmp_type);
     if (result.header.type != BlockType::Data)
-        return std::nullopt;
+        return Result<Header>::fail(
+            Status{
+                StatusCode::InvalidBlockType,
+                "Expected Data block type in DataSection"
+            }
+        );
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.header.payload_disk_size, offset, BLOCK_SIZE))
-        return std::nullopt; 
+    read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.header.payload_disk_size, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+		return Result<Header>::fail(std::move(read_endian_result)); 
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.header.crc32, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.header.crc32, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<Header>::fail(std::move(read_endian_result));
 
     if (result.header.payload_disk_size > BLOCK_SIZE - DataSection::Header::disk_size())
-        return std::nullopt;
+        return Result<Header>::fail(
+            Status{
+                StatusCode::InvalidPayloadSize,
+                std::format(
+                    "data block payload exceeds block capacity during data section view header reading: payload_size={}, capacity={}",
+                    result.header.payload_disk_size,
+                    BLOCK_SIZE - DataSection::Header::disk_size()
+                )
+            }
+        );
 
     result.payload_offset = offset;
     result.next_block_offset = result.header_offset + BLOCK_SIZE;
 
     if (result.payload_offset + result.header.payload_disk_size > result.next_block_offset)
-        return std::nullopt;
+        return Result<Header>::fail(
+            Status{
+                StatusCode::OffsetOverlap,
+                "Current payload overlaps with next block"
+            }
+        );
 
-    return result;
+    return Result<Header>::ok(std::move(result));
 }
-//std::optional<DataSection::Payload> DataSection::Payload::load(
-//    ReadableFile* file,
-//    std::uint64_t& offset,
-//    std::uint32_t* must_be_crc
-//)
-//{
-//    assert(static_cast<std::uint64_t>(file.tellg()) == offset);
-//
-//    Payload payload{};
-//
-//    if (!kvdb::blockio::read_u32_t_le(file, payload.key_size, offset, BLOCK_SIZE))
-//        return std::nullopt;
-//
-//    if (!kvdb::blockio::read_u32_t_le(file, payload.value_size, offset, BLOCK_SIZE))
-//        return std::nullopt;
-//
-//    uint8_t tmp_type;
-//    if (!kvdb::blockio::read_u8_t(file, tmp_type, offset, BLOCK_SIZE))
-//        return std::nullopt;
-//    payload.type = static_cast<::Type>(tmp_type);
-//
-//    if (!kvdb::blockio::read_u32_t_le(file, payload.flags, offset, BLOCK_SIZE))
-//        return std::nullopt;
-//
-//    if (!kvdb::blockio::read_u32_t_le(file, payload.reserved, offset, BLOCK_SIZE))
-//        return std::nullopt;
-//
-//    if (!kvdb::blockio::read_u64_t_le(file, payload.seq_num, offset, BLOCK_SIZE))
-//        return std::nullopt;
-//
-//    const std::uint64_t record_size =
-//        sizeof(payload.key_size) +
-//        sizeof(payload.value_size) +
-//        sizeof(payload.type) +
-//        sizeof(payload.flags) +
-//        sizeof(payload.reserved) +
-//        sizeof(payload.seq_num) +
-//        payload.key_size +
-//        payload.value_size;
-//
-//    if (payload.key_size > BLOCK_SIZE)
-//        return std::nullopt;
-//    if (payload.value_size > BLOCK_SIZE)
-//        return std::nullopt;
-//
-//    std::vector<std::byte> key_buf(payload.key_size);
-//    std::vector<std::byte> value_buf(payload.value_size);
-//
-//    if (!kvdb::blockio::read_bytes(file, key_buf.data(), payload.key_size, offset, BLOCK_SIZE))
-//        return std::nullopt;
-//
-//    if (!kvdb::blockio::read_bytes(file, value_buf.data(), payload.value_size, offset, BLOCK_SIZE))
-//        return std::nullopt;
-//
-//    if (must_be_crc != nullptr)
-//    {
-//        payload.key_ptr = key_buf.data();
-//        payload.value_ptr = value_buf.data();
-//        payload.append_crc32(*must_be_crc);
-//    }
-//
-//    payload.key_ptr = nullptr;
-//    payload.value_ptr = nullptr; // the acutal data wouldn't be loaded (since it takes too much ram)
-//
-//    return payload;
-//}
-std::optional<DataSectionView::DataBlock>
+
+Result<DataSectionView::DataBlock>
 DataSectionView::DataBlock::load(ReadableFile& file, std::uint64_t& offset)
 {
     //assert(static_cast<std::uint64_t>(file.tellg()) == offset);
 
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return std::nullopt;
+    Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+    if (!align_to_block_result.is_ok())
+        return Result<DataBlock>::fail(std::move(align_to_block_result));
 
     DataSectionView::DataBlock result{};
 
     auto header_res = DataSectionView::Header::load(file, offset);
-    if (!header_res)
-        return std::nullopt;
+    if (!header_res.is_ok())
+        return Result<DataBlock>::fail(std::move(header_res.status));
 
-    result.header_view = std::move(*header_res);
+    result.header_view = std::move(header_res.value);
 
     // Lazy loading: do not read payload.
     // Just jump to the next physical data block.
@@ -864,7 +946,7 @@ DataSectionView::DataBlock::load(ReadableFile& file, std::uint64_t& offset)
     //if (!file)
     //    return std::nullopt;
 
-    return result;
+    return Result<DataBlock>::ok(std::move(result));
 }
 
 void DataSection::Payload::append_crc32(std::uint32_t& crc_buffer)
@@ -910,60 +992,128 @@ void DataSection::DataBlock::calculate_crc32(std::uint32_t& crc_buffer)
 
 Status FileHeaderSection::write(WritableFile& file, std::uint64_t& offset)
 {
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return Status{ StatusCode::InvalidBlockAlignment };
-    if (!kvdb::blockio::write_u32_t_le(file, this->magic, offset, BLOCK_SIZE))
-        ensure_atomicity();
-    if (!kvdb::blockio::write_u32_t_le(file, this->version, offset, BLOCK_SIZE))
-        ensure_atomicity();
-    if (!kvdb::blockio::write_u32_t_le(file, this->flags, offset, BLOCK_SIZE))
-        ensure_atomicity();
-    if (!kvdb::blockio::write_u32_t_le(file, this->block_size, offset, BLOCK_SIZE))
-        ensure_atomicity();
-    if (!kvdb::blockio::write_u32_t_le(file, this->table_id, offset, BLOCK_SIZE))
-        ensure_atomicity();
-    if (!kvdb::blockio::write_u32_t_le(file, this->crc32, offset, BLOCK_SIZE))
-        ensure_atomicity();
+	Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
 
-    assert(file.current_position() < BLOCK_SIZE);
+    Status write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->magic, offset, BLOCK_SIZE);;
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->version, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->flags, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->block_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->table_id, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+	write_endian_result = kvdb::blockio::write_u32_t_le(file, this->crc32, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    Result<std::uint64_t> get_position_result = file.current_position();
+    if (!get_position_result.is_ok())
+        return std::move(get_position_result.status);
+
+    assert(get_position_result.value < BLOCK_SIZE);
+
+    return Status::ok();
 }
 
-std::optional<FileHeaderSection> FileHeaderSection::load(ReadableFile& file, std::uint64_t& offset)
+Result<FileHeaderSection> FileHeaderSection::load(ReadableFile& file, std::uint64_t& offset)
 {
-    //assert(file.current_ == offset);
-
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return std::nullopt;
+    // assert(file.current_ == offset);
+    
+    Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+    if (!align_to_block_result.is_ok())
+        return Result<FileHeaderSection>::fail(std::move(align_to_block_result));
 
     FileHeaderSection result{};
     std::uint64_t file_header_offset = offset;
 
-    if(!kvdb::blockio::read_u32_t_le(file, result.magic, offset, BLOCK_SIZE))
-        return std::nullopt;
-    if (result.magic != FILE_HEADER_MAGIC) return std::nullopt;
+    if(!kvdb::blockio::read_u32_t_le(file, result.magic, offset, BLOCK_SIZE).is_ok())
+        return Result<FileHeaderSection>::fail(
+            Status{
+                StatusCode::Corruption,
+                "Failed to read magic number"
+            }
+        );
+    if (result.magic != FILE_HEADER_MAGIC)
+        return Result<FileHeaderSection>::fail(
+            Status{
+                StatusCode::BadMagic,
+                std::format(
+                    "Invalid SSTable file header section magic: expected=0x{:08x} actual=0x{:08x}",
+                    FILE_HEADER_MAGIC, result.magic
+                )
+            }
+        );
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.version, offset, BLOCK_SIZE))
-        return std::nullopt;
-    if (result.version != SSTABLE_VERSION) return std::nullopt;
+	Status read_endian_result;
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.flags, offset, BLOCK_SIZE))
-        return std::nullopt;
+	read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.version, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<FileHeaderSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.block_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    if (result.version != SSTABLE_VERSION)
+        return Result<FileHeaderSection>::fail(
+            Status{
+                StatusCode::UnsupportedVersion,
+                std::format("unsupported SSTable version: file_version={}, supported_version={}",
+                   result.version, SSTABLE_VERSION)
+            }
+        );
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.table_id, offset, BLOCK_SIZE))
-        return std::nullopt;
+	read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.flags, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<FileHeaderSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.crc32, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.block_size, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<FileHeaderSection>::fail(std::move(read_endian_result));
+
+    read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.table_id, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<FileHeaderSection>::fail(std::move(read_endian_result));
+
+    read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.crc32, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<FileHeaderSection>::fail(std::move(read_endian_result));
 
     std::uint32_t must_be_crc32;
     result.calculate_crc32(must_be_crc32);
 
-    if (must_be_crc32 != result.crc32) return std::nullopt;
-    if (result.block_size != BLOCK_SIZE) return std::nullopt;
-    return result;
+    if (must_be_crc32 != result.crc32)
+        return Result<FileHeaderSection>::fail(
+            Status{
+                StatusCode::ChecksumMismatch,
+                std::format("SSTable header CRC mismatch: expected={}, actual={}",
+                   must_be_crc32, result.crc32)
+            }
+        );
+    if (result.block_size != BLOCK_SIZE) 
+        return Result<FileHeaderSection>::fail(
+            Status{
+                StatusCode::UnsupportedBlockSize,
+                std::format(
+                    "unsupported SSTable block size found in file header section during loading: file_block_size={}, expected_block_size={}",
+                    result.block_size,
+                    BLOCK_SIZE
+                )
+            }
+        );
+    return Result<FileHeaderSection>::ok(std::move(result));
 }
 
 Status FileHeaderSection::calculate_crc32(std::uint32_t& crc_buffer)
@@ -981,73 +1131,139 @@ Status FileHeaderSection::calculate_crc32(std::uint32_t& crc_buffer)
 // IndexSection
 
 
-std::optional<IndexSection::Header> IndexSection::Header::load(ReadableFile& file, uint64_t& offset)
+Result<IndexSection::Header> IndexSection::Header::load(ReadableFile& file, uint64_t& offset)
 {
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return std::nullopt;
+	Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+
+    if (!align_to_block_result.is_ok())
+        return Result<IndexSection::Header>::fail(std::move(align_to_block_result));
 
     Header result{};
-
     uint8_t tmp_type;
-    if (!kvdb::blockio::read_u8_t(file, tmp_type, offset, BLOCK_SIZE))
-        return std::nullopt;
+	Status read_endian_result;
+
+	read_endian_result = std::move(kvdb::blockio::read_u8_t(file, tmp_type, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<IndexSection::Header>::fail(std::move(read_endian_result));
 
     result.type = static_cast<BlockType>(tmp_type);
     if (result.type != BlockType::Index)
-        return std::nullopt;
+        return Result<IndexSection::Header>::fail(
+            Status{
+                StatusCode::InvalidBlockType,
+				"Expected Index block type in IndexSection"
+            }
+        );
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.payload_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+	read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.payload_size, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<IndexSection::Header>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.crc32, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.crc32, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<IndexSection::Header>::fail(std::move(read_endian_result));
 
-    return result;
+    return Result<IndexSection::Header>::ok(std::move(result));
 }
-std::optional<IndexSection::Payload> IndexSection::Payload::load(ReadableFile& file, std::uint64_t& offset, Arena& arena)
+
+Result<IndexSection::Payload> IndexSection::Payload::load(ReadableFile& file, std::uint64_t& offset, Arena& arena)
 {
-    if (!ensure_fits_in_block(file, IndexSection::Payload::fixed_disk_size(), offset, BLOCK_SIZE))
-        return std::nullopt;
+	Status ensure_fits_result = ensure_fits_in_block(file, IndexSection::Payload::fixed_disk_size(), offset, BLOCK_SIZE);
+
+    if (!ensure_fits_result.is_ok())
+        return Result<IndexSection::Payload>::fail(std::move(ensure_fits_result));
 
     IndexSection::Payload result{};
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.data_block_offset, offset, BLOCK_SIZE))
-        return std::nullopt;
+	Status read_endian_result;
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.first_key_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+	read_endian_result = std::move(kvdb::blockio::read_u64_t_le(file, result.data_block_offset, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.last_key_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.first_key_size, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
+
+	read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.last_key_size, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
     if (result.first_key_size > BLOCK_SIZE)
-        return std::nullopt;
+        return Result<Payload>::fail(
+            Status{
+                StatusCode::ChecksumMismatch,
+                "First key size exceeds block size"
+            }
+        );
+
     if (result.last_key_size > BLOCK_SIZE)
-        return std::nullopt;
+        return Result<Payload>::fail(
+            Status{
+                StatusCode::ChecksumMismatch,
+                "Last key size exceeds block size"
+            }
+        );
 
-    if (!ensure_fits_in_block(file, result.first_key_size + result.last_key_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    ensure_fits_result = ensure_fits_in_block(file, result.first_key_size + result.last_key_size, offset, BLOCK_SIZE);
+    if (!ensure_fits_result.is_ok())
+        return Result<IndexSection::Payload>::fail(std::move(ensure_fits_result));
 
-    void* first_key_ptr = arena.alloc(result.first_key_size, alignof(std::byte)); // Arena arena will be handled and provided in some other place
-    void* last_key_ptr = arena.alloc(result.last_key_size, alignof(std::byte));
+    Result<void*> arena_alloc_result;
+
+	arena_alloc_result = arena.alloc(result.first_key_size, alignof(std::byte));
+    if (!arena_alloc_result.is_ok())
+        return Result<Payload>::fail(std::move(arena_alloc_result.status));
+    void* first_key_ptr = arena_alloc_result.value;
+
+	arena_alloc_result = arena.alloc(result.last_key_size, alignof(std::byte));
+	if (!arena_alloc_result.is_ok())
+        return Result<Payload>::fail(std::move(arena_alloc_result.status));
+	void* last_key_ptr = arena_alloc_result.value;
 
     if (result.first_key_size > 0 && first_key_ptr == nullptr)
-        return std::nullopt;
+        return Result<Payload>::fail(
+            Status{
+                StatusCode::AllocationFailed,
+				"Failed to allocate memory for first key"
+            }
+        );
     if (result.last_key_size > 0 && last_key_ptr == nullptr)
-        return std::nullopt;
+        return Result<Payload>::fail({
+            StatusCode::AllocationFailed,
+            "Failed to allocate memory for last key"
+        });
 
-    if (!kvdb::blockio::read_bytes(file, reinterpret_cast<std::byte*>(first_key_ptr), result.first_key_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+	read_endian_result = std::move(
+        kvdb::blockio::read_bytes(
+            file,
+            reinterpret_cast<std::byte*>(first_key_ptr),
+            result.first_key_size,
+            offset,
+            BLOCK_SIZE
+        )
+    );
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(read_endian_result);
 
-    if (!kvdb::blockio::read_bytes(file, reinterpret_cast<std::byte*>(last_key_ptr), result.last_key_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+	read_endian_result = std::move(
+        kvdb::blockio::read_bytes(
+            file,
+            reinterpret_cast<std::byte*>(last_key_ptr),
+            result.last_key_size,
+            offset,
+            BLOCK_SIZE
+        )
+    );
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(read_endian_result);
 
     result.first_key_ptr = first_key_ptr;
     result.last_key_ptr = last_key_ptr;
 
-    return result;
+    return Result<Payload>::ok(std::move(result));
 }
-std::optional<IndexSection> IndexSection::load(
+Result<IndexSection> IndexSection::load(
     ReadableFile& file,
     std::uint64_t& offset,
     Arena& arena,
@@ -1057,7 +1273,12 @@ std::optional<IndexSection> IndexSection::load(
     //assert(file. == offset);
 
     if (index_offset % BLOCK_SIZE != 0)
-        return std::nullopt;
+        return Result<IndexSection>::fail(
+            Status{
+                StatusCode::InvalidAlignment,
+                "Index section not alinged to block boundary"
+            }
+        );
 
     offset = index_offset;
 
@@ -1065,9 +1286,14 @@ std::optional<IndexSection> IndexSection::load(
     std::uint64_t index_block_offset = offset;
 
     auto header_res = IndexSection::Header::load(file, offset);
-    if (!header_res)
-        return std::nullopt;
-    result.header = std::move(*header_res);
+    if (!header_res.is_ok())
+        return Result<IndexSection>::fail(
+            Status{
+                StatusCode::InvalidAlignment,
+                "Failed to load index section header"
+            }
+        );
+    result.header = std::move(header_res.value);
 
     // payload
 
@@ -1076,27 +1302,43 @@ std::optional<IndexSection> IndexSection::load(
     while (payload_bytes_read < result.header.payload_size)
     {
         auto payload_res = IndexSection::Payload::load(file, offset, arena);
-        if (!payload_res)
-            return std::nullopt;
+        if (!payload_res.is_ok())
+            return Result<IndexSection>::fail(std::move(payload_res.status));
 
-        if (payload_res->disk_size() > result.header.payload_size - payload_bytes_read)
-            return std::nullopt;
-
-        payload_bytes_read += payload_res->disk_size();
-        result.payloads.emplace_back(std::move(*payload_res));
+        if (payload_res.value.disk_size() > result.header.payload_size - payload_bytes_read)
+            return Result<IndexSection>::fail(
+                Status{
+                    StatusCode::InvariantViolation,
+                    "Payload size exceeds remaining index section payload size"
+                }
+            );
+        payload_bytes_read += payload_res.value.disk_size();
+        result.payloads.emplace_back(std::move(payload_res.value));
         
     }
 
     if (payload_bytes_read != result.header.payload_size)
-        return std::nullopt;
+        return Result<IndexSection>::fail(
+            Status{
+                StatusCode::InvariantViolation,
+                "Payload size does not match index section payload size"
+            }
+        );
 
 
     std::uint32_t must_be_crc32;
     result.calculate_crc32(must_be_crc32);
 
-    if (must_be_crc32 != result.header.crc32) return std::nullopt;
+    if (must_be_crc32 != result.header.crc32)
+        return Result<IndexSection>::fail(
+            Status{
+                StatusCode::ChecksumMismatch,
+                std::format("SSTable header CRC mismatch: expected={}, actual={}",
+                           must_be_crc32, result.header.crc32)
+            }
+        );
 
-    return result;
+    return Result<IndexSection>::ok(std::move(result));
 }
 
 void IndexSection::Payload::calculate_crc32(std::uint32_t& crc_buffer)
@@ -1121,75 +1363,115 @@ void IndexSection::calculate_crc32(std::uint32_t& crc_buffer)
         payload.append_crc32(crc_buffer);
 }
 
-void IndexSection::write(WritableFile& file, std::uint64_t& offset, std::uint64_t& index_offset)
+Status IndexSection::write(WritableFile& file, std::uint64_t& offset, std::uint64_t& index_offset)
 {
-    assert(file.current_position() == offset);
+	Result<std::uint64_t> get_position_result = file.current_position();
+	if (!get_position_result.is_ok())
+		return std::move(get_position_result.status);
 
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        ensure_atomicity();
+    assert(get_position_result.value == offset);
 
+	Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
+
+    Status write_result;
     index_offset = offset;
 
-    if (!this->header.write(file, offset))
-        ensure_atomicity();
+    write_result = this->header.write(file, offset);
+    if (!write_result.is_ok())
+        return write_result;
 
     for (auto& payload : this->payloads)
     {
-        if (!payload.write(file, offset))
-            ensure_atomicity();
+        write_result = payload.write(file, offset);
+        if (!write_result.is_ok())
+            return write_result;
     }
+
+    return Status::ok();
 }
-bool IndexSection::Header::write(WritableFile& file, std::uint64_t& offset)
+Status IndexSection::Header::write(WritableFile& file, std::uint64_t& offset)
 {
-    assert(file.current_position() == offset);
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return false;
+    Result<std::uint64_t> get_position_result = file.current_position();
+    if (!get_position_result.is_ok())
+        return std::move(get_position_result.status);
+
+    assert(get_position_result.value == offset);
+
+	Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
+    
     assert(offset / BLOCK_SIZE == (offset + this->disk_size() - 1) / BLOCK_SIZE);
 
-    if (!kvdb::blockio::write_u8_t(file, static_cast<std::uint8_t>(this->type), offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->payload_size, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->crc32, offset, BLOCK_SIZE))
-        return false;
-    return true;
+    Status write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u8_t(file, static_cast<std::uint8_t>(this->type), offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->payload_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->crc32, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    return Status::ok();
 }
-bool IndexSection::Payload::write(WritableFile& file, std::uint64_t& offset)
+Status IndexSection::Payload::write(WritableFile& file, std::uint64_t& offset)
 {
-    assert(file.current_position() == offset);
+    Result<std::uint64_t> get_position_result = file.current_position();
+    if (!get_position_result.is_ok())
+        return std::move(get_position_result.status);
 
-    if (!ensure_fits_in_block(file, Payload::fixed_disk_size(), offset, BLOCK_SIZE))
-        return false;
+    assert(get_position_result.value == offset);
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->data_block_offset, offset, BLOCK_SIZE))
-        return false;
+    Status ensure_fits_result = ensure_fits_in_block(file, Payload::fixed_disk_size(), offset, BLOCK_SIZE);
+    if (!ensure_fits_result.is_ok())
+        return std::move(ensure_fits_result);
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->first_key_size, offset, BLOCK_SIZE))
-        return false;
+    Status write_endian_result;
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->last_key_size, offset, BLOCK_SIZE))
-        return false;
+	write_endian_result = std::move(kvdb::blockio::write_u64_t_le(file, this->data_block_offset, offset, BLOCK_SIZE));
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!ensure_fits_in_block(file, first_key_size + last_key_size, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = std::move(kvdb::blockio::write_u32_t_le(file, this->first_key_size, offset, BLOCK_SIZE));
+    if (!write_endian_result.is_ok())
+        return write_endian_result; 
 
-    if (!kvdb::blockio::write_bytes(
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->last_key_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+	ensure_fits_result = ensure_fits_in_block(file, this->first_key_size, offset, BLOCK_SIZE);
+    if (!ensure_fits_result.is_ok())
+        return std::move(ensure_fits_result);
+    
+    write_endian_result = kvdb::blockio::write_bytes(
         file,
         std::span<std::byte>(reinterpret_cast<std::byte*>(this->first_key_ptr), this->first_key_size),
         offset,
         BLOCK_SIZE
-    ))
-        return false;
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_bytes(
+    write_endian_result = kvdb::blockio::write_bytes(
         file,
         std::span<std::byte>(reinterpret_cast<std::byte*>(this->last_key_ptr), this->last_key_size),
         offset,
         BLOCK_SIZE
-    ))
-        return false;
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    return true;
+    return Status::ok();
 }
 
 void IndexSection::add_index(
@@ -1231,60 +1513,86 @@ void IndexSection::add_index(
 
 // BloomSection
 
-std::optional<BloomSection::Header> BloomSection::Header::load(ReadableFile& file, std::uint64_t& offset)
+Result<BloomSection::Header> BloomSection::Header::load(ReadableFile& file, std::uint64_t& offset)
 {
     //assert(static_cast<std::uint64_t>(file.tellg()) == offset);
 
     Header result{};
-
     std::uint8_t tmp_type;
-    if (!kvdb::blockio::read_u8_t(file, tmp_type, offset, BLOCK_SIZE))
-        return std::nullopt;
+	Status read_endian_result;
+
+	read_endian_result = std::move(kvdb::blockio::read_u8_t(file, tmp_type, offset, BLOCK_SIZE));
+    if (!read_endian_result.is_ok())
+        return Result<Header>::fail(std::move(read_endian_result));
 
     result.type = static_cast<BlockType>(tmp_type);
     if (result.type != BlockType::Bloom)
-        return std::nullopt;
+        return Result<Header>::fail(Status{
+            StatusCode::InvariantViolation,
+            "Invalid block type for BloomSection header"
+        });
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.payload_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.payload_size, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Header>::fail(std::move(read_endian_result));
+
     if (result.payload_size != BloomSection::Payload::disk_size())
-        return std::nullopt;;
+        return Result<Header>::fail(Status{
+            StatusCode::InvariantViolation,
+            "Invalid payload size for BloomSection header"
+        });
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.crc32, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.crc32, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Header>::fail(std::move(read_endian_result));
 
-    return result;
+    return Result<Header>::ok(std::move(result));
 }
-std::optional<BloomSection::Payload> BloomSection::Payload::load(ReadableFile& file, std::uint64_t& offset)
+Result<BloomSection::Payload> BloomSection::Payload::load(ReadableFile& file, std::uint64_t& offset)
 {
     //assert(static_cast<std::uint64_t>(file.tellg()) == offset);
 
     Payload result{};
-
     std::uint64_t payload_size = 0;
+    Status read_endian_result;
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.bloom_bits, offset, BLOCK_SIZE))
-        return std::nullopt;
-    
-    if (!kvdb::blockio::read_u32_t_le(file, result.hash_count, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.bloom_bits, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.key_count, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.hash_count, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
+
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.key_count, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
     result.mask.resize(BLOOM_MASK_BIT_SIZE);
 
-    if (!kvdb::blockio::read_bytes(file, reinterpret_cast<std::byte*>(result.mask.data()), BLOOM_MASK_BIT_SIZE, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_bytes(
+        file,
+        reinterpret_cast<std::byte*>(result.mask.data()),
+        BLOOM_MASK_BIT_SIZE,
+        offset,
+        BLOCK_SIZE
+    );
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    return result;
+    return Result<Payload>::ok(std::move(result));
 }
-std::optional<BloomSection> BloomSection::load(ReadableFile& file, std::uint64_t& offset, const std::uint64_t& bloom_offset)
+Result<BloomSection> BloomSection::load(ReadableFile& file, std::uint64_t& offset, const std::uint64_t& bloom_offset)
 {
     //assert(static_cast<std::uint64_t>(file.tellg()) == offset);
 
     if (bloom_offset % BLOCK_SIZE != 0)
-        return std::nullopt;
+        return Result<BloomSection>::fail(
+            Status{
+                StatusCode::InvariantViolation,
+                "Bloom section offset is not aligned to block boundary during loading"
+            }
+        );
 
     offset = bloom_offset;
 
@@ -1292,24 +1600,34 @@ std::optional<BloomSection> BloomSection::load(ReadableFile& file, std::uint64_t
     std::uint64_t bloom_block_offset = offset;
 
     auto header_res = BloomSection::Header::load(file, offset);
-    if (!header_res)
-        return std::nullopt;
-    result.header = std::move(*header_res);
+    if (!header_res.is_ok())
+        return Result<BloomSection>::fail(std::move(header_res.status));
+    result.header = std::move(header_res.value);
 
     auto payload_res = BloomSection::Payload::load(file, offset);
-    if (!payload_res)
-        return std::nullopt;
-    result.payload = std::move(*payload_res);
+    if (!payload_res.is_ok())
+        return Result<BloomSection>::fail(std::move(payload_res.status));
+    result.payload = std::move(payload_res.value);
 
     std::uint32_t must_be_crc32;
     result.calculate_crc32(must_be_crc32);
 
-    if (must_be_crc32 != result.header.crc32) return std::nullopt;
-    if (result.payload.hash_count != BLOOM_HASH_COUNT) return std::nullopt;
-    if (result.payload.disk_size() != result.header.payload_size) return std::nullopt;
-    if (result.payload.bloom_bits != result.payload.mask.size()) return std::nullopt;
+    if (must_be_crc32 != result.header.crc32)
+        return Result<BloomSection>::fail(
+            Status{
+                StatusCode::ChecksumMismatch,
+                std::format("SSTable header CRC mismatch: expected={}, actual={}",
+                           must_be_crc32, result.header.crc32)
+            }
+        );
+    if (result.payload.hash_count != BLOOM_HASH_COUNT) return Result<BloomSection>::fail(
+        Status{ StatusCode::InvariantViolation, "Bloom section hash count mismatch" });
+    if (result.payload.disk_size() != result.header.payload_size) return Result<BloomSection>::fail(
+        Status{ StatusCode::InvariantViolation, "Bloom section payload size mismatch" });
+    if (result.payload.bloom_bits != result.payload.mask.size()) return Result<BloomSection>::fail(
+        Status{ StatusCode::InvariantViolation, "Bloom section bloom bits mismatch" });
 
-    return result;
+    return Result<BloomSection>::ok(std::move(result));
 }
 
 void BloomSection::Payload::calculate_crc32(std::uint32_t& crc_buffer)
@@ -1327,63 +1645,90 @@ void BloomSection::calculate_crc32(std::uint32_t& crc_buffer)
     this->payload.calculate_crc32(crc_buffer);
 }
 
-bool BloomSection::Header::write(WritableFile& file, std::uint64_t& offset)
+Status BloomSection::Header::write(WritableFile& file, std::uint64_t& offset)
 {
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return false;
+	Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
+
     assert(offset / BLOCK_SIZE == (offset + this->disk_size() - 1) / BLOCK_SIZE);
 
-    if (!kvdb::blockio::write_u8_t(file, static_cast<uint8_t>(this->type), offset, BLOCK_SIZE))
-        return false;
+    Status write_endian_result;
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->payload_size, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u8_t(file, static_cast<uint8_t>(this->type), offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->crc32, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->payload_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    return true;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->crc32, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    return Status::ok();
 }
-bool BloomSection::Payload::write(WritableFile& file, std::uint64_t& offset)
+Status BloomSection::Payload::write(WritableFile& file, std::uint64_t& offset)
 {
     std::uint64_t old_offset = offset;
-    if (!ensure_fits_in_block(file, Payload::disk_size(), offset, BLOCK_SIZE))
-        return false;
+    Status ensure_fits_result = ensure_fits_in_block(file, Payload::disk_size(), offset, BLOCK_SIZE);
+    if (!ensure_fits_result.is_ok())
+        return std::move(ensure_fits_result);
 
     assert(old_offset == offset);
     assert(offset / BLOCK_SIZE == (offset + this->disk_size() - 1) / BLOCK_SIZE);
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->bloom_bits, offset, BLOCK_SIZE))
-        return false;
+    Status write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->bloom_bits, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
     
-    if (!kvdb::blockio::write_u32_t_le(file, this->hash_count, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->hash_count, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->key_count, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->key_count, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result; 
 
-    if (!kvdb::blockio::write_bytes(
+    write_endian_result = kvdb::blockio::write_bytes(
         file,
         std::span<std::byte>(reinterpret_cast<std::byte*>(this->mask.data()), this->mask.size()),
         offset,
         BLOCK_SIZE
-    ))
-        return false;
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    return true;
+    return Status::ok();
 }
-void BloomSection::write(WritableFile& file, std::uint64_t& offset, std::uint64_t& bloom_offset)
+Status BloomSection::write(WritableFile& file, std::uint64_t& offset, std::uint64_t& bloom_offset)
 {
-    assert(file.current_position() == offset);
+    Result<std::uint64_t> get_position_result = file.current_position();
+    if (!get_position_result.is_ok())
+        return std::move(get_position_result.status);
 
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        ensure_atomicity();
+    assert(get_position_result.value == offset);
+
+    Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
+
+    Status write_result;
     bloom_offset = offset;
 
-    if (!this->header.write(file, offset))
-        ensure_atomicity(); // temporary place holder again
-    if (!this->payload.write(file, offset))
-        ensure_atomicity();
+    write_result = this->header.write(file, offset);
+    if (!write_result.is_ok())
+        return write_result;
+
+    write_result = this->payload.write(file, offset);
+    if (!write_result.is_ok())
+        return write_result;
+    
+    return Status::ok();
 }
 
 void BloomSection::add_key(const void* key_ptr, std::uint32_t key_size)
@@ -1444,197 +1789,313 @@ void BloomSection::rebuild(const DataSection& data_section)
 
 // MetaSection
 
-bool MetaSection::Header::write(WritableFile& file, std::uint64_t& offset)
+Status MetaSection::Header::write(WritableFile& file, std::uint64_t& offset)
 {
-    assert(file.current_position() == offset);
+    Result<std::uint64_t> get_position_result = file.current_position();
+    if (!get_position_result.is_ok())
+        return std::move(get_position_result.status);
 
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return false;
+    assert(get_position_result.value == offset);
+
+	Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
 
     assert(offset / BLOCK_SIZE == (offset + this->disk_size() - 1) / BLOCK_SIZE);
 
-    if (!kvdb::blockio::write_u8_t(file, static_cast<std::uint8_t>(this->type), offset, BLOCK_SIZE))
-        return false;
+    Status write_endian_result;
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->payload_size, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u8_t(file, static_cast<std::uint8_t>(this->type), offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->crc32, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->payload_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    return true;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->crc32, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    return Status::ok();
 }
-bool MetaSection::Payload::write(WritableFile& file, std::uint64_t& offset)
+Status MetaSection::Payload::write(WritableFile& file, std::uint64_t& offset)
 {
     std::uint64_t old_offset;
     old_offset = offset;
-    assert(file.current_position() == offset);
-    
-    if (!ensure_fits_in_block(file, Payload::disk_size(), offset, BLOCK_SIZE))
-        return false;
+
+    Result<std::uint64_t> get_position_result = file.current_position();
+    if (!get_position_result.is_ok())
+        return std::move(get_position_result.status);
+
+    assert(get_position_result.value == offset);
+
+	Status ensure_fits_result = ensure_fits_in_block(file, Payload::disk_size(), offset, BLOCK_SIZE);
+
+    if (!ensure_fits_result.is_ok())
+        return std::move(ensure_fits_result);
 
     assert(old_offset == offset);
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->record_count, offset, BLOCK_SIZE))
-        return false;
+	Status write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->tombstone_count, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->record_count, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->min_seq_num, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->tombstone_count, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->max_seq_num, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->min_seq_num, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->max_seq_num, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
     
-    if (!kvdb::blockio::write_u32_t_le(file, this->min_key_size, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->min_key_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->max_key_size, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->max_key_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->data_block_count, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->data_block_count, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->data_bytes, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->data_bytes, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
     if (this->min_key_size > 0 && this->min_key_ptr == nullptr)
-        return false;
+        return Status{
+            StatusCode::InvariantViolation,
+			"Failed to write meta section payload: min key size is greater than 0 but min key pointer is null"
+        };
 
     if (this->max_key_size > 0 && this->max_key_ptr == nullptr)
-        return false;
+        return Status{
+            StatusCode::InvariantViolation,
+			"Failed to write meta section payload: max key size is greater than 0 but max key pointer is null"
+        };
 
-    if (!kvdb::blockio::write_bytes(
+    write_endian_result = kvdb::blockio::write_bytes(
         file,
         std::span<std::byte>(reinterpret_cast<std::byte*>(this->min_key_ptr), this->min_key_size),
         offset,
         BLOCK_SIZE
-    ))
-        return false;
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_bytes(
+    write_endian_result = kvdb::blockio::write_bytes(
         file,
         std::span<std::byte>(reinterpret_cast<std::byte*>(this->max_key_ptr), this->max_key_size),
         offset,
         BLOCK_SIZE
-    ))
-        return false;
+    );
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    return true;
+    return Status::ok();
 }
-void MetaSection::write(WritableFile& file, std::uint64_t& offset, std::uint64_t& meta_offset)
+Status MetaSection::write(WritableFile& file, std::uint64_t& offset, std::uint64_t& meta_offset)
 {
-    assert(file.current_position() == offset);
+    Result<std::uint64_t> get_position_result = file.current_position();
+    if (!get_position_result.is_ok())
+        return std::move(get_position_result.status);
 
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        ensure_atomicity();
+    assert(get_position_result.value == offset);
+
+	Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+
+    if (!align_to_block_result.is_ok())
+        return std::move(align_to_block_result);
+
+    Status write_result;
     meta_offset = offset;
 
-    if (!this->header.write(file, offset))
-        ensure_atomicity();
+    write_result = this->header.write(file, offset);
+    if (!write_result.is_ok())
+        return write_result;
     
-    if (!this->payload.write(file, offset))
-        ensure_atomicity();
+    write_result = this->payload.write(file, offset);
+    if (!write_result.is_ok())
+        return write_result;
     
 }
 
-std::optional<MetaSection::Header> MetaSection::Header::load(
+Result<MetaSection::Header> MetaSection::Header::load(
     ReadableFile& file,
     std::uint64_t& offset
 )
 {
     //assert(static_cast<std::uint64_t>(file.tellg()) == offset);
-    if (!align_to_block_boundary(file, offset, BLOCK_SIZE))
-        return std::nullopt;
+	Status align_to_block_result = align_to_block_boundary(file, offset, BLOCK_SIZE);
+
+    if (!align_to_block_result.is_ok())
+        return Result<MetaSection::Header>::fail(std::move(align_to_block_result));
 
     Header result;
-
     std::uint8_t tmp_type;
-    if (!kvdb::blockio::read_u8_t(file, tmp_type, offset, BLOCK_SIZE))
-        return std::nullopt;
+	Status read_endian_result;
+
+    read_endian_result = kvdb::blockio::read_u8_t(file, tmp_type, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Header>::fail(std::move(read_endian_result));
     
     result.type = static_cast<BlockType>(tmp_type);
     if (result.type != BlockType::Meta)
-        return std::nullopt;
+        return Result<Header>::fail(
+            Status{
+                StatusCode::InvalidBlockType,
+				"Expected Meta block type in MetaSection"
+            }
+        );
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.payload_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.payload_size, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Header>::fail(std::move(read_endian_result));
     
-    if (!kvdb::blockio::read_u32_t_le(file, result.crc32, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.crc32, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Header>::fail(std::move(read_endian_result));
 
-    return result;
+    return Result<Header>::ok(std::move(result));
 }
-std::optional<MetaSection::Payload> MetaSection::Payload::load(ReadableFile& file, std::uint64_t& offset, Arena& arena, MetaSection::Header& header)
+Result<MetaSection::Payload> MetaSection::Payload::load(ReadableFile& file, std::uint64_t& offset, Arena& arena, MetaSection::Header& header)
 {
     //assert(static_cast<std::uint64_t>(file.tellg()) == offset);
 
     uint64_t old_offset = offset;
 
-    if (!ensure_fits_in_block(file, header.payload_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+	Status ensure_fits_result = ensure_fits_in_block(file, header.payload_size, offset, BLOCK_SIZE);
+
+    if (!ensure_fits_result.is_ok())
+        return Result<Payload>::fail(std::move(ensure_fits_result));
 
     assert(old_offset == offset);
 
     Payload result{};
+	Status read_endian_result;
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.record_count, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.record_count, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.tombstone_count, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.tombstone_count, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.min_seq_num, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.min_seq_num, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.max_seq_num, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.max_seq_num, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.min_key_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.min_key_size, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.max_key_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.max_key_size, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.data_block_count, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.data_block_count, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.data_bytes, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.data_bytes, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
     const std::uint64_t expected_size = MetaSection::Payload::fixed_disk_size() + result.min_key_size + result.max_key_size;
 
     if (expected_size != header.payload_size)
-        return std::nullopt;
+        return Result<Payload>::fail(
+            Status{
+                StatusCode::InvariantViolation,
+				"Meta section payload size mismatch during loading"
+            }
+        );
 
     if (expected_size > BLOCK_SIZE - MetaSection::Header::disk_size())
-        return std::nullopt;
+        return Result<Payload>::fail(
+            Status{
+                StatusCode::InvariantViolation,
+				"Meta section payload size exceeds block size"
+            }
+        );
 
-    void* min_key_ptr = arena.alloc(result.min_key_size, alignof(std::byte));
-    void* max_key_ptr = arena.alloc(result.max_key_size, alignof(std::byte));
+    Result<void*> arena_alloc_result;
+
+	arena_alloc_result = arena.alloc(result.min_key_size, alignof(std::byte));
+    if (!arena_alloc_result.is_ok())
+        return Result<Payload>::fail(std::move(arena_alloc_result.status));
+    void* min_key_ptr = arena_alloc_result.value;
+
+	arena_alloc_result = arena.alloc(result.max_key_size, alignof(std::byte));
+    if (!arena_alloc_result.is_ok())
+        return Result<Payload>::fail(std::move(arena_alloc_result.status));
+    void* max_key_ptr = arena_alloc_result.value;
     
     if (result.min_key_size > 0 && min_key_ptr == nullptr)
-        return std::nullopt;
+        return Result<Payload>::fail(
+            Status{
+                StatusCode::AllocationFailed,
+				"Failed to allocate memory for min key"
+            }
+        );
 
     if (result.max_key_size > 0 && max_key_ptr == nullptr)
-        return std::nullopt;
+        return Result<Payload>::fail(
+            Status{
+                StatusCode::AllocationFailed,
+				"Failed to allocate memory for max key"
+            }
+        );
 
-    if (!kvdb::blockio::read_bytes(file, reinterpret_cast<std::byte*>(min_key_ptr), result.min_key_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_bytes(
+        file,
+        reinterpret_cast<std::byte*>(min_key_ptr),
+        result.min_key_size,
+        offset,
+        BLOCK_SIZE
+    );
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
     
-    if (!kvdb::blockio::read_bytes(file, reinterpret_cast<std::byte*>(max_key_ptr), result.max_key_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_bytes(
+        file,
+        reinterpret_cast<std::byte*>(max_key_ptr),
+        result.max_key_size,
+        offset,
+        BLOCK_SIZE
+    );
+    if (!read_endian_result.is_ok())
+        return Result<Payload>::fail(std::move(read_endian_result));
 
     if (result.disk_size() != header.payload_size)
-        return std::nullopt;
+        return Result<Payload>::fail(
+            Status{
+                StatusCode::InvariantViolation,
+				"Meta section payload size mismatch during loading"
+            }
+        );
 
     result.min_key_ptr = min_key_ptr;
     result.max_key_ptr = max_key_ptr;
 
-    return result;
+    return Result<Payload>::ok(std::move(result));
 }
-std::optional<MetaSection> MetaSection::load(
+Result<MetaSection> MetaSection::load(
     ReadableFile& file,
     std::uint64_t& offset,
     IndexSection& index_section,
@@ -1644,7 +2105,12 @@ std::optional<MetaSection> MetaSection::load(
     //assert(static_cast<std::uint64_t>(file.tellg()) == offset);
 
     if (meta_offset % BLOCK_SIZE != 0)
-        return std::nullopt;
+        return Result<MetaSection>::fail(
+            Status{
+                StatusCode::InvalidBlockAlignment,
+				"Meta section offset is not aligned to block size"
+            }
+        );
 
     offset = meta_offset;
 
@@ -1652,57 +2118,43 @@ std::optional<MetaSection> MetaSection::load(
     std::uint64_t meta_block_offset = offset;
 
     auto header_res = MetaSection::Header::load(file, offset);
-    if (!header_res)
-        return std::nullopt;
-    result.header = std::move(*header_res);
+    if (!header_res.is_ok())
+        return Result<MetaSection>::fail(std::move(header_res.status));
+    result.header = std::move(header_res.value);
 
     auto payload_res = MetaSection::Payload::load(file, offset, arena, result.header);
-    if (!payload_res)
-        return std::nullopt;
-    result.payload = std::move(*payload_res);
+    if (!payload_res.is_ok())
+        return Result<MetaSection>::fail(std::move(payload_res.status));
+    result.payload = std::move(payload_res.value);
 
     std::uint32_t must_be_crc32;
     result.calculate_crc32(must_be_crc32);
 
-    if (must_be_crc32 != result.header.crc32) return std::nullopt;
+    if (must_be_crc32 != result.header.crc32)
+        return Result<MetaSection>::fail(
+            Status{
+                StatusCode::ChecksumMismatch,
+                std::format("SSTable header CRC mismatch: expected={}, actual={}",
+                   must_be_crc32, result.header.crc32)
+            }
+        );
 
-    //std::uint32_t must_be_tombstone_count = 0;
-    //std::uint32_t must_be_min_key_size = std::numeric_limits<std::uint32_t>::max(), must_be_max_key_size = std::numeric_limits<std::uint32_t>::min();
-    //std::uint64_t must_be_min_seq_num = std::numeric_limits<std::uint64_t>::max(), must_be_max_seq_num = std::numeric_limits<std::uint64_t>::min();
-    //std::uint64_t must_be_data_bytes = 0;
+    if (result.header.payload_size != result.payload.disk_size())
+        return Result<MetaSection>::fail(
+            Status{
+                StatusCode::InvariantViolation,
+                "Meta section header payload size does not match actual payload size during loading"
+            }
+		);  
+    if (result.payload.data_block_count != index_section.payloads.size()) 
+        return Result<MetaSection>::fail(
+            Status{
+                StatusCode::InvariantViolation,
+                "Meta section data block count does not match index section data block count during loading"
+            }
+		);
 
-    //for (const auto& block : data_section.data_blocks)
-    //{
-
-    //    for (const auto& payload : block.payloads)
-    //    {
-    //        must_be_tombstone_count += (payload.type == Type::Tombstone);
-    //        must_be_min_key_size = std::min(must_be_min_key_size, payload.key_size);
-    //        must_be_max_key_size = std::max(must_be_max_key_size, payload.key_size);
-    //        must_be_min_seq_num = std::min(must_be_min_seq_num, payload.seq_num);
-    //        must_be_max_seq_num = std::max(must_be_max_seq_num, payload.seq_num);
-    //        must_be_data_bytes += payload.disk_size();
-    //    }
-    //}
-
-    //if (data_section.data_blocks.empty())
-    //{
-    //    must_be_min_key_size = 0;
-    //    must_be_max_key_size = 0;
-    //    must_be_min_seq_num = 0;
-    //    must_be_max_seq_num = 0;
-    //}
-
-    //if (result.payload.tombstone_count != must_be_tombstone_count) return std::nullopt;
-    //if (result.payload.min_key_size != must_be_min_key_size) return std::nullopt;
-    //if (result.payload.max_key_size != must_be_max_key_size) return std::nullopt;
-    //if (result.payload.min_seq_num != must_be_min_seq_num) return std::nullopt;
-    //if (result.payload.max_seq_num != must_be_max_seq_num) return std::nullopt;
-    //if (result.payload.data_bytes != must_be_data_bytes) return std::nullopt; // will be evaluated later, as we make requests
-    if (result.header.payload_size != result.payload.disk_size()) return std::nullopt;
-    if (result.payload.data_block_count != index_section.payloads.size()) return std::nullopt;
-
-    return result;
+    return Result<MetaSection>::ok(std::move(result));
 }
 
 void MetaSection::Payload::calculate_crc32(std::uint32_t& crc_buffer)
@@ -1806,44 +2258,70 @@ void MetaSection::rebuild(DataSection& data_section, IndexSection& index_section
 // FileFooterSection
 
 
-bool FileFooterSection::write(WritableFile& file, std::uint64_t& offset)    
+Status FileFooterSection::write(WritableFile& file, std::uint64_t& offset)    
 {
-    assert(file.current_position() == offset);
+    Result<std::uint64_t> get_position_result = file.current_position();
+    if (!get_position_result.is_ok())
+        return std::move(get_position_result.status);
+
+    assert(get_position_result.value == offset);
     assert(offset % BLOCK_SIZE == 0);
 
-    if (!kvdb::blockio::write_u32_t_le(file, this->magic, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->version, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->reserved, offset, BLOCK_SIZE))
-        return false;
+    Status write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->data_offset, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u64_t_le(file, this->data_block_count, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->magic, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->index_offset, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->index_size, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->version, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+    
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->reserved, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->bloom_offset, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->bloom_size, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->data_offset, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->meta_offset, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->meta_size, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->data_block_count, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    if (!kvdb::blockio::write_u64_t_le(file, this->file_size, offset, BLOCK_SIZE))
-        return false;
-    if (!kvdb::blockio::write_u32_t_le(file, this->footer_crc32, offset, BLOCK_SIZE))
-        return false;
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->index_offset, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
 
-    return true;
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->index_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->bloom_offset, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->bloom_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->meta_offset, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->meta_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u64_t_le(file, this->file_size, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    write_endian_result = kvdb::blockio::write_u32_t_le(file, this->footer_crc32, offset, BLOCK_SIZE);
+    if (!write_endian_result.is_ok())
+        return write_endian_result;
+
+    return Status::ok();
 }
 
 void FileFooterSection::finalize(WritableFile& file, std::uint64_t current_offset)
@@ -1852,7 +2330,7 @@ void FileFooterSection::finalize(WritableFile& file, std::uint64_t current_offse
     this->calculate_crc32(this->footer_crc32);
 }
 
-std::optional<FileFooterSection> FileFooterSection::load(
+Result<FileFooterSection> FileFooterSection::load(
     ReadableFile& file,
     std::uint64_t& offset,
     std::uint64_t file_footer_backwards_offset
@@ -1860,85 +2338,135 @@ std::optional<FileFooterSection> FileFooterSection::load(
     if (file_footer_backwards_offset)
     {
         std::uint64_t file_size;
-        if (!file.get_file_size(file_size))
-            return std::nullopt;
+
+		Status get_file_size_result = file.get_file_size(file_size);
+
+        if (!get_file_size_result.is_ok() or file_size == 0)
+            return Result<FileFooterSection>::fail(std::move(get_file_size_result));
+
         if (file_size < file_footer_backwards_offset)
-            return std::nullopt;
+            return Result<FileFooterSection>::fail(
+                Status{
+                    StatusCode::InvariantViolation,
+					"File footer backwards offset is greater than file size during file footer loading"
+                }
+            );
+
         offset = file_size - file_footer_backwards_offset;
-        //if (dir == std::ios::beg)
-        //    file.seekg(file_footer_offset, dir);
-        //else
-        //    file.seekg(-static_cast<std::streamoff>(FileFooterSection::disk_size()), std::ios::end);
-        //if (!file)
-        //    return std::nullopt;
-        //offset = static_cast<std::uint64_t>(file.tellg());
     }
 
     if (offset % BLOCK_SIZE != 0)
-        return std::nullopt;
+        return Result<FileFooterSection>::fail(
+            Status{
+                StatusCode::InvariantViolation,
+				"File footer offset is not aligned to block size during file footer loading"
+            }
+        );
 
     FileFooterSection result{};
+    Status read_endian_result;
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.magic, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.magic, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
+
     if (result.magic != SSTableEntities::FILE_FOOTER_MAGIC)
-        return std::nullopt;
+        return Result<FileFooterSection>::fail(
+            Status{
+                StatusCode::BadMagic,
+                std::format(
+                    "File footer magic number is invalid during file footer loading: expected=0x{:08x} actual=0x{:08x}",
+                    FILE_FOOTER_MAGIC,
+                    result.magic
+                )
+            }
+        );
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.version, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.version, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
+
     if (result.version != SSTABLE_VERSION)
-        return std::nullopt;
+        return Result<FileFooterSection>::fail(
+            Status{
+                StatusCode::UnsupportedVersion,
+                std::format("SSTable version is not relevant during sstable file footer section load: file_version={}, supported_version={}",
+                    result.version, SSTABLE_VERSION)
+            }
+        );
     
-    if (!kvdb::blockio::read_u32_t_le(file, result.reserved, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.reserved, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.data_offset, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.data_offset, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.data_block_count, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.data_block_count, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.index_offset, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.index_offset, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.index_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.index_size, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.bloom_offset, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.bloom_offset, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.bloom_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.bloom_size, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.meta_offset, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.meta_offset, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.meta_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.meta_size, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    if (!kvdb::blockio::read_u64_t_le(file, result.file_size, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.file_size, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
-    //auto cur = file.tellg();
-    //file.seekg(0, std::ios::end);
     std::uint64_t actual_file_size;
-    if (!file.get_file_size(actual_file_size))
-        return std::nullopt;
-    //file.seekg(cur);
+
+	Status get_file_size_result = file.get_file_size(actual_file_size);
+
+    if (!get_file_size_result.is_ok() || actual_file_size == 0)
+        return Result<FileFooterSection>::fail(std::move(get_file_size_result));
 
     if (result.file_size != static_cast<std::uint64_t>(actual_file_size))
-        return std::nullopt;
+        return Result<FileFooterSection>::fail(
+            Status{
+                StatusCode::InvariantViolation,
+                "Sizes of file doesn't coresponds, actual one with found in file footer"
+            }
+        );
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.footer_crc32, offset, BLOCK_SIZE))
-        return std::nullopt;
+    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.footer_crc32, offset, BLOCK_SIZE);
+    if (!read_endian_result.is_ok())
+        return Result<FileFooterSection>::fail(std::move(read_endian_result));
 
     std::uint32_t must_be_footer_crc32;
     result.calculate_crc32(must_be_footer_crc32);
 
     if (must_be_footer_crc32 != result.footer_crc32)
-        return std::nullopt;
+        return Result<FileFooterSection>::fail(
+            Status{
+                StatusCode::ChecksumMismatch,
+                std::format("SSTable footer CRC mismatch: expected={}, actual={}",
+                   must_be_footer_crc32, result.footer_crc32)
+            }
+        );
 
-    return result;
+    return Result<FileFooterSection>::ok(std::move(result));
 }
 
 void FileFooterSection::calculate_crc32(std::uint32_t& crc_buffer)
@@ -1990,15 +2518,27 @@ std::filesystem::path SSTableManager::make_tmp_table_path(
     return dir / std::format("table-{:09}.sst.tmp", table_id);
 }
 
-bool SSTable::fsync(WritableFile& file_out)
+Status SSTable::fsync(WritableFile& file_out)
 {
-    if (!file_out.sync())
-        return false;
-    if (!file_out.close())
-        return false;
-    if (!durable_rename(this->path, this->final_path, true))
-        return false;
-    if (!sync_parent_directory(this->final_path))
-        return false;
-    return true;
+	Status results = file_out.sync();
+
+    if (!results.is_ok())
+        return results;
+
+    results = file_out.close();
+
+    if (!results.is_ok())
+        return results;
+
+    results = file_out.durable_rename(this->final_path, true);
+
+    if (!results.is_ok())
+        return results;
+
+    results = file_out.sync_parent_directory();
+
+    if (!results.is_ok())
+        return results;
+
+    return Status::ok();
 }

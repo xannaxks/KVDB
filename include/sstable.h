@@ -10,6 +10,7 @@
 
 #endif
 
+#include <format>
 #include "mem_table.h"
 #include <fstream>
 #include <string>
@@ -80,7 +81,7 @@ namespace SSTableEntities {
 		static std::size_t disk_size();
 
 		Status write(WritableFile& file, std::uint64_t& offset);
-		static Result<std::optional<FileHeaderSection>> load(ReadableFile& file, std::uint64_t& offset);
+		static Result<FileHeaderSection> load(ReadableFile& file, std::uint64_t& offset);
 
 		Status calculate_crc32(std::uint32_t& crc_buffer);
 
@@ -101,8 +102,8 @@ namespace SSTableEntities {
 
 			static std::size_t disk_size();
 
-			//static std::optional<Header> load(std::unique_ptr<ReadableFile>* file, std::uint64_t& offset);
-			bool write(WritableFile& file, std::uint64_t& offset);
+			//static Result<Header> load(std::unique_ptr<ReadableFile>* file, std::uint64_t& offset);
+			Status write(WritableFile& file, std::uint64_t& offset);
 
 			Header& operator=(Header& other) = default;
 			Header& operator=(Header&& other) = default;
@@ -126,8 +127,8 @@ namespace SSTableEntities {
 			std::size_t disk_size();
 			std::size_t disk_size() const;
 
-			static std::optional<Payload> load(ReadableFile& file, std::uint64_t& offset, std::uint32_t* must_be_crc = nullptr);
-			bool write(WritableFile& file, std::uint64_t& offset);
+			static Result<Payload> load(ReadableFile& file, std::uint64_t& offset, std::uint32_t* must_be_crc = nullptr);
+			Status write(WritableFile& file, std::uint64_t& offset);
 
 			static std::size_t fixed_part_disk_size();
 
@@ -153,8 +154,8 @@ namespace SSTableEntities {
 			bool can_payload_fit(Payload& payload);
 			void add_payload(Payload& payload);
 
-			bool write(WritableFile& file, std::uint64_t& offset, IndexSection& index_section);
-			//static std::optional<DataBlock> load(std::unique_ptr<ReadableFile>* file, std::uint64_t& offset);
+			Status write(WritableFile& file, std::uint64_t& offset, IndexSection& index_section);
+			//static Result<DataBlock> load(std::unique_ptr<ReadableFile>* file, std::uint64_t& offset);
 
 			void calculate_crc32(std::uint32_t& crc_buffer);
 
@@ -169,12 +170,12 @@ namespace SSTableEntities {
 		std::vector<DataBlock> data_blocks;
 
 		void init_new_block();
-		void add_payload(const InternalRecord& record);
+		Status add_payload(const InternalRecord& record);
 		
 		std::size_t disk_size();
 
-		void write(WritableFile& file, std::uint64_t& data_block_offset, IndexSection& index_section, std::uint64_t& data_offset);
-		//static std::optional<DataSection> load(
+		Status write(WritableFile& file, std::uint64_t& data_block_offset, IndexSection& index_section, std::uint64_t& data_offset);
+		//static Result<DataSection> load(
 		//	std::unique_ptr<ReadableFile>* file,
 		//	std::uint64_t& offset,
 		//	const std::uint64_t& first_data_block_offset,
@@ -189,7 +190,7 @@ namespace SSTableEntities {
 	{
 		struct Header
 		{
-			Header();
+			Header() noexcept = default;
 			Header(const Header& other) noexcept = default;
 			Header(Header& other) noexcept = default;
 			Header(Header&& other) noexcept = default;
@@ -200,7 +201,7 @@ namespace SSTableEntities {
 			std::uint64_t payload_offset{};
 			std::uint64_t next_block_offset{};
 
-			static std::optional<Header> load(ReadableFile& file, std::uint64_t& offset);
+			static Result<Header> load(ReadableFile& file, std::uint64_t& offset);
 
 			Header& operator=(Header& other) = default;
 			Header& operator=(Header&& other) = default;
@@ -214,7 +215,7 @@ namespace SSTableEntities {
 
 			Header header_view{};
 
-			static std::optional<DataBlock> load(ReadableFile& file, std::uint64_t& offset);
+			static Result<DataBlock> load(ReadableFile& file, std::uint64_t& offset);
 
 			DataBlock& operator=(DataBlock& other) = default;
 			DataBlock& operator=(DataBlock&& other) = default;
@@ -227,7 +228,7 @@ namespace SSTableEntities {
 
 		std::vector<DataBlock> data_blocks{};
 
-		static std::optional<DataSectionView> load(
+		static Result<DataSectionView> load(
 			ReadableFile& file,
 			std::uint64_t& offset,
 			const std::uint64_t& first_data_block_offset,
@@ -250,8 +251,8 @@ namespace SSTableEntities {
 			std::uint32_t payload_size;
 			std::uint32_t crc32;
 
-			bool write(WritableFile& file, std::uint64_t& offset);
-			static std::optional<Header> load(ReadableFile& file, std::uint64_t& offset);
+			Status write(WritableFile& file, std::uint64_t& offset);
+			static Result<Header> load(ReadableFile& file, std::uint64_t& offset);
 
 			static std::size_t disk_size();
 
@@ -270,8 +271,8 @@ namespace SSTableEntities {
 			void* first_key_ptr;
 			void* last_key_ptr;
 
-			bool write(WritableFile& file, std::uint64_t& offset);
-			static std::optional<Payload> load(ReadableFile& file, std::uint64_t& offset, Arena& arena);
+			Status write(WritableFile& file, std::uint64_t& offset);
+			static Result<Payload> load(ReadableFile& file, std::uint64_t& offset, Arena& arena);
 
 			std::size_t disk_size();
 			static std::size_t fixed_disk_size();
@@ -295,8 +296,8 @@ namespace SSTableEntities {
 		//void rebuild(std::vector<std::tuple<DataSection::Payload*, DataSection::Payload*, std::uint64_t, std::uint64_t>>& index_boundaries);
 		void add_index(std::uint64_t data_block_offset, std::uint32_t first_key_size, std::uint32_t last_key_size, void* first_key_ptr, void* last_key_ptr);
 		
-		void write(WritableFile& file, std::uint64_t& offset, std::uint64_t& index_offset);
-		static std::optional<IndexSection> load(
+		Status write(WritableFile& file, std::uint64_t& offset, std::uint64_t& index_offset);
+		static Result<IndexSection> load(
 			ReadableFile& file,
 			std::uint64_t& offset,
 			Arena& arena,
@@ -320,8 +321,8 @@ namespace SSTableEntities {
 			std::uint32_t payload_size;
 			std::uint32_t crc32;
 
-			bool write(WritableFile& file, std::uint64_t& offset);
-			static std::optional<Header> load(ReadableFile& file, std::uint64_t& offset);
+			Status write(WritableFile& file, std::uint64_t& offset);
+			static Result<Header> load(ReadableFile& file, std::uint64_t& offset);
 
 			static std::size_t disk_size();
 
@@ -339,8 +340,8 @@ namespace SSTableEntities {
 			std::uint32_t key_count;
 			std::vector<std::uint8_t> mask;
 
-			bool write(WritableFile& file, std::uint64_t& offset);
-			static std::optional<Payload> load(ReadableFile& file, std::uint64_t& offset);
+			Status write(WritableFile& file, std::uint64_t& offset);
+			static Result<Payload> load(ReadableFile& file, std::uint64_t& offset);
 
 			static std::size_t disk_size();
 
@@ -360,8 +361,8 @@ namespace SSTableEntities {
 		static std::size_t disk_size();
 
 		//void rebuild(DataSection& data_block);
-		void write(WritableFile& file, std::uint64_t& offset, std::uint64_t& bloom_offset);
-		static std::optional<BloomSection> load(ReadableFile& file, std::uint64_t& offset, const std::uint64_t& bloom_offset);
+		Status write(WritableFile& file, std::uint64_t& offset, std::uint64_t& bloom_offset);
+		static Result<BloomSection> load(ReadableFile& file, std::uint64_t& offset, const std::uint64_t& bloom_offset);
 
 		void add_key(const void* key_ptr, std::uint32_t key_size);
 		void rebuild(const DataSection& data_section);
@@ -386,8 +387,8 @@ namespace SSTableEntities {
 			std::uint32_t payload_size;
 			std::uint32_t crc32;
 
-			bool write(WritableFile& file, std::uint64_t& offset);
-			static std::optional<Header> load(ReadableFile& file, std::uint64_t & offset);
+			Status write(WritableFile& file, std::uint64_t& offset);
+			static Result<Header> load(ReadableFile& file, std::uint64_t & offset);
 
 			static std::size_t disk_size();
 			static std::size_t fixed_disk_size();
@@ -415,8 +416,8 @@ namespace SSTableEntities {
 			void* max_key_ptr;
 			void* min_key_ptr;
 
-			bool write(WritableFile& file, std::uint64_t& offset);
-			static std::optional<Payload> load(ReadableFile& file, std::uint64_t& offset, Arena& arena, MetaSection::Header& header);
+			Status write(WritableFile& file, std::uint64_t& offset);
+			static Result<Payload> load(ReadableFile& file, std::uint64_t& offset, Arena& arena, MetaSection::Header& header);
 
 			std::size_t disk_size();
 			static std::size_t fixed_disk_size();
@@ -440,8 +441,8 @@ namespace SSTableEntities {
 		void rebuild(DataSection& data_section, IndexSection& index_section);
 
 		//void rebuild(DataSection& data_block, IndexSection& index_block);
-		void write(WritableFile& file, std::uint64_t& offset, std::uint64_t& meta_offset);
-		static std::optional<MetaSection> load(
+		Status write(WritableFile& file, std::uint64_t& offset, std::uint64_t& meta_offset);
+		static Result<MetaSection> load(
 			ReadableFile& file,
 			std::uint64_t& offset,
 			IndexSection& index_block,
@@ -483,13 +484,13 @@ namespace SSTableEntities {
 		static std::size_t disk_size();
 
 		void finalize(WritableFile& file, std::uint64_t offset);
-		static std::optional<FileFooterSection> load(ReadableFile& file, std::uint64_t& offset, std::uint64_t file_footer_backwards_offset);
+		static Result<FileFooterSection> load(ReadableFile& file, std::uint64_t& offset, std::uint64_t file_footer_backwards_offset);
 		void rebuild(IndexSection& index_block, std::uint64_t index_offset);
 		void rebuild(BloomSection& bloom_block, std::uint64_t bloom_offset);
 		void rebuild(MetaSection& meta_block, std::uint64_t meta_offset);
 
-		bool write(WritableFile& file, std::uint64_t& offset);
-		//static std::optional<FileFooterSection> load(
+		Status write(WritableFile& file, std::uint64_t& offset);
+		//static Result<FileFooterSection> load(
 		//	ReadableFile& file,
 		//	std::uint64_t& offset,
 		//	std::uint64_t file_footer_backwards_offset = 0,
@@ -506,7 +507,8 @@ class SSTable
 {
 public:
 	SSTable() = default;
-	explicit SSTable(const std::filesystem::path& path);
+	explicit SSTable( std::filesystem::path& path,  std::filesystem::path& final_path);
+	explicit SSTable(std::filesystem::path& path);
 
 	SSTable(const SSTable&) = delete;
 	SSTable& operator=(const SSTable&) = delete;
@@ -530,9 +532,10 @@ private:
 	SSTableEntities::MetaSection meta_section{};
 	SSTableEntities::FileFooterSection file_footer_section{};
 
-	void write();
+	Status write();
+	static Result<SSTable> load( std::filesystem::path& path, Arena& arena);
 //#ifdef _WIN32
-	bool fsync(WritableFile& file_out);
+	Status fsync(WritableFile& file_out);
 
 	friend class SSTableManager;
 	friend class SSTableWriter;
@@ -544,14 +547,14 @@ class SSTableWriter
 public:
 	SSTableWriter();
 
-	static void write(SSTable& sstable);
+	static Status write(SSTable& sstable);
 };
 class SSTableLoader
 {
 public:
 	SSTableLoader();
 
-	static std::optional<SSTable> load(const std::filesystem::path& path, Arena& arena);
+	static Result<SSTable> load( std::filesystem::path& path, Arena& arena);
 };
 
 class SSTableManager
@@ -571,10 +574,10 @@ private:
 
 public:
 
-	void write_latest(bool erase = false);
-	void write_all(bool erase = false);
+	Status write_latest(bool erase = false);
+	std::vector<Status> write_all();
 	void add_to_pool(SSTable&& sstable);
 	//void add_to_pool(MemTable& mem_table);
-	void load(Arena& arena, const std::filesystem::path& root_path);
+	std::vector<Status> load(Arena& arena, const std::filesystem::path& root_path);
 	//void get_latest();
 };

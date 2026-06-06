@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/user/KVDB/out/build/x64-Debug/rbtree_test[1]_tests.cmake")
-  include("C:/Users/user/KVDB/out/build/x64-Debug/rbtree_test[1]_tests.cmake")
-else()
-  add_test(rbtree_test_NOT_BUILT rbtree_test_NOT_BUILT)
-endif()
