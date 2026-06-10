@@ -437,7 +437,7 @@ build kvdb_table_meta.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_table_meta_Debug CMak
 #############################################
 # Order-only phony target for kvdb_level_manager
 
-build cmake_object_order_depends_target_kvdb_level_manager: phony || .
+build cmake_object_order_depends_target_kvdb_level_manager: phony || cmake_object_order_depends_target_kvdb_arena cmake_object_order_depends_target_kvdb_crc32_helpers cmake_object_order_depends_target_kvdb_endian_io cmake_object_order_depends_target_kvdb_file_helpers cmake_object_order_depends_target_kvdb_record cmake_object_order_depends_target_kvdb_red_black_tree cmake_object_order_depends_target_kvdb_sstable cmake_object_order_depends_target_kvdb_status cmake_object_order_depends_target_kvdb_table_meta
 
 build CMakeFiles\kvdb_level_manager.dir\src\level_manager.cpp.obj: CXX_COMPILER__kvdb_level_manager_unscanned_Debug C$:\Users\user\KVDB\src\level_manager.cpp || cmake_object_order_depends_target_kvdb_level_manager
   CONFIG = Debug
@@ -457,7 +457,7 @@ build CMakeFiles\kvdb_level_manager.dir\src\level_manager.cpp.obj: CXX_COMPILER_
 #############################################
 # Link the static library kvdb_level_manager.lib
 
-build kvdb_level_manager.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_level_manager_Debug CMakeFiles\kvdb_level_manager.dir\src\level_manager.cpp.obj
+build kvdb_level_manager.lib: CXX_STATIC_LIBRARY_LINKER__kvdb_level_manager_Debug CMakeFiles\kvdb_level_manager.dir\src\level_manager.cpp.obj || kvdb_arena.lib kvdb_crc32_helpers.lib kvdb_endian_io.lib kvdb_file_helpers.lib kvdb_record.lib kvdb_red_black_tree.lib kvdb_sstable.lib kvdb_status.lib kvdb_table_meta.lib
   CONFIG = Debug
   LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -MDd
   LINK_FLAGS = /machine:x64

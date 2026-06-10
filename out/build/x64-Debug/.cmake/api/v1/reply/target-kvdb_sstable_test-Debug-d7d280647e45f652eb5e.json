@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "kvdb_endian_io_test.exe"
+			"path" : "kvdb_sstable_test.exe"
 		},
 		{
-			"path" : "kvdb_endian_io_test.pdb"
+			"path" : "kvdb_sstable_test.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -32,19 +32,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 455,
+				"line" : 515,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 459,
+				"line" : 519,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 287,
+				"line" : 396,
 				"parent" : 0
 			},
 			{
@@ -59,7 +59,7 @@
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 466,
+				"line" : 535,
 				"parent" : 0
 			},
 			{
@@ -79,15 +79,7 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_arena::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 2,
@@ -139,10 +131,6 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
 			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
 		},
 		{
@@ -151,7 +139,27 @@
 		},
 		{
 			"backtrace" : 2,
+			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_file_helpers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_crc32_helpers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
 			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_red_black_tree::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 2,
@@ -162,7 +170,7 @@
 			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
 		}
 	],
-	"id" : "kvdb_endian_io_test::@6890427a1f51a3e7e1df",
+	"id" : "kvdb_sstable_test::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -181,17 +189,7 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "kvdb_endian_io.lib",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 2,
-				"fragment" : "kvdb_arena.lib",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 2,
-				"fragment" : "kvdb_record.lib",
+				"fragment" : "kvdb_sstable.lib",
 				"role" : "libraries"
 			},
 			{
@@ -200,13 +198,33 @@
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
-				"fragment" : "kvdb_endian_io.lib",
+				"backtrace" : 3,
+				"fragment" : "kvdb_crc32_helpers.lib",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 2,
+				"backtrace" : 3,
+				"fragment" : "kvdb_file_helpers.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "kvdb_red_black_tree.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "kvdb_record.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
 				"fragment" : "kvdb_arena.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "kvdb_endian_io.lib",
 				"role" : "libraries"
 			},
 			{
@@ -230,28 +248,20 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_arena::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 2,
 			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
 		}
 	],
-	"name" : "kvdb_endian_io_test",
-	"nameOnDisk" : "kvdb_endian_io_test.exe",
+	"name" : "kvdb_sstable_test",
+	"nameOnDisk" : "kvdb_sstable_test.exe",
 	"orderDependencies" : 
 	[
 		{
 			"backtrace" : 7,
-			"id" : "kvdb_endian_io_test::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_sstable_test::@6890427a1f51a3e7e1df"
 		}
 	],
 	"paths" : 
@@ -274,7 +284,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "tests/endian_io_test.cpp",
+			"path" : "tests/sstable_test.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

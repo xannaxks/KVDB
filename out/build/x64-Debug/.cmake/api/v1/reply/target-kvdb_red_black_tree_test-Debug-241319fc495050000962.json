@@ -32,13 +32,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 483,
+				"line" : 489,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 487,
+				"line" : 493,
 				"parent" : 0
 			},
 			{
@@ -71,7 +71,7 @@
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 492,
+				"line" : 498,
 				"parent" : 0
 			},
 			{
@@ -143,15 +143,15 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
 			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 2,
 			"id" : "kvdb_arena::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 2,

@@ -12,7 +12,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "kvdb_red_black_tree.lib"
+			"path" : "kvdb_table_meta.lib"
 		}
 	],
 	"backtrace" : 1,
@@ -36,25 +36,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 367,
+				"line" : 408,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 375,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 381,
+				"line" : 416,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 371,
+				"line" : 412,
 				"parent" : 0
 			}
 		]
@@ -72,11 +66,11 @@
 		},
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
 		},
 		{
-			"backtrace" : 3,
-			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
+			"backtrace" : 2,
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		}
 	],
 	"compileGroups" : 
@@ -91,7 +85,7 @@
 			"includes" : 
 			[
 				{
-					"backtrace" : 4,
+					"backtrace" : 3,
 					"path" : "C:/Users/user/KVDB/include"
 				}
 			],
@@ -114,10 +108,6 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
 			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
 		},
 		{
@@ -126,10 +116,30 @@
 		},
 		{
 			"backtrace" : 2,
+			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_file_helpers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_crc32_helpers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
 			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_red_black_tree::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "kvdb_red_black_tree::@6890427a1f51a3e7e1df",
+	"id" : "kvdb_table_meta::@6890427a1f51a3e7e1df",
 	"interfaceCompileDependencies" : 
 	[
 		{
@@ -138,11 +148,11 @@
 		},
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
 		},
 		{
-			"backtrace" : 3,
-			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
+			"backtrace" : 2,
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		}
 	],
 	"interfaceLinkLibraries" : 
@@ -153,11 +163,11 @@
 		},
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
 		},
 		{
-			"backtrace" : 3,
-			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
+			"backtrace" : 2,
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		}
 	],
 	"linkLibraries" : 
@@ -168,15 +178,15 @@
 		},
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
 		},
 		{
-			"backtrace" : 3,
-			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
+			"backtrace" : 2,
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		}
 	],
-	"name" : "kvdb_red_black_tree",
-	"nameOnDisk" : "kvdb_red_black_tree.lib",
+	"name" : "kvdb_table_meta",
+	"nameOnDisk" : "kvdb_table_meta.lib",
 	"paths" : 
 	{
 		"build" : ".",
@@ -197,7 +207,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/red_black_tree.cpp",
+			"path" : "src/table_meta.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
