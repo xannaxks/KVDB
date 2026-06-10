@@ -415,6 +415,8 @@ target_include_directories(kvdb_table_meta PUBLIC
 
 target_link_libraries(kvdb_table_meta PUBLIC 
     kvdb_arena
+    kvdb_status
+    kvdb_sstable
 )
 
 ### Level Manager
