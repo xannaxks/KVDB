@@ -288,8 +288,8 @@ target_link_libraries(kvdb_endian_io PUBLIC
     kvdb_status
 )
 
-
 ### File
+
 add_library(kvdb_file
     src/file.cpp
 )
@@ -401,6 +401,30 @@ target_link_libraries(kvdb_sstable PUBLIC
     kvdb_endian_io
     kvdb_record
     kvdb_status
+)
+
+### Table Meta
+
+add_library(kvdb_table_meta 
+    src/table_meta.cpp
+)
+
+target_include_directories(kvdb_table_meta PUBLIC 
+    include
+)
+
+target_link_libraries(kvdb_table_meta PUBLIC 
+    kvdb_arena
+)
+
+### Level Manager
+
+add_library(kvdb_level_manager
+    src/level_manager.cpp
+)
+
+target_include_directories(kvdb_level_manager PUBLIC 
+    include
 )
 
 # =========================
