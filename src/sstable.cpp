@@ -2862,3 +2862,41 @@ Status SSTableIterator::seek_to_first()
     status_ = load_next_block();
     return status_;
 }
+
+// sstable getters
+const SSTableEntities::FileHeaderSection& SSTable::get_file_header_section() const
+{
+    return this->file_header_section;
+}
+const SSTableEntities::DataSection& SSTable::get_data_section() const
+{
+    return this->data_section;
+}
+const SSTableEntities::DataSectionView& SSTable::get_data_section_view() const
+{
+    return this->data_section_view;
+}
+const SSTableEntities::IndexSection& SSTable::get_index_section() const
+{
+    return this->index_section;
+}
+const SSTableEntities::BloomSection& SSTable::get_bloom_section() const
+{
+    return this->bloom_section;
+}
+const SSTableEntities::MetaSection& SSTable::get_meta_section() const
+{
+    return this->meta_section;
+}
+const SSTableEntities::FileFooterSection& SSTable::get_file_footer_section() const
+{
+    return this->file_footer_section;
+}
+const std::filesystem::path& SSTable::get_path() const
+{
+    return this->path;
+}
+const std::filesystem::path& SSTable::get_final_path() const
+{
+    return this->final_path;
+}

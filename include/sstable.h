@@ -1,3 +1,5 @@
+#pragma once
+
 #ifdef _WIN32
 
 	#ifndef NOMINMAX
@@ -35,6 +37,8 @@
 #include "endian_io.h"
 
 // loading correction
+
+class TableMeta;
 
 namespace SSTableEntities {
 
@@ -517,8 +521,8 @@ public:
 
 private:
 
-	const std::filesystem::path path;
-	const std::filesystem::path final_path;
+	std::filesystem::path path;
+	std::filesystem::path final_path;
 
 	std::unique_ptr<ReadableFile> file_in;
 	std::unique_ptr<WritableFile> file_out;
@@ -539,6 +543,22 @@ private:
 	friend class SSTableWriter;
 	friend class SSTableLoader;
 	friend class SSTableIterator;
+	friend class TableMeta;
+
+public:
+
+	const SSTableEntities::FileHeaderSection& get_file_header_section() const;
+	const SSTableEntities::DataSection& get_data_section() const;
+	const SSTableEntities::DataSectionView& get_data_section_view() const;
+	const SSTableEntities::IndexSection& get_index_section() const;
+	const SSTableEntities::BloomSection& get_bloom_section() const;
+	const SSTableEntities::MetaSection& get_meta_section() const;
+	const SSTableEntities::FileFooterSection& get_file_footer_section() const;
+
+	const std::filesystem::path& get_path() const;
+
+	const std::filesystem::path& get_final_path() const;
+
 };
 
 class SSTableWriter
