@@ -36,8 +36,6 @@
 
 // loading correction
 
-void ensure_atomicity();
-
 namespace SSTableEntities {
 
 	constexpr std::uint32_t FILE_HEADER_MAGIC = 0x53535431; // SST1
@@ -540,6 +538,7 @@ private:
 	friend class SSTableManager;
 	friend class SSTableWriter;
 	friend class SSTableLoader;
+	friend class SSTableIterator;
 };
 
 class SSTableWriter
@@ -580,4 +579,37 @@ public:
 	//void add_to_pool(MemTable& mem_table);
 	std::vector<Status> load(Arena& arena, const std::filesystem::path& root_path);
 	//void get_latest();
+};
+
+class SSTableIterator
+{
+private:
+	const SSTable& sstable;
+	std::unique_ptr<ReadableFile> file;
+	Arena& arena;
+
+	std::uint64_t current_offset = 0;
+
+	std::uint64_t data_block_count = 0;
+	std::uint64_t next_block_index = 0;
+
+	std::size_t record_index = 0;
+	std::vector<InternalRecord> current_block_records;
+
+	bool valid_ = false;
+	Status status_ = Status::ok();
+
+public:
+	SSTableIterator() = delete;
+	SSTableIterator(const SSTable& sstable, std::unique_ptr<ReadableFile>&& file, Arena& arena);
+
+	Status seek_to_first();
+	Status next();
+
+	bool valid() const;
+	const InternalRecord& record() const;
+	Status status() const;
+
+private:
+	Status load_next_block();
 };

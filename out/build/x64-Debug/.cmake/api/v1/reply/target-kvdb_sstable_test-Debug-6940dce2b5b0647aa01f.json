@@ -2,10 +2,10 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "kvdb_red_black_tree_test.exe"
+			"path" : "kvdb_sstable_test.exe"
 		},
 		{
-			"path" : "kvdb_red_black_tree_test.pdb"
+			"path" : "kvdb_sstable_test.pdb"
 		}
 	],
 	"backtrace" : 1,
@@ -32,31 +32,19 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 457,
+				"line" : 483,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 461,
+				"line" : 487,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 375,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 354,
-				"parent" : 0
-			},
-			{
-				"command" : 1,
-				"file" : 0,
-				"line" : 381,
+				"line" : 396,
 				"parent" : 0
 			},
 			{
@@ -66,19 +54,19 @@
 				"command" : 1,
 				"file" : 1,
 				"line" : 153,
-				"parent" : 6
+				"parent" : 4
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 466,
+				"line" : 503,
 				"parent" : 0
 			},
 			{
 				"command" : 2,
 				"file" : 2,
 				"line" : 687,
-				"parent" : 8
+				"parent" : 6
 			}
 		]
 	},
@@ -91,7 +79,7 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_red_black_tree::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 2,
@@ -143,6 +131,18 @@
 	[
 		{
 			"backtrace" : 2,
+			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_arena::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
 			"id" : "kvdb_record::@6890427a1f51a3e7e1df"
 		},
 		{
@@ -151,26 +151,26 @@
 		},
 		{
 			"backtrace" : 2,
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_file_helpers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "kvdb_crc32_helpers::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
 			"id" : "gtest::@1ea2dfc0605fe3ab2a3f"
 		},
 		{
 			"backtrace" : 2,
 			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_arena::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_status::@6890427a1f51a3e7e1df"
-		},
-		{
-			"backtrace" : 2,
-			"id" : "kvdb_endian_io::@6890427a1f51a3e7e1df"
 		}
 	],
-	"id" : "kvdb_red_black_tree_test::@6890427a1f51a3e7e1df",
+	"id" : "kvdb_sstable_test::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -189,12 +189,27 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "kvdb_red_black_tree.lib",
+				"fragment" : "kvdb_sstable.lib",
 				"role" : "libraries"
 			},
 			{
 				"backtrace" : 2,
 				"fragment" : "lib\\gtest_main.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "kvdb_crc32_helpers.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "kvdb_file_helpers.lib",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 3,
+				"fragment" : "kvdb_red_black_tree.lib",
 				"role" : "libraries"
 			},
 			{
@@ -208,17 +223,17 @@
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 4,
+				"backtrace" : 3,
 				"fragment" : "kvdb_endian_io.lib",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 5,
+				"backtrace" : 3,
 				"fragment" : "kvdb_status.lib",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 7,
+				"backtrace" : 5,
 				"fragment" : "lib\\gtest.lib",
 				"role" : "libraries"
 			},
@@ -233,20 +248,20 @@
 	[
 		{
 			"backtrace" : 2,
-			"id" : "kvdb_red_black_tree::@6890427a1f51a3e7e1df"
+			"id" : "kvdb_sstable::@6890427a1f51a3e7e1df"
 		},
 		{
 			"backtrace" : 2,
 			"id" : "gtest_main::@1ea2dfc0605fe3ab2a3f"
 		}
 	],
-	"name" : "kvdb_red_black_tree_test",
-	"nameOnDisk" : "kvdb_red_black_tree_test.exe",
+	"name" : "kvdb_sstable_test",
+	"nameOnDisk" : "kvdb_sstable_test.exe",
 	"orderDependencies" : 
 	[
 		{
-			"backtrace" : 9,
-			"id" : "kvdb_red_black_tree_test::@6890427a1f51a3e7e1df"
+			"backtrace" : 7,
+			"id" : "kvdb_sstable_test::@6890427a1f51a3e7e1df"
 		}
 	],
 	"paths" : 
@@ -269,7 +284,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "tests/red_black_tree_test.cpp",
+			"path" : "tests/sstable_test.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],
