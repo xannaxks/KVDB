@@ -37,6 +37,8 @@ struct ArenaEntry
 	bool operator<(const ArenaEntry& other) const;
 	bool operator>(const ArenaEntry& other) const;
 	bool operator==(const ArenaEntry& other) const;
+	bool operator>=(const ArenaEntry& other) const;
+	bool operator<=(const ArenaEntry& other) const;
 
 	static Result<ArenaEntry> make_entry(Arena& arena, const std::span<const std::byte> str);
 	static Result<ArenaEntry> make_entry(Arena& arena, const std::string& str);

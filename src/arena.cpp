@@ -553,3 +553,13 @@ bool ArenaEntry::operator==(const ArenaEntry& other) const
 
 	return std::memcmp(data, other.data, size) == 0;
 }
+
+bool ArenaEntry::operator>=(const ArenaEntry& other) const
+{
+	return (*this > other) || (*this == other);
+}
+
+bool ArenaEntry::operator<=(const ArenaEntry& other) const
+{
+	return (*this < other) || (*this == other);
+}
