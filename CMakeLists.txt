@@ -429,6 +429,12 @@ target_include_directories(kvdb_level_manager PUBLIC
     include
 )
 
+target_link_libraries(kvdb_level_manager PUBLIC
+    kvdb_arena
+    kvdb_status
+    kvdb_table_meta
+)
+
 # =========================
 # Tests
 # =========================
