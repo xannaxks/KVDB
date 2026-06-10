@@ -7,6 +7,8 @@ C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_crc32_helpers.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_record.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_red_black_tree.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_sstable.dir
+C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_table_meta.dir
+C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_level_manager.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_arena_test.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_endian_io_test.dir
 C:/Users/user/KVDB/out/build/x64-Debug/CMakeFiles/kvdb_record_test.dir
