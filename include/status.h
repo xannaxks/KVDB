@@ -5,12 +5,14 @@
 #include <utility>
 
 enum class StatusCode : std::uint8_t {
+    
     Ok = 0,
-
     // Compaction
     OverlappingKeys,
 
     // Generic
+    BadAccess,
+    Underflow,
     InvalidArgument,
     FailedPrecondition,
     NotFound,
