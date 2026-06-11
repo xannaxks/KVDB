@@ -1,1 +1,21 @@
 .vs/
+
+# CMake build directories
+build/
+cmake-build-*/
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Build outputs
+*.exe
+*.obj
+*.o
+*.lib
+*.dll
+*.so
+*.dylib
+*.a
