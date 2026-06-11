@@ -19,3 +19,4 @@ Makefile
 *.so
 *.dylib
 *.a
+*.zip
