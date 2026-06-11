@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/user/KVDB/build/kvdb_arena_test[1]_tests.cmake")
-  include("C:/Users/user/KVDB/build/kvdb_arena_test[1]_tests.cmake")
-else()
-  add_test(kvdb_arena_test_NOT_BUILT kvdb_arena_test_NOT_BUILT)
-endif()

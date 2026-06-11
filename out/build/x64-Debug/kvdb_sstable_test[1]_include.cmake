@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/user/KVDB/out/build/x64-Debug/kvdb_sstable_test[1]_tests.cmake")
-  include("C:/Users/user/KVDB/out/build/x64-Debug/kvdb_sstable_test[1]_tests.cmake")
-else()
-  add_test(kvdb_sstable_test_NOT_BUILT kvdb_sstable_test_NOT_BUILT)
-endif()

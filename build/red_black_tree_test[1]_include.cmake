@@ -1,5 +1,0 @@
-if(EXISTS "C:/Users/user/KVDB/build/red_black_tree_test[1]_tests.cmake")
-  include("C:/Users/user/KVDB/build/red_black_tree_test[1]_tests.cmake")
-else()
-  add_test(red_black_tree_test_NOT_BUILT red_black_tree_test_NOT_BUILT)
-endif()
