@@ -1,62 +1,77 @@
 #include "merge_iterator.h"
 
-Status MergeIterator::build(std::vector<SSTableIterator>& data)
+Status MergeIterator::build(std::vector<SSTableIterator>& data) // data should outlive merge iterator
 {
-	valid_ = false;
-	status_ = Status::ok();
-	for (auto& it : data)
-	{
-		status_ = it.seek_to_first();
-		if (!status_.is_ok())
-			return status_;
+    inputs_ = &data;
+    valid_ = false;
+    status_ = Status::ok();
 
-		while (it.valid())
-		{
-			this->heap.push(it.record());
-			status_ = it.next();
-			if (!status_.is_ok())
-				return status_;
-		}
-	}
+    HeapCompare compare{};
+    compare.inputs = inputs_;
 
-	valid_ = !this->heap.empty();
+    heap_ = std::priority_queue<
+        HeapItem,
+        std::vector<HeapItem>,
+        HeapCompare
+    >(compare);
 
-	return Status::ok();
+    for (std::size_t i = 0; i < data.size(); ++i)
+    {
+        status_ = data[i].seek_to_first();
+        if (!status_.is_ok()) {
+            valid_ = false;
+            return status_;
+        }
+
+        if (data[i].valid()) {
+            heap_.push(HeapItem{ i });
+        }
+    }
+
+    valid_ = !heap_.empty();
+    return Status::ok();
 }
 
 Status MergeIterator::next()
 {
-	if (this->heap.empty())
-	{
-		status_ = Status{ StatusCode::Underflow, "Tried to delete top of empty heap to move iterator" };
-		return status_;
-	}
-	this->heap.pop();
-	if (this->heap.empty())
-	{
-		valid_ = false;
-	}
-	return Status::ok();
+    if (!valid_)
+        return Status::ok();
+
+    HeapItem top = heap_.top();
+    heap_.pop();
+
+    SSTableIterator& source_it = (*inputs_)[top.iterator_index];
+
+    status_ = source_it.next();
+    if (!status_.is_ok()) {
+        valid_ = false;
+        return status_;
+    }
+
+    if (source_it.valid()) {
+        heap_.push(top);
+    }
+
+    valid_ = !heap_.empty();
+    return Status::ok();
 }
 
 bool MergeIterator::valid() const
 {
-	return this->valid_;
+    return valid_;
 }
 
 Status MergeIterator::status() const
 {
-	return this->status_;
+    return status_;
 }
 
-const InternalRecord& MergeIterator::record()
+const InternalRecord& MergeIterator::record() const
 {
-	if (this->heap.empty())
-	{
-		valid_ = false;
-		status_ = Status{ StatusCode::BadAccess, "Accessing empty heap" };
-		return {};
-	}
+    assert(valid_);
+    assert(!heap_.empty());
+    assert(inputs_ != nullptr);
 
-	return this->heap.top();
+    const HeapItem& top = heap_.top();
+    return (*inputs_)[top.iterator_index].record();
 }
