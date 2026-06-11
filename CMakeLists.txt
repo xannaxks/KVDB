@@ -403,6 +403,106 @@ target_link_libraries(kvdb_sstable PUBLIC
     kvdb_status
 )
 
+### SSTable Entities
+
+### File header section
+
+add_library(kvdb_file_header_section
+    src/sstable_entities/file_header_section.cpp
+)
+
+target_link_directories(kvdb_file_header_section PUBLIC
+    include/sstable_entities
+)
+
+target_link_libraries(kvdb_file_header_section PUBLIC
+    kvdb_sstable
+)
+
+### Data section
+
+add_library(kvdb_data_section
+    src/sstable_entities/data_section.cpp
+)
+
+target_link_directories(kvdb_data_section PUBLIC
+    include/sstable_entities
+)
+
+target_link_libraries(kvdb_data_section PUBLIC
+    kvdb_sstable
+)
+
+### Data section view
+
+add_library(kvdb_data_section_view
+    src/sstable_entities/data_section_view.cpp
+)
+
+target_link_directories(kvdb_data_section_view PUBLIC
+    include/sstable_entities
+)
+
+target_link_libraries(kvdb_data_section_view PUBLIC
+    kvdb_sstable
+)
+
+### Index section
+
+add_library(kvdb_index_section
+    src/sstable_entities/index_section.cpp
+)
+
+target_link_directories(kvdb_index_section PUBLIC
+    include/sstable_entities
+)
+
+target_link_libraries(kvdb_index_section PUBLIC
+    kvdb_sstable
+)
+
+### Bloom section
+
+add_library(kvdb_bloom_section
+    src/sstable_entities/bloom_section.cpp
+)
+
+target_link_directories(kvdb_bloom_section PUBLIC
+    include/sstable_entities
+)
+
+target_link_libraries(kvdb_bloom_section PUBLIC
+    kvdb_sstable
+)
+
+### Meta section
+
+add_library(kvdb_meta_section
+    src/sstable_entities/meta_section.cpp
+)
+
+target_link_directories(kvdb_meta_section PUBLIC
+    include/sstable_entities
+)
+
+target_link_libraries(kvdb_meta_section PUBLIC
+    kvdb_sstable
+)
+
+### File footer section
+
+add_library(kvdb_file_footer_section
+    src/sstable_entities/file_footer_section.cpp
+)
+
+target_link_directories(kvdb_file_footer_section PUBLIC
+    include/sstable_entities
+)
+
+target_link_libraries(kvdb_file_footer_section PUBLIC
+    kvdb_sstable
+)
+
 ### Table Meta
 
 add_library(kvdb_table_meta 
