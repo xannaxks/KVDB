@@ -435,6 +435,25 @@ target_link_libraries(kvdb_level_manager PUBLIC
     kvdb_table_meta
 )
 
+
+### Merge iterator
+
+add_library(kvdb_merge_iterator
+    src/merge_iterator.cpp
+)
+
+target_link_directories(kvdb_merge_iterator PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_merge_iterator PUBLIC 
+    kvdb_status
+    kvdb_arena
+    kvdb_table_meta
+    kvdb_sstable
+    kvdb_record
+)
+
 # =========================
 # Tests
 # =========================
