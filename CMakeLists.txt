@@ -412,11 +412,16 @@ add_library(kvdb_file_header_section
 )
 
 target_link_directories(kvdb_file_header_section PUBLIC
-    include/sstable_entities
+    include
 )
 
 target_link_libraries(kvdb_file_header_section PUBLIC
     kvdb_sstable
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helpers
 )
 
 ### Data section
@@ -426,11 +431,16 @@ add_library(kvdb_data_section
 )
 
 target_link_directories(kvdb_data_section PUBLIC
-    include/sstable_entities
+    include
 )
 
 target_link_libraries(kvdb_data_section PUBLIC
     kvdb_sstable
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
 )
 
 ### Data section view
@@ -440,11 +450,16 @@ add_library(kvdb_data_section_view
 )
 
 target_link_directories(kvdb_data_section_view PUBLIC
-    include/sstable_entities
+    include
 )
 
 target_link_libraries(kvdb_data_section_view PUBLIC
     kvdb_sstable
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
 )
 
 ### Index section
@@ -454,11 +469,16 @@ add_library(kvdb_index_section
 )
 
 target_link_directories(kvdb_index_section PUBLIC
-    include/sstable_entities
+    include
 )
 
 target_link_libraries(kvdb_index_section PUBLIC
     kvdb_sstable
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
 )
 
 ### Bloom section
@@ -468,11 +488,16 @@ add_library(kvdb_bloom_section
 )
 
 target_link_directories(kvdb_bloom_section PUBLIC
-    include/sstable_entities
+    include
 )
 
 target_link_libraries(kvdb_bloom_section PUBLIC
     kvdb_sstable
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
 )
 
 ### Meta section
@@ -482,11 +507,16 @@ add_library(kvdb_meta_section
 )
 
 target_link_directories(kvdb_meta_section PUBLIC
-    include/sstable_entities
+    include
 )
 
 target_link_libraries(kvdb_meta_section PUBLIC
     kvdb_sstable
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
 )
 
 ### File footer section
@@ -496,11 +526,16 @@ add_library(kvdb_file_footer_section
 )
 
 target_link_directories(kvdb_file_footer_section PUBLIC
-    include/sstable_entities
+    include
 )
 
 target_link_libraries(kvdb_file_footer_section PUBLIC
     kvdb_sstable
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
 )
 
 ### Table Meta
