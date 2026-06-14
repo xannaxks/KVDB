@@ -6,7 +6,7 @@
 #include "sstable.h"
 #include "status.h"
 
-constexpr int MANIFEST_BLOCK_SIZE = 4096;
+inline constexpr std::uint32_t MANIFEST_BLOCK_SIZE = 4096;
 
 struct TableMeta
 {
@@ -14,7 +14,6 @@ struct TableMeta
     std::uint32_t level = 0;
 
     std::filesystem::path path;
-
 
     std::uint64_t min_seq = 0;
     std::uint64_t max_seq = 0;
@@ -28,14 +27,15 @@ struct TableMeta
     ArenaEntry smallest_key{};
     ArenaEntry largest_key{};
 
-    void calculate_crc(std::uint32_t& crc_buffer, bool init = false);
+    std::uint32_t disk_size() const;
+    void calculate_crc(std::uint32_t& crc_buffer, bool init = false) const;
 
-    Status write(WritableFile& file, std::uint64_t& offset);
+    Status write(WritableFile& file, std::uint64_t& offset) const;
     static Result<TableMeta> load(ReadableFile& file, std::uint64_t& offset, Arena& arena);
 };
 
 Result<TableMeta> make_table_meta(
-	const SSTable& sstable,
-	std::uint32_t level,
+    const SSTable& sstable,
+    std::uint32_t level,
     Arena& arena
 );
