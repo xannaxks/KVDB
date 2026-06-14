@@ -1,34 +1,33 @@
-#include <algorithm>
-#include <fstream>
-#include <cstdint>
-#include <vector>
-#include <string>
-#include <optional>
-#include <bitset>
-#include <utility>
-#include <cstddef>
-#include <cassert>
-#include <optional>
-#include "status.h"
-#include <unordered_set>
-#include "wal.h"
-#include "sstable.h"
-#include "file.h"
-#include "table_meta.h"
-#include "level_manager.h"
+#pragma once
 
-constexpr std::uint32_t MANIFEST_MAGIC = 0x4D414E49; // "MANI";
-constexpr std::uint32_t MANIFEST_VERSION = 1;
+#include <cstdint>
+#include <filesystem>
+#include <memory>
+#include <optional>
+#include <vector>
+#include "arena.h"
+#include "file.h"
+#include "level_manager.h"
+#include "status.h"
+#include "table_meta.h"
+
+inline constexpr std::uint32_t MANIFEST_MAGIC = 0x4D414E49; // "MANI"
+inline constexpr std::uint32_t MANIFEST_VERSION = 1;
 
 struct DeletedTable
 {
-	uint32_t level = 0;
-	uint64_t table_id = 0;
+    std::uint32_t level = 0;
+    std::uint64_t table_id = 0;
 
-	static Result<DeletedTable> load(ReadableFile& file, std::uint64_t& offset);
-	Status write(WritableFile& file) const;
+    static Result<DeletedTable> load(ReadableFile& file, std::uint64_t& offset);
+    Status write(WritableFile& file, std::uint64_t& offset) const;
 
-	static uint32_t disk_size();
+    static constexpr std::uint32_t disk_size()
+    {
+        return sizeof(level) + sizeof(table_id);
+    }
+
+    void calculate_crc(std::uint32_t& crc_buffer, bool init = false) const;
 };
 
 struct VersionEdit
@@ -40,10 +39,10 @@ struct VersionEdit
 
         static constexpr std::uint32_t disk_size()
         {
-            return sizeof(std::uint32_t) * 2;
+            return sizeof(crc32) + sizeof(payload_size);
         }
 
-        Status write(WritableFile& file) const;
+        Status write(WritableFile& file, std::uint64_t& offset) const;
         static Result<Header> load(ReadableFile& file, std::uint64_t& offset);
     };
 
@@ -58,14 +57,15 @@ struct VersionEdit
 
         std::uint32_t disk_size() const;
 
-        Status write(WritableFile& file) const;
+        Status write(WritableFile& file, std::uint64_t& offset) const;
         static Result<Payload> load(
             ReadableFile& file,
             std::uint64_t& offset,
-            std::uint32_t payload_size
+            std::uint32_t payload_size,
+            Arena& arena
         );
 
-        std::uint32_t compute_crc32() const;
+        void compute_crc32(std::uint32_t& crc_buffer) const;
     };
 
     Header header{};
@@ -76,8 +76,8 @@ struct VersionEdit
         return Header::disk_size() + payload.disk_size();
     }
 
-    Status write(WritableFile& file);
-    static Result<VersionEdit> load(ReadableFile& file, std::uint64_t& offset);
+    Status write(WritableFile& file, std::uint64_t& offset) const;
+    static Result<VersionEdit> load(ReadableFile& file, std::uint64_t& offset, Arena& arena);
 };
 
 class Manifest
@@ -99,7 +99,7 @@ public:
 
         Status compute_crc32();
 
-        Status write(WritableFile& file) const;
+        Status write(WritableFile& file, std::uint64_t& offset) const;
         static Result<Header> load(ReadableFile& file, std::uint64_t& offset);
     };
 
@@ -107,12 +107,11 @@ private:
     std::filesystem::path path_;
 
     Header header_{};
-
     LevelManager level_manager_;
 
     std::uint64_t next_table_id_ = 1;
     std::uint64_t current_wal_id_ = 1;
-    std::uint64_t next_sequence_number = 0;
+    std::uint64_t next_sequence_number_ = 1;
 
     std::unique_ptr<WritableFile> writable_;
     std::unique_ptr<ReadableFile> readable_;
