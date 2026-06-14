@@ -1,6 +1,10 @@
+#pragma once
+
 #include "table_meta.h"
 #include "arena.h"
 #include "status.h"
+#include <cstdint>
+#include <optional>
 #include <vector>
 
 class LevelManager {
@@ -8,9 +12,10 @@ public:
     LevelManager() noexcept;
 
     Status add_table(TableMeta&& table);
-    Status remove_table(std::uint64_t table_id, std::optional<std::uint32_t> level);
+    Status remove_table(std::uint64_t table_id, std::optional<std::uint32_t> level = std::nullopt);
 
     const std::vector<TableMeta>* get_lx_tables(std::uint32_t level) const;
+    std::uint32_t level_count() const noexcept;
 
     Result<std::vector<TableMeta>> find_candidate_tables_in_level(
         std::uint32_t level,
