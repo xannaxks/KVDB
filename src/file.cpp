@@ -19,6 +19,7 @@
 #include <fcntl.h> // provides open flags like O_RDONLY, O_WRONLY, O_CREAT
 #include <sys/stat.h> // provides file permissions constants
 #include <unistd.h> // provides read/write/pread/fsync/close/rename
+#include <sys/types.h>
 
 #endif
 
@@ -178,7 +179,7 @@ public:
 			GENERIC_WRITE,
 			0,
 			nullptr,
-			CREATE_ALWAYS,
+			OPEN_ALWAYS,
 			FILE_ATTRIBUTE_NORMAL,
 			nullptr
 		);
@@ -337,6 +338,39 @@ public:
 
 		return ok != 0 ? Status::ok() : syscall_error(StatusCode::CloseFailed, "sync_directory");
 	}
+
+	Result<std::uint64_t> seek_to_end()
+	{
+		if (handle_ == INVALID_HANDLE_VALUE)
+			return Result<std::uint64_t>::fail(
+				Status{
+					StatusCode::SeekFailed,
+					"seek to end failed"
+				}
+			);
+
+		LARGE_INTEGER zero{};
+		LARGE_INTEGER new_pos{};
+
+		const BOOL ok = ::SetFilePointerEx(handle_, zero, &new_pos, FILE_END);
+
+		if (ok == 0)
+		{
+			return Result<std::uint64_t>::fail(syscall_error(StatusCode::SeekFailed, "seek to end"));
+		}
+
+		if (new_pos.QuadPart < 0)
+		{
+			return Result<std::uint64_t>::fail(
+				syscall_error(
+					StatusCode::SeekFailed,
+					"negative file position after seek_to_end for file" + this->path.string()
+				)
+			);
+		}
+
+		return Result<std::uint64_t>::ok(static_cast<std::uint64_t>(new_pos.QuadPart));
+	}
 };
 
 #else
@@ -464,7 +498,7 @@ public:
 	{
 		this->path = path;
 
-		fd_ = ::open(path.c_str(), O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd_ = ::open(path.c_str(), O_WRONLY | O_CREAT, 0644);
 
 		if (fd_ == -1)
 			throw std::runtime_error("open for writable file failed");
@@ -687,6 +721,26 @@ public:
 
 		return sync_status;
 	}
+
+	Result<std::uint64_t> seek_to_end()
+	{
+		if (fd_ == -1)
+			return Result<std::uint64_t>::fail(
+				Status{
+					StatusCode::SeekFailed,
+					"seek to end failed"
+				}
+			);
+
+		const off_t pos = ::lseek(fd_, 0, SEEK_END);
+
+		if (pos == static_cast<off_t>(-1))
+			return Result<std::uint64_t>::fail(
+				syscall_error(StatusCode::SeekFailed, "seek to end")
+			);
+
+		return Result<std::uint64_t>::ok(static_cast<std::uint64_t>(pos));
+	}
 };
 
 #endif
@@ -732,13 +786,21 @@ Result<std::unique_ptr<WritableFile>> open_writable_file(const std::filesystem::
 	try
 	{
 #ifdef _WIN32
-		return Result<std::unique_ptr<WritableFile>>::ok(
-			std::make_unique<WindowsWritableFile>(path)
-		);
+		std::unique_ptr<WritableFile> res = std::make_unique<WindowsWritableFile>(path);
+		
+		Status seek_eof_res = std::move(res->seek_to_end().status);
+		if (!seek_eof_res.is_ok())
+			return Result<std::unique_ptr<WritableFile>>::fail(std::move(seek_eof_res));
+
+		return Result<std::unique_ptr<WritableFile>>::ok(std::move(res));
 #else
-		return Result<std::unique_ptr<WritableFile>>::ok(
-			std::make_unique<PosixWritableFile>(path)
-		);
+		std::unique_ptr<WritableFile> res = std::make_unique<PosixWritableFile>(path);
+
+		Status seek_eof_res = std::move(res->seek_to_end().status);
+		if (!seek_eof_res.is_ok())
+			return Result<std::unique_ptr<WritableFile>>::fail(std::move(seek_eof_res));
+
+		return Result<std::unique_ptr<WritableFile>>::ok(std::move(res));
 #endif
 	}
 	catch (const std::bad_alloc&)

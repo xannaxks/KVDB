@@ -49,6 +49,7 @@ enum class StatusCode : std::uint8_t {
     GetPositionFailed,
     GetSizeFailed,
     PermissionDenied,
+    SeekFailed,
 
     // File format
     Corruption,

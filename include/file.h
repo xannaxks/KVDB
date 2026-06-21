@@ -20,7 +20,7 @@
 class ReadableFile
 {
 public:
-	const std::filesystem::path path;
+	 std::filesystem::path path;
 
 	virtual ~ReadableFile() = default;
 
@@ -69,6 +69,8 @@ public:
 	virtual Status sync_parent_directory() = 0;
 
 	virtual std::filesystem::path parent_directory() = 0;
+
+	virtual Result<std::uint64_t> seek_to_end() = 0;
 };
 
 Result<std::unique_ptr<ReadableFile>> open_readable_file(
