@@ -30,7 +30,7 @@ Current / planned components:
 * [x] Manifest / version edits
 * [ ] Point lookup API
 * [ ] Compaction
-* [ ] Bloom filter integration
+* [x] Bloom filter integration
 * [ ] Background compaction
 * [ ] Benchmarks
 * [ ] Additional MemTable data structures
