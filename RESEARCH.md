@@ -1279,20 +1279,3 @@ Possible research questions:
 * How much does implementation complexity matter compared with benchmark gains?
 
 ---
-
-# Current Recommendation
-
-For the first research milestone, KVDB should not try to implement every
-structure in this document.
-
-A strong first version would compare:
-
-* Red-Black Tree
-* AVL Tree
-* Skip List
-* Treap
-* Splay Tree
-
-This set is realistic, understandable, and enough to produce meaningful
-benchmark results. More advanced structures can be added after the benchmark
-methodology and engine behavior are stable.
