@@ -370,18 +370,15 @@ Result<VersionEdit::Payload> VersionEdit::Payload::load(
     return Result<Payload>::ok(std::move(result));
 }
 
-Status VersionEdit::write(WritableFile& file, std::uint64_t& offset) const
+Status VersionEdit::write(WritableFile& file, std::uint64_t& offset)
 {
-    VersionEdit copy = *this;
-    copy.header.payload_size = copy.payload.disk_size();
-    copy.payload.compute_crc32(copy.header.crc32);
 
-    Status result = copy.header.write(file, offset);
+    Status result = this->header.write(file, offset);
     if (!result.is_ok()) {
         return result;
     }
 
-    result = copy.payload.write(file, offset);
+    result = this->payload.write(file, offset);
     if (!result.is_ok()) {
         return result;
     }
@@ -644,7 +641,7 @@ Status Manifest::open_or_create()
     return sync();
 }
 
-Status Manifest::append(const VersionEdit& edit)
+Status Manifest::append(VersionEdit& edit)
 {
     if (!writable_) {
         return Status{ StatusCode::FailedPrecondition, "manifest is not open for writing" };
@@ -712,7 +709,7 @@ Status Manifest::apply(const VersionEdit& edit, Arena& arena)
     return check_invariants();
 }
 
-Status Manifest::commit(const VersionEdit& edit, Arena& arena)
+Status Manifest::commit(VersionEdit& edit, Arena& arena)
 {
     Status append_status = append(edit);
     if (!append_status.is_ok()) {
@@ -746,7 +743,7 @@ std::uint64_t Manifest::current_wal_id() const
     return current_wal_id_;
 }
 
-std::uint64_t Manifest::last_sequence_number() const
+std::uint64_t Manifest::next_sequence_number() const
 {
     if (next_sequence_number_ == 0) {
         return 0;

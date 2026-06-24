@@ -76,7 +76,7 @@ struct VersionEdit
         return Header::disk_size() + payload.disk_size();
     }
 
-    Status write(WritableFile& file, std::uint64_t& offset) const;
+    Status write(WritableFile& file, std::uint64_t& offset);
     static Result<VersionEdit> load(ReadableFile& file, std::uint64_t& offset, Arena& arena);
 };
 
@@ -124,16 +124,16 @@ public:
     static Result<Manifest> load(const std::filesystem::path& path, Arena& arena);
     Status open_or_create();
 
-    Status append(const VersionEdit& edit);
+    Status append(VersionEdit& edit);
     Status apply(const VersionEdit& edit, Arena& arena);
-    Status commit(const VersionEdit& edit, Arena& arena);
+    Status commit(VersionEdit& edit, Arena& arena);
 
     Status sync();
 
     std::uint64_t allocate_table_id();
 
     std::uint64_t current_wal_id() const;
-    std::uint64_t last_sequence_number() const;
+    std::uint64_t next_sequence_number() const;
     std::uint64_t next_table_id() const;
 
     const LevelManager& level_manager() const;
