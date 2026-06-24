@@ -382,6 +382,134 @@ target_link_libraries(kvdb_red_black_tree PUBLIC
     kvdb_status
 )
 
+### SSTable Entities
+
+### File header section
+
+add_library(kvdb_file_header_section
+    src/sstable_entities/file_header_section.cpp
+)
+
+target_link_directories(kvdb_file_header_section PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_file_header_section PUBLIC
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helpers
+)
+
+### Data section
+
+add_library(kvdb_data_section
+    src/sstable_entities/data_section.cpp
+)
+
+target_link_directories(kvdb_data_section PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_data_section PUBLIC
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
+)
+
+### Data section view
+
+add_library(kvdb_data_section_view
+    src/sstable_entities/data_section_view.cpp
+)
+
+target_link_directories(kvdb_data_section_view PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_data_section_view PUBLIC
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
+)
+
+### Index section
+
+add_library(kvdb_index_section
+    src/sstable_entities/index_section.cpp
+)
+
+target_link_directories(kvdb_index_section PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_index_section PUBLIC
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
+)
+
+### Bloom section
+
+add_library(kvdb_bloom_section
+    src/sstable_entities/bloom_section.cpp
+)
+
+target_link_directories(kvdb_bloom_section PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_bloom_section PUBLIC
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
+)
+
+### Meta section
+
+add_library(kvdb_meta_section
+    src/sstable_entities/meta_section.cpp
+)
+
+target_link_directories(kvdb_meta_section PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_meta_section PUBLIC
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
+)
+
+### File footer section
+
+add_library(kvdb_file_footer_section
+    src/sstable_entities/file_footer_section.cpp
+)
+
+target_link_directories(kvdb_file_footer_section PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_file_footer_section PUBLIC
+    kvdb_file_helpers
+    kvdb_file
+    kvdb_status
+    kvdb_endian_io
+    kvdb_crc32_helper
+)
+
 
 ### SSTable
 
@@ -401,141 +529,69 @@ target_link_libraries(kvdb_sstable PUBLIC
     kvdb_endian_io
     kvdb_record
     kvdb_status
+    kvdb_file_header_section
+    kvdb_data_section
+    kvdb_data_section_view
+    kvdb_index_section
+    kvdb_bloom_section
+    kvdb_meta_section
+    kvdb_file_footer_section
 )
 
-### SSTable Entities
+### SStable writer
 
-### File header section
-
-add_library(kvdb_file_header_section
-    src/sstable_entities/file_header_section.cpp
+add_library(kvdb_sstable_writer 
+    src/sstable_writer.cpp
 )
 
-target_link_directories(kvdb_file_header_section PUBLIC
+target_link_directories(kvdb_sstable_writer PUBLIC
     include
 )
 
-target_link_libraries(kvdb_file_header_section PUBLIC
-    kvdb_sstable
-    kvdb_file_helpers
-    kvdb_file
+target_link_libraries(kvdb_sstable_writer PUBLIC
     kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helpers
+    kvdb_arena
+    kvdb_sstable
+    kvdb_file
+    kvdb_file_helpers
 )
 
-### Data section
+### SSTable loader
 
-add_library(kvdb_data_section
-    src/sstable_entities/data_section.cpp
+add_library(kvdb_sstable_loader
+    src/sstable_loader.cpp
 )
 
-target_link_directories(kvdb_data_section PUBLIC
+target_link_directories(kvdb_sstable_loader PUBLIC
     include
 )
 
-target_link_libraries(kvdb_data_section PUBLIC
-    kvdb_sstable
-    kvdb_file_helpers
-    kvdb_file
+target_link_libraries(kvdb_sstable_loader PUBLIC
     kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helper
+    kvdb_arena
+    kvdb_sstable
+    kvdb_file
+    kvdb_file_helpers
 )
 
-### Data section view
+### SSTable manager
 
-add_library(kvdb_data_section_view
-    src/sstable_entities/data_section_view.cpp
+add_library(kvdb_sstable_manager
+    src/sstable_manager.cpp
 )
 
-target_link_directories(kvdb_data_section_view PUBLIC
+target_link_directories(kvdb_sstable_manager PUBLIC
     include
 )
 
-target_link_libraries(kvdb_data_section_view PUBLIC
-    kvdb_sstable
-    kvdb_file_helpers
-    kvdb_file
+target_link_libraries(kvdb_sstable_manager PUBLIC
     kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helper
-)
-
-### Index section
-
-add_library(kvdb_index_section
-    src/sstable_entities/index_section.cpp
-)
-
-target_link_directories(kvdb_index_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_index_section PUBLIC
+    kvdb_arena
     kvdb_sstable
-    kvdb_file_helpers
     kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helper
-)
-
-### Bloom section
-
-add_library(kvdb_bloom_section
-    src/sstable_entities/bloom_section.cpp
-)
-
-target_link_directories(kvdb_bloom_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_bloom_section PUBLIC
-    kvdb_sstable
     kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helper
-)
-
-### Meta section
-
-add_library(kvdb_meta_section
-    src/sstable_entities/meta_section.cpp
-)
-
-target_link_directories(kvdb_meta_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_meta_section PUBLIC
-    kvdb_sstable
-    kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helper
-)
-
-### File footer section
-
-add_library(kvdb_file_footer_section
-    src/sstable_entities/file_footer_section.cpp
-)
-
-target_link_directories(kvdb_file_footer_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_file_footer_section PUBLIC
-    kvdb_sstable
-    kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helper
+    kvdb_sstable_loader
+    kvdb_sstable_writer
 )
 
 ### Table Meta
@@ -587,6 +643,78 @@ target_link_libraries(kvdb_merge_iterator PUBLIC
     kvdb_table_meta
     kvdb_sstable
     kvdb_record
+)
+
+### Manifest
+
+add_library(kvdb_manifest 
+    src/manifest.cpp
+)
+
+target_link_directories(kvdb_manifest PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_manifest PUBLIC
+     kvdb_level_manager
+     kvdb_table_meta
+     kvdb_file
+     kvdb_file_helpers
+     kvdb_arena
+)
+
+### WAL
+
+add_library(kvdb_wal
+    src/wal.cpp
+)
+
+target_link_directories(kvdb_wal PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_wal PUBLIC
+    kvdb_arena
+    kvdb_file
+    kvdb_file_helpers
+    kvdb_status
+    kvdb_sstable
+)
+
+### MemTable
+
+add_library(kvdb_mem_table
+    src/mem_table.cpp
+)
+
+target_link_directories(kvdb_mem_table PUBLIC 
+    include
+)
+
+target_link_libraries(kvdb_mem_table PUBLIC
+    kvdb_wal
+    kvdb_file
+    kvdb_file_helpers
+    kvdb_arena
+    kvdb_wal
+)
+
+### engine
+
+add_library(kvdb_engine
+    src/engine.cpp
+)
+
+target_link_directories(kvdb_engine PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_engine PUBLIC
+    kvdb_sstable
+    kvdb_manifest
+    kvdb_wal
+    kvdb_mem_table
+    kvdb_status
 )
 
 # =========================
