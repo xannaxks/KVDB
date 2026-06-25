@@ -1,4 +1,8 @@
-struct KVDBoptions
+#pragma once
+#include <filesystem>
+#include <cstdint>
+
+struct DBOptions
 {
 	std::filesystem::path db_path;
 	std::size_t mem_table_size_limit = 64 * 1024 * 1024;

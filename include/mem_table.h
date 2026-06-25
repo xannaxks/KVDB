@@ -6,6 +6,8 @@
 #include "record.h"
 #include "red_black_tree.h"
 #include <algorithm>
+#include <string>
+#include <string_view>
 #include "status.h"
 
 class SSTableBuilder;
@@ -28,9 +30,9 @@ public:
 
     Status manual_freeze();
     Status apply(const InternalRecord& entry);
-    Status put(const Bytes& key, const Bytes& value, uint64_t seq_num);
-    Status remove(const Bytes& key, uint64_t seq_num);
-    std::variant<ByteRecord, Status> get(const Bytes& key) const;
+    Status put(std::string_view key, std::string_view value, uint64_t seq_num);
+    Status remove(std::string_view key, uint64_t seq_num);
+    Result<std::optional<InternalRecord>> get(std::string_view key) const;
 
     void dump_oldest_immutable(std::vector<InternalRecord>& out);
     void drop_oldest_immutable();

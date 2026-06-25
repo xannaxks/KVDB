@@ -7,6 +7,7 @@
 enum class StatusCode : std::uint8_t {
     
     Ok = 0,
+    UseAfterClose,
     // Compaction
     OverlappingKeys,
 
@@ -67,6 +68,7 @@ enum class StatusCode : std::uint8_t {
     OffsetOutOfRange,
     OffsetOverlap,
     UnexpectedEOF,
+    BadFileDescriptor
 };
 struct Status {
     Status() = default;

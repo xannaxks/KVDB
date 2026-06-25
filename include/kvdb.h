@@ -1,27 +1,29 @@
+#pragma once
 #include "status.h"
 #include <memory>
 #include <optional>
+#include "db_options.h"
 
 class KVDB
 {
 public:
-	static Result<std::unique_ptr<KVDB>> open(const KVDBoptions& options);
+    virtual ~KVDB() = default;
 
-	template<T, S>
-	Status put(const T& key, const S& value);
+    static Result<std::unique_ptr<KVDB>> open(const DBOptions& options);
 
-	template<T>
-	Result<std::optional<T>> get(const T& key);
+    virtual Status put(std::string_view key, std::string_view value) = 0;
 
-	template<T>
-	Status remove(const T& key);
+    virtual Result<std::optional<std::string>> get(std::string_view key) = 0;
 
-	Status flush();
-	template<T, S>
-	Status compact_range(const T& begin, const S& end);
+    virtual Status remove(std::string_view key) = 0;
 
-	Status close();
+    virtual Status flush() = 0;
 
-private:
-	KVDB() = default;
+    virtual Status compact_range(std::string_view begin,
+        std::string_view end) = 0;
+
+    virtual Status close() = 0;
+
+protected:
+    KVDB() = default;
 };

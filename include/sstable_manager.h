@@ -19,7 +19,9 @@ public:
 	Status write_latest(bool erase = false);
 	std::vector<Status> write_all();
 	void add_to_pool(SSTable&& sstable);
+	Status add_to_pool(MemTable& memtable);
 	//void add_to_pool(MemTable& mem_table);
 	std::vector<Status> load(Arena& arena, const std::filesystem::path& root_path);
+	Result<std::optional<InternalRecord>> get_latest(std::string_view key);
 	//void get_latest();
 };

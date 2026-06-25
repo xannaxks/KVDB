@@ -1,169 +1,152 @@
 #include "engine.h"
-#include <cassert>
-#include <iostream>
-#include <format>
-#include <algorithm>
 
-using namespace EnvVariables;
-
-Engine::Status Engine::status_from(MemTable::Status mem_table_status)
-{
-    switch (mem_table_status)
-    {
-    case MemTable::Status::OK:
-        return Engine::Status::OK;
-    case MemTable::Status::KeyNotFound:
-        return Engine::Status::KeyNotFound;
-    case MemTable::Status::KeyWasDeleted:
-        return Engine::Status::KeyWasDeleted;
-    case MemTable::Status::MemoryAllocationFailed:
-        return Engine::Status::MemoryAllocationFailed;
-    }
-
-    assert(false);
-    return Engine::Status::MemoryAllocationFailed;
-}
-Engine::Status Engine::status_from(Wal::Status wal_status)
-{
-    switch (wal_status)
-    {
-    case Wal::Status::OK:
-        return Engine::Status::OK;
-    case Wal::Status::EntryTooLarge:
-        return Engine::Status::EntryTooLarge;
-    case Wal::Status::EndOfFile:
-        return Engine::Status::EndOfFile;
-    }
-
-    assert(false);
-    return Engine::Status::MemoryAllocationFailed;
-}
-
-Engine::Engine(const std::string& path)
-    : mem_table(),
-    wal(path)
+Engine::Engine(DBOptions options)
+	: options_(std::move(options)),
+	manifest_(std::make_unique<Manifest>(options_)),
+	wal_(std::make_unique<WAL>(options_)),
+	mutable_mem_table_(std::make_unique<MemTable>()),
+	compaction_scheduler_(std::make_unique<CompactionScheduler>()),
+	sstable_manager_(std::make_unique<SSTableManager>(options_))
 {
 }
 
-void Engine::ensure_sstable_dir()
+Status Engine::put(std::string_view key, std::string_view value)
 {
-    if (!std::filesystem::exists(sstable_dir))
-        std::filesystem::create_directory(sstable_dir);
-}
-void Engine::ensure_dirs()
-{
-    ensure_sstable_dir();
-}
-void Engine::load_wal()
-{
-    while (true)
-    {
-        std::variant<Wal::Status, InternalRecord> entry = wal.read_next();
+	if (this->closed_)
+		return Status{
+			StatusCode::UseAfterClose,
+			"Attempt to use closed engine was denied"
+		};
 
-        if (std::holds_alternative<Wal::Status>(entry))
-        {
-            if (std::get<Wal::Status>(entry) == Wal::Status::EndOfFile)
-                break;
-            assert(false);
-        }
-        InternalRecord record = std::get<InternalRecord>(entry);
-        mem_table.apply(record);
-        seq_cnt = std::max(seq_cnt, record.seq_num);
-    }
-    seq_cnt++;
-}
-void Engine::load_sstables()
-{
-    int cnt = 1;
-    while (true)
-    {
-        std::string path = std::format("{}/{:05}.sst", sstable_dir, cnt);
-        if (!std::filesystem::exists(path))
-        {
-            break;
-        }
-        this->sstables.push_back(std::make_unique<SSTable>(path));
-        cnt++;
-    }
-    sstable_num = cnt;
-    std::reverse(this->sstables.begin(), this->sstables.end());
-}
-void Engine::start_up()
-{
-    ensure_dirs();
-    load_wal();
-    load_sstables();
+	Status result = this->mutable_mem_table_->put(key, value, this->last_seq_);
+
+	if(result.is_ok())
+		this->last_seq_++;
+	
+	return result;
 }
 
-Engine::Status Engine::put(const std::string& key, const std::string& value)
+Status Engine::remove(std::string_view key)
 {
-    Bytes key_buffer, value_buffer;
-    ::write_to_bytes(key_buffer, key);
-    ::write_to_bytes(value_buffer, value);
+	if (this->closed_)
+		return Status{
+			StatusCode::UseAfterClose,
+			"Attempt to use closed engine was denied"
+		};
 
-    Wal::Entry entry(key_buffer, value_buffer, Type::Put, seq_cnt);
-    auto status = wal.write(entry);
-    if (status != Wal::Status::OK)
-        return Engine::status_from(status);
+	Status result = this->mutable_mem_table_->remove(key, this->last_seq_);
 
-    seq_cnt++;
-
-    return Engine::status_from(
-        mem_table.put(entry.payload.key, entry.payload.value, entry.header.seq_num)
-    );
+	if(result.is_ok())
+		this->last_seq_++;
+	
+	return result;
 }
-Engine::Status Engine::remove(const std::string& key)
+
+Result<std::optional<std::string>> construct_response_for_api(std::optional<InternalRecord>& result)
 {
-    Bytes key_buffer;
-    ::write_to_bytes(key_buffer, key);
 
-    Wal::Entry entry(key_buffer, Bytes(), Type::Tombstone, seq_cnt);
-    auto status = wal.write(entry);
-    if (status != Wal::Status::OK)
-        return Engine::status_from(status);
-    
-    seq_cnt++;
+	::Type& type = result->type;
 
-    return Engine::status_from(
-        mem_table.remove(entry.payload.key, entry.header.seq_num)
-    );
+	if (type == ::Type::Tombstone)
+	{
+		return Result<std::optional<std::string>>::fail(
+			Status{
+				StatusCode::NotFound,
+				"Key not found or deleted"
+			}
+		);
+	}
+
+	ArenaEntry& value = result->value_entry;
+	std::string value_str;
+
+	for (std::size_t i = 0; i < value.size; i++)
+		value_str += (reinterpret_cast<char*>(value.data))[i];
+
+	return Result<std::optional<std::string>>::ok(value_str);
 }
-Engine::Status Engine::manual_freeze()
+
+Result<std::optional<std::string>> Engine::get(std::string_view key)
 {
-    return Engine::status_from(mem_table.manual_freeze());
+	if (closed_) {
+		return Result<std::optional<std::string>>::fail(
+			Status{
+				StatusCode::UseAfterClose,
+				"Attempt to use closed engine was denied"
+			}
+		);
+	}
+
+	auto result = mutable_mem_table_->get(key);
+
+	if (result.is_ok()) {
+		return construct_response_for_api(result.value);
+	}
+
+	if (result.status.code != StatusCode::NotFound) {
+		return Result<std::optional<std::string>>::fail(result.status);
+	}
+
+	// Future:
+	// search immutable memtables newest -> oldest
+
+	result = sstable_manager_->get_latest(key);
+
+	if (result.is_ok()) {
+		return construct_response_for_api(result.value);
+	}
+
+	if (result.status.code == StatusCode::NotFound) {
+		return Result<std::optional<std::string>>::ok(std::nullopt);
+	}
+
+	return Result<std::optional<std::string>>::fail(result.status);
 }
-std::variant<std::string, Engine::Status> Engine::get(const std::string& key)
+
+Status Engine::flush()
 {
-    Bytes key_buffer;
-    ::write_to_bytes(key_buffer, key);
+	if (this->closed_)
+		return Status
+		{
+			StatusCode::UseAfterClose,
+			"Attempt to use engine after closing was denied"
+		};
 
-    auto result = mem_table.get(key_buffer);
-
-    if (std::holds_alternative<ByteRecord>(result))
-    {
-        std::string value;
-        write_to_string(value, std::get<ByteRecord>(result).value);
-        return value;
-    }
-
-    if (std::get<MemTable::Status>(result) == MemTable::Status::KeyWasDeleted)
-        return Engine::Status::KeyWasDeleted;
-
-    for (auto& sstable : this->sstables)
-    {
-        auto sstable_result = sstable->get(key_buffer);
-        if (std::holds_alternative<ByteRecord>(sstable_result))
-        {
-            std::string value;
-            write_to_string(value, std::get<ByteRecord>(sstable_result).value);
-            return value;
-        }
-        if (std::get<SSTable::Status>(sstable_result) == SSTable::Status::KeyWasDeleted)
-            return Engine::Status::KeyWasDeleted;
-    }
-    return Engine::Status::KeyNotFound;
+	Status result = this->sstable_manager_->add_to_pool(*this->mutable_mem_table_);
+	if (result.is_ok())
+	{
+		// freeing memtable occupied space logics
+		// wal freeing logics
+		return Status::ok();
+	}
+	return result;
 }
-void Engine::manual_flush()
+
+Status Engine::compact_range(std::string_view begin,
+	std::string_view end)
 {
-    SSTableBuilder::build_from_memtable(this->mem_table, sstable_dir, sstable_num);
+	if (closed_) {
+		return Status{ StatusCode::UseAfterClose, "database is closed" };
+	}
+
+	// Optional but usually good:
+	// flush current memtable first, so newest writes are included.
+	Status s = flush();
+	if (!s.is_ok()) {
+		return s;
+	}
+
+	//CompactionInput input = level_manager_->pick_range_compaction(begin, end);
+
+	//if (input.empty()) {
+	//	return Status::ok();
+	//}
+
+	//CompactionJob job{
+	//	.input = std::move(input),
+	//	.begin = std::string(begin),
+	//	.end = std::string(end),
+	//};
+
+	//return compaction_scheduler_->run_manual(job);  =====> exact implementation coming soon
 }
