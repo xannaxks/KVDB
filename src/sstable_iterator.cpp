@@ -1,4 +1,4 @@
-#include "sstabel_iterator.h"
+#include "sstable_iterator.h"
 
 using namespace SSTableEntities;
 
