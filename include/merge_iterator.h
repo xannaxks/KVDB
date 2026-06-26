@@ -5,6 +5,7 @@
 #include "table_meta.h"
 #include <queue>
 #include <vector>
+#include "sstable_iterator.h"
 
 static bool internal_before(const InternalRecord& a, const InternalRecord& b)
 {
