@@ -8,6 +8,7 @@ enum class StatusCode : std::uint8_t {
     
     Ok = 0,
     UseAfterClose,
+    InvalidState,
     // Compaction
     OverlappingKeys,
 
