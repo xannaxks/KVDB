@@ -717,6 +717,59 @@ target_link_libraries(kvdb_engine PUBLIC
     kvdb_status
 )
 
+### Compaction entities
+
+### Compaction plan
+
+add_library(kvdb_compaction_plan
+    src/compaction_plan.cpp
+)
+
+target_link_directories(kvdb_compaction_plan PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_compaction_plan PUBLIC
+    kvdb_status
+    kvdb_arena
+    kvdb_table_meta
+)
+
+### Compaction job
+
+add_library(kvdb_compaction_job
+    src/compaction_job.cpp
+)
+
+target_link_directories(kvdb_compaction_job PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_compaction_job PUBLIC
+    kvdb_arena
+    kvdb_status
+    kvdb_compaction_plan
+    kvdb_table_meta
+)
+
+### Compaction scheduler
+
+add_library(kvdb_compaction_scheduler 
+    src/compaction_scheduler.cpp
+)
+
+target_link_directories(kvdb_compaction_scheduler PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_compaction_scheduler PUBLIC
+    kvdb_arena
+    kvdb_status
+    kvdb_compaction_job
+    kvdb_compaction_plan
+    kvdb_table_meta
+)
+
 # =========================
 # Tests
 # =========================
