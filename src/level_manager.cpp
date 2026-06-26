@@ -253,3 +253,16 @@ std::vector<TableMeta> LevelManager::find_overlapping_tables(
 
     return result;
 }
+
+const std::vector<TableMeta>& LevelManager::levels(std::size_t lvl) const
+{
+    return this->levels_[lvl];
+}
+
+std::size_t LevelManager::get_layer_size(std::size_t level) const
+{
+    std::size_t result = 0;
+    for (auto& table_meta : this->levels_[level])
+        result += table_meta.file_size;
+    return result;
+}

@@ -28,6 +28,10 @@ public:
         const ArenaEntry& largest
     ) const;
 
+    const std::vector<TableMeta>& levels(std::size_t lvl) const;
+
+    std::size_t get_layer_size(std::size_t lvl) const;
+
 private:
     std::vector<std::vector<TableMeta>> levels_;
 };
