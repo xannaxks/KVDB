@@ -89,6 +89,9 @@ private:
 
 public:
 
+	const std::filesystem::path& get_path() const;
+	const std::filesystem::path& get_final_path() const;
+
 	const SSTableEntities::FileHeaderSection& get_file_header_section() const;
 	const SSTableEntities::DataSection& get_data_section() const;
 	const SSTableEntities::DataSectionView& get_data_section_view() const;

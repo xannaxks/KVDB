@@ -235,3 +235,13 @@ const std::filesystem::path& SSTable::get_final_path() const
 {
     return this->final_path;
 } 
+
+const std::filesystem::path& SSTable::get_path() const
+{
+    return this->path;
+}
+
+const std::filesystem::path& SSTable::get_final_path() const
+{
+    return this->final_path;
+}
