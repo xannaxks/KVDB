@@ -3,6 +3,7 @@
 # CMake build directories
 build/
 cmake-build-*/
+out/
 
 # CMake generated files
 CMakeFiles/
