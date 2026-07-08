@@ -312,3 +312,8 @@ void BloomSection::rebuild(const DataSection& data_section)
 
     recompute_crc32();
 }
+
+std::size_t BloomSection::disk_size()
+{
+	return Header::disk_size() + Payload::disk_size();
+}

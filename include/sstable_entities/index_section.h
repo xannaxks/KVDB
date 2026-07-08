@@ -57,6 +57,8 @@ namespace SSTableEntities
 		IndexSection(IndexSection& other) noexcept = default;
 		IndexSection(IndexSection&& other) noexcept = default;
 
+		static std::size_t fixed_disk_size();
+
 		Header header;
 		std::vector<Payload> payloads;
 

@@ -423,3 +423,11 @@ void IndexSection::add_index(
         compute_crc32(this->header.crc32, payload.last_key_ptr, payload.last_key_size);
 }
 
+
+std::size_t IndexSection::fixed_disk_size()
+{
+	return (
+		Header::disk_size() +
+		Payload::fixed_disk_size()
+		);
+}
