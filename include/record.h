@@ -18,6 +18,7 @@ struct InternalRecord
     uint64_t seq_num;
 
     uint32_t disk_size();
+    std::uint32_t disk_size() const;
     InternalRecord() = default;
     InternalRecord(InternalRecord&& other) noexcept = default;
     InternalRecord(const InternalRecord& other) noexcept = default;

@@ -28,6 +28,11 @@ uint32_t InternalRecord::disk_size()
 	return key_entry.size + value_entry.size + sizeof(seq_num) + sizeof(type);
 }
 
+std::uint32_t InternalRecord::disk_size() const
+{
+	return key_entry.size + value_entry.size + sizeof(seq_num) + sizeof(type);
+}
+
 bool InternalRecord::write(std::ofstream& file) const
 {
     if (!kvdb::endian::write_u64_le(file, seq_num))
