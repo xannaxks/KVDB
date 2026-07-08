@@ -104,4 +104,6 @@ public:
 
 	const std::filesystem::path& get_final_path() const;
 
+	Status append_record(const InternalRecord& record);
+
 };
