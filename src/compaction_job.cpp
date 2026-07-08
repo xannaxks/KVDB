@@ -4,6 +4,7 @@
 #include "file.h"
 #include "merge_iterator.h"
 
+
 Result<std::optional<VersionEdit>> CompactionJob::run(
     const CompactionPlan& plan,
     LevelManager& level_manager,
@@ -103,18 +104,18 @@ Result<std::optional<VersionEdit>> CompactionJob::run(
 
         instead of one huge file.
     */
-    std::optional<SSTableBuilder> builder;
+    std::optional<SSTableStreamingBuilder> builder;
 
     auto start_new_output = [&]() -> Status
         {
-            Result<SSTableBuilder> builder_result =
-                sstable_manager.create_builder(plan.target_level, arena);
+            std::unique_ptr<SSTableStreamingBuilder> builder_result =
+                sstable_manager.create_streaming_builder(Engine::allocate_next_table_id());
 
-            if (!builder_result.is_ok()) {
-                return builder_result.status;
-            }
+            //if (!builder_result.is_ok()) {
+            //    return builder_result.status;
+            //}
 
-            builder.emplace(std::move(builder_result.value));
+            builder.emplace(std::move(builder_result));
             return Status::ok();
         };
 
@@ -129,14 +130,14 @@ Result<std::optional<VersionEdit>> CompactionJob::run(
                 return Status::ok();
             }
 
-            Result<TableMeta> meta_result = builder->finish();
+            Result<std::optional<TableMeta>> meta_result = builder->finish(plan.target_level, arena);
 
             if (!meta_result.is_ok()) {
                 return meta_result.status;
             }
 
             edit.payload.new_tables.push_back(
-                std::move(meta_result.value)
+                std::move(*meta_result.value)
             );
 
             builder.reset();
@@ -211,7 +212,7 @@ Result<std::optional<VersionEdit>> CompactionJob::run(
         */
         if (builder.has_value() &&
             !builder->empty() &&
-            builder->estimated_size() >= plan.max_output_file_size) {
+            builder->approximate_disk_space() >= plan.max_output_file_size) {
             Status finish_status = finish_current_output();
             if (!finish_status.is_ok()) {
                 return Result<std::optional<VersionEdit>>::fail(finish_status);

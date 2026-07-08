@@ -4,6 +4,7 @@
 #include "sstable_manager.h"
 #include "manifest.h"
 #include "level_manager.h"
+#include "engine.h"
 #include "arena.h"
 
 class CompactionJob
