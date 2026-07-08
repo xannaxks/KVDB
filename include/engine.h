@@ -27,6 +27,8 @@ public:
 
     Status close() override;
 
+	static std::uint32_t allocate_next_table_id();
+
 private:
     DBOptions options_;
 
