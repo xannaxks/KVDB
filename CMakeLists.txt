@@ -390,7 +390,7 @@ add_library(kvdb_file_header_section
     src/sstable_entities/file_header_section.cpp
 )
 
-target_link_directories(kvdb_file_header_section PUBLIC
+target_include_directories(kvdb_file_header_section PUBLIC
     include
 )
 
@@ -408,7 +408,7 @@ add_library(kvdb_data_section
     src/sstable_entities/data_section.cpp
 )
 
-target_link_directories(kvdb_data_section PUBLIC
+target_include_directories(kvdb_data_section PUBLIC
     include
 )
 
@@ -417,7 +417,7 @@ target_link_libraries(kvdb_data_section PUBLIC
     kvdb_file
     kvdb_status
     kvdb_endian_io
-    kvdb_crc32_helper
+    kvdb_crc32_helpers
 )
 
 ### Data section view
@@ -426,7 +426,7 @@ add_library(kvdb_data_section_view
     src/sstable_entities/data_section_view.cpp
 )
 
-target_link_directories(kvdb_data_section_view PUBLIC
+target_include_directories(kvdb_data_section_view PUBLIC
     include
 )
 
@@ -435,7 +435,7 @@ target_link_libraries(kvdb_data_section_view PUBLIC
     kvdb_file
     kvdb_status
     kvdb_endian_io
-    kvdb_crc32_helper
+    kvdb_crc32_helpers
 )
 
 ### Index section
@@ -444,7 +444,7 @@ add_library(kvdb_index_section
     src/sstable_entities/index_section.cpp
 )
 
-target_link_directories(kvdb_index_section PUBLIC
+target_include_directories(kvdb_index_section PUBLIC
     include
 )
 
@@ -453,7 +453,7 @@ target_link_libraries(kvdb_index_section PUBLIC
     kvdb_file
     kvdb_status
     kvdb_endian_io
-    kvdb_crc32_helper
+    kvdb_crc32_helpers
 )
 
 ### Bloom section
@@ -462,7 +462,7 @@ add_library(kvdb_bloom_section
     src/sstable_entities/bloom_section.cpp
 )
 
-target_link_directories(kvdb_bloom_section PUBLIC
+target_include_directories(kvdb_bloom_section PUBLIC
     include
 )
 
@@ -471,7 +471,7 @@ target_link_libraries(kvdb_bloom_section PUBLIC
     kvdb_file
     kvdb_status
     kvdb_endian_io
-    kvdb_crc32_helper
+    kvdb_crc32_helpers
 )
 
 ### Meta section
@@ -480,7 +480,7 @@ add_library(kvdb_meta_section
     src/sstable_entities/meta_section.cpp
 )
 
-target_link_directories(kvdb_meta_section PUBLIC
+target_include_directories(kvdb_meta_section PUBLIC
     include
 )
 
@@ -489,7 +489,7 @@ target_link_libraries(kvdb_meta_section PUBLIC
     kvdb_file
     kvdb_status
     kvdb_endian_io
-    kvdb_crc32_helper
+    kvdb_crc32_helpers
 )
 
 ### File footer section
@@ -498,7 +498,7 @@ add_library(kvdb_file_footer_section
     src/sstable_entities/file_footer_section.cpp
 )
 
-target_link_directories(kvdb_file_footer_section PUBLIC
+target_include_directories(kvdb_file_footer_section PUBLIC
     include
 )
 
@@ -507,7 +507,7 @@ target_link_libraries(kvdb_file_footer_section PUBLIC
     kvdb_file
     kvdb_status
     kvdb_endian_io
-    kvdb_crc32_helper
+    kvdb_crc32_helpers
 )
 
 
@@ -544,7 +544,7 @@ add_library(kvdb_sstable_writer
     src/sstable_writer.cpp
 )
 
-target_link_directories(kvdb_sstable_writer PUBLIC
+target_include_directories(kvdb_sstable_writer PUBLIC
     include
 )
 
@@ -562,7 +562,7 @@ add_library(kvdb_sstable_loader
     src/sstable_loader.cpp
 )
 
-target_link_directories(kvdb_sstable_loader PUBLIC
+target_include_directories(kvdb_sstable_loader PUBLIC
     include
 )
 
@@ -580,7 +580,7 @@ add_library(kvdb_sstable_manager
     src/sstable_manager.cpp
 )
 
-target_link_directories(kvdb_sstable_manager PUBLIC
+target_include_directories(kvdb_sstable_manager PUBLIC
     include
 )
 
@@ -633,7 +633,7 @@ add_library(kvdb_merge_iterator
     src/merge_iterator.cpp
 )
 
-target_link_directories(kvdb_merge_iterator PUBLIC
+target_include_directories(kvdb_merge_iterator PUBLIC
     include
 )
 
@@ -651,7 +651,7 @@ add_library(kvdb_manifest
     src/manifest.cpp
 )
 
-target_link_directories(kvdb_manifest PUBLIC
+target_include_directories(kvdb_manifest PUBLIC
     include
 )
 
@@ -669,7 +669,7 @@ add_library(kvdb_wal
     src/wal.cpp
 )
 
-target_link_directories(kvdb_wal PUBLIC
+target_include_directories(kvdb_wal PUBLIC
     include
 )
 
@@ -687,7 +687,7 @@ add_library(kvdb_mem_table
     src/mem_table.cpp
 )
 
-target_link_directories(kvdb_mem_table PUBLIC 
+target_include_directories(kvdb_mem_table PUBLIC 
     include
 )
 
@@ -705,7 +705,7 @@ add_library(kvdb_engine
     src/engine.cpp
 )
 
-target_link_directories(kvdb_engine PUBLIC
+target_include_directories(kvdb_engine PUBLIC
     include
 )
 
@@ -725,7 +725,7 @@ add_library(kvdb_compaction_plan
     src/compaction_plan.cpp
 )
 
-target_link_directories(kvdb_compaction_plan PUBLIC
+target_include_directories(kvdb_compaction_plan PUBLIC
     include
 )
 
@@ -741,7 +741,7 @@ add_library(kvdb_compaction_job
     src/compaction_job.cpp
 )
 
-target_link_directories(kvdb_compaction_job PUBLIC
+target_include_directories(kvdb_compaction_job PUBLIC
     include
 )
 
@@ -758,7 +758,7 @@ add_library(kvdb_compaction_scheduler
     src/compaction_scheduler.cpp
 )
 
-target_link_directories(kvdb_compaction_scheduler PUBLIC
+target_include_directories(kvdb_compaction_scheduler PUBLIC
     include
 )
 
@@ -797,6 +797,20 @@ target_link_libraries(kvdb_sstable_builder PUBLIC
 enable_testing()
 
 include(GoogleTest)
+
+### File
+
+add_executable(kvdb_file_test
+    tests/file_test.cpp
+)
+
+target_link_libraries(kvdb_file_test PRIVATE
+    kvdb_status
+    kvdb_file
+    GTest::gtest_main
+)
+
+gtest_discover_tests(kvdb_file_test)
 
 ### Arena
 
@@ -873,17 +887,6 @@ add_executable(kvdb_sstable_test
 
 target_link_libraries(kvdb_sstable_test PRIVATE
     kvdb_sstable
-    GTest::gtest_main
-)
-
-### File
-
-add_executable(kvdb_file_test
-    tests/file_test.cpp
-)
-
-target_link_libraries(kvdb_file_test PRIVATE
-    kvdb_file
     GTest::gtest_main
 )
 

@@ -1,6 +1,7 @@
 .vs/
 
 # CMake build directories
+out/
 build/
 cmake-build-*/
 out/
