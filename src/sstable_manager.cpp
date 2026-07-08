@@ -123,6 +123,13 @@ SSTableManager::SSTableManager(std::filesystem::path&& path)
     : db_dir(path)
 {}
 
+std::unique_ptr<SSTableStreamingBuilder> SSTableManager::create_streaming_builder(std::uint32_t table_id)
+{
+	std::filesystem::path  path = SSTableManager::make_tmp_table_path(table_id, this->db_dir);
+	std::filesystem::path final_path = SSTableManager::make_table_path(table_id, this->db_dir);
+	return std::make_unique<SSTableStreamingBuilder>(path, final_path);
+}
+
 //std::vector<Status> SSTableManager::load(Arena& arena, const std::filesystem::path& root_path)
 //{
 //    std::vector<Status> load_results;

@@ -2,6 +2,7 @@
 #include "sstable_loader.h"
 #include "sstable_builder_options.h"
 #include <vector>
+#include "sstable_builder.h"
 #include "file.h"
 #include "status.h"
 #include "sstable_iterator.h"
@@ -68,5 +69,7 @@ public:
 
 	Result<std::shared_ptr<SSTable>> get(std::uint32_t table_id, Arena& arena);
 
-
+	std::unique_ptr<SSTableStreamingBuilder> create_streaming_builder(
+		std::uint32_t table_id
+	);
 };
