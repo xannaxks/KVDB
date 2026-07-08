@@ -61,7 +61,7 @@ Status SSTable::write()
 
     // Data write also fills index_block
     std::uint64_t data_offset = 0;
-    write_result = data_section.write(*file_out, offset, index_section, data_offset);
+    write_result = data_section.write(*file_out, offset, this->index_section, data_offset);
     if (!write_result.is_ok())
         return write_result;
 
@@ -244,4 +244,9 @@ const std::filesystem::path& SSTable::get_path() const
 const std::filesystem::path& SSTable::get_final_path() const
 {
     return this->final_path;
+}
+
+Status SSTable::append_record(const InternalRecord& record)
+{
+	return this->data_section.add_payload(record);
 }
