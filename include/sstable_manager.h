@@ -11,28 +11,6 @@
 
 class SSTableManager
 {
-public:
-	explicit SSTableManager(std::filesystem::path db_dir);
-
-	Result<std::optional<TableMeta>> create_from_memtable(
-		std::uint32_t table_id,
-		const MemTable& mem_table,
-		Arena& arena
-	);
-
-	Result<TableMeta> create_from_iterator(
-		std::uint32_t table_id,
-		SSTableIterator& iterator, 
-		Arena& arena
-	);
-
-	Result<std::shared_ptr<SSTable>> open(
-		const TableMeta& meta,
-		Arena& arena
-	);
-
-	Status remove(std::uint32_t table_id);
-
 private:
 	std::filesystem::path db_dir;
 
@@ -47,4 +25,48 @@ private:
 		std::uint32_t table_id,
 		const std::filesystem::path& dir
 	);
+
+public:
+	explicit SSTableManager(std::filesystem::path& db_dir);
+	explicit SSTableManager(std::filesystem::path&& db_dir);
+
+	Result<std::optional<SSTable>> build(
+		std::uint32_t table_id,
+		 MemTable& mem_table,
+		Arena& arena
+	);
+
+	Result<std::optional<SSTable>> build(
+		std::uint32_t table_id,
+		 SSTableIterator& iterator,
+		Arena& arena
+	);
+
+	Result<std::shared_ptr<SSTable>> open(
+		std::uint32_t table_id,
+		Arena& arena
+	);
+
+	Result<std::shared_ptr<SSTable>> open(
+		 TableMeta& meta,
+		Arena& arena
+	);
+
+	Result<std::shared_ptr<SSTable>> open_impl(
+		std::uint32_t table_id,
+		 std::filesystem::path& path,
+		Arena& arena
+	);
+
+	Result<std::shared_ptr<SSTable>> open_impl(
+		std::uint32_t table_id,
+		std::filesystem::path&& path,
+		Arena& arena
+	);
+
+	Status write(SSTable& sstable);
+
+	Result<std::shared_ptr<SSTable>> get(std::uint32_t table_id, Arena& arena);
+
+
 };

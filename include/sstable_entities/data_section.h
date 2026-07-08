@@ -14,7 +14,7 @@ namespace SSTableEntities
 	struct DataSection
 	{
 		struct Header {
-			Header();
+			Header() noexcept = default;
 			Header(const Header& other) noexcept = default;
 			Header(Header& other) noexcept = default;
 			Header(Header&& other) noexcept = default;
