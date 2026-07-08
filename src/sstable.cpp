@@ -250,3 +250,11 @@ Status SSTable::append_record(const InternalRecord& record)
 {
 	return this->data_section.add_payload(record);
 }
+
+std::size_t SSTable::fixed_disk_size()
+{
+    return FileHeaderSection::disk_size() +
+        MetaSection::fixed_disk_size() +
+        BloomSection::disk_size() + 
+		FileFooterSection::disk_size();
+}

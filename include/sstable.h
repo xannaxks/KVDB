@@ -77,8 +77,6 @@ private:
 	SSTableEntities::MetaSection meta_section{};
 	SSTableEntities::FileFooterSection file_footer_section{};
 
-	Status write();
-	static Result<SSTable> load( std::filesystem::path& path, Arena& arena);
 //#ifdef _WIN32
 	Status fsync(WritableFile& file_out);
 
@@ -88,6 +86,8 @@ private:
 	friend class SSTableIterator;
 
 public:
+	Status write();
+	static Result<SSTable> load( std::filesystem::path& path, Arena& arena);
 
 	const std::filesystem::path& get_path() const;
 	const std::filesystem::path& get_final_path() const;
@@ -106,4 +106,5 @@ public:
 
 	Status append_record(const InternalRecord& record);
 
+	static std::size_t fixed_disk_size();
 };
