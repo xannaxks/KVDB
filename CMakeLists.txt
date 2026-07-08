@@ -770,6 +770,26 @@ target_link_libraries(kvdb_compaction_scheduler PUBLIC
     kvdb_table_meta
 )
 
+### SStable Builder
+
+add_library(kvdb_sstable_builder
+    src/sstable_builder.cpp
+)
+
+target_link_directories(kvdb_sstable_builder PUBLIC
+    include
+)
+
+target_link_libraries(kvdb_sstable_builder PUBLIC
+    kvdb_arena
+    kvdb_status
+    kvdb_sstable
+    kvdb_file
+    kvdb_file_helpers
+    kvdb_sstable_iterator
+    kvdb_sstable
+)
+
 # =========================
 # Tests
 # =========================
