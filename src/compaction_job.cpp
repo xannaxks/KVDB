@@ -34,14 +34,14 @@ Result<std::optional<VersionEdit>> CompactionJob::run(
     auto add_input_table = [&](const TableMeta& table_meta,
         std::size_t level) -> Status
         {
-            Result<std::optional<SSTable>> sstable_result =
-                sstable_manager.find(table_meta.table_id);
+            Result<std::shared_ptr<SSTable>> sstable_result =
+                sstable_manager.get(table_meta.table_id, arena);
 
             if (!sstable_result.is_ok()) {
                 return sstable_result.status;
             }
 
-            if (!sstable_result.value.has_value()) {
+            if (!sstable_result.value || sstable_result.value == nullptr) {
                 return Status{
                     StatusCode::NotFound,
                     "SSTable not found during compaction"

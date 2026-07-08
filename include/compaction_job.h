@@ -14,5 +14,5 @@ public:
         LevelManager& level_manager,
         SSTableManager& sstable_manager,
         Arena& arena
-    )
+    );
 };
