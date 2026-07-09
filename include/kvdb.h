@@ -11,11 +11,11 @@ public:
 
     static Result<std::unique_ptr<KVDB>> open(const DBOptions& options);
 
-    virtual Status put(std::string_view key, std::string_view value) = 0;
+    virtual Status put(std::string& key, std::string& value) = 0;
 
     virtual Result<std::optional<std::string>> get(std::string_view key) = 0;
 
-    virtual Status remove(std::string_view key) = 0;
+    virtual Status remove(std::string& key) = 0;
 
     virtual Status flush() = 0;
 

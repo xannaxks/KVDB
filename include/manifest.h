@@ -76,6 +76,7 @@ struct VersionEdit
         return Header::disk_size() + payload.disk_size();
     }
 
+    Status add_table(const TableMeta& meta);
     Status write(WritableFile& file, std::uint64_t& offset);
     static Result<VersionEdit> load(ReadableFile& file, std::uint64_t& offset, Arena& arena);
 };
@@ -125,8 +126,8 @@ public:
     Status open_or_create();
 
     Status append(VersionEdit& edit);
-    Status apply(const VersionEdit& edit, Arena& arena);
-    Status commit(VersionEdit& edit, Arena& arena);
+    Status apply(const VersionEdit& edit);
+    Status commit(VersionEdit& edit);
 
     Status sync();
 

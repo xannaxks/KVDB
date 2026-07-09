@@ -88,8 +88,7 @@ Result<std::shared_ptr<SSTable>> SSTableManager::open_impl(
 
 Result<std::optional<SSTable>> SSTableManager::build(
     std::uint32_t table_id,
-     MemTable& mem_table,
-    Arena& arena
+     MemTable& mem_table
 )
 {
 	std::filesystem::path path = SSTableManager::make_tmp_table_path(table_id, this->db_dir);
@@ -100,8 +99,7 @@ Result<std::optional<SSTable>> SSTableManager::build(
 
 Result<std::optional<SSTable>> SSTableManager::build(
     std::uint32_t table_id,
-     SSTableIterator& iterator,
-    Arena& arena
+     SSTableIterator& iterator
 )
 {
     std::filesystem::path path = SSTableManager::make_tmp_table_path(table_id, this->db_dir);

@@ -370,6 +370,12 @@ Result<VersionEdit::Payload> VersionEdit::Payload::load(
     return Result<Payload>::ok(std::move(result));
 }
 
+Status VersionEdit::add_table(const TableMeta& meta)
+{
+	this->payload.new_tables.push_back(meta);
+	return Status::ok(); // returning status instead of void to allow for future error handling if needed
+}
+
 Status VersionEdit::write(WritableFile& file, std::uint64_t& offset)
 {
 
@@ -590,7 +596,7 @@ Result<Manifest> Manifest::load(const std::filesystem::path& path, Arena& arena)
             return Result<Manifest>::fail(std::move(edit.status));
         }
 
-        Status apply_status = manifest.apply(edit.value, arena);
+        Status apply_status = manifest.apply(edit.value);
         if (!apply_status.is_ok()) {
             return Result<Manifest>::fail(std::move(apply_status));
         }
@@ -666,9 +672,8 @@ Status Manifest::append(VersionEdit& edit)
     return edit.write(*writable_, append_offset_);
 }
 
-Status Manifest::apply(const VersionEdit& edit, Arena& arena)
+Status Manifest::apply(const VersionEdit& edit)
 {
-    (void)arena;
 
     std::uint64_t max_table_id_seen = 0;
 
@@ -709,7 +714,7 @@ Status Manifest::apply(const VersionEdit& edit, Arena& arena)
     return check_invariants();
 }
 
-Status Manifest::commit(VersionEdit& edit, Arena& arena)
+Status Manifest::commit(VersionEdit& edit)
 {
     Status append_status = append(edit);
     if (!append_status.is_ok()) {
@@ -721,7 +726,7 @@ Status Manifest::commit(VersionEdit& edit, Arena& arena)
         return sync_status;
     }
 
-    return apply(edit, arena);
+    return apply(edit);
 }
 
 Status Manifest::sync()

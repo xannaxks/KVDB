@@ -33,14 +33,14 @@ public:
 
 	Result<std::optional<SSTable>> build(
 		std::uint32_t table_id,
-		 MemTable& mem_table,
-		Arena& arena
+		 MemTable& mem_table
+		//Arena& arena
 	);
 
 	Result<std::optional<SSTable>> build(
 		std::uint32_t table_id,
-		 SSTableIterator& iterator,
-		Arena& arena
+		 SSTableIterator& iterator
+		//Arena& arena
 	);
 
 	Result<std::shared_ptr<SSTable>> open(
