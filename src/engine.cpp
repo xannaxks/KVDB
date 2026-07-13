@@ -1,4 +1,5 @@
 #include "engine.h"
+#include <cassert>
 
 Engine::Engine(DBOptions options)
 	: options_(std::move(options)),
@@ -200,55 +201,207 @@ Status Engine::compact_range(
 	//return compaction_scheduler_->run_manual(job);  =====> exact implementation coming soon
 }
 
+Status Engine::prepare_dirs()
+{
+	namespace fs = std::filesystem;
+
+	const fs::path& db_dir = options_.db_path;
+	const fs::path& sst_dir = options_.sstable_dir;
+
+	std::error_code ec;
+
+	auto ensure_dir = [&](const fs::path& dir) -> Status
+	{
+		if (dir.empty())
+			return Status{ StatusCode::InvalidArgument, "directory path is empty" };
+		
+		if (fs::exists(dir, ec))
+		{
+			if (ec)
+				return Status{
+					StatusCode::IOError,
+					"failed to check directory existence: " + dir.string() +
+					", error: " + ec.message()
+				};
+
+			if (!fs::is_directory(dir, ec))
+				return Status{
+					StatusCode::InvalidArgument,
+					"path exists, but is not a directory: " + dir.string()
+				};
+
+			if (ec)
+				return Status{
+					StatusCode::IOError,
+					"failed to check type whether its directory or file: " + dir.string() +
+					", error: " + ec.message()
+				};
+
+			return Status::ok();
+		}
+
+		fs::create_directories(dir, ec);
+		if (ec)
+			return Status{
+				StatusCode::IOError, 
+				"failed to create directory" + dir.string() + ", error: " + ec.message()
+			};
+
+		return Status::ok();
+	};
+
+	Status is_dir = ensure_dir(db_dir);
+	if (!is_dir.is_ok())
+		return is_dir;
+
+	Status is_sst_dir = ensure_dir(sst_dir);
+	return is_dir;
+
+}
+
+Status Engine::recover_manifest()
+{
+	Status manifest_recover_status = manifest_->recover(this->options_.manifest_options);
+	if(!manifest_recover_status.is_ok())
+		return manifest_recover_status;
+	
+	Status level_manager_recover_status = level_manager_->recover(*manifest_, this->options_.level_manager_options);
+	return level_manager_recover_status;
+}
+
+Status Engine::recover_wal()
+{
+	Status wal_recover_status = wal_->recover(this->options_.wal_options);
+	if (!wal_recover_status.is_ok())
+		return wal_recover_status;
+
+	Status mem_table_recover_status = mem_table_->recover(*wal_, this->options_.mem_table_options);
+	return mem_table_recover_status;
+}
+
+Status Engine::recover_sstables()
+{
+	Status sstable_recover_status = sstable_manager_->recover(*level_manager_, this->options_.sstable_manager_options);
+	return sstable_recover_status;
+}
+
+Status Engine::recover_counters()
+{
+	
+}
+
+Status Engine::recover()
+{
+	Status dirs_status = this->prepare_dirs();
+	if (!dirs_status.is_ok())
+		return dirs_status;
+
+	Status manifest_status = this->recover_manifest();
+	if (!manifest_status.is_ok())
+		return manifest_status;
+	
+	Status sstable_status = this->recover_sstables();
+	if (!sstable_status.is_ok())
+		return sstable_status;
+	
+	Status wal_status = this->recover_wal();
+	if (!wal_status.is_ok())
+		return wal_status;
+
+	Status counters_status = this->recover_counters();
+	return counters_status;
+}
+
 Status Engine::open()
 {
-	if (closed_) {
+	if (opened_)
+		return Status::ok();
+
+	if (closed_)
 		return Status{ StatusCode::UseAfterClose, "database is closed" };
-	}
 	
-	Arena arena(this->options_.arena_options.page_size, this->options_.arena_options.large_threshold); // arena options in dboptions
+	Status recovery_result = this->recover();
 
-	Result<Manifest> manifest_result = Manifest::load(this->options_.manifest_options.path, arena);
-	if (!manifest_result.is_ok()) {
-		return manifest_result.status;
-	}
-	this->manifest_ = std::make_unique<Manifest>(std::move(manifest_result.value));
+	if (!recovery_result.is_ok())
+		return recovery_result;
 
-	Result<WAL> wal_result = WAL::load(this->options_.wal_options);
-	if (!wal_result.is_ok()) {
-		return wal_result.status;
-	}
-	this->wal_ = std::make_unique<WAL>(std::move(wal_result.value));
+	//Arena arena(this->options_.arena_options.page_size, this->options_.arena_options.large_threshold); // arena options in dboptions
 
-	this->sstable_manager_ = std::make_unique<SSTableManager>(this->options_.sstable_manager_options);
-	this->level_manager_ = std::make_unique<LevelManager>(this->options_.level_manager_options);
-	this->mem_table_ = std::make_unique<MemTable>(this->options_.mem_table_options);
+	//Result<Manifest> manifest_result = Manifest::load(this->options_.manifest_options.path, arena);
+	//if (!manifest_result.is_ok()) {
+	//	return manifest_result.status;
+	//}
+	//this->manifest_ = std::make_unique<Manifest>(std::move(manifest_result.value));
+
+	//Result<WAL> wal_result = WAL::load(this->options_.wal_options);
+	//if (!wal_result.is_ok()) {
+	//	return wal_result.status;
+	//}
+	//this->wal_ = std::make_unique<WAL>(std::move(wal_result.value));
+
+	//this->sstable_manager_ = std::make_unique<SSTableManager>(this->options_.sstable_manager_options);
+	//this->level_manager_ = std::make_unique<LevelManager>(this->options_.level_manager_options);
+	//this->mem_table_ = std::make_unique<MemTable>(this->options_.mem_table_options);
 
 	return Status::ok();
 }
 
 Status Engine::close()
 {
-	Status result = this->wal_->sync();
-	if (!result.is_ok()) {
-		return result;
+	if (closed_)
+		return Status::ok();
+
+	if (wal_)
+	{
+		Status sync_res = wal_->sync();
+		if (!sync_res.is_ok())
+			return sync_res;
 	}
 
-	result = this->manifest_->sync();
-	if (!result.is_ok()) {
-		return result;
+	if (manifest_)
+	{
+		Status manifest_res = manifest_->sync();
+		if (!manifest_res.is_ok())
+			return manifest_res;
 	}
 
-	this->closed_ = true;
-
+	closed_ = true;
 	return Status::ok();
 }
 
-std::uint32_t Engine::allocate_next_table_id()
+Result<std::uint32_t> Engine::allocate_next_table_id()
 {
-	if (closed_) {
-		throw std::runtime_error("Attempt to use closed engine was denied");
-	}
-	this->last_table_id++;
-	return this->last_table_id;
+	Status is_opened = this->ensure_open();
+	if (!is_opened.is_ok())
+		return Result<std::uint32_t>::fail(std::move(is_opened));
+
+	this->last_table_id_++;
+	return Result<std::uint32_t>::ok(this->last_table_id_);
+}
+
+Result<std::uint64_t> Engine::allocate_next_sequence()
+{
+	Status is_opened = this->ensure_open();
+	if (!is_opened.is_ok())
+		return Result<std::uint64_t>::fail(std::move(is_opened));
+
+	this->last_seq_num_++;
+	return Result<std::uint64_t>::ok(this->last_seq_num_);
+}
+
+Status Engine::ensure_open() const
+{
+	if (closed_)
+		return Status{
+			StatusCode::UseAfterClose,
+			"Attempt to use closed engine was denied"
+		};
+
+	if(!opened_)
+		return Status{
+			StatusCode::BadAccess,
+			"Attempt to use closed engine was denied"
+		};
+
+	return Status::ok();
 }

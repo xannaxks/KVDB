@@ -23,6 +23,7 @@ struct DBOptions
 	struct WALOptions
 	{
 		std::size_t wal_file_size_limit = 64 * 1024 * 1024;
+		std::filesystem::path path;
 	} wal_options;
 
 	struct SSTableManagerOptions
