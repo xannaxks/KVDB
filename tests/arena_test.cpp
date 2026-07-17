@@ -1,825 +1,693 @@
 #include <gtest/gtest.h>
 #include "arena.h"
 
+#include <array>
+#include <cstddef>
 #include <cstdint>
 #include <cstring>
-#include <string>
-#include <vector>
-#include <map>
-#include <typeindex>
-#include <set>
-#include <tuple>
-#include <algorithm>
 #include <limits>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
 
-TEST(ArenaTest, AllocReturnsNonNullForValidSmallAllocation)
+namespace
 {
-	Arena arena(1024, 512);
-	void* p = arena.alloc(16, alignof(std::max_align_t));
+    struct LifetimeCounter
+    {
+        static inline int constructions = 0;
+        static inline int destructions = 0;
+        static inline int alive = 0;
 
-	EXPECT_NE(p, nullptr);
-	EXPECT_EQ(arena.get_pages_size(), 1);
-	EXPECT_EQ(arena.get_large_size(), 0);
-	EXPECT_GE(arena.get_used_bytes(), 16);
-	EXPECT_GE(arena.get_reserved_bytes(), 1024);
+        int value = 0;
+
+        LifetimeCounter() noexcept
+        {
+            ++constructions;
+            ++alive;
+        }
+
+        explicit LifetimeCounter(int initial_value) noexcept
+            : value(initial_value)
+        {
+            ++constructions;
+            ++alive;
+        }
+
+        LifetimeCounter(const LifetimeCounter&) = delete;
+        LifetimeCounter& operator=(const LifetimeCounter&) = delete;
+
+        ~LifetimeCounter() noexcept
+        {
+            ++destructions;
+            --alive;
+        }
+
+        static void clear() noexcept
+        {
+            constructions = 0;
+            destructions = 0;
+            alive = 0;
+        }
+    };
+
+    struct DestructionOrder
+    {
+        std::vector<int>* order = nullptr;
+        int id = 0;
+
+        DestructionOrder(std::vector<int>& output, int object_id) noexcept
+            : order(&output), id(object_id)
+        {
+        }
+
+        ~DestructionOrder() noexcept
+        {
+            order->push_back(id);
+        }
+    };
+
+    struct ThrowingDefaultConstructor
+    {
+        static inline int attempts = 0;
+        static inline int alive = 0;
+        static inline int throw_on_attempt = 0;
+
+        ThrowingDefaultConstructor()
+        {
+            const int current_attempt = ++attempts;
+            if (current_attempt == throw_on_attempt)
+            {
+                throw std::runtime_error("intentional constructor failure");
+            }
+
+            ++alive;
+        }
+
+        ~ThrowingDefaultConstructor() noexcept
+        {
+            --alive;
+        }
+
+        static void clear() noexcept
+        {
+            attempts = 0;
+            alive = 0;
+            throw_on_attempt = 0;
+        }
+    };
+
+    struct ThrowingSingleConstructor
+    {
+        ThrowingSingleConstructor()
+        {
+            throw std::runtime_error("intentional constructor failure");
+        }
+
+        ~ThrowingSingleConstructor() noexcept = default;
+    };
+
+    struct Immovable
+    {
+        int value = 0;
+
+        explicit Immovable(int initial_value) noexcept
+            : value(initial_value)
+        {
+        }
+
+        Immovable(const Immovable&) = delete;
+        Immovable& operator=(const Immovable&) = delete;
+        Immovable(Immovable&&) = delete;
+        Immovable& operator=(Immovable&&) = delete;
+
+        ~Immovable() noexcept = default;
+    };
+
+    struct alignas(64) OverAligned
+    {
+        std::uint64_t value = 123;
+    };
+
+    std::uint64_t used_bytes(const Arena& arena)
+    {
+        Result<std::uint64_t> result = arena.get_used_bytes();
+        EXPECT_TRUE(result.is_ok());
+        return result.value;
+    }
+
+    std::uint64_t reserved_bytes(const Arena& arena)
+    {
+        Result<std::uint64_t> result = arena.get_reserved_bytes();
+        EXPECT_TRUE(result.is_ok());
+        return result.value;
+    }
+} // namespace
+
+TEST(ArenaConstructorTest, RejectsZeroPageSize)
+{
+    EXPECT_THROW((Arena{ 0, 128 }), std::invalid_argument);
 }
 
-TEST(ArenaTest, AllocZeroSizeReturnsNull)
+TEST(ArenaConstructorTest, RejectsZeroLargeThreshold)
 {
-	Arena arena(1024, 512);
-	void* p = arena.alloc(0, alignof(std::max_align_t));
-
-	EXPECT_EQ(p, nullptr);
-	EXPECT_EQ(arena.get_pages_size(), 0);
-	EXPECT_EQ(arena.get_large_size(), 0);
-	EXPECT_EQ(arena.get_used_bytes(), 0);
-	EXPECT_EQ(arena.get_reserved_bytes(), 0);
+    EXPECT_THROW((Arena{ 128, 0 }), std::invalid_argument);
 }
 
-TEST(ArenaTest, ReturnedPointerProperlyAligned)
+TEST(ArenaConstructorTest, RejectsPageSizeAboveNormalPageLimit)
 {
-	Arena arena(1024, 512);
-	void* p1 = arena.alloc(1, alignof(std::byte));
-	void* p2 = arena.alloc(8, alignof(std::uint64_t));
-	void* p3 = arena.alloc(4, alignof(std::uint32_t));
-
-	EXPECT_NE(p1, nullptr);
-	EXPECT_NE(p2, nullptr);
-	EXPECT_NE(p3, nullptr);
-
-	auto addr1 = reinterpret_cast<std::uintptr_t>(p2);
-	auto addr2 = reinterpret_cast<std::uintptr_t>(p1);
-	auto addr3 = reinterpret_cast<std::uintptr_t>(p3);
-	EXPECT_EQ(addr1 % alignof(uint64_t), 0);
-	EXPECT_EQ(addr2 % alignof(std::byte), 0);
-	EXPECT_EQ(addr3 % alignof(uint32_t), 0);
+    EXPECT_THROW((Arena{ (1u << 20) + 1u, 128 }), std::invalid_argument);
 }
 
-TEST(ArenaTest, AllocatedMemoryIsWritable)
+TEST(ArenaAllocationTest, ZeroSizeReturnsSuccessfulNullAllocation)
 {
-	Arena arena(1024, 512);
+    Arena arena(128, 64);
 
-	auto* p = static_cast<std::uint32_t*>(
-		arena.alloc(sizeof(std::uint32_t), alignof(std::uint32_t))
-		);
+    Result<void*> result = arena.alloc(0, alignof(std::max_align_t));
 
-	ASSERT_NE(p, nullptr);
-
-	*p = 123456;
-
-	EXPECT_EQ(*p, 123456u);
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(result.value, nullptr);
+    EXPECT_EQ(arena.get_pages_size(), 0u);
+    EXPECT_EQ(arena.get_large_size(), 0u);
+    EXPECT_EQ(used_bytes(arena), 0u);
+    EXPECT_EQ(reserved_bytes(arena), 0u);
 }
 
-TEST(ArenaTest, MultipleSmallAllocationsUseSamePageWhenTheyFit)
+TEST(ArenaAllocationTest, RejectsZeroAlignment)
 {
-	Arena arena(1024, 512);
+    Arena arena(128, 64);
 
-	arena.alloc(100, alignof(std::max_align_t));
-	arena.alloc(100, alignof(std::max_align_t));
-	arena.alloc(100, alignof(std::max_align_t));
+    Result<void*> result = arena.alloc(8, 0);
 
-	EXPECT_EQ(arena.get_pages_size(), 1);
-	EXPECT_EQ(arena.get_large_size(), 0);
+    EXPECT_FALSE(result.is_ok());
 }
 
-TEST(ArenaTest, CreatesNewPageWhenCurrentPageDoesNotFit)
+TEST(ArenaAllocationTest, RejectsNonPowerOfTwoAlignment)
 {
-	Arena arena(128, 1024);
-	arena.alloc(100, alignof(std::max_align_t));
-	arena.alloc(100, alignof(std::max_align_t));
+    Arena arena(128, 64);
 
-	EXPECT_EQ(arena.get_pages_size(), 2);
-	EXPECT_EQ(arena.get_large_size(), 0);
+    Result<void*> result = arena.alloc(8, 3);
+
+    EXPECT_FALSE(result.is_ok());
 }
 
-TEST(ArenaTest, LargeAllocationGoesToLargeList)
+TEST(ArenaAllocationTest, ReturnedPointersHaveRequestedAlignment)
 {
-	Arena arena(1024, 512);
-	void* p = arena.alloc(512, alignof(std::max_align_t));
+    Arena arena(256, 128);
 
-	EXPECT_NE(p, nullptr);
-	EXPECT_EQ(arena.get_large_size(), 1);
-	EXPECT_EQ(arena.get_pages_size(), 0);
-	EXPECT_GE(arena.get_used_bytes(), 512);
-	EXPECT_GE(arena.get_reserved_bytes(), 512);
+    for (std::size_t alignment : {1u, 2u, 4u, 8u, 16u})
+    {
+        Result<void*> result = arena.alloc(3, alignment);
+        ASSERT_TRUE(result.is_ok());
+        ASSERT_NE(result.value, nullptr);
+
+        const auto address = reinterpret_cast<std::uintptr_t>(result.value);
+        EXPECT_EQ(address % alignment, 0u);
+    }
 }
 
-TEST(ArenaTest, AllocationBelowLargeThresholdUsesSmallPage)
+TEST(ArenaAllocationTest, OverAlignedAllocationUsesDedicatedBlock)
 {
-	Arena arena(1024, 512);
+    Arena arena(256, 128);
 
-	arena.alloc(511, alignof(std::max_align_t));
+    Result<OverAligned*> result = arena_new<OverAligned>(arena);
 
-	EXPECT_EQ(arena.get_pages_size(), 1);
-	EXPECT_EQ(arena.get_large_size(), 0);
+    ASSERT_TRUE(result.is_ok());
+    ASSERT_NE(result.value, nullptr);
+    EXPECT_EQ(
+        reinterpret_cast<std::uintptr_t>(result.value) % alignof(OverAligned),
+        0u
+    );
+    EXPECT_EQ(arena.get_large_size(), 1u);
 }
 
-TEST(ArenaTest, AllocationAtLargeThresholdUsesLargeList)
+TEST(ArenaAllocationTest, SmallAllocationsShareAPageWhenTheyFit)
 {
-	Arena arena(1024, 512);
+    Arena arena(256, 128);
 
-	arena.alloc(512, alignof(std::max_align_t));
+    ASSERT_TRUE(arena.alloc(40, 8).is_ok());
+    ASSERT_TRUE(arena.alloc(40, 8).is_ok());
+    ASSERT_TRUE(arena.alloc(40, 8).is_ok());
 
-	EXPECT_EQ(arena.get_pages_size(), 0);
-	EXPECT_EQ(arena.get_large_size(), 1);
+    EXPECT_EQ(arena.get_pages_size(), 1u);
+    EXPECT_EQ(arena.get_large_size(), 0u);
 }
 
-TEST(ArenaTest, CheckpointRollbackRestoresUsedBytes)
+TEST(ArenaAllocationTest, CreatesAnotherPageWhenCurrentPageIsFull)
 {
-	Arena arena(512, 512);
-	void* p = arena.alloc(100, alignof(std::max_align_t));
+    Arena arena(128, 512);
 
-	EXPECT_NE(p, nullptr);
-	auto cp = arena.checkpoint();
-	
-	uint64_t used_before = arena.get_used_bytes();
+    ASSERT_TRUE(arena.alloc(100, alignof(std::max_align_t)).is_ok());
+    ASSERT_TRUE(arena.alloc(100, alignof(std::max_align_t)).is_ok());
 
-	arena.alloc(200, alignof(std::max_align_t));
-	EXPECT_GT(arena.get_used_bytes(), used_before);
-
-	arena.rollback(cp);
-
-	EXPECT_EQ(arena.get_used_bytes(), used_before);
+    EXPECT_EQ(arena.get_pages_size(), 2u);
+    EXPECT_EQ(arena.get_large_size(), 0u);
 }
 
-TEST(ArenaTest, RollbackRemovesPagesAllocatedAfterCheckpoint)
+TEST(ArenaAllocationTest, ThresholdAllocationUsesLargeList)
 {
-	Arena arena(128, 512);
-	arena.alloc(100, alignof(std::max_align_t));
-	
-	auto cp = arena.checkpoint();
-	
-	arena.alloc(100, alignof(std::max_align_t));
+    Arena arena(1024, 512);
 
-	EXPECT_EQ(arena.get_pages_size(), 2);
+    Result<void*> result = arena.alloc(512, alignof(std::max_align_t));
 
-	arena.rollback(cp);
-
-	EXPECT_EQ(arena.get_pages_size(), 1);
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(arena.get_pages_size(), 0u);
+    EXPECT_EQ(arena.get_large_size(), 1u);
+    EXPECT_EQ(used_bytes(arena), 512u);
+    EXPECT_EQ(reserved_bytes(arena), 512u);
 }
 
-TEST(ArenaTest, RollbackRemovesLargeAllocationsAfterCheckpoint)
+TEST(ArenaAllocationTest, AllocationLargerThanNormalPageLimitUsesLargeList)
 {
-	Arena arena(128, 512);
-	arena.alloc(100, alignof(std::max_align_t));
+    Arena arena(128, std::numeric_limits<std::size_t>::max());
 
-	auto cp = arena.checkpoint();
+    Result<void*> result = arena.alloc(
+        (1u << 20) + 1u,
+        alignof(std::max_align_t)
+    );
 
-	arena.alloc(1000, alignof(std::max_align_t));
-
-	EXPECT_EQ(arena.get_pages_size(), 1);
-	EXPECT_EQ(arena.get_large_size(), 1);
-
-	arena.rollback(cp);;
-
-	EXPECT_EQ(arena.get_pages_size(), 1);
-	EXPECT_EQ(arena.get_large_size(), 0);
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(arena.get_pages_size(), 0u);
+    EXPECT_EQ(arena.get_large_size(), 1u);
 }
 
-TEST(ArenaTest, RollbackAllowsMemoryReuse)
+TEST(ArenaAllocationTest, RawStorageIsWritable)
 {
-	Arena arena(1024, 512);
+    Arena arena(128, 64);
+    Result<void*> result = arena.alloc(32, alignof(std::byte));
+    ASSERT_TRUE(result.is_ok());
 
-	void* p1 = arena.alloc(100, alignof(std::max_align_t));
-	auto cp = arena.checkpoint();
+    std::memset(result.value, 0x5A, 32);
 
-	void* p2 = arena.alloc(100, alignof(std::max_align_t));
-	arena.rollback(cp);
-
-	void* p3 = arena.alloc(100, alignof(std::max_align_t));
-
-	EXPECT_EQ(p2, p3);
-	EXPECT_NE(p1, nullptr);
+    const auto* bytes = static_cast<const unsigned char*>(result.value);
+    for (std::size_t i = 0; i < 32; ++i)
+    {
+        EXPECT_EQ(bytes[i], 0x5A);
+    }
 }
 
-TEST(ArenaTest, ResetFalseKeepsFirstPageButClearsEverythingElse)
+TEST(ArenaAllocationTest, ExistingAllocationsStayStableAfterPageGrowth)
 {
-	Arena arena(128, 512);
+    Arena arena(128, 512);
+    std::vector<std::pair<void*, unsigned char>> allocations;
 
-	arena.alloc(100, alignof(std::max_align_t));
-	arena.alloc(100, alignof(std::max_align_t));
-	arena.alloc(512, alignof(std::max_align_t));
+    for (int i = 0; i < 10; ++i)
+    {
+        Result<void*> result = arena.alloc(100, alignof(std::max_align_t));
+        ASSERT_TRUE(result.is_ok());
 
-	EXPECT_EQ(arena.get_pages_size(), 2);
-	EXPECT_EQ(arena.get_large_size(), 1);
+        const unsigned char value = static_cast<unsigned char>(i + 1);
+        std::memset(result.value, value, 100);
+        allocations.emplace_back(result.value, value);
+    }
 
-	arena.reset(false);
-
-	EXPECT_EQ(arena.get_pages_size(), 1);
-	EXPECT_EQ(arena.get_large_size(), 0);
-	EXPECT_EQ(arena.get_used_bytes(), 0);
+    for (const auto& [memory, expected] : allocations)
+    {
+        const auto* bytes = static_cast<const unsigned char*>(memory);
+        for (std::size_t i = 0; i < 100; ++i)
+        {
+            EXPECT_EQ(bytes[i], expected);
+        }
+    }
 }
 
-TEST(ArenaTest, ResetTrueReleasesEverything)
+TEST(ArenaConstructionTest, ConstructsImmovableTypeDirectlyInArena)
 {
-	Arena arena(128, 512);
+    Arena arena;
 
-	arena.alloc(100, alignof(std::max_align_t));
-	arena.alloc(100, alignof(std::max_align_t));
-	arena.alloc(512, alignof(std::max_align_t));
+    Result<Immovable*> result = arena_new<Immovable>(arena, 77);
 
-	EXPECT_EQ(arena.get_pages_size(), 2);
-	EXPECT_EQ(arena.get_large_size(), 1);
-
-	arena.reset(true);
-
-	EXPECT_EQ(arena.get_pages_size(), 0);
-	EXPECT_EQ(arena.get_reserved_bytes(), 0);
-	EXPECT_EQ(arena.get_used_bytes(), 0);
-	EXPECT_EQ(arena.get_large_size(), 0);
+    ASSERT_TRUE(result.is_ok());
+    ASSERT_NE(result.value, nullptr);
+    EXPECT_EQ(result.value->value, 77);
 }
 
-TEST(ArenaTest, ArenaCopyBytesCopiesData)
+TEST(ArenaConstructionTest, ValueInitializesPrimitiveArray)
 {
-	Arena arena(1024, 512);
+    Arena arena;
 
-	const char* text = "Hello, Arena!";
-	ArenaEntry span = arena_copy_bytes(arena, text, 13);
+    Result<std::uint32_t*> result = arena_new_array<std::uint32_t>(arena, 8);
 
-	ASSERT_NE(span.data, nullptr);
-	EXPECT_EQ(span.size, 13u);
-	EXPECT_EQ(std::memcmp(span.data, text, 13), 0);
+    ASSERT_TRUE(result.is_ok());
+    for (std::size_t i = 0; i < 8; ++i)
+    {
+        EXPECT_EQ(result.value[i], 0u);
+    }
+    EXPECT_EQ(arena.get_destructor_count(), 0u);
 }
 
-TEST(ArenaTest, ArenaCopyBytesZeroSizeReturnsNullSpan)
+TEST(ArenaConstructionTest, RejectsZeroLengthArray)
 {
-	Arena arena(1024, 512);
+    Arena arena;
 
-	const char* text = "zero";
-	ArenaEntry span = arena_copy_bytes(arena, text, 0);
+    Result<int*> result = arena_new_array<int>(arena, 0);
 
-	EXPECT_EQ(span.data, nullptr);
-	EXPECT_EQ(span.size, 0u);
+    EXPECT_FALSE(result.is_ok());
+    EXPECT_EQ(used_bytes(arena), 0u);
 }
 
-TEST(ArenaTest, EqualEntriesCompareEqual)
+TEST(ArenaConstructionTest, RejectsArrayByteSizeOverflow)
 {
-	char a[] = "abc";
-	char b[] = "abc";
+    Arena arena;
 
-	ArenaEntry e1(a, 3);
-	ArenaEntry e2(b, 3);
+    Result<std::uint64_t*> result = arena_new_array<std::uint64_t>(
+        arena,
+        std::numeric_limits<std::size_t>::max()
+    );
 
-	EXPECT_TRUE(e1 == e2);
-	EXPECT_FALSE(e1 < e2);
-	EXPECT_FALSE(e1 > e2);
+    EXPECT_FALSE(result.is_ok());
+    EXPECT_EQ(used_bytes(arena), 0u);
 }
 
-TEST(ArenaEntryTest, LexicographicComparisonWorks)
+TEST(ArenaLifetimeTest, ResetDestroysSingleNonTrivialObject)
 {
-	char a[] = "abc";
-	char b[] = "abd";
+    LifetimeCounter::clear();
+    Arena arena;
 
-	ArenaEntry e1(a, 3);
-	ArenaEntry e2(b, 3);
+    Result<LifetimeCounter*> result = arena_new<LifetimeCounter>(arena, 42);
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(result.value->value, 42);
+    EXPECT_EQ(LifetimeCounter::alive, 1);
+    EXPECT_EQ(arena.get_destructor_count(), 1u);
 
-	EXPECT_TRUE(e1 < e2);
-	EXPECT_TRUE(e2 > e1);
-	EXPECT_FALSE(e1 == e2);
+    arena.reset(false);
+
+    EXPECT_EQ(LifetimeCounter::alive, 0);
+    EXPECT_EQ(LifetimeCounter::destructions, 1);
+    EXPECT_EQ(arena.get_destructor_count(), 0u);
 }
 
-TEST(ArenaEntryTest, ShorterPrefixIsSmaller)
+TEST(ArenaLifetimeTest, ResetDestroysArrayElements)
 {
-	char a[] = "abc";
-	char b[] = "abcd";
+    LifetimeCounter::clear();
+    Arena arena;
 
-	ArenaEntry e1(a, 3);
-	ArenaEntry e2(b, 4);
+    Result<LifetimeCounter*> result = arena_new_array<LifetimeCounter>(arena, 5);
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(LifetimeCounter::alive, 5);
+    EXPECT_EQ(arena.get_destructor_count(), 5u);
 
-	EXPECT_TRUE(e1 < e2);
-	EXPECT_TRUE(e2 > e1);
-	EXPECT_FALSE(e1 == e2);
+    arena.reset(false);
+
+    EXPECT_EQ(LifetimeCounter::alive, 0);
+    EXPECT_EQ(LifetimeCounter::destructions, 5);
 }
 
-TEST(ArenaEntryTest, BinaryDataComparisonWorks)
+TEST(ArenaLifetimeTest, ArenaDestructorDestroysOwnedObjects)
 {
-	unsigned char a[] = { 0x00, 0x10, 0xFF };
-	unsigned char b[] = { 0x00, 0x20, 0x01 };
+    LifetimeCounter::clear();
 
-	ArenaEntry e1(a, 3);
-	ArenaEntry e2(b, 3);
+    {
+        Arena arena;
+        ASSERT_TRUE(arena_new<LifetimeCounter>(arena, 1).is_ok());
+        ASSERT_TRUE(arena_new_array<LifetimeCounter>(arena, 3).is_ok());
+        EXPECT_EQ(LifetimeCounter::alive, 4);
+    }
 
-	EXPECT_TRUE(e1 < e2);
-	EXPECT_FALSE(e1 == e2);
+    EXPECT_EQ(LifetimeCounter::alive, 0);
+    EXPECT_EQ(LifetimeCounter::destructions, 4);
 }
 
-TEST(ArenaDeathTest, ConstructorRejectsZeroPageSize)
+TEST(ArenaLifetimeTest, DestructionUsesReverseConstructionOrder)
 {
-	EXPECT_DEATH({ Arena arena(0, 1024); }, "");
+    Arena arena;
+    std::vector<int> order;
+
+    ASSERT_TRUE(arena_new<DestructionOrder>(arena, order, 1).is_ok());
+    ASSERT_TRUE(arena_new<DestructionOrder>(arena, order, 2).is_ok());
+    ASSERT_TRUE(arena_new<DestructionOrder>(arena, order, 3).is_ok());
+
+    arena.reset(false);
+
+    EXPECT_EQ(order, (std::vector<int>{3, 2, 1}));
 }
 
-TEST(ArenaDeathTest, ConstructorRejectsZeroLargeThreshold)
+TEST(ArenaRollbackTest, RestoresUsedBytesAndReusesStorage)
 {
-	EXPECT_DEATH({ Arena arena(1024, 0); }, "");
+    Arena arena(1024, 512);
+
+    Result<void*> first = arena.alloc(100, alignof(std::max_align_t));
+    ASSERT_TRUE(first.is_ok());
+
+    const Arena::Checkpoint cp = arena.checkpoint();
+    const std::uint64_t before = used_bytes(arena);
+
+    Result<void*> discarded = arena.alloc(100, alignof(std::max_align_t));
+    ASSERT_TRUE(discarded.is_ok());
+    EXPECT_GT(used_bytes(arena), before);
+
+    arena.rollback(cp);
+    EXPECT_EQ(used_bytes(arena), before);
+
+    Result<void*> reused = arena.alloc(100, alignof(std::max_align_t));
+    ASSERT_TRUE(reused.is_ok());
+    EXPECT_EQ(reused.value, discarded.value);
 }
 
-TEST(ArenaDeathTest, AllocRejectsInvalidAlignment)
+TEST(ArenaRollbackTest, DestroysOnlyObjectsCreatedAfterCheckpoint)
 {
-	Arena arena(1024, 512);
+    LifetimeCounter::clear();
+    Arena arena;
 
-	EXPECT_DEATH({ arena.alloc(16, 3); }, "");
+    Result<LifetimeCounter*> first = arena_new<LifetimeCounter>(arena, 1);
+    ASSERT_TRUE(first.is_ok());
+    const Arena::Checkpoint cp = arena.checkpoint();
+
+    ASSERT_TRUE(arena_new<LifetimeCounter>(arena, 2).is_ok());
+    ASSERT_TRUE(arena_new_array<LifetimeCounter>(arena, 2).is_ok());
+    EXPECT_EQ(LifetimeCounter::alive, 4);
+
+    arena.rollback(cp);
+
+    EXPECT_EQ(LifetimeCounter::alive, 1);
+    EXPECT_EQ(LifetimeCounter::destructions, 3);
+    EXPECT_EQ(first.value->value, 1);
+
+    arena.reset(true);
+    EXPECT_EQ(LifetimeCounter::alive, 0);
 }
 
-TEST(ArenaEntryTest, DefaultConstructorCreatesEmptyEntry)
+TEST(ArenaRollbackTest, RemovesPagesAndLargeBlocksCreatedAfterCheckpoint)
 {
-	ArenaEntry entry;
+    Arena arena(128, 512);
+    ASSERT_TRUE(arena.alloc(100, alignof(std::max_align_t)).is_ok());
 
-	EXPECT_EQ(entry.data, nullptr);
-	EXPECT_EQ(entry.size, 0u);
+    const Arena::Checkpoint cp = arena.checkpoint();
+
+    ASSERT_TRUE(arena.alloc(100, alignof(std::max_align_t)).is_ok());
+    ASSERT_TRUE(arena.alloc(1000, alignof(std::max_align_t)).is_ok());
+    EXPECT_EQ(arena.get_pages_size(), 2u);
+    EXPECT_EQ(arena.get_large_size(), 1u);
+
+    arena.rollback(cp);
+
+    EXPECT_EQ(arena.get_pages_size(), 1u);
+    EXPECT_EQ(arena.get_large_size(), 0u);
 }
 
-TEST(ArenaEntryTest, ConstructorStoresPointerAndSize)
+TEST(ArenaRollbackTest, RejectsCheckpointFromAnotherArena)
 {
-	char buffer[] = "abc";
+    Arena first;
+    Arena second;
 
-	ArenaEntry entry(buffer, 3);
+    const Arena::Checkpoint foreign = first.checkpoint();
 
-	EXPECT_EQ(entry.data, buffer);
-	EXPECT_EQ(entry.size, 3u);
+    EXPECT_THROW(second.rollback(foreign), std::invalid_argument);
 }
 
-TEST(ArenaEntryTest, EmptyEntriesAreEqual)
+TEST(ArenaRollbackTest, RejectsCheckpointThatIsNoLongerReachable)
 {
-	ArenaEntry a;
-	ArenaEntry b;
+    Arena arena;
+    ASSERT_TRUE(arena.alloc(32, 8).is_ok());
+    const Arena::Checkpoint cp = arena.checkpoint();
 
-	EXPECT_TRUE(a == b);
-	EXPECT_FALSE(a < b);
-	EXPECT_FALSE(a > b);
+    arena.reset(true);
+
+    EXPECT_THROW(arena.rollback(cp), std::invalid_argument);
 }
 
-TEST(ArenaEntryTest, EqualBytesAreEqual)
+TEST(ArenaExceptionSafetyTest, FailedSingleConstructionRestoresArenaState)
 {
-	Arena arena;
+    Arena arena(128, 64);
+    const std::uint64_t used_before = used_bytes(arena);
+    const std::uint64_t reserved_before = reserved_bytes(arena);
 
-	ArenaEntry a = ArenaEntry::make_entry(arena, std::string("hello"));
-	ArenaEntry b = ArenaEntry::make_entry(arena, std::string("hello"));
+    EXPECT_THROW(
+        (void)arena_new<ThrowingSingleConstructor>(arena),
+        std::runtime_error
+    );
 
-	EXPECT_TRUE(a == b);
-	EXPECT_FALSE(a < b);
-	EXPECT_FALSE(a > b);
+    EXPECT_EQ(used_bytes(arena), used_before);
+    EXPECT_EQ(reserved_bytes(arena), reserved_before);
+    EXPECT_EQ(arena.get_destructor_count(), 0u);
 }
 
-TEST(ArenaEntryTest, DifferentBytesAreNotEqual)
+TEST(ArenaExceptionSafetyTest, FailedArrayConstructionDestroysPrefixAndRollsBack)
 {
-	Arena arena;
+    ThrowingDefaultConstructor::clear();
+    ThrowingDefaultConstructor::throw_on_attempt = 3;
 
-	ArenaEntry a = ArenaEntry::make_entry(arena, std::string("hello"));
-	ArenaEntry b = ArenaEntry::make_entry(arena, std::string("world"));
+    Arena arena(256, 128);
+    const std::uint64_t used_before = used_bytes(arena);
+    const std::uint64_t reserved_before = reserved_bytes(arena);
 
-	EXPECT_FALSE(a == b);
+    EXPECT_THROW(
+        (void)arena_new_array<ThrowingDefaultConstructor>(arena, 5),
+        std::runtime_error
+    );
+
+    EXPECT_EQ(ThrowingDefaultConstructor::attempts, 3);
+    EXPECT_EQ(ThrowingDefaultConstructor::alive, 0);
+    EXPECT_EQ(used_bytes(arena), used_before);
+    EXPECT_EQ(reserved_bytes(arena), reserved_before);
+    EXPECT_EQ(arena.get_destructor_count(), 0u);
 }
 
-TEST(ArenaEntryTest, LexicographicLessWorks)
+TEST(ArenaResetTest, ResetFalseKeepsOnlyFirstNormalPage)
 {
-	Arena arena;
+    Arena arena(128, 512);
 
-	ArenaEntry a = ArenaEntry::make_entry(arena, std::string("abc"));
-	ArenaEntry b = ArenaEntry::make_entry(arena, std::string("abd"));
+    ASSERT_TRUE(arena.alloc(100, alignof(std::max_align_t)).is_ok());
+    ASSERT_TRUE(arena.alloc(100, alignof(std::max_align_t)).is_ok());
+    ASSERT_TRUE(arena.alloc(512, alignof(std::max_align_t)).is_ok());
 
-	EXPECT_TRUE(a < b);
-	EXPECT_FALSE(b < a);
-	EXPECT_TRUE(b > a);
+    arena.reset(false);
+
+    EXPECT_EQ(arena.get_pages_size(), 1u);
+    EXPECT_EQ(arena.get_large_size(), 0u);
+    EXPECT_EQ(used_bytes(arena), 0u);
+    EXPECT_EQ(reserved_bytes(arena), 128u);
 }
 
-TEST(ArenaEntryTest, PrefixShorterStringIsLess)
+TEST(ArenaResetTest, ResetFalseAllowsFirstPageReuse)
 {
-	Arena arena;
+    Arena arena(128, 512);
 
-	ArenaEntry a = ArenaEntry::make_entry(arena, std::string("abc"));
-	ArenaEntry b = ArenaEntry::make_entry(arena, std::string("abcd"));
+    Result<void*> before = arena.alloc(32, 8);
+    ASSERT_TRUE(before.is_ok());
 
-	EXPECT_TRUE(a < b);
-	EXPECT_FALSE(b < a);
-	EXPECT_TRUE(b > a);
+    arena.reset(false);
+
+    Result<void*> after = arena.alloc(32, 8);
+    ASSERT_TRUE(after.is_ok());
+    EXPECT_EQ(after.value, before.value);
 }
 
-TEST(ArenaEntryTest, EmptyEntryIsLessThanNonEmptyEntry)
+TEST(ArenaResetTest, ResetTrueReleasesEverything)
 {
-	Arena arena;
+    Arena arena(128, 512);
 
-	ArenaEntry empty;
-	ArenaEntry non_empty = ArenaEntry::make_entry(arena, std::string("a"));
+    ASSERT_TRUE(arena.alloc(100, alignof(std::max_align_t)).is_ok());
+    ASSERT_TRUE(arena.alloc(1000, alignof(std::max_align_t)).is_ok());
 
-	EXPECT_TRUE(empty < non_empty);
-	EXPECT_FALSE(non_empty < empty);
-	EXPECT_TRUE(non_empty > empty);
+    arena.reset(true);
+
+    EXPECT_EQ(arena.get_pages_size(), 0u);
+    EXPECT_EQ(arena.get_large_size(), 0u);
+    EXPECT_EQ(used_bytes(arena), 0u);
+    EXPECT_EQ(reserved_bytes(arena), 0u);
 }
 
-TEST(ArenaEntryTest, MakeEntryCopiesStringDataIntoArena)
+TEST(ArenaEntryTest, DefaultEntryIsEmpty)
 {
-	Arena arena;
+    ArenaEntry entry;
 
-	std::string s = "hello";
-	ArenaEntry entry = ArenaEntry::make_entry(arena, s);
+    EXPECT_EQ(entry.data, nullptr);
+    EXPECT_EQ(entry.size, 0u);
+}
 
-	ASSERT_NE(entry.data, nullptr);
-	EXPECT_EQ(entry.size, 5u);
-	EXPECT_EQ(std::memcmp(entry.data, "hello", 5), 0);
+TEST(ArenaEntryTest, RejectsNullPointerForNonEmptyEntry)
+{
+    EXPECT_THROW((ArenaEntry{ nullptr, 1 }), std::invalid_argument);
+}
 
-	s[0] = 'X';
+TEST(ArenaEntryTest, MakeEntryCopiesStringStorage)
+{
+    Arena arena;
+    std::string source = "hello";
 
-	EXPECT_EQ(std::memcmp(entry.data, "hello", 5), 0);
+    Result<ArenaEntry> result = ArenaEntry::make_entry(arena, source);
+    ASSERT_TRUE(result.is_ok());
+
+    source[0] = 'X';
+
+    EXPECT_EQ(result.value.size, 5u);
+    EXPECT_EQ(std::memcmp(result.value.data, "hello", 5), 0);
 }
 
 TEST(ArenaEntryTest, MakeEntrySupportsEmbeddedNullBytes)
 {
-	Arena arena;
+    Arena arena;
+    const std::string source{ "a\0b", 3 };
 
-	std::string s;
-	s.push_back('a');
-	s.push_back('\0');
-	s.push_back('b');
+    Result<ArenaEntry> result = ArenaEntry::make_entry(arena, source);
+    ASSERT_TRUE(result.is_ok());
 
-	ArenaEntry entry = ArenaEntry::make_entry(arena, s);
-
-	ASSERT_NE(entry.data, nullptr);
-	EXPECT_EQ(entry.size, 3u);
-
-	const char expected[] = { 'a', '\0', 'b' };
-	EXPECT_EQ(std::memcmp(entry.data, expected, 3), 0);
+    const std::array<char, 3> expected{ 'a', '\0', 'b' };
+    EXPECT_EQ(result.value.size, 3u);
+    EXPECT_EQ(std::memcmp(result.value.data, expected.data(), expected.size()), 0);
 }
 
-TEST(ArenaEntryTest, ArenaCopyBytesCopiesRawBytes)
+TEST(ArenaEntryTest, CopyBytesRejectsNullSourceForNonZeroSize)
 {
-	Arena arena;
+    Arena arena;
 
-	const unsigned char src[] = { 0x00, 0x01, 0x7F, 0xFF };
+    Result<ArenaEntry> result = arena_copy_bytes(arena, nullptr, 4);
 
-	ArenaEntry entry = arena_copy_bytes(arena, src, 4);
-
-	ASSERT_NE(entry.data, nullptr);
-	EXPECT_EQ(entry.size, 4u);
-	EXPECT_EQ(std::memcmp(entry.data, src, 4), 0);
+    EXPECT_FALSE(result.is_ok());
 }
 
-TEST(ArenaEntryTest, ArenaCopyBytesWithZeroSizeReturnsEmptyEntry)
+TEST(ArenaEntryTest, EmptyCopyAcceptsNullSource)
 {
-	Arena arena;
+    Arena arena;
 
-	ArenaEntry entry = arena_copy_bytes(arena, nullptr, 0);
+    Result<ArenaEntry> result = arena_copy_bytes(arena, nullptr, 0);
 
-	EXPECT_EQ(entry.data, nullptr);
-	EXPECT_EQ(entry.size, 0u);
+    ASSERT_TRUE(result.is_ok());
+    EXPECT_EQ(result.value.data, nullptr);
+    EXPECT_EQ(result.value.size, 0u);
 }
 
-TEST(ArenaEntryTest, MoveConstructorTransfersPointerAndClearsSource)
+TEST(ArenaEntryTest, ComparesBinaryDataLexicographically)
 {
-	Arena arena;
+    const std::array<unsigned char, 3> first{ 0x00, 0x10, 0xFF };
+    const std::array<unsigned char, 3> second{ 0x00, 0x20, 0x01 };
 
-	ArenaEntry original = ArenaEntry::make_entry(arena, std::string("hello"));
+    const ArenaEntry a{ const_cast<unsigned char*>(first.data()), first.size() };
+    const ArenaEntry b{ const_cast<unsigned char*>(second.data()), second.size() };
 
-	void* old_ptr = original.data;
-	std::uint32_t old_size = original.size;
-
-	ArenaEntry moved(std::move(original));
-
-	EXPECT_EQ(moved.data, old_ptr);
-	EXPECT_EQ(moved.size, old_size);
-
-	EXPECT_EQ(original.data, nullptr);
-	EXPECT_EQ(original.size, 0u);
+    EXPECT_TRUE(a < b);
+    EXPECT_TRUE(b > a);
+    EXPECT_FALSE(a == b);
 }
 
-TEST(ArenaEntryTest, MoveAssignmentTransfersPointerAndClearsSource)
+TEST(ArenaEntryTest, ShorterEqualPrefixSortsFirst)
 {
-	Arena arena;
+    char abc[] = "abc";
+    char abcd[] = "abcd";
 
-	ArenaEntry source = ArenaEntry::make_entry(arena, std::string("hello"));
-	ArenaEntry target = ArenaEntry::make_entry(arena, std::string("bye"));
+    const ArenaEntry shorter{ abc, 3 };
+    const ArenaEntry longer{ abcd, 4 };
 
-	void* old_ptr = source.data;
-	std::uint32_t old_size = source.size;
-
-	target = std::move(source);
-
-	EXPECT_EQ(target.data, old_ptr);
-	EXPECT_EQ(target.size, old_size);
-
-	EXPECT_EQ(source.data, nullptr);
-	EXPECT_EQ(source.size, 0u);
+    EXPECT_TRUE(shorter < longer);
+    EXPECT_TRUE(shorter <= longer);
+    EXPECT_TRUE(longer >= shorter);
 }
 
-TEST(ArenaEntryTest, SelfMoveAssignmentDoesNotDestroyEntry)
+TEST(ArenaEntryTest, MoveClearsSourceHandle)
 {
-	Arena arena;
-
-	ArenaEntry entry = ArenaEntry::make_entry(arena, std::string("hello"));
-
-	void* old_ptr = entry.data;
-	std::uint32_t old_size = entry.size;
-
-	entry = std::move(entry);
-
-	EXPECT_EQ(entry.data, old_ptr);
-	EXPECT_EQ(entry.size, old_size);
-	EXPECT_EQ(std::memcmp(entry.data, "hello", 5), 0);
-}
-
-TEST(ArenaEntryTest, CopyAssignmentIsShallowHandleCopy)
-{
-	Arena arena;
-
-	ArenaEntry a = ArenaEntry::make_entry(arena, std::string("hello"));
-	ArenaEntry b;
-
-	b = a;
-
-	EXPECT_EQ(b.data, a.data);
-	EXPECT_EQ(b.size, a.size);
-	EXPECT_TRUE(b == a);
-}
-
-TEST(ArenaEntryTest, SortsLexicographically)
-{
-	Arena arena;
-
-	std::vector<ArenaEntry> entries;
-	entries.push_back(ArenaEntry::make_entry(arena, std::string("banana")));
-	entries.push_back(ArenaEntry::make_entry(arena, std::string("apple")));
-	entries.push_back(ArenaEntry::make_entry(arena, std::string("app")));
-	entries.push_back(ArenaEntry::make_entry(arena, std::string("car")));
-
-	std::sort(entries.begin(), entries.end());
-
-	auto as_string = [](const ArenaEntry& e)
-		{
-			return std::string(static_cast<const char*>(e.data), e.size);
-		};
-
-	EXPECT_EQ(as_string(entries[0]), "app");
-	EXPECT_EQ(as_string(entries[1]), "apple");
-	EXPECT_EQ(as_string(entries[2]), "banana");
-	EXPECT_EQ(as_string(entries[3]), "car");
-}
-
-TEST(ArenaTest, AllocationOfDifferentAlignments)
-{
-	Arena arena;
-	std::map<void*, int> mp;
-	for (int i = 0; i < 10; i++)
-	{
-		int alignment = std::min(static_cast<int>(alignof(std::max_align_t)), 1 << i);
-		void* p = arena.alloc(1, alignment);
-		mp[p] = alignment;
-	}
-	for (auto& [ptr, alignment] : mp)
-	{
-		auto addr = reinterpret_cast<std::uintptr_t>(ptr);
-		ASSERT_EQ(addr % alignment, 0);
-	}
-}
-
-TEST(ArenaTest, RandomAllocations)
-{
-
-	auto random_string = [](int size)
-	{
-		std::string res;
-		while (size--)
-		{
-			res += static_cast<char>(rand() % 256);
-		}
-		return res;
-	};
-
-	Arena arena(1024, 1024);
-	
-	std::vector<std::tuple<void*, int, int, std::string>> allocs;
-	std::set<void*> seen;
-	int large_cnt = 0;
-
-	for (int i = 0; i < 1024; i++)
-	{
-		int size = rand() % 2048;
-
-		if (size == 0) continue;
-
-		int alignment = 1 << (rand() % 10);
-		alignment = std::min(static_cast<int>(alignof(std::max_align_t)), alignment);
-
-		void* ptr = arena.alloc(size, alignment);
-
-		ASSERT_NE(ptr, nullptr);
-		ASSERT_TRUE(seen.insert(ptr).second) << "Allocator returned duplicate pointer";
-
-		std::string str = std::move(random_string(size));
-		memcpy(ptr, str.data(), size);
-
-		allocs.push_back({ptr, size, alignment, std::move(str)});
-		large_cnt += (size >= 1024);
-	}
-
-	for (auto& [ptr, size, alignment, str] : allocs)
-	{
-		auto addr = reinterpret_cast<std::uintptr_t>(ptr);
-		EXPECT_EQ(addr % alignment, 0);
-		EXPECT_EQ(std::memcmp(ptr, str.data(), size), 0);
-	}
-
-	EXPECT_GE(arena.get_large_size(), large_cnt);
-	EXPECT_GE(arena.get_pages_size(), 1);
-}
-
-TEST(ArenaTest, ConstructTest)
-{
-	struct Test
-	{
-		Test() = default;
-		Test(const Test& test)
-			: bool_(test.bool_), int_(test.int_)
-		{
-		}
-		Test(bool bool_, uint32_t int_)
-			: bool_(bool_), int_(int_)
-		{
-		}
-
-		bool operator==(const Test& other) const
-		{
-			return bool_ == other.bool_ && int_ == other.int_;
-		}
-
-		bool bool_;
-		uint32_t int_;
-	};
-
-	Arena arena;
-
-	const char char_mock = 'x';
-	const int32_t int32_t_mock = 123456;
-	const int64_t int64_t_mock = 1234567890123456;
-	const double double_mock = 1.23456;
-	const Test test_mock{ true, 123456 };
-
-	std::vector<std::pair<char*, int>> char_allocs;
-	std::vector<std::pair<int32_t*, int>> int32_t_allocs;
-	std::vector<std::pair<int64_t*, int>> int64_t_allocs;
-	std::vector<std::pair<double*, int>> double_allocs;
-	std::vector<std::pair<Test*, int>> test_allocs;
-
-	char char_mocks[101];
-	int32_t int32_t_mocks[101];
-	int64_t int64_t_mocks[101];
-	double double_mocks[101];
-	Test test_mocks[101];
-	
-	for (int i = 0; i < 101; i++)
-	{	
-		char_mocks[i] = char_mock;
-		int32_t_mocks[i] = int32_t_mock;
-		int64_t_mocks[i] = int64_t_mock;
-		double_mocks[i] = double_mock;
-		test_mocks[i] = test_mock;
-	}
-
-
-	for (int i = 0; i < 100; i++)
-	{
-		int type = rand() % 5;
-		int is_array = rand() % 2;
-		const int array_sz = rand() % 10 + 1;
-		
-
-		if (type == 0)
-		{
-			char* ptr;
-
-			if (!is_array)
-				ptr = arena_new<char>(arena, char_mock);
-			else
-			{
-				ptr = arena_new_array<char>(arena, array_sz); // not using arean_copy_bytes, cuz this is constructor test
-				memcpy(ptr, char_mocks, array_sz * sizeof(char));
-			}
-
-			char_allocs.push_back(std::make_pair(ptr, is_array ? array_sz : 1));
-		}
-		else if (type == 1)
-		{
-			int32_t* ptr;
-
-			if (!is_array)
-				ptr = arena_new<int32_t>(arena, int32_t_mock);
-			else
-			{
-				ptr = arena_new_array<int32_t>(arena, array_sz); // not using arean_copy_bytes, cuz this is constructor test
-				memcpy(ptr, int32_t_mocks, array_sz * sizeof(int32_t));
-			}
-
-			int32_t_allocs.push_back(std::make_pair(ptr, is_array ? array_sz : 1));
-		}
-		else if (type == 2)
-		{
-			int64_t* ptr;
-
-			if (!is_array)
-				ptr = arena_new<int64_t>(arena, int64_t_mock);
-			else
-			{
-				ptr = arena_new_array<int64_t>(arena, array_sz);
-				memcpy(ptr, int64_t_mocks, array_sz * sizeof(int64_t));
-			}
-
-			int64_t_allocs.push_back(std::make_pair(ptr, is_array ? array_sz : 1));
-		}
-		else if (type == 3)
-		{
-			double* ptr;
-
-			if (!is_array)
-				ptr = arena_new<double>(arena, double_mock);
-			else {
-				ptr = arena_new_array<double>(arena, array_sz);
-				memcpy(ptr, double_mocks, array_sz * sizeof(double));
-			}
-
-			double_allocs.push_back(std::make_pair(ptr, is_array ? array_sz : 1));
-		}
-		else
-		{
-			Test* ptr;
-
-			if (!is_array)
-				ptr = arena_new<Test>(arena, test_mock);
-			else
-			{
-				ptr = arena_new_array<Test>(arena, array_sz);
-				memcpy(ptr, test_mocks, array_sz * sizeof(Test));
-			}
-
-			test_allocs.push_back(std::make_pair(ptr, is_array ? array_sz : 1));
-		}
-	}
-
-	for(auto& [ptr, size] : char_allocs)
-		ASSERT_EQ(*ptr, char_mock);
-
-	for (auto& [ptr, size] : int32_t_allocs)
-		ASSERT_EQ(*ptr, int32_t_mock);
-
-	for (auto& [ptr, size] : int64_t_allocs)
-		ASSERT_EQ(*ptr, int64_t_mock);
-
-	for (auto& [ptr, size] : double_allocs)
-		ASSERT_EQ(*ptr, double_mock);
-
-	for (int i = 0; i < test_allocs.size(); i++)
-	{
-		auto& [ptr, size] = test_allocs[i];
-		for (int j = 0; j < size; j++)
-			ASSERT_EQ(ptr[j], test_mocks[j]);
-	}
-}
-
-TEST(ArenaTest, NewFollowedByRest)
-{
-	Arena arena;
-	arena_new<char>(arena, 'x');
-	arena_new_array<char>(arena, 100);
-	arena_new<float>(arena, 1.1);
-	arena_new<std::byte>(arena);
-
-	arena.reset(false);
-
-	EXPECT_EQ(arena.get_pages_size(), 1);
-	EXPECT_EQ(arena.get_large_size(), 0);
-
-	arena.reset(true);
-
-	EXPECT_EQ(arena.get_pages_size(), 0);
-	EXPECT_EQ(arena.get_large_size(), 0);
-
-	char* ptr = arena_new<char>(arena, 'x');
-
-	EXPECT_EQ(arena.get_pages_size(), 1);
-	EXPECT_EQ(arena.get_large_size(), 0);
-
-	EXPECT_EQ(*ptr, 'x');
-}
-
-TEST(ArenaTest, OldAllocsStableAfterPageGrowth)
-{
-	Arena arena(128, 512);
-
-	std::vector<std::pair<void*, unsigned char>> ptrs;
-
-	for (int i = 0; i < 10; i++)
-	{
-		void* p = arena.alloc(100, alignof(std::max_align_t));
-		ASSERT_NE(p, nullptr);
-
-		unsigned char value = static_cast<unsigned char>(i + 1);
-		std::memset(p, value, 100);
-
-		ptrs.push_back({ p, value });
-	}
-
-	for (auto& [p, value] : ptrs)
-	{
-		unsigned char* bytes = static_cast<unsigned char*>(p);
-
-		for (int i = 0; i < 100; i++)
-			EXPECT_EQ(bytes[i], value);
-	}
+    Arena arena;
+    Result<ArenaEntry> made = ArenaEntry::make_entry(arena, std::string{ "hello" });
+    ASSERT_TRUE(made.is_ok());
+
+    ArenaEntry source = made.value;
+    const void* old_data = source.data;
+    const std::uint32_t old_size = source.size;
+
+    ArenaEntry target = std::move(source);
+
+    EXPECT_EQ(target.data, old_data);
+    EXPECT_EQ(target.size, old_size);
+    EXPECT_EQ(source.data, nullptr);
+    EXPECT_EQ(source.size, 0u);
 }
