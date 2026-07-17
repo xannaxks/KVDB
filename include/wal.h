@@ -1,246 +1,380 @@
-#include "mem_table.h"
-#include <fstream>
-#include <type_traits>
-#include "bytes.h"
-#include "sstable.h"
+#pragma once
+
+#include <cstddef>
 #include <cstdint>
+#include <filesystem>
+#include <memory>
+#include <optional>
+#include <span>
+#include <string>
+#include <vector>
 
-//class Wal
-//{
-//public:
-//	static const uint32_t MAGIC = 0xDEADBEEF;
-//	static const int BLOCK_SIZE = 4096;
-//	static enum class Status
-//	{
-//		OK = 1,
-//		EntryTooLarge = 2,
-//		EndOfFile = 3
-//	};
-//
-//private:
-//	std::ifstream read_file;
-//	std::ofstream write_file;
-//	int bytes_written, bytes_read;
-//
-//	template<typename T>
-//	static void next_block(int& bytes_processed, T& file)
-//	{
-//		int remaining = BLOCK_SIZE - bytes_processed;
-//		static const char zeros[4096] = {};
-//
-//		if constexpr (std::is_same_v<std::remove_cvref_t<T>, std::ifstream>)
-//			file.seekg(remaining, std::ios::cur);
-//		else
-//			file.write(zeros, remaining);
-//
-//		bytes_processed = 0;
-//	}
-//
-//	struct Payload
-//	{
-//		uint32_t key_size;
-//		uint32_t value_size;
-//		Bytes key, value;
-//
-//		int get_size() const;
-//		int get_size();
-//
-//		Payload() = default;
-//		Payload(const ByteRecord& record);
-//		Payload(const Bytes& key, const Bytes& value);
-//	};
-//	static uint64_t compute_hash(const Payload& record);
-//	struct Header
-//	{
-//		uint32_t magic;
-//		uint64_t crc;
-//		uint64_t seq_num;
-//		Type type;
-//		uint64_t payload_size;
-//
-//		int get_size();
-//		int get_size() const;
-//
-//		Header() = default;
-//		Header(const Payload& payload, Type type, uint64_t seq_num);
-//	};
-//
-//	template<typename T>
-//	void write_bytes(const T& obj)
-//	{
-//		const char* ptr = nullptr;
-//		std::streamsize size = 0;
-//
-//		if constexpr (std::is_same_v<std::remove_cvref_t<T>, Bytes>)
-//		{
-//			ptr = reinterpret_cast<const char*>(obj.data());
-//			size = static_cast<std::streamsize>(obj.size());
-//		}
-//		else
-//		{
-//			ptr = reinterpret_cast<const char*>(&obj);
-//			size = static_cast<std::streamsize>(sizeof(obj));
-//		}
-//
-//		write_file.write(ptr, size);
-//		bytes_written += size;
-//
-//		if (!write_file)
-//			throw std::runtime_error("Failed to write WAL");
-//	}
-//		
-//	template<typename T>
-//	void read_bytes(T& buffer)
-//	{
-//		read_file.read(reinterpret_cast<char*>(&buffer), sizeof(buffer));
-//		bytes_read += sizeof(buffer);
-//		if (!read_file)
-//			throw std::runtime_error("Failed to read WAL");
-//	}
-//	void read_raw(char* ptr, std::streamsize size);
-//
-//	void write_header(const Header& header);
-//	void write_payload(const Payload& payload);
-//
-//	void read_header( Header& header);
-//	void read_payload(Payload& payload);
-//
-//public:
-//	Wal(const std::string& path);
-//
-//	struct Entry
-//	{
-//		Wal::Header header;
-//		Wal::Payload payload;
-//
-//		Entry(const ByteRecord& record, uint64_t seq_num);
-//		Entry(const Bytes& key, const Bytes& value, Type type, uint64_t seq_num);
-//		Entry();
-//
-//		int get_size();
-//		int get_size() const;
-//
-//		void check() const;
-//	};
-//
-//	std::variant<Wal::Status, InternalRecord> read_next();
-//	Wal::Status write(const Entry& record);
-//};
-
-class WAL;
-class WALWriter;
-class WALLoader;
-class WALManager;
+#include "arena.h"
+#include "config.h"
+#include "file.h"
+#include "sstable.h"
+#include "status.h"
 
 struct WALFileHeader
 {
-	uint32_t magic;
-	uint32_t version;
-	uint32_t header_size;
+    std::uint32_t magic = 0;
+    std::uint32_t version = 0;
+    std::uint32_t header_size = 0;
 
-	uint64_t wal_id;
-	uint64_t start_seq;
+    std::uint64_t wal_id = 0;
+    std::uint64_t start_seq = 0;
 
-	uint32_t block_size;
-	uint32_t reserved;
+    std::uint32_t block_size = 0;
+    std::uint32_t reserved = 0;
 
-	uint32_t header_crc32;
+    std::uint32_t header_crc32 = 0;
 
-	void write(std::ofstream& file);
-	static std::optional<WALFileHeader> load(std::ifstream& file, uint32_t wal_id);
-	bool self_check();
+    WALFileHeader() = default;
+    WALFileHeader(std::uint32_t wal_id, std::uint64_t start_seq);
 
-	static uint32_t disk_size();
+    [[nodiscard]] Status write(
+        WritableFile& file,
+        std::uint64_t& offset
+    ) const;
 
-	WALFileHeader() = default;
-	WALFileHeader(uint32_t wal_id, uint64_t seq);
+    [[nodiscard]] static Result<std::optional<WALFileHeader>> load(
+        ReadableFile& file,
+        std::uint32_t expected_wal_id,
+        std::uint64_t& offset
+    );
+
+    [[nodiscard]] bool self_check() const;
+    [[nodiscard]] static constexpr std::uint32_t disk_size() noexcept
+    {
+        // u32 + u32 + u32 + u64 + u64 + u32 + u32 + u32
+        return 40;
+    }
+    void compute_crc32();
+
+    static std::uint32_t compute_crc32(const WALFileHeader& wal_file_header);
 };
 
 struct Fragment
 {
-	enum class Type : uint8_t
-	{
-		FULL = 0,
-		FIRST = 1,
-		MIDDLE = 2,
-		LAST = 3,
-	};
-	struct Header
-	{
-		uint32_t fragment_crc32;
-		uint32_t header_size;
+    enum class Type : std::uint8_t
+    {
+        FULL = 0,
+        FIRST = 1,
+        MIDDLE = 2,
+        LAST = 3,
+    };
 
-		Fragment::Type fragment_type;
-		::Type type;
+    struct Header
+    {
+        std::uint32_t fragment_crc32 = 0;
+        std::uint32_t header_size = 0;
 
-		uint64_t seq_num;
+        Fragment::Type fragment_type = Fragment::Type::FULL;
+        ::Type type = ::Type::Put;
 
-		uint32_t fragment_size;
+        std::uint64_t seq_num = 0;
+        std::uint32_t fragment_size = 0;
 
-		static std::size_t disk_size();
+        [[nodiscard]] static constexpr std::uint32_t disk_size() noexcept
+        {
+            // u32 + u32 + u8 + u8 + u64 + u32
+            return 22;
+        }
 
-		void write(std::ofstream& file);
-		static std::optional<Header> load(std::ifstream& file);
-	};
-	struct Payload
-	{
-		std::vector<std::byte> bytes;
+        [[nodiscard]] Status write(
+            WritableFile& file,
+            std::uint64_t& offset
+        ) const;
 
-		void write(std::ofstream& file);
-		static std::optional<Payload> load(std::ifstream& file);
+        [[nodiscard]] static Result<Header> load(
+            ReadableFile& file,
+            std::uint64_t& offset
+        );
+        // Fragment CRC also covers the payload, so it is computed by
+        // Fragment::compute_crc32(), not by Header alone
+        //[[nodiscard]] Status compute_crc32();
+    };
 
-		std::size_t disk_size();
-	};
-	Header header;
-	Payload payload;
+    struct Payload
+    {
+        std::vector<std::byte> bytes;
 
-	void compute_crc32();
-	static void compute_crc32(uint32_t& crc32, Fragment& fragment);
+        [[nodiscard]] Status write(
+            WritableFile& file,
+            std::uint64_t& offset
+        );
 
-	void write(std::ofstream& file);
-	static std::optional<Fragment> load(std::ifstream& file);
+        [[nodiscard]] static Result<Payload> load(
+            ReadableFile& file,
+            std::uint32_t size,
+            std::uint64_t& offset
+        );
 
-	std::size_t disk_size();
+        [[nodiscard]] std::size_t disk_size() const noexcept
+        {
+            return bytes.size();
+        }
+    };
+
+    Header header;
+    Payload payload;
+
+    [[nodiscard]] Status compute_crc32();
+
+    [[nodiscard]] static Status compute_crc32(
+        std::uint32_t& crc32_out,
+        const Fragment& fragment
+    );
+
+    [[nodiscard]] Status write(
+        WritableFile& file,
+        std::uint64_t& offset
+    );
+
+    [[nodiscard]] static Result<std::optional<Fragment>> load(
+        ReadableFile& file,
+        std::uint64_t& offset
+    );
+
+    [[nodiscard]] std::size_t disk_size() const noexcept
+    {
+        return Header::disk_size() + payload.disk_size();
+    }
 };
 
 class WALWriter
 {
-private:
-	std::ofstream& file;
-	std::string current_wal_file_name;
-	uint32_t wal_id;
-
 public:
+    WALWriter() = default;
+    ~WALWriter();
 
-	void write(InternalRecord& internal_record, bool new_file);
-	void write_payload(std::vector<std::byte>& payload_sequence, InternalRecord& type);
+    WALWriter(const WALWriter&) = delete;
+    WALWriter& operator=(const WALWriter&) = delete;
+    WALWriter(WALWriter&&) noexcept = default;
+    WALWriter& operator=(WALWriter&&) noexcept = default;
+
+    // Creates a fresh WAL. open_writable_file() truncates, so this must not
+    // be used to reopen an existing WAL after recovery.
+    [[nodiscard]] Status create(
+        const std::filesystem::path& path,
+        std::uint32_t wal_id,
+        std::uint64_t start_seq
+    );
+
+    [[nodiscard]] Status rotate(
+        const std::filesystem::path& new_path,
+        std::uint32_t new_wal_id,
+        std::uint64_t start_seq
+    );
+
+    [[nodiscard]] Status write(const InternalRecord& record);
+    [[nodiscard]] Status sync();
+    [[nodiscard]] Status close();
+
+    [[nodiscard]] bool is_open() const noexcept
+    {
+        return file_ != nullptr;
+    }
+
+    [[nodiscard]] std::uint32_t wal_id() const noexcept
+    {
+        return wal_id_;
+    }
+
+    [[nodiscard]] std::uint64_t offset() const noexcept
+    {
+        return offset_;
+    }
+
+    [[nodiscard]] const std::filesystem::path& path() const noexcept
+    {
+        return path_;
+    }
+
+private:
+    [[nodiscard]] Status write_payload(
+        std::span<const std::byte> byte_sequence,
+        const InternalRecord& record
+    );
+
+    std::unique_ptr<WritableFile> file_;
+    std::filesystem::path path_;
+    std::uint32_t wal_id_ = 0;
+    std::uint64_t offset_ = 0;
 };
+
 class WALLoader
 {
 public:
+    struct LoadResult
+    {
+        // key/value bytes are owned by the Arena passed to load().
+        std::vector<InternalRecord> records;
+        std::optional<WALFileHeader> header;
 
-	struct LoadResult
-	{
-		std::vector<InternalRecord> records;
-		uint64_t last_valid_offset;
-		bool ok;
-		bool had_torn_tail, had_corruption;
-		std::string error;
-	};
+        // Safe truncation/recovery boundary: immediately after the last
+        // completely reconstructed logical record, or after the file header.
 
-	static LoadResult load(std::ifstream& file, std::string& current_wal_file_name, uint32_t wal_id, Arena& arena);
-	static auto build(std::vector<InternalRecord>& internla_record);
+        bool ok = true;
+        bool had_torn_tail = false;
+        bool had_corruption = false;
+        std::string error;
+    };
 
-	friend class WAL;
+    [[nodiscard]] static Result<LoadResult> load(
+        ReadableFile& file,
+        std::uint64_t& offset,
+        std::uint32_t expected_wal_id,
+        Arena& arena
+    );
+
+    [[nodiscard]] static Result<LoadResult> load(
+        const std::filesystem::path& path,
+        std::uint32_t expected_wal_id,
+        Arena& arena
+    );
+};
+
+class WALStreamingLoader
+{
+public:
+    struct LoadResult
+    {
+        // Present only when the latest load_next() produced a record.
+        std::optional<InternalRecord> logical_record;
+
+        // Persists after the WAL header has been loaded.
+        std::optional<WALFileHeader> header;
+
+        // Describes the latest load_next() call.
+        bool reached_eof = false;
+        bool ok = true;
+        bool had_torn_tail = false;
+        bool had_corruption = false;
+
+        // End offset of the last completely valid item.
+        // Useful when truncating a torn WAL tail.
+        std::uint64_t last_good_offset = 0;
+
+        std::string error;
+    };
+
+    WALStreamingLoader(
+        std::filesystem::path path,
+        Arena& arena
+    )
+        : path_(std::move(path)),
+        arena_(arena)
+    {
+    }
+
+    WALStreamingLoader() = delete;
+
+    WALStreamingLoader(const WALStreamingLoader&) = delete;
+    WALStreamingLoader& operator=(const WALStreamingLoader&) = delete;
+
+    [[nodiscard]] Status open();
+
+    [[nodiscard]] Status load_next(
+        std::uint64_t& offset,
+        std::uint32_t expected_wal_id
+    );
+
+    [[nodiscard]] const LoadResult& result() const noexcept
+    {
+        return result_;
+    }
+
+private:
+    enum class State
+    {
+        Closed,
+        Ready,
+        EndOfFile,
+        TornTail,
+        Corrupted
+    };
+
+    [[nodiscard]] Status validate_state(
+        std::uint64_t offset,
+        std::uint32_t expected_wal_id
+    ) const;
+
+    void reset_call_result();
+
+    void mark_torn_tail(std::string message);
+
+    void mark_corruption(std::string message);
+
+private:
+    std::filesystem::path path_;
+    std::unique_ptr<ReadableFile> file_;
+    Arena& arena_;
+
+    LoadResult result_;
+
+    State state_ = State::Closed;
+
+    std::string terminal_error_;
 };
 
 class WAL
 {
 public:
+    WAL() = default;
 
-	WALWriter wal_writer;
-	WALLoader wal_loader;
+    [[nodiscard]] Status create(
+        const std::filesystem::path& path,
+        std::uint32_t wal_id,
+        std::uint64_t start_seq
+    )
+    {
+        return writer_.create(path, wal_id, start_seq);
+    }
 
-	void write(InternalRecord& internal_record, bool new_file = false);
-	void load();
+    [[nodiscard]] Status rotate(
+        const std::filesystem::path& new_path,
+        std::uint32_t new_wal_id,
+        std::uint64_t start_seq
+    )
+    {
+        return writer_.rotate(new_path, new_wal_id, start_seq);
+    }
+
+    [[nodiscard]] Status write(const InternalRecord& record)
+    {
+        return writer_.write(record);
+    }
+
+    [[nodiscard]] Status sync()
+    {
+        return writer_.sync();
+    }
+
+    [[nodiscard]] Status close()
+    {
+        return writer_.close();
+    }
+
+    [[nodiscard]] static Result<WALLoader::LoadResult> recover(
+        const std::filesystem::path& path,
+        std::uint32_t expected_wal_id,
+        Arena& arena
+    )
+    {
+        return WALLoader::load(path, expected_wal_id, arena);
+    }
+
+    [[nodiscard]] WALWriter& writer() noexcept
+    {
+        return writer_;
+    }
+
+    [[nodiscard]] const WALWriter& writer() const noexcept
+    {
+        return writer_;
+    }
+
+private:
+    WALWriter writer_;
 };
