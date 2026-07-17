@@ -18,7 +18,7 @@ Status Engine::put(std::string& key, std::string& value)
         return Status{StatusCode::UseAfterClose, "database is closed"};
     }
 
-    const std::uint64_t seq = last_seq_ + 1;
+    const std::uint64_t seq = last_seq_num_ + 1;
 
 	InternalRecord record{};
 	record.key_entry = ArenaEntry(reinterpret_cast<void*>(key.data()), key.size());
@@ -258,6 +258,7 @@ Status Engine::prepare_dirs()
 	return is_dir;
 
 }
+
 
 Status Engine::recover_manifest()
 {

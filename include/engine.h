@@ -26,8 +26,9 @@ public:
     Status open();
 
     Status put(std::string& key, std::string& value) ;
-    Result<std::optional<std::string>> get(std::string_view key) ;
-    Status remove(std::string_view key) ;
+    Result<std::optional<std::string>> get(std::string& key);
+    Status remove(std::string& key) ;
+	Status put_impl(const std::string& key, const std::string& value, const InternalRecord& record);
 
     Status recover();
 
