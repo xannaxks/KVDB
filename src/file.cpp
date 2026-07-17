@@ -164,6 +164,11 @@ public:
 		size_out = static_cast<std::uint64_t>(li.QuadPart);
 		return Status::ok();
 	}
+
+	const void* get_descriptor() const override
+	{
+		return static_cast<void*>(handle_);
+	}
 };
 
 class WindowsWritableFile final : public WritableFile // windows implementaion of Writable files
@@ -213,12 +218,12 @@ public:
 
 	Status append(
 		const void* data,
-		std::size_t size, 
+		std::size_t size,
 		std::uint64_t& track_offset
 	) override
 	{
 		Result<uint64_t> current_position_result = this->current_position();
-		if(!current_position_result.is_ok())
+		if (!current_position_result.is_ok())
 			return current_position_result.status;
 		assert(track_offset == current_position_result.value);
 
@@ -229,7 +234,7 @@ public:
 		{
 			const DWORD chunk = static_cast<DWORD>(
 				std::min<std::size_t>(remaining, static_cast<std::size_t>(MAXDWORD))
-			);
+				);
 
 			DWORD written = 0;
 
@@ -249,7 +254,7 @@ public:
 			remaining -= written;
 
 			Result<std::uint64_t> current_position_result = this->current_position();
-			if(!current_position_result.is_ok())
+			if (!current_position_result.is_ok())
 				return current_position_result.status;
 			assert(current_position_result.value == track_offset);
 		}
@@ -371,6 +376,11 @@ public:
 
 		return Result<std::uint64_t>::ok(static_cast<std::uint64_t>(new_pos.QuadPart));
 	}
+
+	const void* get_descriptor() const override
+	{
+		return static_cast<const void*>(handle_);
+	}
 };
 
 #else
@@ -485,6 +495,11 @@ public:
 
 		size_out = static_cast<std::uint64_t>(st.st_size);
 		return Status::ok();
+	}
+
+	const int& get_descriptor() const override
+	{
+		return this->fd_;
 	}
 };
 
@@ -741,6 +756,11 @@ public:
 
 		return Result<std::uint64_t>::ok(static_cast<std::uint64_t>(pos));
 	}
+
+	const int& get_descriptor() const override
+	{
+		return this->fd_;
+	}
 };
 
 #endif
@@ -787,7 +807,7 @@ Result<std::unique_ptr<WritableFile>> open_writable_file(const std::filesystem::
 	{
 #ifdef _WIN32
 		std::unique_ptr<WritableFile> res = std::make_unique<WindowsWritableFile>(path);
-		
+
 		Status seek_eof_res = std::move(res->seek_to_end().status);
 		if (!seek_eof_res.is_ok())
 			return Result<std::unique_ptr<WritableFile>>::fail(std::move(seek_eof_res));

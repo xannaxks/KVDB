@@ -41,6 +41,11 @@ public:
 	virtual Status close() = 0;
 
 	virtual Status get_file_size(std::uint64_t& size_out) = 0;
+#ifdef _WIN32
+	virtual const void* get_descriptor() const = 0;
+#else 
+	virtual const int& get_descriptor() const = 0;
+#endif
 };
 
 class WritableFile
@@ -71,6 +76,11 @@ public:
 	virtual std::filesystem::path parent_directory() = 0;
 
 	virtual Result<std::uint64_t> seek_to_end() = 0;
+#ifdef _WIN32
+	virtual const void* get_descriptor() const = 0;
+#else 
+	virtual const int& get_descriptor() const = 0;
+#endif
 };
 
 Result<std::unique_ptr<ReadableFile>> open_readable_file(
