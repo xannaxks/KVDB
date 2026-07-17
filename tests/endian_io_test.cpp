@@ -1,290 +1,581 @@
 #include <gtest/gtest.h>
+
 #include "endian_io.h"
-#include <string_view>
+
+#include <algorithm>
 #include <array>
 #include <cstddef>
-#include <cstdio>
-#include <fstream>
+#include <cstdint>
+#include <cstring>
+#include <filesystem>
+#include <limits>
 #include <span>
-#include <string>
-#include <arena.h>
+#include <utility>
 #include <vector>
-#include <record.h>
 
-TEST(EndianIOTest, PutU8WritesExpectedByte)
+namespace
 {
-    std::vector<std::byte> out;
+    class MemoryWritableFile final : public WritableFile
+    {
+    public:
+        std::vector<std::byte> bytes;
+        std::uint64_t cursor = 0;
+        bool fail_current_position = false;
+        std::size_t append_calls = 0;
+        std::size_t fail_on_append_call = std::numeric_limits<std::size_t>::max();
 
-    kvdb::endian::put_u8(out, 0x12u);
+        Status append(
+            const void* data,
+            std::size_t size,
+            std::uint64_t& tracked_offset
+        ) override
+        {
+            ++append_calls;
 
-    ASSERT_EQ(out.size(), 1);
-    EXPECT_EQ(out[0], std::byte{ 0x12 });
-}
+            if (append_calls == fail_on_append_call) {
+                return Status{ StatusCode::WriteFailed, "injected append failure" };
+            }
 
-TEST(EndianIOTest, PutU16LEWritesExpectedBytes)
-{
-    std::vector<std::byte> out;
+            if (tracked_offset != cursor) {
+                return Status{ StatusCode::InvalidOffset, "tracked offset differs from cursor" };
+            }
 
-    kvdb::endian::put_u16_le(out, 0x1234u);
+            if (size == 0) {
+                return Status::ok();
+            }
 
-    ASSERT_EQ(out.size(), 2);
+            if (data == nullptr) {
+                return Status{ StatusCode::InvalidArgument, "null append buffer" };
+            }
 
-    EXPECT_EQ(out[0], std::byte{ 0x34 });
-    EXPECT_EQ(out[1], std::byte{ 0x12 });
-}
+            const auto* begin = static_cast<const std::byte*>(data);
+            bytes.insert(bytes.end(), begin, begin + size);
+            cursor += size;
+            tracked_offset += size;
+            return Status::ok();
+        }
 
-TEST(EndianIOTest, PutU32LEWritesExpectedBytes)
-{
-    std::vector<std::byte> out;
+        Status sync() override
+        {
+            return Status::ok();
+        }
 
-    kvdb::endian::put_u32_le(out, 0x12345678u);
+        Status close() override
+        {
+            return Status::ok();
+        }
 
-    ASSERT_EQ(out.size(), 4);
+        Result<std::uint64_t> current_position() override
+        {
+            if (fail_current_position) {
+                return Result<std::uint64_t>::fail(
+                    Status{ StatusCode::GetPositionFailed, "injected position failure" }
+                );
+            }
 
-    EXPECT_EQ(out[0], std::byte{ 0x78 });
-    EXPECT_EQ(out[1], std::byte{ 0x56 });
-    EXPECT_EQ(out[2], std::byte{ 0x34 });
-    EXPECT_EQ(out[3], std::byte{ 0x12 });
-}
+            return Result<std::uint64_t>::ok(cursor);
+        }
 
-TEST(EndianIOTest, PutU64LEWritesExpectedBytes)
-{
-    std::vector<std::byte> out;
+        Status get_file_size(std::uint64_t& size_out) override
+        {
+            size_out = bytes.size();
+            return Status::ok();
+        }
 
-    kvdb::endian::put_u64_le(out, 0x1122334455667788ull);
+        Status durable_rename(const std::filesystem::path&, bool) override
+        {
+            return Status::ok();
+        }
 
-    ASSERT_EQ(out.size(), 8);
+        Status sync_parent_directory() override
+        {
+            return Status::ok();
+        }
 
-    EXPECT_EQ(out[0], std::byte{ 0x88 });
-    EXPECT_EQ(out[1], std::byte{ 0x77 });
-    EXPECT_EQ(out[2], std::byte{ 0x66 });
-    EXPECT_EQ(out[3], std::byte{ 0x55 });
-    EXPECT_EQ(out[4], std::byte{ 0x44 });
-    EXPECT_EQ(out[5], std::byte{ 0x33 });
-    EXPECT_EQ(out[6], std::byte{ 0x22 });
-    EXPECT_EQ(out[7], std::byte{ 0x11 });
-}
-
-TEST(EndianIOTest, ReaderRoundTripsIntegersAndSizedBytes)
-{
-    std::vector<std::byte> out;
-
-    kvdb::endian::put_u8(out, 0xAB);
-    kvdb::endian::put_u16_le(out, 0x1234);
-    kvdb::endian::put_u32_le(out, 0x12345678);
-    kvdb::endian::put_u64_le(out, 0x1122334455667788ull);
-
-    std::vector<std::byte> payload = {
-        std::byte{0xFF},
-        std::byte{0x00},
-        std::byte{0xCD},
-        std::byte{0xFF}
+        std::filesystem::path parent_directory() override
+        {
+            return {};
+        }
     };
 
-    kvdb::endian::put_bytes_with_u32_size(out, payload);
+    class MemoryReadableFile final : public ReadableFile
+    {
+    public:
+        explicit MemoryReadableFile(std::vector<std::byte> input)
+            : bytes(std::move(input))
+        {
+        }
 
-    kvdb::endian::Reader reader(out);
+        std::vector<std::byte> bytes;
+        bool fail_reads = false;
+        std::size_t max_chunk_size = std::numeric_limits<std::size_t>::max();
 
-    auto a = reader.read_u8();
-    auto b = reader.read_u16_le();
-    auto c = reader.read_u32_le();
-    auto d = reader.read_u64_le();
-    auto e = reader.read_bytes_with_u32_size();
+        Status read_at(
+            std::uint64_t offset,
+            void* buffer,
+            std::size_t size,
+            std::size_t& bytes_read
+        ) override
+        {
+            bytes_read = 0;
 
-    ASSERT_TRUE(a.has_value());
-    ASSERT_TRUE(b.has_value());
-    ASSERT_TRUE(c.has_value());
-    ASSERT_TRUE(d.has_value());
-    ASSERT_TRUE(e.has_value());
+            if (fail_reads) {
+                return Status{ StatusCode::ReadFailed, "injected read failure" };
+            }
 
-    EXPECT_EQ(*a, 0xAB);
-    EXPECT_EQ(*b, 0x1234);
-    EXPECT_EQ(*c, 0x12345678);
-    EXPECT_EQ(*d, 0x1122334455667788ull);
+            if (size == 0) {
+                return Status::ok();
+            }
 
-    // read_bytes_with_u32_size() returns only the payload, not the 4-byte size prefix.
-    EXPECT_EQ(*e, payload);
+            if (buffer == nullptr) {
+                return Status{ StatusCode::InvalidArgument, "null read buffer" };
+            }
 
-    EXPECT_TRUE(reader.finished());
+            if (offset >= bytes.size()) {
+                return Status::ok();
+            }
+
+            const std::size_t available = bytes.size() - static_cast<std::size_t>(offset);
+            bytes_read = std::min({ size, available, max_chunk_size });
+            std::memcpy(buffer, bytes.data() + offset, bytes_read);
+            return Status::ok();
+        }
+
+        Status close() override
+        {
+            return Status::ok();
+        }
+
+        Status get_file_size(std::uint64_t& size_out) override
+        {
+            size_out = bytes.size();
+            return Status::ok();
+        }
+    };
+
+    std::vector<std::byte> make_bytes(std::initializer_list<unsigned int> values)
+    {
+        std::vector<std::byte> result;
+        result.reserve(values.size());
+        for (unsigned int value : values) {
+            result.push_back(static_cast<std::byte>(value));
+        }
+        return result;
+    }
 }
 
-TEST(EndianIOTest, PutBytesWithU32SizeWritesSizeThenBytes)
+TEST(EndianBufferIOTest, IntegerEncodersAppendExpectedLittleEndianBytes)
+{
+    std::vector<std::byte> out{ std::byte{0xEE} };
+
+    kvdb::endian::put_u8(out, 0xABu);
+    kvdb::endian::put_u16_le(out, 0x1234u);
+    kvdb::endian::put_u32_le(out, 0x12345678u);
+    kvdb::endian::put_u64_le(out, 0x1122334455667788ull);
+
+    EXPECT_EQ(out, make_bytes({
+        0xEE,
+        0xAB,
+        0x34, 0x12,
+        0x78, 0x56, 0x34, 0x12,
+        0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
+        }));
+}
+
+TEST(EndianBufferIOTest, SizedBytesAppendU32LengthThenPayload)
 {
     std::vector<std::byte> out;
-
-    std::array<std::byte, 3> bytes{
+    const std::array payload{
         std::byte{'c'},
         std::byte{'a'},
         std::byte{'t'}
     };
 
-    kvdb::endian::put_bytes_with_u32_size(out, bytes);
+    const Status status = kvdb::endian::put_bytes_with_u32_size(out, payload);
 
-    ASSERT_EQ(out.size(), 7);
-
-    // size = 3 as u32 little-endian
-    EXPECT_EQ(out[0], std::byte{ 0x03 });
-    EXPECT_EQ(out[1], std::byte{ 0x00 });
-    EXPECT_EQ(out[2], std::byte{ 0x00 });
-    EXPECT_EQ(out[3], std::byte{ 0x00 });
-
-    // bytes = "cat"
-    EXPECT_EQ(out[4], std::byte{ 'c' });
-    EXPECT_EQ(out[5], std::byte{ 'a' });
-    EXPECT_EQ(out[6], std::byte{ 't' });
+    ASSERT_TRUE(status.is_ok()) << status.message;
+    EXPECT_EQ(out, make_bytes({ 0x03, 0x00, 0x00, 0x00, 'c', 'a', 't' }));
 }
 
-TEST(EndianIOTest, ReaderReturnsNulloptWhenU32IsTruncated)
+TEST(BlockIOWriteTest, WritesIntegersInLittleEndianAndAdvancesOffset)
 {
-    std::vector<std::byte> data{
-        std::byte{0x78},
-        std::byte{0x56},
-        std::byte{0x34}
+    MemoryWritableFile file;
+    std::uint64_t offset = 0;
+    constexpr std::uint32_t block_size = 64;
+
+    ASSERT_TRUE(kvdb::blockio::write_u8_t(file, 0xABu, offset, block_size).is_ok());
+    ASSERT_TRUE(kvdb::blockio::write_u16_t_le(file, 0x1234u, offset, block_size).is_ok());
+    ASSERT_TRUE(kvdb::blockio::write_u32_t_le(file, 0x12345678u, offset, block_size).is_ok());
+    ASSERT_TRUE(kvdb::blockio::write_u64_t_le(file, 0x1122334455667788ull, offset, block_size).is_ok());
+
+    EXPECT_EQ(offset, 15u);
+    EXPECT_EQ(file.cursor, offset);
+    EXPECT_EQ(file.bytes, make_bytes({
+        0xAB,
+        0x34, 0x12,
+        0x78, 0x56, 0x34, 0x12,
+        0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
+        }));
+}
+
+TEST(BlockIOWriteTest, WritesConstByteSpan)
+{
+    MemoryWritableFile file;
+    std::uint64_t offset = 0;
+    const std::array payload{
+        std::byte{0x10},
+        std::byte{0x20},
+        std::byte{0x30}
     };
 
-    kvdb::endian::Reader reader(data);
+    const Status status = kvdb::blockio::write_bytes(file, payload, offset, 16);
 
-    auto value = reader.read_u32_le();
-
-    EXPECT_FALSE(value.has_value());
-    EXPECT_EQ(reader.position(), 0);
+    ASSERT_TRUE(status.is_ok()) << status.message;
+    EXPECT_EQ(offset, payload.size());
+    EXPECT_EQ(file.bytes, std::vector<std::byte>(payload.begin(), payload.end()));
 }
 
-TEST(EndianIOTest, ReaderReturnsNulloptWhenSizedBytesAreTruncated)
+TEST(BlockIOWriteTest, RejectsTrackedOffsetMismatchInReleaseBuildsToo)
 {
-    std::vector<std::byte> data;
+    MemoryWritableFile file;
+    std::uint64_t offset = 1;
 
-    // Claims size = 5
-    kvdb::endian::put_u32_le(data, 5);
+    const Status status = kvdb::blockio::write_u32_t_le(file, 0x12345678u, offset, 16);
 
-    // But only provides 2 bytes
-    data.push_back(std::byte{ 'h' });
-    data.push_back(std::byte{ 'i' });
-
-    kvdb::endian::Reader reader(data);
-
-    auto bytes = reader.read_bytes_with_u32_size();
-
-    EXPECT_FALSE(bytes.has_value());
+    EXPECT_EQ(status.code, StatusCode::InvalidOffset);
+    EXPECT_EQ(offset, 1u);
+    EXPECT_TRUE(file.bytes.empty());
+    EXPECT_EQ(file.append_calls, 0u);
 }
 
-TEST(EndianIOTest, ReaderHandlesEmptySizedBytes)
+TEST(BlockIOWriteTest, PropagatesCurrentPositionFailure)
 {
-    std::vector<std::byte> out;
+    MemoryWritableFile file;
+    file.fail_current_position = true;
+    std::uint64_t offset = 0;
 
-    std::span<const std::byte> empty;
-    kvdb::endian::put_bytes_with_u32_size(out, empty);
+    const Status status = kvdb::blockio::write_u8_t(file, 0x12u, offset, 16);
 
-    // Encoded form is 4 bytes: 00 00 00 00
-    ASSERT_EQ(out.size(), 4);
-    EXPECT_EQ(out[0], std::byte{ 0x00 });
-    EXPECT_EQ(out[1], std::byte{ 0x00 });
-    EXPECT_EQ(out[2], std::byte{ 0x00 });
-    EXPECT_EQ(out[3], std::byte{ 0x00 });
-
-    kvdb::endian::Reader reader(out);
-
-    auto decoded = reader.read_bytes_with_u32_size();
-
-    ASSERT_TRUE(decoded.has_value());
-
-    // Decoded payload is empty.
-    EXPECT_TRUE(decoded->empty());
-    EXPECT_EQ(decoded->size(), 0);
-
-    EXPECT_TRUE(reader.finished());
+    EXPECT_EQ(status.code, StatusCode::GetPositionFailed);
+    EXPECT_EQ(offset, 0u);
+    EXPECT_TRUE(file.bytes.empty());
 }
 
-TEST(EndianIOTest, FileRoundTripsU32)
+TEST(BlockIOWriteTest, AlignsToNextBlockBeforeWritingCrossBoundaryValue)
 {
-    const std::string path = "tmp_endian_test.bin";
+    MemoryWritableFile file;
+    std::uint64_t offset = 0;
+    const std::array prefix{
+        std::byte{0x01}, std::byte{0x02}, std::byte{0x03},
+        std::byte{0x04}, std::byte{0x05}, std::byte{0x06},
+        std::byte{0x07}
+    };
 
-    {
-        std::ofstream out(path, std::ios::binary | std::ios::trunc);
-        ASSERT_TRUE(out.is_open());
+    ASSERT_TRUE(kvdb::blockio::write_bytes(file, prefix, offset, 8).is_ok());
+    ASSERT_TRUE(kvdb::blockio::write_u16_t_le(file, 0x1234u, offset, 8).is_ok());
 
-        ASSERT_TRUE(kvdb::endian::write_u32_le(out, 0x12345678u));
-    }
-
-    {
-        std::ifstream in(path, std::ios::binary);
-        ASSERT_TRUE(in.is_open());
-
-        auto value = kvdb::endian::read_u32_le(in);
-
-        ASSERT_TRUE(value.has_value());
-        EXPECT_EQ(*value, 0x12345678u);
-    }
-
-    std::remove(path.c_str());
+    EXPECT_EQ(offset, 10u);
+    EXPECT_EQ(file.bytes, make_bytes({
+        0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+        0xCD,
+        0x34, 0x12
+        }));
 }
 
-TEST(InternalRecordIOTest, RoundTripsMultipleRecords)
+TEST(BlockIOWriteTest, PropagatesAppendFailureWithoutAdvancingOffset)
 {
-    const std::string path = "tmp_internal_record_roundtrip.bin";
+    MemoryWritableFile file;
+    file.fail_on_append_call = 1;
+    std::uint64_t offset = 0;
 
-    {
-        Arena arena;
-        InternalRecord record1, record2;
+    const Status status = kvdb::blockio::write_u32_t_le(file, 0x12345678u, offset, 16);
 
-        record1.key_entry = ArenaEntry::make_entry(arena, "key1");
-        record1.value_entry = ArenaEntry::make_entry(arena, "value1");
-        record1.seq_num = 1LL;
-        record1.type = Type::Put;
+    EXPECT_EQ(status.code, StatusCode::WriteFailed);
+    EXPECT_EQ(offset, 0u);
+    EXPECT_EQ(file.cursor, 0u);
+    EXPECT_TRUE(file.bytes.empty());
+}
 
-        record2.key_entry = ArenaEntry::make_entry(arena, "key2");
-        record2.value_entry = ArenaEntry::make_entry(arena, "value2");
-        record2.seq_num = 2LL;
-        record2.type = Type::Tombstone;
+TEST(BlockIOWriteTest, KeepsCommittedPaddingWhenFollowingValueWriteFails)
+{
+    MemoryWritableFile file;
+    std::uint64_t offset = 0;
+    const std::array prefix{
+        std::byte{0x01}, std::byte{0x02}, std::byte{0x03},
+        std::byte{0x04}, std::byte{0x05}, std::byte{0x06},
+        std::byte{0x07}
+    };
 
-        std::ofstream out(path, std::ios::binary | std::ios::trunc);
-        ASSERT_TRUE(out.is_open());
+    ASSERT_TRUE(kvdb::blockio::write_bytes(file, prefix, offset, 8).is_ok());
 
-        ASSERT_TRUE(record1.write(out));
-        ASSERT_TRUE(record2.write(out));
+    // append #2 writes alignment padding; append #3 is the u16 itself.
+    file.fail_on_append_call = 3;
+    const Status status = kvdb::blockio::write_u16_t_le(file, 0x1234u, offset, 8);
 
-        out.close();
-    }
+    EXPECT_EQ(status.code, StatusCode::WriteFailed);
+    EXPECT_EQ(offset, 8u);
+    EXPECT_EQ(file.cursor, 8u);
+    EXPECT_EQ(file.bytes, make_bytes({
+        0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+        0xCD
+        }));
+}
 
-    Arena arena;
-    InternalRecord record1, record2;
+TEST(BlockIOWriteTest, RejectsZeroBlockSizeWithoutMutation)
+{
+    MemoryWritableFile file;
+    std::uint64_t offset = 0;
 
-    std::ifstream in(path, std::ios::binary);
-    ASSERT_TRUE(in.is_open());
+    const Status status = kvdb::blockio::write_u16_t_le(file, 0x1234u, offset, 0);
 
-    auto res1 = InternalRecord::read(in, arena);
-    ASSERT_TRUE(res1);
-    record1 = std::move(*res1);
+    EXPECT_EQ(status.code, StatusCode::InvalidArgument);
+    EXPECT_EQ(offset, 0u);
+    EXPECT_TRUE(file.bytes.empty());
+}
 
-    auto res2 = InternalRecord::read(in, arena);
-    ASSERT_TRUE(res2);
-    record2 = std::move(*res2);
+TEST(BlockIOWriteTest, RejectsPayloadLargerThanBlockBeforeWritingSizedPrefix)
+{
+    MemoryWritableFile file;
+    std::uint64_t offset = 0;
+    const std::array payload{
+        std::byte{0x01}, std::byte{0x02}, std::byte{0x03},
+        std::byte{0x04}, std::byte{0x05}
+    };
 
-    auto res3 = InternalRecord::read(in, arena);
-    EXPECT_FALSE(res3);
+    const Status status = kvdb::blockio::write_bytes_with_u32_size(
+        file,
+        payload,
+        offset,
+        4
+    );
 
-    EXPECT_EQ(record1.seq_num, 1LL);
-    EXPECT_EQ(record1.type, Type::Put);
-    EXPECT_EQ(std::string_view(
-        reinterpret_cast<const char*>(record1.key_entry.data),
-        record1.key_entry.size
-    ), "key1");
-    EXPECT_EQ(std::string_view(
-        reinterpret_cast<const char*>(record1.value_entry.data),
-        record1.value_entry.size
-    ), "value1");
+    EXPECT_EQ(status.code, StatusCode::SizeExceedsBlockSize);
+    EXPECT_EQ(offset, 0u);
+    EXPECT_TRUE(file.bytes.empty());
+}
 
-    EXPECT_EQ(record2.seq_num, 2LL);
-    EXPECT_EQ(record2.type, Type::Tombstone);
-    EXPECT_EQ(std::string_view(
-        reinterpret_cast<const char*>(record2.key_entry.data),
-        record2.key_entry.size
-    ), "key2");
-    EXPECT_EQ(std::string_view(
-        reinterpret_cast<const char*>(record2.value_entry.data),
-        record2.value_entry.size
-    ), "value2");
+TEST(BlockIOReadTest, ReadsIntegersInLittleEndianAndAdvancesOffset)
+{
+    MemoryReadableFile file(make_bytes({
+        0xAB,
+        0x34, 0x12,
+        0x78, 0x56, 0x34, 0x12,
+        0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
+        }));
+    std::uint64_t offset = 0;
+    std::uint8_t u8 = 0;
+    std::uint16_t u16 = 0;
+    std::uint32_t u32 = 0;
+    std::uint64_t u64 = 0;
 
-    in.close();
-    std::remove(path.c_str());
+    ASSERT_TRUE(kvdb::blockio::read_u8_t(file, u8, offset, 64).is_ok());
+    ASSERT_TRUE(kvdb::blockio::read_u16_t_le(file, u16, offset, 64).is_ok());
+    ASSERT_TRUE(kvdb::blockio::read_u32_t_le(file, u32, offset, 64).is_ok());
+    ASSERT_TRUE(kvdb::blockio::read_u64_t_le(file, u64, offset, 64).is_ok());
+
+    EXPECT_EQ(u8, 0xABu);
+    EXPECT_EQ(u16, 0x1234u);
+    EXPECT_EQ(u32, 0x12345678u);
+    EXPECT_EQ(u64, 0x1122334455667788ull);
+    EXPECT_EQ(offset, 15u);
+}
+
+TEST(BlockIOReadTest, ReadExactHandlesMultipleShortReads)
+{
+    MemoryReadableFile file(make_bytes({
+        0x88, 0x77, 0x66, 0x55, 0x44, 0x33, 0x22, 0x11
+        }));
+    file.max_chunk_size = 2;
+    std::uint64_t offset = 0;
+    std::uint64_t value = 0;
+
+    const Status status = kvdb::blockio::read_u64_t_le(file, value, offset, 16);
+
+    ASSERT_TRUE(status.is_ok()) << status.message;
+    EXPECT_EQ(value, 0x1122334455667788ull);
+    EXPECT_EQ(offset, 8u);
+}
+
+TEST(BlockIOReadTest, AlignsToNextBlockBeforeReadingCrossBoundaryValue)
+{
+    MemoryReadableFile file(make_bytes({
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0xCD,
+        0x34, 0x12
+        }));
+    std::uint64_t offset = 7;
+    std::uint16_t value = 0;
+
+    const Status status = kvdb::blockio::read_u16_t_le(file, value, offset, 8);
+
+    ASSERT_TRUE(status.is_ok()) << status.message;
+    EXPECT_EQ(value, 0x1234u);
+    EXPECT_EQ(offset, 10u);
+}
+
+TEST(BlockIOReadTest, TruncatedIntegerPreservesDestinationAndOriginalOffset)
+{
+    MemoryReadableFile file(make_bytes({ 0x78, 0x56, 0x34 }));
+    std::uint64_t offset = 0;
+    std::uint32_t value = 0xDEADBEEFu;
+
+    const Status status = kvdb::blockio::read_u32_t_le(file, value, offset, 64);
+
+    EXPECT_EQ(status.code, StatusCode::UnexpectedEOF);
+    EXPECT_EQ(offset, 0u);
+    EXPECT_EQ(value, 0xDEADBEEFu);
+}
+
+TEST(BlockIOReadTest, FailedReadAfterAlignmentRestoresOriginalOffset)
+{
+    MemoryReadableFile file(make_bytes({
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCD
+        }));
+    std::uint64_t offset = 7;
+    std::uint16_t value = 0xBEEFu;
+
+    const Status status = kvdb::blockio::read_u16_t_le(file, value, offset, 8);
+
+    EXPECT_EQ(status.code, StatusCode::UnexpectedEOF);
+    EXPECT_EQ(offset, 7u);
+    EXPECT_EQ(value, 0xBEEFu);
+}
+
+TEST(BlockIOReadTest, RejectsNullBufferForNonZeroRead)
+{
+    MemoryReadableFile file(make_bytes({ 0x01 }));
+    std::uint64_t offset = 0;
+
+    const Status status = kvdb::blockio::read_bytes(file, nullptr, 1, offset, 8);
+
+    EXPECT_EQ(status.code, StatusCode::InvalidArgument);
+    EXPECT_EQ(offset, 0u);
+}
+
+TEST(BlockIOReadTest, AllowsNullBufferForZeroLengthRead)
+{
+    MemoryReadableFile file({});
+    std::uint64_t offset = 3;
+
+    const Status status = kvdb::blockio::read_bytes(file, nullptr, 0, offset, 8);
+
+    EXPECT_TRUE(status.is_ok()) << status.message;
+    EXPECT_EQ(offset, 3u);
+}
+
+TEST(BlockIOReadTest, RejectsZeroBlockSize)
+{
+    MemoryReadableFile file(make_bytes({ 0x01 }));
+    std::uint64_t offset = 0;
+    std::uint8_t value = 0xFFu;
+
+    const Status status = kvdb::blockio::read_u8_t(file, value, offset, 0);
+
+    EXPECT_EQ(status.code, StatusCode::InvalidArgument);
+    EXPECT_EQ(offset, 0u);
+    EXPECT_EQ(value, 0xFFu);
+}
+
+TEST(BlockIOSizedBytesTest, RoundTripsPayload)
+{
+    MemoryWritableFile writer;
+    std::uint64_t write_offset = 0;
+    const std::array payload{
+        std::byte{0xFF},
+        std::byte{0x00},
+        std::byte{0xCD},
+        std::byte{0x7F}
+    };
+
+    ASSERT_TRUE(
+        kvdb::blockio::write_bytes_with_u32_size(writer, payload, write_offset, 16).is_ok()
+    );
+
+    MemoryReadableFile reader(writer.bytes);
+    std::array<std::byte, 8> destination{};
+    std::uint32_t bytes_read = 0;
+    std::uint64_t read_offset = 0;
+
+    const Status status = kvdb::blockio::read_bytes_with_u32_size(
+        reader,
+        destination,
+        bytes_read,
+        read_offset,
+        16
+    );
+
+    ASSERT_TRUE(status.is_ok()) << status.message;
+    EXPECT_EQ(bytes_read, payload.size());
+    EXPECT_EQ(read_offset, write_offset);
+    EXPECT_TRUE(std::equal(
+        payload.begin(),
+        payload.end(),
+        destination.begin()
+    ));
+}
+
+TEST(BlockIOSizedBytesTest, EmptyPayloadConsumesOnlySizePrefix)
+{
+    MemoryReadableFile reader(make_bytes({ 0x00, 0x00, 0x00, 0x00 }));
+    std::span<std::byte> empty_buffer;
+    std::uint32_t bytes_read = 99;
+    std::uint64_t offset = 0;
+
+    const Status status = kvdb::blockio::read_bytes_with_u32_size(
+        reader,
+        empty_buffer,
+        bytes_read,
+        offset,
+        16
+    );
+
+    ASSERT_TRUE(status.is_ok()) << status.message;
+    EXPECT_EQ(bytes_read, 0u);
+    EXPECT_EQ(offset, 4u);
+}
+
+TEST(BlockIOSizedBytesTest, BufferTooSmallRestoresOffsetAndDoesNotPublishLength)
+{
+    MemoryReadableFile reader(make_bytes({
+        0x03, 0x00, 0x00, 0x00,
+        0x10, 0x20, 0x30
+        }));
+    std::array<std::byte, 2> destination{};
+    std::uint32_t bytes_read = 99;
+    std::uint64_t offset = 0;
+
+    const Status status = kvdb::blockio::read_bytes_with_u32_size(
+        reader,
+        destination,
+        bytes_read,
+        offset,
+        16
+    );
+
+    EXPECT_EQ(status.code, StatusCode::BufferTooSmall);
+    EXPECT_EQ(offset, 0u);
+    EXPECT_EQ(bytes_read, 99u);
+}
+
+TEST(BlockIOSizedBytesTest, TruncatedPayloadRestoresWholeRecordOffset)
+{
+    MemoryReadableFile reader(make_bytes({
+        0x03, 0x00, 0x00, 0x00,
+        0x10, 0x20
+        }));
+    std::array<std::byte, 3> destination{};
+    std::uint32_t bytes_read = 99;
+    std::uint64_t offset = 0;
+
+    const Status status = kvdb::blockio::read_bytes_with_u32_size(
+        reader,
+        destination,
+        bytes_read,
+        offset,
+        16
+    );
+
+    EXPECT_EQ(status.code, StatusCode::UnexpectedEOF);
+    EXPECT_EQ(offset, 0u);
+    EXPECT_EQ(bytes_read, 99u);
 }
