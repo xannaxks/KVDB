@@ -35,14 +35,17 @@ bool RBTree::Node::operator<(const Node& other) const
 }
 bool RBTree::Node::operator>(const Node& other) const
 {
-    if (this->key_entry == other.key_entry)
-        return this->seq_number < other.seq_number; // For the same keys, the one with lower seq_number is considered "greater"
-    return this->key_entry > other.key_entry;
+    return other < *this;
 }
 
 bool RBTree::Node::operator==(const Node& other) const
 {
-    return this->key_entry == other.key_entry && this->seq_number == other.seq_number && this->value_entry == other.value_entry;
+    //return this->key_entry == other.key_entry && this->seq_number == other.seq_number && this->value_entry == other.value_entry;
+    //return this->key_entry == other.key_entry && this->seq_number == other.seq_number && this->value_entry == other.value_entry;
+       // Comparator equivalence and duplicate identity are key + sequence.
+          // Value and type are payload and must not change node identity.
+        return this->key_entry == other.key_entry &&
+        this->seq_number == other.seq_number;
 }
 
 size_t RBTree::Node::approximate_memory_usage() const
@@ -284,7 +287,8 @@ bool RBTree::validate() const
         RBTree::root_is_black() &&
         RBTree::no_red_node_has_red_child() &&
         RBTree::bst_ordering_correct() &&
-        RBTree::subtree_black_height_info(root).first
+        +RBTree::subtree_black_height_info(root).first &&
+        +RBTree::expect_parent_links_valid(root, nullptr)
         );
 }
 
@@ -371,6 +375,7 @@ bool RBTree::InorderIterator::has_next()
 
 RBTree::Node* RBTree::InorderIterator::next()
 {
+    assert(!st.empty());
     Node* cur = st.top();
     st.pop();
     if (cur->right)

@@ -1,1135 +1,578 @@
 #include <gtest/gtest.h>
+
 #include "arena.h"
 #include "red_black_tree.h"
+
+#include <algorithm>
+#include <array>
+#include <cstdint>
+#include <iomanip>
 #include <map>
-
-TEST(RBTreeTest, EmptyTree)
-{
-	RBTree tree;
-	Arena arena;
-
-	EXPECT_TRUE(tree.validate());
-
-	auto key = ArenaEntry::ArenaEntry::make_entry(arena, "mock");
-	auto res = tree.find_latest_by_key(key);
-
-	ASSERT_TRUE(std::holds_alternative<RBTree::Status>(res));
-	EXPECT_EQ(std::get<RBTree::Status>(res), RBTree::Status::KeyNotFound);
-
-	std::vector<InternalRecord> records;
-	tree.dump_inorder(records);
-
-	EXPECT_TRUE(records.empty());
-
-	EXPECT_EQ(tree.approximate_memory_usage(), 0);
-}
-
-TEST(RBTreeTests, SingleEntry)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto key = ArenaEntry::make_entry(arena, "key");
-	auto value = ArenaEntry::make_entry(arena, "value");
-
-	InternalRecord record(key, value, Type::Put, 1u);
-
-	EXPECT_EQ(tree.insert(record), RBTree::Status::OK);
-	EXPECT_TRUE(tree.validate());
-
-	auto res = tree.find_latest_by_key(key);
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-
-	auto found_record = std::get<InternalRecord>(res);
-	EXPECT_EQ(found_record, record);
-}
-
-TEST(RBTreeTest, OrderingWithManyEntries)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto key1 = ArenaEntry::make_entry(arena, "key1");
-	auto value1 = ArenaEntry::make_entry(arena, "value1");
-	InternalRecord record1(key1, value1, Type::Put, 1u);
-
-	auto key2 = ArenaEntry::make_entry(arena, "key2");
-	auto value2 = ArenaEntry::make_entry(arena, "value2");
-	InternalRecord record2(key2, value2, Type::Put, 2u);
-
-	auto key3 = ArenaEntry::make_entry(arena, "key3");
-	auto value3 = ArenaEntry::make_entry(arena, "value3");
-	InternalRecord record3(key3, value3, Type::Put, 3u);
-
-	auto key4 = ArenaEntry::make_entry(arena, "key4");
-	auto value4 = ArenaEntry::make_entry(arena, "value4");
-	InternalRecord record4(key4, value4, Type::Put, 4u);
-
-	EXPECT_EQ(tree.insert(record2), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record1), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record4), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record3), RBTree::Status::OK);
-
-	EXPECT_TRUE(tree.validate());
-
-	std::vector<InternalRecord> records;
-
-	tree.dump_inorder(records);
-
-	EXPECT_EQ(records.size(), 4);
-	EXPECT_EQ(records[0], record1);
-	EXPECT_EQ(records[1], record2);
-	EXPECT_EQ(records[2], record3);
-	EXPECT_EQ(records[3], record4);
-
-	auto res = tree.find_latest_by_key(key1);
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-	EXPECT_EQ(std::get<InternalRecord>(res), record1);
-
-	res = tree.find_latest_by_key(key2);
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-	EXPECT_EQ(std::get<InternalRecord>(res), record2);
-
-	res = tree.find_latest_by_key(key3);
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-	EXPECT_EQ(std::get<InternalRecord>(res), record3);
-
-	res = tree.find_latest_by_key(key4);
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-	EXPECT_EQ(std::get<InternalRecord>(res), record4);
-}
-
-TEST(RBTreeTest, LatestSequenceWins)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto key = ArenaEntry::make_entry(arena, "key");
-	auto value = ArenaEntry::make_entry(arena, "value");
-	InternalRecord record1(key, value, Type::Put, 1u);
-	InternalRecord record2(key, value, Type::Put, 2u); // is it okay that its two same entries? even memory-wise?
-
-	EXPECT_EQ(tree.insert(record1), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record2), RBTree::Status::OK);
-
-	EXPECT_TRUE(tree.validate());
-
-	auto res = tree.find_latest_by_key(key);
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-	EXPECT_EQ(std::get<InternalRecord>(res), record2);
-}
-
-TEST(RBTreeTest, RejectDuplicates)
-{
-	// RBTree accepts everything as long as it doesn't break ordering
-	Arena arena;
-	RBTree tree;
-
-	auto key = ArenaEntry::make_entry(arena, "key");
-	auto value = ArenaEntry::make_entry(arena, "value");
-	InternalRecord record1(key, value, Type::Put, 1u);
-
-	EXPECT_EQ(tree.insert(record1), RBTree::Status::OK);
-
-	EXPECT_TRUE(tree.validate());
-
-	EXPECT_EQ(tree.insert(record1), RBTree::Status::Duplicate); // duplicate records	 with same seq_num should be rejected
-
-	EXPECT_TRUE(tree.validate());
-}
-
-TEST(RBTreeTest, TombstoneBeatsOlderPut)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto key = ArenaEntry::make_entry(arena, "key");
-	auto value = ArenaEntry::make_entry(arena, "value");
-	InternalRecord record1(key, value, Type::Put, 1u);
-	InternalRecord record2(key, {}, Type::Tombstone, 2u);
-
-	EXPECT_EQ(tree.insert(record1), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record2), RBTree::Status::OK);
-
-	EXPECT_TRUE(tree.validate());
-
-	auto res = tree.find_latest_by_key(key);
-
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-
-	auto found = std::get<InternalRecord>(res);
-	EXPECT_EQ(found.type, Type::Tombstone);
-	EXPECT_EQ(found.seq_num, 2u);
-}
-
-TEST(RBTreeTest, InsertedKeyOutOfSequence)
-{
-	// RBTree should accept entries with out-of-sequence seq_num as long as they don't break ordering
-	Arena arena;
-	RBTree tree;
-
-	auto key = ArenaEntry::make_entry(arena, "key");
-	auto value = ArenaEntry::make_entry(arena, "value");
-	InternalRecord record1(key, value, Type::Put, 2u);
-	InternalRecord record2(key, value, Type::Tombstone, 234u);
-	InternalRecord record3(key, value, Type::Put, 9999u);
-	InternalRecord record4(key, value, Type::Tombstone, 67676767u);
-
-	EXPECT_EQ(tree.insert(record1), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record2), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record3), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record4), RBTree::Status::OK);
-
-	EXPECT_TRUE(tree.validate());
-
-	std::vector<InternalRecord> records;
-	tree.dump_inorder(records);
-
-	EXPECT_EQ(records.size(), 4);
-	EXPECT_EQ(records[0], record4);
-	EXPECT_EQ(records[1], record3);
-	EXPECT_EQ(records[2], record2);
-	EXPECT_EQ(records[3], record1);
-}
-
-TEST(RBTreeTest, InsertSameKey)
-{
-	// RBTree should accept entries with out-of-sequence seq_num as long as they don't break ordering
-	Arena arena;
-	RBTree tree;
-
-	auto key = ArenaEntry::make_entry(arena, "key");
-	auto value = ArenaEntry::make_entry(arena, "value");
-	InternalRecord record1(key, value, Type::Put, 2u);
-	InternalRecord record2(key, value, Type::Tombstone, 234u);
-	InternalRecord record3(key, value, Type::Put, 9999u);
-	InternalRecord record4(key, value, Type::Tombstone, 67676767u);
-
-	EXPECT_EQ(tree.insert(record1), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record2), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record3), RBTree::Status::OK);
-	EXPECT_EQ(tree.insert(record4), RBTree::Status::OK);
-
-	EXPECT_TRUE(tree.validate());
-
-	std::vector<InternalRecord> records;
-	tree.dump_inorder(records);
-
-	EXPECT_EQ(records.size(), 4);
-	EXPECT_EQ(records[0], record4);
-	EXPECT_EQ(records[1], record3);
-	EXPECT_EQ(records[2], record2);
-	EXPECT_EQ(records[3], record1);
-
-	auto res = tree.find_latest_by_key(key);
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-	EXPECT_EQ(std::get<InternalRecord>(res).type, Type::Tombstone);
-}
-
-TEST(RBTreeArenaTest, ArenaLifetime)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto key = ArenaEntry::make_entry(arena, "key");
-	auto value = ArenaEntry::make_entry(arena, "value");
-	InternalRecord record(key, value, Type::Put, 1u);
-
-	EXPECT_EQ(tree.insert(record), RBTree::Status::OK);
-
-	EXPECT_TRUE(tree.validate());
-
-	auto res = tree.find_latest_by_key(key);
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-	EXPECT_EQ(std::get<InternalRecord>(res), record);
-
-	auto res_record = std::get<InternalRecord>(res);
-
-	EXPECT_EQ(res_record.key_entry, key);
-	EXPECT_EQ(res_record.value_entry, value);
-
-	std::string key_str(reinterpret_cast<const char*>(res_record.key_entry.data), res_record.key_entry.size);
-	std::string value_str(reinterpret_cast<const char*>(res_record.value_entry.data), res_record.value_entry.size);
-
-	EXPECT_EQ(key_str, "key");
-	EXPECT_EQ(value_str, "value");
-}
-
-TEST(RBTreeArenaTest, ManyWritesArenaStability)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto key = ArenaEntry::make_entry(arena, "stable-key");
-	auto val = ArenaEntry::make_entry(arena, "stable-value");
-
-	tree.insert({ key, val, Type::Put, 1 });
-
-	for (int i = 0; i < 10000; i++) {
-		ArenaEntry::make_entry(arena, "noise-" + std::to_string(i));
-	}
-
-	auto res = tree.find_latest_by_key(key);
-	ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-
-	auto found = std::get<InternalRecord>(res);
-	EXPECT_EQ(std::string(reinterpret_cast<const char*>(found.value_entry.data), found.value_entry.size), "stable-value");
-}
-
-TEST(RBTreeTest, TreeInvariantsAfterManyWritesAscending)
-{
-	Arena arena;
-	RBTree tree;
-
-	for (int i = 1; i < 10000; i++) {
-		auto key = ArenaEntry::make_entry(arena, "key-" + std::to_string(i));
-		auto val = ArenaEntry::make_entry(arena, "value-" + std::to_string(i));
-
-		ASSERT_EQ(tree.insert({ key, val, Type::Put, static_cast<uint64_t>(i) }),
-			RBTree::Status::OK);
-
-		ASSERT_TRUE(tree.validate()) << "failed after insert " << i;
-	}
-}
-
-TEST(RBTreeTest, TreeInvariantsAfterManyWritesDescending)
-{
-	Arena arena;
-	RBTree tree;
-
-	for (int i = 1000; i >= 1; i--) {
-		auto key = ArenaEntry::make_entry(arena, "key-" + std::to_string(i));
-		auto val = ArenaEntry::make_entry(arena, "value-" + std::to_string(i));
-
-		ASSERT_EQ(tree.insert({ key, val, Type::Put, static_cast<uint64_t>(i) }),
-			RBTree::Status::OK);
-
-		ASSERT_TRUE(tree.validate()) << "failed after insert " << i;
-	}
-}
-
-TEST(RBTreeTest, TreeRandomInsert)
-{
-	Arena arena;
-	RBTree tree;
-	std::map<std::string, std::string>mp;
-	for (int i = 1; i <= 10000; i++)
-	{
-		int num = rand() % 1000 + 1;
-		auto key = ArenaEntry::make_entry(arena, "key-" + std::to_string(num));
-		auto val = ArenaEntry::make_entry(arena, "value-" + std::to_string(num));
-
-		ASSERT_EQ(tree.insert({ key, val, Type::Put, static_cast<uint64_t>(i) }),
-			RBTree::Status::OK);
-		ASSERT_TRUE(tree.validate()) << "failed after insert " << num;
-
-		mp[std::string(reinterpret_cast<const char*>(key.data), key.size)]
-			= std::string(reinterpret_cast<const char*>(val.data), val.size);
-	}
-
-	for (auto& [k, v] : mp)
-	{
-		auto res = tree.find_latest_by_key(ArenaEntry::make_entry(arena, k));
-		ASSERT_TRUE(std::holds_alternative<InternalRecord>(res));
-
-		auto found = std::get<InternalRecord>(res);
-		EXPECT_EQ(std::string(reinterpret_cast<const char*>(found.value_entry.data), found.value_entry.size), v);
-	}
-}
-
-TEST(RBTreeTest, ApproximateMemoryUsage)
-{
-	Arena arena;
-	RBTree tree;
-
-	tree.insert({ ArenaEntry::make_entry(arena, "a"), ArenaEntry::make_entry(arena, "111"), Type::Put, 1 });
-	tree.insert({ ArenaEntry::make_entry(arena, "bb"), ArenaEntry::make_entry(arena, "2222"), Type::Put, 2 });
-
-	size_t expected =
-		2 * sizeof(RBTree::Node)
-		+ 1 + 3
-		+ 2 + 4;
-
-	EXPECT_GT(tree.approximate_memory_usage(), 0);
-
-	size_t previous_usage = tree.approximate_memory_usage();
-
-	tree.insert({ ArenaEntry::make_entry(arena, "ccc"), ArenaEntry::make_entry(arena, "33333"), Type::Put, 3 });
-
-	EXPECT_GE(tree.approximate_memory_usage(), previous_usage);
-}
-
-TEST(RBTreeTest, UAndPAreRedBalancing)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto g = ArenaEntry::make_entry(arena, "key5");
-	tree.insert({ g, ArenaEntry::make_entry(arena, "value1"), Type::Put, 1 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto u = ArenaEntry::make_entry(arena, "key6");
-	tree.insert({ u, ArenaEntry::make_entry(arena, "value6"), Type::Put, 2 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->right);
-		ASSERT_EQ(tree.root_getter()->right->color, RBTree::Node::Color::Red);
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto p = ArenaEntry::make_entry(arena, "key4");
-	tree.insert({ p, ArenaEntry::make_entry(arena, "value4"), Type::Put, 3 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->left);
-		ASSERT_EQ(tree.root_getter()->left->color, RBTree::Node::Color::Red);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-		
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->right);
-		ASSERT_EQ(tree.root_getter()->right->color, RBTree::Node::Color::Red);
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto z = ArenaEntry::make_entry(arena, "key3");
-	tree.insert({ z, ArenaEntry::make_entry(arena, "value3"), Type::Put, 4 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_NE(tree.root_getter()->left, nullptr);
-		ASSERT_NE(tree.root_getter()->right, nullptr);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->left->left);
-		ASSERT_EQ(tree.root_getter()->left->left->color, RBTree::Node::Color::Red);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->left);
-		ASSERT_EQ(tree.root_getter()->left->color, RBTree::Node::Color::Black);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->right);
-		ASSERT_EQ(tree.root_getter()->right->color, RBTree::Node::Color::Black);
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	ASSERT_TRUE(it.has_next());
-
-	std::vector<ArenaEntry*> keys;
-	keys.push_back(&u);
-	keys.push_back(&g);
-	keys.push_back(&p);
-	keys.push_back(&z);
-
-	while (it.has_next())
-	{
-		auto& node = *(it.next());
-
-		ASSERT_FALSE(keys.empty());
-
-		EXPECT_EQ(node.key_entry, *(keys.back()));
-		keys.pop_back();
-	}
-
-	ASSERT_TRUE(keys.empty());
-	ASSERT_FALSE(it.has_next());
-
-	ASSERT_EQ(tree.root_getter()->key_entry, g);
-	ASSERT_EQ(tree.root_getter()->left->key_entry, p);
-	ASSERT_EQ(tree.root_getter()->left->left->key_entry, z);
-	ASSERT_EQ(tree.root_getter()->right->key_entry, u);
-
-	ASSERT_TRUE(RBTree::expect_parent_links_valid(tree.root_getter(), nullptr));
-}
-
-TEST(RBTreeTest, LLBalancing)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto g = ArenaEntry::make_entry(arena, "key5");
-	tree.insert({ g, ArenaEntry::make_entry(arena, "value1"), Type::Put, 1 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto p = ArenaEntry::make_entry(arena, "key4");
-	tree.insert({ p, ArenaEntry::make_entry(arena, "value4"), Type::Put, 2 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->left);
-		ASSERT_EQ(tree.root_getter()->left->color, RBTree::Node::Color::Red);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto z = ArenaEntry::make_entry(arena, "key3");
-	tree.insert({ z, ArenaEntry::make_entry(arena, "value3"), Type::Put, 3 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_NE(tree.root_getter()->left, nullptr);
-		ASSERT_NE(tree.root_getter()->right, nullptr);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->left);
-		ASSERT_EQ(tree.root_getter()->left->color, RBTree::Node::Color::Red);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-		
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->right);
-		ASSERT_EQ(tree.root_getter()->right->color, RBTree::Node::Color::Red);
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	ASSERT_TRUE(it.has_next());
-
-	std::vector<ArenaEntry*> keys;
-	keys.push_back(&g);
-	keys.push_back(&p);
-	keys.push_back(&z);
-
-	while (it.has_next())
-	{
-		auto& node = *(it.next());
-
-		ASSERT_FALSE(keys.empty());
-
-		EXPECT_EQ(node.key_entry, *(keys.back()));
-		keys.pop_back();
-	}
-
-	ASSERT_TRUE(keys.empty());
-	ASSERT_FALSE(it.has_next());
-
-	ASSERT_EQ(tree.root_getter()->key_entry, p);
-	ASSERT_EQ(tree.root_getter()->left->key_entry, z);
-	ASSERT_EQ(tree.root_getter()->right->key_entry, g);
-
-	ASSERT_TRUE(RBTree::expect_parent_links_valid(tree.root_getter(), nullptr));
-}
-
-TEST(RBTreeTest, RRBalancing)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto g = ArenaEntry::make_entry(arena, "key3");
-	tree.insert({ g, ArenaEntry::make_entry(arena, "value1"), Type::Put, 1 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto p = ArenaEntry::make_entry(arena, "key4");
-	tree.insert({ p, ArenaEntry::make_entry(arena, "value4"), Type::Put, 2 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->right);
-		ASSERT_EQ(tree.root_getter()->right->color, RBTree::Node::Color::Red);
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto z = ArenaEntry::make_entry(arena, "key5");
-	tree.insert({ z, ArenaEntry::make_entry(arena, "value3"), Type::Put, 3 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_NE(tree.root_getter()->left, nullptr);
-		ASSERT_NE(tree.root_getter()->right, nullptr);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->left);
-		ASSERT_EQ(tree.root_getter()->left->color, RBTree::Node::Color::Red);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->right);
-		ASSERT_EQ(tree.root_getter()->right->color, RBTree::Node::Color::Red);
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	ASSERT_TRUE(it.has_next());
-
-	std::vector<ArenaEntry*> keys;
-	keys.push_back(&z);
-	keys.push_back(&p);
-	keys.push_back(&g);
-
-	while (it.has_next())
-	{
-		auto& node = *(it.next());
-
-		ASSERT_FALSE(keys.empty());
-
-		EXPECT_EQ(node.key_entry, *(keys.back()));
-		keys.pop_back();
-	}
-
-	ASSERT_TRUE(keys.empty());
-	ASSERT_FALSE(it.has_next());
-
-	ASSERT_EQ(tree.root_getter()->key_entry, p);
-	ASSERT_EQ(tree.root_getter()->left->key_entry, g);
-	ASSERT_EQ(tree.root_getter()->right->key_entry, z);
-
-	ASSERT_TRUE(RBTree::expect_parent_links_valid(tree.root_getter(), nullptr));
-}
-
-TEST(RBTreeTest, LRBalancing)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto g = ArenaEntry::make_entry(arena, "key5");
-	tree.insert({ g, ArenaEntry::make_entry(arena, "value1"), Type::Put, 1 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto p = ArenaEntry::make_entry(arena, "key3");
-	tree.insert({ p, ArenaEntry::make_entry(arena, "value4"), Type::Put, 2 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->left);
-		ASSERT_EQ(tree.root_getter()->left->color, RBTree::Node::Color::Red);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto z = ArenaEntry::make_entry(arena, "key4");
-	tree.insert({ z, ArenaEntry::make_entry(arena, "value3"), Type::Put, 3 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_NE(tree.root_getter()->left, nullptr);
-		ASSERT_NE(tree.root_getter()->right, nullptr);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->left);
-		ASSERT_EQ(tree.root_getter()->left->color, RBTree::Node::Color::Red);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->right);
-		ASSERT_EQ(tree.root_getter()->right->color, RBTree::Node::Color::Red);
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	ASSERT_TRUE(it.has_next());
-
-	std::vector<ArenaEntry*> keys;
-	keys.push_back(&g);
-	keys.push_back(&z);
-	keys.push_back(&p);
-
-	while (it.has_next())
-	{
-		auto& node = *(it.next());
-
-		ASSERT_FALSE(keys.empty());
-
-		EXPECT_EQ(node.key_entry, *(keys.back()));
-		keys.pop_back();
-	}
-
-	ASSERT_TRUE(keys.empty());
-	ASSERT_FALSE(it.has_next());
-
-	ASSERT_EQ(tree.root_getter()->key_entry, z);
-	ASSERT_EQ(tree.root_getter()->left->key_entry, p);
-	ASSERT_EQ(tree.root_getter()->right->key_entry, g);
-
-	ASSERT_TRUE(RBTree::expect_parent_links_valid(tree.root_getter(), nullptr));
-}
-
-TEST(RBTreeTest, RLBalancing)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto g = ArenaEntry::make_entry(arena, "key3");
-	tree.insert({ g, ArenaEntry::make_entry(arena, "value1"), Type::Put, 1 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto p = ArenaEntry::make_entry(arena, "key5");
-	tree.insert({ p, ArenaEntry::make_entry(arena, "value4"), Type::Put, 2 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->right);
-		ASSERT_EQ(tree.root_getter()->right->color, RBTree::Node::Color::Red);
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	auto z = ArenaEntry::make_entry(arena, "key4");
-	tree.insert({ z, ArenaEntry::make_entry(arena, "value3"), Type::Put, 3 });
-	ASSERT_TRUE(tree.validate());
-
-	{
-		RBTree::InorderIterator it(tree.root_getter());
-
-		ASSERT_NE(tree.root_getter()->left, nullptr);
-		ASSERT_NE(tree.root_getter()->right, nullptr);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->left);
-		ASSERT_EQ(tree.root_getter()->left->color, RBTree::Node::Color::Red);
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter());
-		ASSERT_TRUE(tree.root_is_black());
-
-		ASSERT_TRUE(it.has_next());
-		ASSERT_EQ(*(it.next()), *tree.root_getter()->right);
-		ASSERT_EQ(tree.root_getter()->right->color, RBTree::Node::Color::Red);
-
-		ASSERT_FALSE(it.has_next());
-	}
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	ASSERT_TRUE(it.has_next());
-
-	std::vector<ArenaEntry*> keys;
-	keys.push_back(&p);
-	keys.push_back(&z);
-	keys.push_back(&g);
-
-	while (it.has_next())
-	{
-		auto& node = *(it.next());
-
-		ASSERT_FALSE(keys.empty());
-
-		EXPECT_EQ(node.key_entry, *(keys.back()));
-		keys.pop_back();
-	}
-
-	ASSERT_TRUE(keys.empty());
-	ASSERT_FALSE(it.has_next());
-
-	ASSERT_EQ(tree.root_getter()->key_entry, z);
-	ASSERT_EQ(tree.root_getter()->left->key_entry, g);
-	ASSERT_EQ(tree.root_getter()->right->key_entry, p);
-
-	ASSERT_TRUE(RBTree::expect_parent_links_valid(tree.root_getter(), nullptr));
-}
-
-TEST(RBTreeTest, ParentPointerCorrectness)
-{
-	Arena arena;
-	RBTree tree;
-	const std::string key_prefix = "key-";
-	const std::string value_prefix = "value-";
-
-	//std::srand(12345); // fixed seed for reproducibility
-
-	for (int i = 1; i <= 100; i++)
-	{
-		auto key = ArenaEntry::make_entry(arena, ArenaEntry::generate_random_key(key_prefix));
-		auto value = ArenaEntry::make_entry(arena, ArenaEntry::generate_random_value(value_prefix));
-
-		int rand_type = std::rand() % 2;
-
-		if (rand_type)
-			tree.insert({ key, value, Type::Put, static_cast<std::uint64_t>(i) });
-		else
-			tree.insert({ key, value, Type::Tombstone, static_cast<std::uint64_t>(i) });
-
-		ASSERT_TRUE(tree.validate());
-	}
-
-	ASSERT_NE(tree.root_getter(), nullptr);
-	ASSERT_EQ(tree.root_getter()->parent, nullptr);
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	while (it.has_next())
-	{
-		RBTree::Node* node = it.next();
-		ASSERT_NE(node, nullptr);
-
-		if (node == tree.root_getter())
-		{
-			EXPECT_EQ(node->parent, nullptr);
-		}
-		else
-		{
-			ASSERT_NE(node->parent, nullptr);
-
-			EXPECT_TRUE(
-				node->parent->left == node ||
-				node->parent->right == node
-			);
-		}
-	}
-
-	ASSERT_FALSE(it.has_next());
-
-	ASSERT_TRUE(RBTree::expect_parent_links_valid(tree.root_getter(), nullptr));
-}
-
-TEST(RBTreeTest, IteratorCorrectness)
-{
-	Arena arena;
-	RBTree tree;
-	const std::string key_prefix = "key-";
-	const std::string value_prefix = "value-";
-
-	//std::srand(12345); // fixed seed for reproducibility
-
-	for (int i = 1; i <= 100; i++)
-	{
-		auto key = ArenaEntry::make_entry(arena, ArenaEntry::generate_random_key(key_prefix));
-		auto value = ArenaEntry::make_entry(arena, ArenaEntry::generate_random_value(value_prefix));
-
-		Type type = (std::rand() % 2)
-			? Type::Put
-			: Type::Tombstone;
-
-		tree.insert({ key, value, type, static_cast<std::uint64_t>(i) });
-
-		ASSERT_TRUE(tree.validate());
-	}
-
-	ASSERT_NE(tree.root_getter(), nullptr);
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	std::vector<RBTree::Node*> nodes;
-
-	while (it.has_next())
-	{
-		RBTree::Node* node = it.next();
-		ASSERT_NE(node, nullptr);
-		nodes.push_back(node);
-	}
-
-	ASSERT_FALSE(it.has_next());
-
-	for (std::size_t i = 1; i < nodes.size(); i++)
-	{
-		EXPECT_FALSE(*nodes[i] < *nodes[i - 1])
-			<< "Iterator returned nodes out of tree order at index " << i;
-	}
-}
-
-TEST(RBTreeTest, SupportsSmallBinaryKeys)
-{
-	Arena arena;
-	RBTree tree;
-
-	std::string k1(std::string("a\0b", 3));      // bytes: 61 00 62
-	std::string k2(std::string("a\0c", 3));      // bytes: 61 00 63
-	std::string k3(std::string("\0abc", 4));     // bytes: 00 61 62 63
-	std::string k4(std::string("\xFF\x00", 2));  // bytes: FF 00
-
-	auto key1 = ArenaEntry::make_entry(arena, k1);
-	auto key2 = ArenaEntry::make_entry(arena, k2);
-	auto key3 = ArenaEntry::make_entry(arena, k3);
-	auto key4 = ArenaEntry::make_entry(arena, k4);
-
-	auto value = ArenaEntry::make_entry(arena, std::string("value"));
-
-	ASSERT_EQ(tree.insert({ key1, value, Type::Put, 1 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	ASSERT_EQ(tree.insert({ key2, value, Type::Put, 2 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	ASSERT_EQ(tree.insert({ key3, value, Type::Put, 3 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	ASSERT_EQ(tree.insert({ key4, value, Type::Put, 4 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	std::vector<ArenaEntry*> expected;
-	expected.push_back(&key3); // "\0abc"
-	expected.push_back(&key1); // "a\0b"
-	expected.push_back(&key2); // "a\0c"
-	expected.push_back(&key4); // "\xFF\x00"
-
-	for (ArenaEntry* key : expected)
-	{
-		ASSERT_TRUE(it.has_next());
-
-		RBTree::Node* node = it.next();
-		ASSERT_NE(node, nullptr);
-
-		EXPECT_EQ(node->key_entry, *key);
-	}
-
-	ASSERT_FALSE(it.has_next());
-}
-
-TEST(RBTreeTest, AllowsEmptyKeysAndValuesAndOrdersVersionsByDescendingSeq)
-{
-	Arena arena;
-	RBTree tree;
-
-	auto empty_key = ArenaEntry::make_entry(arena, std::string("", 0));
-	auto empty_value = ArenaEntry::make_entry(arena, std::string("", 0));
-
-	ASSERT_EQ(tree.insert({ empty_key, empty_value, Type::Put, 1 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	auto key = ArenaEntry::make_entry(arena, ArenaEntry::generate_random_key("key"));
-	auto value = ArenaEntry::make_entry(arena, ArenaEntry::generate_random_value("value"));
-
-	ASSERT_EQ(tree.insert({ key, value, Type::Put, 2 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	ASSERT_EQ(tree.insert({ empty_key, value, Type::Put, 3 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	ASSERT_EQ(tree.insert({ key, empty_value, Type::Put, 4 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	std::vector<InternalRecord> expected;
-	expected.push_back({ empty_key, value, Type::Put, 3 });
-	expected.push_back({ empty_key, empty_value, Type::Put, 1 });
-	expected.push_back({ key, empty_value, Type::Put, 4 });
-	expected.push_back({ key, value, Type::Put, 2 });
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	for (const InternalRecord& record : expected)
-	{
-		ASSERT_TRUE(it.has_next());
-
-		RBTree::Node* node = it.next();
-		ASSERT_NE(node, nullptr);
-
-		EXPECT_EQ(node->key_entry, record.key_entry);
-		EXPECT_EQ(node->value_entry, record.value_entry);
-		EXPECT_EQ(node->type, record.type);
-		EXPECT_EQ(node->seq_number, record.seq_num);
-	}
-
-	ASSERT_FALSE(it.has_next());
-}
-
-TEST(RBTreeTest, DuplicateBehavior)
-{
-	// RBTree accepts multiple versions of the same key.
-	// Duplicate means same key + same seq_num.
-	// Value and type do not affect tree identity.
-
-	Arena arena;
-	RBTree tree;
-
-	auto key1 = ArenaEntry::make_entry(arena, "key1");
-	auto value1 = ArenaEntry::make_entry(arena, "value1");
-
-	auto key2 = ArenaEntry::make_entry(arena, "key2");
-	auto value2 = ArenaEntry::make_entry(arena, "value2");
-
-	std::uint64_t seq1 = 1;
-	std::uint64_t seq2 = 2;
-
-	ASSERT_EQ(tree.insert({ key1, value1, Type::Put, seq1 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	ASSERT_EQ(tree.insert({ key1, value1, Type::Put, seq2 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	// Same key + same seq => duplicate, even with different value.
-	ASSERT_EQ(tree.insert({ key1, value2, Type::Put, seq1 }), RBTree::Status::Duplicate);
-	ASSERT_EQ(tree.insert({ key1, value2, Type::Put, seq2 }), RBTree::Status::Duplicate);
-
-	// Exact duplicate.
-	ASSERT_EQ(tree.insert({ key1, value1, Type::Put, seq1 }), RBTree::Status::Duplicate);
-
-	// Same key + same seq => duplicate, even with different type.
-	ASSERT_EQ(tree.insert({ key1, value1, Type::Tombstone, seq1 }), RBTree::Status::Duplicate);
-
-	ASSERT_EQ(tree.insert({ key2, value1, Type::Put, seq1 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	ASSERT_EQ(tree.insert({ key2, value1, Type::Put, seq2 }), RBTree::Status::OK);
-	ASSERT_TRUE(tree.validate());
-
-	ASSERT_EQ(tree.insert({ key2, value2, Type::Put, seq1 }), RBTree::Status::Duplicate);
-	ASSERT_EQ(tree.insert({ key2, value2, Type::Put, seq2 }), RBTree::Status::Duplicate);
-	ASSERT_EQ(tree.insert({ key2, value1, Type::Put, seq1 }), RBTree::Status::Duplicate);
-	ASSERT_EQ(tree.insert({ key2, value1, Type::Tombstone, seq1 }), RBTree::Status::Duplicate);
-
-	ASSERT_TRUE(tree.validate());
-}
-
-TEST(RBTreeStressTest, LongKeyOrValueInsertionBehavior)
-{
-	Arena arena;
-	RBTree tree;
-	const std::string key_prefix = "key-";
-	const std::string value_prefix = "value-";
-	const std::size_t long_length = 100000;
-
-	//std::srand(12345); // fixed seed for reproducibility
-
-	for (int i = 1; i <= 100; i++)
-	{
-		auto key = ArenaEntry::make_entry(arena, ArenaEntry::generate_random_key(key_prefix, long_length));
-		auto value = ArenaEntry::make_entry(arena, ArenaEntry::generate_random_value(value_prefix, long_length));
-
-		Type type = (std::rand() % 2)
-			? Type::Put
-			: Type::Tombstone;
-
-		tree.insert({ key, value, type, static_cast<std::uint64_t>(i) });
-
-		ASSERT_TRUE(tree.validate());
-	}
-
-	ASSERT_NE(tree.root_getter(), nullptr);
-
-	RBTree::InorderIterator it(tree.root_getter());
-
-	std::vector<ArenaEntry> keys;
-
-	while (it.has_next())
-	{
-		RBTree::Node* node = it.next();
-		ASSERT_NE(node, nullptr);
-
-		keys.push_back(node->key_entry);
-	}
-
-	ASSERT_FALSE(it.has_next());
-
-	for (std::size_t i = 1; i < keys.size(); i++)
-	{
-		EXPECT_FALSE(keys[i] < keys[i - 1])
-			<< "Keys are not in sorted order at index " << i;
-	}
-}
+#include <random>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
+
+namespace {
+
+    template <typename>
+    inline constexpr bool dependent_false_v = false;
+
+    // Supports the common Status APIs used across this project without coupling the
+    // tests to whether the code is exposed as a field or an accessor.
+    template <typename StatusLike>
+    StatusCode status_code_of(const StatusLike& status)
+    {
+        if constexpr (requires { status.code; })
+            return status.code;
+        else if constexpr (requires { status.code(); })
+            return status.code();
+        else if constexpr (requires { status.get_code(); })
+            return status.get_code();
+        else if constexpr (requires { status.status_code; })
+            return status.status_code;
+        else if constexpr (requires { status.status_code(); })
+            return status.status_code();
+        else
+            static_assert(dependent_false_v<StatusLike>,
+                "Update status_code_of() to match the Status code accessor.");
+    }
+
+    std::string entry_bytes(const ArenaEntry& entry)
+    {
+        return std::string(
+            reinterpret_cast<const char*>(entry.data),
+            entry.size
+        );
+    }
+
+    std::string ordered_key(int value)
+    {
+        std::ostringstream out;
+        out << "key-" << std::setw(6) << std::setfill('0') << value;
+        return out.str();
+    }
+
+    class RBTreeTest : public ::testing::Test
+    {
+    protected:
+        Arena arena;
+        RBTree tree;
+
+        Result<ArenaEntry> make_entry(const std::string& bytes)
+        {
+            Result<ArenaEntry> result = ArenaEntry::make_entry(arena, bytes);
+            return result;
+        }
+
+        Result<InternalRecord> make_record(
+            const std::string& key,
+            const std::string& value,
+            Type type,
+            std::uint64_t sequence)
+        {
+            Result<ArenaEntry> key_result = make_entry(key);
+            if (!key_result.is_ok())
+                return Result<InternalRecord>::fail(std::move(key_result.status));
+            
+            Result<ArenaEntry> value_result = make_entry(value);
+            if (!value_result.is_ok())
+                return Result<InternalRecord>::fail(std::move(value_result.status));
+
+            return Result<InternalRecord>::ok(
+                    InternalRecord(
+                    key_result.value,
+                    value_result.value,
+                    type,
+                    sequence
+                )
+            );
+        }
+
+        void expect_valid()
+        {
+            EXPECT_TRUE(tree.validate());
+            EXPECT_TRUE(RBTree::expect_parent_links_valid(
+                tree.root_getter(),
+                nullptr
+            ));
+        }
+    };
+
+    TEST_F(RBTreeTest, EmptyTreeHasNoRecords)
+    {
+        expect_valid();
+        EXPECT_EQ(tree.root_getter(), nullptr);
+        EXPECT_EQ(tree.approximate_memory_usage(), 0u);
+
+        std::vector<InternalRecord> records;
+        tree.dump_inorder(records);
+        EXPECT_TRUE(records.empty());
+
+        const auto missing_key = make_entry("missing");
+        EXPECT_TRUE(missing_key.is_ok());
+
+        const auto result = tree.find_latest_by_key(missing_key.value);
+
+        EXPECT_FALSE(result.is_ok());
+        EXPECT_EQ(status_code_of(result.status), StatusCode::NotFound);
+    }
+
+    TEST_F(RBTreeTest, InsertAndFindSingleRecord)
+    {
+        const auto record = make_record("key", "value", Type::Put, 7);
+
+        EXPECT_TRUE(record.is_ok());
+
+        const Status status = tree.insert(record.value);
+        ASSERT_TRUE(status.is_ok());
+        expect_valid();
+
+        const auto result = tree.find_latest_by_key(record.value.key_entry);
+        ASSERT_TRUE(result.is_ok());
+        EXPECT_EQ(result.value, record);
+    }
+
+    TEST_F(RBTreeTest, SameKeyIsOrderedByDescendingSequence)
+    {
+        const auto old_record = make_record("key", "old", Type::Put, 10);
+        const auto newest_record = make_record("key", "newest", Type::Put, 30);
+        const auto middle_record = make_record("key", "middle", Type::Put, 20);
+
+        ASSERT_TRUE(old_record.is_ok());
+        ASSERT_TRUE(newest_record.is_ok());
+        ASSERT_TRUE(middle_record.is_ok());
+
+        ASSERT_TRUE(tree.insert(old_record.value).is_ok());
+        ASSERT_TRUE(tree.insert(newest_record.value).is_ok());
+        ASSERT_TRUE(tree.insert(middle_record.value).is_ok());
+        expect_valid();
+
+        const auto result = tree.find_latest_by_key(old_record.value.key_entry);
+        ASSERT_TRUE(result.is_ok());
+        EXPECT_EQ(result.value, newest_record);
+
+        std::vector<InternalRecord> records;
+        tree.dump_inorder(records);
+
+        ASSERT_EQ(records.size(), 3u);
+        EXPECT_EQ(records[0], newest_record);
+        EXPECT_EQ(records[1], middle_record);
+        EXPECT_EQ(records[2], old_record);
+    }
+
+    TEST_F(RBTreeTest, NewestTombstoneIsReturned)
+    {
+        const auto put = make_record("key", "value", Type::Put, 4);
+        const auto tombstone = make_record("key", "", Type::Tombstone, 5);
+
+        ASSERT_TRUE(put.is_ok());
+        ASSERT_TRUE(tombstone.is_ok());
+
+        ASSERT_TRUE(tree.insert(put.value).is_ok());
+        ASSERT_TRUE(tree.insert(tombstone.value).is_ok());
+        expect_valid();
+
+        const auto result = tree.find_latest_by_key(put.value.key_entry);
+        ASSERT_TRUE(result.is_ok());
+        EXPECT_EQ(result.value.type, Type::Tombstone);
+        EXPECT_EQ(result.value.seq_num, 5u);
+    }
+
+    TEST_F(RBTreeTest, DuplicateIdentityIsKeyAndSequence)
+    {
+        const auto original = make_record("key", "first", Type::Put, 42);
+        const auto different_value = make_record("key", "second", Type::Put, 42);
+        const auto different_type = make_record("key", "", Type::Tombstone, 42);
+
+        ASSERT_TRUE(original.is_ok());
+        ASSERT_TRUE(different_value.is_ok());
+        ASSERT_TRUE(different_type.is_ok());
+
+        ASSERT_TRUE(tree.insert(original.value).is_ok());
+        const std::size_t usage_after_first_insert = tree.approximate_memory_usage();
+
+        const Status value_duplicate = tree.insert(different_value.value);
+        EXPECT_FALSE(value_duplicate.is_ok());
+        EXPECT_EQ(status_code_of(value_duplicate), StatusCode::Duplicate);
+
+        const Status type_duplicate = tree.insert(different_type.value);
+        EXPECT_FALSE(type_duplicate.is_ok());
+        EXPECT_EQ(status_code_of(type_duplicate), StatusCode::Duplicate);
+
+        EXPECT_EQ(tree.approximate_memory_usage(), usage_after_first_insert);
+        expect_valid();
+
+        const auto result = tree.find_latest_by_key(original.value.key_entry);
+        ASSERT_TRUE(result.is_ok());
+        EXPECT_EQ(result.value, original);
+    }
+
+    TEST_F(RBTreeTest, SameSequenceIsAllowedForDifferentKeys)
+    {
+        const auto first = make_record("a", "first", Type::Put, 9);
+        const auto second = make_record("b", "second", Type::Put, 9);
+
+        EXPECT_TRUE(first.is_ok());
+        EXPECT_TRUE(second.is_ok());
+
+        EXPECT_TRUE(tree.insert(first.value).is_ok());
+        EXPECT_TRUE(tree.insert(second.value).is_ok());
+        expect_valid();
+    }
+
+    TEST_F(RBTreeTest, DumpUsesKeyAscendingThenSequenceDescendingOrder)
+    {
+
+        const std::array<Result<InternalRecord>, 6> input = {
+            make_record("c", "c1", Type::Put, 1),
+            make_record("a", "a2", Type::Put, 2),
+            make_record("b", "b1", Type::Put, 1),
+            make_record("a", "a5", Type::Put, 5),
+            make_record("c", "c9", Type::Tombstone, 9),
+            make_record("b", "b7", Type::Put, 7)
+        };
+
+        for (const auto& record : input) {
+            ASSERT_TRUE(record.is_ok());
+            ASSERT_TRUE(tree.insert(record.value).is_ok());
+        }
+
+        expect_valid();
+
+        std::vector<InternalRecord> records;
+        tree.dump_inorder(records);
+
+        const std::array<const InternalRecord*, 6> expected = {
+            & (input[3].value), // a, seq 5
+            & (input[1].value), // a, seq 2
+            & (input[5].value), // b, seq 7
+            & (input[2].value), // b, seq 1
+            & (input[4].value), // c, seq 9
+            & (input[0].value)  // c, seq 1
+        };
+
+        ASSERT_EQ(records.size(), expected.size());
+        for (std::size_t i = 0; i < expected.size(); ++i)
+            EXPECT_EQ(records[i], *expected[i]);
+    }
+
+    TEST(RBTreeNodeTest, EqualityMatchesTreeIdentity)
+    {
+        Arena arena;
+        const auto key = ArenaEntry::make_entry(arena, "key");
+        const auto first_value = ArenaEntry::make_entry(arena, "first");
+        const auto second_value = ArenaEntry::make_entry(arena, "second");
+
+        ASSERT_TRUE(key.is_ok());
+        ASSERT_TRUE(first_value.is_ok());
+        ASSERT_TRUE(second_value.is_ok());
+
+        const RBTree::Node first(key.value, first_value.value, Type::Put, 11);
+        const RBTree::Node same_identity(key.value, second_value.value, Type::Tombstone, 11);
+
+        EXPECT_FALSE(first < same_identity);
+        EXPECT_FALSE(same_identity < first);
+        EXPECT_EQ(first, same_identity);
+    }
+
+    TEST(RBTreeBalancingTest, HandlesAllFourThreeNodeRotationPatterns)
+    {
+        struct RotationCase
+        {
+            std::array<std::string, 3> insertion_order;
+            std::string expected_root;
+            std::string expected_left;
+            std::string expected_right;
+        };
+
+        const std::array<RotationCase, 4> cases = { {
+            {{{"c", "b", "a"}}, "b", "a", "c"}, // left-left
+            {{{"a", "b", "c"}}, "b", "a", "c"}, // right-right
+            {{{"c", "a", "b"}}, "b", "a", "c"}, // left-right
+            {{{"a", "c", "b"}}, "b", "a", "c"}  // right-left
+        } };
+
+        for (const auto& test_case : cases)
+        {
+            SCOPED_TRACE(test_case.insertion_order[0] + test_case.insertion_order[1] + test_case.insertion_order[2]);
+
+            Arena arena;
+            RBTree tree;
+            std::uint64_t sequence = 1;
+
+            for (const auto& key : test_case.insertion_order)
+            {
+                Result<ArenaEntry> key_entr = ArenaEntry::make_entry(arena, key);
+                ASSERT_TRUE(key_entr.is_ok());
+                Result<ArenaEntry> value = ArenaEntry::make_entry(arena, "value");
+                ASSERT_TRUE(value.is_ok());
+                const InternalRecord record(
+                    key_entr.value,
+                    value.value,
+                    Type::Put,
+                    sequence++
+                );
+                ASSERT_TRUE(tree.insert(record).is_ok());
+            }
+
+            ASSERT_TRUE(tree.validate());
+            ASSERT_TRUE(RBTree::expect_parent_links_valid(tree.root_getter(), nullptr));
+
+            const RBTree::Node* root = tree.root_getter();
+            ASSERT_NE(root, nullptr);
+            ASSERT_NE(root->left, nullptr);
+            ASSERT_NE(root->right, nullptr);
+
+            EXPECT_EQ(entry_bytes(root->key_entry), test_case.expected_root);
+            EXPECT_EQ(entry_bytes(root->left->key_entry), test_case.expected_left);
+            EXPECT_EQ(entry_bytes(root->right->key_entry), test_case.expected_right);
+            EXPECT_EQ(root->color, RBTree::Node::Color::Black);
+            EXPECT_EQ(root->left->color, RBTree::Node::Color::Red);
+            EXPECT_EQ(root->right->color, RBTree::Node::Color::Red);
+        }
+    }
+
+    TEST(RBTreeBalancingTest, RemainsValidForActuallySortedInsertionOrders)
+    {
+        constexpr int record_count = 1000;
+
+        for (const bool descending : { false, true })
+        {
+            SCOPED_TRACE(descending ? "descending" : "ascending");
+
+            Arena arena;
+            RBTree tree;
+
+            for (int step = 0; step < record_count; ++step)
+            {
+                const int value = descending
+                    ? record_count - 1 - step
+                    : step;
+
+                const std::string key = ordered_key(value);
+
+                Result<ArenaEntry> key_entr = ArenaEntry::make_entry(arena, key);
+                ASSERT_TRUE(key_entr.is_ok());
+                Result<ArenaEntry> value_entr = ArenaEntry::make_entry(arena, "value-" + key);
+                ASSERT_TRUE(value_entr.is_ok());
+
+                const InternalRecord record(
+                    key_entr.value, 
+                    value_entr.value,
+                    Type::Put,
+                    static_cast<std::uint64_t>(step + 1)
+                );
+
+                ASSERT_TRUE(tree.insert(record).is_ok());
+
+                if ((step % 32) == 0)
+                {
+                    ASSERT_TRUE(tree.validate());
+                    ASSERT_TRUE(RBTree::expect_parent_links_valid(
+                        tree.root_getter(),
+                        nullptr
+                    ));
+                }
+            }
+
+            EXPECT_TRUE(tree.validate());
+            EXPECT_TRUE(RBTree::expect_parent_links_valid(tree.root_getter(), nullptr));
+        }
+    }
+
+    TEST_F(RBTreeTest, SupportsEmptyAndBinaryKeysAndValues)
+    {
+        const std::string empty;
+        const std::string embedded_null("a\0b", 3);
+        const std::string leading_null("\0abc", 4);
+        const std::string high_byte("\xFF\0", 2);
+        const std::string binary_value("v\0x", 3);
+
+        const std::array<Result<InternalRecord>, 4> records = {
+            make_record(empty, empty, Type::Put, 1),
+            make_record(embedded_null, binary_value, Type::Put, 2),
+            make_record(leading_null, empty, Type::Put, 3),
+            make_record(high_byte, binary_value, Type::Put, 4)
+        };
+
+        for (const auto& record : records) {
+            ASSERT_TRUE(record.is_ok());
+            ASSERT_TRUE(tree.insert(record.value).is_ok());
+        }
+        expect_valid();
+
+        for (const auto& expected : records)
+        {
+            const auto result = tree.find_latest_by_key(expected.value.key_entry);
+            ASSERT_TRUE(result.is_ok());
+            EXPECT_EQ(result.value, expected);
+        }
+    }
+
+    TEST_F(RBTreeTest, ArenaGrowthDoesNotInvalidateStoredEntries)
+    {
+        const auto stable = make_record("stable-key", "stable-value", Type::Put, 1);
+        ASSERT_TRUE(stable.is_ok());
+        ASSERT_TRUE(tree.insert(stable.value).is_ok());
+
+        for (int i = 0; i < 10000; ++i)
+            (void)make_entry("noise-" + std::to_string(i));
+
+        const auto result = tree.find_latest_by_key(stable.value.key_entry);
+        ASSERT_TRUE(result.is_ok());
+        EXPECT_EQ(entry_bytes(result.value.key_entry), "stable-key");
+        EXPECT_EQ(entry_bytes(result.value.value_entry), "stable-value");
+        expect_valid();
+    }
+
+    TEST_F(RBTreeTest, SupportsLargeArenaEntries)
+    {
+        const std::string large_key(32 * 1024, 'k');
+        const std::string large_value(64 * 1024, 'v');
+        const auto record = make_record(large_key, large_value, Type::Put, 1);
+
+        ASSERT_TRUE(record.is_ok());
+
+        ASSERT_TRUE(tree.insert(record.value).is_ok());
+        expect_valid();
+
+        const auto result = tree.find_latest_by_key(record.value.key_entry);
+        ASSERT_TRUE(result.is_ok());
+        EXPECT_EQ(entry_bytes(result.value.key_entry), large_key);
+        EXPECT_EQ(entry_bytes(result.value.value_entry), large_value);
+    }
+
+    TEST(RBTreeDifferentialTest, MatchesReferenceModelUnderDeterministicRandomWorkload)
+    {
+        struct ExpectedRecord
+        {
+            std::string value;
+            Type type;
+        };
+
+        constexpr int operation_count = 5000;
+        constexpr int key_count = 128;
+        constexpr int sequence_count = 256;
+
+        std::mt19937_64 rng(0x5EED1234ULL);
+        std::uniform_int_distribution<int> key_distribution(0, key_count - 1);
+        std::uniform_int_distribution<int> sequence_distribution(0, sequence_count - 1);
+        std::bernoulli_distribution tombstone_distribution(0.2);
+
+        Arena arena;
+        RBTree tree;
+        std::map<std::string, std::map<std::uint64_t, ExpectedRecord>> model;
+
+        for (int operation = 0; operation < operation_count; ++operation)
+        {
+            const std::string key = ordered_key(key_distribution(rng));
+            const std::uint64_t sequence = static_cast<std::uint64_t>(
+                sequence_distribution(rng)
+                );
+            const Type type = tombstone_distribution(rng)
+                ? Type::Tombstone
+                : Type::Put;
+            const std::string value = type == Type::Tombstone
+                ? std::string{}
+            : "value-" + std::to_string(operation);
+
+            const auto [_, inserted] = model[key].emplace(
+                sequence,
+                ExpectedRecord{ value, type }
+            );
+
+            Result<ArenaEntry> key_entry = ArenaEntry::make_entry(arena, key);
+            Result<ArenaEntry> value_entry = ArenaEntry::make_entry(arena, value);
+
+            ASSERT_TRUE(key_entry.is_ok());
+            ASSERT_TRUE(value_entry.is_ok());
+
+            const InternalRecord record(
+                key_entry.value, 
+                value_entry.value,
+                type,
+                sequence
+            );
+
+            const Status status = tree.insert(record);
+            EXPECT_EQ(status.is_ok(), inserted);
+
+            if (!inserted)
+                EXPECT_EQ(status_code_of(status), StatusCode::Duplicate);
+
+            if ((operation % 64) == 0)
+            {
+                ASSERT_TRUE(tree.validate());
+                ASSERT_TRUE(RBTree::expect_parent_links_valid(
+                    tree.root_getter(),
+                    nullptr
+                ));
+            }
+        }
+
+        ASSERT_TRUE(tree.validate());
+        ASSERT_TRUE(RBTree::expect_parent_links_valid(tree.root_getter(), nullptr));
+
+        for (const auto& [key, versions] : model)
+        {
+            //Result<ArenaEntry> key_entry = ArenaEntry::make_entry(arena, key);
+
+            //ASSERT_TRUE(key_entry.is_ok());
+
+            Result<ArenaEntry> search_entry =
+                ArenaEntry::make_entry(arena, key);
+
+            ASSERT_TRUE(search_entry.is_ok());
+
+            const auto result = tree.find_latest_by_key(
+                search_entry.value
+            );
+            ASSERT_TRUE(result.is_ok());
+
+            const auto& [expected_sequence, expected] = *versions.rbegin();
+            EXPECT_EQ(result.value.seq_num, expected_sequence);
+            EXPECT_EQ(result.value.type, expected.type);
+            EXPECT_EQ(entry_bytes(result.value.value_entry), expected.value);
+        }
+
+        std::vector<InternalRecord> actual;
+        tree.dump_inorder(actual);
+
+        std::size_t expected_record_count = 0;
+        for (const auto& [_, versions] : model)
+            expected_record_count += versions.size();
+
+        ASSERT_EQ(actual.size(), expected_record_count);
+
+        std::size_t index = 0;
+        for (const auto& [key, versions] : model)
+        {
+            for (auto version = versions.rbegin(); version != versions.rend(); ++version)
+            {
+                const auto& [sequence, expected] = *version;
+                ASSERT_LT(index, actual.size());
+
+                EXPECT_EQ(entry_bytes(actual[index].key_entry), key);
+                EXPECT_EQ(actual[index].seq_num, sequence);
+                EXPECT_EQ(actual[index].type, expected.type);
+                EXPECT_EQ(entry_bytes(actual[index].value_entry), expected.value);
+                ++index;
+            }
+        }
+
+        EXPECT_EQ(index, actual.size());
+
+        Result<ArenaEntry> search_entry = ArenaEntry::make_entry(arena, "definitely-missing");
+
+        ASSERT_TRUE(search_entry.is_ok());
+
+        const auto missing = tree.find_latest_by_key(
+            search_entry.value
+        );
+        EXPECT_FALSE(missing.is_ok());
+        EXPECT_EQ(status_code_of(missing.status), StatusCode::NotFound);
+    }
+
+} // namespace
