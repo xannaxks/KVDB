@@ -68,6 +68,21 @@ struct ArenaEntry
     );
 };
 
+// arena entry formatter
+template <>
+struct std::formatter<ArenaEntry> : std::formatter<std::string_view>
+{
+    auto format(const ArenaEntry& entry, std::format_context& ctx) const
+    {
+        const std::string_view view(
+            static_cast<const char*>(entry.data),
+            entry.size
+        );
+
+        return std::formatter<std::string_view>::format(view, ctx);
+    }
+};
+
 class Arena
 {
 private:
