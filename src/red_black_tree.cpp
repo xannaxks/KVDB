@@ -255,7 +255,7 @@ Status RBTree::insert(const InternalRecord& entry)
     }
 }
 
-Result<InternalRecord> RBTree::find_latest_by_key(ArenaEntry key) const
+Result<std::optional<InternalRecord>> RBTree::find_latest_by_key(ArenaEntry key) const
 {
     Node* current = root;
     Node* result = nullptr;
@@ -275,9 +275,9 @@ Result<InternalRecord> RBTree::find_latest_by_key(ArenaEntry key) const
     }
 
     if (result == nullptr)
-        return Result<InternalRecord>::fail(Status{ StatusCode::NotFound, std::format("Key not found: {}", key) });
+        return Result<std::optional<InternalRecord>>::fail(Status{ StatusCode::NotFound, std::format("Key not found: {}", key) });
 
-    return Result<InternalRecord>::ok(InternalRecord(result->key_entry, result->value_entry, result->type, result->seq_number));
+    return Result<std::optional<InternalRecord>>::ok(InternalRecord(result->key_entry, result->value_entry, result->type, result->seq_number));
 }
 
 // Validators implementation
@@ -409,4 +409,9 @@ bool RBTree::expect_parent_links_valid(RBTree::Node* node, RBTree::Node* expecte
         return false;
 
     return (expect_parent_links_valid(node->right, node) && expect_parent_links_valid(node->left, node));
+}
+
+bool RBTree::empty() const noexcept
+{
+    return (root != nullptr);
 }

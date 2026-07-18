@@ -46,7 +46,7 @@ public:
     };
 
 private:
-    Node* root;
+    Node* root = nullptr;
 
     void left_rotate(Node* v);
     void right_rotate(Node* v);
@@ -92,7 +92,10 @@ public:
     };
 
     ::Status insert(const InternalRecord& entry);
-    Result<InternalRecord> find_latest_by_key(ArenaEntry key) const;
+    Result<std::optional<InternalRecord>> find_latest_by_key(ArenaEntry key) const;
+    //[[nodiscard]] std::optional<InternalRecord> try_find_latest_by_key(
+    //    const ArenaEntry & key
+    //) const;
 
     bool root_is_black() const;
     bool no_red_node_has_red_child() const;
@@ -103,6 +106,7 @@ public:
     bool subtree_has_no_red_node_with_red_child(Node* node) const;
     size_t approximate_subtree_memory_usage(Node* node) const;
     size_t approximate_memory_usage() const;
+    bool empty() const noexcept;
 
     Node* root_getter();
     void dump_inorder(std::vector<InternalRecord>& out) const; 
