@@ -1,53 +1,87 @@
 #pragma once
 
+#include <cstddef>
+#include <cstdint>
+#include <deque>
 #include <memory>
-#include <variant>
+#include <shared_mutex>
 #include <vector>
-#include "record.h"
-#include "red_black_tree.h"
-#include <algorithm>
-#include <string>
-#include <string_view>
-#include "status.h"
 
-class SSTableBuilder;
+#include "red_black_tree.h"
 
 class MemTable
 {
 public:
-    //enum class Status
-    //{
-    //    OK,
-    //    KeyNotFound,
-    //    KeyWasDeleted,
-    //    MemoryAllocationFailed
-    //};
+    struct ImmutableSnapshot
+    {
+        std::uint64_t generation_id = 0;
+        std::shared_ptr<const RBTree> table;
+    };
 
     MemTable();
-    ~MemTable();
+    ~MemTable() = default;
 
-    static Status status_from(Status rb_status);
+    MemTable(const MemTable&) = delete;
+    MemTable& operator=(const MemTable&) = delete;
+    MemTable(MemTable&&) = delete;
+    MemTable& operator=(MemTable&&) = delete;
 
-    Status manual_freeze();
-    Status apply(const InternalRecord& entry);
-    Status put(std::string_view key, std::string_view value, uint64_t seq_num);
-    Status remove(std::string_view key, uint64_t seq_num);
-    Result<std::optional<InternalRecord>> get(std::string_view key) const;
+    // Inserts an already materialized internal record into the active table.
+    // ArenaEntry storage referenced by the record must remain alive for as long
+    // as the corresponding mutable/immutable generation remains readable.
+    [[nodiscard]] Status apply(const InternalRecord& entry);
 
-    void dump_oldest_immutable(std::vector<InternalRecord>& out);
-    void drop_oldest_immutable();
-    bool has_immutable() const;
+    [[nodiscard]] Status put(
+        ArenaEntry key,
+        ArenaEntry value,
+        std::uint64_t sequence_number
+    );
+
+    [[nodiscard]] Status remove(
+        ArenaEntry key,
+        std::uint64_t sequence_number
+    );
+
+    // Returns the newest InternalRecord, including tombstones. A tombstone is a
+    // successful lookup and must stop the Engine from searching older SSTables.
+    [[nodiscard]] Result<std::optional<InternalRecord>> get(const ArenaEntry& key) const;
+
+    // Moves the current active tree into the immutable queue and installs a new
+    // active tree. Freezing an empty active tree is a successful no-op.
+    [[nodiscard]] Status freeze_mutable();
+    [[nodiscard]] Status manual_freeze();
+
+    // A flush worker keeps this shared snapshot alive while building an SSTable.
+    // The table remains visible to reads until retire_oldest_immutable succeeds.
+    [[nodiscard]] Result<ImmutableSnapshot> oldest_immutable() const;
+
+    // Retires exactly the generation that was flushed. Returns false when the
+    // queue changed or the supplied generation is stale.
+    [[nodiscard]] bool retire_oldest_immutable(
+        std::uint64_t generation_id
+    );
+
+    // Compatibility helper for builders that currently consume a vector.
+    // On success, out is replaced with the oldest immutable table's records.
+    [[nodiscard]] Status dump_oldest_immutable(
+        std::vector<InternalRecord>& out,
+        std::uint64_t& generation_id
+    ) const;
+
+    [[nodiscard]] bool has_immutable() const;
+    [[nodiscard]] std::size_t immutable_count() const;
+    [[nodiscard]] std::size_t mutable_memory_usage() const;
+    [[nodiscard]] std::size_t approximate_memory_usage() const;
 
 private:
-    std::unique_ptr<RBTree> mutable_table;
-    std::vector<std::unique_ptr<RBTree>> immutable_tables;
+    struct ImmutableTable
+    {
+        std::uint64_t generation_id = 0;
+        std::shared_ptr<const RBTree> table;
+    };
 
-
-
-    std::variant<InternalRecord, Status> read_latest(const Bytes& key) const;
-    Status freeze_mutable();
-
-    friend class SSTable;
-    friend class SSTLoader;
-    friend class SSTWriter;
+    //mutable std::shared_mutex mutex_;
+    std::shared_ptr<RBTree> mutable_table_;
+    std::deque<ImmutableTable> immutable_tables_;
+    std::uint64_t next_generation_id_ = 1;
 };
