@@ -1,4 +1,5 @@
 #include "sstable_entities/meta_section.h"
+#include <cassert>
 
 using namespace SSTableEntities;
 
@@ -157,6 +158,7 @@ Status MetaSection::write(WritableFile& file, std::uint64_t& offset, std::uint64
     if (!write_result.is_ok())
         return write_result;
 
+    return Status::ok();
 }
 
 Result<MetaSection::Header> MetaSection::Header::load(
@@ -197,131 +199,114 @@ Result<MetaSection::Header> MetaSection::Header::load(
 
     return Result<Header>::ok(std::move(result));
 }
-Result<MetaSection::Payload> MetaSection::Payload::load(ReadableFile& file, std::uint64_t& offset, Arena& arena, MetaSection::Header& header)
+Result<MetaSection::Payload> MetaSection::Payload::load(
+    ReadableFile& file,
+    std::uint64_t& offset,
+    Arena& arena,
+    MetaSection::Header& header
+)
 {
-    //assert(static_cast<std::uint64_t>(file.tellg()) == offset);
+    if (header.payload_size < Payload::fixed_disk_size())
+        return Result<Payload>::fail(Status{
+            StatusCode::InvalidPayloadSize,
+            "Meta payload is smaller than its fixed fields"
+        });
 
-    uint64_t old_offset = offset;
+    Status fits_status = ensure_fits_in_block(
+        file,
+        header.payload_size,
+        offset,
+        BLOCK_SIZE
+    );
+    if (!fits_status.is_ok())
+        return Result<Payload>::fail(std::move(fits_status));
 
-    Status ensure_fits_result = ensure_fits_in_block(file, header.payload_size, offset, BLOCK_SIZE);
-
-    if (!ensure_fits_result.is_ok())
-        return Result<Payload>::fail(std::move(ensure_fits_result));
-
-    assert(old_offset == offset);
-
+    const Arena::Checkpoint checkpoint = arena.checkpoint();
     Payload result{};
-    Status read_endian_result;
+    Status status;
 
-    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.record_count, offset, BLOCK_SIZE);
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
+    status = kvdb::blockio::read_u64_t_le(file, result.record_count, offset, BLOCK_SIZE);
+    if (!status.is_ok()) return Result<Payload>::fail(std::move(status));
+    status = kvdb::blockio::read_u64_t_le(file, result.tombstone_count, offset, BLOCK_SIZE);
+    if (!status.is_ok()) return Result<Payload>::fail(std::move(status));
+    status = kvdb::blockio::read_u64_t_le(file, result.min_seq_num, offset, BLOCK_SIZE);
+    if (!status.is_ok()) return Result<Payload>::fail(std::move(status));
+    status = kvdb::blockio::read_u64_t_le(file, result.max_seq_num, offset, BLOCK_SIZE);
+    if (!status.is_ok()) return Result<Payload>::fail(std::move(status));
+    status = kvdb::blockio::read_u32_t_le(file, result.min_key_size, offset, BLOCK_SIZE);
+    if (!status.is_ok()) return Result<Payload>::fail(std::move(status));
+    status = kvdb::blockio::read_u32_t_le(file, result.max_key_size, offset, BLOCK_SIZE);
+    if (!status.is_ok()) return Result<Payload>::fail(std::move(status));
+    status = kvdb::blockio::read_u64_t_le(file, result.data_block_count, offset, BLOCK_SIZE);
+    if (!status.is_ok()) return Result<Payload>::fail(std::move(status));
+    status = kvdb::blockio::read_u64_t_le(file, result.data_bytes, offset, BLOCK_SIZE);
+    if (!status.is_ok()) return Result<Payload>::fail(std::move(status));
 
-    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.tombstone_count, offset, BLOCK_SIZE);
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
-
-    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.min_seq_num, offset, BLOCK_SIZE);
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
-
-    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.max_seq_num, offset, BLOCK_SIZE);
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
-
-    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.min_key_size, offset, BLOCK_SIZE);
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
-
-    read_endian_result = kvdb::blockio::read_u32_t_le(file, result.max_key_size, offset, BLOCK_SIZE);
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
-
-    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.data_block_count, offset, BLOCK_SIZE);
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
-
-    read_endian_result = kvdb::blockio::read_u64_t_le(file, result.data_bytes, offset, BLOCK_SIZE);
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
-
-    const std::uint64_t expected_size = MetaSection::Payload::fixed_disk_size() + result.min_key_size + result.max_key_size;
-
+    const std::uint64_t expected_size =
+        static_cast<std::uint64_t>(Payload::fixed_disk_size()) +
+        result.min_key_size + result.max_key_size;
     if (expected_size != header.payload_size)
-        return Result<Payload>::fail(
-            Status{
-                StatusCode::InvariantViolation,
-                "Meta section payload size mismatch during loading"
-            }
+        return Result<Payload>::fail(Status{
+            StatusCode::InvalidPayloadSize,
+            "Meta payload size does not match its key lengths"
+        });
+
+    void* min_key_ptr = nullptr;
+    if (result.min_key_size > 0) {
+        Result<void*> allocation = arena.alloc(
+            result.min_key_size,
+            alignof(std::byte)
         );
+        if (!allocation.is_ok()) {
+            arena.rollback(checkpoint);
+            return Result<Payload>::fail(std::move(allocation.status));
+        }
+        min_key_ptr = allocation.value;
+    }
 
-    if (expected_size > BLOCK_SIZE - MetaSection::Header::disk_size())
-        return Result<Payload>::fail(
-            Status{
-                StatusCode::InvariantViolation,
-                "Meta section payload size exceeds block size"
-            }
+    void* max_key_ptr = nullptr;
+    if (result.max_key_size > 0) {
+        Result<void*> allocation = arena.alloc(
+            result.max_key_size,
+            alignof(std::byte)
         );
+        if (!allocation.is_ok()) {
+            arena.rollback(checkpoint);
+            return Result<Payload>::fail(std::move(allocation.status));
+        }
+        max_key_ptr = allocation.value;
+    }
 
-    Result<void*> arena_alloc_result;
-
-    arena_alloc_result = arena.alloc(result.min_key_size, alignof(std::byte));
-    if (!arena_alloc_result.is_ok())
-        return Result<Payload>::fail(std::move(arena_alloc_result.status));
-    void* min_key_ptr = arena_alloc_result.value;
-
-    arena_alloc_result = arena.alloc(result.max_key_size, alignof(std::byte));
-    if (!arena_alloc_result.is_ok())
-        return Result<Payload>::fail(std::move(arena_alloc_result.status));
-    void* max_key_ptr = arena_alloc_result.value;
-
-    if (result.min_key_size > 0 && min_key_ptr == nullptr)
-        return Result<Payload>::fail(
-            Status{
-                StatusCode::AllocationFailed,
-                "Failed to allocate memory for min key"
-            }
+    if (result.min_key_size > 0) {
+        status = kvdb::blockio::read_bytes(
+            file,
+            reinterpret_cast<std::byte*>(min_key_ptr),
+            result.min_key_size,
+            offset,
+            BLOCK_SIZE
         );
+        if (!status.is_ok()) {
+            arena.rollback(checkpoint);
+            return Result<Payload>::fail(std::move(status));
+        }
+    }
 
-    if (result.max_key_size > 0 && max_key_ptr == nullptr)
-        return Result<Payload>::fail(
-            Status{
-                StatusCode::AllocationFailed,
-                "Failed to allocate memory for max key"
-            }
+    if (result.max_key_size > 0) {
+        status = kvdb::blockio::read_bytes(
+            file,
+            reinterpret_cast<std::byte*>(max_key_ptr),
+            result.max_key_size,
+            offset,
+            BLOCK_SIZE
         );
-
-    read_endian_result = kvdb::blockio::read_bytes(
-        file,
-        reinterpret_cast<std::byte*>(min_key_ptr),
-        result.min_key_size,
-        offset,
-        BLOCK_SIZE
-    );
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
-
-    read_endian_result = kvdb::blockio::read_bytes(
-        file,
-        reinterpret_cast<std::byte*>(max_key_ptr),
-        result.max_key_size,
-        offset,
-        BLOCK_SIZE
-    );
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
-
-    if (result.disk_size() != header.payload_size)
-        return Result<Payload>::fail(
-            Status{
-                StatusCode::InvariantViolation,
-                "Meta section payload size mismatch during loading"
-            }
-        );
+        if (!status.is_ok()) {
+            arena.rollback(checkpoint);
+            return Result<Payload>::fail(std::move(status));
+        }
+    }
 
     result.min_key_ptr = min_key_ptr;
     result.max_key_ptr = max_key_ptr;
-
     return Result<Payload>::ok(std::move(result));
 }
 Result<MetaSection> MetaSection::load(
@@ -375,6 +360,18 @@ Result<MetaSection> MetaSection::load(
                 "Meta section header payload size does not match actual payload size during loading"
             }
         );
+    if (result.payload.tombstone_count > result.payload.record_count)
+        return Result<MetaSection>::fail(Status{
+            StatusCode::InvalidPayloadSize,
+            "Meta tombstone count exceeds record count"
+        });
+    if (result.payload.record_count > 0 &&
+        result.payload.min_seq_num > result.payload.max_seq_num)
+        return Result<MetaSection>::fail(Status{
+            StatusCode::InvalidPayloadSize,
+            "Meta minimum sequence number exceeds maximum sequence number"
+        });
+
     if (result.payload.data_block_count != index_section.payloads.size())
         return Result<MetaSection>::fail(
             Status{
@@ -397,16 +394,19 @@ void MetaSection::Payload::calculate_crc32(std::uint32_t& crc_buffer)
     crc32_add_pod<std::uint32_t>(crc_buffer, this->max_key_size);
     crc32_add_pod<std::uint64_t>(crc_buffer, this->data_block_count);
     crc32_add_pod<std::uint64_t>(crc_buffer, this->data_bytes);
-    compute_crc32(crc_buffer, this->min_key_ptr, this->min_key_size);
-    compute_crc32(crc_buffer, this->max_key_ptr, this->max_key_size);
+    if (this->min_key_size > 0)
+        compute_crc32(crc_buffer, this->min_key_ptr, this->min_key_size);
+    if (this->max_key_size > 0)
+        compute_crc32(crc_buffer, this->max_key_ptr, this->max_key_size);
 }
 void MetaSection::calculate_crc32(std::uint32_t& crc_buffer)
 {
     this->payload.calculate_crc32(crc_buffer);
 }
 
-void MetaSection::rebuild(DataSection& data_section, IndexSection& index_section)
+void MetaSection::rebuild(const DataSection& data_section, const IndexSection& index_section)
 {
+    (void)index_section;
     this->payload.record_count = 0;
     this->payload.tombstone_count = 0;
     this->payload.min_seq_num = std::numeric_limits<std::uint64_t>::max();
@@ -536,6 +536,8 @@ MetaSection::MetaSection()
     payload.max_key_size = 0;
     payload.data_block_count = 0;
     payload.data_bytes = 0;
+    payload.min_key_ptr = nullptr;
+    payload.max_key_ptr = nullptr;
 
     crc32_add_pod<std::uint64_t>(header.crc32, payload.record_count);
     crc32_add_pod<std::uint64_t>(header.crc32, payload.tombstone_count);

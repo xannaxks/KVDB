@@ -1,4 +1,9 @@
+#pragma once
+
+#include <cstddef>
 #include <cstdint>
+#include <vector>
+#include <format>
 #include "status.h"
 #include "file_helpers.h"
 #include "crc32_helpers.h"
@@ -14,14 +19,14 @@ namespace SSTableEntities
 	struct DataSection
 	{
 		struct Header {
-			Header() noexcept = default;
+			Header() noexcept;
 			Header(const Header& other) noexcept = default;
 			Header(Header& other) noexcept = default;
 			Header(Header&& other) noexcept = default;
 
-			BlockType type;
-			std::uint32_t payload_disk_size;
-			std::uint32_t crc32;
+			BlockType type = BlockType::Data;
+			std::uint32_t payload_disk_size = 0;
+			std::uint32_t crc32 = 0;
 
 			static std::size_t disk_size();
 
@@ -39,14 +44,14 @@ namespace SSTableEntities
 			Payload(Payload&& other) noexcept = default;
 			Payload(const InternalRecord& record) noexcept;
 
-			std::uint32_t key_size;
-			std::uint32_t value_size;
-			::Type type;
-			std::uint32_t flags;
-			std::uint32_t reserved;
-			std::uint64_t seq_num;
-			void* key_ptr;
-			void* value_ptr;
+			std::uint32_t key_size = 0;
+			std::uint32_t value_size = 0;
+			::Type type = ::Type::Put;
+			std::uint32_t flags = 0;
+			std::uint32_t reserved = 0;
+			std::uint64_t seq_num = 0;
+			void* key_ptr = nullptr;
+			void* value_ptr = nullptr;
 
 			std::size_t disk_size();
 			std::size_t disk_size() const;
@@ -75,7 +80,7 @@ namespace SSTableEntities
 			std::size_t disk_size() const;
 			std::size_t disk_size();
 
-			bool can_payload_fit(Payload& payload);
+			bool can_payload_fit(const Payload& payload) const;
 			void add_payload(Payload& payload);
 
 			Status write(WritableFile& file, std::uint64_t& offset, IndexSection& index_section);

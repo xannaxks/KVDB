@@ -1,4 +1,5 @@
 #include "sstable_entities/bloom_section.h"
+#include <cassert>
 #include "sstable_entities/index_section.h"
 #include "sstable_entities/data_section.h"
 
@@ -26,13 +27,13 @@ static std::uint64_t bloom_hash_i(const void* key, std::uint32_t key_size, std::
 BloomSection::BloomSection()
 {
     header.type = BlockType::Bloom;
-    header.payload_size = Payload::disk_size();
     header.crc32 = ::crc32(0L, Z_NULL, 0);
 
+    payload.mask.assign(BLOOM_MASK_BIT_SIZE, 0);
     payload.bloom_bits = payload.mask.size();
     payload.hash_count = BLOOM_HASH_COUNT;
     payload.key_count = 0;
-    payload.mask.resize(BLOOM_MASK_BIT_SIZE, 0);
+    header.payload_size = static_cast<std::uint32_t>(Payload::disk_size());
 
     crc32_add_pod<std::uint64_t>(header.crc32, payload.bloom_bits);
     crc32_add_pod<std::uint32_t>(header.crc32, payload.hash_count);
@@ -81,7 +82,6 @@ Result<BloomSection::Payload> BloomSection::Payload::load(ReadableFile& file, st
     //assert(static_cast<std::uint64_t>(file.tellg()) == offset);
 
     Payload result{};
-    std::uint64_t payload_size = 0;
     Status read_endian_result;
 
     read_endian_result = kvdb::blockio::read_u64_t_le(file, result.bloom_bits, offset, BLOCK_SIZE);
@@ -136,6 +136,13 @@ Result<BloomSection> BloomSection::load(ReadableFile& file, std::uint64_t& offse
     if (!payload_res.is_ok())
         return Result<BloomSection>::fail(std::move(payload_res.status));
     result.payload = std::move(payload_res.value);
+
+    if (result.payload.bloom_bits == 0 ||
+        result.payload.bloom_bits != result.payload.mask.size())
+        return Result<BloomSection>::fail(Status{
+            StatusCode::InvalidPayloadSize,
+            "Bloom section has an invalid bit-slot count"
+        });
 
     std::uint32_t must_be_crc32;
     result.calculate_crc32(must_be_crc32);
@@ -261,7 +268,7 @@ Status BloomSection::write(WritableFile& file, std::uint64_t& offset, std::uint6
 
 void BloomSection::add_key(const void* key_ptr, std::uint32_t key_size)
 {
-    if (!key_ptr || key_size == 0)
+    if (key_ptr == nullptr && key_size != 0)
         return;
 
     for (std::uint32_t i = 0; i < payload.hash_count; ++i) {
@@ -274,7 +281,8 @@ void BloomSection::add_key(const void* key_ptr, std::uint32_t key_size)
 }
 bool BloomSection::may_contain(const void* key_ptr, std::uint32_t key_size) const
 {
-    if (!key_ptr || !key_size) return false;
+    if (key_ptr == nullptr && key_size != 0) return false;
+    if (payload.bloom_bits == 0 || payload.mask.size() != payload.bloom_bits) return false;
 
     for (std::size_t i = 0; i < payload.hash_count; i++)
     {
@@ -290,14 +298,14 @@ bool BloomSection::may_contain(const void* key_ptr, std::uint32_t key_size) cons
 void BloomSection::recompute_crc32()
 {
     header.type = BlockType::Bloom;
-    header.payload_size = Payload::disk_size();
+    header.payload_size = static_cast<std::uint32_t>(Payload::disk_size());
     header.crc32 = ::crc32(0L, Z_NULL, 0);
 
     payload.calculate_crc32(header.crc32);
 }
 void BloomSection::rebuild(const DataSection& data_section)
 {
-    payload.bloom_bits = static_cast<std::uint32_t>(payload.mask.size());
+    payload.bloom_bits = payload.mask.size();
     payload.hash_count = BLOOM_HASH_COUNT;
     payload.key_count = 0;
     payload.mask.assign(payload.mask.size(), 0);
@@ -313,7 +321,17 @@ void BloomSection::rebuild(const DataSection& data_section)
     recompute_crc32();
 }
 
+std::size_t BloomSection::Header::disk_size()
+{
+    return sizeof(type) + sizeof(payload_size) + sizeof(crc32);
+}
+
+std::size_t BloomSection::Payload::disk_size()
+{
+    return sizeof(bloom_bits) + sizeof(hash_count) + sizeof(key_count) + BLOOM_MASK_BIT_SIZE;
+}
+
 std::size_t BloomSection::disk_size()
 {
-	return Header::disk_size() + Payload::disk_size();
+    return Header::disk_size() + Payload::disk_size();
 }

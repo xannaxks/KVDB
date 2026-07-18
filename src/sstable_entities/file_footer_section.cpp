@@ -1,4 +1,5 @@
 #include "sstable_entities/file_footer_section.h"
+#include <cassert>
 
 using namespace SSTableEntities;
 
@@ -85,8 +86,13 @@ Result<FileFooterSection> FileFooterSection::load(
 
         Status get_file_size_result = file.get_file_size(file_size);
 
-        if (!get_file_size_result.is_ok() or file_size == 0)
+        if (!get_file_size_result.is_ok())
             return Result<FileFooterSection>::fail(std::move(get_file_size_result));
+        if (file_size == 0)
+            return Result<FileFooterSection>::fail(Status{
+                StatusCode::UnexpectedEOF,
+                "Cannot load an SSTable footer from an empty file"
+            });
 
         if (file_size < file_footer_backwards_offset)
             return Result<FileFooterSection>::fail(
@@ -183,8 +189,13 @@ Result<FileFooterSection> FileFooterSection::load(
 
     Status get_file_size_result = file.get_file_size(actual_file_size);
 
-    if (!get_file_size_result.is_ok() || actual_file_size == 0)
+    if (!get_file_size_result.is_ok())
         return Result<FileFooterSection>::fail(std::move(get_file_size_result));
+    if (actual_file_size == 0)
+        return Result<FileFooterSection>::fail(Status{
+            StatusCode::UnexpectedEOF,
+            "SSTable file became empty while loading its footer"
+        });
 
     if (result.file_size != static_cast<std::uint64_t>(actual_file_size))
         return Result<FileFooterSection>::fail(
@@ -197,6 +208,30 @@ Result<FileFooterSection> FileFooterSection::load(
     read_endian_result = kvdb::blockio::read_u32_t_le(file, result.footer_crc32, offset, BLOCK_SIZE);
     if (!read_endian_result.is_ok())
         return Result<FileFooterSection>::fail(std::move(read_endian_result));
+
+    if (result.reserved != 0)
+        return Result<FileFooterSection>::fail(Status{
+            StatusCode::InvalidFooter,
+            "SSTable footer reserved field must be zero"
+        });
+
+    const auto aligned = [](std::uint64_t value) { return value % BLOCK_SIZE == 0; };
+    if ((result.data_block_count > 0 && !aligned(result.data_offset)) ||
+        !aligned(result.index_offset) ||
+        !aligned(result.bloom_offset) ||
+        !aligned(result.meta_offset))
+        return Result<FileFooterSection>::fail(Status{
+            StatusCode::InvalidSectionOffset,
+            "One or more SSTable section offsets are not block aligned"
+        });
+
+    if (result.index_offset > result.bloom_offset ||
+        result.bloom_offset > result.meta_offset ||
+        result.meta_offset > result.file_size)
+        return Result<FileFooterSection>::fail(Status{
+            StatusCode::OffsetOverlap,
+            "SSTable section offsets are not monotonically ordered"
+        });
 
     std::uint32_t must_be_footer_crc32;
     result.calculate_crc32(must_be_footer_crc32);

@@ -1,3 +1,5 @@
+#pragma once
+
 #include <cstdint>
 
 namespace SSTableEntities
@@ -7,7 +9,7 @@ namespace SSTableEntities
 	constexpr std::uint32_t SSTABLE_VERSION = 1;
 	constexpr std::uint32_t BLOCK_SIZE = 4096;
 	constexpr std::uint32_t BLOOM_HASH_COUNT = 2;
-	constexpr std::uint32_t BLOOM_MASK_BIT_SIZE = 128; // amount of bits in bloom mask
+	constexpr std::uint32_t BLOOM_MASK_BIT_SIZE = 128; // number of byte-addressed Bloom slots
 
 	struct FileHeaderSection;
 	struct DataSection;

@@ -6,17 +6,9 @@ Result<DataSectionView> DataSectionView::load(
     ReadableFile& file,
     std::uint64_t& offset,
     const std::uint64_t& first_data_block_offset,
-    std::uint32_t data_block_count
+    std::uint64_t data_block_count
 )
 {
-    if (first_data_block_offset == 0 && data_block_count > 0)
-        return Result<DataSectionView>::fail(
-            Status{
-                StatusCode::InvalidAlignment,
-                "First data block offset invalid"
-            }
-        );
-
     if (first_data_block_offset != 0)
     {
         if (first_data_block_offset % BLOCK_SIZE != 0)
@@ -30,9 +22,34 @@ Result<DataSectionView> DataSectionView::load(
         offset = first_data_block_offset;
     }
 
-    DataSectionView result{};
+    std::uint64_t file_size = 0;
+    Status size_status = file.get_file_size(file_size);
+    if (!size_status.is_ok())
+        return Result<DataSectionView>::fail(std::move(size_status));
 
-    result.data_blocks.reserve(data_block_count);
+    if (first_data_block_offset > file_size)
+        return Result<DataSectionView>::fail(Status{
+            StatusCode::OffsetOutOfRange,
+            "First data block offset is beyond the end of file"
+        });
+
+    const std::uint64_t remaining_bytes = file_size - first_data_block_offset;
+    const std::uint64_t available_blocks = remaining_bytes == 0
+        ? 0
+        : 1 + (remaining_bytes - 1) / BLOCK_SIZE;
+    if (data_block_count > available_blocks)
+        return Result<DataSectionView>::fail(Status{
+            StatusCode::InvalidSectionSize,
+            "Data block count exceeds the number of complete blocks in the file"
+        });
+    if (data_block_count > static_cast<std::uint64_t>(std::numeric_limits<std::size_t>::max()))
+        return Result<DataSectionView>::fail(Status{
+            StatusCode::InvalidSectionSize,
+            "Data block count cannot be represented by size_t"
+        });
+
+    DataSectionView result{};
+    result.data_blocks.reserve(static_cast<std::size_t>(data_block_count));
 
     while (data_block_count--)
     {
@@ -92,6 +109,11 @@ Result<DataSectionView::Header> DataSectionView::Header::load(ReadableFile& file
         );
 
     result.payload_offset = offset;
+    if (result.header_offset > std::numeric_limits<std::uint64_t>::max() - BLOCK_SIZE)
+        return Result<Header>::fail(Status{
+            StatusCode::OffsetOutOfRange,
+            "Data block next offset overflows uint64_t"
+        });
     result.next_block_offset = result.header_offset + BLOCK_SIZE;
 
     if (result.payload_offset + result.header.payload_disk_size > result.next_block_offset)

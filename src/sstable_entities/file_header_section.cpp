@@ -56,13 +56,9 @@ Result<FileHeaderSection> FileHeaderSection::load(ReadableFile& file, std::uint6
     FileHeaderSection result{};
     std::uint64_t file_header_offset = offset;
 
-    if (!kvdb::blockio::read_u32_t_le(file, result.magic, offset, BLOCK_SIZE).is_ok())
-        return Result<FileHeaderSection>::fail(
-            Status{
-                StatusCode::Corruption,
-                "Failed to read magic number"
-            }
-        );
+    Status magic_status = kvdb::blockio::read_u32_t_le(file, result.magic, offset, BLOCK_SIZE);
+    if (!magic_status.is_ok())
+        return Result<FileHeaderSection>::fail(std::move(magic_status));
     if (result.magic != FILE_HEADER_MAGIC)
         return Result<FileHeaderSection>::fail(
             Status{
@@ -157,7 +153,12 @@ std::size_t FileHeaderSection::disk_size()
 }
 
 
-FileHeaderSection::FileHeaderSection(std::uint32_t table_id)
+FileHeaderSection::FileHeaderSection() noexcept
+    : FileHeaderSection(0)
+{
+}
+
+FileHeaderSection::FileHeaderSection(std::uint32_t table_id) noexcept
     : magic(FILE_HEADER_MAGIC),
     version(SSTABLE_VERSION),
     flags(0),

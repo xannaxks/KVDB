@@ -1,3 +1,5 @@
+#pragma once
+
 #include "sstable_entities.h"
 #include "arena.h"
 #include "status.h"
@@ -9,6 +11,9 @@
 #include "sstable_entities/bloom_section.h"
 #include "sstable_entities/index_section.h"
 #include "sstable_entities/meta_section.h"
+#include <cstddef>
+#include <cstdint>
+#include <format>
 
 namespace SSTableEntities
 {

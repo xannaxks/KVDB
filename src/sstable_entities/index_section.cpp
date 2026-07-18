@@ -1,4 +1,5 @@
 #include "sstable_entities/index_section.h"
+#include <cassert>
 
 using namespace SSTableEntities;
 
@@ -73,6 +74,12 @@ Result<IndexSection::Header> IndexSection::Header::load(ReadableFile& file, uint
     if (!read_endian_result.is_ok())
         return Result<IndexSection::Header>::fail(std::move(read_endian_result));
 
+    if (result.payload_size > BLOCK_SIZE - Header::disk_size())
+        return Result<Header>::fail(Status{
+            StatusCode::InvalidPayloadSize,
+            "Index section payload exceeds its single-block capacity"
+        });
+
     read_endian_result = kvdb::blockio::read_u32_t_le(file, result.crc32, offset, BLOCK_SIZE);
     if (!read_endian_result.is_ok())
         return Result<IndexSection::Header>::fail(std::move(read_endian_result));
@@ -80,101 +87,132 @@ Result<IndexSection::Header> IndexSection::Header::load(ReadableFile& file, uint
     return Result<IndexSection::Header>::ok(std::move(result));
 }
 
-Result<IndexSection::Payload> IndexSection::Payload::load(ReadableFile& file, std::uint64_t& offset, Arena& arena)
+Result<IndexSection::Payload> IndexSection::Payload::load(
+    ReadableFile& file,
+    std::uint64_t& offset,
+    Arena& arena
+)
 {
-    Status ensure_fits_result = ensure_fits_in_block(file, IndexSection::Payload::fixed_disk_size(), offset, BLOCK_SIZE);
-
+    Status ensure_fits_result = ensure_fits_in_block(
+        file,
+        IndexSection::Payload::fixed_disk_size(),
+        offset,
+        BLOCK_SIZE
+    );
     if (!ensure_fits_result.is_ok())
-        return Result<IndexSection::Payload>::fail(std::move(ensure_fits_result));
+        return Result<Payload>::fail(std::move(ensure_fits_result));
 
-    IndexSection::Payload result{};
+    const Arena::Checkpoint checkpoint = arena.checkpoint();
+    Payload result{};
+    Status status;
 
-    Status read_endian_result;
+    status = kvdb::blockio::read_u64_t_le(
+        file,
+        result.data_block_offset,
+        offset,
+        BLOCK_SIZE
+    );
+    if (!status.is_ok())
+        return Result<Payload>::fail(std::move(status));
 
-    read_endian_result = std::move(kvdb::blockio::read_u64_t_le(file, result.data_block_offset, offset, BLOCK_SIZE));
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
+    if (result.data_block_offset % BLOCK_SIZE != 0)
+        return Result<Payload>::fail(Status{
+            StatusCode::InvalidSectionOffset,
+            "Index entry points to an unaligned data block"
+        });
 
-    read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.first_key_size, offset, BLOCK_SIZE));
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
+    status = kvdb::blockio::read_u32_t_le(
+        file,
+        result.first_key_size,
+        offset,
+        BLOCK_SIZE
+    );
+    if (!status.is_ok())
+        return Result<Payload>::fail(std::move(status));
 
-    read_endian_result = std::move(kvdb::blockio::read_u32_t_le(file, result.last_key_size, offset, BLOCK_SIZE));
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(std::move(read_endian_result));
+    status = kvdb::blockio::read_u32_t_le(
+        file,
+        result.last_key_size,
+        offset,
+        BLOCK_SIZE
+    );
+    if (!status.is_ok())
+        return Result<Payload>::fail(std::move(status));
 
-    if (result.first_key_size > BLOCK_SIZE)
-        return Result<Payload>::fail(
-            Status{
-                StatusCode::ChecksumMismatch,
-                "First key size exceeds block size"
-            }
-        );
+    const std::uint64_t key_bytes =
+        static_cast<std::uint64_t>(result.first_key_size) +
+        static_cast<std::uint64_t>(result.last_key_size);
+    if (key_bytes > BLOCK_SIZE - Payload::fixed_disk_size())
+        return Result<Payload>::fail(Status{
+            StatusCode::InvalidPayloadSize,
+            "Index entry keys exceed the remaining block capacity"
+        });
 
-    if (result.last_key_size > BLOCK_SIZE)
-        return Result<Payload>::fail(
-            Status{
-                StatusCode::ChecksumMismatch,
-                "Last key size exceeds block size"
-            }
-        );
-
-    ensure_fits_result = ensure_fits_in_block(file, result.first_key_size + result.last_key_size, offset, BLOCK_SIZE);
+    ensure_fits_result = ensure_fits_in_block(
+        file,
+        static_cast<std::size_t>(key_bytes),
+        offset,
+        BLOCK_SIZE
+    );
     if (!ensure_fits_result.is_ok())
-        return Result<IndexSection::Payload>::fail(std::move(ensure_fits_result));
+        return Result<Payload>::fail(std::move(ensure_fits_result));
 
-    Result<void*> arena_alloc_result;
-
-    arena_alloc_result = arena.alloc(result.first_key_size, alignof(std::byte));
-    if (!arena_alloc_result.is_ok())
-        return Result<Payload>::fail(std::move(arena_alloc_result.status));
-    void* first_key_ptr = arena_alloc_result.value;
-
-    arena_alloc_result = arena.alloc(result.last_key_size, alignof(std::byte));
-    if (!arena_alloc_result.is_ok())
-        return Result<Payload>::fail(std::move(arena_alloc_result.status));
-    void* last_key_ptr = arena_alloc_result.value;
-
-    if (result.first_key_size > 0 && first_key_ptr == nullptr)
-        return Result<Payload>::fail(
-            Status{
-                StatusCode::AllocationFailed,
-                "Failed to allocate memory for first key"
-            }
+    void* first_key_ptr = nullptr;
+    if (result.first_key_size > 0) {
+        Result<void*> allocation = arena.alloc(
+            result.first_key_size,
+            alignof(std::byte)
         );
-    if (result.last_key_size > 0 && last_key_ptr == nullptr)
-        return Result<Payload>::fail({
-            StatusCode::AllocationFailed,
-            "Failed to allocate memory for last key"
-            });
+        if (!allocation.is_ok()) {
+            arena.rollback(checkpoint);
+            return Result<Payload>::fail(std::move(allocation.status));
+        }
+        first_key_ptr = allocation.value;
+    }
 
-    read_endian_result = std::move(
-        kvdb::blockio::read_bytes(
+    void* last_key_ptr = nullptr;
+    if (result.last_key_size > 0) {
+        Result<void*> allocation = arena.alloc(
+            result.last_key_size,
+            alignof(std::byte)
+        );
+        if (!allocation.is_ok()) {
+            arena.rollback(checkpoint);
+            return Result<Payload>::fail(std::move(allocation.status));
+        }
+        last_key_ptr = allocation.value;
+    }
+
+    if (result.first_key_size > 0) {
+        status = kvdb::blockio::read_bytes(
             file,
             reinterpret_cast<std::byte*>(first_key_ptr),
             result.first_key_size,
             offset,
             BLOCK_SIZE
-        )
-    );
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(read_endian_result);
+        );
+        if (!status.is_ok()) {
+            arena.rollback(checkpoint);
+            return Result<Payload>::fail(std::move(status));
+        }
+    }
 
-    read_endian_result = std::move(
-        kvdb::blockio::read_bytes(
+    if (result.last_key_size > 0) {
+        status = kvdb::blockio::read_bytes(
             file,
             reinterpret_cast<std::byte*>(last_key_ptr),
             result.last_key_size,
             offset,
             BLOCK_SIZE
-        )
-    );
-    if (!read_endian_result.is_ok())
-        return Result<Payload>::fail(read_endian_result);
+        );
+        if (!status.is_ok()) {
+            arena.rollback(checkpoint);
+            return Result<Payload>::fail(std::move(status));
+        }
+    }
 
     result.first_key_ptr = first_key_ptr;
     result.last_key_ptr = last_key_ptr;
-
     return Result<Payload>::ok(std::move(result));
 }
 Result<IndexSection> IndexSection::load(
@@ -201,12 +239,7 @@ Result<IndexSection> IndexSection::load(
 
     auto header_res = IndexSection::Header::load(file, offset);
     if (!header_res.is_ok())
-        return Result<IndexSection>::fail(
-            Status{
-                StatusCode::InvalidAlignment,
-                "Failed to load index section header"
-            }
-        );
+        return Result<IndexSection>::fail(std::move(header_res.status));
     result.header = std::move(header_res.value);
 
     // payload
@@ -267,8 +300,10 @@ void IndexSection::Payload::append_crc32(std::uint32_t& crc_buffer)
     crc32_add_pod<std::uint32_t>(crc_buffer, this->first_key_size);
     crc32_add_pod<std::uint32_t>(crc_buffer, this->last_key_size);
 
-    compute_crc32(crc_buffer, this->first_key_ptr, this->first_key_size);
-    compute_crc32(crc_buffer, this->last_key_ptr, this->last_key_size);
+    if (this->first_key_size > 0)
+        compute_crc32(crc_buffer, this->first_key_ptr, this->first_key_size);
+    if (this->last_key_size > 0)
+        compute_crc32(crc_buffer, this->last_key_ptr, this->last_key_size);
 }
 void IndexSection::calculate_crc32(std::uint32_t& crc_buffer)
 {
@@ -344,6 +379,13 @@ Status IndexSection::Payload::write(WritableFile& file, std::uint64_t& offset)
         return std::move(get_position_result.status);
 
     assert(get_position_result.value == offset);
+
+    if (data_block_offset % BLOCK_SIZE != 0)
+        return Status{ StatusCode::InvalidSectionOffset, "Index entry data offset is not block aligned" };
+    if (first_key_size > 0 && first_key_ptr == nullptr)
+        return Status{ StatusCode::NullPointer, "Index first-key pointer is null" };
+    if (last_key_size > 0 && last_key_ptr == nullptr)
+        return Status{ StatusCode::NullPointer, "Index last-key pointer is null" };
 
     Status ensure_fits_result = ensure_fits_in_block(file, Payload::fixed_disk_size(), offset, BLOCK_SIZE);
     if (!ensure_fits_result.is_ok())

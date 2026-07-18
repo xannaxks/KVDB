@@ -59,7 +59,9 @@ Status SSTable::write()
     if (!write_result.is_ok())
         return write_result;
 
-    // Data write also fills index_block
+    // Data write also fills index_section. Rewriting an SSTable must not
+    // append duplicate index entries from an earlier write attempt.
+    index_section = IndexSection{};
     std::uint64_t data_offset = 0;
     write_result = data_section.write(*file_out, offset, this->index_section, data_offset);
     if (!write_result.is_ok())
@@ -123,6 +125,7 @@ Status SSTable::write()
 Result<SSTable> SSTable::load( std::filesystem::path& path, Arena& arena)
 {
     SSTable result(path);
+    const Arena::Checkpoint checkpoint = arena.checkpoint();
     std::uint64_t offset = 0ull;
 
 	Result<std::unique_ptr<ReadableFile>> readable_file_opt = open_readable_file(path);
@@ -152,15 +155,15 @@ Result<SSTable> SSTable::load( std::filesystem::path& path, Arena& arena)
     auto data_section_view = std::move(data_opt.value);
 
     auto index_opt = IndexSection::load(*file, offset, arena, file_footer_section.index_offset);
-    if (!index_opt.is_ok()) return Result<SSTable>::fail(std::move(index_opt.status));
+    if (!index_opt.is_ok()) arena.rollback(checkpoint); return Result<SSTable>::fail(std::move(index_opt.status));
     auto index_section = std::move(index_opt.value);
 
     auto bloom_opt = BloomSection::load(*file, offset, file_footer_section.bloom_offset);
-    if (!bloom_opt.is_ok()) return Result<SSTable>::fail(std::move(bloom_opt.status));
+    if (!bloom_opt.is_ok()) { arena.rollback(checkpoint); return Result<SSTable>::fail(std::move(bloom_opt.status)); }
     auto bloom_section = std::move(bloom_opt.value);
 
     auto meta_opt = MetaSection::load(*file, offset, index_section, arena, file_footer_section.meta_offset);
-    if (!meta_opt.is_ok()) return Result<SSTable>::fail(std::move(meta_opt.status));
+    if (!meta_opt.is_ok()) arena.rollback(checkpoint); return Result<SSTable>::fail(std::move(meta_opt.status));
     auto meta_section = std::move(meta_opt.value);
 
     result.file_header_section = std::move(file_header_section);
@@ -169,6 +172,7 @@ Result<SSTable> SSTable::load( std::filesystem::path& path, Arena& arena)
     result.bloom_section = std::move(bloom_section);
     result.meta_section = std::move(meta_section);
     result.file_footer_section = std::move(file_footer_section);
+    result.file_in = std::move(file);
 
     return Result<SSTable>::ok(std::move(result));
 }
@@ -235,16 +239,6 @@ const std::filesystem::path& SSTable::get_final_path() const
 {
     return this->final_path;
 } 
-
-const std::filesystem::path& SSTable::get_path() const
-{
-    return this->path;
-}
-
-const std::filesystem::path& SSTable::get_final_path() const
-{
-    return this->final_path;
-}
 
 Status SSTable::append_record(const InternalRecord& record)
 {

@@ -1,7 +1,12 @@
+#pragma once
+
 #include "status.h"
 #include "arena.h"
 //#include "sstable.h"
+#include <cstddef>
 #include <cstdint>
+#include <vector>
+#include <limits>
 #include "file.h"
 #include "file_helpers.h"
 #include "endian_io.h"
@@ -57,7 +62,7 @@ namespace SSTableEntities
 			ReadableFile& file,
 			std::uint64_t& offset,
 			const std::uint64_t& first_data_block_offset,
-			std::uint32_t data_block_count
+			std::uint64_t data_block_count
 		);
 
 		DataSectionView& operator=(DataSectionView& other) = default;

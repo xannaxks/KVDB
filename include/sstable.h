@@ -100,10 +100,6 @@ public:
 	const SSTableEntities::MetaSection& get_meta_section() const;
 	const SSTableEntities::FileFooterSection& get_file_footer_section() const;
 
-	const std::filesystem::path& get_path() const;
-
-	const std::filesystem::path& get_final_path() const;
-
 	Status append_record(const InternalRecord& record);
 
 	static std::size_t fixed_disk_size();

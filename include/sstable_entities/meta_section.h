@@ -1,3 +1,5 @@
+#pragma once
+
 #include "sstable_entities.h"
 #include "arena.h"
 #include "status.h"
@@ -5,6 +7,12 @@
 #include "file_helpers.h"
 #include "endian_io.h"
 #include "crc32_helpers.h"
+#include "sstable_entities/data_section.h"
+#include "sstable_entities/index_section.h"
+#include <cstddef>
+#include <cstdint>
+#include <limits>
+#include <format>
 
 namespace SSTableEntities
 {
@@ -16,9 +24,9 @@ namespace SSTableEntities
 			Header(Header& other) noexcept = default;
 			Header(Header&& other) noexcept = default;
 
-			BlockType type;
-			std::uint32_t payload_size;
-			std::uint32_t crc32;
+			BlockType type = BlockType::Meta;
+			std::uint32_t payload_size = 0;
+			std::uint32_t crc32 = 0;
 
 			Status write(WritableFile& file, std::uint64_t& offset);
 			static Result<Header> load(ReadableFile& file, std::uint64_t& offset);
@@ -35,19 +43,19 @@ namespace SSTableEntities
 			Payload(Payload& other) noexcept = default;
 			Payload(Payload&& other) noexcept = default;
 
-			std::uint64_t record_count;
-			std::uint64_t tombstone_count;
-			std::uint64_t min_seq_num;
-			std::uint64_t max_seq_num;
+			std::uint64_t record_count = 0;
+			std::uint64_t tombstone_count = 0;
+			std::uint64_t min_seq_num = 0;
+			std::uint64_t max_seq_num = 0;
 
-			std::uint32_t min_key_size;
-			std::uint32_t max_key_size;
+			std::uint32_t min_key_size = 0;
+			std::uint32_t max_key_size = 0;
 
-			std::uint64_t data_block_count;
-			std::uint64_t data_bytes;
+			std::uint64_t data_block_count = 0;
+			std::uint64_t data_bytes = 0;
 
-			void* max_key_ptr;
-			void* min_key_ptr;
+			void* max_key_ptr = nullptr;
+			void* min_key_ptr = nullptr;
 
 			Status write(WritableFile& file, std::uint64_t& offset);
 			static Result<Payload> load(ReadableFile& file, std::uint64_t& offset, Arena& arena, MetaSection::Header& header);
@@ -71,7 +79,7 @@ namespace SSTableEntities
 		std::size_t disk_size();
 		static std::size_t fixed_disk_size();
 
-		void rebuild(DataSection& data_section, IndexSection& index_section);
+		void rebuild(const DataSection& data_section, const IndexSection& index_section);
 
 		//void rebuild(DataSection& data_block, IndexSection& index_block);
 		Status write(WritableFile& file, std::uint64_t& offset, std::uint64_t& meta_offset);

@@ -1,8 +1,9 @@
 #include "sstable_entities/data_section.h"
+#include <cassert>
 
 using namespace SSTableEntities;
 
-bool DataSection::DataBlock::can_payload_fit(DataSection::Payload& payload)
+bool DataSection::DataBlock::can_payload_fit(const DataSection::Payload& payload) const
 {
     return this->disk_size() + payload.disk_size() <= BLOCK_SIZE;
 }
@@ -13,7 +14,7 @@ bool DataSection::DataBlock::can_payload_fit(DataSection::Payload& payload)
 
 void DataSection::init_new_block()
 {
-    data_blocks.emplace_back(DataSection::Header());
+    data_blocks.emplace_back();
 }
 
 
@@ -55,7 +56,7 @@ std::size_t DataSection::Payload::disk_size() const
 }
 
 
-DataSection::Payload::Payload(const InternalRecord& record)
+DataSection::Payload::Payload(const InternalRecord& record) noexcept
     : key_size(record.key_entry.size),
     value_size(record.value_entry.size),
     type(record.type),
@@ -95,7 +96,7 @@ std::size_t DataSection::DataBlock::disk_size() const
 
 
 
-DataSection::Header::Header()
+DataSection::Header::Header() noexcept
     : type(BlockType::Data), payload_disk_size(0), crc32(::crc32(0L, Z_NULL, 0))
 {
 }
@@ -132,6 +133,13 @@ Status DataSection::add_payload(const InternalRecord& record)
     payload.seq_num = record.seq_num;
     payload.key_ptr = record.key_entry.data;
     payload.value_ptr = record.value_entry.data;
+
+    if (payload.key_size > 0 && payload.key_ptr == nullptr)
+        return Status{ StatusCode::NullPointer, "Data record key pointer is null" };
+    if (payload.value_size > 0 && payload.value_ptr == nullptr)
+        return Status{ StatusCode::NullPointer, "Data record value pointer is null" };
+    if (payload.type != Type::Put && payload.type != Type::Tombstone)
+        return Status{ StatusCode::Corruption, "Data record type is invalid" };
 
     if (payload.disk_size() > BLOCK_SIZE - DataSection::Header::disk_size()) {
         return Status{
@@ -203,6 +211,11 @@ Status DataSection::Payload::write(WritableFile& file, std::uint64_t& offset)
 
     assert(get_position_result.value == offset);
     assert(offset / BLOCK_SIZE == (offset + this->disk_size() - 1) / BLOCK_SIZE);
+
+    if (key_size > 0 && key_ptr == nullptr)
+        return Status{ StatusCode::NullPointer, "Data payload key pointer is null" };
+    if (value_size > 0 && value_ptr == nullptr)
+        return Status{ StatusCode::NullPointer, "Data payload value pointer is null" };
 
     if (this->disk_size() > BLOCK_SIZE - Header::disk_size())
         return Status{
@@ -338,8 +351,10 @@ void DataSection::Payload::append_crc32(std::uint32_t& crc_buffer)
     crc32_add_pod<std::uint32_t>(crc_buffer, this->reserved);
     crc32_add_pod<std::uint64_t>(crc_buffer, this->seq_num);
 
-    compute_crc32(crc_buffer, this->key_ptr, this->key_size);
-    compute_crc32(crc_buffer, this->value_ptr, this->value_size);
+    if (this->key_size > 0)
+        compute_crc32(crc_buffer, this->key_ptr, this->key_size);
+    if (this->value_size > 0)
+        compute_crc32(crc_buffer, this->value_ptr, this->value_size);
 }
 void DataSection::Payload::calculate_crc32(std::uint32_t& crc_buffer)
 {
@@ -352,8 +367,10 @@ void DataSection::Payload::calculate_crc32(std::uint32_t& crc_buffer)
     crc32_add_pod<std::uint32_t>(crc_buffer, this->reserved);
     crc32_add_pod<std::uint64_t>(crc_buffer, this->seq_num);
 
-    compute_crc32(crc_buffer, this->key_ptr, this->key_size);
-    compute_crc32(crc_buffer, this->value_ptr, this->value_size);
+    if (this->key_size > 0)
+        compute_crc32(crc_buffer, this->key_ptr, this->key_size);
+    if (this->value_size > 0)
+        compute_crc32(crc_buffer, this->value_ptr, this->value_size);
 }
 void DataSection::DataBlock::calculate_crc32(std::uint32_t& crc_buffer)
 {

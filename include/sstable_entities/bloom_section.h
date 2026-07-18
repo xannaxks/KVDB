@@ -1,3 +1,5 @@
+#pragma once
+
 #include "sstable_entities.h"
 #include "arena.h"
 #include "status.h"
@@ -5,6 +7,9 @@
 #include "file_helpers.h"
 #include "endian_io.h"
 #include "crc32_helpers.h"
+#include <cstddef>
+#include <cstdint>
+#include <vector>
 
 namespace SSTableEntities
 {
@@ -16,9 +21,9 @@ namespace SSTableEntities
 			Header(Header& other) noexcept = default;
 			Header(Header&& other) noexcept = default;
 
-			BlockType type; // std::uint8_t
-			std::uint32_t payload_size;
-			std::uint32_t crc32;
+			BlockType type = BlockType::Bloom; // std::uint8_t
+			std::uint32_t payload_size = 0;
+			std::uint32_t crc32 = 0;
 
 			Status write(WritableFile& file, std::uint64_t& offset);
 			static Result<Header> load(ReadableFile& file, std::uint64_t& offset);
@@ -34,9 +39,9 @@ namespace SSTableEntities
 			Payload(Payload& other) noexcept = default;
 			Payload(Payload&& other) noexcept = default;
 
-			std::uint64_t bloom_bits;
-			std::uint32_t hash_count;
-			std::uint32_t key_count;
+			std::uint64_t bloom_bits = 0;
+			std::uint32_t hash_count = 0;
+			std::uint32_t key_count = 0;
 			std::vector<std::uint8_t> mask;
 
 			Status write(WritableFile& file, std::uint64_t& offset);
