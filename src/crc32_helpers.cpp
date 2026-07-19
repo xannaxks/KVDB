@@ -1,31 +1,63 @@
 #include "crc32_helpers.h"
 
-void compute_crc32(uint32_t& crc, const void* ptr, std::size_t size)
+#include <algorithm>
+#include <cassert>
+#include <limits>
+
+
+
+void compute_crc32(
+    std::uint32_t& crc,
+    const void* data,
+    std::size_t size
+) noexcept
 {
-    // TEMPORARY PLACEHOLDER.
-    // This is NOT real CRC32.
-    // It is only for keeping serialization/tests/build working
-    // until zlib or a real CRC32 implementation is added.
+    if (size == 0)
+        return;
 
-    if (ptr == nullptr || size == 0) return;
+    assert(data != nullptr);
 
-    const auto* bytes = static_cast<const std::byte*>(ptr);
+    if (data == nullptr)
+        return;
 
-    for (std::size_t i = 0; i < size; ++i)
+    const auto* current = static_cast<const Bytef*>(data);
+    uLong zlib_crc = static_cast<uLong>(crc);
+
+    /*
+        * zlib's crc32() accepts uInt for the length, while size_t can be larger.
+        * Process very large buffers in chunks.
+        */
+    while (size > 0)
     {
-        crc = crc * 31u + static_cast<uint32_t>(bytes[i]);
+        const std::size_t chunk_size = std::min(
+            size,
+            static_cast<std::size_t>(
+                std::numeric_limits<uInt>::max()
+                )
+        );
+
+        zlib_crc = ::crc32(
+            zlib_crc,
+            current,
+            static_cast<uInt>(chunk_size)
+        );
+
+        current += chunk_size;
+        size -= chunk_size;
     }
+
+    crc = static_cast<std::uint32_t>(zlib_crc);
 }
 
-inline uint32_t crc32_of(const void* ptr, std::size_t size)
+std::uint32_t crc32_of(
+    const void* data,
+    std::size_t size
+) noexcept
 {
-    uint32_t crc = 0;
-    crc = ::crc32(0L, Z_NULL, 0);
-    compute_crc32(crc, ptr, size);
+    auto crc = static_cast<std::uint32_t>(
+        ::crc32(0L, Z_NULL, 0)
+        );
+
+    compute_crc32(crc, data, size);
     return crc;
-}
-
-inline void compute_span_crc32(uint32_t& crc, const std::span<const std::byte>& value)
-{
-    compute_crc32(crc, value.data(), value.size());
 }
