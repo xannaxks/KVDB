@@ -6,7 +6,7 @@ namespace SSTableEntities
 {
 	constexpr std::uint32_t FILE_HEADER_MAGIC = 0x53535431; // SST1
 	constexpr std::uint32_t FILE_FOOTER_MAGIC = 0x46545231; // FTR1
-	constexpr std::uint32_t SSTABLE_VERSION = 1;
+	constexpr std::uint32_t LATEST_SSTABLE_VERSION = 1;
 	constexpr std::uint32_t BLOCK_SIZE = 4096;
 	constexpr std::uint32_t BLOOM_HASH_COUNT = 2;
 	constexpr std::uint32_t BLOOM_MASK_BIT_SIZE = 128; // number of byte-addressed Bloom slots

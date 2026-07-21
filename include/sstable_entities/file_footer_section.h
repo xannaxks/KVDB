@@ -1,66 +1,107 @@
 #pragma once
 
-#include "sstable_entities.h"
-#include "arena.h"
-#include "status.h"
-#include "file.h"
-#include "file_helpers.h"
-#include "endian_io.h"
-#include "crc32_helpers.h"
-#include "sstable_entities/data_section.h"
-#include "sstable_entities/bloom_section.h"
-#include "sstable_entities/index_section.h"
-#include "sstable_entities/meta_section.h"
 #include <cstddef>
 #include <cstdint>
-#include <format>
+
+#include "file.h"
+#include "sstable_entities.h"
+#include "status.h"
 
 namespace SSTableEntities
 {
-	struct FileFooterSection
-	{
-		FileFooterSection();
-		FileFooterSection(const FileFooterSection& other) noexcept = default;
-		FileFooterSection(FileFooterSection& other) noexcept = default;
-		FileFooterSection(FileFooterSection&& other) noexcept = default;
+    struct FileFooterSection
+    {
+        FileFooterSection() noexcept;
 
-		std::uint32_t magic;
-		std::uint32_t version;
-		std::uint32_t reserved;
+        FileFooterSection(const FileFooterSection&) noexcept = default;
+        FileFooterSection(FileFooterSection&&) noexcept = default;
+        FileFooterSection& operator=(const FileFooterSection&) noexcept = default;
+        FileFooterSection& operator=(FileFooterSection&&) noexcept = default;
 
-		std::uint64_t data_offset;
-		std::uint64_t data_block_count;
+        std::uint32_t magic = FILE_FOOTER_MAGIC;
+        std::uint32_t version = LATEST_SSTABLE_VERSION;
+        std::uint32_t reserved = 0;
 
-		std::uint64_t index_offset;
-		std::uint32_t index_size;
+        std::uint64_t data_offset = 0;
+        std::uint64_t data_block_count = 0;
 
-		std::uint64_t bloom_offset;
-		std::uint32_t bloom_size;
+        std::uint64_t index_offset = 0;
+        std::uint32_t index_size = 0;
 
-		std::uint64_t meta_offset;
-		std::uint32_t meta_size;
+        std::uint64_t bloom_offset = 0;
+        std::uint32_t bloom_size = 0;
 
-		std::uint64_t file_size;
-		std::uint32_t footer_crc32;
+        std::uint64_t meta_offset = 0;
+        std::uint32_t meta_size = 0;
 
-		static std::size_t disk_size();
+        std::uint64_t file_size = 0;
+        std::uint32_t footer_crc32 = 0;
 
-		void finalize(WritableFile& file, std::uint64_t offset);
-		static Result<FileFooterSection> load(ReadableFile& file, std::uint64_t& offset, std::uint64_t file_footer_backwards_offset);
-		void rebuild(IndexSection& index_block, std::uint64_t index_offset);
-		void rebuild(BloomSection& bloom_block, std::uint64_t bloom_offset);
-		void rebuild(MetaSection& meta_block, std::uint64_t meta_offset);
+        [[nodiscard]] static constexpr std::size_t disk_size() noexcept
+        {
+            // Stable version-1 encoded widths. Do not use sizeof(*this): the
+            // in-memory structure may contain padding.
+            return 3u * sizeof(std::uint32_t) +
+                2u * sizeof(std::uint64_t) +
+                sizeof(std::uint64_t) + sizeof(std::uint32_t) +
+                sizeof(std::uint64_t) + sizeof(std::uint32_t) +
+                sizeof(std::uint64_t) + sizeof(std::uint32_t) +
+                sizeof(std::uint64_t) +
+                sizeof(std::uint32_t);
+        }
 
-		Status write(WritableFile& file, std::uint64_t& offset);
-		//static Result<FileFooterSection> load(
-		//	ReadableFile& file,
-		//	std::uint64_t& offset,
-		//	std::uint64_t file_footer_backwards_offset = 0,
-		//);
+        // Validates a complete version-1 footer against its physical location
+        // and the actual file size. This includes CRC validation.
+        [[nodiscard]] Status validate(
+            std::uint64_t footer_offset,
+            std::uint64_t actual_file_size
+        ) const;
 
-		void calculate_crc32(std::uint32_t& crc_buffer);
+        // Rebuilds the derived footer fields transactionally. The writable file
+        // must currently end exactly at footer_offset.
+        [[nodiscard]] Status finalize(
+            WritableFile& file,
+            std::uint64_t footer_offset
+        );
 
-		FileFooterSection& operator=(FileFooterSection& other) = default;
-		FileFooterSection& operator=(FileFooterSection&& other) = default;
-	};
+        // On failure, offset remains unchanged. A nonzero backwards offset is
+        // measured from EOF. The default reads the fixed-size footer at EOF.
+        [[nodiscard]] static Result<FileFooterSection> load(
+            ReadableFile& file,
+            std::uint64_t& offset,
+            std::uint64_t file_footer_backwards_offset = disk_size()
+        );
+
+        [[nodiscard]] Status rebuild(
+            const DataSection& data_section,
+            std::uint64_t data_section_offset
+        );
+
+        [[nodiscard]] Status rebuild(
+            IndexSection& index_section,
+            std::uint64_t index_section_offset
+        );
+
+        [[nodiscard]] Status rebuild(
+            BloomSection& bloom_section,
+            std::uint64_t bloom_section_offset
+        );
+
+        [[nodiscard]] Status rebuild(
+            MetaSection& meta_section,
+            std::uint64_t meta_section_offset
+        );
+
+        // write() stages finalization and commits this object only after every
+        // footer byte has been written. Physical bytes and offset cannot be
+        // rolled back after an I/O failure.
+        [[nodiscard]] Status write(
+            WritableFile& file,
+            std::uint64_t& offset
+        );
+
+        void calculate_crc32(
+            std::uint32_t& crc_buffer
+        ) const noexcept;
+    };
 }

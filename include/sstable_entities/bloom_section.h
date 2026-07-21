@@ -1,82 +1,136 @@
 #pragma once
 
-#include "sstable_entities.h"
-#include "arena.h"
-#include "status.h"
-#include "file.h"
-#include "file_helpers.h"
-#include "endian_io.h"
-#include "crc32_helpers.h"
+#include <array>
 #include <cstddef>
 #include <cstdint>
-#include <vector>
+
+#include "sstable_entities.h"
+#include "status.h"
+#include "file.h"
 
 namespace SSTableEntities
 {
-	struct BloomSection
-	{
-		struct Header {
-			Header() = default;
-			Header(const Header& other) noexcept = default;
-			Header(Header& other) noexcept = default;
-			Header(Header&& other) noexcept = default;
+    struct BloomSection
+    {
+        struct Header
+        {
+            Header() = default;
+            Header(const Header&) = default;
+            Header(Header&&) noexcept = default;
+            Header& operator=(const Header&) = default;
+            Header& operator=(Header&&) noexcept = default;
 
-			BlockType type = BlockType::Bloom; // std::uint8_t
-			std::uint32_t payload_size = 0;
-			std::uint32_t crc32 = 0;
+            BlockType type = BlockType::Bloom;
+            std::uint32_t payload_size = 0;
+            std::uint32_t crc32 = 0;
 
-			Status write(WritableFile& file, std::uint64_t& offset);
-			static Result<Header> load(ReadableFile& file, std::uint64_t& offset);
+            [[nodiscard]] static constexpr std::size_t disk_size() noexcept
+            {
+                return sizeof(std::uint8_t) +
+                    sizeof(std::uint32_t) +
+                    sizeof(std::uint32_t);
+            }
 
-			static std::size_t disk_size();
+            [[nodiscard]] Status validate() const;
+            [[nodiscard]] Status write(
+                WritableFile& file,
+                std::uint64_t& offset
+            ) const;
 
-			Header& operator=(Header& other) = default;
-			Header& operator=(Header&& other) = default;
-		};
-		struct Payload {
-			Payload() = default;
-			Payload(const Payload& other) noexcept = default;
-			Payload(Payload& other) noexcept = default;
-			Payload(Payload&& other) noexcept = default;
+            [[nodiscard]] static Result<Header> load(
+                ReadableFile& file,
+                std::uint64_t& offset
+            );
+        };
 
-			std::uint64_t bloom_bits = 0;
-			std::uint32_t hash_count = 0;
-			std::uint32_t key_count = 0;
-			std::vector<std::uint8_t> mask;
+        struct Payload
+        {
+            Payload() = default;
+            Payload(const Payload&) = default;
+            Payload(Payload&&) noexcept = default;
+            Payload& operator=(const Payload&) = default;
+            Payload& operator=(Payload&&) noexcept = default;
 
-			Status write(WritableFile& file, std::uint64_t& offset);
-			static Result<Payload> load(ReadableFile& file, std::uint64_t& offset);
+            // Version-1 format semantics: bloom_bits is the number of
+            // byte-addressed Boolean slots, not the number of packed bits.
+            std::uint64_t bloom_bits = 0;
+            std::uint32_t hash_count = 0;
+            std::uint32_t key_count = 0;
+            std::array<std::uint8_t, BLOOM_MASK_BIT_SIZE> mask{};
 
-			static std::size_t disk_size();
+            [[nodiscard]] static constexpr std::size_t fixed_part_disk_size() noexcept
+            {
+                return sizeof(std::uint64_t) +
+                    sizeof(std::uint32_t) +
+                    sizeof(std::uint32_t);
+            }
 
-			void calculate_crc32(std::uint32_t& crc_buffer);
+            [[nodiscard]] static constexpr std::size_t disk_size() noexcept
+            {
+                return fixed_part_disk_size() + BLOOM_MASK_BIT_SIZE;
+            }
 
-			Payload& operator=(Payload& other) = default;
-			Payload& operator=(Payload&& other) = default;
-		};
-		BloomSection();
-		BloomSection(const BloomSection& other) noexcept = default;
-		BloomSection(BloomSection& other) noexcept = default;
-		BloomSection(BloomSection&& other) noexcept = default;
+            [[nodiscard]] Status validate() const;
+            [[nodiscard]] Status write(
+                WritableFile& file,
+                std::uint64_t& offset
+            ) const;
 
-		Header header;
-		Payload payload;
+            [[nodiscard]] static Result<Payload> load(
+                ReadableFile& file,
+                std::uint64_t& offset
+            );
 
-		static std::size_t disk_size();
+            void calculate_crc32(std::uint32_t& crc_buffer) const noexcept;
+        };
 
-		//void rebuild(DataSection& data_block);
-		Status write(WritableFile& file, std::uint64_t& offset, std::uint64_t& bloom_offset);
-		static Result<BloomSection> load(ReadableFile& file, std::uint64_t& offset, const std::uint64_t& bloom_offset);
+        BloomSection() noexcept;
+        BloomSection(const BloomSection&) noexcept = default;
+        BloomSection(BloomSection&&) noexcept = default;
+        BloomSection& operator=(const BloomSection&) = default;
+        BloomSection& operator=(BloomSection&&) noexcept = default;
 
-		void add_key(const void* key_ptr, std::uint32_t key_size);
-		void rebuild(const DataSection& data_section);
-		void recompute_crc32();
+        Header header;
+        Payload payload;
 
-		bool may_contain(const void* key_ptr, std::uint32_t key_size) const;
+        [[nodiscard]] static constexpr std::size_t disk_size() noexcept
+        {
+            return Header::disk_size() + Payload::disk_size();
+        }
 
-		void calculate_crc32(std::uint32_t& crc_buffer);
+        [[nodiscard]] Status validate() const;
 
-		BloomSection& operator=(BloomSection& other) = default;
-		BloomSection& operator=(BloomSection&& other) = default;
-	};
+        // On a physical write failure, already-written bytes and offset cannot
+        // be rolled back here. bloom_offset is committed only after success.
+        [[nodiscard]] Status write(
+            WritableFile& file,
+            std::uint64_t& offset,
+            std::uint64_t& bloom_offset
+        );
+
+        [[nodiscard]] static Result<BloomSection> load(
+            ReadableFile& file,
+            std::uint64_t& offset,
+            std::uint64_t bloom_offset
+        );
+
+        [[nodiscard]] Status add_key(
+            const void* key_ptr,
+            std::uint32_t key_size
+        );
+
+        // Rebuild is transactional with respect to the in-memory BloomSection.
+        [[nodiscard]] Status rebuild(const DataSection& data_section);
+        [[nodiscard]] Status recompute_crc32();
+
+        // A malformed filter must fail open: true means the caller must still
+        // check the SSTable. Returning false from invalid state could create a
+        // Bloom-filter false negative and hide a real key.
+        [[nodiscard]] bool may_contain(
+            const void* key_ptr,
+            std::uint32_t key_size
+        ) const noexcept;
+
+        void calculate_crc32(std::uint32_t& crc_buffer) const noexcept;
+    };
 }
