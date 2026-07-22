@@ -5,7 +5,6 @@
 #include <limits>
 
 
-
 void compute_crc32(
     std::uint32_t& crc,
     const void* data,

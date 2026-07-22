@@ -13,6 +13,13 @@
 
 #include "endian_io.h"
 
+inline void init_crc_buff(std::uint32_t& crc)
+{
+    static_cast<std::uint32_t>(
+        ::crc32(0L, Z_NULL, 0)
+        );
+}
+
 // Implemented in crc32_helpers.cpp.
 // This updates the numeric CRC state using exactly the supplied bytes.
 void compute_crc32(
