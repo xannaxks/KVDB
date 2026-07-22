@@ -1,109 +1,177 @@
 #include "compaction_scheduler.h"
+
 #include <algorithm>
-#include <cassert>
+#include <limits>
+#include <utility>
 
-bool CompactionScheduler::should_compact(const LevelManager& manager, const CompactionOptions& options) const
+namespace
 {
-	if (manager.levels(0).size() >= options.l0_file_count_trigger)
-		return true;
+    const std::vector<TableMeta>* tables_at(
+        const LevelManager& manager,
+        std::uint32_t level
+    ) noexcept
+    {
+        return manager.get_lx_tables(level);
+    }
 
-	for (std::size_t level = 1; level + 1 < options.max_levels; level++)
-	{
-		assert(options.max_bytes_per_level.size() > level);
-		if (manager.get_layer_size(level) > options.max_bytes_per_level[level])
-			return true;
-	}
+    std::uint64_t level_size_bytes(
+        const LevelManager& manager,
+        std::uint32_t level
+    ) noexcept
+    {
+        const auto* tables = tables_at(manager, level);
+        if (tables == nullptr) {
+            return 0;
+        }
 
-	return false;
-}
+        std::uint64_t total = 0;
+        for (const auto& table : *tables) {
+            if (table.file_size > std::numeric_limits<std::uint64_t>::max() - total) {
+                return std::numeric_limits<std::uint64_t>::max();
+            }
+            total += table.file_size;
+        }
+        return total;
+    }
 
-Result<std::optional<CompactionPlan>> pick_level_compaction(
-	const LevelManager& manager,
-	std::size_t level,
-	const CompactionOptions& options
-)
+    void widen_plan_range(CompactionPlan& plan, const TableMeta& table)
+    {
+        if (table.smallest_key < plan.smallest_key) {
+            plan.smallest_key = table.smallest_key;
+        }
+        if (plan.largest_key < table.largest_key) {
+            plan.largest_key = table.largest_key;
+        }
+    }
+
+    Result<std::optional<CompactionPlan>> pick_level_compaction(
+        const LevelManager& manager,
+        std::uint32_t level,
+        const CompactionOptions& options
+    )
+    {
+        const auto* source = tables_at(manager, level);
+        if (source == nullptr || source->empty()) {
+            return Result<std::optional<CompactionPlan>>::fail(
+                Status{
+                    StatusCode::InvalidState,
+                    "Compaction source level is missing or empty"
+                }
+            );
+        }
+
+        if (level + 1 >= options.max_levels) {
+            return Result<std::optional<CompactionPlan>>::fail(
+                Status{
+                    StatusCode::InvalidState,
+                    "Cannot compact the bottommost level"
+                }
+            );
+        }
+
+        CompactionPlan plan;
+        plan.source_level = level;
+        plan.target_level = level + 1;
+        plan.max_output_file_size =
+            options.target_file_size_per_level[plan.target_level];
+
+        if (level == 0) {
+            plan.reason = CompactionReason::L0ReachedLimit;
+            plan.source_tables = *source;
+        }
+        else {
+            plan.reason = CompactionReason::LxReachedLimit;
+
+            // Without a persisted compaction pointer, selecting the largest table
+            // is a better default than always selecting the rightmost key range.
+            const auto selected = std::max_element(
+                source->begin(),
+                source->end(),
+                [](const TableMeta& lhs, const TableMeta& rhs) {
+                    if (lhs.file_size != rhs.file_size) {
+                        return lhs.file_size < rhs.file_size;
+                    }
+                    return lhs.table_id > rhs.table_id;
+                }
+            );
+            plan.source_tables.push_back(*selected);
+        }
+
+        plan.smallest_key = plan.source_tables.front().smallest_key;
+        plan.largest_key = plan.source_tables.front().largest_key;
+
+        for (const auto& table : plan.source_tables) {
+            widen_plan_range(plan, table);
+        }
+
+        plan.overlapping_tables = manager.find_overlapping_tables(
+            plan.target_level,
+            plan.smallest_key,
+            plan.largest_key
+        );
+
+        for (const auto& table : plan.overlapping_tables) {
+            widen_plan_range(plan, table);
+        }
+
+        if (!plan.validate()) {
+            return Result<std::optional<CompactionPlan>>::fail(
+                Status{
+                    StatusCode::Corruption,
+                    "Scheduler produced an invalid compaction plan"
+                }
+            );
+        }
+
+        return Result<std::optional<CompactionPlan>>::ok(std::move(plan));
+    }
+} // namespace
+
+bool CompactionScheduler::should_compact(
+    const LevelManager& manager,
+    const CompactionOptions& options
+) const
 {
-	CompactionPlan plan;
+    if (!options.validate().is_ok()) {
+        return false;
+    }
 
-	plan.reason = CompactionReason::LxReachedLimit;
+    const auto* l0 = tables_at(manager, 0);
+    if (l0 != nullptr && l0->size() >= options.l0_file_count_trigger) {
+        return true;
+    }
 
-	if (level == 0)
-	{
-		if (manager.levels(0).empty())
-			return Result<std::optional<CompactionPlan>>::fail(
-				Status{
-					StatusCode::InvalidState,
-					"Tried to access empty 0 layer table meta"
-				}
-			);
+    for (std::uint32_t level = 1; level + 1 < options.max_levels; ++level) {
+        if (level_size_bytes(manager, level) > options.max_bytes_per_level[level]) {
+            return true;
+        }
+    }
 
-		plan.reason = CompactionReason::L0ReachedLimit;
-
-		plan.source_level = 0;
-		plan.target_level = 1;
-
-		assert(plan.target_level < options.target_file_size_per_level.size());
-		plan.max_output_file_size = options.target_file_size_per_level[plan.target_level];
-
-		const auto& tables = manager.levels(0);
-
-		plan.smallest_key = tables.front().smallest_key;
-		plan.largest_key = tables.front().largest_key;
-
-		for (const auto& table : tables) {
-			if (table.smallest_key < plan.smallest_key) {
-				plan.smallest_key = table.smallest_key;
-			}
-
-			if (plan.largest_key < table.largest_key) {
-				plan.largest_key = table.largest_key;
-			}
-
-			plan.source_tables.push_back(table);
-		}
-	}
-	else
-	{
-		if (manager.levels(level).empty())
-			return Result<std::optional<CompactionPlan>>::fail(
-				Status{
-					StatusCode::InvalidState,
-					"Tried to access empty levels meta table"
-				}
-			);
-
-		plan.reason = CompactionReason::LxReachedLimit;
-
-		plan.source_level = level;
-		plan.target_level = level + 1;
-
-		assert(plan.target_level < options.target_file_size_per_level.size());
-		plan.max_output_file_size = options.target_file_size_per_level[plan.target_level];
-
-		plan.source_tables.emplace_back(manager.levels(level).back());
-
-		plan.smallest_key = manager.levels(level).back().smallest_key;
-		plan.largest_key = manager.levels(level).back().largest_key;
-	}
-
-	plan.overlapping_tables = std::move(manager.find_overlapping_tables(plan.target_level, plan.smallest_key, plan.largest_key));
-
-	return Result<std::optional<CompactionPlan>>::ok(std::move(plan));
+    return false;
 }
 
 Result<std::optional<CompactionPlan>> CompactionScheduler::pick_compaction(
-	const LevelManager& manager,
-	const CompactionOptions& options)
+    const LevelManager& manager,
+    const CompactionOptions& options
+) const
 {
-	if (manager.levels(0).size() >= options.l0_file_count_trigger)
-		return pick_level_compaction(manager, 0, options);
+    Status options_status = options.validate();
+    if (!options_status.is_ok()) {
+        return Result<std::optional<CompactionPlan>>::fail(
+            std::move(options_status)
+        );
+    }
 
-	for (std::size_t level = 1; level + 1 < options.max_levels; level++)
-	{
-		assert(level < options.max_bytes_per_level.size());
-		if (manager.get_layer_size(level) > options.max_bytes_per_level[level])
-			return pick_level_compaction(manager, level, options);
-	}
+    const auto* l0 = tables_at(manager, 0);
+    if (l0 != nullptr && l0->size() >= options.l0_file_count_trigger) {
+        return pick_level_compaction(manager, 0, options);
+    }
 
-	return Result<std::optional<CompactionPlan>>::ok(std::nullopt);
+    for (std::uint32_t level = 1; level + 1 < options.max_levels; ++level) {
+        if (level_size_bytes(manager, level) > options.max_bytes_per_level[level]) {
+            return pick_level_compaction(manager, level, options);
+        }
+    }
+
+    return Result<std::optional<CompactionPlan>>::ok(std::nullopt);
 }

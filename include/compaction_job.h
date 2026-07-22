@@ -1,19 +1,20 @@
 #pragma once
-#include "compaction_plan.h"
-#include "status.h"
-#include "sstable_manager.h"
-#include "manifest.h"
-#include "level_manager.h"
-#include "engine.h"
+
+#include <optional>
+
 #include "arena.h"
+#include "compaction_plan.h"
+#include "manifest.h"
+#include "sstable_manager.h"
+#include "status.h"
 
 class CompactionJob
 {
 public:
-    Result<std::optional<VersionEdit>> run(
+    [[nodiscard]] Result<std::optional<VersionEdit>> run(
         const CompactionPlan& plan,
-        LevelManager& level_manager,
+        const Manifest& manifest,
         SSTableManager& sstable_manager,
         Arena& arena
-    );
+    ) const;
 };

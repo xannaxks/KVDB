@@ -1,32 +1,33 @@
 #pragma once
-#include "arena.h"
-#include "status.h"
+
+#include <cstddef>
 #include <cstdint>
+#include <vector>
+
+#include "arena.h"
 #include "table_meta.h"
 
 enum class CompactionReason : std::uint8_t
 {
-	Manual,
-	L0ReachedLimit,
-	LxReachedLimit,
+    Manual,
+    L0ReachedLimit,
+    LxReachedLimit,
 };
 
 struct CompactionPlan
 {
-	CompactionReason reason;
+    CompactionReason reason = CompactionReason::Manual;
 
-	std::size_t source_level;
-	std::size_t target_level;
+    std::uint32_t source_level = 0;
+    std::uint32_t target_level = 0;
 
-	std::vector<TableMeta> source_tables;
-	std::vector<TableMeta> overlapping_tables;
-	
-	ArenaEntry smallest_key;
-	ArenaEntry largest_key;
+    std::vector<TableMeta> source_tables;
+    std::vector<TableMeta> overlapping_tables;
 
-	std::size_t max_output_file_size = 4 * 1024 * 1024;
+    ArenaEntry smallest_key{};
+    ArenaEntry largest_key{};
 
-	bool validate();
+    std::uint64_t max_output_file_size = 4ull * 1024 * 1024;
 
-	bool validate() const;
+    [[nodiscard]] bool validate() const;
 };
