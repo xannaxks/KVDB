@@ -327,7 +327,8 @@ add_library(kvdb_crc32_helpers
 )
 
 target_include_directories(kvdb_crc32_helpers PUBLIC
-    include
+    include/
+    third_party/zlib/
 )
 
 target_link_libraries(kvdb_crc32_helpers PUBLIC
