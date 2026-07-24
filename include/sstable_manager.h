@@ -1,75 +1,72 @@
-#include "sstable_writer.h"
-#include "sstable_loader.h"
-#include "sstable_builder_options.h"
-#include <vector>
-#include "sstable_builder.h"
-#include "file.h"
-#include "status.h"
-#include "sstable_iterator.h"
-#include "table_meta.h"
+#pragma once
+
 #include "arena.h"
+#include "mem_table.h"
+#include "sstable.h"
+#include "sstable_builder.h"
+#include "sstable_iterator.h"
+#include "sstable_loader.h"
+#include "status.h"
+#include "table_meta.h"
+
+#include <cstdint>
+#include <filesystem>
 #include <memory>
+#include <optional>
+#include <unordered_map>
 
 class SSTableManager
 {
-private:
-	std::filesystem::path db_dir;
-
-	std::unordered_map<std::uint32_t, std::shared_ptr<SSTable>> pool;
-	
-	static std::filesystem::path make_table_path(
-		std::uint32_t table_id,
-		const std::filesystem::path& dir
-	);
-
-	static std::filesystem::path make_tmp_table_path(
-		std::uint32_t table_id,
-		const std::filesystem::path& dir
-	);
-
 public:
-	explicit SSTableManager(std::filesystem::path& db_dir);
-	explicit SSTableManager(std::filesystem::path&& db_dir);
+    explicit SSTableManager(std::filesystem::path db_dir);
 
-	Result<std::optional<SSTable>> build(
-		std::uint32_t table_id,
-		 MemTable& mem_table
-		//Arena& arena
-	);
+    [[nodiscard]] Result<std::optional<SSTable>> build(
+        std::uint32_t table_id,
+        MemTable& mem_table
+    );
 
-	Result<std::optional<SSTable>> build(
-		std::uint32_t table_id,
-		 SSTableIterator& iterator
-		//Arena& arena
-	);
+    [[nodiscard]] Result<std::optional<SSTable>> build(
+        std::uint32_t table_id,
+        SSTableIterator& iterator
+    );
 
-	Result<std::shared_ptr<SSTable>> open(
-		std::uint32_t table_id,
-		Arena& arena
-	);
+    [[nodiscard]] Result<std::shared_ptr<SSTable>> open(
+        std::uint32_t table_id,
+        Arena& arena
+    );
 
-	Result<std::shared_ptr<SSTable>> open(
-		 TableMeta& meta,
-		Arena& arena
-	);
+    [[nodiscard]] Result<std::shared_ptr<SSTable>> open(
+        const TableMeta& meta,
+        Arena& arena
+    );
 
-	Result<std::shared_ptr<SSTable>> open_impl(
-		std::uint32_t table_id,
-		 std::filesystem::path& path,
-		Arena& arena
-	);
+    [[nodiscard]] Status write(SSTable& sstable);
 
-	Result<std::shared_ptr<SSTable>> open_impl(
-		std::uint32_t table_id,
-		std::filesystem::path&& path,
-		Arena& arena
-	);
+    [[nodiscard]] Result<std::shared_ptr<SSTable>> get(
+        std::uint32_t table_id,
+        Arena& arena
+    );
 
-	Status write(SSTable& sstable);
+    [[nodiscard]] std::unique_ptr<SSTableStreamingBuilder>
+        create_streaming_builder(std::uint32_t table_id);
 
-	Result<std::shared_ptr<SSTable>> get(std::uint32_t table_id, Arena& arena);
+private:
+    std::filesystem::path db_dir;
+    std::unordered_map<std::uint32_t, std::shared_ptr<SSTable>> pool;
 
-	std::unique_ptr<SSTableStreamingBuilder> create_streaming_builder(
-		std::uint32_t table_id
-	);
+    [[nodiscard]] static std::filesystem::path make_table_path(
+        std::uint32_t table_id,
+        const std::filesystem::path& dir
+    );
+
+    [[nodiscard]] static std::filesystem::path make_tmp_table_path(
+        std::uint32_t table_id,
+        const std::filesystem::path& dir
+    );
+
+    [[nodiscard]] Result<std::shared_ptr<SSTable>> open_impl(
+        std::uint32_t table_id,
+        const std::filesystem::path& path,
+        Arena& arena
+    );
 };

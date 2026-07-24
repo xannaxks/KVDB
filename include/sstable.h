@@ -67,7 +67,8 @@ public:
     }
 
     explicit SSTable(std::filesystem::path existing_path)
-        : path(std::move(existing_path)),
+        : path(existing_path),
+        final_path(std::move(existing_path)),
         state(State::Loaded)
     {
     }
@@ -135,7 +136,7 @@ public:
 
     [[nodiscard]] Status append_record(const InternalRecord& record);
 
-    static std::size_t fixed_disk_size();
+    [[nodiscard]] static std::size_t fixed_disk_size() noexcept;
 
     [[nodiscard]] Result<std::optional<InternalRecord>> get(
         const ArenaEntry& key,

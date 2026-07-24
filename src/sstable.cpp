@@ -621,7 +621,7 @@ Status SSTable::append_record(
     return data_section.add_payload(record);
 }
 
-std::size_t SSTable::fixed_disk_size()
+std::size_t SSTable::fixed_disk_size() noexcept
 {
     return FileHeaderSection::disk_size() +
         MetaSection::fixed_disk_size() +

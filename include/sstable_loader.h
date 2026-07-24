@@ -1,13 +1,18 @@
-#include "status.h"
-#include "sstable.h"
-#include <filesystem>
+#pragma once
+
 #include "arena.h"
-#include "sstable_entities.h"
+#include "sstable.h"
+#include "status.h"
+
+#include <filesystem>
 
 class SSTableLoader
 {
 public:
-	SSTableLoader() noexcept = default;
+    SSTableLoader() noexcept = default;
 
-	static Result<SSTable> load( std::filesystem::path& path, Arena& arena);
+    [[nodiscard]] static Result<SSTable> load(
+        const std::filesystem::path& path,
+        Arena& arena
+    );
 };
