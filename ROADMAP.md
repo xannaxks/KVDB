@@ -29,20 +29,20 @@ KVDB is still experimental and not production-ready.
 - [x] SSTable writer
 - [x] SSTable reader
 - [x] Basic manifest/version edit format
-- [ ] Stable `put(key, value)` API
-- [ ] Stable `get(key)` API
-- [ ] Delete/tombstone support in read path
+- [x] Stable `put(key, value)` API
+- [x] Stable `get(key)` API
+- [x] Delete/tombstone support in read path
 
 ## Phase 2: LSM Tree Behavior
 
 - [x] Flush MemTable to SSTable
 - [x] Level manager integration
-- [ ] Compaction picker
-- [ ] Minor compaction
-- [ ] Major compaction
-- [ ] Overlap detection between levels
-- [ ] Manifest recovery
-- [ ] Crash recovery from WAL + manifest
+- [x] Compaction picker
+- [x] Minor compaction
+- [x] Major compaction
+- [x] Overlap detection between levels
+- [x] Manifest recovery
+- [x] Crash recovery from WAL + manifest
 
 ## Phase 3: Testing and Reliability
 
@@ -56,44 +56,44 @@ KVDB is still experimental and not production-ready.
 
 ### WAL
 
-- [ ] Unit tests
+- [x] Unit tests
 - [ ] Integration tests
-- [ ] Corruption tests
+- [x] Corruption tests
 - [ ] Crash-safety tests
-- [ ] Partial-write tests
+- [x] Partial-write tests
 
 ### Manifest
 
-- [ ] Unit tests
+- [x] Unit tests
 - [ ] Integration tests
-- [ ] Corruption tests
+- [x] Corruption tests
 - [ ] Crash-safety tests
 
 ### SSTable
 
-- [ ] Unit tests
+- [x] Unit tests
 - [ ] Integration tests
-- [ ] Corruption tests
+- [x] Corruption tests
 - [ ] Fuzz tests
 
 ### File Layer
 
-- [ ] Unit tests
-- [ ] Integration tests
+- [x] Unit tests
+- [x] Integration tests
 
 ### Helpers
 
 - [ ] Unit tests:
 	- [x] Little Endian helpers 
-	- [ ] File helpers
-	- [ ] Arena helpers
-	- [ ] CRC helpers
+	- [x] File helpers
+	- [x] Arena helpers
+	- [x] CRC helpers
 	
 - [ ] Integration tests:
 	- [x] Little Endian helpers 
-	- [ ] File helpers
-	- [ ] Arena helpers
-	- [ ] CRC helpers
+	- [x] File helpers
+	- [x] Arena helpers
+	- [x] CRC helpers
 
 ## Phase 4: Benchmarking
 

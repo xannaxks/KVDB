@@ -28,8 +28,8 @@ Current / planned components:
 * [x] Table metadata
 * [x] Level manager
 * [x] Manifest / version edits
-* [ ] Point lookup API
-* [ ] Compaction
+* [x] Point lookup API
+* [x] Compaction
 * [x] Bloom filter integration
 * [ ] Background compaction
 * [ ] Benchmarks
@@ -148,21 +148,21 @@ kvdb/
 
 Requirements:
 
-* C++20 compatible compiler
+* C++23 compatible compiler
 * CMake
 * GoogleTest
 
 Build:
 
 ```bash
-cmake -S . -B build
-cmake --build build
+cmake -S . -B out/build
+cmake --build out/build
 ```
 
 Run tests:
 
 ```bash
-ctest --test-dir build
+ctest --test-dir out/build
 ```
 
 ---
@@ -174,17 +174,109 @@ Basic usage example:
 ```cpp
 #include "kvdb.h"
 
-int main()
+#include <filesystem>
+#include <iostream>
+#include <string>
+
+namespace
 {
-    KVDB db;
-
-    db.open("data");
-
-    db.put("name", "kvdb");
-    auto value = db.get("name");
-
-    db.close();
+    void print_status(const Status& status)
+    {
+        if (status.is_ok()) {
+            std::cout << "OK\n";
+            return;
+        }
+        std::cout << "ERROR " << static_cast<unsigned>(status.code);
+        if (!status.message.empty()) {
+            std::cout << ": " << status.message;
+        }
+        std::cout << '\n';
+    }
 }
+
+int main(int argc, char** argv)
+{
+    DBOptions options;
+    options.db_path = argc > 1
+        ? std::filesystem::path(argv[1])
+        : std::filesystem::path("kvdb-data");
+
+    Result<std::unique_ptr<KVDB>> opened = KVDB::open(options);
+    if (!opened.is_ok()) {
+        print_status(opened.status);
+        return 1;
+    }
+
+    std::unique_ptr<KVDB> database = std::move(opened.value);
+    std::string command;
+
+    while (std::cin >> command) {
+        if (command == "exit" || command == ".exit") {
+            break;
+        }
+        if (command == "flush") {
+            print_status(database->flush());
+            continue;
+        }
+        if (command == "put") {
+            std::string key;
+            std::string value;
+            if (!(std::cin >> key >> value)) {
+                std::cerr << "put requires: put <key> <value>\n";
+                return 2;
+            }
+            print_status(database->put(key, value));
+            continue;
+        }
+        if (command == "get") {
+            std::string key;
+            if (!(std::cin >> key)) {
+                std::cerr << "get requires: get <key>\n";
+                return 2;
+            }
+            auto result = database->get(key);
+            if (!result.is_ok()) {
+                print_status(result.status);
+            }
+            else if (!result.value.has_value()) {
+                std::cout << "NOT_FOUND\n";
+            }
+            else {
+                std::cout << *result.value << '\n';
+            }
+            continue;
+        }
+        if (command == "delete" || command == "remove") {
+            std::string key;
+            if (!(std::cin >> key)) {
+                std::cerr << "delete requires: delete <key>\n";
+                return 2;
+            }
+            print_status(database->remove(key));
+            continue;
+        }
+        if (command == "compact") {
+            std::string begin;
+            std::string end;
+            if (!(std::cin >> begin >> end)) {
+                std::cerr << "compact requires: compact <begin> <end>\n";
+                return 2;
+            }
+            print_status(database->compact_range(begin, end));
+            continue;
+        }
+
+        std::cout << "ERROR: unknown command\n";
+    }
+
+    const Status close_status = database->close();
+    if (!close_status.is_ok()) {
+        print_status(close_status);
+        return 1;
+    }
+    return 0;
+}
+
 ```
 
 > The public API is still unstable and may change during development.
