@@ -11,16 +11,14 @@
 #ifndef _MURMURHASH3_H_
 #define _MURMURHASH3_H_
 
+#include <cstdint>
+
 //-----------------------------------------------------------------------------
 // Platform-specific functions and macros
 
 // Microsoft Visual Studio
 
 #if defined(_MSC_VER)
-
-typedef unsigned char uint8_t;
-typedef unsigned long uint32_t;
-typedef unsigned __int64 uint64_t;
 
 #define FORCE_INLINE	__forceinline
 
@@ -34,8 +32,6 @@ typedef unsigned __int64 uint64_t;
 // Other compilers
 
 #else	// defined(_MSC_VER)
-
-#include <stdint.h>
 
 #define	FORCE_INLINE __attribute__((always_inline))
 
