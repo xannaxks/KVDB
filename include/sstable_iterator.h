@@ -1,3 +1,5 @@
+#pragma once
+
 #include "arena.h"
 #include "status.h"
 #include "sstable.h"
