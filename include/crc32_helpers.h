@@ -2,7 +2,7 @@
 #define NOMINMAX
 
 #include <array>
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include <cassert>
 #include <concepts>
 #include <cstddef>
@@ -16,7 +16,7 @@
 
 inline void init_crc_buff(std::uint32_t& crc)
 {
-    static_cast<std::uint32_t>(
+    crc = static_cast<std::uint32_t>(
         ::crc32(0L, Z_NULL, 0)
         );
 }
