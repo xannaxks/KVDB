@@ -550,7 +550,7 @@ TEST(SSTableLoadTest, WrittenTableCanBeLoaded)
 
     auto load_result = SSTable::load(final_path, arena);
 
-    ASSERT_TRUE(load_result.is_ok());
+    ASSERT_TRUE(load_result.is_ok()) << load_result.status.message;
 
     SSTable loaded_table =
         std::move(load_result.value);
