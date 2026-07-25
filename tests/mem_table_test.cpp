@@ -42,7 +42,7 @@ namespace
         }
 
         static void expect_record(
-            const Result<InternalRecord>& result,
+            const Result<std::optional<InternalRecord>>& result,
             const std::string& expected_key,
             const std::string& expected_value,
             Type expected_type,
@@ -50,10 +50,11 @@ namespace
         )
         {
             ASSERT_TRUE(result.is_ok()) << result.status.message;
-            EXPECT_EQ(to_string(result.value.key_entry), expected_key);
-            EXPECT_EQ(to_string(result.value.value_entry), expected_value);
-            EXPECT_EQ(result.value.type, expected_type);
-            EXPECT_EQ(result.value.seq_num, expected_sequence);
+            ASSERT_TRUE(result.value.has_value());
+            EXPECT_EQ(to_string(result.value->key_entry), expected_key);
+            EXPECT_EQ(to_string(result.value->value_entry), expected_value);
+            EXPECT_EQ(result.value->type, expected_type);
+            EXPECT_EQ(result.value->seq_num, expected_sequence);
         }
     };
 
@@ -61,10 +62,10 @@ namespace
     {
         const ArenaEntry key = make_entry("missing");
 
-        const Result<InternalRecord> result = table_.get(key);
+        const Result<std::optional<InternalRecord>> result = table_.get(key);
 
-        ASSERT_FALSE(result.is_ok());
-        EXPECT_EQ(result.status.code, StatusCode::NotFound);
+        ASSERT_TRUE(result.is_ok()) << result.status.message;
+        EXPECT_FALSE(result.value.has_value());
         EXPECT_FALSE(table_.has_immutable());
         EXPECT_EQ(table_.immutable_count(), 0u);
         EXPECT_EQ(table_.mutable_memory_usage(), 0u);
@@ -299,12 +300,13 @@ namespace
         ASSERT_TRUE(table_.retire_oldest_immutable(snapshot.value.generation_id));
         EXPECT_FALSE(table_.has_immutable());
 
-        const Result<InternalRecord> result =
+        const Result<std::optional<InternalRecord>> result =
             snapshot.value.table->find_latest_by_key(key);
 
         ASSERT_TRUE(result.is_ok()) << result.status.message;
-        EXPECT_EQ(to_string(result.value.value_entry), "snapshot-value");
-        EXPECT_EQ(result.value.seq_num, 1u);
+        ASSERT_TRUE(result.value.has_value());
+        EXPECT_EQ(to_string(result.value->value_entry), "snapshot-value");
+        EXPECT_EQ(result.value->seq_num, 1u);
     }
 
     TEST_F(MemTableTest, RetiringGenerationRemovesItsRecordsFromMemTableReads)
@@ -320,9 +322,9 @@ namespace
         ASSERT_TRUE(snapshot.is_ok());
         ASSERT_TRUE(table_.retire_oldest_immutable(snapshot.value.generation_id));
 
-        const Result<InternalRecord> result = table_.get(key);
-        ASSERT_FALSE(result.is_ok());
-        EXPECT_EQ(result.status.code, StatusCode::NotFound);
+        const Result<std::optional<InternalRecord>> result = table_.get(key);
+        ASSERT_TRUE(result.is_ok()) << result.status.message;
+        EXPECT_FALSE(result.value.has_value());
     }
 
     TEST_F(MemTableTest, DumpOldestImmutableReplacesOutputAndUsesTreeOrdering)
@@ -435,9 +437,9 @@ namespace
 
         ASSERT_TRUE(table_.put(key, value, 1).is_ok());
 
-        //std::atomic<bool> start{ false };
-        //std::atomic<bool> writer_done{ false };
-        //std::atomic<bool> failed{ false };
+        std::atomic<bool> start{ false };
+        std::atomic<bool> writer_done{ false };
+        std::atomic<bool> failed{ false };
         std::vector<std::thread> readers;
         readers.reserve(reader_count);
 
@@ -450,11 +452,13 @@ namespace
 
                     while (!writer_done.load(std::memory_order_acquire))
                     {
-                        const Result<InternalRecord> result = table_.get(key);
+                        const Result<std::optional<InternalRecord>> result =
+                            table_.get(key);
                         if (!result.is_ok() ||
-                            result.value.type != Type::Put ||
-                            result.value.seq_num == 0 ||
-                            result.value.seq_num > final_sequence)
+                            !result.value.has_value() ||
+                            result.value->type != Type::Put ||
+                            result.value->seq_num == 0 ||
+                            result.value->seq_num > final_sequence)
                         {
                             failed.store(true, std::memory_order_release);
                             return;
