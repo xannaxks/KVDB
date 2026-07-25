@@ -79,7 +79,17 @@ Result<std::optional<SSTable>> SSTableBuilder::build(
 )
 {
     std::vector<InternalRecord> records;
-    mem_table.dump_oldest_immutable(records);
+    std::uint64_t generation_id = 0;
+    Status status = mem_table.dump_oldest_immutable(
+        records,
+        generation_id
+    );
+    if (!status.is_ok()) {
+        if (status.code == StatusCode::NotFound) {
+            return Result<std::optional<SSTable>>::ok(std::nullopt);
+        }
+        return Result<std::optional<SSTable>>::fail(std::move(status));
+    }
 
     return build_impl(table_id, records, path, final_path);
 }
@@ -127,10 +137,6 @@ Result<std::optional<SSTable>> SSTableBuilder::build_impl(
     const std::filesystem::path& final_path
 )
 {
-    // table_id is encoded by SSTableManager into path/final_path. Keep the
-    // parameter for API compatibility until/if the on-disk header stores it.
-    (void)table_id;
-
     if (records.empty()) {
         return Result<std::optional<SSTable>>::ok(std::nullopt);
     }
@@ -140,7 +146,7 @@ Result<std::optional<SSTable>> SSTableBuilder::build_impl(
         return Result<std::optional<SSTable>>::fail(std::move(validation));
     }
 
-    SSTable sstable(path, final_path);
+    SSTable sstable(path, final_path, table_id);
 
     for (const auto& record : records) {
         Status status = sstable.append_record(record);
@@ -215,9 +221,10 @@ std::uint64_t SSTableBuilder::approximate_disk_space(
 
 SSTableStreamingBuilder::SSTableStreamingBuilder(
     std::filesystem::path path,
-    std::filesystem::path final_path
+    std::filesystem::path final_path,
+    std::uint32_t table_id
 )
-    : sstable(std::move(path), std::move(final_path))
+    : sstable(std::move(path), std::move(final_path), table_id)
 {
 }
 
