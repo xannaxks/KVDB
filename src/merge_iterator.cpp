@@ -1,5 +1,7 @@
 #include "merge_iterator.h"
 
+MergeIterator::MergeIterator() noexcept = default;
+
 Status MergeIterator::build(std::vector<SSTableIterator>& data) // data should outlive merge iterator
 {
     inputs_ = &data;
