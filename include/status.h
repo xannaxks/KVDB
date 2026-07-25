@@ -90,6 +90,11 @@ struct Status {
     std::string message;
 
     static Status ok();
+    static Status invalid_argument(std::string message)
+    {
+        return Status{ StatusCode::InvalidArgument, std::move(message) };
+    }
+
     bool is_ok() const;
 
     Status& operator=(const Status&) = default;
