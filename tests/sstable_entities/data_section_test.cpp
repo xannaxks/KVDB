@@ -385,13 +385,13 @@ TEST(DataSectionTest, RejectsManuallyInsertedEmptyBlockBeforeIO)
 
     std::string sentinel_key = "x";
     IndexSection index;
-    index.add_index(
-        777,
+    ASSERT_TRUE(index.add_index(
+        0,
         1,
         1,
         sentinel_key.data(),
         sentinel_key.data()
-    );
+    ).is_ok());
 
     MemoryWritableFile file;
     std::uint64_t offset = 0;
@@ -404,7 +404,7 @@ TEST(DataSectionTest, RejectsManuallyInsertedEmptyBlockBeforeIO)
     EXPECT_EQ(offset, 0u);
     EXPECT_EQ(data_offset, 123u);
     ASSERT_EQ(index.payloads.size(), 1u);
-    EXPECT_EQ(index.payloads.front().data_block_offset, 777u);
+    EXPECT_EQ(index.payloads.front().data_block_offset, 0u);
     EXPECT_TRUE(file.bytes().empty());
 }
 
@@ -434,13 +434,13 @@ TEST(DataSectionTest, FailedWritePreservesCallerDerivedMetadata)
 
     std::string sentinel_key = "s";
     IndexSection index;
-    index.add_index(
-        987,
+    ASSERT_TRUE(index.add_index(
+        0,
         1,
         1,
         sentinel_key.data(),
         sentinel_key.data()
-    );
+    ).is_ok());
 
     MemoryWritableFile file(0, 20);
     std::uint64_t offset = 0;
@@ -452,7 +452,7 @@ TEST(DataSectionTest, FailedWritePreservesCallerDerivedMetadata)
     EXPECT_EQ(status.code, StatusCode::WriteFailed);
     EXPECT_EQ(data_offset, 321u);
     ASSERT_EQ(index.payloads.size(), 1u);
-    EXPECT_EQ(index.payloads.front().data_block_offset, 987u);
+    EXPECT_EQ(index.payloads.front().data_block_offset, 0u);
 
     // Physical output and the tracked physical offset are intentionally not
     // rolled back by this layer.
@@ -464,13 +464,13 @@ TEST(DataSectionTest, EmptySectionIsNoOpAndClearsDerivedIndex)
     DataSection data;
     std::string sentinel_key = "s";
     IndexSection index;
-    index.add_index(
-        42,
+    ASSERT_TRUE(index.add_index(
+        0,
         1,
         1,
         sentinel_key.data(),
         sentinel_key.data()
-    );
+    ).is_ok());
 
     MemoryWritableFile file(24);
     std::uint64_t offset = 24;
