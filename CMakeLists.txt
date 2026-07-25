@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(kvdb VERSION 0.1.0 LANGUAGES CXX)
+project(kvdb VERSION 0.1.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -202,6 +202,7 @@ endfunction()
 function(kvdb_add_component component_name)
     set(options
         PRIVATE_ZLIB_DEP
+        PUBLIC_ZLIB_DEP
     )
     set(one_value_args)
     set(multi_value_args
@@ -276,12 +277,14 @@ function(kvdb_add_component component_name)
     endif()
 
     if(KVDB_COMPONENT_PRIVATE_ZLIB_DEP)
-        target_link_directories("${target_name}" PRIVATE
-            "${PROJECT_SOURCE_DIR}/third_party/zlib"
-        )
-
         target_link_libraries("${target_name}" PRIVATE
-            zlib
+            kvdb_zlib
+        )
+    endif()
+
+    if(KVDB_COMPONENT_PUBLIC_ZLIB_DEP)
+        target_link_libraries("${target_name}" PUBLIC
+            kvdb_zlib
         )
     endif()
 
@@ -294,6 +297,34 @@ endfunction()
 # Dependencies
 # ==============================================================================
 
+add_library(kvdb_zlib STATIC
+    third_party/zlib/adler32.c
+    third_party/zlib/compress.c
+    third_party/zlib/crc32.c
+    third_party/zlib/deflate.c
+    third_party/zlib/gzclose.c
+    third_party/zlib/gzlib.c
+    third_party/zlib/gzread.c
+    third_party/zlib/gzwrite.c
+    third_party/zlib/infback.c
+    third_party/zlib/inffast.c
+    third_party/zlib/inflate.c
+    third_party/zlib/inftrees.c
+    third_party/zlib/trees.c
+    third_party/zlib/uncompr.c
+    third_party/zlib/zutil.c
+)
+
+target_include_directories(kvdb_zlib PUBLIC
+    "${PROJECT_SOURCE_DIR}/third_party/zlib"
+)
+
+set_target_properties(kvdb_zlib PROPERTIES
+    C_STANDARD 90
+    C_STANDARD_REQUIRED ON
+    C_EXTENSIONS ON
+)
+
 
 # ==============================================================================
 # Components
@@ -302,6 +333,18 @@ endfunction()
 kvdb_add_component(status
     SOURCES
         src/status.cpp
+)
+
+kvdb_add_component(db_options
+    SOURCES
+        src/db_options.cpp
+    PUBLIC_DEPS
+        kvdb_status
+)
+
+kvdb_add_component(murmur_hash
+    SOURCES
+        src/MurmurHash3.cpp
 )
 
 kvdb_add_component(arena
@@ -338,7 +381,7 @@ kvdb_add_component(crc32_helpers
     PUBLIC_DEPS
         kvdb_endian_io
         kvdb_status
-    PRIVATE_ZLIB_DEP
+    PUBLIC_ZLIB_DEP
 )
 
 kvdb_add_component(record
@@ -447,6 +490,7 @@ kvdb_add_component(sstable
         kvdb_endian_io
         kvdb_record
         kvdb_status
+        kvdb_murmur_hash
         kvdb_file_header_section
         kvdb_data_section
         kvdb_data_section_view
@@ -561,6 +605,20 @@ kvdb_add_component(engine
         kvdb_wal
         kvdb_mem_table
         kvdb_status
+        kvdb_arena
+        kvdb_db_options
+        kvdb_level_manager
+        kvdb_sstable_manager
+        kvdb_compaction_options
+        kvdb_compaction_job
+        kvdb_compaction_scheduler
+)
+
+kvdb_add_component(compaction_options
+    SOURCES
+        src/compaction_options.cpp
+    PUBLIC_DEPS
+        kvdb_status
 )
 
 kvdb_add_component(compaction_plan
@@ -580,6 +638,10 @@ kvdb_add_component(compaction_job
         kvdb_status
         kvdb_compaction_plan
         kvdb_table_meta
+        kvdb_merge_iterator
+        kvdb_sstable_iterator
+        kvdb_sstable_manager
+        kvdb_manifest
 )
 
 kvdb_add_component(compaction_scheduler
@@ -622,6 +684,38 @@ kvdb_add_component(sstable_builder
         kvdb_sstable_iterator
 )
 
+kvdb_add_component(api
+    SOURCES
+        src/kvdb.cpp
+    PUBLIC_DEPS
+        kvdb_db_options
+        kvdb_engine
+        kvdb_status
+)
+
+get_property(
+    kvdb_component_targets
+    GLOBAL
+    PROPERTY KVDB_COMPONENT_TARGETS
+)
+
+add_library(kvdb INTERFACE)
+target_link_libraries(kvdb INTERFACE
+    ${kvdb_component_targets}
+)
+target_include_directories(kvdb INTERFACE
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
+add_executable(kvdb_cli
+    src/main.cpp
+)
+target_link_libraries(kvdb_cli PRIVATE
+    kvdb
+)
+kvdb_configure_target(kvdb_cli)
+
 # ==============================================================================
 # Tests
 # ==============================================================================
@@ -643,72 +737,33 @@ kvdb_add_component(sstable_builder
 # No per-test add_executable()/gtest_discover_tests() boilerplate is needed.
 # ==============================================================================
 
-function(kvdb_set_test_extra_dependencies component_name)
-    set_property(
-        GLOBAL
-        PROPERTY "KVDB_TEST_EXTRA_DEPS_${component_name}"
-        "${ARGN}"
-    )
-endfunction()
-
-# endian_io_test.cpp currently uses Arena/Record directly in addition to
-# kvdb_endian_io, so preserve those direct test dependencies.
-kvdb_set_test_extra_dependencies(endian_io
-    kvdb_arena
-    kvdb_record
-)
-
-function(kvdb_discover_component_tests)
-    get_property(
-        component_targets
-        GLOBAL
-        PROPERTY KVDB_COMPONENT_TARGETS
+function(kvdb_discover_tests)
+    file(GLOB_RECURSE test_sources CONFIGURE_DEPENDS
+        "${PROJECT_SOURCE_DIR}/tests/*_test.cpp"
     )
 
-    foreach(package_target IN LISTS component_targets)
-        string(REGEX REPLACE "^kvdb_" "" component_name "${package_target}")
-
-        set(test_source
-            "${PROJECT_SOURCE_DIR}/tests/${component_name}_test.cpp"
-        )
-        set(test_target
-            "${package_target}_test"
-        )
-
-        if(NOT EXISTS "${test_source}")
-            continue()
-        endif()
-
-        get_property(
-            extra_dependencies
-            GLOBAL
-            PROPERTY "KVDB_TEST_EXTRA_DEPS_${component_name}"
-        )
-
-        add_executable("${test_target}"
+    foreach(test_source IN LISTS test_sources)
+        file(RELATIVE_PATH test_relative
+            "${PROJECT_SOURCE_DIR}/tests"
             "${test_source}"
         )
+        string(REPLACE "\\" "_" test_name "${test_relative}")
+        string(REPLACE "/" "_" test_name "${test_name}")
+        string(REGEX REPLACE "\\.cpp$" "" test_name "${test_name}")
+        set(test_target "kvdb_${test_name}")
 
+        add_executable("${test_target}" "${test_source}")
         target_link_libraries("${test_target}" PRIVATE
-            "${package_target}"
+            kvdb
             GTest::gtest_main
-            ${extra_dependencies}
         )
-
         kvdb_configure_target("${test_target}")
-
         set_target_properties("${test_target}" PROPERTIES
             FOLDER "tests"
         )
-
         gtest_discover_tests("${test_target}"
             WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
             DISCOVERY_TIMEOUT 30
-        )
-
-        message(STATUS
-            "KVDB: discovered test target ${test_target} from "
-            "tests/${component_name}_test.cpp"
         )
     endforeach()
 endfunction()
@@ -724,6 +779,7 @@ if(KVDB_ENABLE_TESTS)
         FetchContent_Declare(
             googletest
             URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+            DOWNLOAD_EXTRACT_TIMESTAMP TRUE
         )
 
         # Required for MSVC projects that use the shared CRT.
@@ -734,7 +790,7 @@ if(KVDB_ENABLE_TESTS)
 
     include(GoogleTest)
 
-    kvdb_discover_component_tests()
+    kvdb_discover_tests()
 endif()
 
 # ==============================================================================
