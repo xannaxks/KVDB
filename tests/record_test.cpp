@@ -9,8 +9,10 @@ TEST(InternalRecordIOTest, RoundTripsPutRecord)
 
     auto key = ArenaEntry::make_entry(arena, "key");
     auto value = ArenaEntry::make_entry(arena, "value");
+    ASSERT_TRUE(key.is_ok());
+    ASSERT_TRUE(value.is_ok());
 
-    InternalRecord original(key, value, Type::Put, 123);
+    InternalRecord original(key.value, value.value, Type::Put, 123);
 
     std::ofstream out("record_test.bin", std::ios::binary);
     ASSERT_TRUE(original.write(out));
@@ -31,8 +33,10 @@ TEST(InternalRecordIOTest, RoundTripsTombstoneRecord)
 
     auto key = ArenaEntry::make_entry(arena, "deleted_key");
     auto value = ArenaEntry::make_entry(arena, "");
+    ASSERT_TRUE(key.is_ok());
+    ASSERT_TRUE(value.is_ok());
 
-    InternalRecord original(key, value, Type::Tombstone, 999);
+    InternalRecord original(key.value, value.value, Type::Tombstone, 999);
 
     std::ofstream out("tombstone_test.bin", std::ios::binary);
     ASSERT_TRUE(original.write(out));
@@ -53,8 +57,10 @@ TEST(InternalRecordIOTest, RoundTripsEmptyKeyAndValue)
 
     auto key = ArenaEntry::make_entry(arena, "");
     auto value = ArenaEntry::make_entry(arena, "");
+    ASSERT_TRUE(key.is_ok());
+    ASSERT_TRUE(value.is_ok());
 
-    InternalRecord original(key, value, Type::Put, 1);
+    InternalRecord original(key.value, value.value, Type::Put, 1);
 
     std::ofstream out("empty_record_test.bin", std::ios::binary);
     ASSERT_TRUE(original.write(out));
@@ -78,8 +84,15 @@ TEST(InternalRecordIOTest, RoundTripsBinaryKeyAndValue)
 
     auto key_entry = ArenaEntry::make_entry(arena, key);
     auto value_entry = ArenaEntry::make_entry(arena, value);
+    ASSERT_TRUE(key_entry.is_ok());
+    ASSERT_TRUE(value_entry.is_ok());
 
-    InternalRecord original(key_entry, value_entry, Type::Put, 42);
+    InternalRecord original(
+        key_entry.value,
+        value_entry.value,
+        Type::Put,
+        42
+    );
 
     std::ofstream out("binary_record_test.bin", std::ios::binary);
     ASSERT_TRUE(original.write(out));
