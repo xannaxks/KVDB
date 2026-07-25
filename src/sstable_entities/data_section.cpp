@@ -520,13 +520,16 @@ Status DataSection::DataBlock::write(
     const Payload& last = payloads.back();
 
     try {
-        index_section.add_index(
+        status = index_section.add_index(
             data_block_offset,
             first.key_size,
             last.key_size,
             first.key_ptr,
             last.key_ptr
         );
+        if (!status.is_ok()) {
+            return status;
+        }
     }
     catch (const std::bad_alloc&) {
         return Status{
