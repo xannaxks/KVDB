@@ -1326,6 +1326,16 @@ Status WALWriter::create(
         }
     }
 
+    std::error_code remove_error;
+    (void)std::filesystem::remove(path, remove_error);
+    if (remove_error) {
+        return Status{
+            StatusCode::IOError,
+            "failed to replace existing WAL " + path.string() +
+                ": " + remove_error.message()
+        };
+    }
+
     Result<std::unique_ptr<WritableFile>> open_result;
     try {
         open_result = open_writable_file(path);
@@ -1624,6 +1634,8 @@ Result<WALLoader::LoadResult> WALLoader::load(
     result.header = std::move(header_result.value);
 
     LogicalRecordAssembler assembler;
+    std::uint64_t last_good_offset = offset;
+    Arena::Checkpoint record_checkpoint = arena.checkpoint();
 
     while (true) {
 
@@ -1635,17 +1647,23 @@ Result<WALLoader::LoadResult> WALLoader::load(
             result.error = fragment_result.status.message;
 
             if (is_recoverable_tail_error(code)) {
+                arena.rollback(record_checkpoint);
+                offset = last_good_offset;
                 result.had_torn_tail = true;
                 result.ok = true;
                 break;
             }
 
             if (is_corruption_error(code)) {
+                arena.rollback(record_checkpoint);
+                offset = last_good_offset;
                 result.had_corruption = true;
                 result.ok = false;
                 break;
             }
 
+            arena.rollback(record_checkpoint);
+            offset = last_good_offset;
             return Result<LoadResult>::fail(
                 std::move(fragment_result.status)
             );
@@ -1653,6 +1671,8 @@ Result<WALLoader::LoadResult> WALLoader::load(
 
         if (!fragment_result.value.has_value()) {
             if (assembler.active()) {
+                arena.rollback(record_checkpoint);
+                offset = last_good_offset;
                 result.had_torn_tail = true;
                 result.error =
                     "WAL ended before the LAST fragment of a logical record";
@@ -1664,6 +1684,8 @@ Result<WALLoader::LoadResult> WALLoader::load(
             assembler.consume(*fragment_result.value, arena);
 
         if (!assembled.is_ok()) {
+            arena.rollback(record_checkpoint);
+            offset = last_good_offset;
             result.had_corruption = true;
             result.ok = false;
             result.error = assembled.status.message;
@@ -1680,6 +1702,8 @@ Result<WALLoader::LoadResult> WALLoader::load(
             );
         }
         catch (const std::bad_alloc&) {
+            arena.rollback(record_checkpoint);
+            offset = last_good_offset;
             return Result<LoadResult>::fail(
                 Status{
                     StatusCode::BadAlloc,
@@ -1688,6 +1712,8 @@ Result<WALLoader::LoadResult> WALLoader::load(
             );
         }
 
+        last_good_offset = offset;
+        record_checkpoint = arena.checkpoint();
     }
 
     return Result<LoadResult>::ok(std::move(result));
@@ -2014,6 +2040,7 @@ Status WALStreamingLoader::load_next(
         /*
          * A complete header is now part of the valid WAL prefix.
          */
+        result_.last_good_offset = offset;
     }
 
     /*
@@ -2043,6 +2070,7 @@ Status WALStreamingLoader::load_next(
 
             if (is_recoverable_tail_error(code))
             {
+                offset = result_.last_good_offset;
                 mark_torn_tail(
                     fragment_result.status.message
                 );
@@ -2052,6 +2080,7 @@ Status WALStreamingLoader::load_next(
 
             if (is_corruption_error(code))
             {
+                offset = result_.last_good_offset;
                 mark_corruption(
                     fragment_result.status.message
                 );
@@ -2063,6 +2092,7 @@ Status WALStreamingLoader::load_next(
              * Even for an ordinary I/O failure, discard allocations made
              * for the partially assembled record.
              */
+            offset = result_.last_good_offset;
             return fragment_result.status;
         }
 
@@ -2075,6 +2105,7 @@ Status WALStreamingLoader::load_next(
 
             if (assembler.active())
             {
+                offset = result_.last_good_offset;
                 mark_torn_tail(
                     "WAL ended before the LAST fragment of a logical record"
                 );
@@ -2097,6 +2128,7 @@ Status WALStreamingLoader::load_next(
         if (!assembled_result.is_ok())
         {
             arena_.rollback(arena_checkpoint);
+            offset = result_.last_good_offset;
 
             mark_corruption(
                 assembled_result.status.message
@@ -2117,6 +2149,7 @@ Status WALStreamingLoader::load_next(
          */
         result_.logical_record =
             std::move(*assembled_result.value);
+        result_.last_good_offset = offset;
 
         /*
          * The record is complete, so do not roll the arena back.
