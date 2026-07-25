@@ -96,6 +96,17 @@ Status SSTable::write()
         };
     }
 
+    std::error_code remove_error;
+    (void)std::filesystem::remove(path, remove_error);
+    if (remove_error)
+    {
+        return Status{
+            StatusCode::IOError,
+            "Cannot replace stale SSTable temporary file " +
+                path.string() + ": " + remove_error.message()
+        };
+    }
+
     auto file_out_result = open_writable_file(path);
 
     if (!file_out_result.is_ok())
@@ -141,8 +152,13 @@ Status SSTable::write()
     /*
      * These sections depend on the finalized data and index contents.
      */
-    bloom_section.rebuild(data_section);
-    meta_section.rebuild(data_section, index_section);
+    write_result = bloom_section.rebuild(data_section);
+    if (!write_result.is_ok())
+        return write_result;
+
+    write_result = meta_section.rebuild(data_section, index_section);
+    if (!write_result.is_ok())
+        return write_result;
 
     std::uint64_t index_offset = 0;
     std::uint64_t bloom_offset = 0;
@@ -399,7 +415,7 @@ Result<SSTable> SSTable::load(
 
     if (!data_result.is_ok())
         return fail(std::move(data_result.status));
-    if (data_cursor != footer.index_offset)
+    if (data_result.value.section_end_offset != footer.index_offset)
     {
         return fail(Status{
             StatusCode::InvalidSectionSize,
