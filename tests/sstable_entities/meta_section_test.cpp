@@ -253,13 +253,13 @@ namespace
             for (const DataSection::DataBlock& block : data.data_blocks) {
                 const DataSection::Payload& first = block.payloads.front();
                 const DataSection::Payload& last = block.payloads.back();
-                index.add_index(
+                EXPECT_TRUE(index.add_index(
                     block_offset,
                     first.key_size,
                     last.key_size,
                     first.key_ptr,
                     last.key_ptr
-                );
+                ).is_ok());
                 block_offset += BLOCK_SIZE;
             }
         }
@@ -363,13 +363,13 @@ namespace
     {
         IndexSection index;
         for (std::size_t i = 0; i < count; ++i) {
-            index.add_index(
+            EXPECT_TRUE(index.add_index(
                 static_cast<std::uint64_t>(i) * BLOCK_SIZE,
                 static_cast<std::uint32_t>(first.size()),
                 static_cast<std::uint32_t>(last.size()),
                 first.empty() ? nullptr : first.data(),
                 last.empty() ? nullptr : last.data()
-            );
+            ).is_ok());
         }
         return index;
     }
@@ -444,7 +444,7 @@ TEST(MetaSectionTest, RebuildRejectsEmptyPhysicalDataBlock)
     data.init_new_block();
     IndexSection index;
     std::string empty;
-    index.add_index(0, 0, 0, nullptr, nullptr);
+    ASSERT_TRUE(index.add_index(0, 0, 0, nullptr, nullptr).is_ok());
 
     MetaSection meta;
     const Status status = meta.rebuild(data, index);
@@ -468,21 +468,15 @@ TEST(MetaSectionTest, RebuildRejectsMalformedRecordBeforeMutation)
 
 TEST(MetaSectionTest, RejectsBoundaryKeysThatCannotFitInOneMetaBlock)
 {
-    StoredRecord first(std::string(2100, 'a'), {}, Type::Put, 2);
-    StoredRecord last(std::string(2100, 'z'), {}, Type::Put, 1);
-    DataSection data;
-    ASSERT_TRUE(data.add_payload(first.record).is_ok());
-    ASSERT_TRUE(data.add_payload(last.record).is_ok());
-    ASSERT_EQ(data.data_blocks.size(), 2u);
+    const std::string first(2100, 'a');
+    const std::string last(2100, 'z');
+    MetaSection::Payload payload;
+    payload.min_key_ptr = first.data();
+    payload.min_key_size = static_cast<std::uint32_t>(first.size());
+    payload.max_key_ptr = last.data();
+    payload.max_key_size = static_cast<std::uint32_t>(last.size());
 
-    IndexSection index;
-    index.add_index(0, first.record.key_entry.size, first.record.key_entry.size,
-        first.record.key_entry.data, first.record.key_entry.data);
-    index.add_index(BLOCK_SIZE, last.record.key_entry.size, last.record.key_entry.size,
-        last.record.key_entry.data, last.record.key_entry.data);
-
-    MetaSection meta;
-    const Status status = meta.rebuild(data, index);
+    const Status status = payload.validate();
 
     ASSERT_FALSE(status.is_ok());
     EXPECT_EQ(status.code, StatusCode::InvalidPayloadSize);
