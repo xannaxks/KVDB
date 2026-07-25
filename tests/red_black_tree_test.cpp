@@ -41,6 +41,9 @@ namespace {
 
     std::string entry_bytes(const ArenaEntry& entry)
     {
+        if (entry.size == 0)
+            return {};
+
         return std::string(
             reinterpret_cast<const char*>(entry.data),
             entry.size
@@ -115,8 +118,8 @@ namespace {
 
         const auto result = tree.find_latest_by_key(missing_key.value);
 
-        EXPECT_FALSE(result.is_ok());
-        EXPECT_EQ(status_code_of(result.status), StatusCode::NotFound);
+        ASSERT_TRUE(result.is_ok()) << result.status.message;
+        EXPECT_FALSE(result.value.has_value());
     }
 
     TEST_F(RBTreeTest, InsertAndFindSingleRecord)
@@ -131,7 +134,8 @@ namespace {
 
         const auto result = tree.find_latest_by_key(record.value.key_entry);
         ASSERT_TRUE(result.is_ok());
-        EXPECT_EQ(result.value, record);
+        ASSERT_TRUE(result.value.has_value());
+        EXPECT_EQ(*result.value, record.value);
     }
 
     TEST_F(RBTreeTest, SameKeyIsOrderedByDescendingSequence)
@@ -151,15 +155,16 @@ namespace {
 
         const auto result = tree.find_latest_by_key(old_record.value.key_entry);
         ASSERT_TRUE(result.is_ok());
-        EXPECT_EQ(result.value, newest_record);
+        ASSERT_TRUE(result.value.has_value());
+        EXPECT_EQ(*result.value, newest_record.value);
 
         std::vector<InternalRecord> records;
         tree.dump_inorder(records);
 
         ASSERT_EQ(records.size(), 3u);
-        EXPECT_EQ(records[0], newest_record);
-        EXPECT_EQ(records[1], middle_record);
-        EXPECT_EQ(records[2], old_record);
+        EXPECT_EQ(records[0], newest_record.value);
+        EXPECT_EQ(records[1], middle_record.value);
+        EXPECT_EQ(records[2], old_record.value);
     }
 
     TEST_F(RBTreeTest, NewestTombstoneIsReturned)
@@ -176,8 +181,9 @@ namespace {
 
         const auto result = tree.find_latest_by_key(put.value.key_entry);
         ASSERT_TRUE(result.is_ok());
-        EXPECT_EQ(result.value.type, Type::Tombstone);
-        EXPECT_EQ(result.value.seq_num, 5u);
+        ASSERT_TRUE(result.value.has_value());
+        EXPECT_EQ(result.value->type, Type::Tombstone);
+        EXPECT_EQ(result.value->seq_num, 5u);
     }
 
     TEST_F(RBTreeTest, DuplicateIdentityIsKeyAndSequence)
@@ -206,7 +212,8 @@ namespace {
 
         const auto result = tree.find_latest_by_key(original.value.key_entry);
         ASSERT_TRUE(result.is_ok());
-        EXPECT_EQ(result.value, original);
+        ASSERT_TRUE(result.value.has_value());
+        EXPECT_EQ(*result.value, original.value);
     }
 
     TEST_F(RBTreeTest, SameSequenceIsAllowedForDifferentKeys)
@@ -407,7 +414,8 @@ namespace {
         {
             const auto result = tree.find_latest_by_key(expected.value.key_entry);
             ASSERT_TRUE(result.is_ok());
-            EXPECT_EQ(result.value, expected);
+            ASSERT_TRUE(result.value.has_value());
+            EXPECT_EQ(*result.value, expected.value);
         }
     }
 
@@ -422,8 +430,9 @@ namespace {
 
         const auto result = tree.find_latest_by_key(stable.value.key_entry);
         ASSERT_TRUE(result.is_ok());
-        EXPECT_EQ(entry_bytes(result.value.key_entry), "stable-key");
-        EXPECT_EQ(entry_bytes(result.value.value_entry), "stable-value");
+        ASSERT_TRUE(result.value.has_value());
+        EXPECT_EQ(entry_bytes(result.value->key_entry), "stable-key");
+        EXPECT_EQ(entry_bytes(result.value->value_entry), "stable-value");
         expect_valid();
     }
 
@@ -440,8 +449,9 @@ namespace {
 
         const auto result = tree.find_latest_by_key(record.value.key_entry);
         ASSERT_TRUE(result.is_ok());
-        EXPECT_EQ(entry_bytes(result.value.key_entry), large_key);
-        EXPECT_EQ(entry_bytes(result.value.value_entry), large_value);
+        ASSERT_TRUE(result.value.has_value());
+        EXPECT_EQ(entry_bytes(result.value->key_entry), large_key);
+        EXPECT_EQ(entry_bytes(result.value->value_entry), large_value);
     }
 
     TEST(RBTreeDifferentialTest, MatchesReferenceModelUnderDeterministicRandomWorkload)
@@ -530,11 +540,12 @@ namespace {
                 search_entry.value
             );
             ASSERT_TRUE(result.is_ok());
+            ASSERT_TRUE(result.value.has_value());
 
             const auto& [expected_sequence, expected] = *versions.rbegin();
-            EXPECT_EQ(result.value.seq_num, expected_sequence);
-            EXPECT_EQ(result.value.type, expected.type);
-            EXPECT_EQ(entry_bytes(result.value.value_entry), expected.value);
+            EXPECT_EQ(result.value->seq_num, expected_sequence);
+            EXPECT_EQ(result.value->type, expected.type);
+            EXPECT_EQ(entry_bytes(result.value->value_entry), expected.value);
         }
 
         std::vector<InternalRecord> actual;
@@ -571,8 +582,8 @@ namespace {
         const auto missing = tree.find_latest_by_key(
             search_entry.value
         );
-        EXPECT_FALSE(missing.is_ok());
-        EXPECT_EQ(status_code_of(missing.status), StatusCode::NotFound);
+        ASSERT_TRUE(missing.is_ok()) << missing.status.message;
+        EXPECT_FALSE(missing.value.has_value());
     }
 
 } // namespace
