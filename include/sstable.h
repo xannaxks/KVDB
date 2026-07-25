@@ -58,11 +58,13 @@ public:
 
     SSTable(
         std::filesystem::path temporary_path,
-        std::filesystem::path destination_path
+        std::filesystem::path destination_path,
+        std::uint32_t table_id = 0
     )
         : path(std::move(temporary_path)),
         final_path(std::move(destination_path)),
-        state(State::Building)
+        state(State::Building),
+        file_header_section(table_id)
     {
     }
 
