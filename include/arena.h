@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <format>
 #include <limits>
 #include <memory>
 #include <new>
@@ -31,7 +32,7 @@ struct ArenaEntry
     std::uint32_t size = 0;
 
     ArenaEntry() noexcept = default;
-    ArenaEntry(void* ptr, std::size_t entry_size);
+    ArenaEntry(const void* ptr, std::size_t entry_size);
 
     ArenaEntry(const ArenaEntry&) noexcept = default;
     ArenaEntry& operator=(const ArenaEntry&) noexcept = default;
