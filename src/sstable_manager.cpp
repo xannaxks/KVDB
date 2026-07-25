@@ -1,6 +1,8 @@
 #include "sstable_manager.h"
+#include "sstable_writer.h"
 
 #include <format>
+#include <limits>
 #include <utility>
 
 std::filesystem::path SSTableManager::make_table_path(
@@ -50,7 +52,18 @@ Result<std::shared_ptr<SSTable>> SSTableManager::open(
     Arena& arena
 )
 {
-    return open_impl(meta.table_id, meta.path, arena);
+    if (meta.table_id > std::numeric_limits<std::uint32_t>::max()) {
+        return Result<std::shared_ptr<SSTable>>::fail(Status{
+            StatusCode::InvalidArgument,
+            "table ID exceeds the SSTableManager 32-bit limit"
+        });
+    }
+
+    return open_impl(
+        static_cast<std::uint32_t>(meta.table_id),
+        meta.path,
+        arena
+    );
 }
 
 Result<std::shared_ptr<SSTable>> SSTableManager::open_impl(
@@ -125,6 +138,7 @@ SSTableManager::create_streaming_builder(std::uint32_t table_id)
 {
     return std::make_unique<SSTableStreamingBuilder>(
         make_tmp_table_path(table_id, db_dir),
-        make_table_path(table_id, db_dir)
+        make_table_path(table_id, db_dir),
+        table_id
     );
 }
