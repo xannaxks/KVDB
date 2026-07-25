@@ -22,3 +22,12 @@ Makefile
 *.dylib
 *.a
 *.zip
+
+include/api.h
+include/bytes.h
+include/main.h
+src/api.cpp
+src/bytes.cpp
+src/db_options.cpp
+src/main.cpp
+third_party/zlib-1.3.2/
