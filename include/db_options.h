@@ -1,54 +1,177 @@
 #pragma once
-#include <filesystem>
+
+#include "status.h"
+
+#include <cstddef>
 #include <cstdint>
+#include <filesystem>
+#include <vector>
 
-struct DBOptions
-{
-	std::filesystem::path db_path;
-	std::size_t mem_table_size_limit = 64 * 1024 * 1024;
-	std::size_t BLOCK_SIZE = 4096;
+namespace kvdb {
 
-	bool create_if_missing = true;
-	bool error_if_exists = false;
+    struct DBOptions
+    {
+        // -------------------------------------------------------------------------
+        // General database
+        // -------------------------------------------------------------------------
 
-	bool enable_background_compaction = true;
+        std::filesystem::path db_path;
 
-	struct CompactionSchedulerOptions
-	{
-		std::size_t max_compaction_threads = 4;
-		std::size_t compaction_trigger_threshold = 4;
-		std::size_t compaction_max_level = 7;
-	} compaction_options;
+        bool create_if_missing = true;
+        bool error_if_exists = false;
 
-	struct WALOptions
-	{
-		std::size_t wal_file_size_limit = 64 * 1024 * 1024;
-		std::filesystem::path path;
-	} wal_options;
+        // Common block size used by storage components where applicable.
+        std::size_t block_size = 4 * 1024;
 
-	struct SSTableManagerOptions
-	{
-		std::size_t sstable_block_size = 4096;
-	} sstable_manager_options;
+        // -------------------------------------------------------------------------
+        // Arena
+        // -------------------------------------------------------------------------
 
-	struct ManifestOptions
-	{
-		std::filesystem::path path;
-	} manifest_options;
-	
-	struct ArenaOptions
-	{
-		std::size_t page_size = 64 * 1024;
-		std::size_t large_threshold = 16 * 1024;
-	} arena_options;
+        struct ArenaOptions
+        {
+            std::size_t page_size = 64 * 1024;
+            std::size_t large_threshold = 16 * 1024;
 
-	struct LevelManagerOptions
-	{
-		std::size_t max_levels = 7;
-	} level_manager_options;
+            [[nodiscard]] Status validate() const;
+        };
 
-	struct MemTableOptions
-	{
-		std::size_t n;
-	} mem_table_options;
-};
+        ArenaOptions arena{};
+
+        // -------------------------------------------------------------------------
+        // MemTable
+        // -------------------------------------------------------------------------
+
+        struct MemTableOptions
+        {
+            // Flush active MemTable after approximately this many bytes.
+            std::size_t size_limit = 64 * 1024 * 1024;
+
+            // Number of immutable MemTables allowed to wait for flushing.
+            std::size_t immutable_tables_limit = 1;
+
+            [[nodiscard]] Status validate() const;
+        };
+
+        MemTableOptions memtable{};
+
+        // -------------------------------------------------------------------------
+        // WAL
+        // -------------------------------------------------------------------------
+
+        struct WALOptions
+        {
+            // Maximum size of one WAL file before rotation.
+            std::uint64_t file_size_limit = 64ull * 1024 * 1024;
+
+            // Whether write operations should fsync before reporting success.
+            bool sync_on_write = false;
+
+            [[nodiscard]] Status validate() const;
+        };
+
+        WALOptions wal{};
+
+        // -------------------------------------------------------------------------
+        // SSTable
+        // -------------------------------------------------------------------------
+
+        struct SSTableOptions
+        {
+            struct BloomFilterOptions
+            {
+                std::uint32_t hash_count = 2;
+
+                // Current design uses a fixed-size bit mask.
+                std::uint32_t mask_bit_size = 128;
+
+                [[nodiscard]] Status validate() const;
+            };
+
+            BloomFilterOptions bloom_filter{};
+
+            [[nodiscard]] Status validate() const;
+        };
+
+        SSTableOptions sstable{};
+
+        // -------------------------------------------------------------------------
+        // Compaction
+        // -------------------------------------------------------------------------
+
+        struct CompactionOptions
+        {
+            bool enable_background_compaction = true;
+
+            std::uint32_t max_levels = 7;
+
+            // L0 files may overlap, so file count is used as its primary trigger.
+            std::size_t l0_file_count_trigger = 4;
+
+            // Maximum total bytes allowed at each level.
+            //
+            // L0 uses its file-count trigger instead.
+            // The bottommost level has no further destination level, so 0 means
+            // "no size-triggered compaction".
+            std::vector<std::uint64_t> max_bytes_per_level = {
+                0,
+                64ull * 1024 * 1024,
+                640ull * 1024 * 1024,
+                6400ull * 1024 * 1024,
+                64000ull * 1024 * 1024,
+                640000ull * 1024 * 1024,
+                0
+            };
+
+            // Desired size of newly produced SSTables at each level.
+            std::vector<std::uint64_t> target_file_size_per_level = {
+                8ull * 1024 * 1024,
+                8ull * 1024 * 1024,
+                16ull * 1024 * 1024,
+                32ull * 1024 * 1024,
+                64ull * 1024 * 1024,
+                128ull * 1024 * 1024,
+                256ull * 1024 * 1024
+            };
+
+            [[nodiscard]] Status validate() const;
+        };
+
+        CompactionOptions compaction{};
+
+        // -------------------------------------------------------------------------
+        // Manifest
+        // -------------------------------------------------------------------------
+
+        struct ManifestOptions
+        {
+            // Rewrite/compact the manifest once it grows beyond this size.
+            std::uint64_t file_size_limit = 16ull * 1024 * 1024;
+
+            [[nodiscard]] Status validate() const;
+        };
+
+        ManifestOptions manifest{};
+
+        // -------------------------------------------------------------------------
+        // SSTable Manager
+        // -------------------------------------------------------------------------
+
+        struct SSTableManagerOptions
+        {
+            // If true, SSTables are loaded/opened only when needed instead of
+            // keeping every table open.
+            bool lazy_loading = true;
+
+            [[nodiscard]] Status validate() const;
+        };
+
+        SSTableManagerOptions sstable_manager{};
+
+        // -------------------------------------------------------------------------
+        // Validation
+        // -------------------------------------------------------------------------
+
+        [[nodiscard]] Status validate() const;
+    };
+
+} // namespace kvdb

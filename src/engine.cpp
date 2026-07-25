@@ -40,25 +40,28 @@ Status Engine::remove(std::string& key)
 	InternalRecord record{};
 	record.key_entry = ArenaEntry(reinterpret_cast<void*>(key.data()), key.size());
 	record.value_entry = ArenaEntry(nullptr, 0);
-	record.seq_num = this->last_seq_ + 1;
+	record.seq_num = this->last_seq_num_ + 1;
 	record.type = ::Type::Tombstone;
 
 	return this->put_impl(key, "", record);
 }
 
-Status Engine::put_impl(const std::string& key, const std::string& value, const InternalRecord& record)
+Status Engine::put_impl(std::string& key, std::string& value, const InternalRecord& record)
 {
-	Status s = wal_->append(record);
+	Status s = wal_->write(record);
 	if (!s.is_ok()) {
 		return s;
 	}
 
-	s = mem_table_->put(key, value, record.seq_num);
+	ArenaEntry key_arena_entry = ArenaEntry(key.data(), key.size());
+	ArenaEntry value_arena_entry = ArenaEntry(value.data(), value.size());
+	
+	s = mem_table_->put(ArenaEntry(key.data(), key.size()), ArenaEntry(value.data(), value.size()), record.seq_num);
 	if (!s.is_ok()) {
 		return s;
 	}
 
-	last_seq_ = record.seq_num;
+	last_seq_num_ = record.seq_num;
 
 	if (mem_table_->should_flush()) {
 		return flush();
@@ -84,7 +87,7 @@ construct_response_for_api(const InternalRecord& record)
 	return Result<std::optional<std::string>>::ok(std::move(value_str));
 }
 
-Result<std::optional<std::string>> Engine::get(std::string_view key)
+Result<std::optional<std::string>> Engine::get(std::string& key, Arena& arena)
 {
 	if (closed_) {
 		return Result<std::optional<std::string>>::fail(
@@ -95,7 +98,9 @@ Result<std::optional<std::string>> Engine::get(std::string_view key)
 		);
 	}
 
-	auto result = mem_table_->get(key);
+	const ArenaEntry key_arena_entry = ArenaEntry(key.data(), key.size());
+
+	auto result = mem_table_->get(key_arena_entry);
 
 	if (result.is_ok()) {
 		return construct_response_for_api(*result.value);
@@ -108,17 +113,31 @@ Result<std::optional<std::string>> Engine::get(std::string_view key)
 	// Future:
 	// search immutable memtables newest -> oldest
 
-	result = sstable_manager_->get_latest(key);
+	TableMeta* first_ = nullptr;
 
-	if (result.is_ok()) {
-		return construct_response_for_api(*result.value);
+	for (std::uint32_t level = 0; level < CompactionOptions::max_levels; level++)
+	{
+		auto result = level_manager_->find_candidate_tables_in_level(level, key_arena_entry);
+		if (!result.is_ok())
+			return Result<std::optional<std::string>>::fail(std::move(result.status));
+
+		*first_ = std::move(result.value[0]);
+
+		break;
 	}
 
-	if (result.status.code == StatusCode::NotFound) {
+	if (first_ == nullptr)
 		return Result<std::optional<std::string>>::ok(std::nullopt);
-	}
 
-	return Result<std::optional<std::string>>::fail(result.status);
+	auto sstable = sstable_manager_->get(first_->table_id, arena);
+	if (!sstable.is_ok())
+		return Result<std::optional<std::string>>::fail(std::move(sstable.status));
+
+	auto value = sstable.value->get(key_arena_entry, arena);
+	if (!value.is_ok())
+		return Result<std::optional<std::string>>::fail(std::move(value.status));
+
+	return construct_response_for_api(*value.value);
 }
 
 Status Engine::flush()

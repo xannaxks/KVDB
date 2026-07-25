@@ -1,7 +1,8 @@
 #pragma once
+#define NOMINMAX
 
 #include <array>
-#include <zlib.h>
+#include <zlib/zlib.h>
 #include <cassert>
 #include <concepts>
 #include <cstddef>

@@ -1,3 +1,12 @@
+#include "arena.h"
+#include "status.h"
+#include "sstable.h"
+#include "record.h"
+#include "file.h"
+#include "file_helpers.h"
+
+#include <cstdint>
+#include <memory>
 
 class SSTableIterator
 {

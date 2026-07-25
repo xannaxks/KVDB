@@ -1,4 +1,6 @@
 #pragma once
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 
 #include "kvdb.h"
 #include "manifest.h"
@@ -26,7 +28,7 @@ public:
     Status open();
 
     Status put(std::string& key, std::string& value) ;
-    Result<std::optional<std::string>> get(std::string& key);
+    Result<std::optional<std::string>> get(std::string& key, Arena& arena);
     Status remove(std::string& key) ;
 	Status put_impl(const std::string& key, const std::string& value, const InternalRecord& record);
 

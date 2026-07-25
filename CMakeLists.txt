@@ -1,894 +1,793 @@
-#[[cmake_minimum_required(VERSION 3.20)
-
-project(KVDB VERSION 0.1.0 LANGUAGES CXX)
-
-# =========================================================
-# Global C++ settings
-# =========================================================
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-# =========================================================
-# Project options
-# =========================================================
-option(KVDB_ENABLE_TESTS "Build tests" OFF)
-option(KVDB_ENABLE_SANITIZERS "Enable sanitizers" OFF)
-option(KVDB_ENABLE_BENCHMARKS "Build benchmarks" OFF)
-option(KVDB_ENABLE_LTO "Enable LTO" OFF)
-
-# =========================================================
-# Helper: apply LTO
-# =========================================================
-function(kvdb_apply_lto target_name)
-    if(KVDB_ENABLE_LTO)
-        include(CheckIPOSupported)
-        check_ipo_supported(RESULT lto_supported OUTPUT lto_error)
-
-        if(lto_supported)
-            set_property(TARGET ${target_name} PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
-        else()
-            message(WARNING "LTO not supported: ${lto_error}")
-        endif()
-    endif()
-endfunction()
-
-# =========================================================
-# Helper: warnings
-# =========================================================
-function(kvdb_apply_warnings target_name)
-    if(MSVC)
-        target_compile_options(${target_name} PRIVATE
-            /W4 /WX /permissive- /EHsc
-            /Zc:__cplusplus /Zc:preprocessor /Zc:inline
-            /utf-8
-        )
-    else()
-        target_compile_options(${target_name} PRIVATE
-            -Wall -Wextra -Wpedantic -Werror
-            -Wconversion -Wsign-conversion -Wshadow
-            -Wnon-virtual-dtor -Wold-style-cast
-            -Wcast-align -Wunused -Woverloaded-virtual
-            -Wnull-dereference -Wdouble-promotion -Wformat=2
-            -Wimplicit-fallthrough -Wmisleading-indentation
-            -Wduplicated-cond -Wduplicated-branches -Wlogical-op
-        )
-    endif()
-endfunction()
-
-# =========================================================
-# Helper: sanitizers
-# =========================================================
-function(kvdb_apply_sanitizers target_name)
-    if(KVDB_ENABLE_SANITIZERS)
-        if(MSVC)
-            target_compile_options(${target_name} PRIVATE
-                /fsanitize=address /Zi
-            )
-            target_link_options(${target_name} PRIVATE
-                /INCREMENTAL:NO
-            )
-        else()
-            target_compile_options(${target_name} PRIVATE
-                -fsanitize=address,undefined
-                -fno-omit-frame-pointer -g
-            )
-            target_link_options(${target_name} PRIVATE
-                -fsanitize=address,undefined
-            )
-        endif()
-    endif()
-endfunction()
-
-# =========================================================
-# Core library
-# =========================================================
-find_package(Threads REQUIRED)
-
-add_library(kvdb_core
-    src/red_black_tree.cpp
-    src/mem_table.cpp
-    src/wal.cpp
-    src/sstable.cpp
-    src/engine.cpp
-    src/arena.cpp
-)
-
-target_include_directories(kvdb_core
-    PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-)
-find_package(Threads REQUIRED)
-
-# Try system zlib first
-find_package(ZLIB QUIET)
-
-if(ZLIB_FOUND)
-    message(STATUS "Using system zlib")
-    set(KVDB_ZLIB_TARGET ZLIB::ZLIB)
-else()
-    message(STATUS "Using bundled zlib")
-
-    # Optional but nice: don't build zlib examples/tests
-    set(ZLIB_BUILD_EXAMPLES OFF CACHE BOOL "Disable zlib examples" FORCE)
-
-    add_subdirectory(third_party/zlib EXCLUDE_FROM_ALL)
-
-    if(TARGET zlibstatic)
-        set(KVDB_ZLIB_TARGET zlibstatic)
-    elseif(TARGET zlib)
-        set(KVDB_ZLIB_TARGET zlib)
-    else()
-        message(FATAL_ERROR "Bundled zlib target not found")
-    endif()
-endif()
-
-
-target_link_libraries(kvdb_core PRIVATE
-    ${KVDB_ZLIB_TARGET}
-    Threads::Threads
-)
-target_include_directories(kvdb_core PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/third_party/zlib
-)
-kvdb_apply_warnings(kvdb_core)
-kvdb_apply_sanitizers(kvdb_core)
-
-# =========================================================
-# Main application
-# =========================================================
-add_executable(kvdb_app src/main.cpp)
-
-target_link_libraries(kvdb_app PRIVATE kvdb_core)
-
-kvdb_apply_warnings(kvdb_app)
-kvdb_apply_sanitizers(kvdb_app)
-
-# =========================================================
-# Tests
-# =========================================================
-if(KVDB_ENABLE_TESTS)
-    enable_testing()
-
-    include(FetchContent)
-
-    FetchContent_Declare(
-        googletest
-        URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
-    )
-
-    set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-    FetchContent_MakeAvailable(googletest)
-
-    include(GoogleTest)
-
-    function(kvdb_add_test test_name)
-        add_executable(${test_name} ${ARGN})
-
-        target_link_libraries(${test_name} PRIVATE
-            kvdb_core
-            GTest::gtest_main
-            Threads::Threads
-        )
-
-        kvdb_apply_warnings(${test_name})
-        kvdb_apply_sanitizers(${test_name})
-
-        gtest_discover_tests(${test_name})
-    endfunction()
-
-    kvdb_add_test(arena_test tests/arena_test.cpp)
-endif()
-
-# =========================================================
-# Benchmarks
-# =========================================================
-if(KVDB_ENABLE_BENCHMARKS)
-    function(kvdb_add_benchmark name)
-        add_executable(${name} ${ARGN})
-
-        target_link_libraries(${name} PRIVATE kvdb_core)
-
-        kvdb_apply_warnings(${name})
-    endfunction()
-
-    kvdb_add_benchmark(mem_table_benchmark benchmarks/mem_table_benchmark.cpp)
-    kvdb_add_benchmark(wal_benchmark benchmarks/wal_benchmark.cpp)
-    kvdb_add_benchmark(sstable_benchmark benchmarks/sstable_benchmark.cpp)
-    kvdb_add_benchmark(engine_benchmark benchmarks/engine_benchmark.cpp)
-endif()
-
-# =========================================================
-# LTO
-# =========================================================
-if(KVDB_ENABLE_LTO)
-    kvdb_apply_lto(kvdb_core)
-    kvdb_apply_lto(kvdb_app)
-endif()
-
-# =========================================================
-# Install (optional but strong signal)
-# =========================================================
-install(TARGETS kvdb_core kvdb_app
-    RUNTIME DESTINATION bin
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-)#]]
 cmake_minimum_required(VERSION 3.20)
 
-project(kvdb LANGUAGES CXX)
+project(kvdb VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-option(KVDB_ENABLE_SANITIZERS "Enable AddressSanitizer" OFF)
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-if (MSVC AND KVDB_ENABLE_SANITIZERS)
-    add_compile_options(/fsanitize=address /Zi)
-    add_link_options(/INCREMENTAL:NO)
+# ==============================================================================
+# Options
+# ==============================================================================
+
+option(KVDB_ENABLE_TESTS              "Build unit tests" OFF)
+option(KVDB_ENABLE_BENCHMARKS         "Build benchmarks" OFF)
+
+option(KVDB_ENABLE_WARNINGS           "Enable compiler warnings" ON)
+option(KVDB_WARNINGS_AS_ERRORS        "Treat compiler warnings as errors" OFF)
+
+option(KVDB_ENABLE_ASAN               "Enable AddressSanitizer" OFF)
+option(KVDB_ENABLE_UBSAN              "Enable UndefinedBehaviorSanitizer" OFF)
+option(KVDB_ENABLE_TSAN               "Enable ThreadSanitizer" OFF)
+
+option(KVDB_ENABLE_LTO                "Enable link-time/interprocedural optimization" OFF)
+
+# ASan and TSan cannot be used together.
+if(KVDB_ENABLE_ASAN AND KVDB_ENABLE_TSAN)
+    message(FATAL_ERROR "KVDB_ENABLE_ASAN and KVDB_ENABLE_TSAN cannot be enabled together.")
 endif()
 
-include(FetchContent)
-
-FetchContent_Declare(
-    googletest
-    URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
-)
-
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(googletest)
-
-#find_package(ZLIB REQUIRED)
-
-# =========================
-# Libraries
-# =========================
-
-### Status
-
-add_library(kvdb_status
-    "src/status.cpp"
-)
-
-target_include_directories(kvdb_status PUBLIC 
-    include
-)
-
-### Arena
-
-add_library(kvdb_arena
-    src/arena.cpp
-)
-
-target_include_directories(kvdb_arena PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_arena PUBLIC
-    kvdb_status
-)
-
-### Endian IO
-
-add_library(kvdb_endian_io
-    src/endian_io.cpp
-)
-
-target_include_directories(kvdb_endian_io PUBLIC
-    include
-)
-
-
-target_link_libraries(kvdb_endian_io PUBLIC
-    kvdb_status
-)
-
-### File
-
-add_library(kvdb_file
-    src/file.cpp
-)
-
-target_include_directories(kvdb_file PUBLIC
-    include
-)
-
-
-target_link_libraries(kvdb_file PUBLIC
-    kvdb_status
-)
-
-
-### File helpers
-
-add_library(kvdb_file_helpers
-    src/file_helpers.cpp
-)
-
-target_include_directories(kvdb_file_helpers PUBLIC
-    include
-)
-
-
-target_link_libraries(kvdb_file_helpers PUBLIC
-    kvdb_status
-)
-
-
-### CRC32 helpers
-
-add_library(kvdb_crc32_helpers
-    src/crc32_helpers.cpp
-)
-
-target_include_directories(kvdb_crc32_helpers PUBLIC
-    include/
-    third_party/zlib/
-)
-
-target_link_libraries(kvdb_crc32_helpers PUBLIC
-    kvdb_endian_io
-    #ZLIB::ZLIB
-)
-
-
-target_link_libraries(kvdb_crc32_helpers PUBLIC
-    kvdb_status
-)
-
-
-### Record
-
-add_library(kvdb_record
-    src/record.cpp
-)
-
-target_include_directories(kvdb_record PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_record PUBLIC
-    kvdb_arena
-    kvdb_endian_io
-)
-
-target_link_libraries(kvdb_record PUBLIC
-    kvdb_status
-)
-
-
-
-### Red-Black Tree
-
-add_library(kvdb_red_black_tree
-    src/red_black_tree.cpp
-)
-
-target_include_directories(kvdb_red_black_tree PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_red_black_tree PUBLIC
-    kvdb_arena
-    kvdb_record
-)
-
-
-target_link_libraries(kvdb_red_black_tree PUBLIC
-    kvdb_status
-)
-
-### SSTable Entities
-
-### File header section
-
-add_library(kvdb_file_header_section
-    src/sstable_entities/file_header_section.cpp
-)
-
-target_include_directories(kvdb_file_header_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_file_header_section PUBLIC
-    kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helpers
-)
-
-### Data section
-
-add_library(kvdb_data_section
-    src/sstable_entities/data_section.cpp
-)
-
-target_include_directories(kvdb_data_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_data_section PUBLIC
-    kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helpers
-)
-
-### Data section view
-
-add_library(kvdb_data_section_view
-    src/sstable_entities/data_section_view.cpp
-)
-
-target_include_directories(kvdb_data_section_view PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_data_section_view PUBLIC
-    kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helpers
-)
-
-### Index section
-
-add_library(kvdb_index_section
-    src/sstable_entities/index_section.cpp
-)
-
-target_include_directories(kvdb_index_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_index_section PUBLIC
-    kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helpers
-)
-
-### Bloom section
-
-add_library(kvdb_bloom_section
-    src/sstable_entities/bloom_section.cpp
-)
-
-target_include_directories(kvdb_bloom_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_bloom_section PUBLIC
-    kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helpers
-)
-
-### Meta section
-
-add_library(kvdb_meta_section
-    src/sstable_entities/meta_section.cpp
-)
-
-target_include_directories(kvdb_meta_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_meta_section PUBLIC
-    kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helpers
-)
-
-### File footer section
-
-add_library(kvdb_file_footer_section
-    src/sstable_entities/file_footer_section.cpp
-)
-
-target_include_directories(kvdb_file_footer_section PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_file_footer_section PUBLIC
-    kvdb_file_helpers
-    kvdb_file
-    kvdb_status
-    kvdb_endian_io
-    kvdb_crc32_helpers
-)
-
-
-### SSTable
-
-add_library(kvdb_sstable
-    src/sstable.cpp
-)
-
-target_include_directories(kvdb_sstable PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_sstable PUBLIC
-    kvdb_crc32_helpers
-    kvdb_file_helpers
-    kvdb_arena
-    kvdb_red_black_tree
-    kvdb_endian_io
-    kvdb_record
-    kvdb_status
-    kvdb_file_header_section
-    kvdb_data_section
-    kvdb_data_section_view
-    kvdb_index_section
-    kvdb_bloom_section
-    kvdb_meta_section
-    kvdb_file_footer_section
-)
-
-### SStable writer
-
-add_library(kvdb_sstable_writer 
-    src/sstable_writer.cpp
-)
-
-target_include_directories(kvdb_sstable_writer PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_sstable_writer PUBLIC
-    kvdb_status
-    kvdb_arena
-    kvdb_sstable
-    kvdb_file
-    kvdb_file_helpers
-)
-
-### SSTable loader
-
-add_library(kvdb_sstable_loader
-    src/sstable_loader.cpp
-)
-
-target_include_directories(kvdb_sstable_loader PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_sstable_loader PUBLIC
-    kvdb_status
-    kvdb_arena
-    kvdb_sstable
-    kvdb_file
-    kvdb_file_helpers
-)
-
-### SSTable manager
-
-add_library(kvdb_sstable_manager
-    src/sstable_manager.cpp
-)
-
-target_include_directories(kvdb_sstable_manager PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_sstable_manager PUBLIC
-    kvdb_status
-    kvdb_arena
-    kvdb_sstable
-    kvdb_file
-    kvdb_file_helpers
-    kvdb_sstable_loader
-    kvdb_sstable_writer
-)
-
-### Table Meta
-
-add_library(kvdb_table_meta 
-    src/table_meta.cpp
-)
-
-target_include_directories(kvdb_table_meta PUBLIC 
-    include
-)
-
-target_link_libraries(kvdb_table_meta PUBLIC 
-    kvdb_arena
-    kvdb_status
-    kvdb_sstable
-)
-
-### Level Manager
-
-add_library(kvdb_level_manager
-    src/level_manager.cpp
-)
-
-target_include_directories(kvdb_level_manager PUBLIC 
-    include
-)
-
-target_link_libraries(kvdb_level_manager PUBLIC
-    kvdb_arena
-    kvdb_status
-    kvdb_table_meta
-)
-
-
-### Merge iterator
-
-add_library(kvdb_merge_iterator
-    src/merge_iterator.cpp
-)
-
-target_include_directories(kvdb_merge_iterator PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_merge_iterator PUBLIC 
-    kvdb_status
-    kvdb_arena
-    kvdb_table_meta
-    kvdb_sstable
-    kvdb_record
-)
-
-### Manifest
-
-add_library(kvdb_manifest 
-    src/manifest.cpp
-)
-
-target_include_directories(kvdb_manifest PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_manifest PUBLIC
-     kvdb_level_manager
-     kvdb_table_meta
-     kvdb_file
-     kvdb_file_helpers
-     kvdb_arena
-)
-
-### WAL
-
-add_library(kvdb_wal
-    src/wal.cpp
-)
-
-target_include_directories(kvdb_wal PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_wal PUBLIC
-    kvdb_arena
-    kvdb_file
-    kvdb_file_helpers
-    kvdb_status
-    kvdb_sstable
-)
-
-### MemTable
-
-add_library(kvdb_mem_table
-    src/mem_table.cpp
-)
-
-target_include_directories(kvdb_mem_table PUBLIC 
-    include
-)
-
-target_link_libraries(kvdb_mem_table PUBLIC
-    kvdb_wal
-    kvdb_file
-    kvdb_file_helpers
-    kvdb_arena
-    kvdb_wal
-)
-
-### engine
-
-add_library(kvdb_engine
-    src/engine.cpp
-)
-
-target_include_directories(kvdb_engine PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_engine PUBLIC
-    kvdb_sstable
-    kvdb_manifest
-    kvdb_wal
-    kvdb_mem_table
-    kvdb_status
-)
-
-### Compaction entities
-
-### Compaction plan
-
-add_library(kvdb_compaction_plan
-    src/compaction_plan.cpp
-)
-
-target_include_directories(kvdb_compaction_plan PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_compaction_plan PUBLIC
-    kvdb_status
-    kvdb_arena
-    kvdb_table_meta
-)
-
-### Compaction job
-
-add_library(kvdb_compaction_job
-    src/compaction_job.cpp
-)
-
-target_include_directories(kvdb_compaction_job PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_compaction_job PUBLIC
-    kvdb_arena
-    kvdb_status
-    kvdb_compaction_plan
-    kvdb_table_meta
-)
-
-### Compaction scheduler
-
-add_library(kvdb_compaction_scheduler 
-    src/compaction_scheduler.cpp
-)
-
-target_include_directories(kvdb_compaction_scheduler PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_compaction_scheduler PUBLIC
-    kvdb_arena
-    kvdb_status
-    kvdb_compaction_job
-    kvdb_compaction_plan
-    kvdb_table_meta
-)
-
-### SStable Builder
-
-add_library(kvdb_sstable_builder
-    src/sstable_builder.cpp
-)
-
-target_link_directories(kvdb_sstable_builder PUBLIC
-    include
-)
-
-target_link_libraries(kvdb_sstable_builder PUBLIC
-    kvdb_arena
-    kvdb_status
-    kvdb_sstable
-    kvdb_file
-    kvdb_file_helpers
-    kvdb_sstable_iterator
-    kvdb_sstable
-)
-
-# =========================
+# MSVC currently supports ASan here, but not UBSan/TSan.
+if(MSVC AND (KVDB_ENABLE_UBSAN OR KVDB_ENABLE_TSAN))
+    message(FATAL_ERROR "MSVC build: UBSan and TSan are not supported by this CMake configuration.")
+endif()
+
+if(KVDB_ENABLE_LTO AND
+   (KVDB_ENABLE_ASAN OR KVDB_ENABLE_UBSAN OR KVDB_ENABLE_TSAN))
+    message(WARNING "LTO and sanitizers are both enabled. This is usually not useful for diagnostic builds.")
+endif()
+
+# ==============================================================================
+# Build options shared by KVDB targets only
+# ==============================================================================
+
+add_library(kvdb_build_options INTERFACE)
+
+if(KVDB_ENABLE_WARNINGS)
+    if(MSVC)
+        target_compile_options(kvdb_build_options INTERFACE
+            /W4
+            /permissive-
+            /EHsc
+            /Zc:__cplusplus
+            /Zc:preprocessor
+            /Zc:inline
+            /utf-8
+        )
+
+        if(KVDB_WARNINGS_AS_ERRORS)
+            target_compile_options(kvdb_build_options INTERFACE /WX)
+        endif()
+
+    elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
+        target_compile_options(kvdb_build_options INTERFACE
+            -Wall
+            -Wextra
+            -Wpedantic
+            -Wconversion
+            -Wsign-conversion
+            -Wshadow
+            -Wnon-virtual-dtor
+            -Wold-style-cast
+            -Wcast-align
+            -Wunused
+            -Woverloaded-virtual
+            -Wnull-dereference
+            -Wdouble-promotion
+            -Wformat=2
+            -Wimplicit-fallthrough
+        )
+
+        # These are GCC-specific (or not consistently supported by Clang).
+        if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+            target_compile_options(kvdb_build_options INTERFACE
+                -Wmisleading-indentation
+                -Wduplicated-cond
+                -Wduplicated-branches
+                -Wlogical-op
+            )
+        endif()
+
+        if(KVDB_WARNINGS_AS_ERRORS)
+            target_compile_options(kvdb_build_options INTERFACE -Werror)
+        endif()
+    else()
+        message(WARNING
+            "KVDB_ENABLE_WARNINGS is ON, but no warning profile is configured "
+            "for compiler '${CMAKE_CXX_COMPILER_ID}'."
+        )
+    endif()
+endif()
+
+# Sanitizers.
+if(MSVC)
+    if(KVDB_ENABLE_ASAN)
+        target_compile_options(kvdb_build_options INTERFACE
+            /fsanitize=address
+            /Zi
+        )
+        target_link_options(kvdb_build_options INTERFACE
+            /INCREMENTAL:NO
+        )
+    endif()
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang|AppleClang")
+    set(_kvdb_sanitizers)
+
+    if(KVDB_ENABLE_ASAN)
+        list(APPEND _kvdb_sanitizers address)
+    endif()
+
+    if(KVDB_ENABLE_UBSAN)
+        list(APPEND _kvdb_sanitizers undefined)
+    endif()
+
+    if(KVDB_ENABLE_TSAN)
+        list(APPEND _kvdb_sanitizers thread)
+    endif()
+
+    if(_kvdb_sanitizers)
+        list(JOIN _kvdb_sanitizers "," _kvdb_sanitizer_list)
+
+        target_compile_options(kvdb_build_options INTERFACE
+            "-fsanitize=${_kvdb_sanitizer_list}"
+            -fno-omit-frame-pointer
+        )
+
+        target_link_options(kvdb_build_options INTERFACE
+            "-fsanitize=${_kvdb_sanitizer_list}"
+        )
+    endif()
+elseif(KVDB_ENABLE_ASAN OR KVDB_ENABLE_UBSAN OR KVDB_ENABLE_TSAN)
+    message(FATAL_ERROR
+        "Sanitizers requested, but compiler '${CMAKE_CXX_COMPILER_ID}' "
+        "is not supported by this CMake configuration."
+    )
+endif()
+
+# ==============================================================================
+# LTO / IPO
+# ==============================================================================
+
+set(KVDB_LTO_SUPPORTED OFF)
+
+if(KVDB_ENABLE_LTO)
+    include(CheckIPOSupported)
+
+    check_ipo_supported(
+        RESULT KVDB_LTO_SUPPORTED
+        OUTPUT KVDB_LTO_ERROR
+        LANGUAGES CXX
+    )
+
+    if(NOT KVDB_LTO_SUPPORTED)
+        message(WARNING "LTO/IPO is not supported: ${KVDB_LTO_ERROR}")
+    endif()
+endif()
+
+function(kvdb_configure_target target_name)
+    if(NOT TARGET "${target_name}")
+        message(FATAL_ERROR "kvdb_configure_target(): unknown target '${target_name}'.")
+    endif()
+
+    # PRIVATE: do not force KVDB's warning/sanitizer flags on external consumers.
+    target_link_libraries("${target_name}" PRIVATE kvdb_build_options)
+
+    if(KVDB_ENABLE_LTO AND KVDB_LTO_SUPPORTED)
+        set_property(
+            TARGET "${target_name}"
+            PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE
+        )
+    endif()
+endfunction()
+
+# ==============================================================================
+# Component helper
+# ==============================================================================
+#
+# Example:
+#
+#   kvdb_add_component(arena
+#       SOURCES
+#           src/arena.cpp
+#       PUBLIC_DEPS
+#           kvdb_status
+#   )
+#
+# Creates target: kvdb_arena
+# Registers it for automatic test/benchmark discovery.
+# ==============================================================================
+
+function(kvdb_add_component component_name)
+    set(options
+        PRIVATE_ZLIB_DEP
+    )
+    set(one_value_args)
+    set(multi_value_args
+        SOURCES
+        PUBLIC_DEPS
+        PRIVATE_DEPS
+        PUBLIC_INCLUDES
+        PRIVATE_INCLUDES
+    )
+
+    cmake_parse_arguments(
+        KVDB_COMPONENT
+        "${options}"
+        "${one_value_args}"
+        "${multi_value_args}"
+        ${ARGN}
+    )
+
+    if(KVDB_COMPONENT_UNPARSED_ARGUMENTS)
+        message(FATAL_ERROR
+            "kvdb_add_component(${component_name}): unknown arguments: "
+            "${KVDB_COMPONENT_UNPARSED_ARGUMENTS}"
+        )
+    endif()
+
+    if(NOT KVDB_COMPONENT_SOURCES)
+        message(FATAL_ERROR
+            "kvdb_add_component(${component_name}) requires at least one source."
+        )
+    endif()
+
+    set(target_name "kvdb_${component_name}")
+
+    if(TARGET "${target_name}")
+        message(FATAL_ERROR "Target '${target_name}' already exists.")
+    endif()
+
+    add_library("${target_name}"
+        ${KVDB_COMPONENT_SOURCES}
+    )
+
+    target_include_directories("${target_name}"
+        PUBLIC
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:include>
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/third_party>
+            $<INSTALL_INTERFACE:third_party>
+    )
+
+    if(KVDB_COMPONENT_PUBLIC_INCLUDES)
+        target_include_directories("${target_name}" PUBLIC
+            ${KVDB_COMPONENT_PUBLIC_INCLUDES}
+        )
+    endif()
+
+    if(KVDB_COMPONENT_PRIVATE_INCLUDES)
+        target_include_directories("${target_name}" PRIVATE
+            ${KVDB_COMPONENT_PRIVATE_INCLUDES}
+        )
+    endif()
+
+    if(KVDB_COMPONENT_PUBLIC_DEPS)
+        target_link_libraries("${target_name}" PUBLIC
+            ${KVDB_COMPONENT_PUBLIC_DEPS}
+        )
+    endif()
+
+    if(KVDB_COMPONENT_PRIVATE_DEPS)
+        target_link_libraries("${target_name}" PRIVATE
+            ${KVDB_COMPONENT_PRIVATE_DEPS}
+        )
+    endif()
+
+    if(KVDB_COMPONENT_PRIVATE_ZLIB_DEP)
+        target_link_directories("${target_name}" PRIVATE
+            "${PROJECT_SOURCE_DIR}/third_party/zlib"
+        )
+
+        target_link_libraries("${target_name}" PRIVATE
+            zlib
+        )
+    endif()
+
+    kvdb_configure_target("${target_name}")
+
+    set_property(GLOBAL APPEND PROPERTY KVDB_COMPONENT_TARGETS "${target_name}")
+endfunction()
+
+# ==============================================================================
+# Dependencies
+# ==============================================================================
+
+
+# ==============================================================================
+# Components
+# ==============================================================================
+
+kvdb_add_component(status
+    SOURCES
+        src/status.cpp
+)
+
+kvdb_add_component(arena
+    SOURCES
+        src/arena.cpp
+    PUBLIC_DEPS
+        kvdb_status
+)
+
+kvdb_add_component(endian_io
+    SOURCES
+        src/endian_io.cpp
+    PUBLIC_DEPS
+        kvdb_status
+)
+
+kvdb_add_component(file
+    SOURCES
+        src/file.cpp
+    PUBLIC_DEPS
+        kvdb_status
+)
+
+kvdb_add_component(file_helpers
+    SOURCES
+        src/file_helpers.cpp
+    PUBLIC_DEPS
+        kvdb_status
+)
+
+kvdb_add_component(crc32_helpers
+    SOURCES
+        src/crc32_helpers.cpp
+    PUBLIC_DEPS
+        kvdb_endian_io
+        kvdb_status
+    PRIVATE_ZLIB_DEP
+)
+
+kvdb_add_component(record
+    SOURCES
+        src/record.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_endian_io
+        kvdb_status
+)
+
+kvdb_add_component(red_black_tree
+    SOURCES
+        src/red_black_tree.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_record
+        kvdb_status
+)
+
+kvdb_add_component(file_header_section
+    SOURCES
+        src/sstable_entities/file_header_section.cpp
+    PUBLIC_DEPS
+        kvdb_file_helpers
+        kvdb_file
+        kvdb_status
+        kvdb_endian_io
+        kvdb_crc32_helpers
+)
+
+kvdb_add_component(data_section
+    SOURCES
+        src/sstable_entities/data_section.cpp
+    PUBLIC_DEPS
+        kvdb_file_helpers
+        kvdb_file
+        kvdb_status
+        kvdb_endian_io
+        kvdb_crc32_helpers
+)
+
+kvdb_add_component(data_section_view
+    SOURCES
+        src/sstable_entities/data_section_view.cpp
+    PUBLIC_DEPS
+        kvdb_file_helpers
+        kvdb_file
+        kvdb_status
+        kvdb_endian_io
+        kvdb_crc32_helpers
+)
+
+kvdb_add_component(index_section
+    SOURCES
+        src/sstable_entities/index_section.cpp
+    PUBLIC_DEPS
+        kvdb_file_helpers
+        kvdb_file
+        kvdb_status
+        kvdb_endian_io
+        kvdb_crc32_helpers
+)
+
+kvdb_add_component(bloom_section
+    SOURCES
+        src/sstable_entities/bloom_section.cpp
+    PUBLIC_DEPS
+        kvdb_file_helpers
+        kvdb_file
+        kvdb_status
+        kvdb_endian_io
+        kvdb_crc32_helpers
+)
+
+kvdb_add_component(meta_section
+    SOURCES
+        src/sstable_entities/meta_section.cpp
+    PUBLIC_DEPS
+        kvdb_file_helpers
+        kvdb_file
+        kvdb_status
+        kvdb_endian_io
+        kvdb_crc32_helpers
+)
+
+kvdb_add_component(file_footer_section
+    SOURCES
+        src/sstable_entities/file_footer_section.cpp
+    PUBLIC_DEPS
+        kvdb_file_helpers
+        kvdb_file
+        kvdb_status
+        kvdb_endian_io
+        kvdb_crc32_helpers
+)
+
+kvdb_add_component(sstable
+    SOURCES
+        src/sstable.cpp
+    PUBLIC_DEPS
+        kvdb_crc32_helpers
+        kvdb_file_helpers
+        kvdb_arena
+        kvdb_red_black_tree
+        kvdb_endian_io
+        kvdb_record
+        kvdb_status
+        kvdb_file_header_section
+        kvdb_data_section
+        kvdb_data_section_view
+        kvdb_index_section
+        kvdb_bloom_section
+        kvdb_meta_section
+        kvdb_file_footer_section
+)
+
+kvdb_add_component(sstable_writer
+    SOURCES
+        src/sstable_writer.cpp
+    PUBLIC_DEPS
+        kvdb_status
+        kvdb_arena
+        kvdb_sstable
+        kvdb_file
+        kvdb_file_helpers
+)
+
+kvdb_add_component(sstable_loader
+    SOURCES
+        src/sstable_loader.cpp
+    PUBLIC_DEPS
+        kvdb_status
+        kvdb_arena
+        kvdb_sstable
+        kvdb_file
+        kvdb_file_helpers
+)
+
+kvdb_add_component(sstable_manager
+    SOURCES
+        src/sstable_manager.cpp
+    PUBLIC_DEPS
+        kvdb_status
+        kvdb_arena
+        kvdb_sstable
+        kvdb_file
+        kvdb_file_helpers
+        kvdb_sstable_loader
+        kvdb_sstable_writer
+)
+
+kvdb_add_component(table_meta
+    SOURCES
+        src/table_meta.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_status
+        kvdb_sstable
+)
+
+kvdb_add_component(level_manager
+    SOURCES
+        src/level_manager.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_status
+        kvdb_table_meta
+)
+
+kvdb_add_component(merge_iterator
+    SOURCES
+        src/merge_iterator.cpp
+    PUBLIC_DEPS
+        kvdb_status
+        kvdb_arena
+        kvdb_table_meta
+        kvdb_sstable
+        kvdb_record
+)
+
+kvdb_add_component(manifest
+    SOURCES
+        src/manifest.cpp
+    PUBLIC_DEPS
+        kvdb_level_manager
+        kvdb_table_meta
+        kvdb_file
+        kvdb_file_helpers
+        kvdb_arena
+)
+
+kvdb_add_component(wal
+    SOURCES
+        src/wal.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_file
+        kvdb_file_helpers
+        kvdb_status
+        kvdb_sstable
+)
+
+kvdb_add_component(mem_table
+    SOURCES
+        src/mem_table.cpp
+    PUBLIC_DEPS
+        kvdb_wal
+        kvdb_file
+        kvdb_file_helpers
+        kvdb_arena
+)
+
+kvdb_add_component(engine
+    SOURCES
+        src/engine.cpp
+    PUBLIC_DEPS
+        kvdb_sstable
+        kvdb_manifest
+        kvdb_wal
+        kvdb_mem_table
+        kvdb_status
+)
+
+kvdb_add_component(compaction_plan
+    SOURCES
+        src/compaction_plan.cpp
+    PUBLIC_DEPS
+        kvdb_status
+        kvdb_arena
+        kvdb_table_meta
+)
+
+kvdb_add_component(compaction_job
+    SOURCES
+        src/compaction_job.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_status
+        kvdb_compaction_plan
+        kvdb_table_meta
+)
+
+kvdb_add_component(compaction_scheduler
+    SOURCES
+        src/compaction_scheduler.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_status
+        kvdb_compaction_job
+        kvdb_compaction_plan
+        kvdb_table_meta
+)
+
+# NOTE:
+# Your original CMake links kvdb_sstable_builder against kvdb_sstable_iterator,
+# but this CMakeLists.txt does not define a kvdb_sstable_iterator target.
+# The dependency is intentionally preserved here. Define that target elsewhere,
+# or remove this dependency if the iterator is actually header-only.
+kvdb_add_component(sstable_iterator
+    SOURCES
+        src/sstable_iterator.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_file
+        kvdb_status
+        kvdb_record
+        kvdb_sstable
+        kvdb_file_helpers
+)
+
+kvdb_add_component(sstable_builder
+    SOURCES
+        src/sstable_builder.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_status
+        kvdb_sstable
+        kvdb_file
+        kvdb_file_helpers
+        kvdb_sstable_iterator
+)
+
+# ==============================================================================
 # Tests
-# =========================
+# ==============================================================================
+#
+# Convention:
+#
+#   package target                source file
+#   ---------------------------   --------------------------------
+#   kvdb_arena                    tests/arena_test.cpp
+#   kvdb_wal                      tests/wal_test.cpp
+#   kvdb_sstable_manager          tests/sstable_manager_test.cpp
+#
+# When the source exists, CMake automatically creates:
+#
+#   kvdb_arena_test
+#   kvdb_wal_test
+#   kvdb_sstable_manager_test
+#
+# No per-test add_executable()/gtest_discover_tests() boilerplate is needed.
+# ==============================================================================
 
-enable_testing()
+function(kvdb_set_test_extra_dependencies component_name)
+    set_property(
+        GLOBAL
+        PROPERTY "KVDB_TEST_EXTRA_DEPS_${component_name}"
+        "${ARGN}"
+    )
+endfunction()
 
-include(GoogleTest)
-
-### File
-
-add_executable(kvdb_file_test
-    tests/file_test.cpp
-)
-
-target_link_libraries(kvdb_file_test PRIVATE
-    kvdb_status
-    kvdb_file
-    GTest::gtest_main
-)
-
-gtest_discover_tests(kvdb_file_test)
-
-### Arena
-
-add_executable(kvdb_arena_test
-    tests/arena_test.cpp
-)
-
-target_link_libraries(kvdb_arena_test PRIVATE
-    kvdb_arena
-    GTest::gtest_main
-)
-
-gtest_discover_tests(kvdb_arena_test)
-
-### Endian IO
-
-add_executable(kvdb_endian_io_test
-    tests/endian_io_test.cpp
-)
-
-target_link_libraries(kvdb_endian_io_test PRIVATE
-    kvdb_endian_io
+# endian_io_test.cpp currently uses Arena/Record directly in addition to
+# kvdb_endian_io, so preserve those direct test dependencies.
+kvdb_set_test_extra_dependencies(endian_io
     kvdb_arena
     kvdb_record
-    GTest::gtest_main
 )
 
-gtest_discover_tests(kvdb_endian_io_test)
+function(kvdb_discover_component_tests)
+    get_property(
+        component_targets
+        GLOBAL
+        PROPERTY KVDB_COMPONENT_TARGETS
+    )
 
-### Record
+    foreach(package_target IN LISTS component_targets)
+        string(REGEX REPLACE "^kvdb_" "" component_name "${package_target}")
 
-add_executable(kvdb_record_test
-    tests/record_test.cpp
-)
+        set(test_source
+            "${PROJECT_SOURCE_DIR}/tests/${component_name}_test.cpp"
+        )
+        set(test_target
+            "${package_target}_test"
+        )
 
-target_link_libraries(kvdb_record_test PRIVATE
-    kvdb_record
-    GTest::gtest_main
-)
+        if(NOT EXISTS "${test_source}")
+            continue()
+        endif()
 
-gtest_discover_tests(kvdb_record_test)
+        get_property(
+            extra_dependencies
+            GLOBAL
+            PROPERTY "KVDB_TEST_EXTRA_DEPS_${component_name}"
+        )
 
-### Red-Black Tree
+        add_executable("${test_target}"
+            "${test_source}"
+        )
 
-add_executable(kvdb_red_black_tree_test
-    tests/red_black_tree_test.cpp
-)
+        target_link_libraries("${test_target}" PRIVATE
+            "${package_target}"
+            GTest::gtest_main
+            ${extra_dependencies}
+        )
 
-target_link_libraries(kvdb_red_black_tree_test PRIVATE
-    kvdb_red_black_tree
-    GTest::gtest_main
-)
+        kvdb_configure_target("${test_target}")
 
-gtest_discover_tests(kvdb_red_black_tree_test)
+        set_target_properties("${test_target}" PROPERTIES
+            FOLDER "tests"
+        )
 
-### CRC32 helpers
+        gtest_discover_tests("${test_target}"
+            WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
+            DISCOVERY_TIMEOUT 30
+        )
 
-add_executable(kvdb_crc32_helpers_test
-    tests/crc32_helpers_test.cpp
-)
+        message(STATUS
+            "KVDB: discovered test target ${test_target} from "
+            "tests/${component_name}_test.cpp"
+        )
+    endforeach()
+endfunction()
 
-target_link_libraries(kvdb_crc32_helpers_test PRIVATE
-    kvdb_crc32_helpers
-    GTest::gtest_main
-)
+if(KVDB_ENABLE_TESTS)
+    enable_testing()
 
-gtest_discover_tests(kvdb_crc32_helpers_test)
+    find_package(GTest CONFIG QUIET)
 
-### SSTable
+    if(NOT TARGET GTest::gtest_main)
+        include(FetchContent)
 
-add_executable(kvdb_sstable_test
-    tests/sstable_test.cpp
-)
+        FetchContent_Declare(
+            googletest
+            URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+        )
 
-target_link_libraries(kvdb_sstable_test PRIVATE
-    kvdb_sstable
-    GTest::gtest_main
-)
+        # Required for MSVC projects that use the shared CRT.
+        set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-gtest_discover_tests(kvdb_sstable_test)
+        FetchContent_MakeAvailable(googletest)
+    endif()
+
+    include(GoogleTest)
+
+    kvdb_discover_component_tests()
+endif()
+
+# ==============================================================================
+# Benchmarks
+# ==============================================================================
+#
+# Optional matching convention:
+#
+#   kvdb_wal -> benchmarks/wal_benchmark.cpp -> kvdb_wal_benchmark
+# ==============================================================================
+
+function(kvdb_discover_component_benchmarks)
+    get_property(
+        component_targets
+        GLOBAL
+        PROPERTY KVDB_COMPONENT_TARGETS
+    )
+
+    foreach(package_target IN LISTS component_targets)
+        string(REGEX REPLACE "^kvdb_" "" component_name "${package_target}")
+
+        set(benchmark_source
+            "${PROJECT_SOURCE_DIR}/benchmarks/${component_name}_benchmark.cpp"
+        )
+        set(benchmark_target
+            "${package_target}_benchmark"
+        )
+
+        if(NOT EXISTS "${benchmark_source}")
+            continue()
+        endif()
+
+        add_executable("${benchmark_target}"
+            "${benchmark_source}"
+        )
+
+        target_link_libraries("${benchmark_target}" PRIVATE
+            "${package_target}"
+        )
+
+        kvdb_configure_target("${benchmark_target}")
+
+        set_target_properties("${benchmark_target}" PROPERTIES
+            FOLDER "benchmarks"
+        )
+
+        message(STATUS
+            "KVDB: discovered benchmark target ${benchmark_target} from "
+            "benchmarks/${component_name}_benchmark.cpp"
+        )
+    endforeach()
+endfunction()
+
+if(KVDB_ENABLE_BENCHMARKS)
+    kvdb_discover_component_benchmarks()
+endif()
