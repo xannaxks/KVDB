@@ -56,7 +56,8 @@ class SSTableStreamingBuilder
 public:
     SSTableStreamingBuilder(
         std::filesystem::path path,
-        std::filesystem::path final_path
+        std::filesystem::path final_path,
+        std::uint32_t table_id = 0
     );
 
     [[nodiscard]] bool empty() const noexcept;
