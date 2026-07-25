@@ -80,7 +80,7 @@ private:
         std::shared_ptr<const RBTree> table;
     };
 
-    //mutable std::shared_mutex mutex_;
+    mutable std::shared_mutex mutex_;
     std::shared_ptr<RBTree> mutable_table_;
     std::deque<ImmutableTable> immutable_tables_;
     std::uint64_t next_generation_id_ = 1;

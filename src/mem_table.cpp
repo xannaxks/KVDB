@@ -12,7 +12,7 @@ MemTable::MemTable()
 
 Status MemTable::apply(const InternalRecord& entry)
 {
-    //std::unique_lock lock(mutex_);
+    std::unique_lock lock(mutex_);
     return mutable_table_->insert(entry);
 }
 
@@ -45,7 +45,7 @@ Status MemTable::remove(
 
 Result<std::optional<InternalRecord>> MemTable::get(const ArenaEntry& key) const
 {
-    //std::shared_lock lock(mutex_);
+    std::shared_lock lock(mutex_);
 
     Result<std::optional<InternalRecord>> latest =
         mutable_table_->find_latest_by_key(key);
@@ -75,15 +75,7 @@ Result<std::optional<InternalRecord>> MemTable::get(const ArenaEntry& key) const
         }
     }
 
-    if (!latest.value.has_value())
-    {
-        return Result<std::optional<InternalRecord>>::fail(Status{
-            StatusCode::NotFound,
-            "Key was not found in the MemTable"
-            });
-    }
-
-    return Result<std::optional<InternalRecord>>::ok(std::move(*(latest.value)));
+    return Result<std::optional<InternalRecord>>::ok(std::move(latest.value));
 }
 
 Status MemTable::freeze_mutable()
@@ -104,7 +96,7 @@ Status MemTable::freeze_mutable()
         };
     }
 
-    //std::unique_lock lock(mutex_);
+    std::unique_lock lock(mutex_);
 
     if (mutable_table_->empty())
         return Status::ok();
@@ -136,7 +128,7 @@ Status MemTable::manual_freeze()
 
 Result<MemTable::ImmutableSnapshot> MemTable::oldest_immutable() const
 {
-    //std::shared_lock lock(mutex_);
+    std::shared_lock lock(mutex_);
 
     if (immutable_tables_.empty())
     {
@@ -157,7 +149,7 @@ bool MemTable::retire_oldest_immutable(
     std::uint64_t generation_id
 )
 {
-    //std::unique_lock lock(mutex_);
+    std::unique_lock lock(mutex_);
 
     if (immutable_tables_.empty() ||
         immutable_tables_.front().generation_id != generation_id)
@@ -199,25 +191,25 @@ Status MemTable::dump_oldest_immutable(
 
 bool MemTable::has_immutable() const
 {
-    //std::shared_lock lock(mutex_);
+    std::shared_lock lock(mutex_);
     return !immutable_tables_.empty();
 }
 
 std::size_t MemTable::immutable_count() const
 {
-    //std::shared_lock lock(mutex_);
+    std::shared_lock lock(mutex_);
     return immutable_tables_.size();
 }
 
 std::size_t MemTable::mutable_memory_usage() const
 {
-    //std::shared_lock lock(mutex_);
+    std::shared_lock lock(mutex_);
     return mutable_table_->approximate_memory_usage();
 }
 
 std::size_t MemTable::approximate_memory_usage() const
 {
-    //std::shared_lock lock(mutex_);
+    std::shared_lock lock(mutex_);
 
     std::size_t total = mutable_table_->approximate_memory_usage();
     for (const ImmutableTable& immutable : immutable_tables_)
