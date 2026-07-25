@@ -106,7 +106,7 @@ Status ensure_fits_in_block(WritableFile& file,
 // Read helpers
 // =========================
 
-Status align_to_block_boundary(ReadableFile& file,
+Status align_to_block_boundary(ReadableFile&,
     std::uint64_t& offset,
     std::uint32_t block_size)
 {
@@ -158,7 +158,7 @@ Status ensure_fits_in_block(ReadableFile& file,
 }
 
 
-Status move_g_to_next_block(ReadableFile& file,
+Status move_g_to_next_block(ReadableFile&,
     std::uint64_t& offset,
     std::uint32_t block_size)
 {
