@@ -175,3 +175,5 @@ namespace kvdb {
     };
 
 } // namespace kvdb
+
+using DBOptions = kvdb::DBOptions;
