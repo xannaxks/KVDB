@@ -82,6 +82,7 @@ namespace
 
 Result<std::optional<VersionEdit>> CompactionJob::run(
     const CompactionPlan& plan,
+    const LevelManager& level_manager,
     const Manifest& manifest,
     SSTableManager& sstable_manager,
     Arena& arena
@@ -96,7 +97,6 @@ Result<std::optional<VersionEdit>> CompactionJob::run(
         );
     }
 
-    const LevelManager& level_manager = manifest.level_manager();
     if (!plan_is_current(plan, level_manager)) {
         return Result<std::optional<VersionEdit>>::fail(
             Status{
@@ -182,7 +182,10 @@ Result<std::optional<VersionEdit>> CompactionJob::run(
                 return seek_status;
             }
 
-            edit.payload.deleted_tables.emplace_back(table_meta.table_id, level);
+            edit.payload.deleted_tables.push_back(DeletedTable{
+                level,
+                table_meta.table_id
+            });
             return Status::ok();
         };
 
@@ -335,4 +338,28 @@ Result<std::optional<VersionEdit>> CompactionJob::run(
     // Pick/run/Manifest::commit must be serialized. The job reserves IDs from
     // manifest.next_table_id() and records the next value in this edit.
     return Result<std::optional<VersionEdit>>::ok(std::move(edit));
+}
+
+Result<std::optional<VersionEdit>> CompactionJob::run(
+    const CompactionPlan& plan,
+    const Manifest& manifest,
+    SSTableManager& sstable_manager,
+    Arena& arena
+) const
+{
+    (void)manifest;
+    (void)sstable_manager;
+    (void)arena;
+
+    if (!plan.validate()) {
+        return Result<std::optional<VersionEdit>>::fail(Status{
+            StatusCode::Corruption,
+            "Compaction plan is not valid"
+        });
+    }
+
+    return Result<std::optional<VersionEdit>>::fail(Status{
+        StatusCode::InvalidState,
+        "Compaction requires the current LevelManager snapshot"
+    });
 }
