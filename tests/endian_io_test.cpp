@@ -96,6 +96,25 @@ namespace
         {
             return {};
         }
+
+        Result<std::uint64_t> seek_to_end() override
+        {
+            cursor = bytes.size();
+            return Result<std::uint64_t>::ok(cursor);
+        }
+
+#ifdef _WIN32
+        const void* get_descriptor() const override
+        {
+            return nullptr;
+        }
+#else
+        const int& get_descriptor() const override
+        {
+            static const int descriptor = -1;
+            return descriptor;
+        }
+#endif
     };
 
     class MemoryReadableFile final : public ReadableFile
@@ -151,6 +170,19 @@ namespace
             size_out = bytes.size();
             return Status::ok();
         }
+
+#ifdef _WIN32
+        const void* get_descriptor() const override
+        {
+            return nullptr;
+        }
+#else
+        const int& get_descriptor() const override
+        {
+            static const int descriptor = -1;
+            return descriptor;
+        }
+#endif
     };
 
     std::vector<std::byte> make_bytes(std::initializer_list<unsigned int> values)
