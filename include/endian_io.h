@@ -3,6 +3,8 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <iosfwd>
+#include <optional>
 #include <span>
 #include <vector>
 
@@ -22,6 +24,32 @@ namespace kvdb::endian
         std::vector<std::byte>& out,
         std::span<const std::byte> bytes
     );
+
+    [[nodiscard]] bool write_u8(
+        std::ostream& out,
+        std::uint8_t value
+    );
+
+    [[nodiscard]] bool write_u64_le(
+        std::ostream& out,
+        std::uint64_t value
+    );
+
+    [[nodiscard]] bool write_bytes_with_u32_size(
+        std::ostream& out,
+        std::span<const std::byte> bytes
+    );
+
+    [[nodiscard]] std::optional<std::uint8_t> read_u8(
+        std::istream& in
+    );
+
+    [[nodiscard]] std::optional<std::uint64_t> read_u64_le(
+        std::istream& in
+    );
+
+    [[nodiscard]] std::optional<std::vector<std::byte>>
+    read_bytes_with_u32_size(std::istream& in);
 }
 
 namespace kvdb::blockio

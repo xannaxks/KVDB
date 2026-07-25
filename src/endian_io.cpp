@@ -2,7 +2,10 @@
 
 #include <array>
 #include <format>
+#include <istream>
 #include <limits>
+#include <new>
+#include <ostream>
 #include <utility>
 
 #include "file_helpers.h"
@@ -65,6 +68,35 @@ namespace
 
 namespace kvdb::endian
 {
+    namespace
+    {
+        template <std::size_t Size>
+        [[nodiscard]] bool write_encoded(
+            std::ostream& out,
+            const std::array<std::byte, Size>& encoded
+        )
+        {
+            out.write(
+                reinterpret_cast<const char*>(encoded.data()),
+                static_cast<std::streamsize>(encoded.size())
+            );
+            return static_cast<bool>(out);
+        }
+
+        template <std::size_t Size>
+        [[nodiscard]] bool read_encoded(
+            std::istream& in,
+            std::array<std::byte, Size>& encoded
+        )
+        {
+            in.read(
+                reinterpret_cast<char*>(encoded.data()),
+                static_cast<std::streamsize>(encoded.size())
+            );
+            return static_cast<bool>(in);
+        }
+    }
+
     void put_u8(std::vector<std::byte>& out, std::uint8_t value)
     {
         out.push_back(static_cast<std::byte>(value));
@@ -105,6 +137,111 @@ namespace kvdb::endian
         put_u32_le(out, static_cast<std::uint32_t>(bytes.size()));
         out.insert(out.end(), bytes.begin(), bytes.end());
         return Status::ok();
+    }
+
+    bool write_u8(std::ostream& out, std::uint8_t value)
+    {
+        return write_encoded(
+            out,
+            std::array{ static_cast<std::byte>(value) }
+        );
+    }
+
+    bool write_u64_le(std::ostream& out, std::uint64_t value)
+    {
+        std::array<std::byte, sizeof(value)> encoded{};
+        for (unsigned shift = 0; shift < 64; shift += 8) {
+            encoded[shift / 8] =
+                static_cast<std::byte>((value >> shift) & 0xFFull);
+        }
+        return write_encoded(out, encoded);
+    }
+
+    bool write_bytes_with_u32_size(
+        std::ostream& out,
+        std::span<const std::byte> bytes
+    )
+    {
+        if (bytes.size() > std::numeric_limits<std::uint32_t>::max()) {
+            return false;
+        }
+
+        const auto size = static_cast<std::uint32_t>(bytes.size());
+        std::array<std::byte, sizeof(size)> encoded_size{};
+        for (unsigned shift = 0; shift < 32; shift += 8) {
+            encoded_size[shift / 8] =
+                static_cast<std::byte>((size >> shift) & 0xFFu);
+        }
+
+        if (!write_encoded(out, encoded_size)) {
+            return false;
+        }
+
+        if (!bytes.empty()) {
+            out.write(
+                reinterpret_cast<const char*>(bytes.data()),
+                static_cast<std::streamsize>(bytes.size())
+            );
+        }
+        return static_cast<bool>(out);
+    }
+
+    std::optional<std::uint8_t> read_u8(std::istream& in)
+    {
+        std::array<std::byte, 1> encoded{};
+        if (!read_encoded(in, encoded)) {
+            return std::nullopt;
+        }
+        return std::to_integer<std::uint8_t>(encoded.front());
+    }
+
+    std::optional<std::uint64_t> read_u64_le(std::istream& in)
+    {
+        std::array<std::byte, sizeof(std::uint64_t)> encoded{};
+        if (!read_encoded(in, encoded)) {
+            return std::nullopt;
+        }
+
+        std::uint64_t value = 0;
+        for (unsigned shift = 0; shift < 64; shift += 8) {
+            value |= static_cast<std::uint64_t>(
+                std::to_integer<std::uint8_t>(encoded[shift / 8])
+            ) << shift;
+        }
+        return value;
+    }
+
+    std::optional<std::vector<std::byte>>
+    read_bytes_with_u32_size(std::istream& in)
+    {
+        std::array<std::byte, sizeof(std::uint32_t)> encoded_size{};
+        if (!read_encoded(in, encoded_size)) {
+            return std::nullopt;
+        }
+
+        std::uint32_t size = 0;
+        for (unsigned shift = 0; shift < 32; shift += 8) {
+            size |= static_cast<std::uint32_t>(
+                std::to_integer<std::uint8_t>(encoded_size[shift / 8])
+            ) << shift;
+        }
+
+        try {
+            std::vector<std::byte> bytes(size);
+            if (!bytes.empty()) {
+                in.read(
+                    reinterpret_cast<char*>(bytes.data()),
+                    static_cast<std::streamsize>(bytes.size())
+                );
+                if (!in) {
+                    return std::nullopt;
+                }
+            }
+            return bytes;
+        }
+        catch (const std::bad_alloc&) {
+            return std::nullopt;
+        }
     }
 }
 
