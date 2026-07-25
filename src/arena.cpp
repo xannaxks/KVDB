@@ -637,8 +637,8 @@ std::size_t Arena::get_destructor_count() const noexcept
     return destructors_.size();
 }
 
-ArenaEntry::ArenaEntry(void* ptr, std::size_t entry_size)
-    : data(ptr)
+ArenaEntry::ArenaEntry(const void* ptr, std::size_t entry_size)
+    : data(const_cast<void*>(ptr))
 {
     if (entry_size > std::numeric_limits<std::uint32_t>::max())
     {
