@@ -18,46 +18,48 @@
 #include <string>
 #include <string_view>
 #include <cstdint>
+#include <filesystem>
+#include <mutex>
 
-class Engine
+class Engine final : public KVDB
 {
 public:
     explicit Engine(DBOptions options);
-    ~Engine() = default;
+    ~Engine() override;
 
     Status open();
 
-    Status put(std::string& key, std::string& value) ;
-    Result<std::optional<std::string>> get(std::string& key, Arena& arena);
-    Status remove(std::string& key) ;
-	Status put_impl(const std::string& key, const std::string& value, const InternalRecord& record);
-
-    Status recover();
-
-    Status flush() ;
+    Status put(std::string& key, std::string& value) override;
+    Result<std::optional<std::string>> get(std::string_view key) override;
+    Status remove(std::string& key) override;
+    Status flush() override;
 
     Status compact_range(
         std::string_view begin,
         std::string_view end
-    ) ;
+    ) override;
 
-    Status close() ;
+    Status close() override;
 
 private:
     Status ensure_open() const;
-
     Status prepare_dirs();
+    Status open_manifest();
+    Status open_wal();
+    Status put_impl(
+        std::string_view key,
+        std::string_view value,
+        Type type
+    );
+    Status flush_unlocked();
+    Status flush_oldest_immutable();
+    Status maybe_flush_unlocked();
+    Status maybe_compact_unlocked();
+    Status run_compaction(const CompactionPlan& plan);
 
-    Status recover_manifest();
-    Status recover_wal();
-    Status recover_sstables();
-    Status recover_counters();
-
-    Status maybe_flush();
-    Status maybe_compact();
-
-    Result<std::uint32_t> allocate_next_table_id();
-    Result<std::uint64_t> allocate_next_sequence();
+    [[nodiscard]] std::filesystem::path wal_path(
+        std::uint32_t wal_id
+    ) const;
 
 private:
     DBOptions options_;
@@ -71,11 +73,16 @@ private:
     std::unique_ptr<CompactionScheduler> compaction_scheduler_;
     std::unique_ptr<SSTableManager> sstable_manager_;
 
-    std::unique_ptr<Arena> arena;
+    std::unique_ptr<Arena> arena_;
 
-    std::uint64_t last_seq_num_ = 0;
-    std::uint32_t last_table_id_ = 1;
+    std::filesystem::path manifest_path_;
+    std::filesystem::path sstable_dir_;
+
+    std::uint64_t next_sequence_ = 1;
+    std::uint32_t current_wal_id_ = 1;
 
     bool opened_ = false;
     bool closed_ = false;
+
+    mutable std::mutex mutex_;
 };
