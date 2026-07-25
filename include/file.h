@@ -44,7 +44,7 @@ public:
 class WritableFile
 {
 public:
-	const std::filesystem::path path;
+	std::filesystem::path path;
 
 	virtual ~WritableFile() = default;
 

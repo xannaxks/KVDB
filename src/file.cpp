@@ -72,6 +72,7 @@ private:
 public:
 	explicit WindowsReadableFile(const std::filesystem::path& path)
 	{
+		this->path = path;
 		handle_ = CreateFileW(
 			path.c_str(),
 			GENERIC_READ,
@@ -128,6 +129,9 @@ public:
 				&ov
 			);
 
+			if (!ok && GetLastError() == ERROR_HANDLE_EOF)
+				return Status::ok();
+
 			if (!ok)
 				return syscall_error(StatusCode::ReadFailed, "read_at");
 
@@ -179,10 +183,11 @@ private:
 public:
 	explicit WindowsWritableFile(const std::filesystem::path& path)
 	{
+		this->path = path;
 		handle_ = CreateFileW(
 			path.c_str(),
 			GENERIC_WRITE,
-			0,
+			FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
 			nullptr,
 			OPEN_ALWAYS,
 			FILE_ATTRIBUTE_NORMAL,
@@ -253,7 +258,7 @@ public:
 			ptr += written;
 			remaining -= written;
 
-			Result<std::uint64_t> current_position_result = this->current_position();
+			current_position_result = this->current_position();
 			if (!current_position_result.is_ok())
 				return current_position_result.status;
 			assert(current_position_result.value == track_offset);
@@ -310,6 +315,7 @@ public:
 		if (ok == 0)
 			return syscall_error(StatusCode::RenameFailed, "durable_rename");
 
+		this->path = to;
 		return Status::ok();
 	}
 
@@ -334,14 +340,13 @@ public:
 		if (handle == INVALID_HANDLE_VALUE)
 			return syscall_error(StatusCode::DirectorySyncFailed, "sync_directory");
 
-		BOOL ok = FlushFileBuffers(handle);
-
-		if (ok == 0)
-			return syscall_error(StatusCode::DirectorySyncFailed, "sync_directory");
-
-		return this->close();
-
-		return ok != 0 ? Status::ok() : syscall_error(StatusCode::CloseFailed, "sync_directory");
+		// MoveFileExW(MOVEFILE_WRITE_THROUGH) performs the supported Windows
+		// durability step for the rename. Directory handles cannot reliably be
+		// passed to FlushFileBuffers, so only validate and close this handle.
+		const BOOL close_ok = CloseHandle(handle);
+		return close_ok != 0
+			? Status::ok()
+			: syscall_error(StatusCode::CloseFailed, "sync_directory");
 	}
 
 	Result<std::uint64_t> seek_to_end()
@@ -808,17 +813,21 @@ Result<std::unique_ptr<WritableFile>> open_writable_file(const std::filesystem::
 #ifdef _WIN32
 		std::unique_ptr<WritableFile> res = std::make_unique<WindowsWritableFile>(path);
 
-		Status seek_eof_res = std::move(res->seek_to_end().status);
-		if (!seek_eof_res.is_ok())
-			return Result<std::unique_ptr<WritableFile>>::fail(std::move(seek_eof_res));
+		Result<std::uint64_t> seek_eof_result = res->seek_to_end();
+		if (!seek_eof_result.is_ok())
+			return Result<std::unique_ptr<WritableFile>>::fail(
+				std::move(seek_eof_result.status)
+			);
 
 		return Result<std::unique_ptr<WritableFile>>::ok(std::move(res));
 #else
 		std::unique_ptr<WritableFile> res = std::make_unique<PosixWritableFile>(path);
 
-		Status seek_eof_res = std::move(res->seek_to_end().status);
-		if (!seek_eof_res.is_ok())
-			return Result<std::unique_ptr<WritableFile>>::fail(std::move(seek_eof_res));
+		Result<std::uint64_t> seek_eof_result = res->seek_to_end();
+		if (!seek_eof_result.is_ok())
+			return Result<std::unique_ptr<WritableFile>>::fail(
+				std::move(seek_eof_result.status)
+			);
 
 		return Result<std::unique_ptr<WritableFile>>::ok(std::move(res));
 #endif
