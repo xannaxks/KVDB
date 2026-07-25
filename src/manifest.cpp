@@ -387,9 +387,16 @@ Result<std::uint32_t> VersionEdit::Payload::encoded_size() const
     }
 
     for (const auto& table : new_tables) {
+        Result<std::uint32_t> table_size = table.disk_size();
+        if (!table_size.is_ok()) {
+            return Result<std::uint32_t>::fail(
+                std::move(table_size.status)
+            );
+        }
+
         status = checked_add_u64(
             size,
-            static_cast<std::uint64_t>(table.disk_size()),
+            static_cast<std::uint64_t>(table_size.value),
             "version edit payload"
         );
         if (!status.is_ok()) {
@@ -453,7 +460,10 @@ Status VersionEdit::Payload::compute_crc32(
         table.calculate_crc(crc_buffer);
     }
     for (const auto& table : new_tables) {
-        table.calculate_crc(crc_buffer);
+        Status status = table.calculate_crc(crc_buffer);
+        if (!status.is_ok()) {
+            return status;
+        }
     }
 
     return Status::ok();
