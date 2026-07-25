@@ -53,10 +53,10 @@ TEST(LevelManagerCompactionRegressionTest, RejectsOverlapOnEitherSide)
     EXPECT_FALSE(manager.add_table(table(arena, 3, 1, "f", "z")).is_ok());
 }
 
-TEST(LevelManagerCompactionRegressionTest,ResizesDirectlyToRequestedLevel)
+TEST(LevelManagerCompactionRegressionTest, AcceptsHighestConfiguredLevel)
 {
     Arena arena;
-    LevelManager manager;
+    LevelManager manager(5);
 
     Status status = manager.add_table(table(arena, 1, 4, "a", "z"));
     ASSERT_TRUE(status.is_ok());
