@@ -275,7 +275,7 @@ Result<std::optional<InternalRecord>> RBTree::find_latest_by_key(ArenaEntry key)
     }
 
     if (result == nullptr)
-        return Result<std::optional<InternalRecord>>::fail(Status{ StatusCode::NotFound, std::format("Key not found: {}", key) });
+        return Result<std::optional<InternalRecord>>::ok(std::nullopt);
 
     return Result<std::optional<InternalRecord>>::ok(InternalRecord(result->key_entry, result->value_entry, result->type, result->seq_number));
 }
@@ -413,5 +413,5 @@ bool RBTree::expect_parent_links_valid(RBTree::Node* node, RBTree::Node* expecte
 
 bool RBTree::empty() const noexcept
 {
-    return (root != nullptr);
+    return root == nullptr;
 }
