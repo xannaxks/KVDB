@@ -82,8 +82,8 @@ namespace SSTableEntities
             // between data blocks are intentionally excluded.
             std::uint64_t data_bytes = 0;
 
-            void* max_key_ptr = nullptr;
-            void* min_key_ptr = nullptr;
+            const void* max_key_ptr = nullptr;
+            const void* min_key_ptr = nullptr;
 
             [[nodiscard]] static constexpr std::size_t fixed_disk_size() noexcept
             {
