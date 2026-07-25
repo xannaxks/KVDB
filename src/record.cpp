@@ -23,18 +23,28 @@ InternalRecord::InternalRecord(ArenaEntry key_entry, ArenaEntry value_entry, Typ
 //	return out;
 //}
 
-uint32_t InternalRecord::disk_size()
+std::uint32_t InternalRecord::disk_size() const noexcept
 {
-	return key_entry.size + value_entry.size + sizeof(seq_num) + sizeof(type);
-}
+    constexpr std::uint32_t fixed_size =
+        sizeof(std::uint32_t) + // key size
+        sizeof(std::uint32_t) + // value size
+        sizeof(std::uint8_t) +  // type
+        sizeof(std::uint32_t) + // flags
+        sizeof(std::uint32_t) + // reserved
+        sizeof(std::uint64_t);  // sequence number
 
-std::uint32_t InternalRecord::disk_size() const
-{
-	return key_entry.size + value_entry.size + sizeof(seq_num) + sizeof(type);
+	return fixed_size + key_entry.size + value_entry.size;
 }
 
 bool InternalRecord::write(std::ofstream& file) const
 {
+    if ((key_entry.size > 0 && key_entry.data == nullptr) ||
+        (value_entry.size > 0 && value_entry.data == nullptr) ||
+        (type != Type::Put && type != Type::Tombstone))
+    {
+        return false;
+    }
+
     if (!kvdb::endian::write_u64_le(file, seq_num))
         return false;
 
@@ -61,6 +71,7 @@ bool InternalRecord::write(std::ofstream& file) const
 }
 std::optional<InternalRecord> InternalRecord::read(std::ifstream& file, Arena& arena)
 {
+    const Arena::Checkpoint checkpoint = arena.checkpoint();
     InternalRecord result;
 
     auto seq_num_opt = kvdb::endian::read_u64_le(file);
@@ -91,15 +102,26 @@ std::optional<InternalRecord> InternalRecord::read(std::ifstream& file, Arena& a
     if (!value_bytes_opt.has_value())
         return std::nullopt;
 
-    result.key_entry = ArenaEntry::make_entry(
+    Result<ArenaEntry> key_result = ArenaEntry::make_entry(
         arena,
         std::span<const std::byte>(key_bytes_opt->data(), key_bytes_opt->size())
     );
+    if (!key_result.is_ok()) {
+        arena.rollback(checkpoint);
+        return std::nullopt;
+    }
 
-    result.value_entry = ArenaEntry::make_entry(
+    Result<ArenaEntry> value_result = ArenaEntry::make_entry(
         arena,
         std::span<const std::byte>(value_bytes_opt->data(), value_bytes_opt->size())
     );
+    if (!value_result.is_ok()) {
+        arena.rollback(checkpoint);
+        return std::nullopt;
+    }
+
+    result.key_entry = key_result.value;
+    result.value_entry = value_result.value;
 
     return std::optional<InternalRecord>{std::move(result)};
 }

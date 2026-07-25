@@ -1,9 +1,13 @@
 #pragma once
 
-#include "type.h"
-#include "bytes.h"
 #include "arena.h"
 #include "endian_io.h"
+#include "type.h"
+
+#include <cstdint>
+#include <fstream>
+#include <optional>
+#include <string>
 
 struct Record
 {
@@ -17,8 +21,7 @@ struct InternalRecord
     Type type;
     uint64_t seq_num;
 
-    uint32_t disk_size();
-    std::uint32_t disk_size() const;
+    [[nodiscard]] std::uint32_t disk_size() const noexcept;
     InternalRecord() = default;
     InternalRecord(InternalRecord&& other) noexcept = default;
     InternalRecord(const InternalRecord& other) noexcept = default;
