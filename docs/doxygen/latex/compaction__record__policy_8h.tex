@@ -1,0 +1,57 @@
+\doxysection{compaction\+\_\+record\+\_\+policy.\+h File Reference}
+\hypertarget{compaction__record__policy_8h}{}\label{compaction__record__policy_8h}\index{compaction\_record\_policy.h@{compaction\_record\_policy.h}}
+
+
+Version-\/retention rule used during sorted compaction merge.  
+
+
+{\ttfamily \+\#include "{}type.\+h"{}}\newline
+Include dependency graph for compaction\+\_\+record\+\_\+policy.\+h:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{compaction__record__policy_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=217pt]{compaction__record__policy_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{compaction__record__policy_8h_a934bd62d698a5da7db117951dd861d60}{compaction\+\_\+keep\+\_\+newest\+\_\+record}} (\doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{::\+\+Type}} type, bool is\+\_\+bottommost\+\_\+level) noexcept
+\begin{DoxyCompactList}\small\item\em Returns true for the first (newest) record of each user key. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Version-\/retention rule used during sorted compaction merge. 
+
+
+
+Definition in file \doxymbox{\hyperlink{compaction__record__policy_8h_source}{compaction\+\_\+record\+\_\+policy.\+h}}.
+
+
+
+\label{compaction__record__policy_8h_doc-func-members}
+\Hypertarget{compaction__record__policy_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{compaction__record__policy_8h_a934bd62d698a5da7db117951dd861d60}\index{compaction\_record\_policy.h@{compaction\_record\_policy.h}!compaction\_keep\_newest\_record@{compaction\_keep\_newest\_record}}
+\index{compaction\_keep\_newest\_record@{compaction\_keep\_newest\_record}!compaction\_record\_policy.h@{compaction\_record\_policy.h}}
+\doxysubsubsection{\texorpdfstring{compaction\_keep\_newest\_record()}{compaction\_keep\_newest\_record()}}
+{\footnotesize\ttfamily \label{compaction__record__policy_8h_a934bd62d698a5da7db117951dd861d60} 
+bool compaction\+\_\+keep\+\_\+newest\+\_\+record (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{::\+\+Type}}}]{type}{, }\item[{bool}]{is\+\_\+bottommost\+\_\+level}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+
+Returns true for the first (newest) record of each user key. 
+
+Inputs must arrive in internal-\/key order:\+ key ascending, sequence descending. 
+
+Definition at line \doxymbox{\hyperlink{compaction__record__policy_8h_source_l00016}{16}} of file \doxymbox{\hyperlink{compaction__record__policy_8h_source}{compaction\+\_\+record\+\_\+policy.\+h}}.
+

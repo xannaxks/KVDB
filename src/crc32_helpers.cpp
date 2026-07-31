@@ -1,3 +1,6 @@
+// zlib accepts uInt-sized chunks, so large buffers are folded into the running
+// CRC incrementally without truncating size_t. A null pointer is accepted only
+// for an empty range.
 #include "crc32_helpers.h"
 
 #include <algorithm>

@@ -1,4 +1,5 @@
 /**
+* @file status.h
 * @brief Provides classes, types and utilities for error handling.
 *
 * Instead of terminating execution when an operation fails, these entities
@@ -29,13 +30,13 @@ enum class StatusCode : std::uint8_t {
 
     // Generic
     BadAccess, ///< permissions denied, use after close
-    Underflow, //< 
+    Underflow, ///< Arithmetic or cursor underflow.
     InvalidArgument, ///< invalid argument was provided
     FailedPrecondition, ///< failed to satify preconditions
     NotFound, ///< not found
     AlreadyExists, ///< typical scenario when file already exists, but attempt to recreate it was performed.
     NotSupported, ///< Not suppported, might refer to invalid 
-    InternalError,
+    InternalError, ///< Unexpected invariant or implementation failure.
     InvariantViolation, ///< Violates entities invariants.
     Duplicate, ///< duplicate. in some cases, like L1+ level tables, might mean corruption.
 
@@ -43,7 +44,7 @@ enum class StatusCode : std::uint8_t {
     OutOfMemory, ///< out of aviable memory, usuallly fatal.
     AllocationFailed, ///< allocation of memory failed, might be fatal.
     InvalidAlignment, ///< invalid entity alignment was provided, maximum allowed alignment is std::max_align_t
-    AllocationTooLarge,
+    AllocationTooLarge, ///< Requested allocation exceeds supported limits.
     BufferTooSmall, ///< provided buffer is too small, might lead to overflow of buffer
     NullPointer, ///< reference to null pointer.
     BadAlloc, ///< Bad allocation

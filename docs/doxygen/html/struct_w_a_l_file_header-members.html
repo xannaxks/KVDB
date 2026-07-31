@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('struct_w_a_l_file_header.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,36 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">WALFileHeader Member List</div></div>
 </div><!--header-->
 <div class="contents">
 
 <p>This is the complete list of members for <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>, including all inherited members.</p>
-<table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>block_size</b> (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>compute_crc32</b>() (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>compute_crc32</b>(const WALFileHeader &amp;wal_file_header) (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>disk_size</b>() noexcept (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>header_crc32</b> (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>header_size</b> (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>load</b>(ReadableFile &amp;file, std::uint32_t expected_wal_id, std::uint64_t &amp;offset) (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>magic</b> (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>reserved</b> (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>self_check</b>() const (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>start_seq</b> (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>version</b> (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>wal_id</b> (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>WALFileHeader</b>()=default (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>WALFileHeader</b>(std::uint32_t wal_id, std::uint64_t start_seq) (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>write</b>(WritableFile &amp;file, std::uint64_t &amp;offset) const (defined in <a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a>)</td><td class="entry"><a class="el" href="struct_w_a_l_file_header.html">WALFileHeader</a></td><td class="entry"></td></tr>
-</table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
+</div><!-- contents -->
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -5,10 +5,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KVDB: C:/Users/user/KVDB/include/sstable_entities.h Source File</title>
+<title>KVDB: sstable_entities.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('sstable__entities_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,59 +115,76 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><b>include</b></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">sstable_entities.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespace_s_s_table_entities.html">SSTableEntities</a></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keyword">constexpr</span> std::uint32_t FILE_HEADER_MAGIC = 0x53535431; <span class="comment">// SST1</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="keyword">constexpr</span> std::uint32_t FILE_FOOTER_MAGIC = 0x46545231; <span class="comment">// FTR1</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keyword">constexpr</span> std::uint32_t LATEST_SSTABLE_VERSION = 1;</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">constexpr</span> std::uint32_t BLOCK_SIZE = 4096;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keyword">constexpr</span> std::uint32_t BLOOM_HASH_COUNT = 2;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">constexpr</span> std::uint32_t BLOOM_MASK_BIT_SIZE = 128; <span class="comment">// number of byte-addressed Bloom slots</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_file_header_section.html">FileHeaderSection</a>;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_data_section.html">DataSection</a>;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_data_section_view.html">DataSectionView</a>;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_index_section.html">IndexSection</a>;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_bloom_section.html">BloomSection</a>;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_meta_section.html">MetaSection</a>;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_file_footer_section.html">FileFooterSection</a>;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">enum class</span> BlockType : std::uint8_t</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    {</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        Data = 1,</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        Index = 2,</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        Bloom = 3,</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        Meta = 4</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    };</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>}</div>
-<div class="ttc" id="anamespace_s_s_table_entities_html"><div class="ttname"><a href="namespace_s_s_table_entities.html">SSTableEntities</a></div><div class="ttdef"><b>Definition</b> bloom_section.cpp:138</div></div>
-<div class="ttc" id="astruct_s_s_table_entities_1_1_bloom_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_bloom_section.html">SSTableEntities::BloomSection</a></div><div class="ttdef"><b>Definition</b> bloom_section.h:14</div></div>
-<div class="ttc" id="astruct_s_s_table_entities_1_1_data_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_data_section.html">SSTableEntities::DataSection</a></div><div class="ttdef"><b>Definition</b> data_section.h:17</div></div>
-<div class="ttc" id="astruct_s_s_table_entities_1_1_data_section_view_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_data_section_view.html">SSTableEntities::DataSectionView</a></div><div class="ttdef"><b>Definition</b> data_section_view.h:18</div></div>
-<div class="ttc" id="astruct_s_s_table_entities_1_1_file_footer_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_file_footer_section.html">SSTableEntities::FileFooterSection</a></div><div class="ttdef"><b>Definition</b> file_footer_section.h:13</div></div>
-<div class="ttc" id="astruct_s_s_table_entities_1_1_file_header_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_file_header_section.html">SSTableEntities::FileHeaderSection</a></div><div class="ttdef"><b>Definition</b> file_header_section.h:16</div></div>
-<div class="ttc" id="astruct_s_s_table_entities_1_1_index_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></div><div class="ttdef"><b>Definition</b> index_section.h:20</div></div>
-<div class="ttc" id="astruct_s_s_table_entities_1_1_meta_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_meta_section.html">SSTableEntities::MetaSection</a></div><div class="ttdef"><b>Definition</b> meta_section.h:17</div></div>
+<a href="sstable__entities_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * @file sstable_entities.h</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * @brief Shared constants and section types for SSTable format version 1.</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment"> * The physical layout is:</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment"> * @code</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment"> * file header | aligned data blocks | index | bloom | metadata | file footer</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment"> * @endcode</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"> * Offsets and sizes in the footer provide bounded random access to the variable</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment"> * sections; each section also carries its own validation metadata.</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">namespace </span>SSTableEntities</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>{</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">constexpr</span> std::uint32_t FILE_HEADER_MAGIC = 0x53535431; <span class="comment">// SST1</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">constexpr</span> std::uint32_t FILE_FOOTER_MAGIC = 0x46545231; <span class="comment">// FTR1</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">constexpr</span> std::uint32_t LATEST_SSTABLE_VERSION = 1;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">constexpr</span> std::uint32_t BLOCK_SIZE = 4096;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">constexpr</span> std::uint32_t BLOOM_HASH_COUNT = 2;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">constexpr</span> std::uint32_t BLOOM_MASK_BIT_SIZE = 128; <span class="comment">// number of byte-addressed Bloom slots</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_file_header_section.html">FileHeaderSection</a>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_data_section.html">DataSection</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_data_section_view.html">DataSectionView</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_index_section.html">IndexSection</a>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_bloom_section.html">BloomSection</a>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_meta_section.html">MetaSection</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">struct </span><a class="code hl_struct" href="struct_s_s_table_entities_1_1_file_footer_section.html">FileFooterSection</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"></span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">    /** @brief On-disk discriminator for variable SSTable sections. */</span></div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="};">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500">   35</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500">BlockType</a> : std::uint8_t</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500af6068daa29dbb05a7ead1e3b5a48bbee">   37</a></span>        <a class="code hl_enumvalue" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500af6068daa29dbb05a7ead1e3b5a48bbee">Data</a> = 1, <span class="comment">///&lt; Sorted versioned record payloads.</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500a88fa71f0a6e0dfedbb46d91cc0b37a50">   38</a></span>        <a class="code hl_enumvalue" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500a88fa71f0a6e0dfedbb46d91cc0b37a50">Index</a> = 2, <span class="comment">///&lt; Data-block offsets and inclusive key bounds.</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500ae57cdfbc09f4e0f7445c279d9f580bdd">   39</a></span>        <a class="code hl_enumvalue" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500ae57cdfbc09f4e0f7445c279d9f580bdd">Bloom</a> = 3, <span class="comment">///&lt; Probabilistic negative-lookup filter.</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500ab6755d218d5f4e1cef9cce9cc39aeda9">   40</a></span>        <a class="code hl_enumvalue" href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500ab6755d218d5f4e1cef9cce9cc39aeda9">Meta</a> = 4 <span class="comment">///&lt; Aggregate table statistics and bounds.</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    };</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
+<div class="ttc" id="asstable__entities_8h_html_a6e4c60e5b3af2829d3f85022acf90500"><div class="ttname"><a href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500">SSTableEntities::BlockType</a></div><div class="ttdeci">BlockType</div><div class="ttdoc">On-disk discriminator for variable SSTable sections.</div><div class="ttdef"><b>Definition</b> <a href="#l00035">sstable_entities.h:36</a></div></div>
+<div class="ttc" id="asstable__entities_8h_html_a6e4c60e5b3af2829d3f85022acf90500a88fa71f0a6e0dfedbb46d91cc0b37a50"><div class="ttname"><a href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500a88fa71f0a6e0dfedbb46d91cc0b37a50">SSTableEntities::BlockType::Index</a></div><div class="ttdeci">@ Index</div><div class="ttdoc">Data-block offsets and inclusive key bounds.</div><div class="ttdef"><b>Definition</b> <a href="#l00038">sstable_entities.h:38</a></div></div>
+<div class="ttc" id="asstable__entities_8h_html_a6e4c60e5b3af2829d3f85022acf90500ab6755d218d5f4e1cef9cce9cc39aeda9"><div class="ttname"><a href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500ab6755d218d5f4e1cef9cce9cc39aeda9">SSTableEntities::BlockType::Meta</a></div><div class="ttdeci">@ Meta</div><div class="ttdoc">Aggregate table statistics and bounds.</div><div class="ttdef"><b>Definition</b> <a href="#l00040">sstable_entities.h:40</a></div></div>
+<div class="ttc" id="asstable__entities_8h_html_a6e4c60e5b3af2829d3f85022acf90500ae57cdfbc09f4e0f7445c279d9f580bdd"><div class="ttname"><a href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500ae57cdfbc09f4e0f7445c279d9f580bdd">SSTableEntities::BlockType::Bloom</a></div><div class="ttdeci">@ Bloom</div><div class="ttdoc">Probabilistic negative-lookup filter.</div><div class="ttdef"><b>Definition</b> <a href="#l00039">sstable_entities.h:39</a></div></div>
+<div class="ttc" id="asstable__entities_8h_html_a6e4c60e5b3af2829d3f85022acf90500af6068daa29dbb05a7ead1e3b5a48bbee"><div class="ttname"><a href="sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500af6068daa29dbb05a7ead1e3b5a48bbee">SSTableEntities::BlockType::Data</a></div><div class="ttdeci">@ Data</div><div class="ttdoc">Sorted versioned record payloads.</div><div class="ttdef"><b>Definition</b> <a href="#l00037">sstable_entities.h:37</a></div></div>
+<div class="ttc" id="astruct_s_s_table_entities_1_1_bloom_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_bloom_section.html">SSTableEntities::BloomSection</a></div><div class="ttdoc">Version-1 Bloom filter and its checksummed disk representation.</div><div class="ttdef"><b>Definition</b> <a href="bloom__section_8h_source.html#l00023">bloom_section.h:24</a></div></div>
+<div class="ttc" id="astruct_s_s_table_entities_1_1_data_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_data_section.html">SSTableEntities::DataSection</a></div><div class="ttdoc">Groups non-owning record payloads into checksummed physical blocks.</div><div class="ttdef"><b>Definition</b> <a href="data__section_8h_source.html#l00027">data_section.h:28</a></div></div>
+<div class="ttc" id="astruct_s_s_table_entities_1_1_data_section_view_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_data_section_view.html">SSTableEntities::DataSectionView</a></div><div class="ttdoc">Header-only map of data blocks with on-demand CRC validation.</div><div class="ttdef"><b>Definition</b> <a href="data__section__view_8h_source.html#l00028">data_section_view.h:29</a></div></div>
+<div class="ttc" id="astruct_s_s_table_entities_1_1_file_footer_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_file_footer_section.html">SSTableEntities::FileFooterSection</a></div><div class="ttdoc">Checksummed offsets and extents for every variable SSTable section.</div><div class="ttdef"><b>Definition</b> <a href="file__footer__section_8h_source.html#l00023">file_footer_section.h:24</a></div></div>
+<div class="ttc" id="astruct_s_s_table_entities_1_1_file_header_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_file_header_section.html">SSTableEntities::FileHeaderSection</a></div><div class="ttdoc">Checksummed fixed-width header at byte zero of every SSTable.</div><div class="ttdef"><b>Definition</b> <a href="file__header__section_8h_source.html#l00020">file_header_section.h:21</a></div></div>
+<div class="ttc" id="astruct_s_s_table_entities_1_1_index_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></div><div class="ttdoc">Checksummed mapping from inclusive key ranges to data blocks.</div><div class="ttdef"><b>Definition</b> <a href="index__section_8h_source.html#l00030">index_section.h:31</a></div></div>
+<div class="ttc" id="astruct_s_s_table_entities_1_1_meta_section_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_meta_section.html">SSTableEntities::MetaSection</a></div><div class="ttdoc">Checksummed summary derived from data and index sections.</div><div class="ttdef"><b>Definition</b> <a href="meta__section_8h_source.html#l00027">meta_section.h:28</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>include</b></li><li class="navelem"><a href="sstable__entities_8h.html">sstable_entities.h</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

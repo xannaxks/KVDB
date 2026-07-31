@@ -1,3 +1,6 @@
+// The fixed header is encoded field-by-field and checksummed without relying on
+// structure padding. Loading rejects magic, version, block-size, and CRC mismatch
+// before any later section is interpreted.
 #include "sstable_entities/file_header_section.h"
 
 #include <format>

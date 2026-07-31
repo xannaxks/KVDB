@@ -1,286 +1,38 @@
 \doxysection{Version\+Edit Struct Reference}
 \hypertarget{struct_version_edit}{}\label{struct_version_edit}\index{VersionEdit@{VersionEdit}}
-\doxysubsubsection*{Classes}
-\begin{DoxyCompactItemize}
-\item 
-struct \doxymbox{\hyperlink{struct_version_edit_1_1_header}{Header}}
-\item 
-struct \doxymbox{\hyperlink{struct_version_edit_1_1_payload}{Payload}}
-\end{DoxyCompactItemize}
+
+
+Atomic metadata transition stored in the manifest.  
+
+
+
+
+{\ttfamily \+\#include $<$manifest.\+h$>$}
+
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint32\+\_\+t $>$ \doxymbox{\hyperlink{struct_version_edit_ac1b202963d7bdb1bef580b76d2e4b9a8}{encoded\+\_\+size}} () const
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_version_edit_a741474c9712e5cd0dfe0bfe59d85c2e4}{add\+\_\+table}} (const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&meta)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_version_edit_ac6afdc0bc26a1337be4e6c8471185812}{prepare}} ()
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_version_edit_a93bf15be107cd0f8d8b493ef638807ab}{write}} (\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&file, std::\+uint64\+\_\+t \&offset)
-\end{DoxyCompactItemize}
+\Hypertarget{struct_version_edit_ac6afdc0bc26a1337be4e6c8471185812}\label{struct_version_edit_ac6afdc0bc26a1337be4e6c8471185812} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries prepare} ()
+\begin{DoxyCompactList}\small\item\em Validates the payload and rebuilds its encoded header. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} $>$ \doxymbox{\hyperlink{struct_version_edit_a45149802591a2866f995a8150ea000fe}{load}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset, std::\+uint64\+\_\+t file\+\_\+size, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{struct_version_edit_1_1_header}{Header}} \doxymbox{\hyperlink{struct_version_edit_a41e1e4cc4d27ce95ecee9b4c7b5cc780}{header}} \{\}
-\item 
-\doxymbox{\hyperlink{struct_version_edit_1_1_payload}{Payload}} \doxymbox{\hyperlink{struct_version_edit_ac11f33bd4b27a9ae1442276513e99361}{payload}} \{\}
-\end{DoxyCompactItemize}
+\Hypertarget{struct_version_edit_a45149802591a2866f995a8150ea000fe}\label{struct_version_edit_a45149802591a2866f995a8150ea000fe} 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} $>$ {\bfseries load} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset, std::\+uint64\+\_\+t file\+\_\+size, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\begin{DoxyCompactList}\small\item\em Loads one bounded, checksum-\/verified edit at {\ttfamily offset}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\label{struct_version_edit_doc-func-members}
-\Hypertarget{struct_version_edit_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{struct_version_edit_a741474c9712e5cd0dfe0bfe59d85c2e4}\index{VersionEdit@{VersionEdit}!add\_table@{add\_table}}
-\index{add\_table@{add\_table}!VersionEdit@{VersionEdit}}
-\doxysubsubsection{\texorpdfstring{add\_table()}{add\_table()}}
-{\footnotesize\ttfamily \label{struct_version_edit_a741474c9712e5cd0dfe0bfe59d85c2e4} 
-\doxymbox{\hyperlink{struct_status}{Status}} Version\+Edit::\+add\+\_\+table (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&}]{meta}{}\end{DoxyParamCaption})}
+\doxysubsection{Detailed Description}
+Atomic metadata transition stored in the manifest. 
 
+Optional counters advance allocator/\+recovery state. Table additions and deletions describe one flush or compaction publication. \doxylink{struct_version_edit_ac6afdc0bc26a1337be4e6c8471185812}{prepare()} validates the payload and seals its size/\+checksum before write(). 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00840\ \{}
-\DoxyCodeLine{00841\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00842\ \ \ \ \ \ \ \ \ payload.new\_tables.push\_back(meta);}
-\DoxyCodeLine{00843\ \ \ \ \ \}}
-\DoxyCodeLine{00844\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
-\DoxyCodeLine{00845\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00846\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{00847\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ append\ table\ metadata\ to\ version\ edit"{}}}
-\DoxyCodeLine{00848\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00849\ \ \ \ \ \}}
-\DoxyCodeLine{00850\ }
-\DoxyCodeLine{00851\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00852\ \}}
+Definition at line \doxymbox{\hyperlink{manifest_8h_source_l00063}{63}} of file \doxymbox{\hyperlink{manifest_8h_source}{manifest.\+h}}.
 
-\end{DoxyCode}
-\Hypertarget{struct_version_edit_ac1b202963d7bdb1bef580b76d2e4b9a8}\index{VersionEdit@{VersionEdit}!encoded\_size@{encoded\_size}}
-\index{encoded\_size@{encoded\_size}!VersionEdit@{VersionEdit}}
-\doxysubsubsection{\texorpdfstring{encoded\_size()}{encoded\_size()}}
-{\footnotesize\ttfamily \label{struct_version_edit_ac1b202963d7bdb1bef580b76d2e4b9a8} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint32\+\_\+t $>$ Version\+Edit::\+encoded\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00816\ \{}
-\DoxyCodeLine{00817\ \ \ \ \ \textcolor{keyword}{auto}\ payload\_size\ =\ payload.encoded\_size();}
-\DoxyCodeLine{00818\ \ \ \ \ \textcolor{keywordflow}{if}\ (!payload\_size.is\_ok())\ \{}
-\DoxyCodeLine{00819\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::fail(}
-\DoxyCodeLine{00820\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(payload\_size.status)}
-\DoxyCodeLine{00821\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00822\ \ \ \ \ \}}
-\DoxyCodeLine{00823\ }
-\DoxyCodeLine{00824\ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_size.value\ >}
-\DoxyCodeLine{00825\ \ \ \ \ \ \ \ \ std::numeric\_limits<std::uint32\_t>::max()\ -\/\ Header::disk\_size())\ \{}
-\DoxyCodeLine{00826\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::fail(}
-\DoxyCodeLine{00827\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00828\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{00829\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}version\ edit\ encoded\ size\ exceeds\ uint32\_t"{}}}
-\DoxyCodeLine{00830\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00831\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00832\ \ \ \ \ \}}
-\DoxyCodeLine{00833\ }
-\DoxyCodeLine{00834\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::ok(}
-\DoxyCodeLine{00835\ \ \ \ \ \ \ \ \ Header::disk\_size()\ +\ payload\_size.value}
-\DoxyCodeLine{00836\ \ \ \ \ );}
-\DoxyCodeLine{00837\ \}}
-
-\end{DoxyCode}
-\Hypertarget{struct_version_edit_a45149802591a2866f995a8150ea000fe}\index{VersionEdit@{VersionEdit}!load@{load}}
-\index{load@{load}!VersionEdit@{VersionEdit}}
-\doxysubsubsection{\texorpdfstring{load()}{load()}}
-{\footnotesize\ttfamily \label{struct_version_edit_a45149802591a2866f995a8150ea000fe} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} $>$ Version\+Edit::\+load (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{, }\item[{std::\+uint64\+\_\+t}]{file\+\_\+size}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00918\ \{}
-\DoxyCodeLine{00919\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ edit\_begin\ =\ offset;}
-\DoxyCodeLine{00920\ }
-\DoxyCodeLine{00921\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ >\ file\_size\ ||}
-\DoxyCodeLine{00922\ \ \ \ \ \ \ \ \ VersionEdit::Header::disk\_size()\ >\ file\_size\ -\/\ offset)\ \{}
-\DoxyCodeLine{00923\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<VersionEdit>::fail(}
-\DoxyCodeLine{00924\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00925\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
-\DoxyCodeLine{00926\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}truncated\ version\ edit\ header"{}}}
-\DoxyCodeLine{00927\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00928\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00929\ \ \ \ \ \}}
-\DoxyCodeLine{00930\ }
-\DoxyCodeLine{00931\ \ \ \ \ Result<Header>\ header\ =\ Header::load(file,\ offset);}
-\DoxyCodeLine{00932\ \ \ \ \ \textcolor{keywordflow}{if}\ (!header.is\_ok())\ \{}
-\DoxyCodeLine{00933\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<VersionEdit>::fail(std::move(header.status));}
-\DoxyCodeLine{00934\ \ \ \ \ \}}
-\DoxyCodeLine{00935\ }
-\DoxyCodeLine{00936\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.value.payload\_size\ >\ file\_size\ -\/\ offset)\ \{}
-\DoxyCodeLine{00937\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<VersionEdit>::fail(}
-\DoxyCodeLine{00938\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00939\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
-\DoxyCodeLine{00940\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00941\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}truncated\ version\ edit\ at\ offset\ \{\}:\ payload\ needs\ \{\}\ bytes,\ only\ \{\}\ remain"{}},}
-\DoxyCodeLine{00942\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ edit\_begin,}
-\DoxyCodeLine{00943\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header.value.payload\_size,}
-\DoxyCodeLine{00944\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_size\ -\/\ offset}
-\DoxyCodeLine{00945\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00946\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00947\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00948\ \ \ \ \ \}}
-\DoxyCodeLine{00949\ }
-\DoxyCodeLine{00950\ \ \ \ \ Result<Payload>\ payload\ =\ Payload::load(}
-\DoxyCodeLine{00951\ \ \ \ \ \ \ \ \ file,}
-\DoxyCodeLine{00952\ \ \ \ \ \ \ \ \ offset,}
-\DoxyCodeLine{00953\ \ \ \ \ \ \ \ \ header.value.payload\_size,}
-\DoxyCodeLine{00954\ \ \ \ \ \ \ \ \ arena}
-\DoxyCodeLine{00955\ \ \ \ \ );}
-\DoxyCodeLine{00956\ \ \ \ \ \textcolor{keywordflow}{if}\ (!payload.is\_ok())\ \{}
-\DoxyCodeLine{00957\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ The\ complete\ declared\ byte\ range\ exists.\ EOF\ from\ a\ nested\ parser\ is}}
-\DoxyCodeLine{00958\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ therefore\ structural\ corruption,\ not\ a\ recoverable\ torn\ tail.}}
-\DoxyCodeLine{00959\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.status.code\ ==\ StatusCode::UnexpectedEOF)\ \{}
-\DoxyCodeLine{00960\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<VersionEdit>::fail(}
-\DoxyCodeLine{00961\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00962\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
-\DoxyCodeLine{00963\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00964\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}version\ edit\ at\ offset\ \{\}\ is\ structurally\ truncated\ inside\ a\ complete\ declared\ record"{}},}
-\DoxyCodeLine{00965\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ edit\_begin}
-\DoxyCodeLine{00966\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00967\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00968\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00969\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00970\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<VersionEdit>::fail(std::move(payload.status));}
-\DoxyCodeLine{00971\ \ \ \ \ \}}
-\DoxyCodeLine{00972\ }
-\DoxyCodeLine{00973\ \ \ \ \ std::uint32\_t\ actual\_crc\ =\ 0;}
-\DoxyCodeLine{00974\ \ \ \ \ Status\ crc\_status\ =\ payload.value.compute\_crc32(actual\_crc);}
-\DoxyCodeLine{00975\ \ \ \ \ \textcolor{keywordflow}{if}\ (!crc\_status.is\_ok())\ \{}
-\DoxyCodeLine{00976\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<VersionEdit>::fail(std::move(crc\_status));}
-\DoxyCodeLine{00977\ \ \ \ \ \}}
-\DoxyCodeLine{00978\ }
-\DoxyCodeLine{00979\ \ \ \ \ \textcolor{keywordflow}{if}\ (actual\_crc\ !=\ header.value.crc32)\ \{}
-\DoxyCodeLine{00980\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<VersionEdit>::fail(}
-\DoxyCodeLine{00981\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00982\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::ChecksumMismatch,}
-\DoxyCodeLine{00983\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00984\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ version\ edit\ crc\ mismatch\ at\ offset\ \{\}:\ expected=0x\{:08x\}\ actual=0x\{:08x\}"{}},}
-\DoxyCodeLine{00985\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ edit\_begin,}
-\DoxyCodeLine{00986\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ header.value.crc32,}
-\DoxyCodeLine{00987\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ actual\_crc}
-\DoxyCodeLine{00988\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00989\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00990\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00991\ \ \ \ \ \}}
-\DoxyCodeLine{00992\ }
-\DoxyCodeLine{00993\ \ \ \ \ VersionEdit\ edit\{\};}
-\DoxyCodeLine{00994\ \ \ \ \ edit.header\ =\ std::move(header.value);}
-\DoxyCodeLine{00995\ \ \ \ \ edit.payload\ =\ std::move(payload.value);}
-\DoxyCodeLine{00996\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<VersionEdit>::ok(std::move(edit));}
-\DoxyCodeLine{00997\ \}}
-
-\end{DoxyCode}
-\Hypertarget{struct_version_edit_ac6afdc0bc26a1337be4e6c8471185812}\index{VersionEdit@{VersionEdit}!prepare@{prepare}}
-\index{prepare@{prepare}!VersionEdit@{VersionEdit}}
-\doxysubsubsection{\texorpdfstring{prepare()}{prepare()}}
-{\footnotesize\ttfamily \label{struct_version_edit_ac6afdc0bc26a1337be4e6c8471185812} 
-\doxymbox{\hyperlink{struct_status}{Status}} Version\+Edit::\+prepare (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00855\ \{}
-\DoxyCodeLine{00856\ \ \ \ \ \textcolor{keyword}{auto}\ payload\_size\ =\ payload.encoded\_size();}
-\DoxyCodeLine{00857\ \ \ \ \ \textcolor{keywordflow}{if}\ (!payload\_size.is\_ok())\ \{}
-\DoxyCodeLine{00858\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(payload\_size.status);}
-\DoxyCodeLine{00859\ \ \ \ \ \}}
-\DoxyCodeLine{00860\ }
-\DoxyCodeLine{00861\ \ \ \ \ std::uint32\_t\ crc\ =\ 0;}
-\DoxyCodeLine{00862\ \ \ \ \ Status\ crc\_status\ =\ payload.compute\_crc32(crc);}
-\DoxyCodeLine{00863\ \ \ \ \ \textcolor{keywordflow}{if}\ (!crc\_status.is\_ok())\ \{}
-\DoxyCodeLine{00864\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ crc\_status;}
-\DoxyCodeLine{00865\ \ \ \ \ \}}
-\DoxyCodeLine{00866\ }
-\DoxyCodeLine{00867\ \ \ \ \ header.payload\_size\ =\ payload\_size.value;}
-\DoxyCodeLine{00868\ \ \ \ \ header.crc32\ =\ crc;}
-\DoxyCodeLine{00869\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00870\ \}}
-
-\end{DoxyCode}
-\Hypertarget{struct_version_edit_a93bf15be107cd0f8d8b493ef638807ab}\index{VersionEdit@{VersionEdit}!write@{write}}
-\index{write@{write}!VersionEdit@{VersionEdit}}
-\doxysubsubsection{\texorpdfstring{write()}{write()}}
-{\footnotesize\ttfamily \label{struct_version_edit_a93bf15be107cd0f8d8b493ef638807ab} 
-\doxymbox{\hyperlink{struct_status}{Status}} Version\+Edit::\+write (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{}\end{DoxyParamCaption})}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00876\ \{}
-\DoxyCodeLine{00877\ \ \ \ \ Status\ prepare\_status\ =\ prepare();}
-\DoxyCodeLine{00878\ \ \ \ \ \textcolor{keywordflow}{if}\ (!prepare\_status.is\_ok())\ \{}
-\DoxyCodeLine{00879\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ prepare\_status;}
-\DoxyCodeLine{00880\ \ \ \ \ \}}
-\DoxyCodeLine{00881\ }
-\DoxyCodeLine{00882\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ edit\_begin\ =\ offset;}
-\DoxyCodeLine{00883\ }
-\DoxyCodeLine{00884\ \ \ \ \ Status\ status\ =\ header.write(file,\ offset);}
-\DoxyCodeLine{00885\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00886\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00887\ \ \ \ \ \}}
-\DoxyCodeLine{00888\ }
-\DoxyCodeLine{00889\ \ \ \ \ status\ =\ payload.write(file,\ offset);}
-\DoxyCodeLine{00890\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00891\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00892\ \ \ \ \ \}}
-\DoxyCodeLine{00893\ }
-\DoxyCodeLine{00894\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ expected\_size\ =}
-\DoxyCodeLine{00895\ \ \ \ \ \ \ \ \ Header::disk\_size()\ +}
-\DoxyCodeLine{00896\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(header.payload\_size);}
-\DoxyCodeLine{00897\ }
-\DoxyCodeLine{00898\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ -\/\ edit\_begin\ !=\ expected\_size)\ \{}
-\DoxyCodeLine{00899\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00900\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{00901\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00902\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}version\ edit\ writer\ produced\ \{\}\ bytes;\ expected\ \{\}"{}},}
-\DoxyCodeLine{00903\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offset\ -\/\ edit\_begin,}
-\DoxyCodeLine{00904\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expected\_size}
-\DoxyCodeLine{00905\ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00906\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00907\ \ \ \ \ \}}
-\DoxyCodeLine{00908\ }
-\DoxyCodeLine{00909\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00910\ \}}
-
-\end{DoxyCode}
-
-
-\label{struct_version_edit_doc-variable-members}
-\Hypertarget{struct_version_edit_doc-variable-members}
-\doxysubsection{Member Data Documentation}
-\Hypertarget{struct_version_edit_a41e1e4cc4d27ce95ecee9b4c7b5cc780}\index{VersionEdit@{VersionEdit}!header@{header}}
-\index{header@{header}!VersionEdit@{VersionEdit}}
-\doxysubsubsection{\texorpdfstring{header}{header}}
-{\footnotesize\ttfamily \label{struct_version_edit_a41e1e4cc4d27ce95ecee9b4c7b5cc780} 
-\doxymbox{\hyperlink{struct_version_edit_1_1_header}{Header}} Version\+Edit::\+header \{\}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00096\ \{\};}
-
-\end{DoxyCode}
-\Hypertarget{struct_version_edit_ac11f33bd4b27a9ae1442276513e99361}\index{VersionEdit@{VersionEdit}!payload@{payload}}
-\index{payload@{payload}!VersionEdit@{VersionEdit}}
-\doxysubsubsection{\texorpdfstring{payload}{payload}}
-{\footnotesize\ttfamily \label{struct_version_edit_ac11f33bd4b27a9ae1442276513e99361} 
-\doxymbox{\hyperlink{struct_version_edit_1_1_payload}{Payload}} Version\+Edit::\+payload \{\}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00097\ \{\};}
-
-\end{DoxyCode}
 
 
 The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+manifest.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+manifest.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{manifest_8h}{manifest.\+h}}\item 
+manifest.\+cpp\end{DoxyCompactItemize}

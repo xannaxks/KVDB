@@ -1,3 +1,7 @@
+// A compaction first revalidates every planned input against the current level
+// snapshot. It then merges iterators by internal-key order, retains the newest
+// required version per user key, rolls output builders at the target size, and
+// returns one VersionEdit that atomically adds outputs and removes all inputs.
 #include "compaction_job.h"
 
 #include <algorithm>

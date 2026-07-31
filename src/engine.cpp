@@ -1,3 +1,9 @@
+// Engine orchestration:
+// Recovery publishes no state until options, directories, manifest replay, WAL
+// replay, and append preparation all succeed. Writes hold the engine mutex while
+// assigning a sequence, appending/syncing the WAL, applying to the MemTable, and
+// checking flush/compaction thresholds. Flush and compaction publish files by a
+// manifest commit before retiring their old in-memory or on-disk inputs.
 #include "engine.h"
 
 #include "compaction_job.h"

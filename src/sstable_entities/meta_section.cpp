@@ -1,3 +1,6 @@
+// Metadata is derived rather than independently mutable. Rebuild scans data and
+// index state into a temporary summary, validates cross-section counts and key
+// bounds, computes the checksum, and commits only the finished result.
 #include "sstable_entities/meta_section.h"
 
 #include <algorithm>

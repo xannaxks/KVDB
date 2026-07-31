@@ -1,3 +1,12 @@
+/**
+ * @file manifest.h
+ * @brief Append-only version log for durable database metadata.
+ *
+ * The manifest records VersionEdit entries rather than rewriting the complete
+ * level state. Recovery replays the valid prefix transactionally into a
+ * LevelManager. A torn final edit is recoverable; corruption within the durable
+ * prefix is reported as an error.
+ */
 #pragma once
 
 #include <cstdint>
@@ -17,6 +26,7 @@ inline constexpr std::uint32_t MANIFEST_VERSION = 1;
 inline constexpr std::uint32_t MANIFEST_MAX_EDIT_SIZE = 64u * 1024u * 1024u;
 inline constexpr std::uint32_t MANIFEST_MAX_TABLES_PER_EDIT = 1'000'000u;
 
+/** @brief Compact manifest record identifying one table removed from a level. */
 struct DeletedTable
 {
     std::uint32_t level = 0;
@@ -43,6 +53,13 @@ struct DeletedTable
     ) const;
 };
 
+/**
+ * @brief Atomic metadata transition stored in the manifest.
+ *
+ * Optional counters advance allocator/recovery state. Table additions and
+ * deletions describe one flush or compaction publication. prepare() validates
+ * the payload and seals its size/checksum before write().
+ */
 struct VersionEdit
 {
     struct Header
@@ -99,6 +116,7 @@ struct VersionEdit
     [[nodiscard]] Result<std::uint32_t> encoded_size() const;
 
     Status add_table(const TableMeta& meta);
+    /** @brief Validates the payload and rebuilds its encoded header. */
     Status prepare();
 
     Status write(
@@ -106,6 +124,7 @@ struct VersionEdit
         std::uint64_t& offset
     );
 
+    /** @brief Loads one bounded, checksum-verified edit at @p offset. */
     static Result<VersionEdit> load(
         ReadableFile& file,
         std::uint64_t& offset,
@@ -114,6 +133,16 @@ struct VersionEdit
     );
 };
 
+/**
+ * @brief Durable owner of LSM version counters and table metadata changes.
+ *
+ * Runtime commits are staged against a copy of LevelManager, appended and
+ * synchronized, then published in memory. This ordering prevents failed
+ * validation or I/O from exposing a partial metadata transition.
+ *
+ * After an append/sync failure the instance is write-poisoned and must be
+ * recovered from disk before more metadata can be committed.
+ */
 class Manifest
 {
 public:
@@ -147,28 +176,41 @@ public:
     Manifest() = default;
     explicit Manifest(std::filesystem::path path);
 
-    // Recovery is transactional with respect to level_manager: on failure,
-    // the caller's LevelManager is left unchanged.
+    /**
+     * @brief Replays the valid manifest prefix into @p level_manager.
+     *
+     * Recovery is transactional with respect to the supplied manager: on
+     * failure, the caller's state remains unchanged.
+     *
+     * @callgraph
+     */
     static Result<Manifest> load(
         LevelManager& level_manager,
         const std::filesystem::path& path,
         Arena& arena
     );
 
+    /** @brief Opens an existing manifest or creates and syncs a new header. */
     Status open_or_create();
 
-    // A loaded manifest deliberately has no writer attached. First close its
-    // reader/truncate a torn tail, then attach a WritableFile already
-    // positioned exactly at append_offset().
+    /**
+     * @brief Converts recovered read state into a safe appendable state.
+     *
+     * A loaded manifest deliberately has no writer attached. This operation
+     * closes the reader and truncates a recoverable torn tail before attaching
+     * a writer positioned at append_offset().
+     */
     Status prepare_for_append();
     Status attach_writer(std::unique_ptr<WritableFile> writable);
 
-    // Applies an edit atomically in memory. Mainly useful during recovery and
-    // tests; normal runtime changes should use commit().
+    /** @brief Applies an edit atomically in memory without durable append. */
     Status apply(LevelManager& level_manager, const VersionEdit& edit);
 
-    // Validates/stages in memory first, writes and syncs second, then publishes
-    // the staged state. A write/sync failure poisons this object; reload it.
+    /**
+     * @brief Durably appends an edit, then publishes its staged metadata state.
+     * @warning A write or sync failure poisons this object; reload it.
+     * @callgraph
+     */
     Status commit(LevelManager& level_manager, VersionEdit& edit);
 
     Status sync();

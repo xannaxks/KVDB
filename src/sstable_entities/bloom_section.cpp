@@ -1,4 +1,7 @@
 #define NOMINMAX
+// The version-1 filter uses byte-addressed Boolean slots. Rebuild constructs a
+// temporary payload and checksum before committing it; lookup fails open when
+// validation detects malformed state so corruption cannot create false negatives.
 #include "sstable_entities/bloom_section.h"
 
 #include <algorithm>

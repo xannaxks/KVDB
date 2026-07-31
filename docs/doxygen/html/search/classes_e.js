@@ -1,11 +1,10 @@
 var searchData=
 [
-  ['rawentry_0',['RawEntry',['../structanonymous__namespace_02index__section__test_8cpp_03_1_1_raw_entry.html',1,'anonymous_namespace{index_section_test.cpp}']]],
-  ['rawmeta_1',['RawMeta',['../structanonymous__namespace_02meta__section__test_8cpp_03_1_1_raw_meta.html',1,'anonymous_namespace{meta_section_test.cpp}']]],
-  ['rbtree_2',['RBTree',['../class_r_b_tree.html',1,'']]],
-  ['rbtreetest_3',['RBTreeTest',['../classanonymous__namespace_02red__black__tree__test_8cpp_03_1_1_r_b_tree_test.html',1,'anonymous_namespace{red_black_tree_test.cpp}']]],
-  ['readablefile_4',['ReadableFile',['../class_readable_file.html',1,'']]],
-  ['record_5',['Record',['../struct_record.html',1,'']]],
-  ['recordmeta_6',['RecordMeta',['../struct_s_s_table_entities_1_1_data_section_view_1_1_record_meta.html',1,'SSTableEntities::DataSectionView']]],
-  ['result_7',['Result',['../struct_result.html',1,'']]]
+  ['wal_0',['WAL',['../class_w_a_l.html',1,'']]],
+  ['walfileheader_1',['WALFileHeader',['../struct_w_a_l_file_header.html',1,'']]],
+  ['walloader_2',['WALLoader',['../class_w_a_l_loader.html',1,'']]],
+  ['waloptions_3',['WALOptions',['../structkvdb_1_1_d_b_options_1_1_w_a_l_options.html',1,'kvdb::DBOptions']]],
+  ['walstreamingloader_4',['WALStreamingLoader',['../class_w_a_l_streaming_loader.html',1,'']]],
+  ['walwriter_5',['WALWriter',['../class_w_a_l_writer.html',1,'']]],
+  ['writablefile_6',['WritableFile',['../class_writable_file.html',1,'']]]
 ];

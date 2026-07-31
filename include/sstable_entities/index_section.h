@@ -1,3 +1,7 @@
+/**
+ * @file index_section.h
+ * @brief Data-block key ranges and offsets for bounded SSTable lookup.
+ */
 #pragma once
 
 #include <cstddef>
@@ -16,6 +20,13 @@
 
 namespace SSTableEntities
 {
+    /**
+     * @brief Checksummed mapping from inclusive key ranges to data blocks.
+     *
+     * Adjacent entries may share a boundary key when versions of one user key
+     * span blocks. Candidate lookup therefore returns a range, while ordinary
+     * newest-value lookup selects its earliest entry.
+     */
     struct IndexSection
     {
         struct Header
@@ -189,6 +200,7 @@ namespace SSTableEntities
         // Returns every block whose inclusive [first_key,last_key] range contains
         // key. Adjacent ranges may share one boundary key when versions of that
         // user key span physical blocks.
+        /** @brief Returns every block range that may contain the supplied key. */
         [[nodiscard]] Result<CandidateRange> find_candidate_range(
             const void* key_ptr,
             std::uint32_t key_size

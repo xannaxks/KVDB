@@ -1,144 +1,23 @@
 \doxysection{WAL Class Reference}
 \hypertarget{class_w_a_l}{}\label{class_w_a_l}\index{WAL@{WAL}}
-\doxysubsubsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_a2c26f33d388b943a9d7d956a1a98c573}{create}} (const std::\+filesystem::\+path \&path, std::\+uint32\+\_\+t wal\+\_\+id, std::\+uint64\+\_\+t start\+\_\+seq)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_a6bd0fde1121b97dd70b5e8c28d2f1d38}{rotate}} (const std::\+filesystem::\+path \&new\+\_\+path, std::\+uint32\+\_\+t new\+\_\+wal\+\_\+id, std::\+uint64\+\_\+t start\+\_\+seq)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_a7c22e3a277e5ea06de468b5a36c38fee}{write}} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&record)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_ad054f38ff29afa356dbd4fa4bac6a323}{sync}} ()
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_ae3758e033c6e18e2d5f10015ee08b432}{close}} ()
-\item 
-\doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \& \doxymbox{\hyperlink{class_w_a_l_a44da95c8447c362e3f99104f26d77ebd}{writer}} () noexcept
-\item 
-const \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \& \doxymbox{\hyperlink{class_w_a_l_a9c3121221cb90b43b87c53b5bd00be8d}{writer}} () const noexcept
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{WALLoader::\+\+Load\+Result}} $>$ \doxymbox{\hyperlink{class_w_a_l_a74e853f73fba254f9be27925434d0ece}{recover}} (const std::\+filesystem::\+path \&path, std::\+uint32\+\_\+t expected\+\_\+wal\+\_\+id, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{class_w_a_l_a2d14e1dcd1b12269b955ed5dbaeaf20d}\label{class_w_a_l_a2d14e1dcd1b12269b955ed5dbaeaf20d} 
-\doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} {\bfseries writer\+\_\+}
-\end{DoxyCompactItemize}
 
 
-\label{class_w_a_l_doc-func-members}
-\Hypertarget{class_w_a_l_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{class_w_a_l_ae3758e033c6e18e2d5f10015ee08b432}\index{WAL@{WAL}!close@{close}}
-\index{close@{close}!WAL@{WAL}}
-\doxysubsubsection{\texorpdfstring{close()}{close()}}
-{\footnotesize\ttfamily \label{class_w_a_l_ae3758e033c6e18e2d5f10015ee08b432} 
-\doxymbox{\hyperlink{struct_status}{Status}} WAL::\+close (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}}
+Small facade combining the normal writer and batch recovery API.  
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00355\ \ \ \ \ \{}
-\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.close();}
-\DoxyCodeLine{00357\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_a2c26f33d388b943a9d7d956a1a98c573}\index{WAL@{WAL}!create@{create}}
-\index{create@{create}!WAL@{WAL}}
-\doxysubsubsection{\texorpdfstring{create()}{create()}}
-{\footnotesize\ttfamily \label{class_w_a_l_a2c26f33d388b943a9d7d956a1a98c573} 
-\doxymbox{\hyperlink{struct_status}{Status}} WAL::\+create (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{std::\+uint32\+\_\+t}]{wal\+\_\+id}{, }\item[{std::\+uint64\+\_\+t}]{start\+\_\+seq}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00331\ \ \ \ \ \{}
-\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.create(path,\ wal\_id,\ start\_seq);}
-\DoxyCodeLine{00333\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_a74e853f73fba254f9be27925434d0ece}\index{WAL@{WAL}!recover@{recover}}
-\index{recover@{recover}!WAL@{WAL}}
-\doxysubsubsection{\texorpdfstring{recover()}{recover()}}
-{\footnotesize\ttfamily \label{class_w_a_l_a74e853f73fba254f9be27925434d0ece} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{WALLoader::\+\+Load\+Result}} $>$ WAL::\+recover (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{std::\+uint32\+\_\+t}]{expected\+\_\+wal\+\_\+id}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [nodiscard]}}
+{\ttfamily \+\#include $<$wal.\+h$>$}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00364\ \ \ \ \ \{}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ WALLoader::load(path,\ expected\_wal\_id,\ arena);}
-\DoxyCodeLine{00366\ \ \ \ \ \}}
 
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_a6bd0fde1121b97dd70b5e8c28d2f1d38}\index{WAL@{WAL}!rotate@{rotate}}
-\index{rotate@{rotate}!WAL@{WAL}}
-\doxysubsubsection{\texorpdfstring{rotate()}{rotate()}}
-{\footnotesize\ttfamily \label{class_w_a_l_a6bd0fde1121b97dd70b5e8c28d2f1d38} 
-\doxymbox{\hyperlink{struct_status}{Status}} WAL::\+rotate (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{new\+\_\+path}{, }\item[{std::\+uint32\+\_\+t}]{new\+\_\+wal\+\_\+id}{, }\item[{std::\+uint64\+\_\+t}]{start\+\_\+seq}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}}
+\doxysubsection{Detailed Description}
+Small facade combining the normal writer and batch recovery API. 
 
+Definition at line \doxymbox{\hyperlink{wal_8h_source_l00403}{403}} of file \doxymbox{\hyperlink{wal_8h_source}{wal.\+h}}.
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00340\ \ \ \ \ \{}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.rotate(new\_path,\ new\_wal\_id,\ start\_seq);}
-\DoxyCodeLine{00342\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_ad054f38ff29afa356dbd4fa4bac6a323}\index{WAL@{WAL}!sync@{sync}}
-\index{sync@{sync}!WAL@{WAL}}
-\doxysubsubsection{\texorpdfstring{sync()}{sync()}}
-{\footnotesize\ttfamily \label{class_w_a_l_ad054f38ff29afa356dbd4fa4bac6a323} 
-\doxymbox{\hyperlink{struct_status}{Status}} WAL::\+sync (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00350\ \ \ \ \ \{}
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.sync();}
-\DoxyCodeLine{00352\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_a7c22e3a277e5ea06de468b5a36c38fee}\index{WAL@{WAL}!write@{write}}
-\index{write@{write}!WAL@{WAL}}
-\doxysubsubsection{\texorpdfstring{write()}{write()}}
-{\footnotesize\ttfamily \label{class_w_a_l_a7c22e3a277e5ea06de468b5a36c38fee} 
-\doxymbox{\hyperlink{struct_status}{Status}} WAL::\+write (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&}]{record}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00345\ \ \ \ \ \{}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.write(record);}
-\DoxyCodeLine{00347\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_a9c3121221cb90b43b87c53b5bd00be8d}\index{WAL@{WAL}!writer@{writer}}
-\index{writer@{writer}!WAL@{WAL}}
-\doxysubsubsection{\texorpdfstring{writer()}{writer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily \label{class_w_a_l_a9c3121221cb90b43b87c53b5bd00be8d} 
-const \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \& WAL::\+writer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00374\ \ \ \ \ \{}
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_;}
-\DoxyCodeLine{00376\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_a44da95c8447c362e3f99104f26d77ebd}\index{WAL@{WAL}!writer@{writer}}
-\index{writer@{writer}!WAL@{WAL}}
-\doxysubsubsection{\texorpdfstring{writer()}{writer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily \label{class_w_a_l_a44da95c8447c362e3f99104f26d77ebd} 
-\doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \& WAL::\+writer (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00369\ \ \ \ \ \{}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_;}
-\DoxyCodeLine{00371\ \ \ \ \ \}}
-
-\end{DoxyCode}
 
 
 The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+wal.\+h\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{wal_8h}{wal.\+h}}\end{DoxyCompactItemize}

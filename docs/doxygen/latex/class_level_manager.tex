@@ -1,215 +1,45 @@
 \doxysection{Level\+Manager Class Reference}
 \hypertarget{class_level_manager}{}\label{class_level_manager}\index{LevelManager@{LevelManager}}
+
+
+Owns validated \doxylink{struct_table_meta}{Table\+Meta} entries for every configured level.  
+
+
+
+
+{\ttfamily \+\#include $<$level\+\_\+manager.\+h$>$}
+
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\doxymbox{\hyperlink{class_level_manager_aae22e9ba2e3da915727d37ecdd8cf005}{Level\+Manager}} (std::\+uint32\+\_\+t level\+\_\+count=2)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_level_manager_a07f2ed3943eda7c69c7df06b0605d9f4}{add\+\_\+table}} (\doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&\&table)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_level_manager_ac0f6c54f509ccce9c2ac291f44ce213e}{remove\+\_\+table}} (std::\+uint64\+\_\+t table\+\_\+id, std::\+optional$<$ std::\+uint32\+\_\+t $>$ level=std::\+nullopt)
-\item 
-const std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{class_level_manager_a02a556a61cf8688983703edd29353028}{get\+\_\+lx\+\_\+tables}} (std::\+uint32\+\_\+t level) const noexcept
-\item 
-std::\+uint32\+\_\+t \doxymbox{\hyperlink{class_level_manager_aa01063bef52bc97b42dd71df7c47d43e}{level\+\_\+count}} () const noexcept
-\item 
-bool \doxymbox{\hyperlink{class_level_manager_acefcc6faa3885011425b068aad0bd4e6}{empty}} () const noexcept
-\item 
+\Hypertarget{class_level_manager_aae22e9ba2e3da915727d37ecdd8cf005}\label{class_level_manager_aae22e9ba2e3da915727d37ecdd8cf005} 
+{\bfseries Level\+Manager} (std::\+uint32\+\_\+t level\+\_\+count=2)
+\begin{DoxyCompactList}\small\item\em Creates {\ttfamily level\+\_\+count} levels, including L0. \end{DoxyCompactList}\item 
+\Hypertarget{class_level_manager_a07f2ed3943eda7c69c7df06b0605d9f4}\label{class_level_manager_a07f2ed3943eda7c69c7df06b0605d9f4} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries add\+\_\+table} (\doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&\&table)
+\begin{DoxyCompactList}\small\item\em Adds a table while preserving the destination level\textquotesingle{}s invariants. \end{DoxyCompactList}\item 
+\Hypertarget{class_level_manager_ac0f6c54f509ccce9c2ac291f44ce213e}\label{class_level_manager_ac0f6c54f509ccce9c2ac291f44ce213e} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries remove\+\_\+table} (std::\+uint64\+\_\+t table\+\_\+id, std::\+optional$<$ std::\+uint32\+\_\+t $>$ level=std::\+nullopt)
+\begin{DoxyCompactList}\small\item\em Removes a table by id, optionally requiring a specific level. \end{DoxyCompactList}\item 
 \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ $>$ \doxymbox{\hyperlink{class_level_manager_aed9400e656503d08c0262e48dee3b1e1}{find\+\_\+candidate\+\_\+tables\+\_\+in\+\_\+level}} (std::\+uint32\+\_\+t level, const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&key) const
-\item 
-std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ \doxymbox{\hyperlink{class_level_manager_a7a7b27c4e60b73b54f95946383ac4dd5}{find\+\_\+overlapping\+\_\+tables}} (std::\+uint32\+\_\+t level, const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&smallest, const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&largest) const
-\item 
-const std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ \& \doxymbox{\hyperlink{class_level_manager_ab65f47cb94207acd73869997fb048c33}{levels}} (std::\+size\+\_\+t level) const
-\item 
-std::\+size\+\_\+t \doxymbox{\hyperlink{class_level_manager_aaeaf5259ac0fa04fd47f5af5295d2ab8}{get\+\_\+layer\+\_\+size}} (std::\+size\+\_\+t level) const
-\item 
-void \doxymbox{\hyperlink{class_level_manager_ab745a2b73a8080db93068a1c14190e7c}{swap}} (\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&other) noexcept
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{class_level_manager_a0c85860b30cc0041e3c0f046bc758a9f}\label{class_level_manager_a0c85860b30cc0041e3c0f046bc758a9f} 
-std::\+vector$<$ std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ $>$ {\bfseries levels\+\_\+}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Returns tables in {\ttfamily level} whose ranges may contain {\ttfamily key}. \end{DoxyCompactList}\item 
+\Hypertarget{class_level_manager_a7a7b27c4e60b73b54f95946383ac4dd5}\label{class_level_manager_a7a7b27c4e60b73b54f95946383ac4dd5} 
+std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ {\bfseries find\+\_\+overlapping\+\_\+tables} (std::\+uint32\+\_\+t level, const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&smallest, const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&largest) const
+\begin{DoxyCompactList}\small\item\em Returns all tables intersecting the inclusive key interval. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\label{class_level_manager_doc-constructors}
-\Hypertarget{class_level_manager_doc-constructors}
-\doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{class_level_manager_aae22e9ba2e3da915727d37ecdd8cf005}\index{LevelManager@{LevelManager}!LevelManager@{LevelManager}}
-\index{LevelManager@{LevelManager}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{LevelManager()}{LevelManager()}}
-{\footnotesize\ttfamily \label{class_level_manager_aae22e9ba2e3da915727d37ecdd8cf005} 
-Level\+Manager::\+\+Level\+Manager (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{level\+\_\+count}{ = {\ttfamily 2}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+\doxysubsection{Detailed Description}
+Owns validated \doxylink{struct_table_meta}{Table\+Meta} entries for every configured level. 
 
+L0 tables may overlap and are searched newest-\/first. Tables in L1 and above are maintained in key-\/range order and must not overlap. Mutations validate these invariants before publishing metadata. 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00034\ \ \ \ \ :\ levels\_(level\_count) }
-\DoxyCodeLine{00035\ \{}
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{if}\ (level\_count\ ==\ 0)\ \{}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}LevelManager\ requires\ at\ least\ one\ level"{}}}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00040\ \ \ \ \ \}}
-\DoxyCodeLine{00041\ \}}
+Definition at line \doxymbox{\hyperlink{level__manager_8h_source_l00023}{23}} of file \doxymbox{\hyperlink{level__manager_8h_source}{level\+\_\+manager.\+h}}.
 
-\end{DoxyCode}
 
 
 \label{class_level_manager_doc-func-members}
 \Hypertarget{class_level_manager_doc-func-members}
 \doxysubsection{Member Function Documentation}
-\Hypertarget{class_level_manager_a07f2ed3943eda7c69c7df06b0605d9f4}\index{LevelManager@{LevelManager}!add\_table@{add\_table}}
-\index{add\_table@{add\_table}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{add\_table()}{add\_table()}}
-{\footnotesize\ttfamily \label{class_level_manager_a07f2ed3943eda7c69c7df06b0605d9f4} 
-\doxymbox{\hyperlink{struct_status}{Status}} Level\+Manager::\+add\+\_\+table (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&\&}]{table}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00044\ \{}
-\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{if}\ (meta.table\_id\ ==\ 0)\ \{}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ id\ zero\ is\ reserved\ and\ cannot\ be\ installed"{}}}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00050\ \ \ \ \ \}}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordflow}{if}\ (meta.level\ >=\ levels\_.size())\ \{}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ \{\}\ targets\ invalid\ level\ \{\};\ configured\ level\ count\ is\ \{\}"{}},}
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.table\_id,}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.level,}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ levels\_.size()}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00062\ \ \ \ \ \}}
-\DoxyCodeLine{00063\ }
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordflow}{if}\ (meta.largest\_key\ <\ meta.smallest\_key)\ \{}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ \{\}\ has\ an\ invalid\ key\ range"{}},}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.table\_id}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00072\ \ \ \ \ \}}
-\DoxyCodeLine{00073\ }
-\DoxyCodeLine{00074\ \ \ \ \ \textcolor{comment}{//\ IDs\ are\ database-\/wide\ identities,\ not\ per-\/level\ identities.}}
-\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ level\_index\ =\ 0;}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ level\_index\ <\ levels\_.size();}
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ ++level\_index)\ \{}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tables\ =\ levels\_[level\_index];}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ duplicate\ =\ std::find\_if(}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ tables.begin(),}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ tables.end(),}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ [\&](\textcolor{keyword}{const}\ TableMeta\&\ table)\ \{}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ table.table\_id\ ==\ meta.table\_id;}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (duplicate\ !=\ tables.end())\ \{}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Duplicate,}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ id\ \{\}\ already\ exists\ on\ level\ \{\}"{}},}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.table\_id,}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level\_index}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00097\ \ \ \ \ \}}
-\DoxyCodeLine{00098\ }
-\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{auto}\&\ level\_tables\ =\ levels\_[meta.level];}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordflow}{if}\ (meta.level\ ==\ 0)\ \{}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ L0\ may\ overlap.\ Newer\ files\ must\ be\ searched\ first.\ This\ ordering}}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ relies\ on\ monotonically\ allocated,\ never-\/reused\ table\ IDs.}}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ insertion\_position\ =\ std::lower\_bound(}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ level\_tables.begin(),}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ level\_tables.end(),}
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ meta.table\_id,}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ TableMeta\&\ table,\ std::uint64\_t\ table\_id)\ \{}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ table.table\_id\ >\ table\_id;}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00112\ }
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ level\_tables.insert(insertion\_position,\ std::move(meta));}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00115\ \ \ \ \ \}}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \ \ \ \ \textcolor{comment}{//\ L1+\ is\ sorted\ by\ smallest\ key\ and\ contains\ disjoint\ inclusive\ ranges.}}
-\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ insertion\_position\ =\ std::lower\_bound(}
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ level\_tables.begin(),}
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ level\_tables.end(),}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ meta.smallest\_key,}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ TableMeta\&\ table,\ \textcolor{keyword}{const}\ ArenaEntry\&\ key)\ \{}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ return\ table.smallest\_key\ <\ key;}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00125\ \ \ \ \ );}
-\DoxyCodeLine{00126\ }
-\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordflow}{if}\ (insertion\_position\ !=\ level\_tables.begin())\ \{}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ previous\ =\ *std::prev(insertion\_position);}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ranges\_overlap(}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ previous.smallest\_key,}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ previous.largest\_key,}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ meta.smallest\_key,}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ meta.largest\_key))\ \{}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ \{\}\ overlaps\ previous\ table\ \{\}\ on\ level\ \{\}"{}},}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.table\_id,}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ previous.table\_id,}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.level}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00144\ \ \ \ \ \}}
-\DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordflow}{if}\ (insertion\_position\ !=\ level\_tables.end())\ \{}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ next\ =\ *insertion\_position;}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ranges\_overlap(}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ meta.smallest\_key,}
-\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ meta.largest\_key,}
-\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ next.smallest\_key,}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ next.largest\_key))\ \{}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ \{\}\ overlaps\ next\ table\ \{\}\ on\ level\ \{\}"{}},}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.table\_id,}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next.table\_id,}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.level}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00163\ \ \ \ \ \}}
-\DoxyCodeLine{00164\ }
-\DoxyCodeLine{00165\ \ \ \ \ level\_tables.insert(insertion\_position,\ std::move(meta));}
-\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00167\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_level_manager_acefcc6faa3885011425b068aad0bd4e6}\index{LevelManager@{LevelManager}!empty@{empty}}
-\index{empty@{empty}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
-{\footnotesize\ttfamily \label{class_level_manager_acefcc6faa3885011425b068aad0bd4e6} 
-bool Level\+Manager::\+empty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00300\ \{}
-\DoxyCodeLine{00301\ \ \ \ \ \textcolor{keywordflow}{return}\ std::all\_of(}
-\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ levels\_.begin(),}
-\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ levels\_.end(),}
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tables)\ \{\ return\ tables.empty();\ \}}
-\DoxyCodeLine{00305\ \ \ \ \ );}
-\DoxyCodeLine{00306\ \}}
-
-\end{DoxyCode}
 \Hypertarget{class_level_manager_aed9400e656503d08c0262e48dee3b1e1}\index{LevelManager@{LevelManager}!find\_candidate\_tables\_in\_level@{find\_candidate\_tables\_in\_level}}
 \index{find\_candidate\_tables\_in\_level@{find\_candidate\_tables\_in\_level}!LevelManager@{LevelManager}}
 \doxysubsubsection{\texorpdfstring{find\_candidate\_tables\_in\_level()}{find\_candidate\_tables\_in\_level()}}
@@ -217,305 +47,16 @@ bool Level\+Manager::\+empty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}
 \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ $>$ Level\+Manager::\+find\+\_\+candidate\+\_\+tables\+\_\+in\+\_\+level (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{level}{, }\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{key}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00313\ \{}
-\DoxyCodeLine{00314\ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ >=\ levels\_.size())\ \{}
-\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::vector<TableMeta>>::fail(}
-\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NotFound,}
-\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(\textcolor{stringliteral}{"{}level\ \{\}\ does\ not\ exist"{}},\ level)}
-\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00321\ \ \ \ \ \}}
-\DoxyCodeLine{00322\ }
-\DoxyCodeLine{00323\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tables\ =\ levels\_[level];}
-\DoxyCodeLine{00324\ \ \ \ \ std::vector<TableMeta>\ result;}
-\DoxyCodeLine{00325\ }
-\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ ==\ 0)\ \{}
-\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ result.reserve(tables.size());}
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ tables)\ \{}
-\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_is\_inside\_table(key,\ table))\ \{}
-\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.push\_back(table);}
-\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::vector<TableMeta>>::ok(std::move(result));}
-\DoxyCodeLine{00334\ \ \ \ \ \}}
-\DoxyCodeLine{00335\ }
-\DoxyCodeLine{00336\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ candidate\ =\ std::lower\_bound(}
-\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ tables.begin(),}
-\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ tables.end(),}
-\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ key,}
-\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ TableMeta\&\ table,\ \textcolor{keyword}{const}\ ArenaEntry\&\ target\_key)\ \{}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ return\ table.largest\_key\ <\ target\_key;}
-\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00343\ \ \ \ \ );}
-\DoxyCodeLine{00344\ }
-\DoxyCodeLine{00345\ \ \ \ \ \textcolor{keywordflow}{if}\ (candidate\ !=\ tables.end()\ \&\&}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ key\_is\_inside\_table(key,\ *candidate))\ \{}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ result.push\_back(*candidate);}
-\DoxyCodeLine{00348\ \ \ \ \ \}}
-\DoxyCodeLine{00349\ }
-\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::vector<TableMeta>>::ok(std::move(result));}
-\DoxyCodeLine{00351\ \}}
 
-\end{DoxyCode}
-\Hypertarget{class_level_manager_a7a7b27c4e60b73b54f95946383ac4dd5}\index{LevelManager@{LevelManager}!find\_overlapping\_tables@{find\_overlapping\_tables}}
-\index{find\_overlapping\_tables@{find\_overlapping\_tables}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{find\_overlapping\_tables()}{find\_overlapping\_tables()}}
-{\footnotesize\ttfamily \label{class_level_manager_a7a7b27c4e60b73b54f95946383ac4dd5} 
-std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ Level\+Manager::\+find\+\_\+overlapping\+\_\+tables (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{level}{, }\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{smallest}{, }\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{largest}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+Returns tables in {\ttfamily level} whose ranges may contain {\ttfamily key}. 
 
+L0 may return several overlapping candidates. Higher levels return at most one candidate when their non-\/overlap invariant holds. 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00358\ \{}
-\DoxyCodeLine{00359\ \ \ \ \ std::vector<TableMeta>\ result;}
-\DoxyCodeLine{00360\ }
-\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ >=\ levels\_.size()\ ||\ largest\ <\ smallest)\ \{}
-\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
-\DoxyCodeLine{00363\ \ \ \ \ \}}
-\DoxyCodeLine{00364\ }
-\DoxyCodeLine{00365\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ level\_tables\ =\ levels\_[level];}
-\DoxyCodeLine{00366\ }
-\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ ==\ 0)\ \{}
-\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ result.reserve(level\_tables.size());}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ level\_tables)\ \{}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ranges\_overlap(}
-\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table.smallest\_key,}
-\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table.largest\_key,}
-\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ smallest,}
-\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ largest))\ \{}
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.push\_back(table);}
-\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
-\DoxyCodeLine{00379\ \ \ \ \ \}}
-\DoxyCodeLine{00380\ }
-\DoxyCodeLine{00381\ \ \ \ \ \textcolor{keyword}{auto}\ current\ =\ std::lower\_bound(}
-\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ level\_tables.begin(),}
-\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ level\_tables.end(),}
-\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ smallest,}
-\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ TableMeta\&\ table,\ \textcolor{keyword}{const}\ ArenaEntry\&\ key)\ \{}
-\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ return\ table.largest\_key\ <\ key;}
-\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00388\ \ \ \ \ );}
-\DoxyCodeLine{00389\ }
-\DoxyCodeLine{00390\ \ \ \ \ \textcolor{keywordflow}{for}\ (;\ current\ !=\ level\_tables.end();\ ++current)\ \{}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (largest\ <\ current-\/>smallest\_key)\ \{}
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ result.push\_back(*current);}
-\DoxyCodeLine{00395\ \ \ \ \ \}}
-\DoxyCodeLine{00396\ }
-\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
-\DoxyCodeLine{00398\ \}}
+Definition at line \doxymbox{\hyperlink{level__manager_8cpp_source_l00313}{313}} of file \doxymbox{\hyperlink{level__manager_8cpp_source}{level\+\_\+manager.\+cpp}}.
 
-\end{DoxyCode}
-\Hypertarget{class_level_manager_aaeaf5259ac0fa04fd47f5af5295d2ab8}\index{LevelManager@{LevelManager}!get\_layer\_size@{get\_layer\_size}}
-\index{get\_layer\_size@{get\_layer\_size}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{get\_layer\_size()}{get\_layer\_size()}}
-{\footnotesize\ttfamily \label{class_level_manager_aaeaf5259ac0fa04fd47f5af5295d2ab8} 
-std::\+size\+\_\+t Level\+Manager::\+get\+\_\+layer\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{level}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00410\ \{}
-\DoxyCodeLine{00411\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tables\ =\ levels\_.at(level);}
-\DoxyCodeLine{00412\ \ \ \ \ std::size\_t\ result\ =\ 0;}
-\DoxyCodeLine{00413\ }
-\DoxyCodeLine{00414\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\_meta\ :\ tables)\ \{}
-\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table\_meta.file\_size\ >}
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(}
-\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::numeric\_limits<std::size\_t>::max()\ -\/\ result))\ \{}
-\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::overflow\_error(}
-\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}LevelManager\ level\ size\ overflow"{}}}
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00422\ }
-\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ result\ +=\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(table\_meta.file\_size);}
-\DoxyCodeLine{00424\ \ \ \ \ \}}
-\DoxyCodeLine{00425\ }
-\DoxyCodeLine{00426\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
-\DoxyCodeLine{00427\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_level_manager_a02a556a61cf8688983703edd29353028}\index{LevelManager@{LevelManager}!get\_lx\_tables@{get\_lx\_tables}}
-\index{get\_lx\_tables@{get\_lx\_tables}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{get\_lx\_tables()}{get\_lx\_tables()}}
-{\footnotesize\ttfamily \label{class_level_manager_a02a556a61cf8688983703edd29353028} 
-const std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ \texorpdfstring{$\ast$}{*} Level\+Manager::\+get\+\_\+lx\+\_\+tables (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{level}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00287\ \{}
-\DoxyCodeLine{00288\ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ >=\ levels\_.size())\ \{}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00290\ \ \ \ \ \}}
-\DoxyCodeLine{00291\ \ \ \ \ \textcolor{keywordflow}{return}\ \&levels\_[level];}
-\DoxyCodeLine{00292\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_level_manager_aa01063bef52bc97b42dd71df7c47d43e}\index{LevelManager@{LevelManager}!level\_count@{level\_count}}
-\index{level\_count@{level\_count}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{level\_count()}{level\_count()}}
-{\footnotesize\ttfamily \label{class_level_manager_aa01063bef52bc97b42dd71df7c47d43e} 
-std::\+uint32\+\_\+t Level\+Manager::\+level\+\_\+count (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00295\ \{}
-\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(levels\_.size());}
-\DoxyCodeLine{00297\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_level_manager_ab65f47cb94207acd73869997fb048c33}\index{LevelManager@{LevelManager}!levels@{levels}}
-\index{levels@{levels}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{levels()}{levels()}}
-{\footnotesize\ttfamily \label{class_level_manager_ab65f47cb94207acd73869997fb048c33} 
-const std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ \& Level\+Manager::\+levels (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{level}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00403\ \{}
-\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordflow}{return}\ levels\_.at(level);}
-\DoxyCodeLine{00405\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_level_manager_ac0f6c54f509ccce9c2ac291f44ce213e}\index{LevelManager@{LevelManager}!remove\_table@{remove\_table}}
-\index{remove\_table@{remove\_table}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{remove\_table()}{remove\_table()}}
-{\footnotesize\ttfamily \label{class_level_manager_ac0f6c54f509ccce9c2ac291f44ce213e} 
-\doxymbox{\hyperlink{struct_status}{Status}} Level\+Manager::\+remove\+\_\+table (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{table\+\_\+id}{, }\item[{std::\+optional$<$ std::\+uint32\+\_\+t $>$}]{level}{ = {\ttfamily std:\+:\+nullopt}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00173\ \{}
-\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{if}\ (table\_id\ ==\ 0)\ \{}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ id\ zero\ is\ invalid"{}}}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00179\ \ \ \ \ \}}
-\DoxyCodeLine{00180\ }
-\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordflow}{if}\ (target\_level.has\_value())\ \{}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ level\_index\ =\ *target\_level;}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (level\_index\ >=\ levels\_.size())\ \{}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}level\ \{\}\ does\ not\ exist\ while\ removing\ table\ \{\}"{}},}
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level\_index,}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table\_id}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00193\ }
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\&\ tables\ =\ levels\_[level\_index];}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ first\_match\ =\ std::find\_if(}
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ tables.begin(),}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ tables.end(),}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ [\&](\textcolor{keyword}{const}\ TableMeta\&\ table)\ \{}
-\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ table.table\_id\ ==\ table\_id;}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00202\ }
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (first\_match\ ==\ tables.end())\ \{}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NotFound,}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ find\ table\ id\ \{\}\ on\ level\ \{\}"{}},}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table\_id,}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level\_index}
-\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00213\ }
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ second\_match\ =\ std::find\_if(}
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \ \ \ \ std::next(first\_match),}
-\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ tables.end(),}
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ [\&](\textcolor{keyword}{const}\ TableMeta\&\ table)\ \{}
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ table.table\_id\ ==\ table\_id;}
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00221\ }
-\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (second\_match\ !=\ tables.end())\ \{}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ id\ \{\}\ appears\ multiple\ times\ on\ level\ \{\}"{}},}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table\_id,}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level\_index}
-\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00232\ }
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ tables.erase(first\_match);}
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00235\ \ \ \ \ \}}
-\DoxyCodeLine{00236\ }
-\DoxyCodeLine{00237\ \ \ \ \ std::optional<std::pair<std::size\_t,\ std::size\_t>>\ found\_location;}
-\DoxyCodeLine{00238\ }
-\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ level\_index\ =\ 0;}
-\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ level\_index\ <\ levels\_.size();}
-\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ ++level\_index)\ \{}
-\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ tables\ =\ levels\_[level\_index];}
-\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ table\_index\ =\ 0;}
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \ \ \ \ table\_index\ <\ tables.size();}
-\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ ++table\_index)\ \{}
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tables[table\_index].table\_id\ !=\ table\_id)\ \{}
-\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00249\ }
-\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (found\_location.has\_value())\ \{}
-\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ id\ \{\}\ appears\ more\ than\ once\ in\ LevelManager"{}},}
-\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table\_id}
-\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00259\ }
-\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ found\_location\ =\ std::pair\{\ level\_index,\ table\_index\ \};}
-\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00262\ \ \ \ \ \}}
-\DoxyCodeLine{00263\ }
-\DoxyCodeLine{00264\ \ \ \ \ \textcolor{keywordflow}{if}\ (!found\_location.has\_value())\ \{}
-\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NotFound,}
-\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ find\ table\ id\ \{\}\ in\ any\ level"{}},}
-\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table\_id}
-\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00272\ \ \ \ \ \}}
-\DoxyCodeLine{00273\ }
-\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ [level\_index,\ table\_index]\ =\ *found\_location;}
-\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keyword}{auto}\&\ tables\ =\ levels\_[level\_index];}
-\DoxyCodeLine{00276\ \ \ \ \ tables.erase(}
-\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ tables.begin()\ +}
-\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::vector<TableMeta>::difference\_type\textcolor{keyword}{>}(table\_index)}
-\DoxyCodeLine{00279\ \ \ \ \ );}
-\DoxyCodeLine{00280\ }
-\DoxyCodeLine{00281\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00282\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_level_manager_ab745a2b73a8080db93068a1c14190e7c}\index{LevelManager@{LevelManager}!swap@{swap}}
-\index{swap@{swap}!LevelManager@{LevelManager}}
-\doxysubsubsection{\texorpdfstring{swap()}{swap()}}
-{\footnotesize\ttfamily \label{class_level_manager_ab745a2b73a8080db93068a1c14190e7c} 
-void Level\+Manager::\+swap (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00430\ \{}
-\DoxyCodeLine{00431\ \ \ \ \ levels\_.swap(other.levels\_);}
-\DoxyCodeLine{00432\ \}}
-
-\end{DoxyCode}
 
 
 The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+level\+\_\+manager.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+level\+\_\+manager.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{level__manager_8h}{level\+\_\+manager.\+h}}\item 
+level\+\_\+manager.\+cpp\end{DoxyCompactItemize}

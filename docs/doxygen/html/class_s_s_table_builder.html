@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('class_s_s_table_builder.html','','class_s_s_table_builder-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,335 +115,49 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pri-static-methods">Static Private Member Functions</a> &#124;
 <a href="class_s_s_table_builder-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">SSTableBuilder Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Converts an immutable record source into a publishable <a class="el" href="class_s_s_table.html" title="State-checked aggregate of all sections in one SSTable file.">SSTable</a>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="sstable__builder_8h_source.html">sstable_builder.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad89acf35d5d3aeef210f2384804545e5" id="r_ad89acf35d5d3aeef210f2384804545e5"><td class="memItemLeft">static <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#ad89acf35d5d3aeef210f2384804545e5">build</a> (std::uint32_t table_id, <a class="el" href="class_mem_table.html">MemTable</a> &amp;mem_table, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td></tr>
-<tr class="memitem:af62e441b5f61ca562552c9fd4a7500f1" id="r_af62e441b5f61ca562552c9fd4a7500f1"><td class="memItemLeft">static <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#af62e441b5f61ca562552c9fd4a7500f1">build</a> (std::uint32_t table_id, <a class="el" href="class_s_s_table_iterator.html">SSTableIterator</a> &amp;it, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td></tr>
-<tr class="memitem:a34902b788f3a6dc5c8d422900d21a810" id="r_a34902b788f3a6dc5c8d422900d21a810"><td class="memItemLeft">static <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a34902b788f3a6dc5c8d422900d21a810">build</a> (std::uint32_t table_id, const std::vector&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &amp;records, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td></tr>
-<tr class="memitem:a2a762a3b1ecb0c0d2210cceda81968e7" id="r_a2a762a3b1ecb0c0d2210cceda81968e7"><td class="memItemLeft">static std::uint64_t&#160;</td><td class="memItemRight"><a class="el" href="#a2a762a3b1ecb0c0d2210cceda81968e7">approximate_disk_space</a> (const std::vector&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &amp;records)</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pri-static-methods" class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
-Static Private Member Functions</h2></td></tr>
-<tr class="memitem:a5371d21450341e28aefd74f7c622fa30" id="r_a5371d21450341e28aefd74f7c622fa30"><td class="memItemLeft">static <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a5371d21450341e28aefd74f7c622fa30">build_impl</a> (std::uint32_t table_id, const std::vector&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &amp;records, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td></tr>
+<tr class="memitem:ad89acf35d5d3aeef210f2384804545e5" id="r_ad89acf35d5d3aeef210f2384804545e5"><td class="memItemLeft"><a id="ad89acf35d5d3aeef210f2384804545e5" name="ad89acf35d5d3aeef210f2384804545e5"></a>
+static <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt;&#160;</td><td class="memItemRight"><b>build</b> (std::uint32_t table_id, <a class="el" href="class_mem_table.html">MemTable</a> &amp;mem_table, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td></tr>
+<tr class="memdesc:ad89acf35d5d3aeef210f2384804545e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds from the oldest immutable <a class="el" href="class_mem_table.html" title="Thread-safe owner of the active RBTree and its immutable generations.">MemTable</a> generation. <br /></td></tr>
+<tr class="memitem:af62e441b5f61ca562552c9fd4a7500f1" id="r_af62e441b5f61ca562552c9fd4a7500f1"><td class="memItemLeft"><a id="af62e441b5f61ca562552c9fd4a7500f1" name="af62e441b5f61ca562552c9fd4a7500f1"></a>
+static <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt;&#160;</td><td class="memItemRight"><b>build</b> (std::uint32_t table_id, <a class="el" href="class_s_s_table_iterator.html">SSTableIterator</a> &amp;it, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td></tr>
+<tr class="memdesc:af62e441b5f61ca562552c9fd4a7500f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds from the remaining records of <code class="param">it</code>. <br /></td></tr>
+<tr class="memitem:a34902b788f3a6dc5c8d422900d21a810" id="r_a34902b788f3a6dc5c8d422900d21a810"><td class="memItemLeft"><a id="a34902b788f3a6dc5c8d422900d21a810" name="a34902b788f3a6dc5c8d422900d21a810"></a>
+static <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt;&#160;</td><td class="memItemRight"><b>build</b> (std::uint32_t table_id, const std::vector&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &amp;records, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td></tr>
+<tr class="memdesc:a34902b788f3a6dc5c8d422900d21a810"><td class="mdescLeft">&#160;</td><td class="mdescRight">Builds from records already sorted in internal-key order. <br /></td></tr>
 </table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a2a762a3b1ecb0c0d2210cceda81968e7" name="a2a762a3b1ecb0c0d2210cceda81968e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a762a3b1ecb0c0d2210cceda81968e7">&#9670;&#160;</a></span>approximate_disk_space()</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Converts an immutable record source into a publishable <a class="el" href="class_s_s_table.html" title="State-checked aggregate of all sections in one SSTable file.">SSTable</a>. </p>
+<p>The overloads normalize <a class="el" href="class_mem_table.html" title="Thread-safe owner of the active RBTree and its immutable generations.">MemTable</a>, iterator, and vector inputs into the same ordered build path. An empty source returns an empty optional instead of creating a file. </p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t SSTableBuilder::approximate_disk_space </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>records</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  166</span>{</div>
-<div class="line"><span class="lineno">  167</span>    std::uint64_t records_size = 0;</div>
-<div class="line"><span class="lineno">  168</span>    std::uint64_t index_size = 0;</div>
-<div class="line"><span class="lineno">  169</span> </div>
-<div class="line"><span class="lineno">  170</span>    <span class="keyword">const</span> std::uint64_t block_size = SSTableEntities::BLOCK_SIZE;</div>
-<div class="line"><span class="lineno">  171</span>    std::uint64_t current_block_size = 0;</div>
-<div class="line"><span class="lineno">  172</span>    <span class="keyword">const</span> InternalRecord* last_record_in_block = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  173</span> </div>
-<div class="line"><span class="lineno">  174</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; record : records) {</div>
-<div class="line"><span class="lineno">  175</span>        <span class="keyword">const</span> std::uint64_t record_size = record.disk_size();</div>
-<div class="line"><span class="lineno">  176</span>        records_size = saturating_add(records_size, record_size);</div>
-<div class="line"><span class="lineno">  177</span> </div>
-<div class="line"><span class="lineno">  178</span>        <span class="comment">// Match DataSection&#39;s normal block-splitting rule as closely as</span></div>
-<div class="line"><span class="lineno">  179</span>        <span class="comment">// possible. add_payload() remains authoritative for oversized records.</span></div>
-<div class="line"><span class="lineno">  180</span>        <span class="keywordflow">if</span> (current_block_size &gt; 0 &amp;&amp;</div>
-<div class="line"><span class="lineno">  181</span>            record_size &lt;= std::numeric_limits&lt;std::uint64_t&gt;::max() - current_block_size &amp;&amp;</div>
-<div class="line"><span class="lineno">  182</span>            current_block_size + record_size &gt; block_size)</div>
-<div class="line"><span class="lineno">  183</span>        {</div>
-<div class="line"><span class="lineno">  184</span>            index_size = saturating_add(</div>
-<div class="line"><span class="lineno">  185</span>                index_size,</div>
-<div class="line"><span class="lineno">  186</span>                SSTableEntities::IndexSection::Payload::fixed_disk_size()</div>
-<div class="line"><span class="lineno">  187</span>            );</div>
-<div class="line"><span class="lineno">  188</span>            index_size = saturating_add(</div>
-<div class="line"><span class="lineno">  189</span>                index_size,</div>
-<div class="line"><span class="lineno">  190</span>                last_record_in_block-&gt;key_entry.size</div>
-<div class="line"><span class="lineno">  191</span>            );</div>
-<div class="line"><span class="lineno">  192</span> </div>
-<div class="line"><span class="lineno">  193</span>            current_block_size = 0;</div>
-<div class="line"><span class="lineno">  194</span>            last_record_in_block = <span class="keyword">nullptr</span>;</div>
-<div class="line"><span class="lineno">  195</span>        }</div>
-<div class="line"><span class="lineno">  196</span> </div>
-<div class="line"><span class="lineno">  197</span>        current_block_size = saturating_add(current_block_size, record_size);</div>
-<div class="line"><span class="lineno">  198</span>        last_record_in_block = &amp;record;</div>
-<div class="line"><span class="lineno">  199</span>    }</div>
-<div class="line"><span class="lineno">  200</span> </div>
-<div class="line"><span class="lineno">  201</span>    <span class="keywordflow">if</span> (current_block_size &gt; 0 &amp;&amp; last_record_in_block != <span class="keyword">nullptr</span>) {</div>
-<div class="line"><span class="lineno">  202</span>        index_size = saturating_add(</div>
-<div class="line"><span class="lineno">  203</span>            index_size,</div>
-<div class="line"><span class="lineno">  204</span>            SSTableEntities::IndexSection::Payload::fixed_disk_size()</div>
-<div class="line"><span class="lineno">  205</span>        );</div>
-<div class="line"><span class="lineno">  206</span>        index_size = saturating_add(</div>
-<div class="line"><span class="lineno">  207</span>            index_size,</div>
-<div class="line"><span class="lineno">  208</span>            last_record_in_block-&gt;key_entry.size</div>
-<div class="line"><span class="lineno">  209</span>        );</div>
-<div class="line"><span class="lineno">  210</span>    }</div>
-<div class="line"><span class="lineno">  211</span> </div>
-<div class="line"><span class="lineno">  212</span>    std::uint64_t total = SSTable::fixed_disk_size();</div>
-<div class="line"><span class="lineno">  213</span>    total = saturating_add(</div>
-<div class="line"><span class="lineno">  214</span>        total,</div>
-<div class="line"><span class="lineno">  215</span>        SSTableEntities::IndexSection::Header::disk_size()</div>
-<div class="line"><span class="lineno">  216</span>    );</div>
-<div class="line"><span class="lineno">  217</span>    total = saturating_add(total, records_size);</div>
-<div class="line"><span class="lineno">  218</span>    total = saturating_add(total, index_size);</div>
-<div class="line"><span class="lineno">  219</span>    <span class="keywordflow">return</span> total;</div>
-<div class="line"><span class="lineno">  220</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a34902b788f3a6dc5c8d422900d21a810" name="a34902b788f3a6dc5c8d422900d21a810"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34902b788f3a6dc5c8d422900d21a810">&#9670;&#160;</a></span>build() <span class="overload">[1/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt; SSTableBuilder::build </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>table_id</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>records</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>final_path</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  129</span>{</div>
-<div class="line"><span class="lineno">  130</span>    <span class="keywordflow">return</span> build_impl(table_id, records, path, final_path);</div>
-<div class="line"><span class="lineno">  131</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ad89acf35d5d3aeef210f2384804545e5" name="ad89acf35d5d3aeef210f2384804545e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad89acf35d5d3aeef210f2384804545e5">&#9670;&#160;</a></span>build() <span class="overload">[2/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt; SSTableBuilder::build </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>table_id</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_mem_table.html">MemTable</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>mem_table</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>final_path</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   80</span>{</div>
-<div class="line"><span class="lineno">   81</span>    std::vector&lt;InternalRecord&gt; records;</div>
-<div class="line"><span class="lineno">   82</span>    std::uint64_t generation_id = 0;</div>
-<div class="line"><span class="lineno">   83</span>    Status status = mem_table.dump_oldest_immutable(</div>
-<div class="line"><span class="lineno">   84</span>        records,</div>
-<div class="line"><span class="lineno">   85</span>        generation_id</div>
-<div class="line"><span class="lineno">   86</span>    );</div>
-<div class="line"><span class="lineno">   87</span>    <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">   88</span>        <span class="keywordflow">if</span> (status.code == StatusCode::NotFound) {</div>
-<div class="line"><span class="lineno">   89</span>            <span class="keywordflow">return</span> Result&lt;std::optional&lt;SSTable&gt;&gt;::ok(std::nullopt);</div>
-<div class="line"><span class="lineno">   90</span>        }</div>
-<div class="line"><span class="lineno">   91</span>        <span class="keywordflow">return</span> Result&lt;std::optional&lt;SSTable&gt;&gt;::fail(std::move(status));</div>
-<div class="line"><span class="lineno">   92</span>    }</div>
-<div class="line"><span class="lineno">   93</span> </div>
-<div class="line"><span class="lineno">   94</span>    <span class="keywordflow">return</span> build_impl(table_id, records, path, final_path);</div>
-<div class="line"><span class="lineno">   95</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="af62e441b5f61ca562552c9fd4a7500f1" name="af62e441b5f61ca562552c9fd4a7500f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af62e441b5f61ca562552c9fd4a7500f1">&#9670;&#160;</a></span>build() <span class="overload">[3/3]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt; SSTableBuilder::build </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>table_id</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="class_s_s_table_iterator.html">SSTableIterator</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>it</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>final_path</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  103</span>{</div>
-<div class="line"><span class="lineno">  104</span>    std::vector&lt;InternalRecord&gt; records;</div>
-<div class="line"><span class="lineno">  105</span> </div>
-<div class="line"><span class="lineno">  106</span>    Status status = it.seek_to_first();</div>
-<div class="line"><span class="lineno">  107</span>    <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  108</span>        <span class="keywordflow">return</span> Result&lt;std::optional&lt;SSTable&gt;&gt;::fail(std::move(status));</div>
-<div class="line"><span class="lineno">  109</span>    }</div>
-<div class="line"><span class="lineno">  110</span> </div>
-<div class="line"><span class="lineno">  111</span>    <span class="keywordflow">while</span> (it.valid()) {</div>
-<div class="line"><span class="lineno">  112</span>        records.emplace_back(it.record());</div>
-<div class="line"><span class="lineno">  113</span> </div>
-<div class="line"><span class="lineno">  114</span>        status = it.next();</div>
-<div class="line"><span class="lineno">  115</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  116</span>            <span class="keywordflow">return</span> Result&lt;std::optional&lt;SSTable&gt;&gt;::fail(std::move(status));</div>
-<div class="line"><span class="lineno">  117</span>        }</div>
-<div class="line"><span class="lineno">  118</span>    }</div>
-<div class="line"><span class="lineno">  119</span> </div>
-<div class="line"><span class="lineno">  120</span>    <span class="keywordflow">return</span> build_impl(table_id, records, path, final_path);</div>
-<div class="line"><span class="lineno">  121</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a5371d21450341e28aefd74f7c622fa30" name="a5371d21450341e28aefd74f7c622fa30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5371d21450341e28aefd74f7c622fa30">&#9670;&#160;</a></span>build_impl()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="class_s_s_table.html">SSTable</a> &gt; &gt; SSTableBuilder::build_impl </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>table_id</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>records</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>path</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>final_path</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel private">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  139</span>{</div>
-<div class="line"><span class="lineno">  140</span>    <span class="keywordflow">if</span> (records.empty()) {</div>
-<div class="line"><span class="lineno">  141</span>        <span class="keywordflow">return</span> Result&lt;std::optional&lt;SSTable&gt;&gt;::ok(std::nullopt);</div>
-<div class="line"><span class="lineno">  142</span>    }</div>
-<div class="line"><span class="lineno">  143</span> </div>
-<div class="line"><span class="lineno">  144</span>    Status validation = validate_records(records);</div>
-<div class="line"><span class="lineno">  145</span>    <span class="keywordflow">if</span> (!validation.is_ok()) {</div>
-<div class="line"><span class="lineno">  146</span>        <span class="keywordflow">return</span> Result&lt;std::optional&lt;SSTable&gt;&gt;::fail(std::move(validation));</div>
-<div class="line"><span class="lineno">  147</span>    }</div>
-<div class="line"><span class="lineno">  148</span> </div>
-<div class="line"><span class="lineno">  149</span>    SSTable sstable(path, final_path, table_id);</div>
-<div class="line"><span class="lineno">  150</span> </div>
-<div class="line"><span class="lineno">  151</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; record : records) {</div>
-<div class="line"><span class="lineno">  152</span>        Status status = sstable.append_record(record);</div>
-<div class="line"><span class="lineno">  153</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  154</span>            <span class="keywordflow">return</span> Result&lt;std::optional&lt;SSTable&gt;&gt;::fail(std::move(status));</div>
-<div class="line"><span class="lineno">  155</span>        }</div>
-<div class="line"><span class="lineno">  156</span>    }</div>
-<div class="line"><span class="lineno">  157</span> </div>
-<div class="line"><span class="lineno">  158</span>    <span class="keywordflow">return</span> Result&lt;std::optional&lt;SSTable&gt;&gt;::ok(</div>
-<div class="line"><span class="lineno">  159</span>        std::optional&lt;SSTable&gt;{ std::move(sstable) }</div>
-<div class="line"><span class="lineno">  160</span>    );</div>
-<div class="line"><span class="lineno">  161</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/user/KVDB/include/<a class="el" href="sstable__builder_8h_source.html">sstable_builder.h</a></li>
-<li>C:/Users/user/KVDB/src/<b>sstable_builder.cpp</b></li>
+<p class="definition">Definition at line <a class="el" href="sstable__builder_8h_source.html#l00028">28</a> of file <a class="el" href="sstable__builder_8h_source.html">sstable_builder.h</a>.</p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="sstable__builder_8h_source.html">sstable_builder.h</a></li>
+<li><a class="el" href="sstable__builder_8cpp_source.html">sstable_builder.cpp</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="class_s_s_table_builder.html">SSTableBuilder</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

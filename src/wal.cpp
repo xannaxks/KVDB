@@ -1,3 +1,8 @@
+// WAL format and recovery:
+// Logical records are encoded once, divided at physical block boundaries, and
+// emitted as FULL or FIRST/MIDDLE/LAST fragments. Fragment CRC covers metadata
+// and payload. Recovery assembles only valid fragment sequences and distinguishes
+// an incomplete final tail (recoverable) from corruption in the durable prefix.
 #include "wal.h"
 
 #include <algorithm>

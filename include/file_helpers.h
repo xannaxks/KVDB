@@ -1,3 +1,10 @@
+/**
+ * @file file_helpers.h
+ * @brief Bounds checks, alignment, and padding for block-structured files.
+ *
+ * Helpers update the explicit offset only after successful checks/I/O and are
+ * shared by WAL and SSTable encoders and decoders.
+ */
 #pragma once
 
 #include <cstddef>

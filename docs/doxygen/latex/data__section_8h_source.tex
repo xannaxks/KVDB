@@ -1,157 +1,173 @@
 \doxysection{data\+\_\+section.\+h}
-\hypertarget{data__section_8h_source}{}\label{data__section_8h_source}\index{C:/Users/user/KVDB/include/sstable\_entities/data\_section.h@{C:/Users/user/KVDB/include/sstable\_entities/data\_section.h}}
-
+\hypertarget{data__section_8h_source}{}\label{data__section_8h_source}\index{data\_section.h@{data\_section.h}}
+\doxymbox{\hyperlink{data__section_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00006\ }
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}crc32\_helpers.h"{}}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}file.h"{}}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}record.h"{}}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities.h"{}}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities/index\_section.h"{}}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
-\DoxyCodeLine{00013\ }
-\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }\doxymbox{\hyperlink{namespace_s_s_table_entities}{SSTableEntities}}}
-\DoxyCodeLine{00015\ \{}
-\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{struct\ }DataSection}
-\DoxyCodeLine{00017\ \ \ \ \ \{}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }Header}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ Header()\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ Header(\textcolor{keyword}{const}\ Header\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ Header(Header\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ Header\&\ operator=(\textcolor{keyword}{const}\ Header\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ Header\&\ operator=(Header\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ BlockType\ type\ =\ BlockType::Data;}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ payload\_disk\_size\ =\ 0;}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ crc32\ =\ 0;}
-\DoxyCodeLine{00030\ }
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ On-\/disk\ widths,\ not\ C++\ object\ sizes.}}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(std::uint8\_t)\ +}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t);}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Non-\/owning\ view\ of\ an\ InternalRecord.\ The\ pointed-\/to\ bytes\ must\ remain}}
-\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ alive\ and\ unchanged\ until\ both\ data\ and\ derived\ index\ serialization\ end.}}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }Payload}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ Payload()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ Payload(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record)\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00051\ }
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ Payload(\textcolor{keyword}{const}\ Payload\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ Payload(Payload\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ Payload\&\ operator=(\textcolor{keyword}{const}\ Payload\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ Payload\&\ operator=(Payload\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ key\_size\ =\ 0;}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ value\_size\ =\ 0;}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ ::Type\ type\ =\ ::Type::Put;}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ flags\ =\ 0;}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ reserved\ =\ 0;}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ seq\_num\ =\ 0;}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ key\_ptr\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ value\_ptr\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00065\ }
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ fixed\_part\_disk\_size()\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ key\_size,\ value\_size,\ type,\ flags,\ reserved,\ seq\_num.}}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
-\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint8\_t)\ +}
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
-\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint64\_t);}
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00076\ }
-\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00079\ }
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_crc32(std::uint32\_t\&\ crc\_buffer)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ append\_crc32(std::uint32\_t\&\ crc\_buffer)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00088\ }
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }DataBlock}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00092\ }
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock(\textcolor{keyword}{const}\ DataBlock\&)\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock(DataBlock\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock\&\ operator=(\textcolor{keyword}{const}\ DataBlock\&)\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock\&\ operator=(DataBlock\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00097\ }
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_header}{Header}}\ header;}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<Payload>\ payloads;}
-\DoxyCodeLine{00100\ }
-\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ can\_payload\_fit(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Payload}}\&\ payload)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00104\ }
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ add\_payload(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Payload}}\&\ payload);}
-\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ rebuild\_header();}
-\DoxyCodeLine{00107\ }
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{IndexSection}}\&\ index\_section}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_crc32(std::uint32\_t\&\ crc\_buffer)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00116\ }
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ DataSection()\ noexcept\ =\ default;}
-\DoxyCodeLine{00118\ }
-\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ DataSection(const\ DataSection\&)\ =\ default;}
-\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ DataSection(DataSection\&\&)\ noexcept\ =\ default;}
-\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ DataSection\&\ operator=(const\ DataSection\&)\ =\ default;}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ DataSection\&\ operator=(DataSection\&\&)\ noexcept\ =\ default;}
-\DoxyCodeLine{00123\ }
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ std::vector<\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_data_block}{DataBlock}}>\ data\_blocks;}
-\DoxyCodeLine{00125\ }
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Kept\ for\ compatibility.\ Empty\ blocks\ are\ rejected\ by\ validate()/write().}}
-\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Prefer\ add\_payload()\ for\ normal\ construction.}}
-\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init\_new\_block();}
-\DoxyCodeLine{00129\ }
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ add\_payload(const\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record);}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ const;}
-\DoxyCodeLine{00132\ }
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sum\ of\ used\ encoded\ bytes.\ This\ intentionally\ excludes\ inter-\/block}}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ alignment\ padding.\ Use\ physical\_span()\ for\ an\ offset/extent\ calculation.}}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::\textcolor{keywordtype}{size\_t}\ disk\_size()\ const\ noexcept;}
-\DoxyCodeLine{00136\ }
-\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Bytes\ from\ the\ first\ block\ start\ through\ the\ last\ used\ byte,\ including}}
-\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ alignment\ gaps\ between\ blocks\ but\ excluding\ trailing\ padding\ after\ the}}
-\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ last\ block.}}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::\textcolor{keywordtype}{size\_t}\ physical\_span()\ const\ noexcept;}
-\DoxyCodeLine{00141\ }
-\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Physical\ writes\ and\ offset\ cannot\ be\ rolled\ back\ after\ an\ I/O\ failure.}}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\_offset\ and\ index\_section\ are\ committed\ only\ after\ full\ success.}}
-\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
-\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
-\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{IndexSection}}\&\ index\_section,}
-\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ data\_offset}
-\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00150\ \ \ \ \ \};}
-\DoxyCodeLine{00151\ \}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00001}00001\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ data\_section.h}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00003}00003\ \textcolor{comment}{\ *\ @brief\ In-\/memory\ construction\ model\ for\ sorted\ SSTable\ data\ blocks.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00004}00004\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00005}00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{crc32__helpers_8h}{crc32\_helpers.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{file_8h}{file.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{record_8h}{record.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{sstable__entities_8h}{sstable\_entities.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{index__section_8h}{sstable\_entities/index\_section.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{status_8h}{status.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00018}00018\ \textcolor{keyword}{namespace\ }SSTableEntities}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00019}00019\ \{\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00020}00020\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00021}00021\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Groups\ non-\/owning\ record\ payloads\ into\ checksummed\ physical\ blocks.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00022}00022\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00023}00023\ \textcolor{comment}{\ \ \ \ \ *\ Blocks\ never\ split\ a\ record\ and\ are\ aligned\ to\ SSTable\ block\ boundaries.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00024}00024\ \textcolor{comment}{\ \ \ \ \ *\ Writing\ a\ block\ simultaneously\ contributes\ its\ key\ range\ and\ offset\ to\ the}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00025}00025\ \textcolor{comment}{\ \ \ \ \ *\ IndexSection.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00026}00026\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00027}\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section}{00027}}\ \ \ \ \ \textcolor{keyword}{struct\ }DataSection}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00028}00028\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }Header}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00030}00030\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ \ \ \ \ Header()\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ Header(\textcolor{keyword}{const}\ Header\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ Header(Header\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ Header\&\ operator=(\textcolor{keyword}{const}\ Header\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ Header\&\ operator=(Header\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500}{BlockType}}\ type\ =\ \doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500af6068daa29dbb05a7ead1e3b5a48bbee}{BlockType::Data}};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ payload\_disk\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ crc32\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ On-\/disk\ widths,\ not\ C++\ object\ sizes.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(std::uint8\_t)\ +}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t);}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_aaf48ef751cb5878d993e85a58f1306d3}{write}}(}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00052}00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00054}00054\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Non-\/owning\ view\ of\ an\ InternalRecord.\ The\ pointed-\/to\ bytes\ must\ remain}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ alive\ and\ unchanged\ until\ both\ data\ and\ derived\ index\ serialization\ end.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }Payload}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00059}00059\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ Payload()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{explicit}\ Payload(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ Payload(\textcolor{keyword}{const}\ Payload\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ Payload(Payload\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ Payload\&\ operator=(\textcolor{keyword}{const}\ Payload\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ Payload\&\ operator=(Payload\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ key\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ value\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{::Type}}\ type\ =\ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479ad0bf1810982e9728fcf3ac444a015373}{::Type::Put}};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ flags\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ reserved\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ seq\_num\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ key\_ptr\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ value\_ptr\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ fixed\_part\_disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ key\_size,\ value\_size,\ type,\ flags,\ reserved,\ seq\_num.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint8\_t)\ +}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint64\_t);}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_aaf48ef751cb5878d993e85a58f1306d3}{write}}(}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_crc32(std::uint32\_t\&\ crc\_buffer)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ append\_crc32(std::uint32\_t\&\ crc\_buffer)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00098}00098\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }DataBlock}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00101}00101\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock(\textcolor{keyword}{const}\ DataBlock\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock(DataBlock\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock\&\ operator=(\textcolor{keyword}{const}\ DataBlock\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ DataBlock\&\ operator=(DataBlock\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ Header\ header;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<Payload>\ payloads;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ can\_payload\_fit(\textcolor{keyword}{const}\ Payload\&\ payload)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_a56920c06eaf0b6edc5e530d64738d68e}{add\_payload}}(\textcolor{keyword}{const}\ Payload\&\ payload);}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ rebuild\_header();}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_aaf48ef751cb5878d993e85a58f1306d3}{write}}(}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{IndexSection}}\&\ index\_section}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_crc32(std::uint32\_t\&\ crc\_buffer)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00126}00126\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00128}00128\ \ \ \ \ \ \ \ \ DataSection()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00130}00130\ \ \ \ \ \ \ \ \ DataSection(\textcolor{keyword}{const}\ DataSection\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00131}00131\ \ \ \ \ \ \ \ \ DataSection(DataSection\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00132}00132\ \ \ \ \ \ \ \ \ DataSection\&\ operator=(\textcolor{keyword}{const}\ DataSection\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00133}00133\ \ \ \ \ \ \ \ \ DataSection\&\ operator=(DataSection\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00135}00135\ \ \ \ \ \ \ \ \ std::vector<DataBlock>\ data\_blocks;}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Kept\ for\ compatibility.\ Empty\ blocks\ are\ rejected\ by\ validate()/write().}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00138}00138\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Prefer\ add\_payload()\ for\ normal\ construction.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ init\_new\_block();}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00140}00140\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00141}00141\ \textcolor{comment}{\ \ \ \ \ \ \ \ /**\ @brief\ Appends\ a\ sorted\ record,\ opening\ a\ new\ block\ when\ required.\ */}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00142}00142\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_a56920c06eaf0b6edc5e530d64738d68e}{add\_payload}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record);}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00143}00143\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00144}00144\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Sum\ of\ used\ encoded\ bytes.\ This\ intentionally\ excludes\ inter-\/block}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00146}00146\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ alignment\ padding.\ Use\ physical\_span()\ for\ an\ offset/extent\ calculation.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00147}00147\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00149}00149\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Bytes\ from\ the\ first\ block\ start\ through\ the\ last\ used\ byte,\ including}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ alignment\ gaps\ between\ blocks\ but\ excluding\ trailing\ padding\ after\ the}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ last\ block.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00152}00152\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ physical\_span()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Physical\ writes\ and\ offset\ cannot\ be\ rolled\ back\ after\ an\ I/O\ failure.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\_offset\ and\ index\_section\ are\ committed\ only\ after\ full\ success.}\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00156}00156\ \textcolor{comment}{\ \ \ \ \ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00157}00157\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ *\ @brief\ Writes\ all\ blocks\ and\ transactionally\ builds\ their\ index\ entries.}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00158}00158\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ *\ @callgraph}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00159}00159\ \textcolor{comment}{\ \ \ \ \ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00160}00160\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_aaf48ef751cb5878d993e85a58f1306d3}{write}}(}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{IndexSection}}\&\ index\_section,}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ data\_offset}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00165}00165\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00166}00166\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{data__section_8h_source_l00167}00167\ \}}
 
 \end{DoxyCode}

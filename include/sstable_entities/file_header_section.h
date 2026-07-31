@@ -1,3 +1,7 @@
+/**
+ * @file file_header_section.h
+ * @brief Fixed SSTable identity and format-version header.
+ */
 #pragma once
 
 #include <cstddef>
@@ -12,6 +16,7 @@
 
 namespace SSTableEntities
 {
+    /** @brief Checksummed fixed-width header at byte zero of every SSTable. */
     struct FileHeaderSection
     {
         FileHeaderSection() noexcept;

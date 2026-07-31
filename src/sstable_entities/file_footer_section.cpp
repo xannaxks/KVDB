@@ -1,3 +1,6 @@
+// The footer is discovered backwards from EOF. Validation treats its offsets as
+// a section directory and proves monotonic, non-overlapping extents within the
+// actual file before readers seek through those offsets.
 #include "sstable_entities/file_footer_section.h"
 
 #include <format>

@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('struct_s_s_table_entities_1_1_bloom_section.html','','struct_s_s_table_entities_1_1_bloom_section-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,547 +115,46 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a href="namespace_s_s_table_entities.html">SSTableEntities</a></li><li class="navelem"><a href="struct_s_s_table_entities_1_1_bloom_section.html">BloomSection</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="struct_s_s_table_entities_1_1_bloom_section-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">SSTableEntities::BloomSection Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Version-1 Bloom filter and its checksummed disk representation.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="bloom__section_8h_source.html">bloom_section.h</a>&gt;</code></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:Header" id="r_Header"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_s_s_table_entities_1_1_bloom_section_1_1_header.html">Header</a></td></tr>
-<tr class="memitem:Payload" id="r_Payload"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_s_s_table_entities_1_1_bloom_section_1_1_payload.html">Payload</a></td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:afb0c9631cbb9b522cefffde8e71e0082" id="r_afb0c9631cbb9b522cefffde8e71e0082"><td class="memItemLeft"><a id="afb0c9631cbb9b522cefffde8e71e0082" name="afb0c9631cbb9b522cefffde8e71e0082"></a>
-&#160;</td><td class="memItemRight"><b>BloomSection</b> (const BloomSection &amp;) noexcept=default</td></tr>
-<tr class="memitem:abe393b5f64d7b20cba4517864e9235dc" id="r_abe393b5f64d7b20cba4517864e9235dc"><td class="memItemLeft"><a id="abe393b5f64d7b20cba4517864e9235dc" name="abe393b5f64d7b20cba4517864e9235dc"></a>
-&#160;</td><td class="memItemRight"><b>BloomSection</b> (BloomSection &amp;&amp;) noexcept=default</td></tr>
-<tr class="memitem:af098fd95fb1a2455072d7176ca3046d0" id="r_af098fd95fb1a2455072d7176ca3046d0"><td class="memItemLeft"><a id="af098fd95fb1a2455072d7176ca3046d0" name="af098fd95fb1a2455072d7176ca3046d0"></a>
-BloomSection &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const BloomSection &amp;)=default</td></tr>
-<tr class="memitem:adb825103c73f7e7b8e92c5b2d9741d3b" id="r_adb825103c73f7e7b8e92c5b2d9741d3b"><td class="memItemLeft"><a id="adb825103c73f7e7b8e92c5b2d9741d3b" name="adb825103c73f7e7b8e92c5b2d9741d3b"></a>
-BloomSection &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (BloomSection &amp;&amp;) noexcept=default</td></tr>
-<tr class="memitem:a227fbd35b2b3723cae021c06658f72be" id="r_a227fbd35b2b3723cae021c06658f72be"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a227fbd35b2b3723cae021c06658f72be">validate</a> () const</td></tr>
-<tr class="memitem:af6ee1d8fc930c1d0f5b24e19c191c189" id="r_af6ee1d8fc930c1d0f5b24e19c191c189"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#af6ee1d8fc930c1d0f5b24e19c191c189">write</a> (<a class="el" href="class_writable_file.html">WritableFile</a> &amp;file, std::uint64_t &amp;offset, std::uint64_t &amp;bloom_offset)</td></tr>
-<tr class="memitem:a9bf7a2442ae2fdddb6a3eb27e9677c9d" id="r_a9bf7a2442ae2fdddb6a3eb27e9677c9d"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a9bf7a2442ae2fdddb6a3eb27e9677c9d">add_key</a> (const void *key_ptr, std::uint32_t key_size)</td></tr>
-<tr class="memitem:ae9c6d56950ec94a36ec4b70ae807cbaf" id="r_ae9c6d56950ec94a36ec4b70ae807cbaf"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#ae9c6d56950ec94a36ec4b70ae807cbaf">rebuild</a> (const <a class="el" href="struct_s_s_table_entities_1_1_data_section.html">DataSection</a> &amp;data_section)</td></tr>
-<tr class="memitem:a44397c6d688598c10748aadd17bf026c" id="r_a44397c6d688598c10748aadd17bf026c"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a44397c6d688598c10748aadd17bf026c">recompute_crc32</a> ()</td></tr>
-<tr class="memitem:a0e57d27358955e5eb8cfc63f445f2a7f" id="r_a0e57d27358955e5eb8cfc63f445f2a7f"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a0e57d27358955e5eb8cfc63f445f2a7f">may_contain</a> (const void *key_ptr, std::uint32_t key_size) const noexcept</td></tr>
-<tr class="memitem:abd77cf7018bcc41a1206e7d6cfa96053" id="r_abd77cf7018bcc41a1206e7d6cfa96053"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abd77cf7018bcc41a1206e7d6cfa96053">calculate_crc32</a> (std::uint32_t &amp;crc_buffer) const noexcept</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ad4c10b4c2b4b61d5d6639830d7d32d0c" id="r_ad4c10b4c2b4b61d5d6639830d7d32d0c"><td class="memItemLeft">static constexpr std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#ad4c10b4c2b4b61d5d6639830d7d32d0c">disk_size</a> () noexcept</td></tr>
-<tr class="memitem:a47ee776d4f95e7ccb94ebd7212469851" id="r_a47ee776d4f95e7ccb94ebd7212469851"><td class="memItemLeft">static <a class="el" href="struct_result.html">Result</a>&lt; BloomSection &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a47ee776d4f95e7ccb94ebd7212469851">load</a> (<a class="el" href="class_readable_file.html">ReadableFile</a> &amp;file, std::uint64_t &amp;offset, std::uint64_t bloom_offset)</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a7cf2bc1adac3976569422089fcf26456" id="r_a7cf2bc1adac3976569422089fcf26456"><td class="memItemLeft"><a id="a7cf2bc1adac3976569422089fcf26456" name="a7cf2bc1adac3976569422089fcf26456"></a>
-<a class="el" href="struct_s_s_table_entities_1_1_bloom_section_1_1_header.html">Header</a>&#160;</td><td class="memItemRight"><b>header</b></td></tr>
-<tr class="memitem:a937136eaf8bda5615e6e2c01e2e62ff7" id="r_a937136eaf8bda5615e6e2c01e2e62ff7"><td class="memItemLeft"><a id="a937136eaf8bda5615e6e2c01e2e62ff7" name="a937136eaf8bda5615e6e2c01e2e62ff7"></a>
-<a class="el" href="struct_s_s_table_entities_1_1_bloom_section_1_1_payload.html">Payload</a>&#160;</td><td class="memItemRight"><b>payload</b></td></tr>
+<tr class="memitem:ae9c6d56950ec94a36ec4b70ae807cbaf" id="r_ae9c6d56950ec94a36ec4b70ae807cbaf"><td class="memItemLeft"><a id="ae9c6d56950ec94a36ec4b70ae807cbaf" name="ae9c6d56950ec94a36ec4b70ae807cbaf"></a>
+<a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>rebuild</b> (const <a class="el" href="struct_s_s_table_entities_1_1_data_section.html">DataSection</a> &amp;data_section)</td></tr>
+<tr class="memdesc:ae9c6d56950ec94a36ec4b70ae807cbaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Transactionally rebuilds the filter from all data records. <br /></td></tr>
+<tr class="memitem:a0e57d27358955e5eb8cfc63f445f2a7f" id="r_a0e57d27358955e5eb8cfc63f445f2a7f"><td class="memItemLeft"><a id="a0e57d27358955e5eb8cfc63f445f2a7f" name="a0e57d27358955e5eb8cfc63f445f2a7f"></a>
+bool&#160;</td><td class="memItemRight"><b>may_contain</b> (const void *key_ptr, std::uint32_t key_size) const noexcept</td></tr>
+<tr class="memdesc:a0e57d27358955e5eb8cfc63f445f2a7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns false only when a valid filter excludes the key. <br /></td></tr>
 </table>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a529c43220574c4ac625beeb698b91d40" name="a529c43220574c4ac625beeb698b91d40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a529c43220574c4ac625beeb698b91d40">&#9670;&#160;</a></span>BloomSection()</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Version-1 Bloom filter and its checksummed disk representation. </p>
+<p>The filter may return false only for a valid filter that definitely lacks the key. Malformed state deliberately fails open to avoid hiding records. </p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">SSTableEntities::BloomSection::BloomSection </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  204</span>    {</div>
-<div class="line"><span class="lineno">  205</span>        payload.mask.fill(0u);</div>
-<div class="line"><span class="lineno">  206</span>        payload.bloom_bits = payload.mask.size();</div>
-<div class="line"><span class="lineno">  207</span>        payload.hash_count = BLOOM_HASH_COUNT;</div>
-<div class="line"><span class="lineno">  208</span>        payload.key_count = 0;</div>
-<div class="line"><span class="lineno">  209</span> </div>
-<div class="line"><span class="lineno">  210</span>        header.type = BlockType::Bloom;</div>
-<div class="line"><span class="lineno">  211</span>        header.payload_size = <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(Payload::disk_size());</div>
-<div class="line"><span class="lineno">  212</span>        calculate_crc32(header.crc32);</div>
-<div class="line"><span class="lineno">  213</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a9bf7a2442ae2fdddb6a3eb27e9677c9d" name="a9bf7a2442ae2fdddb6a3eb27e9677c9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9bf7a2442ae2fdddb6a3eb27e9677c9d">&#9670;&#160;</a></span>add_key()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> SSTableEntities::BloomSection::add_key </td>
-          <td>(</td>
-          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>key_ptr</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>key_size</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  274</span>    {</div>
-<div class="line"><span class="lineno">  275</span>        <span class="keywordflow">return</span> add_key_to_payload(payload, key_ptr, key_size);</div>
-<div class="line"><span class="lineno">  276</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="abd77cf7018bcc41a1206e7d6cfa96053" name="abd77cf7018bcc41a1206e7d6cfa96053"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd77cf7018bcc41a1206e7d6cfa96053">&#9670;&#160;</a></span>calculate_crc32()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void SSTableEntities::BloomSection::calculate_crc32 </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t &amp;</td>          <td class="paramname"><span class="paramname"><em>crc_buffer</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  253</span>    {</div>
-<div class="line"><span class="lineno">  254</span>        payload.calculate_crc32(crc_buffer);</div>
-<div class="line"><span class="lineno">  255</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ad4c10b4c2b4b61d5d6639830d7d32d0c" name="ad4c10b4c2b4b61d5d6639830d7d32d0c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad4c10b4c2b4b61d5d6639830d7d32d0c">&#9670;&#160;</a></span>disk_size()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr std::size_t SSTableEntities::BloomSection::disk_size </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel inline">inline</span><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span><span class="mlabel constexpr">constexpr</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   97</span>        {</div>
-<div class="line"><span class="lineno">   98</span>            <span class="keywordflow">return</span> Header::disk_size() + Payload::disk_size();</div>
-<div class="line"><span class="lineno">   99</span>        }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a47ee776d4f95e7ccb94ebd7212469851" name="a47ee776d4f95e7ccb94ebd7212469851"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47ee776d4f95e7ccb94ebd7212469851">&#9670;&#160;</a></span>load()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_result.html">Result</a>&lt; BloomSection &gt; SSTableEntities::BloomSection::load </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_readable_file.html">ReadableFile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>file</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t &amp;</td>          <td class="paramname"><span class="paramname"><em>offset</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>bloom_offset</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  624</span>    {</div>
-<div class="line"><span class="lineno">  625</span>        <span class="keyword">const</span> std::uint64_t initial_offset = offset;</div>
-<div class="line"><span class="lineno">  626</span> </div>
-<div class="line"><span class="lineno">  627</span>        <span class="keywordflow">if</span> (bloom_offset % BLOCK_SIZE != 0) {</div>
-<div class="line"><span class="lineno">  628</span>            <span class="keywordflow">return</span> Result&lt;BloomSection&gt;::fail(Status{</div>
-<div class="line"><span class="lineno">  629</span>                StatusCode::InvalidBlockAlignment,</div>
-<div class="line"><span class="lineno">  630</span>                <span class="stringliteral">&quot;Bloom section offset is not block-aligned&quot;</span></div>
-<div class="line"><span class="lineno">  631</span>                });</div>
-<div class="line"><span class="lineno">  632</span>        }</div>
-<div class="line"><span class="lineno">  633</span> </div>
-<div class="line"><span class="lineno">  634</span>        std::uint64_t file_size = 0;</div>
-<div class="line"><span class="lineno">  635</span>        Status status = file.get_file_size(file_size);</div>
-<div class="line"><span class="lineno">  636</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  637</span>            <span class="keywordflow">return</span> Result&lt;BloomSection&gt;::fail(std::move(status));</div>
-<div class="line"><span class="lineno">  638</span>        }</div>
-<div class="line"><span class="lineno">  639</span> </div>
-<div class="line"><span class="lineno">  640</span>        status = can_read_range(bloom_offset, disk_size(), file_size);</div>
-<div class="line"><span class="lineno">  641</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  642</span>            <span class="keywordflow">return</span> Result&lt;BloomSection&gt;::fail(std::move(status));</div>
-<div class="line"><span class="lineno">  643</span>        }</div>
-<div class="line"><span class="lineno">  644</span> </div>
-<div class="line"><span class="lineno">  645</span>        offset = bloom_offset;</div>
-<div class="line"><span class="lineno">  646</span> </div>
-<div class="line"><span class="lineno">  647</span>        Result&lt;Header&gt; header_result = Header::load(file, offset);</div>
-<div class="line"><span class="lineno">  648</span>        <span class="keywordflow">if</span> (!header_result.is_ok()) {</div>
-<div class="line"><span class="lineno">  649</span>            offset = initial_offset;</div>
-<div class="line"><span class="lineno">  650</span>            <span class="keywordflow">return</span> Result&lt;BloomSection&gt;::fail(std::move(header_result.status));</div>
-<div class="line"><span class="lineno">  651</span>        }</div>
-<div class="line"><span class="lineno">  652</span> </div>
-<div class="line"><span class="lineno">  653</span>        Result&lt;Payload&gt; payload_result = Payload::load(file, offset);</div>
-<div class="line"><span class="lineno">  654</span>        <span class="keywordflow">if</span> (!payload_result.is_ok()) {</div>
-<div class="line"><span class="lineno">  655</span>            offset = initial_offset;</div>
-<div class="line"><span class="lineno">  656</span>            <span class="keywordflow">return</span> Result&lt;BloomSection&gt;::fail(std::move(payload_result.status));</div>
-<div class="line"><span class="lineno">  657</span>        }</div>
-<div class="line"><span class="lineno">  658</span> </div>
-<div class="line"><span class="lineno">  659</span>        BloomSection result;</div>
-<div class="line"><span class="lineno">  660</span>        result.header = std::move(header_result.value);</div>
-<div class="line"><span class="lineno">  661</span>        result.payload = std::move(payload_result.value);</div>
-<div class="line"><span class="lineno">  662</span> </div>
-<div class="line"><span class="lineno">  663</span>        std::uint32_t expected_crc = 0;</div>
-<div class="line"><span class="lineno">  664</span>        result.calculate_crc32(expected_crc);</div>
-<div class="line"><span class="lineno">  665</span>        <span class="keywordflow">if</span> (expected_crc != result.header.crc32) {</div>
-<div class="line"><span class="lineno">  666</span>            offset = initial_offset;</div>
-<div class="line"><span class="lineno">  667</span>            <span class="keywordflow">return</span> Result&lt;BloomSection&gt;::fail(Status{</div>
-<div class="line"><span class="lineno">  668</span>                StatusCode::ChecksumMismatch,</div>
-<div class="line"><span class="lineno">  669</span>                <span class="stringliteral">&quot;Bloom payload CRC mismatch&quot;</span></div>
-<div class="line"><span class="lineno">  670</span>                });</div>
-<div class="line"><span class="lineno">  671</span>        }</div>
-<div class="line"><span class="lineno">  672</span> </div>
-<div class="line"><span class="lineno">  673</span>        status = result.payload.validate();</div>
-<div class="line"><span class="lineno">  674</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  675</span>            offset = initial_offset;</div>
-<div class="line"><span class="lineno">  676</span>            <span class="keywordflow">return</span> Result&lt;BloomSection&gt;::fail(std::move(status));</div>
-<div class="line"><span class="lineno">  677</span>        }</div>
-<div class="line"><span class="lineno">  678</span> </div>
-<div class="line"><span class="lineno">  679</span>        <span class="keywordflow">return</span> Result&lt;BloomSection&gt;::ok(std::move(result));</div>
-<div class="line"><span class="lineno">  680</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a0e57d27358955e5eb8cfc63f445f2a7f" name="a0e57d27358955e5eb8cfc63f445f2a7f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0e57d27358955e5eb8cfc63f445f2a7f">&#9670;&#160;</a></span>may_contain()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool SSTableEntities::BloomSection::may_contain </td>
-          <td>(</td>
-          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>key_ptr</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint32_t</td>          <td class="paramname"><span class="paramname"><em>key_size</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  314</span>    {</div>
-<div class="line"><span class="lineno">  315</span>        <span class="keywordflow">if</span> (key_size &gt; 0 &amp;&amp; key_ptr == <span class="keyword">nullptr</span>) {</div>
-<div class="line"><span class="lineno">  316</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  317</span>        }</div>
-<div class="line"><span class="lineno">  318</span> </div>
-<div class="line"><span class="lineno">  319</span>        <span class="keywordflow">if</span> (!payload.validate().is_ok()) {</div>
-<div class="line"><span class="lineno">  320</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  321</span>        }</div>
-<div class="line"><span class="lineno">  322</span> </div>
-<div class="line"><span class="lineno">  323</span>        <span class="keywordflow">for</span> (std::uint32_t i = 0; i &lt; payload.hash_count; ++i) {</div>
-<div class="line"><span class="lineno">  324</span>            <span class="keyword">const</span> std::uint64_t hash = bloom_hash_i(key_ptr, key_size, i);</div>
-<div class="line"><span class="lineno">  325</span>            <span class="keyword">const</span> std::uint64_t slot = hash % payload.bloom_bits;</div>
-<div class="line"><span class="lineno">  326</span>            <span class="keywordflow">if</span> (payload.mask[<span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(slot)] == 0) {</div>
-<div class="line"><span class="lineno">  327</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  328</span>            }</div>
-<div class="line"><span class="lineno">  329</span>        }</div>
-<div class="line"><span class="lineno">  330</span> </div>
-<div class="line"><span class="lineno">  331</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  332</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ae9c6d56950ec94a36ec4b70ae807cbaf" name="ae9c6d56950ec94a36ec4b70ae807cbaf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9c6d56950ec94a36ec4b70ae807cbaf">&#9670;&#160;</a></span>rebuild()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> SSTableEntities::BloomSection::rebuild </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_s_s_table_entities_1_1_data_section.html">DataSection</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>data_section</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  279</span>    {</div>
-<div class="line"><span class="lineno">  280</span>        <a class="code hl_struct" href="struct_s_s_table_entities_1_1_bloom_section_1_1_payload.html">Payload</a> staged;</div>
-<div class="line"><span class="lineno">  281</span>        staged.mask.fill(0u);</div>
-<div class="line"><span class="lineno">  282</span>        staged.bloom_bits = staged.mask.size();</div>
-<div class="line"><span class="lineno">  283</span>        staged.hash_count = BLOOM_HASH_COUNT;</div>
-<div class="line"><span class="lineno">  284</span>        staged.key_count = 0;</div>
-<div class="line"><span class="lineno">  285</span> </div>
-<div class="line"><span class="lineno">  286</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; block : data_section.data_blocks) {</div>
-<div class="line"><span class="lineno">  287</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; record : block.payloads) {</div>
-<div class="line"><span class="lineno">  288</span>                Status status = add_key_to_payload(</div>
-<div class="line"><span class="lineno">  289</span>                    staged,</div>
-<div class="line"><span class="lineno">  290</span>                    record.key_ptr,</div>
-<div class="line"><span class="lineno">  291</span>                    record.key_size</div>
-<div class="line"><span class="lineno">  292</span>                );</div>
-<div class="line"><span class="lineno">  293</span>                <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  294</span>                    <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  295</span>                }</div>
-<div class="line"><span class="lineno">  296</span>            }</div>
-<div class="line"><span class="lineno">  297</span>        }</div>
-<div class="line"><span class="lineno">  298</span> </div>
-<div class="line"><span class="lineno">  299</span>        <a class="code hl_struct" href="struct_s_s_table_entities_1_1_bloom_section_1_1_header.html">Header</a> staged_header;</div>
-<div class="line"><span class="lineno">  300</span>        staged_header.type = BlockType::Bloom;</div>
-<div class="line"><span class="lineno">  301</span>        staged_header.payload_size =</div>
-<div class="line"><span class="lineno">  302</span>            <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(Payload::disk_size());</div>
-<div class="line"><span class="lineno">  303</span>        staged.calculate_crc32(staged_header.crc32);</div>
-<div class="line"><span class="lineno">  304</span> </div>
-<div class="line"><span class="lineno">  305</span>        payload = std::move(staged);</div>
-<div class="line"><span class="lineno">  306</span>        header = staged_header;</div>
-<div class="line"><span class="lineno">  307</span>        <span class="keywordflow">return</span> Status::ok();</div>
-<div class="line"><span class="lineno">  308</span>    }</div>
-<div class="ttc" id="astruct_s_s_table_entities_1_1_bloom_section_1_1_header_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_bloom_section_1_1_header.html">SSTableEntities::BloomSection::Header</a></div><div class="ttdef"><b>Definition</b> bloom_section.h:16</div></div>
-<div class="ttc" id="astruct_s_s_table_entities_1_1_bloom_section_1_1_payload_html"><div class="ttname"><a href="struct_s_s_table_entities_1_1_bloom_section_1_1_payload.html">SSTableEntities::BloomSection::Payload</a></div><div class="ttdef"><b>Definition</b> bloom_section.h:47</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a44397c6d688598c10748aadd17bf026c" name="a44397c6d688598c10748aadd17bf026c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a44397c6d688598c10748aadd17bf026c">&#9670;&#160;</a></span>recompute_crc32()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> SSTableEntities::BloomSection::recompute_crc32 </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  258</span>    {</div>
-<div class="line"><span class="lineno">  259</span>        Status status = payload.validate();</div>
-<div class="line"><span class="lineno">  260</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  261</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  262</span>        }</div>
-<div class="line"><span class="lineno">  263</span> </div>
-<div class="line"><span class="lineno">  264</span>        header.type = BlockType::Bloom;</div>
-<div class="line"><span class="lineno">  265</span>        header.payload_size = <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(Payload::disk_size());</div>
-<div class="line"><span class="lineno">  266</span>        calculate_crc32(header.crc32);</div>
-<div class="line"><span class="lineno">  267</span>        <span class="keywordflow">return</span> Status::ok();</div>
-<div class="line"><span class="lineno">  268</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a227fbd35b2b3723cae021c06658f72be" name="a227fbd35b2b3723cae021c06658f72be"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a227fbd35b2b3723cae021c06658f72be">&#9670;&#160;</a></span>validate()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> SSTableEntities::BloomSection::validate </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  216</span>    {</div>
-<div class="line"><span class="lineno">  217</span>        Status status = header.validate();</div>
-<div class="line"><span class="lineno">  218</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  219</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  220</span>        }</div>
-<div class="line"><span class="lineno">  221</span> </div>
-<div class="line"><span class="lineno">  222</span>        status = payload.validate();</div>
-<div class="line"><span class="lineno">  223</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  224</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  225</span>        }</div>
-<div class="line"><span class="lineno">  226</span> </div>
-<div class="line"><span class="lineno">  227</span>        std::uint32_t expected_crc = 0;</div>
-<div class="line"><span class="lineno">  228</span>        calculate_crc32(expected_crc);</div>
-<div class="line"><span class="lineno">  229</span>        <span class="keywordflow">if</span> (header.crc32 != expected_crc) {</div>
-<div class="line"><span class="lineno">  230</span>            <span class="keywordflow">return</span> Status{</div>
-<div class="line"><span class="lineno">  231</span>                StatusCode::ChecksumMismatch,</div>
-<div class="line"><span class="lineno">  232</span>                <span class="stringliteral">&quot;Bloom payload CRC does not match the cached header CRC&quot;</span></div>
-<div class="line"><span class="lineno">  233</span>            };</div>
-<div class="line"><span class="lineno">  234</span>        }</div>
-<div class="line"><span class="lineno">  235</span> </div>
-<div class="line"><span class="lineno">  236</span>        <span class="keywordflow">return</span> Status::ok();</div>
-<div class="line"><span class="lineno">  237</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="af6ee1d8fc930c1d0f5b24e19c191c189" name="af6ee1d8fc930c1d0f5b24e19c191c189"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6ee1d8fc930c1d0f5b24e19c191c189">&#9670;&#160;</a></span>write()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> SSTableEntities::BloomSection::write </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_writable_file.html">WritableFile</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>file</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t &amp;</td>          <td class="paramname"><span class="paramname"><em>offset</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t &amp;</td>          <td class="paramname"><span class="paramname"><em>bloom_offset</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  448</span>    {</div>
-<div class="line"><span class="lineno">  449</span>        Status status = validate_cursor(file, offset);</div>
-<div class="line"><span class="lineno">  450</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  451</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  452</span>        }</div>
-<div class="line"><span class="lineno">  453</span> </div>
-<div class="line"><span class="lineno">  454</span>        status = payload.validate();</div>
-<div class="line"><span class="lineno">  455</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  456</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  457</span>        }</div>
-<div class="line"><span class="lineno">  458</span> </div>
-<div class="line"><span class="lineno">  459</span>        <span class="comment">// Rebuild derived header fields before any alignment padding or section</span></div>
-<div class="line"><span class="lineno">  460</span>        <span class="comment">// bytes are emitted.</span></div>
-<div class="line"><span class="lineno">  461</span>        status = recompute_crc32();</div>
-<div class="line"><span class="lineno">  462</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  463</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  464</span>        }</div>
-<div class="line"><span class="lineno">  465</span> </div>
-<div class="line"><span class="lineno">  466</span>        status = align_to_block_boundary(file, offset, BLOCK_SIZE);</div>
-<div class="line"><span class="lineno">  467</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  468</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  469</span>        }</div>
-<div class="line"><span class="lineno">  470</span> </div>
-<div class="line"><span class="lineno">  471</span>        <span class="keyword">const</span> std::uint64_t staged_bloom_offset = offset;</div>
-<div class="line"><span class="lineno">  472</span>        status = fits_in_block(offset, disk_size(), BLOCK_SIZE);</div>
-<div class="line"><span class="lineno">  473</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  474</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  475</span>        }</div>
-<div class="line"><span class="lineno">  476</span> </div>
-<div class="line"><span class="lineno">  477</span>        status = header.write(file, offset);</div>
-<div class="line"><span class="lineno">  478</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  479</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  480</span>        }</div>
-<div class="line"><span class="lineno">  481</span> </div>
-<div class="line"><span class="lineno">  482</span>        status = payload.write(file, offset);</div>
-<div class="line"><span class="lineno">  483</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">  484</span>            <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  485</span>        }</div>
-<div class="line"><span class="lineno">  486</span> </div>
-<div class="line"><span class="lineno">  487</span>        bloom_offset = staged_bloom_offset;</div>
-<div class="line"><span class="lineno">  488</span>        <span class="keywordflow">return</span> Status::ok();</div>
-<div class="line"><span class="lineno">  489</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
-<li>C:/Users/user/KVDB/include/sstable_entities/<a class="el" href="bloom__section_8h_source.html">bloom_section.h</a></li>
-<li>C:/Users/user/KVDB/src/sstable_entities/<b>bloom_section.cpp</b></li>
+<p class="definition">Definition at line <a class="el" href="bloom__section_8h_source.html#l00023">23</a> of file <a class="el" href="bloom__section_8h_source.html">bloom_section.h</a>.</p>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li><a class="el" href="bloom__section_8h_source.html">bloom_section.h</a></li>
+<li><a class="el" href="bloom__section_8cpp_source.html">bloom_section.cpp</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>SSTableEntities</b></li><li class="navelem"><a href="struct_s_s_table_entities_1_1_bloom_section.html">BloomSection</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

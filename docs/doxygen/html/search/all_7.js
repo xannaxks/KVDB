@@ -1,9 +1,27 @@
 var searchData=
 [
-  ['immovable_0',['Immovable',['../structanonymous__namespace_02arena__test_8cpp_03_1_1_immovable.html',1,'anonymous_namespace{arena_test.cpp}']]],
-  ['immutablesnapshot_1',['ImmutableSnapshot',['../struct_mem_table_1_1_immutable_snapshot.html',1,'MemTable']]],
-  ['immutabletable_2',['ImmutableTable',['../struct_mem_table_1_1_immutable_table.html',1,'MemTable']]],
+  ['immutablesnapshot_0',['ImmutableSnapshot',['../struct_mem_table_1_1_immutable_snapshot.html',1,'MemTable']]],
+  ['index_1',['Index',['../sstable__entities_8h.html#a6e4c60e5b3af2829d3f85022acf90500a88fa71f0a6e0dfedbb46d91cc0b37a50',1,'SSTableEntities']]],
+  ['index_5fsection_2eh_2',['index_section.h',['../index__section_8h.html',1,'']]],
   ['indexsection_3',['IndexSection',['../struct_s_s_table_entities_1_1_index_section.html',1,'SSTableEntities']]],
   ['inorderiterator_4',['InorderIterator',['../class_r_b_tree_1_1_inorder_iterator.html',1,'RBTree']]],
-  ['internalrecord_5',['InternalRecord',['../struct_internal_record.html',1,'']]]
+  ['insert_5',['insert',['../class_r_b_tree.html#abe2d18cd2f63f4c2a2160c493561986d',1,'RBTree']]],
+  ['internalerror_6',['InternalError',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea8462b58246e70e5c83e5b939a9332cb5',1,'status.h']]],
+  ['internalrecord_7',['InternalRecord',['../struct_internal_record.html',1,'']]],
+  ['invalid_5fargument_8',['invalid_argument',['../struct_status.html#a194e66166743a75a8e37553894d7dae4',1,'Status']]],
+  ['invalidalignment_9',['InvalidAlignment',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea6d69f88eb0d6ddadcf9785bd01cb3288',1,'status.h']]],
+  ['invalidargument_10',['InvalidArgument',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b',1,'status.h']]],
+  ['invalidblockalignment_11',['InvalidBlockAlignment',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1d4a352a294234246cd6774d38360a8c',1,'status.h']]],
+  ['invalidblocktype_12',['InvalidBlockType',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea8126c769b7c30850b4c92138ed06d815',1,'status.h']]],
+  ['invalidfooter_13',['InvalidFooter',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea2efeaf3a466a95365c6dc36b644a4164',1,'status.h']]],
+  ['invalidheader_14',['InvalidHeader',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5eae39ad990effe3b4cd951b6ae7c642b66',1,'status.h']]],
+  ['invalidoffset_15',['InvalidOffset',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadca5889d21c2871a53cea8493044149f',1,'status.h']]],
+  ['invalidpayloadsize_16',['InvalidPayloadSize',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea49d9a8dd4267bfc32f913369d13458b6',1,'status.h']]],
+  ['invalidreadsize_17',['InvalidReadSize',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea79764bbe96374648cf6f9ec80a022031',1,'status.h']]],
+  ['invalidsectionoffset_18',['InvalidSectionOffset',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea81fe951c730e6b79707e62075b710b10',1,'status.h']]],
+  ['invalidsectionsize_19',['InvalidSectionSize',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3f0804d94be21c04e0bc00e584b3730f',1,'status.h']]],
+  ['invalidstate_20',['InvalidState',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaedf260198e4d75d1cb3c7588f7380120',1,'status.h']]],
+  ['invariantviolation_21',['InvariantViolation',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ead5577819bdd3dadf2ce8cd0c265ff6b5',1,'status.h']]],
+  ['ioerror_22',['IOError',['../status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea5206bd7472156351d2d9a99633ac9580',1,'status.h']]],
+  ['is_5fok_23',['is_ok',['../struct_status.html#a458a4b7f8b5e524989ece54936369201',1,'Status']]]
 ];

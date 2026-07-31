@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('class_writable_file.html','','class_writable_file-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,8 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -106,59 +123,453 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="headertitle"><div class="title">WritableFile Class Reference<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Inheritance diagram for WritableFile:</div>
-<div class="dyncontent">
- <div class="center">
-  <img src="class_writable_file.png" usemap="#WritableFile_map" alt=""/>
-  <map id="WritableFile_map" name="WritableFile_map">
-<area href="class_posix_writable_file.html" alt="PosixWritableFile" shape="rect" coords="446,56,882,80"/>
-<area href="classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_writable_file.html" alt="anonymous_namespace{bloom_section_test.cpp}::MemoryWritableFile" shape="rect" coords="446,112,882,136"/>
-<area href="classanonymous__namespace_02data__section__test_8cpp_03_1_1_memory_writable_file.html" alt="anonymous_namespace{data_section_test.cpp}::MemoryWritableFile" shape="rect" coords="446,168,882,192"/>
-<area href="classanonymous__namespace_02endian__io__test_8cpp_03_1_1_memory_writable_file.html" alt="anonymous_namespace{endian_io_test.cpp}::MemoryWritableFile" shape="rect" coords="446,224,882,248"/>
-<area href="classanonymous__namespace_02file__footer__section__test_8cpp_03_1_1_memory_writable_file.html" alt="anonymous_namespace{file_footer_section_test.cpp}::MemoryWritableFile" shape="rect" coords="446,280,882,304"/>
-<area href="classanonymous__namespace_02file__header__section__test_8cpp_03_1_1_memory_writable_file.html" alt="anonymous_namespace{file_header_section_test.cpp}::MemoryWritableFile" shape="rect" coords="446,336,882,360"/>
-<area href="classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file.html" alt="anonymous_namespace{index_section_test.cpp}::MemoryWritableFile" shape="rect" coords="446,392,882,416"/>
-<area href="classanonymous__namespace_02meta__section__test_8cpp_03_1_1_memory_writable_file.html" alt="anonymous_namespace{meta_section_test.cpp}::MemoryWritableFile" shape="rect" coords="446,448,882,472"/>
-  </map>
-</div></div>
+
+<p>Abstract interface for writeable files.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="file_8h_source.html">file.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a30b8fe50516f78178adf7975de0bd485" id="r_a30b8fe50516f78178adf7975de0bd485"><td class="memItemLeft"><a id="a30b8fe50516f78178adf7975de0bd485" name="a30b8fe50516f78178adf7975de0bd485"></a>
-virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>append</b> (const void *data, std::size_t size, std::uint64_t &amp;track_offset)=0</td></tr>
-<tr class="memitem:a64ffe9bd2641630e31ad5f8d00540544" id="r_a64ffe9bd2641630e31ad5f8d00540544"><td class="memItemLeft"><a id="a64ffe9bd2641630e31ad5f8d00540544" name="a64ffe9bd2641630e31ad5f8d00540544"></a>
-virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>sync</b> ()=0</td></tr>
-<tr class="memitem:a143df0fa5cb12be264d9656232cf66bd" id="r_a143df0fa5cb12be264d9656232cf66bd"><td class="memItemLeft"><a id="a143df0fa5cb12be264d9656232cf66bd" name="a143df0fa5cb12be264d9656232cf66bd"></a>
-virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>close</b> ()=0</td></tr>
-<tr class="memitem:a33234a6b764d42d98574e35eb936ae67" id="r_a33234a6b764d42d98574e35eb936ae67"><td class="memItemLeft"><a id="a33234a6b764d42d98574e35eb936ae67" name="a33234a6b764d42d98574e35eb936ae67"></a>
-virtual <a class="el" href="struct_result.html">Result</a>&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><b>current_position</b> ()=0</td></tr>
-<tr class="memitem:a765ebfdc7203dd323419454c5c081040" id="r_a765ebfdc7203dd323419454c5c081040"><td class="memItemLeft"><a id="a765ebfdc7203dd323419454c5c081040" name="a765ebfdc7203dd323419454c5c081040"></a>
-virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>get_file_size</b> (std::uint64_t &amp;size_out)=0</td></tr>
-<tr class="memitem:a8c73c0150ee87bce4c1299a4bb2349ad" id="r_a8c73c0150ee87bce4c1299a4bb2349ad"><td class="memItemLeft"><a id="a8c73c0150ee87bce4c1299a4bb2349ad" name="a8c73c0150ee87bce4c1299a4bb2349ad"></a>
-virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>durable_rename</b> (const std::filesystem::path &amp;to, bool replace_existing)=0</td></tr>
-<tr class="memitem:a56f297cd850cbb7bf411bcf849bfb832" id="r_a56f297cd850cbb7bf411bcf849bfb832"><td class="memItemLeft"><a id="a56f297cd850cbb7bf411bcf849bfb832" name="a56f297cd850cbb7bf411bcf849bfb832"></a>
-virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>sync_parent_directory</b> ()=0</td></tr>
-<tr class="memitem:abf29a0ff5ebb47ab2d3f05238bee3d74" id="r_abf29a0ff5ebb47ab2d3f05238bee3d74"><td class="memItemLeft"><a id="abf29a0ff5ebb47ab2d3f05238bee3d74" name="abf29a0ff5ebb47ab2d3f05238bee3d74"></a>
-virtual std::filesystem::path&#160;</td><td class="memItemRight"><b>parent_directory</b> ()=0</td></tr>
-<tr class="memitem:aef360f0276df9e2a2164139790b0e3f5" id="r_aef360f0276df9e2a2164139790b0e3f5"><td class="memItemLeft"><a id="aef360f0276df9e2a2164139790b0e3f5" name="aef360f0276df9e2a2164139790b0e3f5"></a>
-virtual <a class="el" href="struct_result.html">Result</a>&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><b>seek_to_end</b> ()=0</td></tr>
-<tr class="memitem:afd5545deccf2b0233d2140c2c0945601" id="r_afd5545deccf2b0233d2140c2c0945601"><td class="memItemLeft"><a id="afd5545deccf2b0233d2140c2c0945601" name="afd5545deccf2b0233d2140c2c0945601"></a>
-virtual const int &amp;&#160;</td><td class="memItemRight"><b>get_descriptor</b> () const =0</td></tr>
+<tr class="memitem:a8338ec7a97003dc2fe7a11fe6082d979" id="r_a8338ec7a97003dc2fe7a11fe6082d979"><td class="memItemLeft"><a id="a8338ec7a97003dc2fe7a11fe6082d979" name="a8338ec7a97003dc2fe7a11fe6082d979"></a>
+virtual&#160;</td><td class="memItemRight"><b>~WritableFile</b> ()=default</td></tr>
+<tr class="memdesc:a8338ec7a97003dc2fe7a11fe6082d979"><td class="mdescLeft">&#160;</td><td class="mdescRight">Virtual destructor for polymorphic destruction. <br /></td></tr>
+<tr class="memitem:a30b8fe50516f78178adf7975de0bd485" id="r_a30b8fe50516f78178adf7975de0bd485"><td class="memItemLeft">virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a30b8fe50516f78178adf7975de0bd485">append</a> (const void *data, std::size_t size, std::uint64_t &amp;track_offset)=0</td></tr>
+<tr class="memdesc:a30b8fe50516f78178adf7975de0bd485"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends data to the writable file, based on internal cursors position.  <br /></td></tr>
+<tr class="memitem:a64ffe9bd2641630e31ad5f8d00540544" id="r_a64ffe9bd2641630e31ad5f8d00540544"><td class="memItemLeft">virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a64ffe9bd2641630e31ad5f8d00540544">sync</a> ()=0</td></tr>
+<tr class="memdesc:a64ffe9bd2641630e31ad5f8d00540544"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes buffered file data to stable storage.  <br /></td></tr>
+<tr class="memitem:a143df0fa5cb12be264d9656232cf66bd" id="r_a143df0fa5cb12be264d9656232cf66bd"><td class="memItemLeft">virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a143df0fa5cb12be264d9656232cf66bd">close</a> ()=0</td></tr>
+<tr class="memdesc:a143df0fa5cb12be264d9656232cf66bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Closes the underlying file.  <br /></td></tr>
+<tr class="memitem:a33234a6b764d42d98574e35eb936ae67" id="r_a33234a6b764d42d98574e35eb936ae67"><td class="memItemLeft">virtual <a class="el" href="struct_result.html">Result</a>&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a33234a6b764d42d98574e35eb936ae67">current_position</a> ()=0</td></tr>
+<tr class="memdesc:a33234a6b764d42d98574e35eb936ae67"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current position of the internal file cursor.  <br /></td></tr>
+<tr class="memitem:a765ebfdc7203dd323419454c5c081040" id="r_a765ebfdc7203dd323419454c5c081040"><td class="memItemLeft">virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a765ebfdc7203dd323419454c5c081040">get_file_size</a> (std::uint64_t &amp;size_out)=0</td></tr>
+<tr class="memdesc:a765ebfdc7203dd323419454c5c081040"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the size of the underlying file.  <br /></td></tr>
+<tr class="memitem:a8c73c0150ee87bce4c1299a4bb2349ad" id="r_a8c73c0150ee87bce4c1299a4bb2349ad"><td class="memItemLeft">virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8c73c0150ee87bce4c1299a4bb2349ad">durable_rename</a> (const std::filesystem::path &amp;to, bool replace_existing)=0</td></tr>
+<tr class="memdesc:a8c73c0150ee87bce4c1299a4bb2349ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">Renames the underlying file.  <br /></td></tr>
+<tr class="memitem:a56f297cd850cbb7bf411bcf849bfb832" id="r_a56f297cd850cbb7bf411bcf849bfb832"><td class="memItemLeft">virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a56f297cd850cbb7bf411bcf849bfb832">sync_parent_directory</a> ()=0</td></tr>
+<tr class="memdesc:a56f297cd850cbb7bf411bcf849bfb832"><td class="mdescLeft">&#160;</td><td class="mdescRight">Synchronization/flushing of parent directories metadata to persistent storage.  <br /></td></tr>
+<tr class="memitem:abf29a0ff5ebb47ab2d3f05238bee3d74" id="r_abf29a0ff5ebb47ab2d3f05238bee3d74"><td class="memItemLeft">virtual std::filesystem::path&#160;</td><td class="memItemRight"><a class="el" href="#abf29a0ff5ebb47ab2d3f05238bee3d74">parent_directory</a> ()=0</td></tr>
+<tr class="memdesc:abf29a0ff5ebb47ab2d3f05238bee3d74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns parent directory of underlying file.  <br /></td></tr>
+<tr class="memitem:aef360f0276df9e2a2164139790b0e3f5" id="r_aef360f0276df9e2a2164139790b0e3f5"><td class="memItemLeft">virtual <a class="el" href="struct_result.html">Result</a>&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#aef360f0276df9e2a2164139790b0e3f5">seek_to_end</a> ()=0</td></tr>
+<tr class="memdesc:aef360f0276df9e2a2164139790b0e3f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Places underlying file's cursor at the end.  <br /></td></tr>
+<tr class="memitem:afd5545deccf2b0233d2140c2c0945601" id="r_afd5545deccf2b0233d2140c2c0945601"><td class="memItemLeft">virtual const int &amp;&#160;</td><td class="memItemRight"><a class="el" href="#afd5545deccf2b0233d2140c2c0945601">get_descriptor</a> () const =0</td></tr>
+<tr class="memdesc:afd5545deccf2b0233d2140c2c0945601"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the native POSIX file descriptor of the underlying file.  <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:afd39f8a1f9a4d71a163ce1536489f3e2" id="r_afd39f8a1f9a4d71a163ce1536489f3e2"><td class="memItemLeft"><a id="afd39f8a1f9a4d71a163ce1536489f3e2" name="afd39f8a1f9a4d71a163ce1536489f3e2"></a>
 std::filesystem::path&#160;</td><td class="memItemRight"><b>path</b></td></tr>
+<tr class="memdesc:afd39f8a1f9a4d71a163ce1536489f3e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Path of file being written. <br /></td></tr>
 </table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Abstract interface for writeable files. </p>
+<p>Defines the operations that platform-specific implementations, such as Windows and POSIX writable files, must provide.</p>
+<p>Implementations must override operations including:</p><ul>
+<li><a class="el" href="#a64ffe9bd2641630e31ad5f8d00540544" title="Flushes buffered file data to stable storage.">sync()</a></li>
+<li><a class="el" href="#a30b8fe50516f78178adf7975de0bd485" title="Appends data to the writable file, based on internal cursors position.">append()</a></li>
+<li><a class="el" href="#a143df0fa5cb12be264d9656232cf66bd" title="Closes the underlying file.">close()</a></li>
+<li><a class="el" href="#a765ebfdc7203dd323419454c5c081040" title="Retrieves the size of the underlying file.">get_file_size()</a></li>
+<li><a class="el" href="#a33234a6b764d42d98574e35eb936ae67" title="Returns the current position of the internal file cursor.">current_position()</a></li>
+<li><a class="el" href="#a8c73c0150ee87bce4c1299a4bb2349ad" title="Renames the underlying file.">durable_rename()</a></li>
+<li><a class="el" href="#a56f297cd850cbb7bf411bcf849bfb832" title="Synchronization/flushing of parent directories metadata to persistent storage.">sync_parent_directory()</a></li>
+<li><a class="el" href="#abf29a0ff5ebb47ab2d3f05238bee3d74" title="Returns parent directory of underlying file.">parent_directory()</a></li>
+<li><a class="el" href="#aef360f0276df9e2a2164139790b0e3f5" title="Places underlying file&#39;s cursor at the end.">seek_to_end()</a></li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>LSM-based databases generally use <a class="el" href="class_readable_file.html" title="Abstract interface for readable files.">ReadableFile</a> objects primarily for read operations, which is why <a class="el" href="class_writable_file.html" title="Abstract interface for writeable files.">WritableFile</a> provides a larger set of methods.</dd>
+<dd>
+This class is not thread-safe. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="file_8h_source.html#l00187">187</a> of file <a class="el" href="file_8h_source.html">file.h</a>.</p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a30b8fe50516f78178adf7975de0bd485" name="a30b8fe50516f78178adf7975de0bd485"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30b8fe50516f78178adf7975de0bd485">&#9670;&#160;</a></span>append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_status.html">Status</a> WritableFile::append </td>
+          <td>(</td>
+          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>data</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>size</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint64_t &amp;</td>          <td class="paramname"><span class="paramname"><em>track_offset</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends data to the writable file, based on internal cursors position. </p>
+<p>Derived classes must implement this methods using appropriate system calls such as WriteFile on Windows or ::write on POSIX systems.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">data</td><td>Pointer to data bytes. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">size</td><td>Amount of bytes to be written. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">track_offset</td><td>Manual cursor/offset tracker.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be" title="Returns success statuscode and empty message.">Status::ok()</a> in case of success, otherwise <a class="el" href="struct_status.html" title="Indicates status of operations final result.">Status</a> with appropriate <a class="el" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5e" title="Error&#39;s type indication.">StatusCode</a></dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Status{WriteFailed}</td><td>In case of failed write system call or attempt on closed file, including partial writes.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>Partial writes doesn't necessarily mean fatal error. Consider retrying or using helpers. </dd></dl>
+
+</div>
+</div>
+<a id="a143df0fa5cb12be264d9656232cf66bd" name="a143df0fa5cb12be264d9656232cf66bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a143df0fa5cb12be264d9656232cf66bd">&#9670;&#160;</a></span>close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_status.html">Status</a> WritableFile::close </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Closes the underlying file. </p>
+<p>Derived classes must implement this method using the appropriate platform-specific system call, such as CloseHandle() on Windows or <a class="el" href="#a143df0fa5cb12be264d9656232cf66bd" title="Closes the underlying file.">close()</a> on POSIX systems.</p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be" title="Returns success statuscode and empty message.">Status::ok()</a> on success; otherwise, a status describing the system-call failure. </dd></dl>
+
+</div>
+</div>
+<a id="a33234a6b764d42d98574e35eb936ae67" name="a33234a6b764d42d98574e35eb936ae67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33234a6b764d42d98574e35eb936ae67">&#9670;&#160;</a></span>current_position()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_result.html">Result</a>&lt; std::uint64_t &gt; WritableFile::current_position </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the current position of the internal file cursor. </p>
+<p>Derived classes must implement this method using the appropriate platform-specific system call, such as SetFilePointerEx() on Windows or ::lseek() on POSIX systems.</p>
+<dl class="section return"><dt>Returns</dt><dd>A successful <a class="el" href="struct_result.html" title="Returns status of functions final result, with result itself.">Result</a> containing the current cursor position as a std::uint64_t; otherwise, a failed <a class="el" href="struct_result.html" title="Returns status of functions final result, with result itself.">Result</a> describing the error.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Result&lt;std::uint64_t&gt;::fail(GetPositionFailed)</td><td>If the file is closed, the system call fails, or the returned position is invalid or cannot be represented as std::uint64_t. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a8c73c0150ee87bce4c1299a4bb2349ad" name="a8c73c0150ee87bce4c1299a4bb2349ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c73c0150ee87bce4c1299a4bb2349ad">&#9670;&#160;</a></span>durable_rename()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_status.html">Status</a> WritableFile::durable_rename </td>
+          <td>(</td>
+          <td class="paramtype">const std::filesystem::path &amp;</td>          <td class="paramname"><span class="paramname"><em>to</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>replace_existing</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Renames the underlying file. </p>
+<p>Derived classes must implement this method using the appropriate platform-specific operation, such as MoveFileExW() on Windows or ::rename() on POSIX systems.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">to</td><td>Destination path containing the new file name. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">replace_existing</td><td>Whether an existing destination file may be replaced.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be" title="Returns success statuscode and empty message.">Status::ok()</a> on success; otherwise, a status describing the failure.</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo</a></b></dt><dd>Consider combining rename(), file synchronization, and parent-directory synchronization into a single durable replacement operation.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>This method has not been verified for crash atomicity or durability.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The rename operation does not by itself guarantee that the directory metadata has reached persistent storage.</dd>
+<dd>
+On POSIX systems, ::rename() provides atomic namespace replacement when its platform and filesystem requirements are satisfied. However, a successful return does not by itself make the rename durable across a system crash.</dd>
+<dd>
+On Windows, MoveFileExW() does not provide a general guarantee that the replacement is crash-atomic or durable on every filesystem and storage configuration.</dd></dl>
+<p>On POSIX systems, durable replacement normally requires synchronizing the newly written file before renaming it and synchronizing the affected parent directory after the rename. If the source and destination have different parent directories, both directories may need to be synchronized.</p>
+<p>On Windows, MOVEFILE_WRITE_THROUGH requests that MoveFileExW() wait until the move operation is completed. It should not be treated as a universal guarantee that all file and directory metadata will survive every possible system or storage failure. </p>
+
+</div>
+</div>
+<a id="afd5545deccf2b0233d2140c2c0945601" name="afd5545deccf2b0233d2140c2c0945601"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd5545deccf2b0233d2140c2c0945601">&#9670;&#160;</a></span>get_descriptor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const int &amp; WritableFile::get_descriptor </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets the native POSIX file descriptor of the underlying file. </p>
+<p>Derived PosixReadableFile classes must implement this method by returning a reference to the underlying file descriptor.</p>
+<dl class="section return"><dt>Returns</dt><dd>A const reference to the underlying POSIX file descriptor.</dd></dl>
+<dl class="section warning"><dt>Warning</dt><dd>Returning the descriptor by reference exposes internal object storage and may produce a dangling reference after the file object is destroyed. Returning int by value is generally safer and recommended.</dd>
+<dd>
+The descriptor is owned by this object. The caller must not close it or retain the reference after the file object is destroyed or closed. </dd></dl>
+
+</div>
+</div>
+<a id="a765ebfdc7203dd323419454c5c081040" name="a765ebfdc7203dd323419454c5c081040"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a765ebfdc7203dd323419454c5c081040">&#9670;&#160;</a></span>get_file_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_status.html">Status</a> WritableFile::get_file_size </td>
+          <td>(</td>
+          <td class="paramtype">std::uint64_t &amp;</td>          <td class="paramname"><span class="paramname"><em>size_out</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Retrieves the size of the underlying file. </p>
+<p>Derived classes must implement this method using the appropriate platform-specific system call, such as GetFileSizeEx() on Windows or ::fstat() on POSIX systems.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[out]</td><td class="paramname">size_out</td><td>Receives the file size in bytes.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be" title="Returns success statuscode and empty message.">Status::ok()</a> on success; otherwise, a status describing the failure.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Status{GetSizeFailed}</td><td>If the file-size query fails or the file is closed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abf29a0ff5ebb47ab2d3f05238bee3d74" name="abf29a0ff5ebb47ab2d3f05238bee3d74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf29a0ff5ebb47ab2d3f05238bee3d74">&#9670;&#160;</a></span>parent_directory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::filesystem::path WritableFile::parent_directory </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns parent directory of underlying file. </p>
+<p>Derived classes must implement this methods using filesystem library's entities.</p>
+<dl class="section return"><dt>Returns</dt><dd>std::filesystem::path of underlying file's parent. </dd></dl>
+
+</div>
+</div>
+<a id="aef360f0276df9e2a2164139790b0e3f5" name="aef360f0276df9e2a2164139790b0e3f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef360f0276df9e2a2164139790b0e3f5">&#9670;&#160;</a></span>seek_to_end()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_result.html">Result</a>&lt; std::uint64_t &gt; WritableFile::seek_to_end </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Places underlying file's cursor at the end. </p>
+<p>Derived classes must implement this method using appropriate platform-dependent system calls such as SetFilePointerEx() on Windows or ::lseek() on POSIX systems.</p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_result.html" title="Returns status of functions final result, with result itself.">Result&lt;std::uint64_t&gt;</a> with appropriate status and position of internal cursor, which now points to eof, in case of success.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Result&lt;std::uint64_t&gt;::ok(std::uint64_t)</td><td>in case of success, containing internal cursor's new position. </td></tr>
+    <tr><td class="paramname">Result&lt;std::uint64_t&gt;::fail(SeekFailed)</td><td>in case of failure, with appropriate <a class="el" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5e" title="Error&#39;s type indication.">StatusCode</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a64ffe9bd2641630e31ad5f8d00540544" name="a64ffe9bd2641630e31ad5f8d00540544"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64ffe9bd2641630e31ad5f8d00540544">&#9670;&#160;</a></span>sync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_status.html">Status</a> WritableFile::sync </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Flushes buffered file data to stable storage. </p>
+<p>Derived classes must implement this method using appropriate system calls such as FlushFileBuffers on Windows and ::fsync on POSIX systems.</p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be" title="Returns success statuscode and empty message.">Status::ok()</a> in case of success, otherwise <a class="el" href="struct_status.html" title="Indicates status of operations final result.">Status</a> with describing the failure.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Status{SyncFailed}</td><td>If the underlying synchronization operation fails or the file is closed. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a56f297cd850cbb7bf411bcf849bfb832" name="a56f297cd850cbb7bf411bcf849bfb832"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56f297cd850cbb7bf411bcf849bfb832">&#9670;&#160;</a></span>sync_parent_directory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_status.html">Status</a> WritableFile::sync_parent_directory </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Synchronization/flushing of parent directories metadata to persistent storage. </p>
+<p>Derived classes must implement this method using appropriate platform-dependent system calls such as ::fsync on POSIX sytsems.</p>
+<dl class="section note"><dt>Note</dt><dd>Unlike the POSIX implementation, Windows provides no documented per-directory equivalent of fsync(parent_directory_fd). Therefore, identical crash-durability guarantees are not claimed across platforms.</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="struct_status.html" title="Indicates status of operations final result.">Status</a> with operations result.</dd></dl>
+<dl class="retval"><dt>Return values</dt><dd>
+  <table class="retval">
+    <tr><td class="paramname">Status::ok()</td><td>in case of success. </td></tr>
+    <tr><td class="paramname">Status{DirectorySyncFailed}</td><td>in case of system call failure, or attempt over closed file.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section warning"><dt>Warning</dt><dd>This method has not been verified for crash atomicity or durability. </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/Users/user/KVDB/include/<a class="el" href="file_8h_source.html">file.h</a></li>
+<li><a class="el" href="file_8h_source.html">file.h</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="class_writable_file.html">WritableFile</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -1,0 +1,94 @@
+\doxysection{sstable\+\_\+entities.\+h File Reference}
+\hypertarget{sstable__entities_8h}{}\label{sstable__entities_8h}\index{sstable\_entities.h@{sstable\_entities.h}}
+
+
+Shared constants and section types for \doxylink{class_s_s_table}{SSTable} format version 1.  
+
+
+{\ttfamily \+\#include $<$cstdint$>$}\newline
+Include dependency graph for sstable\+\_\+entities.\+h:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{sstable__entities_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{sstable__entities_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500}{SSTable\+Entities::\+\+Block\+Type}} :\+ std::\+uint8\+\_\+t \{ \doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500af6068daa29dbb05a7ead1e3b5a48bbee}{Data}} = 1
+, \doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500a88fa71f0a6e0dfedbb46d91cc0b37a50}{Index}} = 2
+, \doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500ae57cdfbc09f4e0f7445c279d9f580bdd}{Bloom}} = 3
+, \doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500ab6755d218d5f4e1cef9cce9cc39aeda9}{Meta}} = 4
+ \}
+\begin{DoxyCompactList}\small\item\em On-\/disk discriminator for variable \doxylink{class_s_s_table}{SSTable} sections. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Shared constants and section types for \doxylink{class_s_s_table}{SSTable} format version 1. 
+
+The physical layout is:\+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{file\ header\ |\ aligned\ data\ blocks\ |\ index\ |\ bloom\ |\ metadata\ |\ file\ footer}
+
+\end{DoxyCode}
+
+
+Offsets and sizes in the footer provide bounded random access to the variable sections; each section also carries its own validation metadata. 
+
+Definition in file \doxymbox{\hyperlink{sstable__entities_8h_source}{sstable\+\_\+entities.\+h}}.
+
+
+
+\label{sstable__entities_8h_doc-enum-members}
+\Hypertarget{sstable__entities_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500}\index{sstable\_entities.h@{sstable\_entities.h}!BlockType@{BlockType}}
+\index{BlockType@{BlockType}!sstable\_entities.h@{sstable\_entities.h}}
+\doxysubsubsection{\texorpdfstring{BlockType}{BlockType}}
+{\footnotesize\ttfamily \label{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500} 
+enum class \doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500}{SSTable\+Entities::\+\+Block\+Type}} :\+ std::\+uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+On-\/disk discriminator for variable \doxylink{class_s_s_table}{SSTable} sections. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Data@{Data}!sstable\_entities.h@{sstable\_entities.h}}
+\index{sstable\_entities.h@{sstable\_entities.h}!Data@{Data}}
+}\Hypertarget{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500af6068daa29dbb05a7ead1e3b5a48bbee}\label{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500af6068daa29dbb05a7ead1e3b5a48bbee} 
+Data&Sorted versioned record payloads. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Index@{Index}!sstable\_entities.h@{sstable\_entities.h}}
+\index{sstable\_entities.h@{sstable\_entities.h}!Index@{Index}}
+}\Hypertarget{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500a88fa71f0a6e0dfedbb46d91cc0b37a50}\label{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500a88fa71f0a6e0dfedbb46d91cc0b37a50} 
+Index&Data-\/block offsets and inclusive key bounds. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Bloom@{Bloom}!sstable\_entities.h@{sstable\_entities.h}}
+\index{sstable\_entities.h@{sstable\_entities.h}!Bloom@{Bloom}}
+}\Hypertarget{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500ae57cdfbc09f4e0f7445c279d9f580bdd}\label{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500ae57cdfbc09f4e0f7445c279d9f580bdd} 
+Bloom&Probabilistic negative-\/lookup filter. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Meta@{Meta}!sstable\_entities.h@{sstable\_entities.h}}
+\index{sstable\_entities.h@{sstable\_entities.h}!Meta@{Meta}}
+}\Hypertarget{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500ab6755d218d5f4e1cef9cce9cc39aeda9}\label{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500ab6755d218d5f4e1cef9cce9cc39aeda9} 
+Meta&Aggregate table statistics and bounds. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \doxymbox{\hyperlink{sstable__entities_8h_source_l00035}{35}} of file \doxymbox{\hyperlink{sstable__entities_8h_source}{sstable\+\_\+entities.\+h}}.
+

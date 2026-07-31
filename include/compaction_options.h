@@ -1,3 +1,7 @@
+/**
+ * @file compaction_options.h
+ * @brief Thresholds and output sizing used by compaction scheduling.
+ */
 #pragma once
 
 #include <cstdint>
@@ -5,6 +9,13 @@
 
 #include "status.h"
 
+/**
+ * @brief Validated policy for deciding and shaping level compactions.
+ *
+ * Level zero is triggered by file count because its tables may overlap.
+ * Higher levels use aggregate byte limits. Per-destination target sizes bound
+ * the SSTables emitted by a compaction job.
+ */
 struct CompactionOptions
 {
     std::uint32_t max_levels = 7;
@@ -35,5 +46,6 @@ struct CompactionOptions
         256ull * 1024 * 1024
     };
 
+    /** @brief Verifies level-vector sizes and non-zero operational limits. */
     [[nodiscard]] Status validate() const;
 };

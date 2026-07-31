@@ -1,3 +1,19 @@
+/**
+ * @file arena.h
+ * @brief Page-based region allocation and arena-owned object lifetime support.
+ *
+ * The arena serves the transient ownership needs of MemTables, manifest
+ * recovery, and SSTable decoding. Small allocations are packed into reusable
+ * pages, while large or over-aligned allocations receive dedicated pages.
+ *
+ * Checkpoints provide stack-like rollback. Objects created with arena_new() or
+ * arena_new_array() have their destructors invoked in reverse construction
+ * order when the arena is rolled back, reset, or destroyed.
+ *
+ * @note Memory returned by an Arena remains valid only until a rollback that
+ *       crosses its allocation, reset(), or destruction of the arena.
+ * @note Arena is not thread-safe.
+ */
 #pragma once
 #define NOMINMAX
 
@@ -26,6 +42,12 @@ Result<T*> arena_new(Arena& arena, Args&&... args);
 template <class T>
 Result<T*> arena_new_array(Arena& arena, std::size_t count);
 
+/**
+ * @brief Non-owning byte range whose storage is normally owned by an Arena.
+ *
+ * ArenaEntry is the common key/value representation used by the storage
+ * engine. Comparisons are lexicographic over the referenced bytes.
+ */
 struct ArenaEntry
 {
     void* data = nullptr;
@@ -84,6 +106,16 @@ struct std::formatter<ArenaEntry> : std::formatter<std::string_view>
     }
 };
 
+/**
+ * @brief Region allocator with checkpoints and optional destructor tracking.
+ *
+ * Normal allocations grow geometrically sized pages up to an internal cap.
+ * Requests at or above the configured large threshold use independent pages
+ * so that a single large value does not consume the normal allocation stream.
+ *
+ * Use alloc() for raw storage and arena_new()/arena_new_array() for objects
+ * whose destructors must be managed by the arena.
+ */
 class Arena
 {
 private:
@@ -179,6 +211,12 @@ private:
     std::vector<DestructorEntry> destructors_;
 
 public:
+    /**
+     * @brief Opaque snapshot of the arena's allocation and lifetime state.
+     *
+     * A checkpoint belongs to exactly one Arena and is valid only while its
+     * recorded state remains reachable.
+     */
     struct Checkpoint
     {
         const Arena* owner = nullptr;
@@ -200,21 +238,34 @@ public:
     Arena(Arena&&) = delete;
     Arena& operator=(Arena&&) = delete;
 
-    // Returns raw, uninitialized storage. Raw allocations do not register
-    // destructors. Use arena_new/arena_new_array for arena-owned object lifetime.
+    /**
+     * @brief Allocates raw, uninitialized storage.
+     * @param n Number of bytes to allocate; must be non-zero.
+     * @param alignment Required power-of-two alignment.
+     * @return Pointer to aligned storage or an allocation/argument error.
+     *
+     * Raw allocations do not register destructors. Use arena_new() or
+     * arena_new_array() for arena-owned object lifetime.
+     */
     [[nodiscard]] Result<void*> alloc(
         std::size_t n,
         std::size_t alignment = alignof(std::max_align_t)
     );
 
+    /** @brief Captures a state that can later be passed to rollback(). */
     [[nodiscard]] Checkpoint checkpoint() const noexcept;
 
-    // Destroys arena-owned objects created after cp, then reclaims their storage.
-    // Throws std::invalid_argument for a foreign or no-longer-reachable checkpoint.
+    /**
+     * @brief Destroys objects and reclaims allocations made after @p cp.
+     * @throws std::invalid_argument If the checkpoint is foreign or no longer
+     *         reachable from the current arena state.
+     */
     void rollback(const Checkpoint& cp);
 
-    // Destroys every arena-owned object in reverse construction order.
-    // release_all=false keeps the first normal page for reuse.
+    /**
+     * @brief Destroys all arena-owned objects and resets allocation state.
+     * @param release_all When false, retains the first normal page for reuse.
+     */
     void reset(bool release_all = false) noexcept;
 
     [[nodiscard]] Result<std::uint64_t> get_used_bytes() const;

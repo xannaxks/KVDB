@@ -1,3 +1,7 @@
+/**
+ * @file data_section_view.h
+ * @brief Lazy, bounded view of data blocks in a loaded SSTable.
+ */
 #pragma once
 
 #include <cstddef>
@@ -14,6 +18,13 @@
 
 namespace SSTableEntities
 {
+    /**
+     * @brief Header-only map of data blocks with on-demand CRC validation.
+     *
+     * Loading discovers block boundaries without materializing payload bytes.
+     * Individual blocks are validated and decoded only when lookup or iteration
+     * needs them, keeping the normal open path small.
+     */
     struct DataSectionView
     {
         struct Header
@@ -120,6 +131,7 @@ namespace SSTableEntities
         // sentinel. For non-empty data sections it must be block aligned.
         // expected_section_end_offset should normally be footer.index_offset.
         // Pass zero only when the caller has no independently trusted section end.
+        /** @brief Discovers bounded block headers described by the footer. */
         [[nodiscard]] static Result<DataSectionView> load(
             ReadableFile& file,
             std::uint64_t& offset,

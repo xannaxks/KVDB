@@ -1,34 +1,23 @@
 \doxysection{WALStreaming\+Loader::\+Load\+Result Struct Reference}
 \hypertarget{struct_w_a_l_streaming_loader_1_1_load_result}{}\label{struct_w_a_l_streaming_loader_1_1_load_result}\index{WALStreamingLoader::LoadResult@{WALStreamingLoader::LoadResult}}
-\doxysubsubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{struct_w_a_l_streaming_loader_1_1_load_result_a066b3dfd43d1c741364dc3c226dab688}\label{struct_w_a_l_streaming_loader_1_1_load_result_a066b3dfd43d1c741364dc3c226dab688} 
-std::\+optional$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ {\bfseries logical\+\_\+record}
-\item 
-\Hypertarget{struct_w_a_l_streaming_loader_1_1_load_result_af29e59e2a5526c4a91ea2972b7ea4015}\label{struct_w_a_l_streaming_loader_1_1_load_result_af29e59e2a5526c4a91ea2972b7ea4015} 
-std::\+optional$<$ \doxymbox{\hyperlink{struct_w_a_l_file_header}{WALFile\+Header}} $>$ {\bfseries header}
-\item 
-\Hypertarget{struct_w_a_l_streaming_loader_1_1_load_result_acd504fd1198195647220210a63579187}\label{struct_w_a_l_streaming_loader_1_1_load_result_acd504fd1198195647220210a63579187} 
-bool {\bfseries reached\+\_\+eof} = false
-\item 
-\Hypertarget{struct_w_a_l_streaming_loader_1_1_load_result_a07b0fe04fddcda5ad72b0ec01f0e97cb}\label{struct_w_a_l_streaming_loader_1_1_load_result_a07b0fe04fddcda5ad72b0ec01f0e97cb} 
-bool {\bfseries ok} = true
-\item 
-\Hypertarget{struct_w_a_l_streaming_loader_1_1_load_result_a1dec32d725e8e959fdc225c6b6eff8b2}\label{struct_w_a_l_streaming_loader_1_1_load_result_a1dec32d725e8e959fdc225c6b6eff8b2} 
-bool {\bfseries had\+\_\+torn\+\_\+tail} = false
-\item 
-\Hypertarget{struct_w_a_l_streaming_loader_1_1_load_result_a808d01cd405c8246e926f262296f8e4c}\label{struct_w_a_l_streaming_loader_1_1_load_result_a808d01cd405c8246e926f262296f8e4c} 
-bool {\bfseries had\+\_\+corruption} = false
-\item 
-\Hypertarget{struct_w_a_l_streaming_loader_1_1_load_result_a613850cddd893178c6f7b8f56c82cfa3}\label{struct_w_a_l_streaming_loader_1_1_load_result_a613850cddd893178c6f7b8f56c82cfa3} 
-std::\+uint64\+\_\+t {\bfseries last\+\_\+good\+\_\+offset} = 0
-\item 
-\Hypertarget{struct_w_a_l_streaming_loader_1_1_load_result_ababc2f16fed0f33f11fad94aa48220cf}\label{struct_w_a_l_streaming_loader_1_1_load_result_ababc2f16fed0f33f11fad94aa48220cf} 
-std::\+string {\bfseries error}
-\end{DoxyCompactItemize}
+
+
+Outcome of the latest \doxylink{class_w_a_l_streaming_loader_a3d27f26595f74f8e0c8b3d7d889bfe34}{load\+\_\+next()} call plus persistent header state.  
+
+
+
+
+{\ttfamily \+\#include $<$wal.\+h$>$}
+
+
+
+\doxysubsection{Detailed Description}
+Outcome of the latest \doxylink{class_w_a_l_streaming_loader_a3d27f26595f74f8e0c8b3d7d889bfe34}{load\+\_\+next()} call plus persistent header state. 
+
+Definition at line \doxymbox{\hyperlink{wal_8h_source_l00316}{316}} of file \doxymbox{\hyperlink{wal_8h_source}{wal.\+h}}.
+
 
 
 The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+wal.\+h\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{wal_8h}{wal.\+h}}\end{DoxyCompactItemize}

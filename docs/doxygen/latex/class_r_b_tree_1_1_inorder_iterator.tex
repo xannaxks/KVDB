@@ -1,101 +1,24 @@
 \doxysection{RBTree::\+Inorder\+Iterator Class Reference}
 \hypertarget{class_r_b_tree_1_1_inorder_iterator}{}\label{class_r_b_tree_1_1_inorder_iterator}\index{RBTree::InorderIterator@{RBTree::InorderIterator}}
-\doxysubsubsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{class_r_b_tree_1_1_inorder_iterator_a1ff0fda189039a02fcd686953031a0dc}{Inorder\+Iterator}} (\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}} \texorpdfstring{$\ast$}{*}root)
-\item 
-bool \doxymbox{\hyperlink{class_r_b_tree_1_1_inorder_iterator_a5fa95704d4e048b349c44f8d4a550190}{has\+\_\+next}} ()
-\item 
-\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}} \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{class_r_b_tree_1_1_inorder_iterator_ac6fc27066cf15c35092885302233af41}{next}} ()
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-void \doxymbox{\hyperlink{class_r_b_tree_1_1_inorder_iterator_ac076fe328b79976154effcaebcf3df23}{push\+\_\+left}} (\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}} \texorpdfstring{$\ast$}{*}node)
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{class_r_b_tree_1_1_inorder_iterator_ae5413911497adf8a0a42a7dc902005df}\label{class_r_b_tree_1_1_inorder_iterator_ae5413911497adf8a0a42a7dc902005df} 
-std::\+stack$<$ \doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}} \texorpdfstring{$\ast$}{*} $>$ {\bfseries st}
-\end{DoxyCompactItemize}
 
 
-\label{class_r_b_tree_1_1_inorder_iterator_doc-constructors}
-\Hypertarget{class_r_b_tree_1_1_inorder_iterator_doc-constructors}
-\doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{class_r_b_tree_1_1_inorder_iterator_a1ff0fda189039a02fcd686953031a0dc}\index{RBTree::InorderIterator@{RBTree::InorderIterator}!InorderIterator@{InorderIterator}}
-\index{InorderIterator@{InorderIterator}!RBTree::InorderIterator@{RBTree::InorderIterator}}
-\doxysubsubsection{\texorpdfstring{InorderIterator()}{InorderIterator()}}
-{\footnotesize\ttfamily \label{class_r_b_tree_1_1_inorder_iterator_a1ff0fda189039a02fcd686953031a0dc} 
-RBTree::\+\+Inorder\+Iterator::\+\+Inorder\+Iterator (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}} \texorpdfstring{$\ast$}{*}}]{root}{}\end{DoxyParamCaption})}
+Non-\/owning iterator over records in internal-\/key order.  
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00367\ \{}
-\DoxyCodeLine{00368\ \ \ \ \ push\_left(root);}
-\DoxyCodeLine{00369\ \}}
-
-\end{DoxyCode}
 
 
-\label{class_r_b_tree_1_1_inorder_iterator_doc-func-members}
-\Hypertarget{class_r_b_tree_1_1_inorder_iterator_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{class_r_b_tree_1_1_inorder_iterator_a5fa95704d4e048b349c44f8d4a550190}\index{RBTree::InorderIterator@{RBTree::InorderIterator}!has\_next@{has\_next}}
-\index{has\_next@{has\_next}!RBTree::InorderIterator@{RBTree::InorderIterator}}
-\doxysubsubsection{\texorpdfstring{has\_next()}{has\_next()}}
-{\footnotesize\ttfamily \label{class_r_b_tree_1_1_inorder_iterator_a5fa95704d4e048b349c44f8d4a550190} 
-bool RBTree::\+\+Inorder\+Iterator::\+has\+\_\+next (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+{\ttfamily \+\#include $<$red\+\_\+black\+\_\+tree.\+h$>$}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00372\ \{}
-\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keywordflow}{return}\ !st.empty();}
-\DoxyCodeLine{00374\ \}}
 
-\end{DoxyCode}
-\Hypertarget{class_r_b_tree_1_1_inorder_iterator_ac6fc27066cf15c35092885302233af41}\index{RBTree::InorderIterator@{RBTree::InorderIterator}!next@{next}}
-\index{next@{next}!RBTree::InorderIterator@{RBTree::InorderIterator}}
-\doxysubsubsection{\texorpdfstring{next()}{next()}}
-{\footnotesize\ttfamily \label{class_r_b_tree_1_1_inorder_iterator_ac6fc27066cf15c35092885302233af41} 
-\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{RBTree::\+\+Node}} \texorpdfstring{$\ast$}{*} RBTree::\+\+Inorder\+Iterator::\+next (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+\doxysubsection{Detailed Description}
+Non-\/owning iterator over records in internal-\/key order. 
 
+Definition at line \doxymbox{\hyperlink{red__black__tree_8h_source_l00094}{94}} of file \doxymbox{\hyperlink{red__black__tree_8h_source}{red\+\_\+black\+\_\+tree.\+h}}.
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00377\ \{}
-\DoxyCodeLine{00378\ \ \ \ \ assert(!st.empty());}
-\DoxyCodeLine{00379\ \ \ \ \ Node*\ cur\ =\ st.top();}
-\DoxyCodeLine{00380\ \ \ \ \ st.pop();}
-\DoxyCodeLine{00381\ \ \ \ \ \textcolor{keywordflow}{if}\ (cur-\/>right)}
-\DoxyCodeLine{00382\ \ \ \ \ \{}
-\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ push\_left(cur-\/>right);}
-\DoxyCodeLine{00384\ \ \ \ \ \}}
-\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordflow}{return}\ cur;}
-\DoxyCodeLine{00386\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_r_b_tree_1_1_inorder_iterator_ac076fe328b79976154effcaebcf3df23}\index{RBTree::InorderIterator@{RBTree::InorderIterator}!push\_left@{push\_left}}
-\index{push\_left@{push\_left}!RBTree::InorderIterator@{RBTree::InorderIterator}}
-\doxysubsubsection{\texorpdfstring{push\_left()}{push\_left()}}
-{\footnotesize\ttfamily \label{class_r_b_tree_1_1_inorder_iterator_ac076fe328b79976154effcaebcf3df23} 
-void RBTree::\+\+Inorder\+Iterator::\+push\+\_\+left (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}} \texorpdfstring{$\ast$}{*}}]{node}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00358\ \{}
-\DoxyCodeLine{00359\ \ \ \ \ \textcolor{keywordflow}{while}\ (node)}
-\DoxyCodeLine{00360\ \ \ \ \ \{}
-\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ st.push(node);}
-\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ node\ =\ node-\/>left;}
-\DoxyCodeLine{00363\ \ \ \ \ \}}
-\DoxyCodeLine{00364\ \}}
-
-\end{DoxyCode}
 
 
 The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+red\+\_\+black\+\_\+tree.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+red\+\_\+black\+\_\+tree.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{red__black__tree_8h}{red\+\_\+black\+\_\+tree.\+h}}\item 
+red\+\_\+black\+\_\+tree.\+cpp\end{DoxyCompactItemize}

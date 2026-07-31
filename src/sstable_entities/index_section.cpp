@@ -1,3 +1,6 @@
+// Index entries borrow boundary keys while building and own arena copies after
+// loading. Lookup uses ordered inclusive ranges; it preserves adjacent duplicate
+// boundaries because versions of one key can cross a data-block boundary.
 #include "sstable_entities/index_section.h"
 
 #include <algorithm>

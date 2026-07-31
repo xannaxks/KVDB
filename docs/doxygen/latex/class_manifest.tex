@@ -1,411 +1,48 @@
 \doxysection{Manifest Class Reference}
 \hypertarget{class_manifest}{}\label{class_manifest}\index{Manifest@{Manifest}}
-\doxysubsubsection*{Classes}
-\begin{DoxyCompactItemize}
-\item 
-struct \doxymbox{\hyperlink{struct_manifest_1_1_header}{Header}}
-\item 
-struct \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{Staged\+Counters}}
-\end{DoxyCompactItemize}
+
+
+Durable owner of LSM version counters and table metadata changes.  
+
+
+
+
+{\ttfamily \+\#include $<$manifest.\+h$>$}
+
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\doxymbox{\hyperlink{class_manifest_abe31d2888fdca06cc8e7adc7898a367e}{Manifest}} (std::\+filesystem::\+path path)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_manifest_a275da0ec9ef845ea73163d7aa9925ba0}{open\+\_\+or\+\_\+create}} ()
-\item 
+\Hypertarget{class_manifest_a275da0ec9ef845ea73163d7aa9925ba0}\label{class_manifest_a275da0ec9ef845ea73163d7aa9925ba0} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries open\+\_\+or\+\_\+create} ()
+\begin{DoxyCompactList}\small\item\em Opens an existing manifest or creates and syncs a new header. \end{DoxyCompactList}\item 
 \doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_manifest_af95fb48f8b07ef0015d5f2bd74f92d30}{prepare\+\_\+for\+\_\+append}} ()
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_manifest_a2ce1892f766a02875716f8d87a5ebfbb}{attach\+\_\+writer}} (std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_writable_file}{Writable\+File}} $>$ writable)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_manifest_a71a52a34b94abd19389fce5724c0da6d}{apply}} (\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&level\+\_\+manager, const \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} \&edit)
-\item 
+\begin{DoxyCompactList}\small\item\em Converts recovered read state into a safe appendable state. \end{DoxyCompactList}\item 
+\Hypertarget{class_manifest_a71a52a34b94abd19389fce5724c0da6d}\label{class_manifest_a71a52a34b94abd19389fce5724c0da6d} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries apply} (\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&level\+\_\+manager, const \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} \&edit)
+\begin{DoxyCompactList}\small\item\em Applies an edit atomically in memory without durable append. \end{DoxyCompactList}\item 
 \doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_manifest_a14052a8ff5482ccebe8229428b49c30a}{commit}} (\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&level\+\_\+manager, \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} \&edit)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_manifest_ae23bd12d74710acefb990db7a796a07a}{sync}} ()
-\item 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ \doxymbox{\hyperlink{class_manifest_ac0bd5a4bcef4dad99333152d2a81b81c}{allocate\+\_\+table\+\_\+id}} ()
-\item 
-std::\+uint64\+\_\+t \doxymbox{\hyperlink{class_manifest_a2f0ea8e5dada492fa9384260facdfe8d}{current\+\_\+wal\+\_\+id}} () const noexcept
-\item 
-std::\+uint64\+\_\+t \doxymbox{\hyperlink{class_manifest_a489382b83db2455f9811df2ad1252c8f}{next\+\_\+sequence\+\_\+number}} () const noexcept
-\item 
-std::\+uint64\+\_\+t \doxymbox{\hyperlink{class_manifest_a94c775edb90fc7e4f4d584ad973a5240}{next\+\_\+table\+\_\+id}} () const noexcept
-\item 
-std::\+uint64\+\_\+t \doxymbox{\hyperlink{class_manifest_a26bee3ce0861e2d03de98189661a1330}{append\+\_\+offset}} () const noexcept
-\item 
-bool \doxymbox{\hyperlink{class_manifest_a3e0178b2d6f68ce93664220247778232}{has\+\_\+recoverable\+\_\+tail}} () const noexcept
-\item 
-bool \doxymbox{\hyperlink{class_manifest_ab4dd7938b31235f244c028be34a29eca}{write\+\_\+poisoned}} () const noexcept
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Durably appends an edit, then publishes its staged metadata state. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{class_manifest}{Manifest}} $>$ \doxymbox{\hyperlink{class_manifest_a89dbc3056a2caf3a7f988a6286510ba9}{load}} (\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&level\+\_\+manager, const std::\+filesystem::\+path \&path, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_manifest_a8ff0d808b1d22b89a7f8708ab640c338}{append\+\_\+prepared}} (\doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} \&edit)
-\item 
-\doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{Staged\+Counters}} \doxymbox{\hyperlink{class_manifest_a5abb854b31ae297640d575e807f15f45}{counters}} () const noexcept
-\item 
-void \doxymbox{\hyperlink{class_manifest_a4d73a0ae5bee02ea972982b9c67466b5}{publish\+\_\+counters}} (const \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{Staged\+Counters}} \&counters) noexcept
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Static Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static \doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_manifest_af9e35f5468415203460fb08c48ff3152}{stage\+\_\+apply}} (\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&level\+\_\+manager, \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{Staged\+Counters}} \&counters, const \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} \&edit)
-\item 
-static \doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_manifest_a25bd033dc5bf8cc11ed88048a84d31d3}{check\+\_\+invariants}} (const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&level\+\_\+manager, const \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{Staged\+Counters}} \&counters)
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{class_manifest_a12a4e4bd6abb4e2f18085c93bc49f5f6}\label{class_manifest_a12a4e4bd6abb4e2f18085c93bc49f5f6} 
-std::\+filesystem::\+path {\bfseries path\+\_\+}
-\item 
-\doxymbox{\hyperlink{struct_manifest_1_1_header}{Header}} \doxymbox{\hyperlink{class_manifest_ae80bad5a47ddd22f95962781563df212}{header\+\_\+}} \{\}
-\item 
-\Hypertarget{class_manifest_aa0330d174307e52cb29ed96d3357fb18}\label{class_manifest_aa0330d174307e52cb29ed96d3357fb18} 
-std::\+uint64\+\_\+t {\bfseries next\+\_\+table\+\_\+id\+\_\+} = 1
-\item 
-\Hypertarget{class_manifest_ad3c3905d904371e48ea8ce2ec5d08e64}\label{class_manifest_ad3c3905d904371e48ea8ce2ec5d08e64} 
-std::\+uint64\+\_\+t {\bfseries current\+\_\+wal\+\_\+id\+\_\+} = 1
-\item 
-\Hypertarget{class_manifest_a741d646655f25a05ea336ea4c2147462}\label{class_manifest_a741d646655f25a05ea336ea4c2147462} 
-std::\+uint64\+\_\+t {\bfseries next\+\_\+sequence\+\_\+number\+\_\+} = 1
-\item 
-\Hypertarget{class_manifest_a956301933eeea7519b4071deb4a1b258}\label{class_manifest_a956301933eeea7519b4071deb4a1b258} 
-std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_writable_file}{Writable\+File}} $>$ {\bfseries writable\+\_\+}
-\item 
-\Hypertarget{class_manifest_a619c9561c485691cfbf1f5b1c9d948d2}\label{class_manifest_a619c9561c485691cfbf1f5b1c9d948d2} 
-std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_readable_file}{Readable\+File}} $>$ {\bfseries readable\+\_\+}
-\item 
-\Hypertarget{class_manifest_a4a998211930dc6f71d295b72fe615b84}\label{class_manifest_a4a998211930dc6f71d295b72fe615b84} 
-std::\+uint64\+\_\+t {\bfseries append\+\_\+offset\+\_\+} = 0
-\item 
-\Hypertarget{class_manifest_a471cd1319b4d0a7aaaaffcd49d7cf8e1}\label{class_manifest_a471cd1319b4d0a7aaaaffcd49d7cf8e1} 
-bool {\bfseries recoverable\+\_\+tail\+\_\+} = false
-\item 
-\Hypertarget{class_manifest_abb31bf4679bf8cc4111f0370b22d5f10}\label{class_manifest_abb31bf4679bf8cc4111f0370b22d5f10} 
-bool {\bfseries write\+\_\+poisoned\+\_\+} = false
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Replays the valid manifest prefix into {\ttfamily level\+\_\+manager}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\label{class_manifest_doc-constructors}
-\Hypertarget{class_manifest_doc-constructors}
-\doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{class_manifest_abe31d2888fdca06cc8e7adc7898a367e}\index{Manifest@{Manifest}!Manifest@{Manifest}}
-\index{Manifest@{Manifest}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{Manifest()}{Manifest()}}
-{\footnotesize\ttfamily \label{class_manifest_abe31d2888fdca06cc8e7adc7898a367e} 
-Manifest::\+\+Manifest (\begin{DoxyParamCaption}\item[{std::\+filesystem::\+path}]{path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+\doxysubsection{Detailed Description}
+Durable owner of LSM version counters and table metadata changes. 
 
+Runtime commits are staged against a copy of \doxylink{class_level_manager}{Level\+Manager}, appended and synchronized, then published in memory. This ordering prevents failed validation or I/\+O from exposing a partial metadata transition.
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01174\ \ \ \ \ :\ path\_(std::move(path)) }
-\DoxyCodeLine{01175\ \{}
-\DoxyCodeLine{01176\ \}}
+After an append/\+sync failure the instance is write-\/poisoned and must be recovered from disk before more metadata can be committed. 
 
-\end{DoxyCode}
+Definition at line \doxymbox{\hyperlink{manifest_8h_source_l00146}{146}} of file \doxymbox{\hyperlink{manifest_8h_source}{manifest.\+h}}.
+
 
 
 \label{class_manifest_doc-func-members}
 \Hypertarget{class_manifest_doc-func-members}
 \doxysubsection{Member Function Documentation}
-\Hypertarget{class_manifest_ac0bd5a4bcef4dad99333152d2a81b81c}\index{Manifest@{Manifest}!allocate\_table\_id@{allocate\_table\_id}}
-\index{allocate\_table\_id@{allocate\_table\_id}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{allocate\_table\_id()}{allocate\_table\_id()}}
-{\footnotesize\ttfamily \label{class_manifest_ac0bd5a4bcef4dad99333152d2a81b81c} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ Manifest::\+allocate\+\_\+table\+\_\+id (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01819\ \{}
-\DoxyCodeLine{01820\ \ \ \ \ \textcolor{keywordflow}{if}\ (next\_table\_id\_\ ==}
-\DoxyCodeLine{01821\ \ \ \ \ \ \ \ \ std::numeric\_limits<std::uint64\_t>::max())\ \{}
-\DoxyCodeLine{01822\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::fail(}
-\DoxyCodeLine{01823\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{01824\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01825\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ id\ space\ is\ exhausted"{}}}
-\DoxyCodeLine{01826\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01827\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01828\ \ \ \ \ \}}
-\DoxyCodeLine{01829\ }
-\DoxyCodeLine{01830\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ allocated\ =\ next\_table\_id\_;}
-\DoxyCodeLine{01831\ \ \ \ \ ++next\_table\_id\_;}
-\DoxyCodeLine{01832\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::ok(allocated);}
-\DoxyCodeLine{01833\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_manifest_a26bee3ce0861e2d03de98189661a1330}\index{Manifest@{Manifest}!append\_offset@{append\_offset}}
-\index{append\_offset@{append\_offset}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{append\_offset()}{append\_offset()}}
-{\footnotesize\ttfamily \label{class_manifest_a26bee3ce0861e2d03de98189661a1330} 
-std::\+uint64\+\_\+t Manifest::\+append\+\_\+offset (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01851\ \{}
-\DoxyCodeLine{01852\ \ \ \ \ \textcolor{keywordflow}{return}\ append\_offset\_;}
-\DoxyCodeLine{01853\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_manifest_a8ff0d808b1d22b89a7f8708ab640c338}\index{Manifest@{Manifest}!append\_prepared@{append\_prepared}}
-\index{append\_prepared@{append\_prepared}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{append\_prepared()}{append\_prepared()}}
-{\footnotesize\ttfamily \label{class_manifest_a8ff0d808b1d22b89a7f8708ab640c338} 
-\doxymbox{\hyperlink{struct_status}{Status}} Manifest::\+append\+\_\+prepared (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} \&}]{edit}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01689\ \{}
-\DoxyCodeLine{01690\ \ \ \ \ \textcolor{keywordflow}{if}\ (write\_poisoned\_)\ \{}
-\DoxyCodeLine{01691\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01692\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01693\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ writer\ is\ poisoned;\ reload\ before\ writing"{}}}
-\DoxyCodeLine{01694\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01695\ \ \ \ \ \}}
-\DoxyCodeLine{01696\ }
-\DoxyCodeLine{01697\ \ \ \ \ \textcolor{keywordflow}{if}\ (!writable\_)\ \{}
-\DoxyCodeLine{01698\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01699\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01700\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ is\ not\ open\ for\ writing"{}}}
-\DoxyCodeLine{01701\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01702\ \ \ \ \ \}}
-\DoxyCodeLine{01703\ }
-\DoxyCodeLine{01704\ \ \ \ \ Result<std::uint64\_t>\ current\_position\ =}
-\DoxyCodeLine{01705\ \ \ \ \ \ \ \ \ writable\_-\/>current\_position();}
-\DoxyCodeLine{01706\ \ \ \ \ \textcolor{keywordflow}{if}\ (!current\_position.is\_ok())\ \{}
-\DoxyCodeLine{01707\ \ \ \ \ \ \ \ \ write\_poisoned\_\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01708\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(current\_position.status);}
-\DoxyCodeLine{01709\ \ \ \ \ \}}
-\DoxyCodeLine{01710\ }
-\DoxyCodeLine{01711\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_position.value\ !=\ append\_offset\_)\ \{}
-\DoxyCodeLine{01712\ \ \ \ \ \ \ \ \ write\_poisoned\_\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01713\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01714\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
-\DoxyCodeLine{01715\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01716\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ append\ offset\ \{\}\ differs\ from\ writable\ current\ position\ \{\}"{}},}
-\DoxyCodeLine{01717\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ append\_offset\_,}
-\DoxyCodeLine{01718\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_position.value}
-\DoxyCodeLine{01719\ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01720\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01721\ \ \ \ \ \}}
-\DoxyCodeLine{01722\ }
-\DoxyCodeLine{01723\ \ \ \ \ Status\ status\ =\ edit.write(*writable\_,\ append\_offset\_);}
-\DoxyCodeLine{01724\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01725\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ offset/file\ position\ may\ now\ point\ into\ a\ partially\ written\ record.}}
-\DoxyCodeLine{01726\ \ \ \ \ \ \ \ \ write\_poisoned\_\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01727\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01728\ \ \ \ \ \}}
-\DoxyCodeLine{01729\ }
-\DoxyCodeLine{01730\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01731\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_manifest_a71a52a34b94abd19389fce5724c0da6d}\index{Manifest@{Manifest}!apply@{apply}}
-\index{apply@{apply}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{apply()}{apply()}}
-{\footnotesize\ttfamily \label{class_manifest_a71a52a34b94abd19389fce5724c0da6d} 
-\doxymbox{\hyperlink{struct_status}{Status}} Manifest::\+apply (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{level\+\_\+manager}{, }\item[{const \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} \&}]{edit}{}\end{DoxyParamCaption})}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01662\ \{}
-\DoxyCodeLine{01663\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{01664\ \ \ \ \ \ \ \ \ LevelManager\ staged\ =\ level\_manager;}
-\DoxyCodeLine{01665\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{StagedCounters}}\ staged\_counters\ =\ counters();}
-\DoxyCodeLine{01666\ }
-\DoxyCodeLine{01667\ \ \ \ \ \ \ \ \ Status\ status\ =\ stage\_apply(}
-\DoxyCodeLine{01668\ \ \ \ \ \ \ \ \ \ \ \ \ staged,}
-\DoxyCodeLine{01669\ \ \ \ \ \ \ \ \ \ \ \ \ staged\_counters,}
-\DoxyCodeLine{01670\ \ \ \ \ \ \ \ \ \ \ \ \ edit}
-\DoxyCodeLine{01671\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01672\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01673\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01674\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01675\ }
-\DoxyCodeLine{01676\ \ \ \ \ \ \ \ \ level\_manager.swap(staged);}
-\DoxyCodeLine{01677\ \ \ \ \ \ \ \ \ publish\_counters(staged\_counters);}
-\DoxyCodeLine{01678\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01679\ \ \ \ \ \}}
-\DoxyCodeLine{01680\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
-\DoxyCodeLine{01681\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01682\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{01683\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ stage\ manifest\ edit"{}}}
-\DoxyCodeLine{01684\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01685\ \ \ \ \ \}}
-\DoxyCodeLine{01686\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_manifest_a2ce1892f766a02875716f8d87a5ebfbb}\index{Manifest@{Manifest}!attach\_writer@{attach\_writer}}
-\index{attach\_writer@{attach\_writer}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{attach\_writer()}{attach\_writer()}}
-{\footnotesize\ttfamily \label{class_manifest_a2ce1892f766a02875716f8d87a5ebfbb} 
-\doxymbox{\hyperlink{struct_status}{Status}} Manifest::\+attach\+\_\+writer (\begin{DoxyParamCaption}\item[{std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_writable_file}{Writable\+File}} $>$}]{writable}{}\end{DoxyParamCaption})}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01390\ \{}
-\DoxyCodeLine{01391\ \ \ \ \ \textcolor{keywordflow}{if}\ (write\_poisoned\_)\ \{}
-\DoxyCodeLine{01392\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01393\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01394\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ has\ an\ uncertain\ partial\ write;\ reload\ before\ attaching\ a\ writer"{}}}
-\DoxyCodeLine{01395\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01396\ \ \ \ \ \}}
-\DoxyCodeLine{01397\ }
-\DoxyCodeLine{01398\ \ \ \ \ \textcolor{keywordflow}{if}\ (recoverable\_tail\_)\ \{}
-\DoxyCodeLine{01399\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01400\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01401\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}truncate\ the\ recoverable\ manifest\ tail\ before\ attaching\ a\ writer"{}}}
-\DoxyCodeLine{01402\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01403\ \ \ \ \ \}}
-\DoxyCodeLine{01404\ }
-\DoxyCodeLine{01405\ \ \ \ \ \textcolor{keywordflow}{if}\ (!writable)\ \{}
-\DoxyCodeLine{01406\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01407\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{01408\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cannot\ attach\ a\ null\ manifest\ writer"{}}}
-\DoxyCodeLine{01409\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01410\ \ \ \ \ \}}
-\DoxyCodeLine{01411\ }
-\DoxyCodeLine{01412\ \ \ \ \ Result<std::uint64\_t>\ position\ =\ writable-\/>current\_position();}
-\DoxyCodeLine{01413\ \ \ \ \ \textcolor{keywordflow}{if}\ (!position.is\_ok())\ \{}
-\DoxyCodeLine{01414\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(position.status);}
-\DoxyCodeLine{01415\ \ \ \ \ \}}
-\DoxyCodeLine{01416\ }
-\DoxyCodeLine{01417\ \ \ \ \ \textcolor{keywordflow}{if}\ (position.value\ !=\ append\_offset\_)\ \{}
-\DoxyCodeLine{01418\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01419\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
-\DoxyCodeLine{01420\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}attached\ writer\ is\ at\ \{\},\ manifest\ append\ offset\ is\ \{\}"{}},}
-\DoxyCodeLine{01422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position.value,}
-\DoxyCodeLine{01423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ append\_offset\_}
-\DoxyCodeLine{01424\ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01425\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01426\ \ \ \ \ \}}
-\DoxyCodeLine{01427\ }
-\DoxyCodeLine{01428\ \ \ \ \ readable\_.reset();}
-\DoxyCodeLine{01429\ \ \ \ \ writable\_\ =\ std::move(writable);}
-\DoxyCodeLine{01430\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01431\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_manifest_a25bd033dc5bf8cc11ed88048a84d31d3}\index{Manifest@{Manifest}!check\_invariants@{check\_invariants}}
-\index{check\_invariants@{check\_invariants}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{check\_invariants()}{check\_invariants()}}
-{\footnotesize\ttfamily \label{class_manifest_a25bd033dc5bf8cc11ed88048a84d31d3} 
-\doxymbox{\hyperlink{struct_status}{Status}} Manifest::\+check\+\_\+invariants (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{level\+\_\+manager}{, }\item[{const \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{Staged\+Counters}} \&}]{counters}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01553\ \{}
-\DoxyCodeLine{01554\ \ \ \ \ \textcolor{keywordflow}{if}\ (counters.next\_table\_id\ ==\ 0)\ \{}
-\DoxyCodeLine{01555\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01556\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01557\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}next\_table\_id\ must\ never\ be\ zero"{}}}
-\DoxyCodeLine{01558\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01559\ \ \ \ \ \}}
-\DoxyCodeLine{01560\ }
-\DoxyCodeLine{01561\ \ \ \ \ \textcolor{keywordflow}{if}\ (counters.current\_wal\_id\ ==\ 0)\ \{}
-\DoxyCodeLine{01562\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01563\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01564\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}current\_wal\_id\ must\ never\ be\ zero"{}}}
-\DoxyCodeLine{01565\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01566\ \ \ \ \ \}}
-\DoxyCodeLine{01567\ }
-\DoxyCodeLine{01568\ \ \ \ \ \textcolor{keywordflow}{if}\ (counters.next\_sequence\_number\ ==\ 0)\ \{}
-\DoxyCodeLine{01569\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01570\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01571\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}next\_sequence\_number\ must\ never\ be\ zero"{}}}
-\DoxyCodeLine{01572\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01573\ \ \ \ \ \}}
-\DoxyCodeLine{01574\ }
-\DoxyCodeLine{01575\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::uint32\_t\ level\ =\ 0;}
-\DoxyCodeLine{01576\ \ \ \ \ \ \ \ \ level\ <\ level\_manager.level\_count();}
-\DoxyCodeLine{01577\ \ \ \ \ \ \ \ \ ++level)\ \{}
-\DoxyCodeLine{01578\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<TableMeta>*\ tables\ =}
-\DoxyCodeLine{01579\ \ \ \ \ \ \ \ \ \ \ \ \ level\_manager.get\_lx\_tables(level);}
-\DoxyCodeLine{01580\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tables\ ==\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{01581\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(\textcolor{stringliteral}{"{}level\ \{\}\ disappeared"{}},\ level)}
-\DoxyCodeLine{01584\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01585\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01586\ }
-\DoxyCodeLine{01587\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ tables-\/>size();\ ++i)\ \{}
-\DoxyCodeLine{01588\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ =\ (*tables)[i];}
-\DoxyCodeLine{01589\ }
-\DoxyCodeLine{01590\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.table\_id\ ==\ 0)\ \{}
-\DoxyCodeLine{01591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01593\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}installed\ table\ id\ cannot\ be\ zero"{}}}
-\DoxyCodeLine{01594\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01595\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01596\ }
-\DoxyCodeLine{01597\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.level\ !=\ level)\ \{}
-\DoxyCodeLine{01598\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01599\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01600\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01601\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ \{\}\ stored\ in\ level\ \{\},\ but\ meta\ says\ level\ \{\}"{}},}
-\DoxyCodeLine{01602\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table.table\_id,}
-\DoxyCodeLine{01603\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level,}
-\DoxyCodeLine{01604\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table.level}
-\DoxyCodeLine{01605\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01606\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01607\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01608\ }
-\DoxyCodeLine{01609\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.table\_id\ >=\ counters.next\_table\_id)\ \{}
-\DoxyCodeLine{01610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01611\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01612\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01613\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ id\ \{\}\ is\ not\ below\ next\_table\_id\ \{\}"{}},}
-\DoxyCodeLine{01614\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table.table\_id,}
-\DoxyCodeLine{01615\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ counters.next\_table\_id}
-\DoxyCodeLine{01616\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01617\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01618\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01619\ }
-\DoxyCodeLine{01620\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.largest\_key\ <\ table.smallest\_key)\ \{}
-\DoxyCodeLine{01621\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01622\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01623\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01624\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ \{\}\ has\ invalid\ key\ range"{}},}
-\DoxyCodeLine{01625\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table.table\_id}
-\DoxyCodeLine{01626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01627\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01628\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01629\ }
-\DoxyCodeLine{01630\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ ==\ 0\ \&\&\ i\ !=\ 0\ \&\&}
-\DoxyCodeLine{01631\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (*tables)[i\ -\/\ 1].table\_id\ <=\ table.table\_id)\ \{}
-\DoxyCodeLine{01632\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01633\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01634\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}L0\ tables\ are\ not\ ordered\ newest\ first"{}}}
-\DoxyCodeLine{01635\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01636\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01637\ }
-\DoxyCodeLine{01638\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ >\ 0\ \&\&\ i\ !=\ 0)\ \{}
-\DoxyCodeLine{01639\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ previous\ =\ (*tables)[i\ -\/\ 1];}
-\DoxyCodeLine{01640\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!(previous.largest\_key\ <\ table.smallest\_key))\ \{}
-\DoxyCodeLine{01641\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01642\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01643\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01644\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}tables\ \{\}\ and\ \{\}\ overlap\ or\ are\ out\ of\ order\ on\ level\ \{\}"{}},}
-\DoxyCodeLine{01645\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ previous.table\_id,}
-\DoxyCodeLine{01646\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table.table\_id,}
-\DoxyCodeLine{01647\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level}
-\DoxyCodeLine{01648\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01649\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01650\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01651\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01652\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01653\ \ \ \ \ \}}
-\DoxyCodeLine{01654\ }
-\DoxyCodeLine{01655\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01656\ \}}
-
-\end{DoxyCode}
 \Hypertarget{class_manifest_a14052a8ff5482ccebe8229428b49c30a}\index{Manifest@{Manifest}!commit@{commit}}
 \index{commit@{commit}!Manifest@{Manifest}}
 \doxysubsubsection{\texorpdfstring{commit()}{commit()}}
@@ -413,109 +50,24 @@ std::\+uint64\+\_\+t Manifest::\+append\+\_\+offset (\begin{DoxyParamCaption}{}{
 \doxymbox{\hyperlink{struct_status}{Status}} Manifest::\+commit (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{level\+\_\+manager}{, }\item[{\doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} \&}]{edit}{}\end{DoxyParamCaption})}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01737\ \{}
-\DoxyCodeLine{01738\ \ \ \ \ \textcolor{keywordflow}{if}\ (write\_poisoned\_)\ \{}
-\DoxyCodeLine{01739\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01740\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01741\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ writer\ is\ poisoned;\ reload\ before\ committing"{}}}
-\DoxyCodeLine{01742\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01743\ \ \ \ \ \}}
-\DoxyCodeLine{01744\ }
-\DoxyCodeLine{01745\ \ \ \ \ \textcolor{keywordflow}{if}\ (!writable\_)\ \{}
-\DoxyCodeLine{01746\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01747\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01748\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ is\ not\ open\ for\ writing"{}}}
-\DoxyCodeLine{01749\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01750\ \ \ \ \ \}}
-\DoxyCodeLine{01751\ }
-\DoxyCodeLine{01752\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{01753\ \ \ \ \ \ \ \ \ LevelManager\ staged\ =\ level\_manager;}
-\DoxyCodeLine{01754\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{StagedCounters}}\ staged\_counters\ =\ counters();}
-\DoxyCodeLine{01755\ }
-\DoxyCodeLine{01756\ \ \ \ \ \ \ \ \ Status\ status\ =\ stage\_apply(}
-\DoxyCodeLine{01757\ \ \ \ \ \ \ \ \ \ \ \ \ staged,}
-\DoxyCodeLine{01758\ \ \ \ \ \ \ \ \ \ \ \ \ staged\_counters,}
-\DoxyCodeLine{01759\ \ \ \ \ \ \ \ \ \ \ \ \ edit}
-\DoxyCodeLine{01760\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01761\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01762\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01763\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01764\ }
-\DoxyCodeLine{01765\ \ \ \ \ \ \ \ \ status\ =\ edit.prepare();}
-\DoxyCodeLine{01766\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01767\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01768\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01769\ }
-\DoxyCodeLine{01770\ \ \ \ \ \ \ \ \ status\ =\ append\_prepared(edit);}
-\DoxyCodeLine{01771\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01772\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01773\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01774\ }
-\DoxyCodeLine{01775\ \ \ \ \ \ \ \ \ status\ =\ writable\_-\/>sync();}
-\DoxyCodeLine{01776\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01777\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Durability\ is\ uncertain.\ Never\ retry\ on\ this\ object\ because\ that}}
-\DoxyCodeLine{01778\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ could\ append\ the\ same\ logical\ edit\ twice.}}
-\DoxyCodeLine{01779\ \ \ \ \ \ \ \ \ \ \ \ \ write\_poisoned\_\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01780\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01781\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01782\ }
-\DoxyCodeLine{01783\ \ \ \ \ \ \ \ \ level\_manager.swap(staged);}
-\DoxyCodeLine{01784\ \ \ \ \ \ \ \ \ publish\_counters(staged\_counters);}
-\DoxyCodeLine{01785\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01786\ \ \ \ \ \}}
-\DoxyCodeLine{01787\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
-\DoxyCodeLine{01788\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01789\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{01790\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ stage\ manifest\ commit"{}}}
-\DoxyCodeLine{01791\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01792\ \ \ \ \ \}}
-\DoxyCodeLine{01793\ \}}
 
-\end{DoxyCode}
-\Hypertarget{class_manifest_a5abb854b31ae297640d575e807f15f45}\index{Manifest@{Manifest}!counters@{counters}}
-\index{counters@{counters}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{counters()}{counters()}}
-{\footnotesize\ttfamily \label{class_manifest_a5abb854b31ae297640d575e807f15f45} 
-\doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{Manifest::\+\+Staged\+Counters}} Manifest::\+counters (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}, {\ttfamily [noexcept]}}
+Durably appends an edit, then publishes its staged metadata state. 
+
+\begin{DoxyWarning}{Warning}
+A write or sync failure poisons this object; reload it. 
+\end{DoxyWarning}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01434\ \{}
-\DoxyCodeLine{01435\ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{StagedCounters}}\{}
-\DoxyCodeLine{01436\ \ \ \ \ \ \ \ \ next\_table\_id\_,}
-\DoxyCodeLine{01437\ \ \ \ \ \ \ \ \ current\_wal\_id\_,}
-\DoxyCodeLine{01438\ \ \ \ \ \ \ \ \ next\_sequence\_number\_}
-\DoxyCodeLine{01439\ \ \ \ \ \};}
-\DoxyCodeLine{01440\ \}}
+Definition at line \doxymbox{\hyperlink{manifest_8cpp_source_l01739}{1739}} of file \doxymbox{\hyperlink{manifest_8cpp_source}{manifest.\+cpp}}.
 
-\end{DoxyCode}
-\Hypertarget{class_manifest_a2f0ea8e5dada492fa9384260facdfe8d}\index{Manifest@{Manifest}!current\_wal\_id@{current\_wal\_id}}
-\index{current\_wal\_id@{current\_wal\_id}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{current\_wal\_id()}{current\_wal\_id()}}
-{\footnotesize\ttfamily \label{class_manifest_a2f0ea8e5dada492fa9384260facdfe8d} 
-std::\+uint64\+\_\+t Manifest::\+current\+\_\+wal\+\_\+id (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01836\ \{}
-\DoxyCodeLine{01837\ \ \ \ \ \textcolor{keywordflow}{return}\ current\_wal\_id\_;}
-\DoxyCodeLine{01838\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_manifest_a3e0178b2d6f68ce93664220247778232}\index{Manifest@{Manifest}!has\_recoverable\_tail@{has\_recoverable\_tail}}
-\index{has\_recoverable\_tail@{has\_recoverable\_tail}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{has\_recoverable\_tail()}{has\_recoverable\_tail()}}
-{\footnotesize\ttfamily \label{class_manifest_a3e0178b2d6f68ce93664220247778232} 
-bool Manifest::\+has\+\_\+recoverable\+\_\+tail (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01856\ \{}
-\DoxyCodeLine{01857\ \ \ \ \ \textcolor{keywordflow}{return}\ recoverable\_tail\_;}
-\DoxyCodeLine{01858\ \}}
-
-\end{DoxyCode}
+Here is the call graph for this function:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=312pt]{class_manifest_a14052a8ff5482ccebe8229428b49c30a_cgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_manifest_a89dbc3056a2caf3a7f988a6286510ba9}\index{Manifest@{Manifest}!load@{load}}
 \index{load@{load}!Manifest@{Manifest}}
 \doxysubsubsection{\texorpdfstring{load()}{load()}}
@@ -523,212 +75,21 @@ bool Manifest::\+has\+\_\+recoverable\+\_\+tail (\begin{DoxyParamCaption}{}{}\en
 \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{class_manifest}{Manifest}} $>$ Manifest::\+load (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{level\+\_\+manager}{, }\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01183\ \{}
-\DoxyCodeLine{01184\ \ \ \ \ Result<std::unique\_ptr<ReadableFile>>\ readable\_result\ =}
-\DoxyCodeLine{01185\ \ \ \ \ \ \ \ \ open\_readable\_file(path);}
-\DoxyCodeLine{01186\ \ \ \ \ \textcolor{keywordflow}{if}\ (!readable\_result.is\_ok())\ \{}
-\DoxyCodeLine{01187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Manifest>::fail(}
-\DoxyCodeLine{01188\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(readable\_result.status)}
-\DoxyCodeLine{01189\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01190\ \ \ \ \ \}}
-\DoxyCodeLine{01191\ }
-\DoxyCodeLine{01192\ \ \ \ \ std::unique\_ptr<ReadableFile>\ readable\ =}
-\DoxyCodeLine{01193\ \ \ \ \ \ \ \ \ std::move(readable\_result.value);}
-\DoxyCodeLine{01194\ }
-\DoxyCodeLine{01195\ \ \ \ \ std::uint64\_t\ file\_size\ =\ 0;}
-\DoxyCodeLine{01196\ \ \ \ \ Status\ size\_status\ =\ readable-\/>get\_file\_size(file\_size);}
-\DoxyCodeLine{01197\ \ \ \ \ \textcolor{keywordflow}{if}\ (!size\_status.is\_ok())\ \{}
-\DoxyCodeLine{01198\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Manifest>::fail(std::move(size\_status));}
-\DoxyCodeLine{01199\ \ \ \ \ \}}
-\DoxyCodeLine{01200\ }
-\DoxyCodeLine{01201\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_size\ <\ Header::disk\_size())\ \{}
-\DoxyCodeLine{01202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Manifest>::fail(}
-\DoxyCodeLine{01203\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{01204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
-\DoxyCodeLine{01205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ is\ \{\}\ bytes;\ header\ requires\ \{\}"{}},}
-\DoxyCodeLine{01207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_size,}
-\DoxyCodeLine{01208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Header::disk\_size()}
-\DoxyCodeLine{01209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01210\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01211\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01212\ \ \ \ \ \}}
-\DoxyCodeLine{01213\ }
-\DoxyCodeLine{01214\ \ \ \ \ std::uint64\_t\ offset\ =\ 0;}
-\DoxyCodeLine{01215\ \ \ \ \ Result<Header>\ header\ =\ Header::load(*readable,\ offset);}
-\DoxyCodeLine{01216\ \ \ \ \ \textcolor{keywordflow}{if}\ (!header.is\_ok())\ \{}
-\DoxyCodeLine{01217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Manifest>::fail(std::move(header.status));}
-\DoxyCodeLine{01218\ \ \ \ \ \}}
-\DoxyCodeLine{01219\ }
-\DoxyCodeLine{01220\ \ \ \ \ Manifest\ manifest(path);}
-\DoxyCodeLine{01221\ \ \ \ \ manifest.header\_\ =\ std::move(header.value);}
-\DoxyCodeLine{01222\ \ \ \ \ manifest.readable\_\ =\ std::move(readable);}
-\DoxyCodeLine{01223\ \ \ \ \ manifest.append\_offset\_\ =\ offset;}
-\DoxyCodeLine{01224\ }
-\DoxyCodeLine{01225\ \ \ \ \ LevelManager\ recovered(level\_manager.level\_count());}
-\DoxyCodeLine{01226\ \ \ \ \ \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{StagedCounters}}\ recovered\_counters\{\};}
-\DoxyCodeLine{01227\ }
-\DoxyCodeLine{01228\ \ \ \ \ \textcolor{keywordflow}{while}\ (offset\ <\ file\_size)\ \{}
-\DoxyCodeLine{01229\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ edit\_begin\ =\ offset;}
-\DoxyCodeLine{01230\ }
-\DoxyCodeLine{01231\ \ \ \ \ \ \ \ \ Result<VersionEdit>\ edit\ =\ VersionEdit::load(}
-\DoxyCodeLine{01232\ \ \ \ \ \ \ \ \ \ \ \ \ *manifest.readable\_,}
-\DoxyCodeLine{01233\ \ \ \ \ \ \ \ \ \ \ \ \ offset,}
-\DoxyCodeLine{01234\ \ \ \ \ \ \ \ \ \ \ \ \ file\_size,}
-\DoxyCodeLine{01235\ \ \ \ \ \ \ \ \ \ \ \ \ arena}
-\DoxyCodeLine{01236\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01237\ }
-\DoxyCodeLine{01238\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!edit.is\_ok())\ \{}
-\DoxyCodeLine{01239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (edit.status.code\ ==\ StatusCode::UnexpectedEOF)\ \{}
-\DoxyCodeLine{01240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Only\ an\ incomplete\ final\ record\ is\ recoverable.\ A\ complete}}
-\DoxyCodeLine{01241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ record\ with\ bad\ CRC\ or\ bad\ structure\ is\ corruption.}}
-\DoxyCodeLine{01242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ manifest.recoverable\_tail\_\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ manifest.append\_offset\_\ =\ edit\_begin;}
-\DoxyCodeLine{01244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ edit\_begin;}
-\DoxyCodeLine{01245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{01246\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01247\ }
-\DoxyCodeLine{01248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Manifest>::fail(std::move(edit.status));}
-\DoxyCodeLine{01249\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01250\ }
-\DoxyCodeLine{01251\ \ \ \ \ \ \ \ \ Status\ apply\_status\ =\ stage\_apply(}
-\DoxyCodeLine{01252\ \ \ \ \ \ \ \ \ \ \ \ \ recovered,}
-\DoxyCodeLine{01253\ \ \ \ \ \ \ \ \ \ \ \ \ recovered\_counters,}
-\DoxyCodeLine{01254\ \ \ \ \ \ \ \ \ \ \ \ \ edit.value}
-\DoxyCodeLine{01255\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!apply\_status.is\_ok())\ \{}
-\DoxyCodeLine{01257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Manifest>::fail(std::move(apply\_status));}
-\DoxyCodeLine{01258\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01259\ }
-\DoxyCodeLine{01260\ \ \ \ \ \ \ \ \ manifest.append\_offset\_\ =\ offset;}
-\DoxyCodeLine{01261\ \ \ \ \ \}}
-\DoxyCodeLine{01262\ }
-\DoxyCodeLine{01263\ \ \ \ \ Status\ invariant\_status\ =\ check\_invariants(}
-\DoxyCodeLine{01264\ \ \ \ \ \ \ \ \ recovered,}
-\DoxyCodeLine{01265\ \ \ \ \ \ \ \ \ recovered\_counters}
-\DoxyCodeLine{01266\ \ \ \ \ );}
-\DoxyCodeLine{01267\ \ \ \ \ \textcolor{keywordflow}{if}\ (!invariant\_status.is\_ok())\ \{}
-\DoxyCodeLine{01268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Manifest>::fail(std::move(invariant\_status));}
-\DoxyCodeLine{01269\ \ \ \ \ \}}
-\DoxyCodeLine{01270\ }
-\DoxyCodeLine{01271\ \ \ \ \ level\_manager.swap(recovered);}
-\DoxyCodeLine{01272\ \ \ \ \ manifest.publish\_counters(recovered\_counters);}
-\DoxyCodeLine{01273\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Manifest>::ok(std::move(manifest));}
-\DoxyCodeLine{01274\ \}}
 
-\end{DoxyCode}
-\Hypertarget{class_manifest_a489382b83db2455f9811df2ad1252c8f}\index{Manifest@{Manifest}!next\_sequence\_number@{next\_sequence\_number}}
-\index{next\_sequence\_number@{next\_sequence\_number}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{next\_sequence\_number()}{next\_sequence\_number()}}
-{\footnotesize\ttfamily \label{class_manifest_a489382b83db2455f9811df2ad1252c8f} 
-std::\+uint64\+\_\+t Manifest::\+next\+\_\+sequence\+\_\+number (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+Replays the valid manifest prefix into {\ttfamily level\+\_\+manager}. 
 
+Recovery is transactional with respect to the supplied manager:\+ on failure, the caller\textquotesingle{}s state remains unchanged. 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01841\ \{}
-\DoxyCodeLine{01842\ \ \ \ \ \textcolor{keywordflow}{return}\ next\_sequence\_number\_;}
-\DoxyCodeLine{01843\ \}}
+Definition at line \doxymbox{\hyperlink{manifest_8cpp_source_l01184}{1184}} of file \doxymbox{\hyperlink{manifest_8cpp_source}{manifest.\+cpp}}.
 
-\end{DoxyCode}
-\Hypertarget{class_manifest_a94c775edb90fc7e4f4d584ad973a5240}\index{Manifest@{Manifest}!next\_table\_id@{next\_table\_id}}
-\index{next\_table\_id@{next\_table\_id}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{next\_table\_id()}{next\_table\_id()}}
-{\footnotesize\ttfamily \label{class_manifest_a94c775edb90fc7e4f4d584ad973a5240} 
-std::\+uint64\+\_\+t Manifest::\+next\+\_\+table\+\_\+id (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01846\ \{}
-\DoxyCodeLine{01847\ \ \ \ \ \textcolor{keywordflow}{return}\ next\_table\_id\_;}
-\DoxyCodeLine{01848\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_manifest_a275da0ec9ef845ea73163d7aa9925ba0}\index{Manifest@{Manifest}!open\_or\_create@{open\_or\_create}}
-\index{open\_or\_create@{open\_or\_create}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{open\_or\_create()}{open\_or\_create()}}
-{\footnotesize\ttfamily \label{class_manifest_a275da0ec9ef845ea73163d7aa9925ba0} 
-\doxymbox{\hyperlink{struct_status}{Status}} Manifest::\+open\+\_\+or\+\_\+create (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01277\ \{}
-\DoxyCodeLine{01278\ \ \ \ \ \textcolor{keywordflow}{if}\ (path\_.empty())\ \{}
-\DoxyCodeLine{01279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01280\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{01281\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ path\ is\ empty"{}}}
-\DoxyCodeLine{01282\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01283\ \ \ \ \ \}}
-\DoxyCodeLine{01284\ }
-\DoxyCodeLine{01285\ \ \ \ \ std::error\_code\ error;}
-\DoxyCodeLine{01286\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ exists\ =\ std::filesystem::exists(path\_,\ error);}
-\DoxyCodeLine{01287\ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
-\DoxyCodeLine{01288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01289\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OpenFailed,}
-\DoxyCodeLine{01290\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ inspect\ manifest\ path\ \{\}:\ \{\}"{}},}
-\DoxyCodeLine{01292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path\_.string(),}
-\DoxyCodeLine{01293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error.message()}
-\DoxyCodeLine{01294\ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01295\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01296\ \ \ \ \ \}}
-\DoxyCodeLine{01297\ }
-\DoxyCodeLine{01298\ \ \ \ \ \textcolor{keywordflow}{if}\ (exists)\ \{}
-\DoxyCodeLine{01299\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uintmax\_t\ size\ =}
-\DoxyCodeLine{01300\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::file\_size(path\_,\ error);}
-\DoxyCodeLine{01301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
-\DoxyCodeLine{01302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OpenFailed,}
-\DoxyCodeLine{01304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ read\ manifest\ size\ \{\}:\ \{\}"{}},}
-\DoxyCodeLine{01306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path\_.string(),}
-\DoxyCodeLine{01307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error.message()}
-\DoxyCodeLine{01308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01309\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01310\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01311\ }
-\DoxyCodeLine{01312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ !=\ 0)\ \{}
-\DoxyCodeLine{01313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AlreadyExists,}
-\DoxyCodeLine{01315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ already\ exists;\ recover\ it\ with\ Manifest::load"{}}}
-\DoxyCodeLine{01316\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01317\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01318\ \ \ \ \ \}}
-\DoxyCodeLine{01319\ }
-\DoxyCodeLine{01320\ \ \ \ \ Result<std::unique\_ptr<WritableFile>>\ writable\_result\ =}
-\DoxyCodeLine{01321\ \ \ \ \ \ \ \ \ open\_writable\_file(path\_);}
-\DoxyCodeLine{01322\ \ \ \ \ \textcolor{keywordflow}{if}\ (!writable\_result.is\_ok())\ \{}
-\DoxyCodeLine{01323\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(writable\_result.status);}
-\DoxyCodeLine{01324\ \ \ \ \ \}}
-\DoxyCodeLine{01325\ }
-\DoxyCodeLine{01326\ \ \ \ \ writable\_\ =\ std::move(writable\_result.value);}
-\DoxyCodeLine{01327\ \ \ \ \ readable\_.reset();}
-\DoxyCodeLine{01328\ \ \ \ \ append\_offset\_\ =\ 0;}
-\DoxyCodeLine{01329\ \ \ \ \ recoverable\_tail\_\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{01330\ \ \ \ \ write\_poisoned\_\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{01331\ }
-\DoxyCodeLine{01332\ \ \ \ \ header\_\ =\ \doxymbox{\hyperlink{struct_manifest_1_1_header}{Header}}\{\};}
-\DoxyCodeLine{01333\ \ \ \ \ Status\ status\ =\ header\_.compute\_crc32();}
-\DoxyCodeLine{01334\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01336\ \ \ \ \ \}}
-\DoxyCodeLine{01337\ }
-\DoxyCodeLine{01338\ \ \ \ \ status\ =\ header\_.write(*writable\_,\ append\_offset\_);}
-\DoxyCodeLine{01339\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01340\ \ \ \ \ \ \ \ \ write\_poisoned\_\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01342\ \ \ \ \ \}}
-\DoxyCodeLine{01343\ }
-\DoxyCodeLine{01344\ \ \ \ \ status\ =\ writable\_-\/>sync();}
-\DoxyCodeLine{01345\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01346\ \ \ \ \ \ \ \ \ write\_poisoned\_\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01348\ \ \ \ \ \}}
-\DoxyCodeLine{01349\ }
-\DoxyCodeLine{01350\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01351\ \}}
-
-\end{DoxyCode}
+Here is the call graph for this function:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=291pt]{class_manifest_a89dbc3056a2caf3a7f988a6286510ba9_cgraph}
+\end{center}
+\end{figure}
 \Hypertarget{class_manifest_af95fb48f8b07ef0015d5f2bd74f92d30}\index{Manifest@{Manifest}!prepare\_for\_append@{prepare\_for\_append}}
 \index{prepare\_for\_append@{prepare\_for\_append}!Manifest@{Manifest}}
 \doxysubsubsection{\texorpdfstring{prepare\_for\_append()}{prepare\_for\_append()}}
@@ -736,221 +97,16 @@ std::\+uint64\+\_\+t Manifest::\+next\+\_\+table\+\_\+id (\begin{DoxyParamCaptio
 \doxymbox{\hyperlink{struct_status}{Status}} Manifest::\+prepare\+\_\+for\+\_\+append (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01354\ \{}
-\DoxyCodeLine{01355\ \ \ \ \ \textcolor{keywordflow}{if}\ (write\_poisoned\_)\ \{}
-\DoxyCodeLine{01356\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01357\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01358\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ has\ an\ uncertain\ partial\ write;\ reload\ before\ appending"{}}}
-\DoxyCodeLine{01359\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01360\ \ \ \ \ \}}
-\DoxyCodeLine{01361\ }
-\DoxyCodeLine{01362\ \ \ \ \ writable\_.reset();}
-\DoxyCodeLine{01363\ \ \ \ \ readable\_.reset();}
-\DoxyCodeLine{01364\ }
-\DoxyCodeLine{01365\ \ \ \ \ \textcolor{keywordflow}{if}\ (!recoverable\_tail\_)\ \{}
-\DoxyCodeLine{01366\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01367\ \ \ \ \ \}}
-\DoxyCodeLine{01368\ }
-\DoxyCodeLine{01369\ \ \ \ \ std::error\_code\ error;}
-\DoxyCodeLine{01370\ \ \ \ \ std::filesystem::resize\_file(path\_,\ append\_offset\_,\ error);}
-\DoxyCodeLine{01371\ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
-\DoxyCodeLine{01372\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01373\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OpenFailed,}
-\DoxyCodeLine{01374\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ truncate\ manifest\ \{\}\ to\ \{\}:\ \{\}"{}},}
-\DoxyCodeLine{01376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path\_.string(),}
-\DoxyCodeLine{01377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ append\_offset\_,}
-\DoxyCodeLine{01378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error.message()}
-\DoxyCodeLine{01379\ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01380\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01381\ \ \ \ \ \}}
-\DoxyCodeLine{01382\ }
-\DoxyCodeLine{01383\ \ \ \ \ recoverable\_tail\_\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{01384\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01385\ \}}
 
-\end{DoxyCode}
-\Hypertarget{class_manifest_a4d73a0ae5bee02ea972982b9c67466b5}\index{Manifest@{Manifest}!publish\_counters@{publish\_counters}}
-\index{publish\_counters@{publish\_counters}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{publish\_counters()}{publish\_counters()}}
-{\footnotesize\ttfamily \label{class_manifest_a4d73a0ae5bee02ea972982b9c67466b5} 
-void Manifest::\+publish\+\_\+counters (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{Staged\+Counters}} \&}]{counters}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [noexcept]}}
+Converts recovered read state into a safe appendable state. 
 
+A loaded manifest deliberately has no writer attached. This operation closes the reader and truncates a recoverable torn tail before attaching a writer positioned at append\+\_\+offset(). 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01445\ \{}
-\DoxyCodeLine{01446\ \ \ \ \ next\_table\_id\_\ =\ counters.next\_table\_id;}
-\DoxyCodeLine{01447\ \ \ \ \ current\_wal\_id\_\ =\ counters.current\_wal\_id;}
-\DoxyCodeLine{01448\ \ \ \ \ next\_sequence\_number\_\ =\ counters.next\_sequence\_number;}
-\DoxyCodeLine{01449\ \}}
+Definition at line \doxymbox{\hyperlink{manifest_8cpp_source_l01359}{1359}} of file \doxymbox{\hyperlink{manifest_8cpp_source}{manifest.\+cpp}}.
 
-\end{DoxyCode}
-\Hypertarget{class_manifest_af9e35f5468415203460fb08c48ff3152}\index{Manifest@{Manifest}!stage\_apply@{stage\_apply}}
-\index{stage\_apply@{stage\_apply}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{stage\_apply()}{stage\_apply()}}
-{\footnotesize\ttfamily \label{class_manifest_af9e35f5468415203460fb08c48ff3152} 
-\doxymbox{\hyperlink{struct_status}{Status}} Manifest::\+stage\+\_\+apply (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{level\+\_\+manager}{, }\item[{\doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{Staged\+Counters}} \&}]{counters}{, }\item[{const \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} \&}]{edit}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01456\ \{}
-\DoxyCodeLine{01457\ \ \ \ \ Status\ payload\_status\ =\ edit.payload.validate();}
-\DoxyCodeLine{01458\ \ \ \ \ \textcolor{keywordflow}{if}\ (!payload\_status.is\_ok())\ \{}
-\DoxyCodeLine{01459\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ payload\_status;}
-\DoxyCodeLine{01460\ \ \ \ \ \}}
-\DoxyCodeLine{01461\ }
-\DoxyCodeLine{01462\ \ \ \ \ std::uint64\_t\ max\_table\_id\_seen\ =\ 0;}
-\DoxyCodeLine{01463\ }
-\DoxyCodeLine{01464\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ deleted\ :\ edit.payload.deleted\_tables)\ \{}
-\DoxyCodeLine{01465\ \ \ \ \ \ \ \ \ Status\ status\ =\ level\_manager.remove\_table(}
-\DoxyCodeLine{01466\ \ \ \ \ \ \ \ \ \ \ \ \ deleted.table\_id,}
-\DoxyCodeLine{01467\ \ \ \ \ \ \ \ \ \ \ \ \ deleted.level}
-\DoxyCodeLine{01468\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01469\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01470\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01471\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01472\ \ \ \ \ \ \ \ \ max\_table\_id\_seen\ =\ std::max(}
-\DoxyCodeLine{01473\ \ \ \ \ \ \ \ \ \ \ \ \ max\_table\_id\_seen,}
-\DoxyCodeLine{01474\ \ \ \ \ \ \ \ \ \ \ \ \ deleted.table\_id}
-\DoxyCodeLine{01475\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01476\ \ \ \ \ \}}
-\DoxyCodeLine{01477\ }
-\DoxyCodeLine{01478\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ edit.payload.new\_tables)\ \{}
-\DoxyCodeLine{01479\ \ \ \ \ \ \ \ \ TableMeta\ copy\ =\ table;}
-\DoxyCodeLine{01480\ \ \ \ \ \ \ \ \ Status\ status\ =\ level\_manager.add\_table(std::move(copy));}
-\DoxyCodeLine{01481\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01482\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01483\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01484\ \ \ \ \ \ \ \ \ max\_table\_id\_seen\ =\ std::max(}
-\DoxyCodeLine{01485\ \ \ \ \ \ \ \ \ \ \ \ \ max\_table\_id\_seen,}
-\DoxyCodeLine{01486\ \ \ \ \ \ \ \ \ \ \ \ \ table.table\_id}
-\DoxyCodeLine{01487\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01488\ \ \ \ \ \}}
-\DoxyCodeLine{01489\ }
-\DoxyCodeLine{01490\ \ \ \ \ \textcolor{keywordflow}{if}\ (edit.payload.next\_table\_id.has\_value())\ \{}
-\DoxyCodeLine{01491\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ value\ =\ *edit.payload.next\_table\_id;}
-\DoxyCodeLine{01492\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ <\ counters.next\_table\_id)\ \{}
-\DoxyCodeLine{01493\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}next\_table\_id\ regressed\ from\ \{\}\ to\ \{\}"{}},}
-\DoxyCodeLine{01497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ counters.next\_table\_id,}
-\DoxyCodeLine{01498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value}
-\DoxyCodeLine{01499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01500\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01501\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01502\ \ \ \ \ \ \ \ \ counters.next\_table\_id\ =\ value;}
-\DoxyCodeLine{01503\ \ \ \ \ \}}
-\DoxyCodeLine{01504\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (max\_table\_id\_seen\ >=\ counters.next\_table\_id)\ \{}
-\DoxyCodeLine{01505\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (max\_table\_id\_seen\ ==}
-\DoxyCodeLine{01506\ \ \ \ \ \ \ \ \ \ \ \ \ std::numeric\_limits<std::uint64\_t>::max())\ \{}
-\DoxyCodeLine{01507\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ id\ space\ is\ exhausted"{}}}
-\DoxyCodeLine{01510\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01511\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01512\ \ \ \ \ \ \ \ \ counters.next\_table\_id\ =\ max\_table\_id\_seen\ +\ 1;}
-\DoxyCodeLine{01513\ \ \ \ \ \}}
-\DoxyCodeLine{01514\ }
-\DoxyCodeLine{01515\ \ \ \ \ \textcolor{keywordflow}{if}\ (edit.payload.next\_sequence\_number.has\_value())\ \{}
-\DoxyCodeLine{01516\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ value\ =}
-\DoxyCodeLine{01517\ \ \ \ \ \ \ \ \ \ \ \ \ *edit.payload.next\_sequence\_number;}
-\DoxyCodeLine{01518\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ <\ counters.next\_sequence\_number)\ \{}
-\DoxyCodeLine{01519\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}next\_sequence\_number\ regressed\ from\ \{\}\ to\ \{\}"{}},}
-\DoxyCodeLine{01523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ counters.next\_sequence\_number,}
-\DoxyCodeLine{01524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value}
-\DoxyCodeLine{01525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01526\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01527\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01528\ \ \ \ \ \ \ \ \ counters.next\_sequence\_number\ =\ value;}
-\DoxyCodeLine{01529\ \ \ \ \ \}}
-\DoxyCodeLine{01530\ }
-\DoxyCodeLine{01531\ \ \ \ \ \textcolor{keywordflow}{if}\ (edit.payload.current\_wal\_id.has\_value())\ \{}
-\DoxyCodeLine{01532\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ value\ =\ *edit.payload.current\_wal\_id;}
-\DoxyCodeLine{01533\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ <\ counters.current\_wal\_id)\ \{}
-\DoxyCodeLine{01534\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
-\DoxyCodeLine{01537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}current\_wal\_id\ regressed\ from\ \{\}\ to\ \{\}"{}},}
-\DoxyCodeLine{01538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ counters.current\_wal\_id,}
-\DoxyCodeLine{01539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value}
-\DoxyCodeLine{01540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01541\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01542\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01543\ \ \ \ \ \ \ \ \ counters.current\_wal\_id\ =\ value;}
-\DoxyCodeLine{01544\ \ \ \ \ \}}
-\DoxyCodeLine{01545\ }
-\DoxyCodeLine{01546\ \ \ \ \ \textcolor{keywordflow}{return}\ check\_invariants(level\_manager,\ counters);}
-\DoxyCodeLine{01547\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_manifest_ae23bd12d74710acefb990db7a796a07a}\index{Manifest@{Manifest}!sync@{sync}}
-\index{sync@{sync}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{sync()}{sync()}}
-{\footnotesize\ttfamily \label{class_manifest_ae23bd12d74710acefb990db7a796a07a} 
-\doxymbox{\hyperlink{struct_status}{Status}} Manifest::\+sync (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01796\ \{}
-\DoxyCodeLine{01797\ \ \ \ \ \textcolor{keywordflow}{if}\ (write\_poisoned\_)\ \{}
-\DoxyCodeLine{01798\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01799\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01800\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ writer\ is\ poisoned;\ reload\ before\ syncing"{}}}
-\DoxyCodeLine{01801\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01802\ \ \ \ \ \}}
-\DoxyCodeLine{01803\ }
-\DoxyCodeLine{01804\ \ \ \ \ \textcolor{keywordflow}{if}\ (!writable\_)\ \{}
-\DoxyCodeLine{01805\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01806\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01807\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ is\ not\ open\ for\ writing"{}}}
-\DoxyCodeLine{01808\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01809\ \ \ \ \ \}}
-\DoxyCodeLine{01810\ }
-\DoxyCodeLine{01811\ \ \ \ \ Status\ status\ =\ writable\_-\/>sync();}
-\DoxyCodeLine{01812\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01813\ \ \ \ \ \ \ \ \ write\_poisoned\_\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01814\ \ \ \ \ \}}
-\DoxyCodeLine{01815\ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01816\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_manifest_ab4dd7938b31235f244c028be34a29eca}\index{Manifest@{Manifest}!write\_poisoned@{write\_poisoned}}
-\index{write\_poisoned@{write\_poisoned}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{write\_poisoned()}{write\_poisoned()}}
-{\footnotesize\ttfamily \label{class_manifest_ab4dd7938b31235f244c028be34a29eca} 
-bool Manifest::\+write\+\_\+poisoned (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01861\ \{}
-\DoxyCodeLine{01862\ \ \ \ \ \textcolor{keywordflow}{return}\ write\_poisoned\_;}
-\DoxyCodeLine{01863\ \}}
-
-\end{DoxyCode}
-
-
-\label{class_manifest_doc-variable-members}
-\Hypertarget{class_manifest_doc-variable-members}
-\doxysubsection{Member Data Documentation}
-\Hypertarget{class_manifest_ae80bad5a47ddd22f95962781563df212}\index{Manifest@{Manifest}!header\_@{header\_}}
-\index{header\_@{header\_}!Manifest@{Manifest}}
-\doxysubsubsection{\texorpdfstring{header\_}{header\_}}
-{\footnotesize\ttfamily \label{class_manifest_ae80bad5a47ddd22f95962781563df212} 
-\doxymbox{\hyperlink{struct_manifest_1_1_header}{Header}} Manifest::\+header\+\_\+ \{\}\hspace{0.3cm}{\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00211\ \{\};}
-
-\end{DoxyCode}
 
 
 The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+manifest.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+manifest.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{manifest_8h}{manifest.\+h}}\item 
+manifest.\+cpp\end{DoxyCompactItemize}

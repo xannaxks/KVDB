@@ -1,0 +1,43 @@
+\doxysection{crc32\+\_\+helpers.\+h File Reference}
+\hypertarget{crc32__helpers_8h}{}\label{crc32__helpers_8h}\index{crc32\_helpers.h@{crc32\_helpers.h}}
+
+
+CRC32 accumulation over canonical on-\/disk encodings.  
+
+
+{\ttfamily \+\#include $<$array$>$}\newline
+{\ttfamily \+\#include $<$zlib.\+h$>$}\newline
+{\ttfamily \+\#include $<$cassert$>$}\newline
+{\ttfamily \+\#include $<$concepts$>$}\newline
+{\ttfamily \+\#include $<$cstddef$>$}\newline
+{\ttfamily \+\#include $<$cstdint$>$}\newline
+{\ttfamily \+\#include $<$limits$>$}\newline
+{\ttfamily \+\#include $<$span$>$}\newline
+{\ttfamily \+\#include $<$string\+\_\+view$>$}\newline
+{\ttfamily \+\#include $<$vector$>$}\newline
+{\ttfamily \+\#include "{}endian\+\_\+io.\+h"{}}\newline
+Include dependency graph for crc32\+\_\+helpers.\+h:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{crc32__helpers_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{crc32__helpers_8h__dep__incl}
+\end{center}
+\end{figure}
+
+
+\doxysubsection{Detailed Description}
+CRC32 accumulation over canonical on-\/disk encodings. 
+
+Integer helpers always hash little-\/endian bytes, making checksums independent of host endianness. Callers initialize a running state with init\+\_\+crc\+\_\+buff() and append fields in their serialized order. 
+
+Definition in file \doxymbox{\hyperlink{crc32__helpers_8h_source}{crc32\+\_\+helpers.\+h}}.
+

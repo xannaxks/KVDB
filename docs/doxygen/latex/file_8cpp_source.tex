@@ -1,0 +1,870 @@
+\doxysection{file.\+cpp}
+\hypertarget{file_8cpp_source}{}\label{file_8cpp_source}\index{file.cpp@{file.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00001}00001\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{file_8h}{file.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00002}00002\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00003}00003\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00005}00005\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00010}00010\ \textcolor{preprocessor}{\#ifndef\ NOMINMAX}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00011}00011\ \textcolor{preprocessor}{\#define\ NOMINMAX}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00012}00012\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00016}00016\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00017}00017\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <cerrno>}\ \textcolor{comment}{//\ provides\ errno}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <fcntl.h>}\ \textcolor{comment}{//\ provides\ open\ flags\ like\ O\_RDONLY,\ O\_WRONLY,\ O\_CREAT}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00020}00020\ \textcolor{preprocessor}{\#include\ <sys/stat.h>}\ \textcolor{comment}{//\ provides\ file\ permissions\ constants}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <unistd.h>}\ \textcolor{comment}{//\ provides\ read/write/pread/fsync/close/rename}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <sys/types.h>}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00024}00024\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00026}\doxymbox{\hyperlink{class_readable_file_a3962bd261041d2514cef4e0460574052}{00026}}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_readable_file_a3962bd261041d2514cef4e0460574052}{ReadableFile::read\_exact\_at}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00027}00027\ \ \ \ \ std::uint64\_t\ offset,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00028}00028\ \ \ \ \ \textcolor{keywordtype}{void}*\ buffer,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00029}00029\ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00030}00030\ \ \ \ \ std::uint64\_t\&\ track\_offset}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00031}00031\ )}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00032}00032\ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00033}00033\ \ \ \ \ std::size\_t\ total\_read\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00035}00035\ \ \ \ \ \textcolor{keywordtype}{char}*\ out\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(buffer);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00037}00037\ \ \ \ \ \textcolor{comment}{//\ Deligate\ reading\ to\ derived\ classes}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00038}00038\ \ \ \ \ \textcolor{comment}{//\ read\_at()\ uses\ system\ calls,\ which\ may\ result\ in\ partial\ reads}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00039}00039\ \ \ \ \ \textcolor{keywordflow}{while}\ (total\_read\ <\ size)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00040}00040\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00041}00041\ \ \ \ \ \ \ \ \ std::size\_t\ bytes\_read\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_status}{Status}}\ read\_result\ =\ \doxymbox{\hyperlink{class_readable_file_a96d6273c57c0e8fa0163aca0b1cfa4bb}{read\_at}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ +\ total\_read,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +\ total\_read,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ size\ -\/\ total\_read,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_read}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())\ \textcolor{comment}{//\ os\ read\ failed}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes\_read\ ==\ 0)\ \textcolor{comment}{//\ eof\ before\ reading\ enough\ bytes}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eafb4f20c45a43b05ac6e7cb3c5a4c5997}{StatusCode::UnexpectedEOF}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Unexpected\ end\ of\ file\ during\ read\ of\ "{}}\ +\ std::to\_string(size)\ +\ \textcolor{stringliteral}{"{}\ bytes\ on\ "{}}\ +\ this-\/>\doxymbox{\hyperlink{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}{path}}.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ total\_read\ +=\ bytes\_read;\ \textcolor{comment}{//\ total\ amount\ of\ read\ bytes}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00061}00061\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00063}00063\ \ \ \ \ track\_offset\ =\ offset\ +\ total\_read;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00064}00064\ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00065}00065\ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00067}00067\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00069}00069\ \textcolor{keyword}{class\ }WindowsReadableFile\ final\ :\ \textcolor{keyword}{public}\ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00070}00070\ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00071}00071\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00072}00072\ \ \ \ \ HANDLE\ handle\_\ =\ INVALID\_HANDLE\_VALUE;\ \textcolor{comment}{//\ Windows\ file\ handle}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00074}00074\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00075}00075\ \ \ \ \ \textcolor{keyword}{explicit}\ WindowsReadableFile(\textcolor{keyword}{const}\ std::filesystem::path\&\ path)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00076}00076\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00077}00077\ \ \ \ \ \ \ \ \ this-\/>path\ =\ path;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00078}00078\ \ \ \ \ \ \ \ \ handle\_\ =\ CreateFileW(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ path.c\_str(),}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ GENERIC\_READ,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ FILE\_SHARE\_READ\ |\ FILE\_SHARE\_WRITE\ |\ FILE\_SHARE\_DELETE,\ \textcolor{comment}{//\ allowing\ other\ processes\ to\ access\ it}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{nullptr},\ \textcolor{comment}{//\ Default\ securiyt\ attributes}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ OPEN\_EXISTING,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ FILE\_ATTRIBUTE\_NORMAL,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{nullptr}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00086}00086\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (handle\_\ ==\ INVALID\_HANDLE\_VALUE)\ \textcolor{comment}{//\ file\ open\ failure}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}CreateFileW\ for\ reading\ failed"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00090}00090\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00092}00092\ \ \ \ \ \string~WindowsReadableFile()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00093}00093\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (handle\_\ !=\ INVALID\_HANDLE\_VALUE)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ CloseHandle(handle\_);\ \textcolor{comment}{//\ Close\ OS\ handle}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00096}00096\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00098}00098\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_readable_file_a96d6273c57c0e8fa0163aca0b1cfa4bb}{read\_at}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00099}00099\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00100}00100\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ buffer,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ std::size\_t\&\ bytes\_read}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00103}00103\ \ \ \ \ )\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00104}00104\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00105}00105\ \ \ \ \ \ \ \ \ bytes\_read\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ out\ =\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(buffer);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00109}00109\ \ \ \ \ \ \ \ \ std::size\_t\ remaining\ =\ size;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ system\ calls\ might\ result\ in\ partial\ reads\ or\ might\ allow\ limited\ read\ size\ at\ once}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (remaining\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ DWORD\ chunk\ =\ \textcolor{keyword}{static\_cast<}DWORD\textcolor{keyword}{>}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::min<std::size\_t>(remaining,\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(MAXDWORD))\ \textcolor{comment}{//\ reading\ maxium\ possible\ sized\ chunk\ not\ larger\ than\ dword\ max}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ OVERLAPPED\ ov\{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ current\ =\ offset\ +\ bytes\_read;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ converting\ std::uint64\_t\ into\ OVERLAPPED\ }}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ ov.Offset\ =\ \textcolor{keyword}{static\_cast<}DWORD\textcolor{keyword}{>}(current\ \&\ 0xFFFFFFFFull);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ ov.OffsetHigh\ =\ \textcolor{keyword}{static\_cast<}DWORD\textcolor{keyword}{>}((current\ >>\ 32)\ \&\ 0xFFFFFFFFull);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ DWORD\ got\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BOOL\ ok\ =\ ReadFile(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ handle\_,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\ +\ bytes\_read,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunk,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&got,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&ov}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ unexpected\ end\ of\ file,\ not\ fatal}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!ok\ \&\&\ GetLastError()\ ==\ ERROR\_HANDLE\_EOF)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!ok)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed}{StatusCode::ReadFailed}},\ \textcolor{stringliteral}{"{}read\_at"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (got\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_read\ +=\ got;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ remaining\ -\/=\ got;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00148}00148\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00151}00151\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00153}00153\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_readable_file_ad6d2a1437adf3045fcf712d0923a01de}{close}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00154}00154\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ idempotency}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (handle\_\ ==\ INVALID\_HANDLE\_VALUE)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BOOL\ ok\ =\ CloseHandle(handle\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ handle\_\ =\ INVALID\_HANDLE\_VALUE;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00161}00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ok\ !=\ 0\ ?\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}()\ :\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{StatusCode}}::\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0}{CloseFailed}},\ \textcolor{stringliteral}{"{}close"{}});\ \textcolor{comment}{//\ used\ to\ convert\ windows\ BOOL\ to\ bool}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00162}00162\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00164}00164\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_readable_file_a3f793f1dcb7f88a7c1b46adf865c4fad}{get\_file\_size}}(std::uint64\_t\&\ size\_out)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00165}00165\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ LARGE\_INTEGER\ li\{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!::GetFileSizeEx(this-\/>handle\_,\ \&li))}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},\ \textcolor{stringliteral}{"{}get\_file\_size"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00170}00170\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (li.QuadPart\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},\ \textcolor{stringliteral}{"{}get\_file\_size"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ size\_out\ =\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(li.QuadPart);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00176}00176\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00178}00178\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_readable_file_acb7117ffe31bcb0d1d3b3e9990d302ef}{get\_descriptor}}()\textcolor{keyword}{\ const\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00179}00179\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{void}*\textcolor{keyword}{>}(handle\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00181}00181\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00182}00182\ \};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00184}00184\ \textcolor{keyword}{class\ }WindowsWritableFile\ final\ :\ \textcolor{keyword}{public}\ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\ \textcolor{comment}{//\ windows\ implementaion\ of\ Writable\ files}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00185}00185\ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00186}00186\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00187}00187\ \ \ \ \ HANDLE\ handle\_\ =\ INVALID\_HANDLE\_VALUE;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00189}00189\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00190}00190\ \ \ \ \ \textcolor{keyword}{explicit}\ WindowsWritableFile(\textcolor{keyword}{const}\ std::filesystem::path\&\ path)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00191}00191\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ this-\/>path\ =\ path;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ handle\_\ =\ CreateFileW(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ path.c\_str(),}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ GENERIC\_WRITE,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ FILE\_SHARE\_READ\ |\ FILE\_SHARE\_WRITE\ |\ FILE\_SHARE\_DELETE,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{nullptr},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ OPEN\_ALWAYS,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ FILE\_ATTRIBUTE\_NORMAL,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{nullptr}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00202}00202\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (handle\_\ ==\ INVALID\_HANDLE\_VALUE)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}CreatFileW\ for\ writing\ failed"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00205}00205\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00207}00207\ \ \ \ \ \string~WindowsWritableFile()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00208}00208\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (handle\_\ !=\ INVALID\_HANDLE\_VALUE)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ CloseHandle(handle\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00213}00213\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00215}00215\ \ \ \ \ Result<std::uint64\_t>\ \doxymbox{\hyperlink{class_writable_file_a33234a6b764d42d98574e35eb936ae67}{current\_position}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00216}00216\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ LARGE\_INTEGER\ zero\{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ LARGE\_INTEGER\ current\{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BOOL\ ok\ =\ SetFilePointerEx(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ handle\_,\ zero,\ \&current,\ FILE\_CURRENT}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ok\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{Result<std::uint64\_t>::fail}}(\doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2}{StatusCode::GetPositionFailed}},\ \textcolor{stringliteral}{"{}current\_position"{}}));}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00227}00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::ok(\textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(current.QuadPart));}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00228}00228\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00230}00230\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_writable_file_a30b8fe50516f78178adf7975de0bd485}{append}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ track\_offset}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00234}00234\ \ \ \ \ )\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00235}00235\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ Result<uint64\_t>\ current\_position\_result\ =\ this-\/>\doxymbox{\hyperlink{class_writable_file_a33234a6b764d42d98574e35eb936ae67}{current\_position}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!current\_position\_result.is\_ok())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ current\_position\_result.\doxymbox{\hyperlink{struct_result_a34cce226a35947a5bf7dc52160bbd10f}{status}};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ assert(track\_offset\ ==\ current\_position\_result.\doxymbox{\hyperlink{struct_result_a08cdc62a4daa93868d7971ae68eaacce}{value}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00241}00241\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ ptr\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(data);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00242}00242\ \ \ \ \ \ \ \ \ std::size\_t\ remaining\ =\ size;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ system\ calls\ can\ return\ partial\ appends}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (remaining\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00246}00246\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ DWORD\ chunk\ =\ \textcolor{keyword}{static\_cast<}DWORD\textcolor{keyword}{>}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::min<std::size\_t>(remaining,\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(MAXDWORD))}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ DWORD\ written\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00252}00252\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BOOL\ ok\ =\ WriteFile(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ handle\_,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ptr,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunk,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&written,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{nullptr}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!ok)\ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa}{StatusCode::WriteFailed}},\ \textcolor{stringliteral}{"{}append"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (written\ ==\ 0)\ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa}{StatusCode::WriteFailed}},\ \textcolor{stringliteral}{"{}append"{}});\ \textcolor{comment}{//os\ failure,\ didn't\ write\ anything}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ track\_offset\ +=\ written;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ ptr\ +=\ written;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ remaining\ -\/=\ written;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00267}00267\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ current\_position\_result\ =\ this-\/>\doxymbox{\hyperlink{class_writable_file_a33234a6b764d42d98574e35eb936ae67}{current\_position}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!current\_position\_result.is\_ok())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ current\_position\_result.\doxymbox{\hyperlink{struct_result_a34cce226a35947a5bf7dc52160bbd10f}{status}};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ assert(current\_position\_result.\doxymbox{\hyperlink{struct_result_a08cdc62a4daa93868d7971ae68eaacce}{value}}\ ==\ track\_offset);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00275}00275\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00277}00277\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_writable_file_a64ffe9bd2641630e31ad5f8d00540544}{sync}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00278}00278\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (handle\_\ ==\ INVALID\_HANDLE\_VALUE)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5}{StatusCode::SyncFailed}},\ \textcolor{stringliteral}{"{}sync"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00282}00282\ \ \ \ \ \ \ \ \ BOOL\ ok\ =\ FlushFileBuffers(handle\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ok\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5}{StatusCode::SyncFailed}},\ \textcolor{stringliteral}{"{}sync"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00287}00287\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00289}00289\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_writable_file_a143df0fa5cb12be264d9656232cf66bd}{close}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00290}00290\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (handle\_\ ==\ INVALID\_HANDLE\_VALUE)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00293}00293\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00294}00294\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BOOL\ ok\ =\ CloseHandle(handle\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00295}00295\ \ \ \ \ \ \ \ \ handle\_\ =\ INVALID\_HANDLE\_VALUE;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00297}00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ok\ !=\ 0\ ?\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}()\ :\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{StatusCode}}::\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0}{CloseFailed}},\ \textcolor{stringliteral}{"{}close"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00298}00298\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00300}00300\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_writable_file_a765ebfdc7203dd323419454c5c081040}{get\_file\_size}}(std::uint64\_t\&\ size\_out)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00301}00301\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ LARGE\_INTEGER\ li\{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!::GetFileSizeEx(this-\/>handle\_,\ \&li))}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},\ \textcolor{stringliteral}{"{}get\_file\_size"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (li.QuadPart\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},\ \textcolor{stringliteral}{"{}get\_file\_size"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00309}00309\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00310}00310\ \ \ \ \ \ \ \ \ size\_out\ =\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(li.QuadPart);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00311}00311\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00312}00312\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00314}00314\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_writable_file_a8c73c0150ee87bce4c1299a4bb2349ad}{durable\_rename}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ to,\ \textcolor{keywordtype}{bool}\ replace\_existing)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00315}00315\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00316}00316\ \ \ \ \ \ \ \ \ DWORD\ flags\ =\ MOVEFILE\_WRITE\_THROUGH;\ \textcolor{comment}{//\ asking\ win\ to\ flush\ rename\ operation\ before\ returning}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (replace\_existing)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ flags\ |=\ MOVEFILE\_REPLACE\_EXISTING;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00321}00321\ \ \ \ \ \ \ \ \ BOOL\ ok\ =\ MoveFileExW(this-\/>path.c\_str(),\ to.c\_str(),\ flags);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ok\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5}{StatusCode::RenameFailed}},\ \textcolor{stringliteral}{"{}durable\_rename"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00324}00324\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00325}00325\ \ \ \ \ \ \ \ \ this-\/>path\ =\ to;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00326}00326\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00327}00327\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00328}00328\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00329}00329\ \ \ \ \ std::filesystem::path\ \doxymbox{\hyperlink{class_writable_file_abf29a0ff5ebb47ab2d3f05238bee3d74}{parent\_directory}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00330}00330\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>path.parent\_path();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00332}00332\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00334}00334\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_writable_file_a56f297cd850cbb7bf411bcf849bfb832}{sync\_parent\_directory}}()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00335}00335\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ directory\_path\ =\ this-\/>\doxymbox{\hyperlink{class_writable_file_abf29a0ff5ebb47ab2d3f05238bee3d74}{parent\_directory}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00337}00337\ \ \ \ \ \ \ \ \ HANDLE\ handle\ =\ CreateFileW(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ directory\_path.c\_str(),}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ FILE\_LIST\_DIRECTORY,\ \textcolor{comment}{//\ access\ right\ for\ openning\ directory}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ FILE\_SHARE\_READ\ |\ FILE\_SHARE\_WRITE\ |\ FILE\_SHARE\_DELETE,\ \textcolor{comment}{//\ allowing\ sharing}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{nullptr},\ \textcolor{comment}{//\ default\ security}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ OPEN\_EXISTING,\ \textcolor{comment}{//\ directory\ must\ exist}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ FILE\_FLAG\_BACKUP\_SEMANTICS,\ \textcolor{comment}{//\ required\ to\ open\ a\ directory\ with\ CreateFileW}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{nullptr}\ \textcolor{comment}{//\ no\ template\ file}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00345}00345\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00347}00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (handle\ ==\ INVALID\_HANDLE\_VALUE)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38}{StatusCode::DirectorySyncFailed}},\ \textcolor{stringliteral}{"{}sync\_directory"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00349}00349\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00350}00350\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ MoveFileExW(MOVEFILE\_WRITE\_THROUGH)\ performs\ the\ supported\ Windows}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00351}00351\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ durability\ step\ for\ the\ rename.\ Directory\ handles\ cannot\ reliably\ be}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00352}00352\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ passed\ to\ FlushFileBuffers,\ so\ only\ validate\ and\ close\ this\ handle.}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BOOL\ close\_ok\ =\ CloseHandle(handle);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00354}00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ close\_ok\ !=\ 0}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{StatusCode}}::\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0}{CloseFailed}},\ \textcolor{stringliteral}{"{}sync\_directory"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00357}00357\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00358}00358\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00359}00359\ \ \ \ \ Result<std::uint64\_t>\ \doxymbox{\hyperlink{class_writable_file_aef360f0276df9e2a2164139790b0e3f5}{seek\_to\_end}}()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00360}00360\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00361}00361\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (handle\_\ ==\ INVALID\_HANDLE\_VALUE)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{Result<std::uint64\_t>::fail}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf}{StatusCode::SeekFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}seek\ to\ end\ failed"{}}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00369}00369\ \ \ \ \ \ \ \ \ LARGE\_INTEGER\ zero\{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00370}00370\ \ \ \ \ \ \ \ \ LARGE\_INTEGER\ new\_pos\{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00371}00371\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00372}00372\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ BOOL\ ok\ =\ ::SetFilePointerEx(handle\_,\ zero,\ \&new\_pos,\ FILE\_END);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00373}00373\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00374}00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ok\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00375}00375\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{Result<std::uint64\_t>::fail}}(\doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf}{StatusCode::SeekFailed}},\ \textcolor{stringliteral}{"{}seek\ to\ end"{}}));}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00377}00377\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00379}00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (new\_pos.QuadPart\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00380}00380\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{Result<std::uint64\_t>::fail}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf}{StatusCode::SeekFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}negative\ file\ position\ after\ seek\_to\_end\ for\ file"{}}\ +\ this-\/>path.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00387}00387\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00388}00388\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00389}00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::ok(\textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(new\_pos.QuadPart));}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00390}00390\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00391}00391\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00392}00392\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_writable_file_afd5545deccf2b0233d2140c2c0945601}{get\_descriptor}}()\textcolor{keyword}{\ const\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00393}00393\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00394}00394\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{void}*\textcolor{keyword}{>}(handle\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00395}00395\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00396}00396\ \};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00398}00398\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00399}00399\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00400}00400\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00401}00401\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00402}00402\ \textcolor{keyword}{class\ }PosixReadableFile\ final\ :\ \textcolor{keyword}{public}\ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00403}00403\ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00404}00404\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00405}00405\ \ \ \ \ \textcolor{keywordtype}{int}\ fd\_\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00407}00407\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00408}00408\ \ \ \ \ \textcolor{keyword}{explicit}\ PosixReadableFile(\textcolor{keyword}{const}\ std::filesystem::path\&\ \doxymbox{\hyperlink{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}{path}})}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00409}00409\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00410}00410\ \ \ \ \ \ \ \ \ this-\/>\doxymbox{\hyperlink{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}{path}}\ =\ \doxymbox{\hyperlink{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}{path}};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00411}00411\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00412}00412\ \ \ \ \ \ \ \ \ fd\_\ =\ ::open(\doxymbox{\hyperlink{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}{path}}.c\_str(),\ O\_RDONLY);\ \textcolor{comment}{//\ RDONLY\ -\/\ read\ only}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00413}00413\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00414}00414\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00415}00415\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}open\ for\ reading\ failed"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00416}00416\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00418}00418\ \ \ \ \ \string~PosixReadableFile()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00419}00419\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00420}00420\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ !=\ -\/1)\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file_ad6d2a1437adf3045fcf712d0923a01de}{::close}}(fd\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00422}00422\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00423}00423\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00424}00424\ \ \ \ \ Status\ read\_at(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00425}00425\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00426}00426\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ buffer,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00427}00427\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00428}00428\ \ \ \ \ \ \ \ \ std::size\_t\&\ bytes\_read}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00429}00429\ \ \ \ \ )\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00430}00430\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00431}00431\ \ \ \ \ \ \ \ \ bytes\_read\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00432}00432\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00433}00433\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed}{StatusCode::ReadFailed}},\ \textcolor{stringliteral}{"{}read\_at"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00435}00435\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00436}00436\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}*\ out\ =\ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(buffer);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00437}00437\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00438}00438\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ system\ calls\ might\ result\ in\ partial\ reads}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00439}00439\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (bytes\_read\ <\ size)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00440}00440\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ remaining\ =\ size\ -\/\ bytes\_read;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00442}00442\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ chunk\ =\ std::min<std::size\_t>(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ remaining,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(std::numeric\_limits<ssize\_t>::max())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00447}00447\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ current\_offset\ =\ offset\ +\ bytes\_read;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00449}00449\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_offset\ >\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(std::numeric\_limits<off\_t>::max()))}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1c212561bd4adc7c009115b18c972fa2}{StatusCode::DataTypeOverflow}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00453}00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}read\_at\ offset\ does\ not\ fit\ into\ off\_t\ for\ file\ "{}}\ +\ this-\/>\doxymbox{\hyperlink{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}{path}}.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ \};\ \textcolor{comment}{//\ off\_t\ is\ platform\ dependent,\ meanwhile\ std::uint64\_t\ is\ not.\ So\ overflow\ check\ needed}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00455}00455\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ssize\_t\ got\ =\ ::pread(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ fd\_,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ out\ +\ bytes\_read,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ chunk,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}off\_t\textcolor{keyword}{>}(current\_offset)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00462}00462\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (got\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (errno\ ==\ EINTR)\ \textcolor{comment}{//\ not\ fatal}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00467}00467\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed}{StatusCode::ReadFailed}},\ \textcolor{stringliteral}{"{}read\_at"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00470}00470\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (got\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00472}00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00473}00473\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_read\ +=\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(got);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00475}00475\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00476}00476\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00477}00477\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00478}00478\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00479}00479\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00480}00480\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_readable_file_ad6d2a1437adf3045fcf712d0923a01de}{close}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00481}00481\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00482}00482\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ idempotency}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00483}00483\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00485}00485\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00486}00486\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ result\ =\ \doxymbox{\hyperlink{class_readable_file_ad6d2a1437adf3045fcf712d0923a01de}{::close}}(fd\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00487}00487\ \ \ \ \ \ \ \ \ fd\_\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00488}00488\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00489}00489\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result\ ==\ 0}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00490}00490\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{StatusCode}}::\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0}{CloseFailed}},\ \textcolor{stringliteral}{"{}close"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00492}00492\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00493}00493\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00494}00494\ \ \ \ \ Status\ get\_file\_size(std::uint64\_t\&\ size\_out)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00495}00495\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00496}00496\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},\ \textcolor{stringliteral}{"{}get\_file\_size"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00498}00498\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00499}00499\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }stat\ st\ \{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00500}00500\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00501}00501\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (::fstat(fd\_,\ \&st)\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},\ \textcolor{stringliteral}{"{}get\_file\_size"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00503}00503\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00504}00504\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (st.st\_size\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00505}00505\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}file\ size\ is\ negative\ for\ file\ "{}}\ +\ this-\/>\doxymbox{\hyperlink{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}{path}}.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00508}00508\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00509}00509\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00510}00510\ \ \ \ \ \ \ \ \ size\_out\ =\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(st.st\_size);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00511}00511\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00512}00512\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00513}00513\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00514}00514\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ \doxymbox{\hyperlink{class_readable_file_acb7117ffe31bcb0d1d3b3e9990d302ef}{get\_descriptor}}()\textcolor{keyword}{\ const\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00515}00515\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00516}00516\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>fd\_;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00517}00517\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00518}00518\ \};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00519}00519\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00520}00520\ \textcolor{keyword}{class\ }PosixWritableFile\ final\ :\ \textcolor{keyword}{public}\ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00521}00521\ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00522}00522\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00523}00523\ \ \ \ \ \textcolor{keywordtype}{int}\ fd\_\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00524}00524\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00525}00525\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00526}00526\ \ \ \ \ \textcolor{keyword}{explicit}\ PosixWritableFile(\textcolor{keyword}{const}\ std::filesystem::path\&\ \doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}})}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00527}00527\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00528}00528\ \ \ \ \ \ \ \ \ this-\/>\doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}}\ =\ \doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00529}00529\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00530}00530\ \ \ \ \ \ \ \ \ fd\_\ =\ ::open(\doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}}.c\_str(),\ O\_WRONLY\ |\ O\_CREAT,\ 0644);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00531}00531\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00532}00532\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(\textcolor{stringliteral}{"{}open\ for\ writable\ file\ failed"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00534}00534\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00535}00535\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00536}00536\ \ \ \ \ \string~PosixWritableFile()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00537}00537\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00538}00538\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ !=\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file_a143df0fa5cb12be264d9656232cf66bd}{::close}}(fd\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00540}00540\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00541}00541\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00542}00542\ \ \ \ \ Result<std::uint64\_t>\ \doxymbox{\hyperlink{class_writable_file_a33234a6b764d42d98574e35eb936ae67}{current\_position}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00543}00543\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00544}00544\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{Result<std::uint64\_t>::fail}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2}{StatusCode::GetPositionFailed}},\ \textcolor{stringliteral}{"{}current\_position"{}})}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00548}00548\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00549}00549\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ off\_t\ pos\ =\ ::lseek(fd\_,\ 0,\ SEEK\_CUR);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00550}00550\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00551}00551\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ ==\ \textcolor{keyword}{static\_cast<}off\_t\textcolor{keyword}{>}(-\/1))}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{Result<std::uint64\_t>::fail}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2}{StatusCode::GetPositionFailed}},\ \textcolor{stringliteral}{"{}current\_position"{}})}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00555}00555\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00556}00556\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{Result<std::uint64\_t>::fail}}(Status\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00558}00558\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2}{StatusCode::GetPositionFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00559}00559\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}current\ file\ position\ is\ negative\ for\ file\ "{}}\ +\ this-\/>\doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}}.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00560}00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00561}00561\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00562}00562\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::ok(\textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(pos));}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00563}00563\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00564}00564\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00565}00565\ \ \ \ \ Status\ append(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00566}00566\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00567}00567\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00568}00568\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ track\_offset}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00569}00569\ \ \ \ \ )\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00570}00570\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00571}00571\ \ \ \ \ \ \ \ \ Result<std::uint64\_t>\ current\_position\_result\ =\ this-\/>\doxymbox{\hyperlink{class_writable_file_a33234a6b764d42d98574e35eb936ae67}{current\_position}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00572}00572\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00573}00573\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!current\_position\_result.is\_ok())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ current\_position\_result.\doxymbox{\hyperlink{struct_result_a34cce226a35947a5bf7dc52160bbd10f}{status}};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00576}00576\ \ \ \ \ \ \ \ \ assert(track\_offset\ ==\ current\_position\_result.\doxymbox{\hyperlink{struct_result_a08cdc62a4daa93868d7971ae68eaacce}{value}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00577}00577\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00578}00578\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ ptr\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(data);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00579}00579\ \ \ \ \ \ \ \ \ std::size\_t\ remaining\ =\ size;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00580}00580\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00581}00581\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (remaining\ >\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00582}00582\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ chunk\ =\ std::min<std::size\_t>(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ remaining,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(std::numeric\_limits<ssize\_t>::max())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00587}00587\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ssize\_t\ written\ =\ ::write(fd\_,\ ptr,\ chunk);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00589}00589\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00590}00590\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (written\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00591}00591\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00592}00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (errno\ ==\ EINTR)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00593}00593\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00594}00594\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00595}00595\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa}{StatusCode::WriteFailed}},\ \textcolor{stringliteral}{"{}append"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00596}00596\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00597}00597\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (written\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00599}00599\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00600}00600\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa}{StatusCode::WriteFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}write\ returned\ 0\ bytes\ for\ file\ "{}}\ +\ this-\/>\doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}}.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00603}00603\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00604}00604\ \ \ \ \ \ \ \ \ \ \ \ \ ptr\ +=\ written;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00605}00605\ \ \ \ \ \ \ \ \ \ \ \ \ track\_offset\ +=\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(written);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00606}00606\ \ \ \ \ \ \ \ \ \ \ \ \ remaining\ -\/=\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(written);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00607}00607\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00608}00608\ \ \ \ \ \ \ \ \ \ \ \ \ current\_position\_result\ =\ this-\/>\doxymbox{\hyperlink{class_writable_file_a33234a6b764d42d98574e35eb936ae67}{current\_position}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00609}00609\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00610}00610\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!current\_position\_result.is\_ok())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00611}00611\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ current\_position\_result.\doxymbox{\hyperlink{struct_result_a34cce226a35947a5bf7dc52160bbd10f}{status}};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00612}00612\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00613}00613\ \ \ \ \ \ \ \ \ \ \ \ \ assert(current\_position\_result.\doxymbox{\hyperlink{struct_result_a08cdc62a4daa93868d7971ae68eaacce}{value}}\ ==\ track\_offset);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00614}00614\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00615}00615\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00616}00616\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00617}00617\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00618}00618\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00619}00619\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_writable_file_a64ffe9bd2641630e31ad5f8d00540544}{sync}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00620}00620\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00621}00621\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00622}00622\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5}{StatusCode::SyncFailed}},\ \textcolor{stringliteral}{"{}sync"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00623}00623\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00624}00624\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00625}00625\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00626}00626\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ result\ =\ ::fsync(fd\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00627}00627\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00628}00628\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00629}00629\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00630}00630\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00631}00631\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (errno\ ==\ EINTR)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00632}00632\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00633}00633\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00634}00634\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5}{StatusCode::SyncFailed}},\ \textcolor{stringliteral}{"{}sync"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00635}00635\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00636}00636\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00637}00637\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00638}00638\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00639}00639\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00640}00640\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_writable_file_a143df0fa5cb12be264d9656232cf66bd}{close}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00641}00641\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00642}00642\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00643}00643\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00644}00644\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00645}00645\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ result\ =\ \doxymbox{\hyperlink{class_writable_file_a143df0fa5cb12be264d9656232cf66bd}{::close}}(fd\_);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00646}00646\ \ \ \ \ \ \ \ \ fd\_\ =\ -\/1;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00647}00647\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00648}00648\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result\ ==\ 0}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00649}00649\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00650}00650\ \ \ \ \ \ \ \ \ \ \ \ \ :\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{StatusCode}}::\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0}{CloseFailed}},\ \textcolor{stringliteral}{"{}close"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00651}00651\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00652}00652\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00653}00653\ \ \ \ \ Status\ get\_file\_size(std::uint64\_t\&\ size\_out)\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00654}00654\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00655}00655\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00656}00656\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},\ \textcolor{stringliteral}{"{}get\_file\_size"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00657}00657\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00658}00658\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }stat\ st\ \{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00659}00659\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00660}00660\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (::fstat(fd\_,\ \&st)\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00661}00661\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},\ \textcolor{stringliteral}{"{}get\_file\_size"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00662}00662\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00663}00663\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (st.st\_size\ <\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00664}00664\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00665}00665\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{StatusCode::GetSizeFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00666}00666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}file\ size\ is\ negative\ for\ file\ "{}}\ +\ this-\/>\doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}}.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00667}00667\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00668}00668\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00669}00669\ \ \ \ \ \ \ \ \ size\_out\ =\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(st.st\_size);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00670}00670\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00671}00671\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00672}00672\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00673}00673\ \ \ \ \ Status\ durable\_rename(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00674}00674\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ to,}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00675}00675\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ replace\_existing}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00676}00676\ \ \ \ \ )\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00677}00677\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00678}00678\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!replace\_existing)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00679}00679\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00680}00680\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }stat\ st\ \{\};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00681}00681\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00682}00682\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (::stat(to.c\_str(),\ \&st)\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00683}00683\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00684}00684\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00685}00685\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea89b69484680b18e9179e826c6e023805}{StatusCode::AlreadyExists}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00686}00686\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}rename\ destination\ already\ exists:\ "{}}\ +\ to.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00687}00687\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00688}00688\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00689}00689\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00690}00690\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (errno\ !=\ ENOENT)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00691}00691\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5}{StatusCode::RenameFailed}},\ \textcolor{stringliteral}{"{}durable\_rename"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00692}00692\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00693}00693\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00694}00694\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (::rename(this-\/>\doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}}.c\_str(),\ to.c\_str())\ !=\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00695}00695\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5}{StatusCode::RenameFailed}},\ \textcolor{stringliteral}{"{}durable\_rename"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00696}00696\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00697}00697\ \ \ \ \ \ \ \ \ this-\/>\doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}}\ =\ to;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00698}00698\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00699}00699\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00700}00700\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00701}00701\ \ \ \ \ std::filesystem::path\ \doxymbox{\hyperlink{class_writable_file_abf29a0ff5ebb47ab2d3f05238bee3d74}{parent\_directory}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00702}00702\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00703}00703\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ parent\ =\ this-\/>\doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}}.parent\_path();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00704}00704\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00705}00705\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (parent.empty())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00706}00706\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}."{}};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00707}00707\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00708}00708\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parent;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00709}00709\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00710}00710\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00711}00711\ \ \ \ \ Status\ \doxymbox{\hyperlink{class_writable_file_a56f297cd850cbb7bf411bcf849bfb832}{sync\_parent\_directory}}()\textcolor{keyword}{\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00712}00712\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00713}00713\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ directory\_path\ =\ this-\/>\doxymbox{\hyperlink{class_writable_file_abf29a0ff5ebb47ab2d3f05238bee3d74}{parent\_directory}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00714}00714\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00715}00715\ \textcolor{preprocessor}{\#ifdef\ O\_DIRECTORY}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00716}00716\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ flags\ =\ O\_RDONLY\ |\ O\_DIRECTORY;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00717}00717\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00718}00718\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ flags\ =\ O\_RDONLY;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00719}00719\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00720}00720\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00721}00721\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ dir\_fd\ =\ ::open(directory\_path.c\_str(),\ flags);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00722}00722\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00723}00723\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dir\_fd\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00724}00724\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38}{StatusCode::DirectorySyncFailed}},\ \textcolor{stringliteral}{"{}sync\_parent\_directory"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00725}00725\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00726}00726\ \ \ \ \ \ \ \ \ Status\ sync\_status\ =\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00727}00727\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00728}00728\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00729}00729\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00730}00730\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ result\ =\ ::fsync(dir\_fd);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00731}00731\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00732}00732\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ ==\ 0)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00733}00733\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00734}00734\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sync\_status\ =\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00735}00735\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00736}00736\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00737}00737\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00738}00738\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (errno\ ==\ EINTR)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00739}00739\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00740}00740\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00741}00741\ \ \ \ \ \ \ \ \ \ \ \ \ sync\_status\ =\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00742}00742\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38}{StatusCode::DirectorySyncFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00743}00743\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sync\_parent\_directory"{}}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00744}00744\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00745}00745\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00746}00746\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00747}00747\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00748}00748\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ close\_result\ =\ \doxymbox{\hyperlink{class_writable_file_a143df0fa5cb12be264d9656232cf66bd}{::close}}(dir\_fd);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00749}00749\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00750}00750\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (close\_result\ !=\ 0\ \&\&\ sync\_status.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00751}00751\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0}{StatusCode::CloseFailed}},\ \textcolor{stringliteral}{"{}sync\_parent\_directory"{}});}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00752}00752\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00753}00753\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sync\_status;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00754}00754\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00755}00755\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00756}00756\ \ \ \ \ Result<std::uint64\_t>\ \doxymbox{\hyperlink{class_writable_file_aef360f0276df9e2a2164139790b0e3f5}{seek\_to\_end}}()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00757}00757\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00758}00758\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (fd\_\ ==\ -\/1)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00759}00759\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{Result<std::uint64\_t>::fail}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00760}00760\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00761}00761\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf}{StatusCode::SeekFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00762}00762\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}seek\ to\ end\ failed"{}}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00763}00763\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00764}00764\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00765}00765\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00766}00766\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ off\_t\ pos\ =\ ::lseek(fd\_,\ 0,\ SEEK\_END);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00767}00767\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00768}00768\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ ==\ \textcolor{keyword}{static\_cast<}off\_t\textcolor{keyword}{>}(-\/1))}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00769}00769\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{Result<std::uint64\_t>::fail}}(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00770}00770\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\_error}}(\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf}{StatusCode::SeekFailed}},\ \textcolor{stringliteral}{"{}seek\ to\ end"{}})}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00771}00771\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00772}00772\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00773}00773\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::ok(\textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(pos));}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00774}00774\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00775}00775\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00776}00776\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ \doxymbox{\hyperlink{class_writable_file_afd5545deccf2b0233d2140c2c0945601}{get\_descriptor}}()\textcolor{keyword}{\ const\ override}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00777}00777\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00778}00778\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>fd\_;}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00779}00779\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00780}00780\ \};}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00781}00781\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00782}00782\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00783}00783\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00784}\doxymbox{\hyperlink{file_8h_aeb92b9b7eff8199755621892128e0ef0}{00784}}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>\ \doxymbox{\hyperlink{file_8h_aeb92b9b7eff8199755621892128e0ef0}{open\_readable\_file}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ path)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00785}00785\ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00786}00786\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00787}00787\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00788}00788\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00789}00789\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>::ok(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00790}00790\ \ \ \ \ \ \ \ \ \ \ \ \ std::make\_unique<WindowsReadableFile>(path)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00791}00791\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00792}00792\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00793}00793\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>::ok(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00794}00794\ \ \ \ \ \ \ \ \ \ \ \ \ std::make\_unique<PosixReadableFile>(path)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00795}00795\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00796}00796\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00797}00797\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00798}00798\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00799}00799\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00800}00800\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>::fail(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00801}00801\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00802}00802\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00803}00803\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3c7a8251808153249519ae080c9d4b65}{StatusCode::BadAlloc}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00804}00804\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}allocation\ failed\ while\ opening\ readable\ file:\ "{}}\ +\ path.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00805}00805\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00806}00806\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00807}00807\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00808}00808\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&\ e)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00809}00809\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00810}00810\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>::fail(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00811}00811\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00812}00812\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00813}00813\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eac60b10c14b43d15f91424c6addfc31ac}{StatusCode::OpenFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00814}00814\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}open\ readable\ file\ failed\ for\ "{}}\ +\ path.string()\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ e.what()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00815}00815\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00816}00816\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00817}00817\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00818}00818\ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00819}00819\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00820}\doxymbox{\hyperlink{file_8h_a98a8580832968655df325718531dc570}{00820}}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>\ \doxymbox{\hyperlink{file_8h_a98a8580832968655df325718531dc570}{open\_writable\_file}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ path)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00821}00821\ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00822}00822\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00823}00823\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00824}00824\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00825}00825\ \ \ \ \ \ \ \ \ std::unique\_ptr<WritableFile>\ res\ =\ std::make\_unique<WindowsWritableFile>(path);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00826}00826\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00827}00827\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ seek\_eof\_result\ =\ res-\/>seek\_to\_end();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00828}00828\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!seek\_eof\_result.is\_ok())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00829}00829\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>::fail(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00830}00830\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(seek\_eof\_result.\doxymbox{\hyperlink{struct_result_a34cce226a35947a5bf7dc52160bbd10f}{status}})}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00831}00831\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00832}00832\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00833}00833\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>::ok(std::move(res));}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00834}00834\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00835}00835\ \ \ \ \ \ \ \ \ std::unique\_ptr<WritableFile>\ res\ =\ std::make\_unique<PosixWritableFile>(path);}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00836}00836\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00837}00837\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ seek\_eof\_result\ =\ res-\/>seek\_to\_end();}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00838}00838\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!seek\_eof\_result.is\_ok())}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00839}00839\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>::fail(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00840}00840\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(seek\_eof\_result.\doxymbox{\hyperlink{struct_result_a34cce226a35947a5bf7dc52160bbd10f}{status}})}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00841}00841\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00842}00842\ }
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00843}00843\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>::ok(std::move(res));}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00844}00844\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00845}00845\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00846}00846\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00847}00847\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00848}00848\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>::fail(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00849}00849\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00850}00850\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3c7a8251808153249519ae080c9d4b65}{StatusCode::BadAlloc}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00851}00851\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}allocation\ failed\ while\ opening\ writable\ file:\ "{}}\ +\ path.string()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00852}00852\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00853}00853\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00854}00854\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00855}00855\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&\ e)}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00856}00856\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00857}00857\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>::fail(}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00858}00858\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00859}00859\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eac60b10c14b43d15f91424c6addfc31ac}{StatusCode::OpenFailed}},}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00860}00860\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}open\ writable\ file\ failed\ for\ "{}}\ +\ path.string()\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ e.what()}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00861}00861\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00862}00862\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00863}00863\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{file_8cpp_source_l00864}00864\ \}}
+
+\end{DoxyCode}

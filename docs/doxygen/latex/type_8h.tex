@@ -1,0 +1,80 @@
+\doxysection{type.\+h File Reference}
+\hypertarget{type_8h}{}\label{type_8h}\index{type.h@{type.h}}
+
+
+Mutation kind stored in internal records.  
+
+
+{\ttfamily \+\#include $<$cstdint$>$}\newline
+Include dependency graph for type.\+h:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=125pt]{type_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{type_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{Type}} :\+ uint8\+\_\+t \{ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479ad0bf1810982e9728fcf3ac444a015373}{Put}} = 0
+, \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479a0d57c4a25f4d2ddf16ec10a8a8922602}{Tombstone}} = 1
+, \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479aec0fc0100c4fc1ce4eea230c3dc10360}{Undefined}}
+ \}
+\begin{DoxyCompactList}\small\item\em Logical state carried by a versioned record. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Mutation kind stored in internal records. 
+
+
+
+Definition in file \doxymbox{\hyperlink{type_8h_source}{type.\+h}}.
+
+
+
+\label{type_8h_doc-enum-members}
+\Hypertarget{type_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{type_8h_a5f787df9cdf370248382504196841479}\index{type.h@{type.h}!Type@{Type}}
+\index{Type@{Type}!type.h@{type.h}}
+\doxysubsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily \label{type_8h_a5f787df9cdf370248382504196841479} 
+enum class \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{Type}} :\+ uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Logical state carried by a versioned record. 
+
+Tombstones stop older-\/value lookup and may be discarded only when compaction proves that no lower level can still contain the deleted key. \begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Put@{Put}!type.h@{type.h}}
+\index{type.h@{type.h}!Put@{Put}}
+}\Hypertarget{type_8h_a5f787df9cdf370248382504196841479ad0bf1810982e9728fcf3ac444a015373}\label{type_8h_a5f787df9cdf370248382504196841479ad0bf1810982e9728fcf3ac444a015373} 
+Put&Key has a stored value. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Tombstone@{Tombstone}!type.h@{type.h}}
+\index{type.h@{type.h}!Tombstone@{Tombstone}}
+}\Hypertarget{type_8h_a5f787df9cdf370248382504196841479a0d57c4a25f4d2ddf16ec10a8a8922602}\label{type_8h_a5f787df9cdf370248382504196841479a0d57c4a25f4d2ddf16ec10a8a8922602} 
+Tombstone&Key is logically deleted at this sequence. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Undefined@{Undefined}!type.h@{type.h}}
+\index{type.h@{type.h}!Undefined@{Undefined}}
+}\Hypertarget{type_8h_a5f787df9cdf370248382504196841479aec0fc0100c4fc1ce4eea230c3dc10360}\label{type_8h_a5f787df9cdf370248382504196841479aec0fc0100c4fc1ce4eea230c3dc10360} 
+Undefined&Invalid or uninitialized record type. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \doxymbox{\hyperlink{type_8h_source_l00015}{15}} of file \doxymbox{\hyperlink{type_8h_source}{type.\+h}}.
+

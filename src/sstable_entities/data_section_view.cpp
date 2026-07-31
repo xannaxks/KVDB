@@ -1,3 +1,6 @@
+// Loading records only block header offsets and bounded extents. Payload parsing
+// and CRC validation are deferred until a block is queried, then cached as a
+// validation state so repeated reads do not trust an unchecked block.
 #include "sstable_entities/data_section_view.h"
 
 #include <algorithm>

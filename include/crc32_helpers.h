@@ -1,3 +1,11 @@
+/**
+ * @file crc32_helpers.h
+ * @brief CRC32 accumulation over canonical on-disk encodings.
+ *
+ * Integer helpers always hash little-endian bytes, making checksums independent
+ * of host endianness. Callers initialize a running state with init_crc_buff()
+ * and append fields in their serialized order.
+ */
 #pragma once
 #define NOMINMAX
 

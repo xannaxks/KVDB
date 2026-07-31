@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('structkvdb_1_1_d_b_options.html','','structkvdb_1_1_d_b_options-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,221 +115,61 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a href="namespacekvdb.html">kvdb</a></li><li class="navelem"><a href="structkvdb_1_1_d_b_options.html">DBOptions</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="structkvdb_1_1_d_b_options-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">kvdb::DBOptions Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Complete configuration used to create or recover a database.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="db__options_8h_source.html">db_options.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:ArenaOptions" id="r_ArenaOptions"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structkvdb_1_1_d_b_options_1_1_arena_options.html">ArenaOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_arena.html" title="Region allocator with checkpoints and optional destructor tracking.">Arena</a> page sizing and large-allocation threshold.  <a href="structkvdb_1_1_d_b_options_1_1_arena_options.html#details">More...</a><br /></td></tr>
 <tr class="memitem:MemTableOptions" id="r_MemTableOptions"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structkvdb_1_1_d_b_options_1_1_mem_table_options.html">MemTableOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flush threshold and immutable-generation backpressure.  <a href="structkvdb_1_1_d_b_options_1_1_mem_table_options.html#details">More...</a><br /></td></tr>
 <tr class="memitem:WALOptions" id="r_WALOptions"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structkvdb_1_1_d_b_options_1_1_w_a_l_options.html">WALOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_w_a_l.html" title="Small facade combining the normal writer and batch recovery API.">WAL</a> rotation limit and per-write durability policy.  <a href="structkvdb_1_1_d_b_options_1_1_w_a_l_options.html#details">More...</a><br /></td></tr>
 <tr class="memitem:SSTableOptions" id="r_SSTableOptions"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structkvdb_1_1_d_b_options_1_1_s_s_table_options.html">SSTableOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Immutable-table format options.  <a href="structkvdb_1_1_d_b_options_1_1_s_s_table_options.html#details">More...</a><br /></td></tr>
 <tr class="memitem:CompactionOptions" id="r_CompactionOptions"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structkvdb_1_1_d_b_options_1_1_compaction_options.html">CompactionOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Level count, pressure thresholds, and output table sizing.  <a href="structkvdb_1_1_d_b_options_1_1_compaction_options.html#details">More...</a><br /></td></tr>
 <tr class="memitem:ManifestOptions" id="r_ManifestOptions"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structkvdb_1_1_d_b_options_1_1_manifest_options.html">ManifestOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Threshold for future manifest rewriting/compaction.  <a href="structkvdb_1_1_d_b_options_1_1_manifest_options.html#details">More...</a><br /></td></tr>
 <tr class="memitem:SSTableManagerOptions" id="r_SSTableManagerOptions"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="structkvdb_1_1_d_b_options_1_1_s_s_table_manager_options.html">SSTableManagerOptions</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_s_s_table.html" title="State-checked aggregate of all sections in one SSTable file.">SSTable</a> caching and loading policy.  <a href="structkvdb_1_1_d_b_options_1_1_s_s_table_manager_options.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a1606ec1a69755e92aeef8350cf262f3c" id="r_a1606ec1a69755e92aeef8350cf262f3c"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a1606ec1a69755e92aeef8350cf262f3c">validate</a> () const</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a2786db168bfd775635fd4d16f2a5a6d6" id="r_a2786db168bfd775635fd4d16f2a5a6d6"><td class="memItemLeft"><a id="a2786db168bfd775635fd4d16f2a5a6d6" name="a2786db168bfd775635fd4d16f2a5a6d6"></a>
-std::filesystem::path&#160;</td><td class="memItemRight"><b>db_path</b></td></tr>
-<tr class="memitem:a0b5b783517a403613b38df3c98727c99" id="r_a0b5b783517a403613b38df3c98727c99"><td class="memItemLeft"><a id="a0b5b783517a403613b38df3c98727c99" name="a0b5b783517a403613b38df3c98727c99"></a>
-bool&#160;</td><td class="memItemRight"><b>create_if_missing</b> = true</td></tr>
-<tr class="memitem:a1e1fdc3f2e0df6d2ef0cedb30865ddae" id="r_a1e1fdc3f2e0df6d2ef0cedb30865ddae"><td class="memItemLeft"><a id="a1e1fdc3f2e0df6d2ef0cedb30865ddae" name="a1e1fdc3f2e0df6d2ef0cedb30865ddae"></a>
-bool&#160;</td><td class="memItemRight"><b>error_if_exists</b> = false</td></tr>
-<tr class="memitem:a1d7ad67f5ea75a9100e4b91679eb2496" id="r_a1d7ad67f5ea75a9100e4b91679eb2496"><td class="memItemLeft"><a id="a1d7ad67f5ea75a9100e4b91679eb2496" name="a1d7ad67f5ea75a9100e4b91679eb2496"></a>
-std::size_t&#160;</td><td class="memItemRight"><b>block_size</b> = 4 * 1024</td></tr>
-<tr class="memitem:ab90911dd689bab4fad9d3d4abfbf2bc3" id="r_ab90911dd689bab4fad9d3d4abfbf2bc3"><td class="memItemLeft"><a class="el" href="structkvdb_1_1_d_b_options_1_1_arena_options.html">ArenaOptions</a>&#160;</td><td class="memItemRight"><a class="el" href="#ab90911dd689bab4fad9d3d4abfbf2bc3">arena</a> {}</td></tr>
-<tr class="memitem:a21e5cb58eeccadd7b2a55968cfbcfcc1" id="r_a21e5cb58eeccadd7b2a55968cfbcfcc1"><td class="memItemLeft"><a class="el" href="structkvdb_1_1_d_b_options_1_1_mem_table_options.html">MemTableOptions</a>&#160;</td><td class="memItemRight"><a class="el" href="#a21e5cb58eeccadd7b2a55968cfbcfcc1">memtable</a> {}</td></tr>
-<tr class="memitem:a3a36e98b91e1595d680f510444766a4e" id="r_a3a36e98b91e1595d680f510444766a4e"><td class="memItemLeft"><a class="el" href="structkvdb_1_1_d_b_options_1_1_w_a_l_options.html">WALOptions</a>&#160;</td><td class="memItemRight"><a class="el" href="#a3a36e98b91e1595d680f510444766a4e">wal</a> {}</td></tr>
-<tr class="memitem:abab900b99754dc41c70fb3f356292b61" id="r_abab900b99754dc41c70fb3f356292b61"><td class="memItemLeft"><a class="el" href="structkvdb_1_1_d_b_options_1_1_s_s_table_options.html">SSTableOptions</a>&#160;</td><td class="memItemRight"><a class="el" href="#abab900b99754dc41c70fb3f356292b61">sstable</a> {}</td></tr>
-<tr class="memitem:a18add129e28f20e2c646fbc135b1bb8f" id="r_a18add129e28f20e2c646fbc135b1bb8f"><td class="memItemLeft"><a class="el" href="struct_compaction_options.html">CompactionOptions</a>&#160;</td><td class="memItemRight"><a class="el" href="#a18add129e28f20e2c646fbc135b1bb8f">compaction</a> {}</td></tr>
-<tr class="memitem:a77f43bf3f9d50ec790663aa8d2263fd0" id="r_a77f43bf3f9d50ec790663aa8d2263fd0"><td class="memItemLeft"><a class="el" href="structkvdb_1_1_d_b_options_1_1_manifest_options.html">ManifestOptions</a>&#160;</td><td class="memItemRight"><a class="el" href="#a77f43bf3f9d50ec790663aa8d2263fd0">manifest</a> {}</td></tr>
-<tr class="memitem:a01eedbab8edaf349bab040749767e1b9" id="r_a01eedbab8edaf349bab040749767e1b9"><td class="memItemLeft"><a class="el" href="structkvdb_1_1_d_b_options_1_1_s_s_table_manager_options.html">SSTableManagerOptions</a>&#160;</td><td class="memItemRight"><a class="el" href="#a01eedbab8edaf349bab040749767e1b9">sstable_manager</a> {}</td></tr>
+<tr class="memitem:a1606ec1a69755e92aeef8350cf262f3c" id="r_a1606ec1a69755e92aeef8350cf262f3c"><td class="memItemLeft"><a id="a1606ec1a69755e92aeef8350cf262f3c" name="a1606ec1a69755e92aeef8350cf262f3c"></a>
+<a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>validate</b> () const</td></tr>
+<tr class="memdesc:a1606ec1a69755e92aeef8350cf262f3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validates every component and their cross-field invariants. <br /></td></tr>
 </table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a1606ec1a69755e92aeef8350cf262f3c" name="a1606ec1a69755e92aeef8350cf262f3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1606ec1a69755e92aeef8350cf262f3c">&#9670;&#160;</a></span>validate()</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Complete configuration used to create or recover a database. </p>
+<p>Each nested component validates its local constraints; <a class="el" href="#a1606ec1a69755e92aeef8350cf262f3c" title="Validates every component and their cross-field invariants.">validate()</a> also checks cross-component requirements such as level-vector lengths. </p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> kvdb::DBOptions::validate </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  125</span>    {</div>
-<div class="line"><span class="lineno">  126</span>        <span class="keywordflow">if</span> (db_path.empty()) {</div>
-<div class="line"><span class="lineno">  127</span>            <span class="keywordflow">return</span> Status::invalid_argument(</div>
-<div class="line"><span class="lineno">  128</span>                <span class="stringliteral">&quot;database path must not be empty&quot;</span></div>
-<div class="line"><span class="lineno">  129</span>            );</div>
-<div class="line"><span class="lineno">  130</span>        }</div>
-<div class="line"><span class="lineno">  131</span>        <span class="keywordflow">if</span> (block_size == 0 ||</div>
-<div class="line"><span class="lineno">  132</span>            block_size &gt; std::numeric_limits&lt;std::uint32_t&gt;::max()) {</div>
-<div class="line"><span class="lineno">  133</span>            <span class="keywordflow">return</span> Status::invalid_argument(</div>
-<div class="line"><span class="lineno">  134</span>                <span class="stringliteral">&quot;block_size is outside the supported range&quot;</span></div>
-<div class="line"><span class="lineno">  135</span>            );</div>
-<div class="line"><span class="lineno">  136</span>        }</div>
-<div class="line"><span class="lineno">  137</span>        Status status = arena.validate();</div>
-<div class="line"><span class="lineno">  138</span>        <span class="keywordflow">if</span> (!status.is_ok()) <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  139</span>        status = memtable.validate();</div>
-<div class="line"><span class="lineno">  140</span>        <span class="keywordflow">if</span> (!status.is_ok()) <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  141</span>        status = wal.validate();</div>
-<div class="line"><span class="lineno">  142</span>        <span class="keywordflow">if</span> (!status.is_ok()) <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  143</span>        status = sstable.validate();</div>
-<div class="line"><span class="lineno">  144</span>        <span class="keywordflow">if</span> (!status.is_ok()) <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  145</span>        status = compaction.validate();</div>
-<div class="line"><span class="lineno">  146</span>        <span class="keywordflow">if</span> (!status.is_ok()) <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  147</span>        status = manifest.validate();</div>
-<div class="line"><span class="lineno">  148</span>        <span class="keywordflow">if</span> (!status.is_ok()) <span class="keywordflow">return</span> status;</div>
-<div class="line"><span class="lineno">  149</span>        <span class="keywordflow">return</span> sstable_manager.validate();</div>
-<div class="line"><span class="lineno">  150</span>    }</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="ab90911dd689bab4fad9d3d4abfbf2bc3" name="ab90911dd689bab4fad9d3d4abfbf2bc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab90911dd689bab4fad9d3d4abfbf2bc3">&#9670;&#160;</a></span>arena</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structkvdb_1_1_d_b_options_1_1_arena_options.html">ArenaOptions</a> kvdb::DBOptions::arena {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   38</span>{};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a18add129e28f20e2c646fbc135b1bb8f" name="a18add129e28f20e2c646fbc135b1bb8f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18add129e28f20e2c646fbc135b1bb8f">&#9670;&#160;</a></span>compaction</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_compaction_options.html">CompactionOptions</a> kvdb::DBOptions::compaction {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  139</span>{};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a77f43bf3f9d50ec790663aa8d2263fd0" name="a77f43bf3f9d50ec790663aa8d2263fd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a77f43bf3f9d50ec790663aa8d2263fd0">&#9670;&#160;</a></span>manifest</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structkvdb_1_1_d_b_options_1_1_manifest_options.html">ManifestOptions</a> kvdb::DBOptions::manifest {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  153</span>{};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a21e5cb58eeccadd7b2a55968cfbcfcc1" name="a21e5cb58eeccadd7b2a55968cfbcfcc1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21e5cb58eeccadd7b2a55968cfbcfcc1">&#9670;&#160;</a></span>memtable</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structkvdb_1_1_d_b_options_1_1_mem_table_options.html">MemTableOptions</a> kvdb::DBOptions::memtable {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   55</span>{};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="abab900b99754dc41c70fb3f356292b61" name="abab900b99754dc41c70fb3f356292b61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abab900b99754dc41c70fb3f356292b61">&#9670;&#160;</a></span>sstable</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structkvdb_1_1_d_b_options_1_1_s_s_table_options.html">SSTableOptions</a> kvdb::DBOptions::sstable {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   95</span>{};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a01eedbab8edaf349bab040749767e1b9" name="a01eedbab8edaf349bab040749767e1b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01eedbab8edaf349bab040749767e1b9">&#9670;&#160;</a></span>sstable_manager</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structkvdb_1_1_d_b_options_1_1_s_s_table_manager_options.html">SSTableManagerOptions</a> kvdb::DBOptions::sstable_manager {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  168</span>{};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a3a36e98b91e1595d680f510444766a4e" name="a3a36e98b91e1595d680f510444766a4e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3a36e98b91e1595d680f510444766a4e">&#9670;&#160;</a></span>wal</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="structkvdb_1_1_d_b_options_1_1_w_a_l_options.html">WALOptions</a> kvdb::DBOptions::wal {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   72</span>{};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
-<li>C:/Users/user/KVDB/include/<a class="el" href="db__options_8h_source.html">db_options.h</a></li>
-<li>C:/Users/user/KVDB/src/<b>db_options.cpp</b></li>
+<p class="definition">Definition at line <a class="el" href="db__options_8h_source.html#l00022">22</a> of file <a class="el" href="db__options_8h_source.html">db_options.h</a>.</p>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li><a class="el" href="db__options_8h_source.html">db_options.h</a></li>
+<li><a class="el" href="db__options_8cpp_source.html">db_options.cpp</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>kvdb</b></li><li class="navelem"><a href="structkvdb_1_1_d_b_options.html">DBOptions</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('struct_compaction_plan.html','','struct_compaction_plan-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,160 +115,43 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="struct_compaction_plan-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">CompactionPlan Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Complete input selection and output policy for a compaction job.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="compaction__plan_8h_source.html">compaction_plan.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a189bfe7e6b5db88652862850c14df1b8" id="r_a189bfe7e6b5db88652862850c14df1b8"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a189bfe7e6b5db88652862850c14df1b8">validate</a> () const</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:a7dc20e78a2a533926ca25e74d5be23b2" id="r_a7dc20e78a2a533926ca25e74d5be23b2"><td class="memItemLeft"><a id="a7dc20e78a2a533926ca25e74d5be23b2" name="a7dc20e78a2a533926ca25e74d5be23b2"></a>
-CompactionReason&#160;</td><td class="memItemRight"><b>reason</b> = CompactionReason::Manual</td></tr>
-<tr class="memitem:a0b43c201d85628ddc82cf195b1bff9cc" id="r_a0b43c201d85628ddc82cf195b1bff9cc"><td class="memItemLeft"><a id="a0b43c201d85628ddc82cf195b1bff9cc" name="a0b43c201d85628ddc82cf195b1bff9cc"></a>
-std::uint32_t&#160;</td><td class="memItemRight"><b>source_level</b> = 0</td></tr>
-<tr class="memitem:a14a94ea94bb663b87e652f03b8a07048" id="r_a14a94ea94bb663b87e652f03b8a07048"><td class="memItemLeft"><a id="a14a94ea94bb663b87e652f03b8a07048" name="a14a94ea94bb663b87e652f03b8a07048"></a>
-std::uint32_t&#160;</td><td class="memItemRight"><b>target_level</b> = 0</td></tr>
-<tr class="memitem:a7808ef168a2a28821de7f36241bc4bf9" id="r_a7808ef168a2a28821de7f36241bc4bf9"><td class="memItemLeft"><a id="a7808ef168a2a28821de7f36241bc4bf9" name="a7808ef168a2a28821de7f36241bc4bf9"></a>
-std::vector&lt; <a class="el" href="struct_table_meta.html">TableMeta</a> &gt;&#160;</td><td class="memItemRight"><b>source_tables</b></td></tr>
-<tr class="memitem:ac9aeaa3407f0ece8b7a632b6d7674f9a" id="r_ac9aeaa3407f0ece8b7a632b6d7674f9a"><td class="memItemLeft"><a id="ac9aeaa3407f0ece8b7a632b6d7674f9a" name="ac9aeaa3407f0ece8b7a632b6d7674f9a"></a>
-std::vector&lt; <a class="el" href="struct_table_meta.html">TableMeta</a> &gt;&#160;</td><td class="memItemRight"><b>overlapping_tables</b></td></tr>
-<tr class="memitem:a215655a2965f73dca1d9fe3db31cbb6c" id="r_a215655a2965f73dca1d9fe3db31cbb6c"><td class="memItemLeft"><a class="el" href="struct_arena_entry.html">ArenaEntry</a>&#160;</td><td class="memItemRight"><a class="el" href="#a215655a2965f73dca1d9fe3db31cbb6c">smallest_key</a> {}</td></tr>
-<tr class="memitem:a4ed9359cbdab3667ed95d715b3a30cde" id="r_a4ed9359cbdab3667ed95d715b3a30cde"><td class="memItemLeft"><a class="el" href="struct_arena_entry.html">ArenaEntry</a>&#160;</td><td class="memItemRight"><a class="el" href="#a4ed9359cbdab3667ed95d715b3a30cde">largest_key</a> {}</td></tr>
-<tr class="memitem:a8763e413b5862512e7c42b4439a2aee1" id="r_a8763e413b5862512e7c42b4439a2aee1"><td class="memItemLeft"><a id="a8763e413b5862512e7c42b4439a2aee1" name="a8763e413b5862512e7c42b4439a2aee1"></a>
-std::uint64_t&#160;</td><td class="memItemRight"><b>max_output_file_size</b> = 4ull * 1024 * 1024</td></tr>
+<tr class="memitem:a189bfe7e6b5db88652862850c14df1b8" id="r_a189bfe7e6b5db88652862850c14df1b8"><td class="memItemLeft"><a id="a189bfe7e6b5db88652862850c14df1b8" name="a189bfe7e6b5db88652862850c14df1b8"></a>
+bool&#160;</td><td class="memItemRight"><b>validate</b> () const</td></tr>
+<tr class="memdesc:a189bfe7e6b5db88652862850c14df1b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks levels, inputs, key bounds, and output-size invariants. <br /></td></tr>
 </table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a189bfe7e6b5db88652862850c14df1b8" name="a189bfe7e6b5db88652862850c14df1b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a189bfe7e6b5db88652862850c14df1b8">&#9670;&#160;</a></span>validate()</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Complete input selection and output policy for a compaction job. </p>
+<p>Source tables and overlapping target-level tables form a single sorted merge. The smallest/largest keys describe the selected user-key interval and the output size controls when the job rolls to another <a class="el" href="class_s_s_table.html" title="State-checked aggregate of all sections in one SSTable file.">SSTable</a>. </p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool CompactionPlan::validate </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   25</span>{</div>
-<div class="line"><span class="lineno">   26</span>    <span class="keywordflow">if</span> (source_tables.empty()) {</div>
-<div class="line"><span class="lineno">   27</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   28</span>    }</div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>    <span class="keywordflow">if</span> (source_level == std::numeric_limits&lt;std::uint32_t&gt;::max() ||</div>
-<div class="line"><span class="lineno">   31</span>        target_level != source_level + 1) {</div>
-<div class="line"><span class="lineno">   32</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   33</span>    }</div>
-<div class="line"><span class="lineno">   34</span> </div>
-<div class="line"><span class="lineno">   35</span>    <span class="keywordflow">if</span> (max_output_file_size == 0) {</div>
-<div class="line"><span class="lineno">   36</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   37</span>    }</div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">if</span> (largest_key &lt; smallest_key) {</div>
-<div class="line"><span class="lineno">   40</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   41</span>    }</div>
-<div class="line"><span class="lineno">   42</span> </div>
-<div class="line"><span class="lineno">   43</span>    <span class="keywordflow">if</span> (reason == CompactionReason::L0ReachedLimit &amp;&amp; source_level != 0) {</div>
-<div class="line"><span class="lineno">   44</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   45</span>    }</div>
-<div class="line"><span class="lineno">   46</span> </div>
-<div class="line"><span class="lineno">   47</span>    <span class="keywordflow">if</span> (reason == CompactionReason::LxReachedLimit &amp;&amp; source_level == 0) {</div>
-<div class="line"><span class="lineno">   48</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   49</span>    }</div>
-<div class="line"><span class="lineno">   50</span> </div>
-<div class="line"><span class="lineno">   51</span>    std::unordered_set&lt;std::uint64_t&gt; table_ids;</div>
-<div class="line"><span class="lineno">   52</span>    table_ids.reserve(source_tables.size() + overlapping_tables.size());</div>
-<div class="line"><span class="lineno">   53</span> </div>
-<div class="line"><span class="lineno">   54</span>    <span class="keyword">const</span> <span class="keyword">auto</span> validate_table = [&amp;](<span class="keyword">const</span> TableMeta&amp; table, std::uint32_t expected_level) {</div>
-<div class="line"><span class="lineno">   55</span>        <span class="keywordflow">if</span> (table.table_id == 0 || table.level != expected_level) {</div>
-<div class="line"><span class="lineno">   56</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   57</span>        }</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>        <span class="keywordflow">if</span> (!table_range_is_valid(table) ||</div>
-<div class="line"><span class="lineno">   60</span>            !range_contains(smallest_key, largest_key, table)) {</div>
-<div class="line"><span class="lineno">   61</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   62</span>        }</div>
-<div class="line"><span class="lineno">   63</span> </div>
-<div class="line"><span class="lineno">   64</span>        <span class="keywordflow">return</span> table_ids.insert(table.table_id).second;</div>
-<div class="line"><span class="lineno">   65</span>        };</div>
-<div class="line"><span class="lineno">   66</span> </div>
-<div class="line"><span class="lineno">   67</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; table : source_tables) {</div>
-<div class="line"><span class="lineno">   68</span>        <span class="keywordflow">if</span> (!validate_table(table, source_level)) {</div>
-<div class="line"><span class="lineno">   69</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   70</span>        }</div>
-<div class="line"><span class="lineno">   71</span>    }</div>
-<div class="line"><span class="lineno">   72</span> </div>
-<div class="line"><span class="lineno">   73</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; table : overlapping_tables) {</div>
-<div class="line"><span class="lineno">   74</span>        <span class="keywordflow">if</span> (!validate_table(table, target_level)) {</div>
-<div class="line"><span class="lineno">   75</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   76</span>        }</div>
-<div class="line"><span class="lineno">   77</span>    }</div>
-<div class="line"><span class="lineno">   78</span> </div>
-<div class="line"><span class="lineno">   79</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">   80</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a4ed9359cbdab3667ed95d715b3a30cde" name="a4ed9359cbdab3667ed95d715b3a30cde"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4ed9359cbdab3667ed95d715b3a30cde">&#9670;&#160;</a></span>largest_key</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_arena_entry.html">ArenaEntry</a> CompactionPlan::largest_key {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   28</span>{};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a215655a2965f73dca1d9fe3db31cbb6c" name="a215655a2965f73dca1d9fe3db31cbb6c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a215655a2965f73dca1d9fe3db31cbb6c">&#9670;&#160;</a></span>smallest_key</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_arena_entry.html">ArenaEntry</a> CompactionPlan::smallest_key {}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   27</span>{};</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
-<li>C:/Users/user/KVDB/include/<a class="el" href="compaction__plan_8h_source.html">compaction_plan.h</a></li>
-<li>C:/Users/user/KVDB/src/<b>compaction_plan.cpp</b></li>
+<p class="definition">Definition at line <a class="el" href="compaction__plan_8h_source.html#l00029">29</a> of file <a class="el" href="compaction__plan_8h_source.html">compaction_plan.h</a>.</p>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li><a class="el" href="compaction__plan_8h_source.html">compaction_plan.h</a></li>
+<li><a class="el" href="compaction__plan_8cpp_source.html">compaction_plan.cpp</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="struct_compaction_plan.html">CompactionPlan</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

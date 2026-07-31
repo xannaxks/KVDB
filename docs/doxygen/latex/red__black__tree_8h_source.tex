@@ -1,123 +1,144 @@
 \doxysection{red\+\_\+black\+\_\+tree.\+h}
-\hypertarget{red__black__tree_8h_source}{}\label{red__black__tree_8h_source}\index{C:/Users/user/KVDB/include/red\_black\_tree.h@{C:/Users/user/KVDB/include/red\_black\_tree.h}}
-
+\hypertarget{red__black__tree_8h_source}{}\label{red__black__tree_8h_source}\index{red\_black\_tree.h@{red\_black\_tree.h}}
+\doxymbox{\hyperlink{red__black__tree_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <variant>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}bytes.h"{}}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <stack>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <functional>}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}type.h"{}}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}record.h"{}}}
-\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_mem_table}{MemTable}};}
-\DoxyCodeLine{00016\ }
-\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }RBTree}
-\DoxyCodeLine{00018\ \{}
-\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{comment}{//inline\ static\ uint64\_t\ seq\_cnt\ =\ 1;}}
-\DoxyCodeLine{00021\ }
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{struct\ }Node}
-\DoxyCodeLine{00023\ \ \ \ \ \{}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ Color}
-\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ Red,}
-\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ Black}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key\_entry;}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ value\_entry;}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint64\_t\ seq\_number;}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ Type\ type;}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ Color\ color;}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ Node*\ left;}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ Node*\ right;}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ Node*\ parent;}
-\DoxyCodeLine{00038\ }
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ Node(\doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key\_entry,\ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ value\_entry,\ Type\ type,\ uint64\_t\ seq\_num);}
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator<(\textcolor{keyword}{const}\ Node\&\ other)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator>(\textcolor{keyword}{const}\ Node\&\ other)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ Node\&\ other)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ approximate\_memory\_usage()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00046\ \ \ \ \ \};}
-\DoxyCodeLine{00047\ }
-\DoxyCodeLine{00048\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ root\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00050\ }
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ left\_rotate(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ v);}
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ right\_rotate(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ v);}
-\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ balance(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ v);}
-\DoxyCodeLine{00054\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{::Status}}\ bst\_insert(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ v);}
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ destroy(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ node);}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Collection>}
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ inorder\_traverse(Collection\&\ collect)\textcolor{keyword}{\ const}}
-\DoxyCodeLine{00059\ \textcolor{keyword}{\ \ \ \ }\{}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ std::function<void(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*)>\ traverse\ =\ [\&](\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ current)}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\ ==\ \textcolor{keyword}{nullptr})}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00064\ }
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ traverse(current-\/>left);}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ collect.emplace\_back(current);\ }
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ traverse(current-\/>right);}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00069\ }
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ traverse(root);}
-\DoxyCodeLine{00071\ \ \ \ \ \}}
-\DoxyCodeLine{00072\ }
-\DoxyCodeLine{00073\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00074\ \ \ \ \ RBTree();}
-\DoxyCodeLine{00075\ \ \ \ \ \string~RBTree();}
-\DoxyCodeLine{00076\ }
-\DoxyCodeLine{00077\ \ \ \ \ RBTree(\textcolor{keyword}{const}\ RBTree\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00078\ \ \ \ \ RBTree\&\ operator=(\textcolor{keyword}{const}\ RBTree\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00079\ }
-\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{class\ }InorderIterator}
-\DoxyCodeLine{00081\ \ \ \ \ \{}
-\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ std::stack<Node*>\ st;}
-\DoxyCodeLine{00084\ }
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ push\_left(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ node);}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ InorderIterator(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ root);}
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ has\_next();}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ next();}
-\DoxyCodeLine{00092\ \ \ \ \ \};}
-\DoxyCodeLine{00093\ }
-\DoxyCodeLine{00094\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{::Status}}\ insert(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ entry);}
-\DoxyCodeLine{00095\ \ \ \ \ \doxymbox{\hyperlink{struct_result}{Result<std::optional<InternalRecord>}}>\ find\_latest\_by\_key(\doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00096\ \ \ \ \ \textcolor{comment}{//[[nodiscard]]\ std::optional<InternalRecord>\ try\_find\_latest\_by\_key(}}
-\DoxyCodeLine{00097\ \ \ \ \ \textcolor{comment}{//\ \ \ \ const\ ArenaEntry\ \&\ key}}
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{comment}{//)\ const;}}
-\DoxyCodeLine{00099\ }
-\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordtype}{bool}\ root\_is\_black()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordtype}{bool}\ no\_red\_node\_has\_red\_child()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordtype}{bool}\ bst\_ordering\_correct()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{bool}\ black\_height\_is\_consistent()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00104\ \ \ \ \ std::pair<bool,int>\ subtree\_black\_height\_info(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ v)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordtype}{bool}\ validate()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{bool}\ subtree\_has\_no\_red\_node\_with\_red\_child(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ node)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ approximate\_subtree\_memory\_usage(\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ node)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ approximate\_memory\_usage()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordtype}{bool}\ empty()\ const\ noexcept;}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \ \ \ \ \doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ root\_getter();}
-\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordtype}{void}\ dump\_inorder(std::vector<\doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}>\&\ out)\ const;\ }
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \ \ \ \ static\ \textcolor{keywordtype}{bool}\ expect\_parent\_links\_valid(RBTree::\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ node,\ RBTree::\doxymbox{\hyperlink{struct_r_b_tree_1_1_node}{Node}}*\ expected\_parent);}
-\DoxyCodeLine{00115\ }
-\DoxyCodeLine{00116\ \ \ \ \ friend\ class\ MemTable;}
-\DoxyCodeLine{00117\ \};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00001}00001\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ red\_black\_tree.h}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00003}00003\ \textcolor{comment}{\ *\ @brief\ Ordered\ MemTable\ backend\ keyed\ by\ user\ key\ and\ sequence\ number.}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00004}00004\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00005}00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <variant>}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}bytes.h"{}}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{status_8h}{status.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <stack>}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{type_8h}{type.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{record_8h}{record.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{arena_8h}{arena.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00019}00019\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_mem_table}{MemTable}};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00020}00020\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00021}00021\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00022}00022\ \textcolor{comment}{\ *\ @brief\ Red-\/black\ tree\ containing\ versioned\ InternalRecord\ values.}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00023}00023\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00024}00024\ \textcolor{comment}{\ *\ Nodes\ are\ ordered\ first\ by\ user\ key\ and\ then\ by\ descending\ sequence\ number,}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00025}00025\ \textcolor{comment}{\ *\ allowing\ the\ first\ match\ for\ a\ key\ to\ represent\ its\ newest\ version.\ Standard}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00026}00026\ \textcolor{comment}{\ *\ red-\/black\ rotations\ and\ recoloring\ keep\ lookup\ and\ insertion\ logarithmic.}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00027}00027\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00028}00028\ \textcolor{comment}{\ *\ @note\ Nodes\ reference\ ArenaEntry\ storage\ but\ do\ not\ own\ those\ bytes.}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00029}00029\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00030}\doxymbox{\hyperlink{class_r_b_tree}{00030}}\ \textcolor{keyword}{class\ }RBTree}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00032}00032\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00033}00033\ \ \ \ \ \textcolor{comment}{//inline\ static\ uint64\_t\ seq\_cnt\ =\ 1;}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00035}00035\ \ \ \ \ \textcolor{keyword}{struct\ }Node}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00036}00036\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{enum\ class}\ Color}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00038}00038\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ Red,}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ Black}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key\_entry;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ value\_entry;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ uint64\_t\ seq\_number;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00046}00046\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{Type}}\ type;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00047}00047\ \ \ \ \ \ \ \ \ Color\ color;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00048}00048\ \ \ \ \ \ \ \ \ Node*\ left;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00049}00049\ \ \ \ \ \ \ \ \ Node*\ right;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00050}00050\ \ \ \ \ \ \ \ \ Node*\ parent;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00052}00052\ \ \ \ \ \ \ \ \ Node(\doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key\_entry,\ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ value\_entry,\ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{Type}}\ type,\ uint64\_t\ seq\_num);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator<(\textcolor{keyword}{const}\ Node\&\ other)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator>(\textcolor{keyword}{const}\ Node\&\ other)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ Node\&\ other)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ approximate\_memory\_usage()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00059}00059\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00061}00061\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00062}00062\ \ \ \ \ Node*\ root\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00064}00064\ \ \ \ \ \textcolor{keywordtype}{void}\ left\_rotate(Node*\ v);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00065}00065\ \ \ \ \ \textcolor{keywordtype}{void}\ right\_rotate(Node*\ v);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00066}00066\ \ \ \ \ \textcolor{keywordtype}{void}\ balance(Node*\ v);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00067}00067\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{::Status}}\ bst\_insert(Node*\ v);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00068}00068\ \ \ \ \ \textcolor{keywordtype}{void}\ destroy(Node*\ node);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00070}00070\ \ \ \ \ \textcolor{keyword}{template}<\textcolor{keyword}{typename}\ Collection>}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00071}00071\ \ \ \ \ \textcolor{keywordtype}{void}\ inorder\_traverse(Collection\&\ collect)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00072}00072\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00073}00073\ \ \ \ \ \ \ \ \ std::function<void(\textcolor{keyword}{const}\ Node*)>\ traverse\ =\ [\&](\textcolor{keyword}{const}\ Node*\ current)}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00074}00074\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ traverse(current-\/>left);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ collect.emplace\_back(current);\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ traverse(current-\/>right);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00081}00081\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00083}00083\ \ \ \ \ \ \ \ \ traverse(root);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00084}00084\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00086}00086\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00087}00087\ \ \ \ \ RBTree();}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00088}00088\ \ \ \ \ \string~RBTree();}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00090}00090\ \ \ \ \ RBTree(\textcolor{keyword}{const}\ RBTree\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00091}00091\ \ \ \ \ RBTree\&\ operator=(\textcolor{keyword}{const}\ RBTree\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00092}00092\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00093}00093\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Non-\/owning\ iterator\ over\ records\ in\ internal-\/key\ order.\ */}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00094}\doxymbox{\hyperlink{class_r_b_tree_1_1_inorder_iterator}{00094}}\ \ \ \ \ \textcolor{keyword}{class\ }InorderIterator}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00095}00095\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00096}00096\ \ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00097}00097\ \ \ \ \ \ \ \ \ std::stack<Node*>\ st;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00099}00099\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ push\_left(Node*\ node);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00101}00101\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00102}00102\ \ \ \ \ \ \ \ \ InorderIterator(Node*\ root);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00104}00104\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ has\_next();}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00105}00105\ \ \ \ \ \ \ \ \ Node*\ next();}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00106}00106\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00107}00107\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00108}00108\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00109}00109\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Inserts\ one\ versioned\ record\ and\ restores\ red-\/black\ invariants.}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00110}00110\ \textcolor{comment}{\ \ \ \ \ *\ @callgraph}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00111}00111\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00112}00112\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{::Status}}\ \doxymbox{\hyperlink{class_r_b_tree_abe2d18cd2f63f4c2a2160c493561986d}{insert}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ entry);\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00113}00113\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Returns\ the\ highest-\/sequence\ record\ for\ @p\ key,\ if\ present.\ */}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00114}00114\ \ \ \ \ \doxymbox{\hyperlink{struct_result}{Result<std::optional<InternalRecord>}}>\ \doxymbox{\hyperlink{class_r_b_tree_afd0c064ff9ef167425f5d0188d83ab10}{find\_latest\_by\_key}}(\doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00115}00115\ \ \ \ \ \textcolor{comment}{//[[nodiscard]]\ std::optional<InternalRecord>\ try\_find\_latest\_by\_key(}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00116}00116\ \ \ \ \ \textcolor{comment}{//\ \ \ \ const\ ArenaEntry\ \&\ key}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00117}00117\ \ \ \ \ \textcolor{comment}{//)\ const;}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00119}00119\ \ \ \ \ \textcolor{keywordtype}{bool}\ root\_is\_black()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00120}00120\ \ \ \ \ \textcolor{keywordtype}{bool}\ no\_red\_node\_has\_red\_child()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00121}00121\ \ \ \ \ \textcolor{keywordtype}{bool}\ bst\_ordering\_correct()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00122}00122\ \ \ \ \ \textcolor{keywordtype}{bool}\ black\_height\_is\_consistent()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00123}00123\ \ \ \ \ std::pair<bool,int>\ subtree\_black\_height\_info(Node*\ v)\ \textcolor{keyword}{const};\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00124}00124\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Checks\ ordering,\ parent\ links,\ colors,\ and\ black-\/height\ invariants.\ */}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00125}00125\ \ \ \ \ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_r_b_tree_a1b53fe6929a5733c387ddaada2b6b52d}{validate}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00126}00126\ \ \ \ \ \textcolor{keywordtype}{bool}\ subtree\_has\_no\_red\_node\_with\_red\_child(Node*\ node)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00127}00127\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ approximate\_subtree\_memory\_usage(Node*\ node)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00128}00128\ \ \ \ \ \textcolor{keywordtype}{size\_t}\ approximate\_memory\_usage()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00129}00129\ \ \ \ \ \textcolor{keywordtype}{bool}\ empty()\ const\ noexcept;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00131}00131\ \ \ \ \ Node*\ root\_getter();\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00132}00132\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Appends\ all\ records\ to\ @p\ out\ in\ internal-\/key\ order.\ */}}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00133}00133\ \ \ \ \ \textcolor{keywordtype}{void}\ \doxymbox{\hyperlink{class_r_b_tree_ae830052bf4904671520dbcfd03d6ae86}{dump\_inorder}}(std::vector<\doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}>\&\ out)\ const;\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00135}00135\ \ \ \ \ static\ \textcolor{keywordtype}{bool}\ expect\_parent\_links\_valid(RBTree::Node*\ node,\ RBTree::Node*\ expected\_parent);}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00137}00137\ \ \ \ \ friend\ class\ MemTable;}
+\DoxyCodeLine{\Hypertarget{red__black__tree_8h_source_l00138}00138\ \};}
 
 \end{DoxyCode}

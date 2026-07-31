@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('class_s_s_table_writer.html','','class_s_s_table_writer-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,58 +115,34 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="class_s_s_table_writer-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">SSTableWriter Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a20e484c74c9add1c2cef6ee9bbb0f7e7" id="r_a20e484c74c9add1c2cef6ee9bbb0f7e7"><td class="memItemLeft">static <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a20e484c74c9add1c2cef6ee9bbb0f7e7">write</a> (<a class="el" href="class_s_s_table.html">SSTable</a> &amp;sstable)</td></tr>
-</table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a20e484c74c9add1c2cef6ee9bbb0f7e7" name="a20e484c74c9add1c2cef6ee9bbb0f7e7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20e484c74c9add1c2cef6ee9bbb0f7e7">&#9670;&#160;</a></span>write()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> SSTableWriter::write </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_s_s_table.html">SSTable</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>sstable</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">    4</span>{</div>
-<div class="line"><span class="lineno">    5</span>    <span class="keywordflow">return</span> sstable.write();</div>
-<div class="line"><span class="lineno">    6</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/user/KVDB/include/<a class="el" href="sstable__writer_8h_source.html">sstable_writer.h</a></li>
-<li>C:/Users/user/KVDB/src/<b>sstable_writer.cpp</b></li>
+<p>Stateless facade around <a class="el" href="class_s_s_table.html#a31f33adaa5ceebc74f52770a9bcbe311" title="Serializes, synchronizes, and publishes a building table.">SSTable::write()</a>.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="sstable__writer_8h_source.html">sstable_writer.h</a>&gt;</code></p>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Stateless facade around <a class="el" href="class_s_s_table.html#a31f33adaa5ceebc74f52770a9bcbe311" title="Serializes, synchronizes, and publishes a building table.">SSTable::write()</a>. </p>
+
+<p class="definition">Definition at line <a class="el" href="sstable__writer_8h_source.html#l00011">11</a> of file <a class="el" href="sstable__writer_8h_source.html">sstable_writer.h</a>.</p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
+<li><a class="el" href="sstable__writer_8h_source.html">sstable_writer.h</a></li>
+<li><a class="el" href="sstable__writer_8cpp_source.html">sstable_writer.cpp</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="class_s_s_table_writer.html">SSTableWriter</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

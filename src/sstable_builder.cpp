@@ -1,3 +1,6 @@
+// All builder front ends validate internal-key order before feeding
+// SSTable::append_record. Streaming construction avoids materializing an entire
+// compaction output and lets the caller roll files at its target size.
 #include "sstable_builder.h"
 
 #include "sstable_entities/index_section.h"

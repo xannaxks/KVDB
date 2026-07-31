@@ -1,279 +1,35 @@
 \doxysection{SSTable\+Entities::\+Data\+Section Struct Reference}
 \hypertarget{struct_s_s_table_entities_1_1_data_section}{}\label{struct_s_s_table_entities_1_1_data_section}\index{SSTableEntities::DataSection@{SSTableEntities::DataSection}}
-\doxysubsubsection*{Classes}
-\begin{DoxyCompactItemize}
-\item 
-struct \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_header}{Header}}
-\item 
-struct \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Payload}}
-\item 
-struct \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_data_block}{Data\+Block}}
-\end{DoxyCompactItemize}
+
+
+Groups non-\/owning record payloads into checksummed physical blocks.  
+
+
+
+
+{\ttfamily \+\#include $<$data\+\_\+section.\+h$>$}
+
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_afaf7ea10f7a6f2191ef12c9d8e307a22}\label{struct_s_s_table_entities_1_1_data_section_afaf7ea10f7a6f2191ef12c9d8e307a22} 
-{\bfseries Data\+Section} (const Data\+Section \&)=default
-\item 
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_aaf2af837ea05f03917c8b930ed739219}\label{struct_s_s_table_entities_1_1_data_section_aaf2af837ea05f03917c8b930ed739219} 
-{\bfseries Data\+Section} (Data\+Section \&\&) noexcept=default
-\item 
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_a6c09458f771749a3b9088bd255ff6c84}\label{struct_s_s_table_entities_1_1_data_section_a6c09458f771749a3b9088bd255ff6c84} 
-Data\+Section \& {\bfseries operator=} (const Data\+Section \&)=default
-\item 
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_ab6591d93503d08da26dbf366b68fcc2f}\label{struct_s_s_table_entities_1_1_data_section_ab6591d93503d08da26dbf366b68fcc2f} 
-Data\+Section \& {\bfseries operator=} (Data\+Section \&\&) noexcept=default
-\item 
-void \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_a625c73a30fe80f023d400ac3f9b2490e}{init\+\_\+new\+\_\+block}} ()
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_a56920c06eaf0b6edc5e530d64738d68e}{add\+\_\+payload}} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&record)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_aeb9762bb88ae71bc49131d9d4503fc65}{validate}} () const
-\item 
-std::\+size\+\_\+t \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_aa4986483095abc3f0a6847acb6d3304f}{disk\+\_\+size}} () const noexcept
-\item 
-std::\+size\+\_\+t \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_a47874160365f0978bacc30ce25e5213a}{physical\+\_\+span}} () const noexcept
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_aaf48ef751cb5878d993e85a58f1306d3}{write}} (\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&file, std::\+uint64\+\_\+t \&offset, \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{Index\+Section}} \&index\+\_\+section, std::\+uint64\+\_\+t \&data\+\_\+offset)
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_a33a3126f7451dcb01c17a06da5cc2c73}\label{struct_s_s_table_entities_1_1_data_section_a33a3126f7451dcb01c17a06da5cc2c73} 
-std::\+vector$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_data_block}{Data\+Block}} $>$ {\bfseries data\+\_\+blocks}
-\end{DoxyCompactItemize}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_a56920c06eaf0b6edc5e530d64738d68e}\label{struct_s_s_table_entities_1_1_data_section_a56920c06eaf0b6edc5e530d64738d68e} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries add\+\_\+payload} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&record)
+\begin{DoxyCompactList}\small\item\em Appends a sorted record, opening a new block when required. \end{DoxyCompactList}\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_aaf48ef751cb5878d993e85a58f1306d3}\label{struct_s_s_table_entities_1_1_data_section_aaf48ef751cb5878d993e85a58f1306d3} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries write} (\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&file, std::\+uint64\+\_\+t \&offset, \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{Index\+Section}} \&index\+\_\+section, std::\+uint64\+\_\+t \&data\+\_\+offset)
+\begin{DoxyCompactList}\small\item\em Writes all blocks and transactionally builds their index entries. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\label{struct_s_s_table_entities_1_1_data_section_doc-func-members}
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_a56920c06eaf0b6edc5e530d64738d68e}\index{SSTableEntities::DataSection@{SSTableEntities::DataSection}!add\_payload@{add\_payload}}
-\index{add\_payload@{add\_payload}!SSTableEntities::DataSection@{SSTableEntities::DataSection}}
-\doxysubsubsection{\texorpdfstring{add\_payload()}{add\_payload()}}
-{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_a56920c06eaf0b6edc5e530d64738d68e} 
-\doxymbox{\hyperlink{struct_status}{Status}} Data\+Section::\+add\+\_\+payload (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&}]{record}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+\doxysubsection{Detailed Description}
+Groups non-\/owning record payloads into checksummed physical blocks. 
 
+Blocks never split a record and are aligned to \doxylink{class_s_s_table}{SSTable} block boundaries. Writing a block simultaneously contributes its key range and offset to the \doxylink{struct_s_s_table_entities_1_1_index_section}{Index\+Section}. 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00590\ \{}
-\DoxyCodeLine{00591\ \ \ \ \ \textcolor{keywordflow}{if}\ (record.key\_entry.size\ >}
-\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ std::numeric\_limits<std::uint32\_t>::max()\ ||}
-\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ record.value\_entry.size\ >}
-\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ std::numeric\_limits<std::uint32\_t>::max())\ \{}
-\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
-\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}record\ key/value\ size\ cannot\ be\ represented\ by\ the\ SSTable\ uint32\ fields"{}}}
-\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00599\ \ \ \ \ \}}
-\DoxyCodeLine{00600\ }
-\DoxyCodeLine{00601\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Payload}}\ payload(record);}
-\DoxyCodeLine{00602\ }
-\DoxyCodeLine{00603\ \ \ \ \ Status\ status\ =\ payload.validate();}
-\DoxyCodeLine{00604\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00606\ \ \ \ \ \}}
-\DoxyCodeLine{00607\ }
-\DoxyCodeLine{00608\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Payload}}*\ previous\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00609\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ block\_it\ =\ data\_blocks.rbegin();}
-\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ block\_it\ !=\ data\_blocks.rend();}
-\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ ++block\_it)\ \{}
-\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!block\_it-\/>payloads.empty())\ \{}
-\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ previous\ =\ \&block\_it-\/>payloads.back();}
-\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00616\ \ \ \ \ \}}
-\DoxyCodeLine{00617\ }
-\DoxyCodeLine{00618\ \ \ \ \ \textcolor{keywordflow}{if}\ (previous\ !=\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ status\ =\ validate\_order(*previous,\ payload);}
-\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00623\ \ \ \ \ \}}
-\DoxyCodeLine{00624\ }
-\DoxyCodeLine{00625\ \ \ \ \ \textcolor{keywordflow}{if}\ (!data\_blocks.empty()\ \&\&\ data\_blocks.back().can\_payload\_fit(payload))\ \{}
-\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data\_blocks.back().add\_payload(payload);}
-\DoxyCodeLine{00627\ \ \ \ \ \}}
-\DoxyCodeLine{00628\ }
-\DoxyCodeLine{00629\ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_data_block}{DataBlock}}\ new\_block;}
-\DoxyCodeLine{00630\ \ \ \ \ status\ =\ new\_block.add\_payload(payload);}
-\DoxyCodeLine{00631\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00633\ \ \ \ \ \}}
-\DoxyCodeLine{00634\ }
-\DoxyCodeLine{00635\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ data\_blocks.emplace\_back(std::move(new\_block));}
-\DoxyCodeLine{00637\ \ \ \ \ \}}
-\DoxyCodeLine{00638\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
-\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
-\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ append\ a\ new\ physical\ data\ block"{}}}
-\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00643\ \ \ \ \ \}}
-\DoxyCodeLine{00644\ }
-\DoxyCodeLine{00645\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00646\ \}}
+Definition at line \doxymbox{\hyperlink{data__section_8h_source_l00027}{27}} of file \doxymbox{\hyperlink{data__section_8h_source}{data\+\_\+section.\+h}}.
 
-\end{DoxyCode}
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_aa4986483095abc3f0a6847acb6d3304f}\index{SSTableEntities::DataSection@{SSTableEntities::DataSection}!disk\_size@{disk\_size}}
-\index{disk\_size@{disk\_size}!SSTableEntities::DataSection@{SSTableEntities::DataSection}}
-\doxysubsubsection{\texorpdfstring{disk\_size()}{disk\_size()}}
-{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_aa4986483095abc3f0a6847acb6d3304f} 
-std::\+size\+\_\+t Data\+Section::\+disk\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00675\ \{}
-\DoxyCodeLine{00676\ \ \ \ \ std::size\_t\ result\ =\ 0;}
-\DoxyCodeLine{00677\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_data_block}{DataBlock}}\&\ block\ :\ data\_blocks)\ \{}
-\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ result\ +=\ block.disk\_size();}
-\DoxyCodeLine{00679\ \ \ \ \ \}}
-\DoxyCodeLine{00680\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
-\DoxyCodeLine{00681\ \}}
-
-\end{DoxyCode}
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_a625c73a30fe80f023d400ac3f9b2490e}\index{SSTableEntities::DataSection@{SSTableEntities::DataSection}!init\_new\_block@{init\_new\_block}}
-\index{init\_new\_block@{init\_new\_block}!SSTableEntities::DataSection@{SSTableEntities::DataSection}}
-\doxysubsubsection{\texorpdfstring{init\_new\_block()}{init\_new\_block()}}
-{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_a625c73a30fe80f023d400ac3f9b2490e} 
-void Data\+Section::\+init\+\_\+new\+\_\+block (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00585\ \{}
-\DoxyCodeLine{00586\ \ \ \ \ data\_blocks.emplace\_back();}
-\DoxyCodeLine{00587\ \}}
-
-\end{DoxyCode}
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_a47874160365f0978bacc30ce25e5213a}\index{SSTableEntities::DataSection@{SSTableEntities::DataSection}!physical\_span@{physical\_span}}
-\index{physical\_span@{physical\_span}!SSTableEntities::DataSection@{SSTableEntities::DataSection}}
-\doxysubsubsection{\texorpdfstring{physical\_span()}{physical\_span()}}
-{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_a47874160365f0978bacc30ce25e5213a} 
-std::\+size\+\_\+t Data\+Section::\+physical\+\_\+span (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00684\ \{}
-\DoxyCodeLine{00685\ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_blocks.empty())\ \{}
-\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
-\DoxyCodeLine{00687\ \ \ \ \ \}}
-\DoxyCodeLine{00688\ }
-\DoxyCodeLine{00689\ \ \ \ \ \textcolor{keywordflow}{return}\ (data\_blocks.size()\ -\/\ 1)\ *}
-\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(BLOCK\_SIZE)\ +}
-\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ data\_blocks.back().disk\_size();}
-\DoxyCodeLine{00692\ \}}
-
-\end{DoxyCode}
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_aeb9762bb88ae71bc49131d9d4503fc65}\index{SSTableEntities::DataSection@{SSTableEntities::DataSection}!validate@{validate}}
-\index{validate@{validate}!SSTableEntities::DataSection@{SSTableEntities::DataSection}}
-\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
-{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_aeb9762bb88ae71bc49131d9d4503fc65} 
-\doxymbox{\hyperlink{struct_status}{Status}} Data\+Section::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00649\ \{}
-\DoxyCodeLine{00650\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Payload}}*\ previous\_block\_last\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00651\ }
-\DoxyCodeLine{00652\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_data_block}{DataBlock}}\&\ block\ :\ data\_blocks)\ \{}
-\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ Status\ status\ =\ block.validate();}
-\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00657\ }
-\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (previous\_block\_last\ !=\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \ \ \ \ status\ =\ validate\_order(}
-\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *previous\_block\_last,}
-\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ block.payloads.front()}
-\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00667\ }
-\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ previous\_block\_last\ =\ \&block.payloads.back();}
-\DoxyCodeLine{00669\ \ \ \ \ \}}
-\DoxyCodeLine{00670\ }
-\DoxyCodeLine{00671\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00672\ \}}
-
-\end{DoxyCode}
-\Hypertarget{struct_s_s_table_entities_1_1_data_section_aaf48ef751cb5878d993e85a58f1306d3}\index{SSTableEntities::DataSection@{SSTableEntities::DataSection}!write@{write}}
-\index{write@{write}!SSTableEntities::DataSection@{SSTableEntities::DataSection}}
-\doxysubsubsection{\texorpdfstring{write()}{write()}}
-{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_aaf48ef751cb5878d993e85a58f1306d3} 
-\doxymbox{\hyperlink{struct_status}{Status}} Data\+Section::\+write (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{, }\item[{\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{Index\+Section}} \&}]{index\+\_\+section}{, }\item[{std::\+uint64\+\_\+t \&}]{data\+\_\+offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00700\ \{}
-\DoxyCodeLine{00701\ \ \ \ \ Status\ status\ =\ validate();}
-\DoxyCodeLine{00702\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00704\ \ \ \ \ \}}
-\DoxyCodeLine{00705\ }
-\DoxyCodeLine{00706\ \ \ \ \ Result<std::uint64\_t>\ position\_result\ =\ file.current\_position();}
-\DoxyCodeLine{00707\ \ \ \ \ \textcolor{keywordflow}{if}\ (!position\_result.is\_ok())\ \{}
-\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(position\_result.status);}
-\DoxyCodeLine{00709\ \ \ \ \ \}}
-\DoxyCodeLine{00710\ }
-\DoxyCodeLine{00711\ \ \ \ \ \textcolor{keywordflow}{if}\ (position\_result.value\ !=\ offset)\ \{}
-\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
-\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}tracked\ data-\/section\ offset\ does\ not\ match\ the\ writable\ file\ cursor"{}}}
-\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00716\ \ \ \ \ \}}
-\DoxyCodeLine{00717\ }
-\DoxyCodeLine{00718\ \ \ \ \ \textcolor{comment}{//\ Empty\ sections\ are\ a\ no-\/op.\ Do\ not\ add\ block\ padding\ for\ zero\ data\ blocks.}}
-\DoxyCodeLine{00719\ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_blocks.empty())\ \{}
-\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ IndexSection\ empty\_index;}
-\DoxyCodeLine{00721\ \ \ \ \ \ \ \ \ index\_section\ =\ std::move(empty\_index);}
-\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ data\_offset\ =\ offset;}
-\DoxyCodeLine{00723\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00724\ \ \ \ \ \}}
-\DoxyCodeLine{00725\ }
-\DoxyCodeLine{00726\ \ \ \ \ \textcolor{comment}{//\ Rebuild\ all\ derived\ state\ before\ the\ first\ byte\ is\ written.}}
-\DoxyCodeLine{00727\ \ \ \ \ \textcolor{keywordflow}{for}\ (\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_data_block}{DataBlock}}\&\ block\ :\ data\_blocks)\ \{}
-\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ status\ =\ block.rebuild\_header();}
-\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00732\ \ \ \ \ \}}
-\DoxyCodeLine{00733\ }
-\DoxyCodeLine{00734\ \ \ \ \ IndexSection\ staged\_index;}
-\DoxyCodeLine{00735\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{00736\ \ \ \ \ \ \ \ \ staged\_index.payloads.reserve(data\_blocks.size());}
-\DoxyCodeLine{00737\ \ \ \ \ \}}
-\DoxyCodeLine{00738\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
-\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
-\DoxyCodeLine{00741\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ reserve\ derived\ data-\/block\ index\ entries"{}}}
-\DoxyCodeLine{00742\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00743\ \ \ \ \ \}}
-\DoxyCodeLine{00744\ }
-\DoxyCodeLine{00745\ \ \ \ \ status\ =\ align\_to\_block\_boundary(file,\ offset,\ BLOCK\_SIZE);}
-\DoxyCodeLine{00746\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00747\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00748\ \ \ \ \ \}}
-\DoxyCodeLine{00749\ }
-\DoxyCodeLine{00750\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ staged\_data\_offset\ =\ offset;}
-\DoxyCodeLine{00751\ }
-\DoxyCodeLine{00752\ \ \ \ \ \textcolor{keywordflow}{for}\ (\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_data_block}{DataBlock}}\&\ block\ :\ data\_blocks)\ \{}
-\DoxyCodeLine{00753\ \ \ \ \ \ \ \ \ status\ =\ block.write(file,\ offset,\ staged\_index);}
-\DoxyCodeLine{00754\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{00756\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00757\ \ \ \ \ \}}
-\DoxyCodeLine{00758\ }
-\DoxyCodeLine{00759\ \ \ \ \ index\_section\ =\ std::move(staged\_index);}
-\DoxyCodeLine{00760\ \ \ \ \ data\_offset\ =\ staged\_data\_offset;}
-\DoxyCodeLine{00761\ }
-\DoxyCodeLine{00762\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00763\ \}}
-
-\end{DoxyCode}
 
 
 The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+sstable\+\_\+entities/\+data\+\_\+section.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+sstable\+\_\+entities/\+data\+\_\+section.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{data__section_8h}{data\+\_\+section.\+h}}\item 
+data\+\_\+section.\+cpp\end{DoxyCompactItemize}

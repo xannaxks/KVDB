@@ -1,113 +1,36 @@
 \doxysection{WALWriter Class Reference}
 \hypertarget{class_w_a_l_writer}{}\label{class_w_a_l_writer}\index{WALWriter@{WALWriter}}
+
+
+Append-\/only writer for a single active \doxylink{class_w_a_l}{WAL} generation.  
+
+
+
+
+{\ttfamily \+\#include $<$wal.\+h$>$}
+
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{class_w_a_l_writer_a6241f9a6e5d994b882cedf5fa267fa7f}\label{class_w_a_l_writer_a6241f9a6e5d994b882cedf5fa267fa7f} 
-{\bfseries WALWriter} (const \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \&)=delete
-\item 
-\Hypertarget{class_w_a_l_writer_a5b99e5cc319348bf8c3ad128b383f9e6}\label{class_w_a_l_writer_a5b99e5cc319348bf8c3ad128b383f9e6} 
-\doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \& {\bfseries operator=} (const \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \&)=delete
-\item 
-\Hypertarget{class_w_a_l_writer_a99d9a3226df1f20150a85bbed389ed9b}\label{class_w_a_l_writer_a99d9a3226df1f20150a85bbed389ed9b} 
-{\bfseries WALWriter} (\doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \&\&) noexcept=default
-\item 
-\Hypertarget{class_w_a_l_writer_a3235d6fdf3e719f49fb624b8b465e2b3}\label{class_w_a_l_writer_a3235d6fdf3e719f49fb624b8b465e2b3} 
-\doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \& {\bfseries operator=} (\doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}} \&\&) noexcept=default
-\item 
 \doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_writer_ac3cd5afee6c3dcb2b48d9c6547d42cb8}{create}} (const std::\+filesystem::\+path \&path, std::\+uint32\+\_\+t wal\+\_\+id, std::\+uint64\+\_\+t start\+\_\+seq)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_writer_af38cd6d49159685cf482de67be9ec101}{rotate}} (const std::\+filesystem::\+path \&new\+\_\+path, std::\+uint32\+\_\+t new\+\_\+wal\+\_\+id, std::\+uint64\+\_\+t start\+\_\+seq)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_writer_a67b7a05a5ce840d91fd2b8687c0e9f9d}{write}} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&record)
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_writer_a69715378ef5507addbb68e3371a1bf93}{sync}} ()
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_writer_a841eedf637035b841c21cf85e14b4f5b}{close}} ()
-\item 
-bool \doxymbox{\hyperlink{class_w_a_l_writer_a480e6b8468fdd0d91c475d3ffcac2edc}{is\+\_\+open}} () const noexcept
-\item 
-std::\+uint32\+\_\+t \doxymbox{\hyperlink{class_w_a_l_writer_a31d310d3fd61f66c0d6b0e5858e5e3d2}{wal\+\_\+id}} () const noexcept
-\item 
-std::\+uint64\+\_\+t \doxymbox{\hyperlink{class_w_a_l_writer_ae0fa5f7470e373dec6f133c882749f03}{offset}} () const noexcept
-\item 
-const std::\+filesystem::\+path \& \doxymbox{\hyperlink{class_w_a_l_writer_a92244d9d4e499d6c9de238bcbb769122}{path}} () const noexcept
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_w_a_l_writer_a589382c856f6b5a05e2de324f5e17004}{write\+\_\+payload}} (std::\+span$<$ const std::\+byte $>$ byte\+\_\+sequence, const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&record)
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{class_w_a_l_writer_afbbb7de5b7aeac8ba98e53bad0f41a55}\label{class_w_a_l_writer_afbbb7de5b7aeac8ba98e53bad0f41a55} 
-std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_writable_file}{Writable\+File}} $>$ {\bfseries file\+\_\+}
-\item 
-\Hypertarget{class_w_a_l_writer_a11dc1a54be95f85ebba0687580fc0045}\label{class_w_a_l_writer_a11dc1a54be95f85ebba0687580fc0045} 
-std::\+filesystem::\+path {\bfseries path\+\_\+}
-\item 
-\Hypertarget{class_w_a_l_writer_aab654471eb04e053c4e8cb7292f602ec}\label{class_w_a_l_writer_aab654471eb04e053c4e8cb7292f602ec} 
-std::\+uint32\+\_\+t {\bfseries wal\+\_\+id\+\_\+} = 0
-\item 
-\Hypertarget{class_w_a_l_writer_ac21f28462febe56bc076e191357f29d6}\label{class_w_a_l_writer_ac21f28462febe56bc076e191357f29d6} 
-std::\+uint64\+\_\+t {\bfseries offset\+\_\+} = 0
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Creates a fresh \doxylink{class_w_a_l}{WAL} and writes its durable identity header. \end{DoxyCompactList}\item 
+\Hypertarget{class_w_a_l_writer_a67b7a05a5ce840d91fd2b8687c0e9f9d}\label{class_w_a_l_writer_a67b7a05a5ce840d91fd2b8687c0e9f9d} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries write} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&record)
+\begin{DoxyCompactList}\small\item\em Appends one logical mutation, fragmenting it when necessary. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\label{class_w_a_l_writer_doc-constructors}
-\Hypertarget{class_w_a_l_writer_doc-constructors}
-\doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{class_w_a_l_writer_acf04a80d8f127de7dc9cf4fb5039fc55}\index{WALWriter@{WALWriter}!````~WALWriter@{\texorpdfstring{$\sim$}{\string~}WALWriter}}
-\index{````~WALWriter@{\texorpdfstring{$\sim$}{\string~}WALWriter}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}WALWriter()}{\string~WALWriter()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_acf04a80d8f127de7dc9cf4fb5039fc55} 
-WALWriter::\+\texorpdfstring{$\sim$}{\string~}\+WALWriter (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+\doxysubsection{Detailed Description}
+Append-\/only writer for a single active \doxylink{class_w_a_l}{WAL} generation. 
 
+\doxylink{class_w_a_l_writer_ac3cd5afee6c3dcb2b48d9c6547d42cb8}{create()} writes a fresh file header. \doxylink{class_w_a_l_writer_a67b7a05a5ce840d91fd2b8687c0e9f9d}{write()} encodes an \doxylink{struct_internal_record}{Internal\+Record} and fragments it across physical blocks as needed. rotate() closes the current generation before creating the next one. 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01302\ \{}
-\DoxyCodeLine{01303\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_\ !=\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{01304\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ A\ destructor\ cannot\ report\ an\ error.\ Normal\ code\ should\ call\ close().}}
-\DoxyCodeLine{01305\ \ \ \ \ \ \ \ \ (void)file\_-\/>close();}
-\DoxyCodeLine{01306\ \ \ \ \ \}}
-\DoxyCodeLine{01307\ \}}
+Definition at line \doxymbox{\hyperlink{wal_8h_source_l00196}{196}} of file \doxymbox{\hyperlink{wal_8h_source}{wal.\+h}}.
 
-\end{DoxyCode}
 
 
 \label{class_w_a_l_writer_doc-func-members}
 \Hypertarget{class_w_a_l_writer_doc-func-members}
 \doxysubsection{Member Function Documentation}
-\Hypertarget{class_w_a_l_writer_a841eedf637035b841c21cf85e14b4f5b}\index{WALWriter@{WALWriter}!close@{close}}
-\index{close@{close}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{close()}{close()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_a841eedf637035b841c21cf85e14b4f5b} 
-\doxymbox{\hyperlink{struct_status}{Status}} WALWriter::\+close (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01588\ \{}
-\DoxyCodeLine{01589\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_\ ==\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{01590\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01591\ \ \ \ \ \}}
-\DoxyCodeLine{01592\ }
-\DoxyCodeLine{01593\ \ \ \ \ Status\ sync\_status\ =\ file\_-\/>sync();}
-\DoxyCodeLine{01594\ \ \ \ \ Status\ close\_status\ =\ file\_-\/>close();}
-\DoxyCodeLine{01595\ }
-\DoxyCodeLine{01596\ \ \ \ \ file\_.reset();}
-\DoxyCodeLine{01597\ \ \ \ \ path\_.clear();}
-\DoxyCodeLine{01598\ \ \ \ \ wal\_id\_\ =\ 0;}
-\DoxyCodeLine{01599\ \ \ \ \ offset\_\ =\ 0;}
-\DoxyCodeLine{01600\ }
-\DoxyCodeLine{01601\ \ \ \ \ \textcolor{keywordflow}{if}\ (!sync\_status.is\_ok())\ \{}
-\DoxyCodeLine{01602\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sync\_status;}
-\DoxyCodeLine{01603\ \ \ \ \ \}}
-\DoxyCodeLine{01604\ }
-\DoxyCodeLine{01605\ \ \ \ \ \textcolor{keywordflow}{return}\ close\_status;}
-\DoxyCodeLine{01606\ \}}
-
-\end{DoxyCode}
 \Hypertarget{class_w_a_l_writer_ac3cd5afee6c3dcb2b48d9c6547d42cb8}\index{WALWriter@{WALWriter}!create@{create}}
 \index{create@{create}!WALWriter@{WALWriter}}
 \doxysubsubsection{\texorpdfstring{create()}{create()}}
@@ -115,361 +38,19 @@ WALWriter::\+\texorpdfstring{$\sim$}{\string~}\+WALWriter (\begin{DoxyParamCapti
 \doxymbox{\hyperlink{struct_status}{Status}} WALWriter::\+create (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{std::\+uint32\+\_\+t}]{wal\+\_\+id}{, }\item[{std::\+uint64\+\_\+t}]{start\+\_\+seq}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01314\ \{}
-\DoxyCodeLine{01315\ \ \ \ \ \textcolor{keywordflow}{if}\ (path.empty())\ \{}
-\DoxyCodeLine{01316\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01317\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{01318\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ path\ is\ empty"{}}}
-\DoxyCodeLine{01319\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01320\ \ \ \ \ \}}
-\DoxyCodeLine{01321\ }
-\DoxyCodeLine{01322\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_\ !=\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{01323\ \ \ \ \ \ \ \ \ Status\ close\_status\ =\ close();}
-\DoxyCodeLine{01324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!close\_status.is\_ok())\ \{}
-\DoxyCodeLine{01325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ close\_status;}
-\DoxyCodeLine{01326\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01327\ \ \ \ \ \}}
-\DoxyCodeLine{01328\ }
-\DoxyCodeLine{01329\ \ \ \ \ std::error\_code\ remove\_error;}
-\DoxyCodeLine{01330\ \ \ \ \ (void)std::filesystem::remove(path,\ remove\_error);}
-\DoxyCodeLine{01331\ \ \ \ \ \textcolor{keywordflow}{if}\ (remove\_error)\ \{}
-\DoxyCodeLine{01332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01333\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::IOError,}
-\DoxyCodeLine{01334\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ replace\ existing\ WAL\ "{}}\ +\ path.string()\ +}
-\DoxyCodeLine{01335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}:\ "{}}\ +\ remove\_error.message()}
-\DoxyCodeLine{01336\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01337\ \ \ \ \ \}}
-\DoxyCodeLine{01338\ }
-\DoxyCodeLine{01339\ \ \ \ \ Result<std::unique\_ptr<WritableFile>>\ open\_result;}
-\DoxyCodeLine{01340\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{01341\ \ \ \ \ \ \ \ \ open\_result\ =\ open\_writable\_file(path);}
-\DoxyCodeLine{01342\ \ \ \ \ \}}
-\DoxyCodeLine{01343\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
-\DoxyCodeLine{01344\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01345\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
-\DoxyCodeLine{01346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ allocate\ writable\ WAL\ file"{}}}
-\DoxyCodeLine{01347\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01348\ \ \ \ \ \}}
-\DoxyCodeLine{01349\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&\ exception)\ \{}
-\DoxyCodeLine{01350\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01351\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OpenFailed,}
-\DoxyCodeLine{01352\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ open\ WAL\ for\ writing:\ "{}}\ +}
-\DoxyCodeLine{01353\ \ \ \ \ \ \ \ \ \ \ \ \ std::string(exception.what())}
-\DoxyCodeLine{01354\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01355\ \ \ \ \ \}}
-\DoxyCodeLine{01356\ }
-\DoxyCodeLine{01357\ \ \ \ \ \textcolor{keywordflow}{if}\ (!open\_result.is\_ok())\ \{}
-\DoxyCodeLine{01358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(open\_result.status);}
-\DoxyCodeLine{01359\ \ \ \ \ \}}
-\DoxyCodeLine{01360\ }
-\DoxyCodeLine{01361\ \ \ \ \ \textcolor{keywordflow}{if}\ (!open\_result.value)\ \{}
-\DoxyCodeLine{01362\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01363\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadFileDescriptor,}
-\DoxyCodeLine{01364\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}opening\ WAL\ returned\ a\ null\ writable\ file"{}}}
-\DoxyCodeLine{01365\ \ \ \ \ \ \ \ \ \};\ }
-\DoxyCodeLine{01366\ \ \ \ \ \}}
-\DoxyCodeLine{01367\ }
-\DoxyCodeLine{01368\ \ \ \ \ file\_\ =\ std::move(open\_result.value);}
-\DoxyCodeLine{01369\ \ \ \ \ path\_\ =\ path;}
-\DoxyCodeLine{01370\ \ \ \ \ wal\_id\_\ =\ new\_wal\_id;}
-\DoxyCodeLine{01371\ \ \ \ \ offset\_\ =\ 0;}
-\DoxyCodeLine{01372\ }
-\DoxyCodeLine{01373\ \ \ \ \ WALFileHeader\ header(new\_wal\_id,\ start\_seq);}
-\DoxyCodeLine{01374\ \ \ \ \ Status\ status\ =\ header.write(*file\_,\ offset\_);}
-\DoxyCodeLine{01375\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01376\ \ \ \ \ \ \ \ \ (void)file\_-\/>close();}
-\DoxyCodeLine{01377\ \ \ \ \ \ \ \ \ file\_.reset();}
-\DoxyCodeLine{01378\ \ \ \ \ \ \ \ \ path\_.clear();}
-\DoxyCodeLine{01379\ \ \ \ \ \ \ \ \ wal\_id\_\ =\ 0;}
-\DoxyCodeLine{01380\ \ \ \ \ \ \ \ \ offset\_\ =\ 0;}
-\DoxyCodeLine{01381\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01382\ \ \ \ \ \}}
-\DoxyCodeLine{01383\ }
-\DoxyCodeLine{01384\ \ \ \ \ status\ =\ file\_-\/>sync();}
-\DoxyCodeLine{01385\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01386\ \ \ \ \ \ \ \ \ (void)file\_-\/>close();}
-\DoxyCodeLine{01387\ \ \ \ \ \ \ \ \ file\_.reset();}
-\DoxyCodeLine{01388\ \ \ \ \ \ \ \ \ path\_.clear();}
-\DoxyCodeLine{01389\ \ \ \ \ \ \ \ \ wal\_id\_\ =\ 0;}
-\DoxyCodeLine{01390\ \ \ \ \ \ \ \ \ offset\_\ =\ 0;}
-\DoxyCodeLine{01391\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01392\ \ \ \ \ \}}
-\DoxyCodeLine{01393\ }
-\DoxyCodeLine{01394\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01395\ \}}
 
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_writer_a480e6b8468fdd0d91c475d3ffcac2edc}\index{WALWriter@{WALWriter}!is\_open@{is\_open}}
-\index{is\_open@{is\_open}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{is\_open()}{is\_open()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_a480e6b8468fdd0d91c475d3ffcac2edc} 
-bool WALWriter::\+is\+\_\+open (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+Creates a fresh \doxylink{class_w_a_l}{WAL} and writes its durable identity header. 
+
+\begin{DoxyWarning}{Warning}
+This truncating path must not reopen an existing recovered \doxylink{class_w_a_l}{WAL}. 
+\end{DoxyWarning}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00175\ \ \ \ \ \{}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ file\_\ !=\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00177\ \ \ \ \ \}}
+Definition at line \doxymbox{\hyperlink{wal_8cpp_source_l01314}{1314}} of file \doxymbox{\hyperlink{wal_8cpp_source}{wal.\+cpp}}.
 
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_writer_ae0fa5f7470e373dec6f133c882749f03}\index{WALWriter@{WALWriter}!offset@{offset}}
-\index{offset@{offset}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{offset()}{offset()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_ae0fa5f7470e373dec6f133c882749f03} 
-std::\+uint64\+\_\+t WALWriter::\+offset (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00185\ \ \ \ \ \{}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ offset\_;}
-\DoxyCodeLine{00187\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_writer_a92244d9d4e499d6c9de238bcbb769122}\index{WALWriter@{WALWriter}!path@{path}}
-\index{path@{path}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{path()}{path()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_a92244d9d4e499d6c9de238bcbb769122} 
-const std::\+filesystem::\+path \& WALWriter::\+path (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00190\ \ \ \ \ \{}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ path\_;}
-\DoxyCodeLine{00192\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_writer_af38cd6d49159685cf482de67be9ec101}\index{WALWriter@{WALWriter}!rotate@{rotate}}
-\index{rotate@{rotate}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{rotate()}{rotate()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_af38cd6d49159685cf482de67be9ec101} 
-\doxymbox{\hyperlink{struct_status}{Status}} WALWriter::\+rotate (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{new\+\_\+path}{, }\item[{std::\+uint32\+\_\+t}]{new\+\_\+wal\+\_\+id}{, }\item[{std::\+uint64\+\_\+t}]{start\+\_\+seq}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01402\ \{}
-\DoxyCodeLine{01403\ \ \ \ \ Status\ close\_status\ =\ close();}
-\DoxyCodeLine{01404\ \ \ \ \ \textcolor{keywordflow}{if}\ (!close\_status.is\_ok())\ \{}
-\DoxyCodeLine{01405\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ close\_status;}
-\DoxyCodeLine{01406\ \ \ \ \ \}}
-\DoxyCodeLine{01407\ }
-\DoxyCodeLine{01408\ \ \ \ \ \textcolor{keywordflow}{return}\ create(new\_path,\ new\_wal\_id,\ start\_seq);}
-\DoxyCodeLine{01409\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_writer_a69715378ef5507addbb68e3371a1bf93}\index{WALWriter@{WALWriter}!sync@{sync}}
-\index{sync@{sync}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{sync()}{sync()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_a69715378ef5507addbb68e3371a1bf93} 
-\doxymbox{\hyperlink{struct_status}{Status}} WALWriter::\+sync (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01571\ \{}
-\DoxyCodeLine{01572\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_\ ==\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{01573\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01574\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01575\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ writer\ is\ not\ open"{}}}
-\DoxyCodeLine{01576\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01577\ \ \ \ \ \}}
-\DoxyCodeLine{01578\ }
-\DoxyCodeLine{01579\ \ \ \ \ Status\ status\ =\ check\_writer\_offset(*file\_,\ offset\_);}
-\DoxyCodeLine{01580\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01581\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01582\ \ \ \ \ \}}
-\DoxyCodeLine{01583\ }
-\DoxyCodeLine{01584\ \ \ \ \ \textcolor{keywordflow}{return}\ file\_-\/>sync();}
-\DoxyCodeLine{01585\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_writer_a31d310d3fd61f66c0d6b0e5858e5e3d2}\index{WALWriter@{WALWriter}!wal\_id@{wal\_id}}
-\index{wal\_id@{wal\_id}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{wal\_id()}{wal\_id()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_a31d310d3fd61f66c0d6b0e5858e5e3d2} 
-std::\+uint32\+\_\+t WALWriter::\+wal\+\_\+id (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00180\ \ \ \ \ \{}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ wal\_id\_;}
-\DoxyCodeLine{00182\ \ \ \ \ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_writer_a67b7a05a5ce840d91fd2b8687c0e9f9d}\index{WALWriter@{WALWriter}!write@{write}}
-\index{write@{write}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{write()}{write()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_a67b7a05a5ce840d91fd2b8687c0e9f9d} 
-\doxymbox{\hyperlink{struct_status}{Status}} WALWriter::\+write (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&}]{record}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01412\ \{}
-\DoxyCodeLine{01413\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_\ ==\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{01414\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01415\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01416\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ writer\ is\ not\ open"{}}}
-\DoxyCodeLine{01417\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01418\ \ \ \ \ \}}
-\DoxyCodeLine{01419\ }
-\DoxyCodeLine{01420\ \ \ \ \ Status\ status\ =\ check\_writer\_offset(*file\_,\ offset\_);}
-\DoxyCodeLine{01421\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01422\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01423\ \ \ \ \ \}}
-\DoxyCodeLine{01424\ }
-\DoxyCodeLine{01425\ \ \ \ \ Result<std::vector<std::byte>>\ payload\ =}
-\DoxyCodeLine{01426\ \ \ \ \ \ \ \ \ encode\_record\_payload(record);}
-\DoxyCodeLine{01427\ \ \ \ \ \textcolor{keywordflow}{if}\ (!payload.is\_ok())\ \{}
-\DoxyCodeLine{01428\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(payload.status);}
-\DoxyCodeLine{01429\ \ \ \ \ \}}
-\DoxyCodeLine{01430\ }
-\DoxyCodeLine{01431\ \ \ \ \ \textcolor{keywordflow}{return}\ write\_payload(payload.value,\ record);}
-\DoxyCodeLine{01432\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_writer_a589382c856f6b5a05e2de324f5e17004}\index{WALWriter@{WALWriter}!write\_payload@{write\_payload}}
-\index{write\_payload@{write\_payload}!WALWriter@{WALWriter}}
-\doxysubsubsection{\texorpdfstring{write\_payload()}{write\_payload()}}
-{\footnotesize\ttfamily \label{class_w_a_l_writer_a589382c856f6b5a05e2de324f5e17004} 
-\doxymbox{\hyperlink{struct_status}{Status}} WALWriter::\+write\+\_\+payload (\begin{DoxyParamCaption}\item[{std::\+span$<$ const std::\+byte $>$}]{byte\+\_\+sequence}{, }\item[{const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&}]{record}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01438\ \{}
-\DoxyCodeLine{01439\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_\ ==\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{01440\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01441\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
-\DoxyCodeLine{01442\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ writer\ is\ not\ open"{}}}
-\DoxyCodeLine{01443\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01444\ \ \ \ \ \}}
-\DoxyCodeLine{01445\ }
-\DoxyCodeLine{01446\ \ \ \ \ \textcolor{keywordflow}{if}\ (byte\_sequence.empty())\ \{}
-\DoxyCodeLine{01447\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01448\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{01449\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}encoded\ WAL\ logical\ record\ cannot\ be\ empty"{}}}
-\DoxyCodeLine{01450\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01451\ \ \ \ \ \}}
-\DoxyCodeLine{01452\ }
-\DoxyCodeLine{01453\ \ \ \ \ std::size\_t\ payload\_position\ =\ 0;}
-\DoxyCodeLine{01454\ \ \ \ \ \textcolor{keywordtype}{bool}\ first\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01455\ }
-\DoxyCodeLine{01456\ \ \ \ \ \textcolor{keywordflow}{while}\ (payload\_position\ <\ byte\_sequence.size())\ \{}
-\DoxyCodeLine{01457\ \ \ \ \ \ \ \ \ Status\ status\ =\ check\_writer\_offset(*file\_,\ offset\_);}
-\DoxyCodeLine{01458\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01460\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01461\ }
-\DoxyCodeLine{01462\ \ \ \ \ \ \ \ \ status\ =\ ensure\_fits\_in\_block(}
-\DoxyCodeLine{01463\ \ \ \ \ \ \ \ \ \ \ \ \ *file\_,}
-\DoxyCodeLine{01464\ \ \ \ \ \ \ \ \ \ \ \ \ Fragment::Header::disk\_size()\ +\ 1,}
-\DoxyCodeLine{01465\ \ \ \ \ \ \ \ \ \ \ \ \ offset\_,}
-\DoxyCodeLine{01466\ \ \ \ \ \ \ \ \ \ \ \ \ WAL\_FILE\_BLOCK\_SIZE}
-\DoxyCodeLine{01467\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01468\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01469\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01470\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01471\ }
-\DoxyCodeLine{01472\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ remaining\_in\_block\ =}
-\DoxyCodeLine{01473\ \ \ \ \ \ \ \ \ \ \ \ \ WAL\_FILE\_BLOCK\_SIZE\ -\/}
-\DoxyCodeLine{01474\ \ \ \ \ \ \ \ \ \ \ \ \ (offset\_\ \%\ WAL\_FILE\_BLOCK\_SIZE);}
-\DoxyCodeLine{01475\ }
-\DoxyCodeLine{01476\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (remaining\_in\_block\ <\ Fragment::Header::disk\_size())\ \{}
-\DoxyCodeLine{01477\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ header\ alignment\ left\ too\ little\ room\ for\ a\ header"{}}}
-\DoxyCodeLine{01480\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01481\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01482\ }
-\DoxyCodeLine{01483\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ max\_payload\_in\_fragment\ =}
-\DoxyCodeLine{01484\ \ \ \ \ \ \ \ \ \ \ \ \ remaining\_in\_block\ -\/\ Fragment::Header::disk\_size();}
-\DoxyCodeLine{01485\ }
-\DoxyCodeLine{01486\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (max\_payload\_in\_fragment\ ==\ 0)\ \{}
-\DoxyCodeLine{01487\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
-\DoxyCodeLine{01489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ fragment\ has\ no\ payload\ capacity"{}}}
-\DoxyCodeLine{01490\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01491\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01492\ }
-\DoxyCodeLine{01493\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ payload\_left\ =}
-\DoxyCodeLine{01494\ \ \ \ \ \ \ \ \ \ \ \ \ byte\_sequence.size()\ -\/\ payload\_position;}
-\DoxyCodeLine{01495\ }
-\DoxyCodeLine{01496\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ fragment\_payload\_size\ =}
-\DoxyCodeLine{01497\ \ \ \ \ \ \ \ \ \ \ \ \ std::min<std::size\_t>(}
-\DoxyCodeLine{01498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload\_left,}
-\DoxyCodeLine{01499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(max\_payload\_in\_fragment)}
-\DoxyCodeLine{01500\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01501\ }
-\DoxyCodeLine{01502\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ last\ =}
-\DoxyCodeLine{01503\ \ \ \ \ \ \ \ \ \ \ \ \ fragment\_payload\_size\ ==\ payload\_left;}
-\DoxyCodeLine{01504\ }
-\DoxyCodeLine{01505\ \ \ \ \ \ \ \ \ Fragment\ fragment\{\};}
-\DoxyCodeLine{01506\ }
-\DoxyCodeLine{01507\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (first\ \&\&\ last)\ \{}
-\DoxyCodeLine{01508\ \ \ \ \ \ \ \ \ \ \ \ \ fragment.header.fragment\_type\ =}
-\DoxyCodeLine{01509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Fragment::Type::FULL;}
-\DoxyCodeLine{01510\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01511\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (first)\ \{}
-\DoxyCodeLine{01512\ \ \ \ \ \ \ \ \ \ \ \ \ fragment.header.fragment\_type\ =}
-\DoxyCodeLine{01513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Fragment::Type::FIRST;}
-\DoxyCodeLine{01514\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01515\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (last)\ \{}
-\DoxyCodeLine{01516\ \ \ \ \ \ \ \ \ \ \ \ \ fragment.header.fragment\_type\ =}
-\DoxyCodeLine{01517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Fragment::Type::LAST;}
-\DoxyCodeLine{01518\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01519\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
-\DoxyCodeLine{01520\ \ \ \ \ \ \ \ \ \ \ \ \ fragment.header.fragment\_type\ =}
-\DoxyCodeLine{01521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Fragment::Type::MIDDLE;}
-\DoxyCodeLine{01522\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01523\ }
-\DoxyCodeLine{01524\ \ \ \ \ \ \ \ \ fragment.header.header\_size\ =}
-\DoxyCodeLine{01525\ \ \ \ \ \ \ \ \ \ \ \ \ Fragment::Header::disk\_size();}
-\DoxyCodeLine{01526\ \ \ \ \ \ \ \ \ fragment.header.type\ =\ record.type;}
-\DoxyCodeLine{01527\ \ \ \ \ \ \ \ \ fragment.header.seq\_num\ =\ record.seq\_num;}
-\DoxyCodeLine{01528\ \ \ \ \ \ \ \ \ fragment.header.fragment\_size\ =}
-\DoxyCodeLine{01529\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(fragment\_payload\_size);}
-\DoxyCodeLine{01530\ }
-\DoxyCodeLine{01531\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{01532\ \ \ \ \ \ \ \ \ \ \ \ \ fragment.payload.bytes.assign(}
-\DoxyCodeLine{01533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ byte\_sequence.begin()\ +}
-\DoxyCodeLine{01534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::ptrdiff\_t\textcolor{keyword}{>}(payload\_position),}
-\DoxyCodeLine{01535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ byte\_sequence.begin()\ +}
-\DoxyCodeLine{01536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::ptrdiff\_t\textcolor{keyword}{>}(}
-\DoxyCodeLine{01537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload\_position\ +\ fragment\_payload\_size}
-\DoxyCodeLine{01538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
-\DoxyCodeLine{01539\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01540\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01541\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
-\DoxyCodeLine{01542\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
-\DoxyCodeLine{01543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
-\DoxyCodeLine{01544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ allocate\ WAL\ fragment"{}}}
-\DoxyCodeLine{01545\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{01546\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01547\ }
-\DoxyCodeLine{01548\ \ \ \ \ \ \ \ \ status\ =\ fragment.compute\_crc32();}
-\DoxyCodeLine{01549\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01550\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01551\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01552\ }
-\DoxyCodeLine{01553\ \ \ \ \ \ \ \ \ status\ =\ fragment.write(*file\_,\ offset\_);}
-\DoxyCodeLine{01554\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01555\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01556\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01557\ }
-\DoxyCodeLine{01558\ \ \ \ \ \ \ \ \ status\ =\ check\_writer\_offset(*file\_,\ offset\_);}
-\DoxyCodeLine{01559\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{01560\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
-\DoxyCodeLine{01561\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01562\ }
-\DoxyCodeLine{01563\ \ \ \ \ \ \ \ \ payload\_position\ +=\ fragment\_payload\_size;}
-\DoxyCodeLine{01564\ \ \ \ \ \ \ \ \ first\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{01565\ \ \ \ \ \}}
-\DoxyCodeLine{01566\ }
-\DoxyCodeLine{01567\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{01568\ \}}
-
-\end{DoxyCode}
 
 
 The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+wal.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+wal.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{wal_8h}{wal.\+h}}\item 
+wal.\+cpp\end{DoxyCompactItemize}

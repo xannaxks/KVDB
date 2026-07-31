@@ -1,3 +1,9 @@
+// Manifest transaction model:
+// Recovery replays each checksum-verified VersionEdit into staged counters and a
+// temporary LevelManager, publishing only the complete valid prefix. A runtime
+// commit performs the same staging first, writes and syncs the prepared edit,
+// and only then swaps metadata and counters into the live state. Ambiguous I/O
+// failure poisons further writes until the manifest is recovered again.
 #include "manifest.h"
 
 #include "crc32_helpers.h"

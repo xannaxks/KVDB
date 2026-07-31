@@ -1,3 +1,8 @@
+// SSTable lifecycle:
+// Building accumulates sorted data and derives index, Bloom, metadata, and
+// footer sections. write() serializes to a temporary file, syncs it, renames it,
+// and syncs directory metadata before entering Published state. load() validates
+// the footer-directed section layout before exposing lazy lookup state.
 #ifdef _WIN32
 
 #ifndef NOMINMAX

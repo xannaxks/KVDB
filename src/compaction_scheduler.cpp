@@ -1,3 +1,6 @@
+// Scheduling prioritizes L0 file-count pressure, followed by the first higher
+// level over its byte budget. Source selection is expanded to include every
+// overlapping destination table, producing a closed key range for the job.
 #include "compaction_scheduler.h"
 
 #include <algorithm>

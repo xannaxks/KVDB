@@ -1,45 +1,24 @@
 \doxysection{kvdb::\+DBOptions::\+WALOptions Struct Reference}
 \hypertarget{structkvdb_1_1_d_b_options_1_1_w_a_l_options}{}\label{structkvdb_1_1_d_b_options_1_1_w_a_l_options}\index{kvdb::DBOptions::WALOptions@{kvdb::DBOptions::WALOptions}}
-\doxysubsubsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_w_a_l_options_aaf6a3b8045744ef44fc513f80b4a00d3}{validate}} () const
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_w_a_l_options_a2ff52e57206b7f729b12d3aa5b3dabba}\label{structkvdb_1_1_d_b_options_1_1_w_a_l_options_a2ff52e57206b7f729b12d3aa5b3dabba} 
-std::\+uint64\+\_\+t {\bfseries file\+\_\+size\+\_\+limit} = 64ull \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024
-\item 
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_w_a_l_options_aba80b2ee1c1cec48f358080c4e0449da}\label{structkvdb_1_1_d_b_options_1_1_w_a_l_options_aba80b2ee1c1cec48f358080c4e0449da} 
-bool {\bfseries sync\+\_\+on\+\_\+write} = false
-\end{DoxyCompactItemize}
 
 
-\label{structkvdb_1_1_d_b_options_1_1_w_a_l_options_doc-func-members}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_w_a_l_options_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_w_a_l_options_aaf6a3b8045744ef44fc513f80b4a00d3}\index{kvdb::DBOptions::WALOptions@{kvdb::DBOptions::WALOptions}!validate@{validate}}
-\index{validate@{validate}!kvdb::DBOptions::WALOptions@{kvdb::DBOptions::WALOptions}}
-\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
-{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_w_a_l_options_aaf6a3b8045744ef44fc513f80b4a00d3} 
-\doxymbox{\hyperlink{struct_status}{Status}} kvdb::\+\+DBOptions::\+\+WALOptions::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+\doxylink{class_w_a_l}{WAL} rotation limit and per-\/write durability policy.  
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00038\ \ \ \ \ \{}
-\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_size\_limit\ ==\ 0)\ \{}
-\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ file\_size\_limit\ must\ be\ greater\ than\ zero"{}}}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00045\ \ \ \ \ \}}
 
-\end{DoxyCode}
+
+{\ttfamily \+\#include $<$db\+\_\+options.\+h$>$}
+
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_w_a_l}{WAL} rotation limit and per-\/write durability policy. 
+
+Definition at line \doxymbox{\hyperlink{db__options_8h_source_l00074}{74}} of file \doxymbox{\hyperlink{db__options_8h_source}{db\+\_\+options.\+h}}.
+
 
 
 The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+db\+\_\+options.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+db\+\_\+options.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{db__options_8h}{db\+\_\+options.\+h}}\item 
+db\+\_\+options.\+cpp\end{DoxyCompactItemize}

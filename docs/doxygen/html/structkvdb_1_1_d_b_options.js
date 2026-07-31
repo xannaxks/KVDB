@@ -6,5 +6,6 @@ var structkvdb_1_1_d_b_options =
     [ "SSTableOptions", "structkvdb_1_1_d_b_options_1_1_s_s_table_options.html", "structkvdb_1_1_d_b_options_1_1_s_s_table_options" ],
     [ "CompactionOptions", "structkvdb_1_1_d_b_options_1_1_compaction_options.html", null ],
     [ "ManifestOptions", "structkvdb_1_1_d_b_options_1_1_manifest_options.html", null ],
-    [ "SSTableManagerOptions", "structkvdb_1_1_d_b_options_1_1_s_s_table_manager_options.html", null ]
+    [ "SSTableManagerOptions", "structkvdb_1_1_d_b_options_1_1_s_s_table_manager_options.html", null ],
+    [ "validate", "structkvdb_1_1_d_b_options.html#a1606ec1a69755e92aeef8350cf262f3c", null ]
 ];

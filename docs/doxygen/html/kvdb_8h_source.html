@@ -5,10 +5,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KVDB: C:/Users/user/KVDB/include/kvdb.h Source File</title>
+<title>KVDB: kvdb.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('kvdb_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,54 +115,87 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><b>include</b></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">kvdb.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;status.h&quot;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;optional&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;db_options.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="foldopen" id="foldopen00007" data-start="{" data-end="};">
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="class_k_v_d_b.html">    7</a></span><span class="keyword">class </span>KVDB</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">virtual</span> ~KVDB() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_result.html">Result&lt;std::unique_ptr&lt;KVDB&gt;</a>&gt; open(<span class="keyword">const</span> DBOptions&amp; options);</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> put(std::string&amp; key, std::string&amp; value) = 0;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_result.html">Result&lt;std::optional&lt;std::string&gt;</a>&gt; get(std::string_view key) = 0;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> remove(std::string&amp; key) = 0;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> flush() = 0;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> compact_range(std::string_view begin,</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        std::string_view end) = 0;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> close() = 0;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">protected</span>:</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    KVDB() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>};</div>
+<a href="kvdb_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * @file kvdb.h</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * @brief Public interface for opening and operating a KVDB database.</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="status_8h.html">status.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;optional&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="db__options_8h.html">db_options.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment"></span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="comment"> * @brief Abstract, thread-safe interface to the LSM key-value database.</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="comment"> * Mutations are ordered through the write-ahead log and MemTable. Reads search</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="comment"> * the in-memory generations before consulting SSTables. Use open() instead of</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"> * constructing an implementation directly.</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment"> */</span></div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="class_k_v_d_b.html">   18</a></span><span class="keyword">class </span>KVDB</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>{</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">virtual</span> ~KVDB() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"></span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="comment">     * @brief Validates options, creates the engine, and performs recovery.</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="comment">     * @param options Database location and storage-engine policy.</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="comment">     * @return An opened database or the validation/recovery error.</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="comment">     * @callgraph</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_result.html">Result&lt;std::unique_ptr&lt;KVDB&gt;</a>&gt; <a class="code hl_function" href="class_k_v_d_b.html#a41747ed9695c687bbcb962f0e1da7da6">open</a>(<span class="keyword">const</span> DBOptions&amp; options);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="comment"></span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="comment">    /** @brief Stores @p value as the newest version of @p key. */</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="class_k_v_d_b.html#aad1f4e4f274c0a8dd2d3c92ab5eb5d5f">   32</a></span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> <a class="code hl_function" href="class_k_v_d_b.html#aad1f4e4f274c0a8dd2d3c92ab5eb5d5f">put</a>(std::string&amp; key, std::string&amp; value) = 0;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span><span class="comment"></span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="comment">     * @brief Looks up the newest visible value for @p key.</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="comment">     * @return An empty optional when the key is absent or deleted.</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="comment">     */</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="class_k_v_d_b.html#a53e471470fa55fdc17cfa88bce3965d1">   38</a></span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_result.html">Result&lt;std::optional&lt;std::string&gt;</a>&gt; <a class="code hl_function" href="class_k_v_d_b.html#a53e471470fa55fdc17cfa88bce3965d1">get</a>(std::string_view key) = 0;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment"></span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="comment">    /** @brief Appends a tombstone for @p key. */</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="class_k_v_d_b.html#a996dd92a39e508df783d653784a043ed">   41</a></span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> <a class="code hl_function" href="class_k_v_d_b.html#a996dd92a39e508df783d653784a043ed">remove</a>(std::string&amp; key) = 0;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment"></span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span><span class="comment">    /** @brief Flushes the active and queued MemTable generations to SSTables. */</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="class_k_v_d_b.html#a371bf499c95cf730375f12c7d4b2cc46">   44</a></span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> <a class="code hl_function" href="class_k_v_d_b.html#a371bf499c95cf730375f12c7d4b2cc46">flush</a>() = 0;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment"></span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span><span class="comment">    /** @brief Compacts the half-open user-key range [@p begin, @p end). */</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="class_k_v_d_b.html#af38d05438802931029545bd6c5224467">   47</a></span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> <a class="code hl_function" href="class_k_v_d_b.html#af38d05438802931029545bd6c5224467">compact_range</a>(std::string_view begin,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        std::string_view end) = 0;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span><span class="comment"></span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="comment">    /** @brief Flushes pending state and releases database resources. */</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="class_k_v_d_b.html#a48abcdd3d9552ed7fb1cd8c6374511da">   51</a></span>    <span class="keyword">virtual</span> <a class="code hl_struct" href="struct_status.html">Status</a> <a class="code hl_function" href="class_k_v_d_b.html#a48abcdd3d9552ed7fb1cd8c6374511da">close</a>() = 0;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    KVDB() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>};</div>
 </div>
-<div class="ttc" id="astruct_result_html"><div class="ttname"><a href="struct_result.html">Result</a></div><div class="ttdef"><b>Definition</b> status.h:106</div></div>
-<div class="ttc" id="astruct_status_html"><div class="ttname"><a href="struct_status.html">Status</a></div><div class="ttdef"><b>Definition</b> status.h:76</div></div>
+<div class="ttc" id="aclass_k_v_d_b_html_a371bf499c95cf730375f12c7d4b2cc46"><div class="ttname"><a href="class_k_v_d_b.html#a371bf499c95cf730375f12c7d4b2cc46">KVDB::flush</a></div><div class="ttdeci">virtual Status flush()=0</div><div class="ttdoc">Flushes the active and queued MemTable generations to SSTables.</div></div>
+<div class="ttc" id="aclass_k_v_d_b_html_a41747ed9695c687bbcb962f0e1da7da6"><div class="ttname"><a href="class_k_v_d_b.html#a41747ed9695c687bbcb962f0e1da7da6">KVDB::open</a></div><div class="ttdeci">static Result&lt; std::unique_ptr&lt; KVDB &gt; &gt; open(const DBOptions &amp;options)</div><div class="ttdoc">Validates options, creates the engine, and performs recovery.</div><div class="ttdef"><b>Definition</b> <a href="kvdb_8cpp_source.html#l00010">kvdb.cpp:10</a></div></div>
+<div class="ttc" id="aclass_k_v_d_b_html_a48abcdd3d9552ed7fb1cd8c6374511da"><div class="ttname"><a href="class_k_v_d_b.html#a48abcdd3d9552ed7fb1cd8c6374511da">KVDB::close</a></div><div class="ttdeci">virtual Status close()=0</div><div class="ttdoc">Flushes pending state and releases database resources.</div></div>
+<div class="ttc" id="aclass_k_v_d_b_html_a53e471470fa55fdc17cfa88bce3965d1"><div class="ttname"><a href="class_k_v_d_b.html#a53e471470fa55fdc17cfa88bce3965d1">KVDB::get</a></div><div class="ttdeci">virtual Result&lt; std::optional&lt; std::string &gt; &gt; get(std::string_view key)=0</div><div class="ttdoc">Looks up the newest visible value for key.</div></div>
+<div class="ttc" id="aclass_k_v_d_b_html_a996dd92a39e508df783d653784a043ed"><div class="ttname"><a href="class_k_v_d_b.html#a996dd92a39e508df783d653784a043ed">KVDB::remove</a></div><div class="ttdeci">virtual Status remove(std::string &amp;key)=0</div><div class="ttdoc">Appends a tombstone for key.</div></div>
+<div class="ttc" id="aclass_k_v_d_b_html_aad1f4e4f274c0a8dd2d3c92ab5eb5d5f"><div class="ttname"><a href="class_k_v_d_b.html#aad1f4e4f274c0a8dd2d3c92ab5eb5d5f">KVDB::put</a></div><div class="ttdeci">virtual Status put(std::string &amp;key, std::string &amp;value)=0</div><div class="ttdoc">Stores value as the newest version of key.</div></div>
+<div class="ttc" id="aclass_k_v_d_b_html_af38d05438802931029545bd6c5224467"><div class="ttname"><a href="class_k_v_d_b.html#af38d05438802931029545bd6c5224467">KVDB::compact_range</a></div><div class="ttdeci">virtual Status compact_range(std::string_view begin, std::string_view end)=0</div><div class="ttdoc">Compacts the half-open user-key range [begin, end).</div></div>
+<div class="ttc" id="adb__options_8h_html"><div class="ttname"><a href="db__options_8h.html">db_options.h</a></div><div class="ttdoc">Configuration and cross-field validation for the storage engine.</div></div>
+<div class="ttc" id="astatus_8h_html"><div class="ttname"><a href="status_8h.html">status.h</a></div><div class="ttdoc">Provides classes, types and utilities for error handling.</div></div>
+<div class="ttc" id="astruct_result_html"><div class="ttname"><a href="struct_result.html">Result</a></div><div class="ttdoc">Returns status of functions final result, with result itself.</div><div class="ttdef"><b>Definition</b> <a href="status_8h_source.html#l00155">status.h:156</a></div></div>
+<div class="ttc" id="astruct_status_html"><div class="ttname"><a href="struct_status.html">Status</a></div><div class="ttdoc">Indicates status of operations final result.</div><div class="ttdef"><b>Definition</b> <a href="status_8h_source.html#l00097">status.h:97</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>include</b></li><li class="navelem"><a href="kvdb_8h.html">kvdb.h</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

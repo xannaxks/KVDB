@@ -1,3 +1,7 @@
+// Level invariants:
+// L0 admits overlapping ranges and preserves recency ordering. L1+ insertion
+// locates the range-sorted position and rejects overlap with its neighbors.
+// Candidate lookup therefore scans L0 but can binary-search a higher level.
 #include "level_manager.h"
 
 #include <algorithm>

@@ -1,3 +1,7 @@
+/**
+ * @file record.h
+ * @brief User-facing and versioned internal record representations.
+ */
 #pragma once
 
 #include "arena.h"
@@ -9,12 +13,20 @@
 #include <optional>
 #include <string>
 
+/** @brief Owning user record used at API and utility boundaries. */
 struct Record
 {
     std::string key, value;
     Type type;
 };
 
+/**
+ * @brief Non-owning versioned record stored in MemTables, WALs, and SSTables.
+ *
+ * Sequence numbers establish recency for equal user keys. Tombstone records
+ * carry deletion state through lookup and compaction. Key and value bytes are
+ * referenced through ArenaEntry and therefore inherit the arena's lifetime.
+ */
 struct InternalRecord
 {
     ArenaEntry key_entry, value_entry;

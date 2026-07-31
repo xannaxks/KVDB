@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('struct_arena_entry.html','','struct_arena_entry-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,500 +115,35 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="struct_arena_entry-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">ArenaEntry Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a26200d87602c1b532cb486ff3b888c21" id="r_a26200d87602c1b532cb486ff3b888c21"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a26200d87602c1b532cb486ff3b888c21">ArenaEntry</a> (const void *ptr, std::size_t entry_size)</td></tr>
-<tr class="memitem:a26676c3fd4c153e912b79a3518b3808f" id="r_a26676c3fd4c153e912b79a3518b3808f"><td class="memItemLeft"><a id="a26676c3fd4c153e912b79a3518b3808f" name="a26676c3fd4c153e912b79a3518b3808f"></a>
-&#160;</td><td class="memItemRight"><b>ArenaEntry</b> (const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;) noexcept=default</td></tr>
-<tr class="memitem:a44459bffa7cd63799cbe764f060ac799" id="r_a44459bffa7cd63799cbe764f060ac799"><td class="memItemLeft"><a id="a44459bffa7cd63799cbe764f060ac799" name="a44459bffa7cd63799cbe764f060ac799"></a>
-<a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;) noexcept=default</td></tr>
-<tr class="memitem:a97e850e0055ad5a5327deb6be0d22935" id="r_a97e850e0055ad5a5327deb6be0d22935"><td class="memItemLeft">&#160;</td><td class="memItemRight"><a class="el" href="#a97e850e0055ad5a5327deb6be0d22935">ArenaEntry</a> (<a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memitem:a3948c5977e3896c382e0f9ab1faad91d" id="r_a3948c5977e3896c382e0f9ab1faad91d"><td class="memItemLeft"><a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;&#160;</td><td class="memItemRight"><a class="el" href="#a3948c5977e3896c382e0f9ab1faad91d">operator=</a> (<a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;&amp;other) noexcept</td></tr>
-<tr class="memitem:aae12904f479e90672d814c2c4714e7d0" id="r_aae12904f479e90672d814c2c4714e7d0"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aae12904f479e90672d814c2c4714e7d0">operator&lt;</a> (const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;other) const noexcept</td></tr>
-<tr class="memitem:aeda2234b2ba42a31bac62bcc75365562" id="r_aeda2234b2ba42a31bac62bcc75365562"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aeda2234b2ba42a31bac62bcc75365562">operator&gt;</a> (const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;other) const noexcept</td></tr>
-<tr class="memitem:abbd0bdaf15d1ffb784dd8700598398c3" id="r_abbd0bdaf15d1ffb784dd8700598398c3"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#abbd0bdaf15d1ffb784dd8700598398c3">operator==</a> (const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;other) const noexcept</td></tr>
-<tr class="memitem:af46c0e1fbb6d5b4bb56560a7957a69a8" id="r_af46c0e1fbb6d5b4bb56560a7957a69a8"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#af46c0e1fbb6d5b4bb56560a7957a69a8">operator&gt;=</a> (const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;other) const noexcept</td></tr>
-<tr class="memitem:a95c508b5215917d87b4fb455545bcdde" id="r_a95c508b5215917d87b4fb455545bcdde"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#a95c508b5215917d87b4fb455545bcdde">operator&lt;=</a> (const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;other) const noexcept</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
-Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ae048b81e12c00921cbc8d3c6e54637fb" id="r_ae048b81e12c00921cbc8d3c6e54637fb"><td class="memItemLeft">static std::string&#160;</td><td class="memItemRight"><a class="el" href="#ae048b81e12c00921cbc8d3c6e54637fb">generate_random_key</a> (const std::string &amp;prefix, std::size_t length=100, bool fixed=true)</td></tr>
-<tr class="memitem:a9b6a7a6aa4cd2504201f97263b94c223" id="r_a9b6a7a6aa4cd2504201f97263b94c223"><td class="memItemLeft">static std::string&#160;</td><td class="memItemRight"><a class="el" href="#a9b6a7a6aa4cd2504201f97263b94c223">generate_random_value</a> (const std::string &amp;prefix, std::size_t length=1000, bool fixed=true)</td></tr>
-<tr class="memitem:a11dbbb914371b1b9d65ad7cac3a8f347" id="r_a11dbbb914371b1b9d65ad7cac3a8f347"><td class="memItemLeft">static <a class="el" href="struct_result.html">Result</a>&lt; <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a11dbbb914371b1b9d65ad7cac3a8f347">make_entry</a> (<a class="el" href="class_arena.html">Arena</a> &amp;arena, std::span&lt; const std::byte &gt; bytes)</td></tr>
-<tr class="memitem:a9c719ff389d376838d5e371aeccc3df9" id="r_a9c719ff389d376838d5e371aeccc3df9"><td class="memItemLeft">static <a class="el" href="struct_result.html">Result</a>&lt; <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a9c719ff389d376838d5e371aeccc3df9">make_entry</a> (<a class="el" href="class_arena.html">Arena</a> &amp;arena, const std::string &amp;str)</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:abed5de83d348e088e7b5d234e0368d24" id="r_abed5de83d348e088e7b5d234e0368d24"><td class="memItemLeft"><a id="abed5de83d348e088e7b5d234e0368d24" name="abed5de83d348e088e7b5d234e0368d24"></a>
-void *&#160;</td><td class="memItemRight"><b>data</b> = nullptr</td></tr>
-<tr class="memitem:a35f6f72184c8103f343f66242c3a188e" id="r_a35f6f72184c8103f343f66242c3a188e"><td class="memItemLeft"><a id="a35f6f72184c8103f343f66242c3a188e" name="a35f6f72184c8103f343f66242c3a188e"></a>
-std::uint32_t&#160;</td><td class="memItemRight"><b>size</b> = 0</td></tr>
-</table>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a26200d87602c1b532cb486ff3b888c21" name="a26200d87602c1b532cb486ff3b888c21"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a26200d87602c1b532cb486ff3b888c21">&#9670;&#160;</a></span>ArenaEntry() <span class="overload">[1/2]</span></h2>
 
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">ArenaEntry::ArenaEntry </td>
-          <td>(</td>
-          <td class="paramtype">const void *</td>          <td class="paramname"><span class="paramname"><em>ptr</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>entry_size</em></span>&#160;)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  641</span>    : data(<span class="keyword">const_cast&lt;</span><span class="keywordtype">void</span>*<span class="keyword">&gt;</span>(ptr))</div>
-<div class="line"><span class="lineno">  642</span>{</div>
-<div class="line"><span class="lineno">  643</span>    <span class="keywordflow">if</span> (entry_size &gt; std::numeric_limits&lt;std::uint32_t&gt;::max())</div>
-<div class="line"><span class="lineno">  644</span>    {</div>
-<div class="line"><span class="lineno">  645</span>        <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Entry size exceeds uint32_t::max&quot;</span>);</div>
-<div class="line"><span class="lineno">  646</span>    }</div>
-<div class="line"><span class="lineno">  647</span> </div>
-<div class="line"><span class="lineno">  648</span>    size = <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(entry_size);</div>
-<div class="line"><span class="lineno">  649</span> </div>
-<div class="line"><span class="lineno">  650</span>    <span class="keywordflow">if</span> (size &gt; 0 &amp;&amp; data == <span class="keyword">nullptr</span>)</div>
-<div class="line"><span class="lineno">  651</span>    {</div>
-<div class="line"><span class="lineno">  652</span>        <span class="keywordflow">throw</span> std::invalid_argument(</div>
-<div class="line"><span class="lineno">  653</span>            <span class="stringliteral">&quot;A non-empty ArenaEntry cannot have a null data pointer&quot;</span></div>
-<div class="line"><span class="lineno">  654</span>        );</div>
-<div class="line"><span class="lineno">  655</span>    }</div>
-<div class="line"><span class="lineno">  656</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a97e850e0055ad5a5327deb6be0d22935" name="a97e850e0055ad5a5327deb6be0d22935"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97e850e0055ad5a5327deb6be0d22935">&#9670;&#160;</a></span>ArenaEntry() <span class="overload">[2/2]</span></h2>
+<p>Non-owning byte range whose storage is normally owned by an <a class="el" href="class_arena.html" title="Region allocator with checkpoints and optional destructor tracking.">Arena</a>.  
+ <a href="#details">More...</a></p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">ArenaEntry::ArenaEntry </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  659</span>    : data(std::exchange(other.data, <span class="keyword">nullptr</span>)),</div>
-<div class="line"><span class="lineno">  660</span>    size(std::exchange(other.size, 0))</div>
-<div class="line"><span class="lineno">  661</span>{</div>
-<div class="line"><span class="lineno">  662</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="ae048b81e12c00921cbc8d3c6e54637fb" name="ae048b81e12c00921cbc8d3c6e54637fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae048b81e12c00921cbc8d3c6e54637fb">&#9670;&#160;</a></span>generate_random_key()</h2>
+<p><code>#include &lt;<a class="el" href="arena_8h_source.html">arena.h</a>&gt;</code></p>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Non-owning byte range whose storage is normally owned by an <a class="el" href="class_arena.html" title="Region allocator with checkpoints and optional destructor tracking.">Arena</a>. </p>
+<p><a class="el" href="struct_arena_entry.html" title="Non-owning byte range whose storage is normally owned by an Arena.">ArenaEntry</a> is the common key/value representation used by the storage engine. Comparisons are lexicographic over the referenced bytes. </p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string ArenaEntry::generate_random_key </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>length</em></span><span class="paramdefsep"> = </span><span class="paramdefval">100</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>fixed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   56</span>{</div>
-<div class="line"><span class="lineno">   57</span>    assert(fixed || length &gt; 0);</div>
-<div class="line"><span class="lineno">   58</span> </div>
-<div class="line"><span class="lineno">   59</span>    <span class="keyword">const</span> std::size_t generated_length = fixed</div>
-<div class="line"><span class="lineno">   60</span>        ? length</div>
-<div class="line"><span class="lineno">   61</span>        : <span class="keyword">static_cast&lt;</span>std::size_t<span class="keyword">&gt;</span>(std::rand()) % length + 1;</div>
-<div class="line"><span class="lineno">   62</span> </div>
-<div class="line"><span class="lineno">   63</span>    std::string result = prefix;</div>
-<div class="line"><span class="lineno">   64</span>    result.reserve(prefix.size() + generated_length);</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>    <span class="keywordflow">for</span> (std::size_t i = 0; i &lt; generated_length; ++i)</div>
-<div class="line"><span class="lineno">   67</span>    {</div>
-<div class="line"><span class="lineno">   68</span>        result.push_back(<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(std::rand() % 256));</div>
-<div class="line"><span class="lineno">   69</span>    }</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><span class="lineno">   72</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a9b6a7a6aa4cd2504201f97263b94c223" name="a9b6a7a6aa4cd2504201f97263b94c223"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b6a7a6aa4cd2504201f97263b94c223">&#9670;&#160;</a></span>generate_random_value()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string ArenaEntry::generate_random_value </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>prefix</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::size_t</td>          <td class="paramname"><span class="paramname"><em>length</em></span><span class="paramdefsep"> = </span><span class="paramdefval">1000</span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool</td>          <td class="paramname"><span class="paramname"><em>fixed</em></span><span class="paramdefsep"> = </span><span class="paramdefval">true</span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   79</span>{</div>
-<div class="line"><span class="lineno">   80</span>    <span class="keywordflow">return</span> generate_random_key(prefix, length, fixed);</div>
-<div class="line"><span class="lineno">   81</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a9c719ff389d376838d5e371aeccc3df9" name="a9c719ff389d376838d5e371aeccc3df9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c719ff389d376838d5e371aeccc3df9">&#9670;&#160;</a></span>make_entry() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_result.html">Result</a>&lt; <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &gt; ArenaEntry::make_entry </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_arena.html">Arena</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>arena</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>str</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   33</span>{</div>
-<div class="line"><span class="lineno">   34</span>    <span class="keywordflow">if</span> (str.size() &gt; std::numeric_limits&lt;std::uint32_t&gt;::max())</div>
-<div class="line"><span class="lineno">   35</span>    {</div>
-<div class="line"><span class="lineno">   36</span>        <span class="keywordflow">return</span> Result&lt;ArenaEntry&gt;::fail(</div>
-<div class="line"><span class="lineno">   37</span>            Status{</div>
-<div class="line"><span class="lineno">   38</span>                StatusCode::AllocationTooLarge,</div>
-<div class="line"><span class="lineno">   39</span>                <span class="stringliteral">&quot;Allocation size exceeds uint32_t limit&quot;</span></div>
-<div class="line"><span class="lineno">   40</span>            }</div>
-<div class="line"><span class="lineno">   41</span>        );</div>
-<div class="line"><span class="lineno">   42</span>    }</div>
-<div class="line"><span class="lineno">   43</span> </div>
-<div class="line"><span class="lineno">   44</span>    <span class="keywordflow">return</span> arena_copy_bytes(</div>
-<div class="line"><span class="lineno">   45</span>        arena,</div>
-<div class="line"><span class="lineno">   46</span>        str.data(),</div>
-<div class="line"><span class="lineno">   47</span>        <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(str.size())</div>
-<div class="line"><span class="lineno">   48</span>    );</div>
-<div class="line"><span class="lineno">   49</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a11dbbb914371b1b9d65ad7cac3a8f347" name="a11dbbb914371b1b9d65ad7cac3a8f347"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11dbbb914371b1b9d65ad7cac3a8f347">&#9670;&#160;</a></span>make_entry() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_result.html">Result</a>&lt; <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &gt; ArenaEntry::make_entry </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_arena.html">Arena</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>arena</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::span&lt; const std::byte &gt;</td>          <td class="paramname"><span class="paramname"><em>bytes</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel static">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   11</span>{</div>
-<div class="line"><span class="lineno">   12</span>    <span class="keywordflow">if</span> (bytes.size() &gt; std::numeric_limits&lt;std::uint32_t&gt;::max())</div>
-<div class="line"><span class="lineno">   13</span>    {</div>
-<div class="line"><span class="lineno">   14</span>        <span class="keywordflow">return</span> Result&lt;ArenaEntry&gt;::fail(</div>
-<div class="line"><span class="lineno">   15</span>            Status{</div>
-<div class="line"><span class="lineno">   16</span>                StatusCode::AllocationTooLarge,</div>
-<div class="line"><span class="lineno">   17</span>                <span class="stringliteral">&quot;Allocation size exceeds uint32_t limit&quot;</span></div>
-<div class="line"><span class="lineno">   18</span>            }</div>
-<div class="line"><span class="lineno">   19</span>        );</div>
-<div class="line"><span class="lineno">   20</span>    }</div>
-<div class="line"><span class="lineno">   21</span> </div>
-<div class="line"><span class="lineno">   22</span>    <span class="keywordflow">return</span> arena_copy_bytes(</div>
-<div class="line"><span class="lineno">   23</span>        arena,</div>
-<div class="line"><span class="lineno">   24</span>        bytes.data(),</div>
-<div class="line"><span class="lineno">   25</span>        <span class="keyword">static_cast&lt;</span>std::uint32_t<span class="keyword">&gt;</span>(bytes.size())</div>
-<div class="line"><span class="lineno">   26</span>    );</div>
-<div class="line"><span class="lineno">   27</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aae12904f479e90672d814c2c4714e7d0" name="aae12904f479e90672d814c2c4714e7d0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aae12904f479e90672d814c2c4714e7d0">&#9670;&#160;</a></span>operator&lt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ArenaEntry::operator&lt; </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  676</span>{</div>
-<div class="line"><span class="lineno">  677</span>    assert(data != <span class="keyword">nullptr</span> || size == 0);</div>
-<div class="line"><span class="lineno">  678</span>    assert(other.data != <span class="keyword">nullptr</span> || other.size == 0);</div>
-<div class="line"><span class="lineno">  679</span> </div>
-<div class="line"><span class="lineno">  680</span>    <span class="keyword">const</span> std::size_t common = std::min&lt;std::size_t&gt;(size, other.size);</div>
-<div class="line"><span class="lineno">  681</span>    <span class="keywordflow">if</span> (common &gt; 0)</div>
-<div class="line"><span class="lineno">  682</span>    {</div>
-<div class="line"><span class="lineno">  683</span> </div>
-<div class="line"><span class="lineno">  684</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> comparison = std::memcmp(data, other.data, common);</div>
-<div class="line"><span class="lineno">  685</span>        <span class="keywordflow">if</span> (comparison != 0)</div>
-<div class="line"><span class="lineno">  686</span>        {</div>
-<div class="line"><span class="lineno">  687</span>            <span class="keywordflow">return</span> comparison &lt; 0;</div>
-<div class="line"><span class="lineno">  688</span>        }</div>
-<div class="line"><span class="lineno">  689</span>    }</div>
-<div class="line"><span class="lineno">  690</span> </div>
-<div class="line"><span class="lineno">  691</span>    <span class="keywordflow">return</span> size &lt; other.size;</div>
-<div class="line"><span class="lineno">  692</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a95c508b5215917d87b4fb455545bcdde" name="a95c508b5215917d87b4fb455545bcdde"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95c508b5215917d87b4fb455545bcdde">&#9670;&#160;</a></span>operator&lt;=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ArenaEntry::operator&lt;= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  718</span>{</div>
-<div class="line"><span class="lineno">  719</span>    <span class="keywordflow">return</span> !(other &lt; *<span class="keyword">this</span>);</div>
-<div class="line"><span class="lineno">  720</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a3948c5977e3896c382e0f9ab1faad91d" name="a3948c5977e3896c382e0f9ab1faad91d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3948c5977e3896c382e0f9ab1faad91d">&#9670;&#160;</a></span>operator=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp; ArenaEntry::operator= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  665</span>{</div>
-<div class="line"><span class="lineno">  666</span>    <span class="keywordflow">if</span> (<span class="keyword">this</span> != &amp;other)</div>
-<div class="line"><span class="lineno">  667</span>    {</div>
-<div class="line"><span class="lineno">  668</span>        data = std::exchange(other.data, <span class="keyword">nullptr</span>);</div>
-<div class="line"><span class="lineno">  669</span>        size = std::exchange(other.size, 0);</div>
-<div class="line"><span class="lineno">  670</span>    }</div>
-<div class="line"><span class="lineno">  671</span> </div>
-<div class="line"><span class="lineno">  672</span>    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
-<div class="line"><span class="lineno">  673</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="abbd0bdaf15d1ffb784dd8700598398c3" name="abbd0bdaf15d1ffb784dd8700598398c3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abbd0bdaf15d1ffb784dd8700598398c3">&#9670;&#160;</a></span>operator==()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ArenaEntry::operator== </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  700</span>{</div>
-<div class="line"><span class="lineno">  701</span>    assert(data != <span class="keyword">nullptr</span> || size == 0);</div>
-<div class="line"><span class="lineno">  702</span>    assert(other.data != <span class="keyword">nullptr</span> || other.size == 0);</div>
-<div class="line"><span class="lineno">  703</span> </div>
-<div class="line"><span class="lineno">  704</span>    <span class="keywordflow">if</span> (size != other.size)</div>
-<div class="line"><span class="lineno">  705</span>    {</div>
-<div class="line"><span class="lineno">  706</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  707</span>    }</div>
-<div class="line"><span class="lineno">  708</span> </div>
-<div class="line"><span class="lineno">  709</span>    <span class="keywordflow">return</span> size == 0 || std::memcmp(data, other.data, size) == 0;</div>
-<div class="line"><span class="lineno">  710</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aeda2234b2ba42a31bac62bcc75365562" name="aeda2234b2ba42a31bac62bcc75365562"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeda2234b2ba42a31bac62bcc75365562">&#9670;&#160;</a></span>operator&gt;()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ArenaEntry::operator&gt; </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  695</span>{</div>
-<div class="line"><span class="lineno">  696</span>    <span class="keywordflow">return</span> other &lt; *<span class="keyword">this</span>;</div>
-<div class="line"><span class="lineno">  697</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="af46c0e1fbb6d5b4bb56560a7957a69a8" name="af46c0e1fbb6d5b4bb56560a7957a69a8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af46c0e1fbb6d5b4bb56560a7957a69a8">&#9670;&#160;</a></span>operator&gt;=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool ArenaEntry::operator&gt;= </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>other</em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span><span class="mlabel noexcept">noexcept</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  713</span>{</div>
-<div class="line"><span class="lineno">  714</span>    <span class="keywordflow">return</span> !(*<span class="keyword">this</span> &lt; other);</div>
-<div class="line"><span class="lineno">  715</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
-<li>C:/Users/user/KVDB/include/<a class="el" href="arena_8h_source.html">arena.h</a></li>
-<li>C:/Users/user/KVDB/src/<b>arena.cpp</b></li>
+<p class="definition">Definition at line <a class="el" href="arena_8h_source.html#l00051">51</a> of file <a class="el" href="arena_8h_source.html">arena.h</a>.</p>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li><a class="el" href="arena_8h_source.html">arena.h</a></li>
+<li><a class="el" href="arena_8cpp_source.html">arena.cpp</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="struct_arena_entry.html">ArenaEntry</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

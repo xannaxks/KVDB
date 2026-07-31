@@ -5,10 +5,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KVDB: C:/Users/user/KVDB/include/sstable_iterator.h Source File</title>
+<title>KVDB: sstable_iterator.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('sstable__iterator_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,71 +115,90 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><b>include</b></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">sstable_iterator.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;arena.h&quot;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;status.h&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;sstable.h&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;record.h&quot;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;file.h&quot;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;file_helpers.h&quot;</span></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="class_s_s_table_iterator.html">   13</a></span><span class="keyword">class </span>SSTableIterator</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>{</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_s_s_table.html">SSTable</a>&amp; sstable;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    std::unique_ptr&lt;ReadableFile&gt; file;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <a class="code hl_class" href="class_arena.html">Arena</a>&amp; arena;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    std::uint64_t current_offset = 0;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    std::uint64_t data_block_count = 0;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    std::uint64_t next_block_index = 0;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    std::size_t record_index = 0;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    std::vector&lt;InternalRecord&gt; current_block_records;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">bool</span> valid_ = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_struct" href="struct_status.html">Status</a> status_ = Status::ok();</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    SSTableIterator() = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    SSTableIterator(<span class="keyword">const</span> <a class="code hl_class" href="class_s_s_table.html">SSTable</a>&amp; sstable, std::unique_ptr&lt;ReadableFile&gt;&amp;&amp; file, <a class="code hl_class" href="class_arena.html">Arena</a>&amp; arena);</div>
+<a href="sstable__iterator_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment"> * @file sstable_iterator.h</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment"> * @brief Forward record cursor over a validated SSTable data section.</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment"> */</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="arena_8h.html">arena.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="status_8h.html">status.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="sstable_8h.html">sstable.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="record_8h.html">record.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="file_8h.html">file.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="file__helpers_8h.html">file_helpers.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="comment"></span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"> * @brief Lazily reads SSTable data blocks in internal-key order.</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment"> *</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment"> * Only the current block&#39;s records are materialized. Their key/value bytes are</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment"> * copied into the supplied Arena and therefore follow its lifetime.</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment"> */</span></div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="};">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="class_s_s_table_iterator.html">   23</a></span><span class="keyword">class </span>SSTableIterator</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>{</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">const</span> <a class="code hl_class" href="class_s_s_table.html">SSTable</a>&amp; sstable;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    std::unique_ptr&lt;ReadableFile&gt; file;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <a class="code hl_class" href="class_arena.html">Arena</a>&amp; arena;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    std::uint64_t current_offset = 0;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    std::uint64_t data_block_count = 0;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    std::uint64_t next_block_index = 0;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <a class="code hl_struct" href="struct_status.html">Status</a> seek_to_first();</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <a class="code hl_struct" href="struct_status.html">Status</a> next();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    std::size_t record_index = 0;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    std::vector&lt;InternalRecord&gt; current_block_records;</div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">bool</span> valid() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_internal_record.html">InternalRecord</a>&amp; record() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_struct" href="struct_status.html">Status</a> status() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <a class="code hl_struct" href="struct_status.html">Status</a> load_next_block();</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>};</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordtype">bool</span> valid_ = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <a class="code hl_struct" href="struct_status.html">Status</a> status_ = <a class="code hl_function" href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be">Status::ok</a>();</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    SSTableIterator() = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    SSTableIterator(<span class="keyword">const</span> <a class="code hl_class" href="class_s_s_table.html">SSTable</a>&amp; sstable, std::unique_ptr&lt;ReadableFile&gt;&amp;&amp; file, <a class="code hl_class" href="class_arena.html">Arena</a>&amp; arena);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="comment"></span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="comment">    /** @brief Positions at the first record, or becomes invalid for an empty table. */</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <a class="code hl_struct" href="struct_status.html">Status</a> <a class="code hl_function" href="class_s_s_table_iterator.html#a55680209922f3d6211b63b9d9133ae82">seek_to_first</a>();<span class="comment"></span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">    /** @brief Advances to the next record, loading a new block when necessary. */</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <a class="code hl_struct" href="struct_status.html">Status</a> <a class="code hl_function" href="class_s_s_table_iterator.html#acb7f87728a7b87f38dd70b9fae9c1451">next</a>();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">bool</span> valid() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_internal_record.html">InternalRecord</a>&amp; record() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_struct" href="struct_status.html">Status</a> status() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <a class="code hl_struct" href="struct_status.html">Status</a> load_next_block();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>};</div>
 </div>
-<div class="ttc" id="aclass_arena_html"><div class="ttname"><a href="class_arena.html">Arena</a></div><div class="ttdef"><b>Definition</b> arena.h:88</div></div>
-<div class="ttc" id="aclass_s_s_table_html"><div class="ttname"><a href="class_s_s_table.html">SSTable</a></div><div class="ttdef"><b>Definition</b> sstable.h:46</div></div>
-<div class="ttc" id="astruct_internal_record_html"><div class="ttname"><a href="struct_internal_record.html">InternalRecord</a></div><div class="ttdef"><b>Definition</b> record.h:19</div></div>
-<div class="ttc" id="astruct_status_html"><div class="ttname"><a href="struct_status.html">Status</a></div><div class="ttdef"><b>Definition</b> status.h:76</div></div>
+<div class="ttc" id="aarena_8h_html"><div class="ttname"><a href="arena_8h.html">arena.h</a></div><div class="ttdoc">Page-based region allocation and arena-owned object lifetime support.</div></div>
+<div class="ttc" id="aclass_arena_html"><div class="ttname"><a href="class_arena.html">Arena</a></div><div class="ttdoc">Region allocator with checkpoints and optional destructor tracking.</div><div class="ttdef"><b>Definition</b> <a href="arena_8h_source.html#l00119">arena.h:120</a></div></div>
+<div class="ttc" id="aclass_s_s_table_html"><div class="ttname"><a href="class_s_s_table.html">SSTable</a></div><div class="ttdoc">State-checked aggregate of all sections in one SSTable file.</div><div class="ttdef"><b>Definition</b> <a href="sstable_8h_source.html#l00061">sstable.h:62</a></div></div>
+<div class="ttc" id="aclass_s_s_table_iterator_html_a55680209922f3d6211b63b9d9133ae82"><div class="ttname"><a href="class_s_s_table_iterator.html#a55680209922f3d6211b63b9d9133ae82">SSTableIterator::seek_to_first</a></div><div class="ttdeci">Status seek_to_first()</div><div class="ttdoc">Positions at the first record, or becomes invalid for an empty table.</div><div class="ttdef"><b>Definition</b> <a href="sstable__iterator_8cpp_source.html#l00311">sstable_iterator.cpp:311</a></div></div>
+<div class="ttc" id="aclass_s_s_table_iterator_html_acb7f87728a7b87f38dd70b9fae9c1451"><div class="ttname"><a href="class_s_s_table_iterator.html#acb7f87728a7b87f38dd70b9fae9c1451">SSTableIterator::next</a></div><div class="ttdeci">Status next()</div><div class="ttdoc">Advances to the next record, loading a new block when necessary.</div><div class="ttdef"><b>Definition</b> <a href="sstable__iterator_8cpp_source.html#l00025">sstable_iterator.cpp:25</a></div></div>
+<div class="ttc" id="afile_8h_html"><div class="ttname"><a href="file_8h.html">file.h</a></div><div class="ttdoc">Provides platform-specific wrappers around OS file and directory system calls.</div></div>
+<div class="ttc" id="afile__helpers_8h_html"><div class="ttname"><a href="file__helpers_8h.html">file_helpers.h</a></div><div class="ttdoc">Bounds checks, alignment, and padding for block-structured files.</div></div>
+<div class="ttc" id="arecord_8h_html"><div class="ttname"><a href="record_8h.html">record.h</a></div><div class="ttdoc">User-facing and versioned internal record representations.</div></div>
+<div class="ttc" id="asstable_8h_html"><div class="ttname"><a href="sstable_8h.html">sstable.h</a></div><div class="ttdoc">Immutable sorted-table aggregate, lookup path, and file lifecycle.</div></div>
+<div class="ttc" id="astatus_8h_html"><div class="ttname"><a href="status_8h.html">status.h</a></div><div class="ttdoc">Provides classes, types and utilities for error handling.</div></div>
+<div class="ttc" id="astruct_internal_record_html"><div class="ttname"><a href="struct_internal_record.html">InternalRecord</a></div><div class="ttdoc">Non-owning versioned record stored in MemTables, WALs, and SSTables.</div><div class="ttdef"><b>Definition</b> <a href="record_8h_source.html#l00030">record.h:31</a></div></div>
+<div class="ttc" id="astruct_status_html"><div class="ttname"><a href="struct_status.html">Status</a></div><div class="ttdoc">Indicates status of operations final result.</div><div class="ttdef"><b>Definition</b> <a href="status_8h_source.html#l00097">status.h:97</a></div></div>
+<div class="ttc" id="astruct_status_html_a2ea79d6f908a8d9aa179ea7bbe0a67be"><div class="ttname"><a href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be">Status::ok</a></div><div class="ttdeci">static Status ok()</div><div class="ttdoc">Returns success statuscode and empty message.</div><div class="ttdef"><b>Definition</b> <a href="status_8cpp_source.html#l00003">status.cpp:3</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>include</b></li><li class="navelem"><a href="sstable__iterator_8h.html">sstable_iterator.h</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

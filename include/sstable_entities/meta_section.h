@@ -1,3 +1,7 @@
+/**
+ * @file meta_section.h
+ * @brief Aggregate record statistics and key bounds for one SSTable.
+ */
 #pragma once
 
 #include <cstddef>
@@ -13,6 +17,13 @@
 
 namespace SSTableEntities
 {
+    /**
+     * @brief Checksummed summary derived from data and index sections.
+     *
+     * The summary records key/sequence bounds, record and tombstone counts, and
+     * logical data size. Rebuild is transactional so an invalid input cannot
+     * leave partially updated public fields.
+     */
     struct MetaSection
     {
         struct Header

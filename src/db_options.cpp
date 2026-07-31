@@ -1,3 +1,6 @@
+// Validation is deliberately layered: each nested option group reports local
+// errors, then DBOptions checks relationships between level-indexed vectors and
+// the configured maximum level count before the Engine creates any resources.
 #include "db_options.h"
 
 #include <limits>

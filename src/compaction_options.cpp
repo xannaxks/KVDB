@@ -1,3 +1,5 @@
+// Validation keeps level-indexed vectors aligned with max_levels and rejects
+// thresholds that would cause permanent compaction pressure or zero-sized output.
 #include "compaction_options.h"
 
 Status CompactionOptions::validate() const

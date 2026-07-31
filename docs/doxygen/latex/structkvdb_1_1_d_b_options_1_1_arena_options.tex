@@ -1,50 +1,24 @@
 \doxysection{kvdb::\+DBOptions::\+Arena\+Options Struct Reference}
 \hypertarget{structkvdb_1_1_d_b_options_1_1_arena_options}{}\label{structkvdb_1_1_d_b_options_1_1_arena_options}\index{kvdb::DBOptions::ArenaOptions@{kvdb::DBOptions::ArenaOptions}}
-\doxysubsubsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_arena_options_a313eb4eb24d84886c00619a6663fac11}{validate}} () const
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_arena_options_af590ea73d8034b44312527a928c96ae6}\label{structkvdb_1_1_d_b_options_1_1_arena_options_af590ea73d8034b44312527a928c96ae6} 
-std::\+size\+\_\+t {\bfseries page\+\_\+size} = 64 \texorpdfstring{$\ast$}{*} 1024
-\item 
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_arena_options_a1804179235976149e97ad3bd770001b3}\label{structkvdb_1_1_d_b_options_1_1_arena_options_a1804179235976149e97ad3bd770001b3} 
-std::\+size\+\_\+t {\bfseries large\+\_\+threshold} = 16 \texorpdfstring{$\ast$}{*} 1024
-\end{DoxyCompactItemize}
 
 
-\label{structkvdb_1_1_d_b_options_1_1_arena_options_doc-func-members}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_arena_options_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_arena_options_a313eb4eb24d84886c00619a6663fac11}\index{kvdb::DBOptions::ArenaOptions@{kvdb::DBOptions::ArenaOptions}!validate@{validate}}
-\index{validate@{validate}!kvdb::DBOptions::ArenaOptions@{kvdb::DBOptions::ArenaOptions}}
-\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
-{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_arena_options_a313eb4eb24d84886c00619a6663fac11} 
-\doxymbox{\hyperlink{struct_status}{Status}} kvdb::\+\+DBOptions::\+\+Arena\+Options::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+\doxylink{class_arena}{Arena} page sizing and large-\/allocation threshold.  
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00008\ \ \ \ \ \{}
-\DoxyCodeLine{00009\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (page\_size\ ==\ 0\ ||\ page\_size\ >\ (1u\ <<\ 20))\ \{}
-\DoxyCodeLine{00010\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
-\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}arena\ page\_size\ must\ be\ in\ [1,\ 1048576]"{}}}
-\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (large\_threshold\ ==\ 0)\ \{}
-\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
-\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}arena\ large\_threshold\ must\ be\ greater\ than\ zero"{}}}
-\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00020\ \ \ \ \ \}}
 
-\end{DoxyCode}
+
+{\ttfamily \+\#include $<$db\+\_\+options.\+h$>$}
+
+
+
+\doxysubsection{Detailed Description}
+\doxylink{class_arena}{Arena} page sizing and large-\/allocation threshold. 
+
+Definition at line \doxymbox{\hyperlink{db__options_8h_source_l00041}{41}} of file \doxymbox{\hyperlink{db__options_8h_source}{db\+\_\+options.\+h}}.
+
 
 
 The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+db\+\_\+options.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+db\+\_\+options.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{db__options_8h}{db\+\_\+options.\+h}}\item 
+db\+\_\+options.\+cpp\end{DoxyCompactItemize}

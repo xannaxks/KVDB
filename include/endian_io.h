@@ -1,3 +1,10 @@
+/**
+ * @file endian_io.h
+ * @brief Canonical little-endian encoding and block-aware file I/O.
+ *
+ * kvdb::endian contains buffer/stream primitives. kvdb::blockio applies the
+ * SSTable/WAL block policy and advances an explicit caller-owned offset.
+ */
 #pragma once
 #define NOMINMAX
 

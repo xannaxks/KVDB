@@ -1,0 +1,329 @@
+\doxysection{sstable\+\_\+iterator.\+cpp}
+\hypertarget{sstable__iterator_8cpp_source}{}\label{sstable__iterator_8cpp_source}\index{sstable\_iterator.cpp@{sstable\_iterator.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00001}00001\ \textcolor{comment}{//\ Iteration\ is\ block-\/lazy:\ seek\_to\_first\ initializes\ footer-\/derived\ bounds,}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00002}00002\ \textcolor{comment}{//\ load\_next\_block\ validates\ and\ materializes\ one\ data\ block,\ and\ next()\ advances}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00003}00003\ \textcolor{comment}{//\ within\ that\ block\ before\ touching\ the\ file\ again.}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{sstable__iterator_8h}{sstable\_iterator.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00006}00006\ \textcolor{keyword}{using\ namespace\ }SSTableEntities;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00008}00008\ SSTableIterator::SSTableIterator(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00009}00009\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_s_s_table}{SSTable}}\&\ sstable,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00010}00010\ \ \ \ \ std::unique\_ptr<ReadableFile>\&\&\ file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00011}00011\ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00012}00012\ )\ :}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00013}00013\ \ \ \ \ sstable(sstable),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00014}00014\ \ \ \ \ file(std::move(file)),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00015}00015\ \ \ \ \ arena(arena),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00016}00016\ \ \ \ \ current\_offset(sstable.file\_footer\_section.data\_offset),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00017}00017\ \ \ \ \ data\_block\_count(sstable.file\_footer\_section.data\_block\_count),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00018}00018\ \ \ \ \ next\_block\_index(0),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00019}00019\ \ \ \ \ record\_index(0),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00020}00020\ \ \ \ \ valid\_(false),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00021}00021\ \ \ \ \ status\_(std::move(\doxymbox{\hyperlink{struct_status}{Status}}::ok()))}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00022}00022\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00023}00023\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00025}\doxymbox{\hyperlink{class_s_s_table_iterator_acb7f87728a7b87f38dd70b9fae9c1451}{00025}}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_s_s_table_iterator_acb7f87728a7b87f38dd70b9fae9c1451}{SSTableIterator::next}}()}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00026}00026\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00027}00027\ \ \ \ \ \textcolor{keywordflow}{if}\ (!valid\_)}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00030}00030\ \ \ \ \ ++record\_index;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00032}00032\ \ \ \ \ \textcolor{keywordflow}{if}\ (record\_index\ <\ current\_block\_records.size())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00035}00035\ \ \ \ \ status\_\ =\ load\_next\_block();}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00036}00036\ \ \ \ \ \textcolor{keywordflow}{return}\ status\_;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00037}00037\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00039}00039\ \textcolor{keywordtype}{bool}\ SSTableIterator::valid()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00040}00040\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00041}00041\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>valid\_;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00042}00042\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00043}00043\ \doxymbox{\hyperlink{struct_status}{Status}}\ SSTableIterator::status()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00044}00044\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00045}00045\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>status\_;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00046}00046\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00048}00048\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ SSTableIterator::record()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00049}00049\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00050}00050\ \ \ \ \ assert(valid\_);}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00051}00051\ \ \ \ \ assert(record\_index\ <\ current\_block\_records.size());}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00053}00053\ \ \ \ \ \textcolor{keywordflow}{return}\ current\_block\_records[record\_index];}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00054}00054\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00056}00056\ \doxymbox{\hyperlink{struct_status}{Status}}\ SSTableIterator::load\_next\_block()}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00057}00057\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00058}00058\ \ \ \ \ this-\/>record\_index\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00059}00059\ \ \ \ \ valid\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00060}00060\ \ \ \ \ this-\/>current\_block\_records.clear();}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00062}00062\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>next\_block\_index\ >=\ data\_block\_count)}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00065}00065\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ block\_start\ =\ this-\/>current\_offset;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00067}00067\ \ \ \ \ \textcolor{keywordflow}{if}\ (block\_start\ \%\ BLOCK\_SIZE\ !=\ 0)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1d4a352a294234246cd6774d38360a8c}{StatusCode::InvalidBlockAlignment}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Data\ block\ offset\ is\ not\ aligned"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00072}00072\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00074}00074\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ block\_end\ =\ block\_start\ +\ BLOCK\_SIZE;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00075}00075\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00076}00076\ \ \ \ \ DataSection::DataBlock\ data\_block\{\};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00077}00077\ \ \ \ \ Status\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00079}00079\ \ \ \ \ std::uint8\_t\ block\_type\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00081}00081\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u8\_t(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00082}00082\ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00083}00083\ \ \ \ \ \ \ \ \ block\_type,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00084}00084\ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00085}00085\ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00086}00086\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00087}00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{static\_cast<}\doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500}{BlockType}}\textcolor{keyword}{>}(block\_type)\ !=\ BlockType::Data)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea8126c769b7c30850b4c92138ed06d815}{StatusCode::InvalidBlockType}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Block\ type\ mismatch\ during\ reading\ at\ offset\ "{}}\ +}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(block\_start)}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00095}00095\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00096}00096\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00098}00098\ \ \ \ \ data\_block.header.type\ =\ \textcolor{keyword}{static\_cast<}\doxymbox{\hyperlink{sstable__entities_8h_a6e4c60e5b3af2829d3f85022acf90500}{BlockType}}\textcolor{keyword}{>}(block\_type);}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00100}00100\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00101}00101\ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00102}00102\ \ \ \ \ \ \ \ \ data\_block.header.payload\_disk\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00103}00103\ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00104}00104\ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00105}00105\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00106}00106\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00107}00107\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00109}00109\ \ \ \ \ std::uint32\_t\ expected\_crc\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00111}00111\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00112}00112\ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00113}00113\ \ \ \ \ \ \ \ \ expected\_crc,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00114}00114\ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00116}00116\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00117}00117\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00120}00120\ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_block.header.payload\_disk\_size\ >}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00121}00121\ \ \ \ \ \ \ \ \ BLOCK\_SIZE\ -\/\ DataSection::Header::disk\_size())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00122}00122\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea49d9a8dd4267bfc32f913369d13458b6}{StatusCode::InvalidPayloadSize}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Data\ block\ payload\ size\ exceeds\ block\ capacity"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00126}00126\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00127}00127\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00129}00129\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ payload\_start\ =\ this-\/>current\_offset;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ payload\_end\ =}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00131}00131\ \ \ \ \ \ \ \ \ payload\_start\ +\ data\_block.header.payload\_disk\_size;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00133}00133\ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_end\ >\ block\_end)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea9527444c805c146c790a5949b933fbd9}{StatusCode::OffsetOverlap}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Data\ block\ payload\ overlaps\ block\ boundary"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00137}00137\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00138}00138\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00140}00140\ \ \ \ \ \textcolor{keywordflow}{while}\ (this-\/>current\_offset\ <\ payload\_end)}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00141}00141\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_end\ -\/\ this-\/>current\_offset\ <\ DataSection::Payload::fixed\_part\_disk\_size())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8}{StatusCode::Corruption}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Not\ enough\ bytes\ for\ payload\ fixed\ part"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00147}00147\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ DataSection::Payload\ payload\{\};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00151}00151\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ payload\_record\_start\ =\ this-\/>current\_offset;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00153}00153\ \ \ \ \ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ payload.key\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ payload.value\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00167}00167\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00171}00171\ \ \ \ \ \ \ \ \ std::uint8\_t\ type\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00173}00173\ \ \ \ \ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u8\_t(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ type,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ payload.type\ =\ \textcolor{keyword}{static\_cast<}::\doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{Type}}\textcolor{keyword}{>}(type);}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ payload.flags,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ payload.reserved,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00202}00202\ \ \ \ \ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u64\_t\_le(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ payload.seq\_num,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ remaining\_payload\ =}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ payload\_end\ -\/\ this-\/>current\_offset;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.key\_size\ >\ remaining\_payload\ ||}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ payload.value\_size\ >\ remaining\_payload\ -\/\ payload.key\_size)}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00216}00216\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8}{StatusCode::Corruption}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Invalid\ payload\ sizes:\ key\_size=\{\},\ value\_size=\{\},\ record\_offset=\{\}"{}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.key\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.value\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload\_record\_start}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00226}00226\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ key\_alloc\ =\ this-\/>arena.alloc(payload.key\_size,\ \textcolor{keyword}{alignof}(std::byte));}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00229}00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!key\_alloc.is\_ok())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(key\_alloc.status);}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ value\_alloc\ =\ this-\/>arena.alloc(payload.value\_size,\ \textcolor{keyword}{alignof}(std::byte));}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!value\_alloc.is\_ok())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(value\_alloc.status);}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00236}00236\ \ \ \ \ \ \ \ \ payload.key\_ptr\ =\ key\_alloc.value;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00237}00237\ \ \ \ \ \ \ \ \ payload.value\_ptr\ =\ value\_alloc.value;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00239}00239\ \ \ \ \ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_bytes(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}std::byte*\textcolor{keyword}{>}(payload.key\_ptr),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ payload.key\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00245}00245\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00249}00249\ \ \ \ \ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_bytes(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ *this-\/>file,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}std::byte*\textcolor{keyword}{>}(payload.value\_ptr),}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ payload.value\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>current\_offset,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00255}00255\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ data\_block.payloads.emplace\_back(std::move(payload));}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00260}00260\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00262}00262\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>current\_offset\ !=\ payload\_end)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8}{StatusCode::Corruption}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Payload\ parser\ did\ not\ stop\ exactly\ at\ payload\_end"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00266}00266\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00267}00267\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00269}00269\ \ \ \ \ std::uint32\_t\ actual\_crc\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00270}00270\ \ \ \ \ data\_block.calculate\_crc32(actual\_crc);}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00272}00272\ \ \ \ \ \textcolor{keywordflow}{if}\ (actual\_crc\ !=\ expected\_crc)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea23cd86e43512932a4bc975552c8d17fd}{StatusCode::ChecksumMismatch}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Data\ block\ CRC\ mismatch:\ expected=\{\},\ actual=\{\}"{}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expected\_crc,}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ actual\_crc}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00280}00280\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00281}00281\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00283}00283\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ payload\ :\ data\_block.payloads)}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00284}00284\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ InternalRecord\ record\{\};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00286}00286\ \ \ \ \ \ \ \ \ record.key\_entry\ =\ ArenaEntry(payload.key\_ptr,\ payload.key\_size);}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00287}00287\ \ \ \ \ \ \ \ \ record.value\_entry\ =\ ArenaEntry(payload.value\_ptr,\ payload.value\_size);}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00289}00289\ \ \ \ \ \ \ \ \ record.type\ =\ payload.type;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00290}00290\ \ \ \ \ \ \ \ \ record.seq\_num\ =\ payload.seq\_num;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00292}00292\ \ \ \ \ \ \ \ \ this-\/>current\_block\_records.emplace\_back(record);}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00293}00293\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00295}00295\ \ \ \ \ this-\/>current\_offset\ =\ block\_end;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00296}00296\ \ \ \ \ next\_block\_index++;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00298}00298\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_block\_records.empty())}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00299}00299\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8}{StatusCode::Corruption}},}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Loaded\ empty\ data\ block"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00304}00304\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00305}00305\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00306}00306\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00307}00307\ \ \ \ \ valid\_\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00308}00308\ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00309}00309\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00311}\doxymbox{\hyperlink{class_s_s_table_iterator_a55680209922f3d6211b63b9d9133ae82}{00311}}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_s_s_table_iterator_a55680209922f3d6211b63b9d9133ae82}{SSTableIterator::seek\_to\_first}}()}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00312}00312\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00313}00313\ \ \ \ \ current\_offset\ =\ sstable.file\_footer\_section.data\_offset;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00314}00314\ \ \ \ \ data\_block\_count\ =\ sstable.file\_footer\_section.data\_block\_count;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00315}00315\ \ \ \ \ next\_block\_index\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00316}00316\ \ \ \ \ record\_index\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00317}00317\ \ \ \ \ valid\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00318}00318\ \ \ \ \ status\_\ =\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00319}00319\ \ \ \ \ current\_block\_records.clear();}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00321}00321\ \ \ \ \ status\_\ =\ load\_next\_block();}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00322}00322\ \ \ \ \ \textcolor{keywordflow}{return}\ status\_;}
+\DoxyCodeLine{\Hypertarget{sstable__iterator_8cpp_source_l00323}00323\ \}}
+
+\end{DoxyCode}

@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('class_s_s_table_builder.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,8 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">SSTableBuilder Member List</div></div>
 </div><!--header-->
@@ -105,16 +122,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <p>This is the complete list of members for <a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a>, including all inherited members.</p>
 <table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>approximate_disk_space</b>(const std::vector&lt; InternalRecord &gt; &amp;records) (defined in <a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a>)</td><td class="entry"><a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>build</b>(std::uint32_t table_id, MemTable &amp;mem_table, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path) (defined in <a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a>)</td><td class="entry"><a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>build</b>(std::uint32_t table_id, SSTableIterator &amp;it, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path) (defined in <a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a>)</td><td class="entry"><a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>build</b>(std::uint32_t table_id, const std::vector&lt; InternalRecord &gt; &amp;records, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path) (defined in <a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a>)</td><td class="entry"><a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>build_impl</b>(std::uint32_t table_id, const std::vector&lt; InternalRecord &gt; &amp;records, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path) (defined in <a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a>)</td><td class="entry"><a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a></td><td class="entry"><span class="mlabel">private</span><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_s_s_table_builder.html#ad89acf35d5d3aeef210f2384804545e5">build</a>(std::uint32_t table_id, MemTable &amp;mem_table, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td><td class="entry"><a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_s_s_table_builder.html#af62e441b5f61ca562552c9fd4a7500f1">build</a>(std::uint32_t table_id, SSTableIterator &amp;it, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td><td class="entry"><a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_s_s_table_builder.html#a34902b788f3a6dc5c8d422900d21a810">build</a>(std::uint32_t table_id, const std::vector&lt; InternalRecord &gt; &amp;records, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)</td><td class="entry"><a class="el" href="class_s_s_table_builder.html">SSTableBuilder</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
 </table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

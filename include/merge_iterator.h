@@ -1,3 +1,9 @@
+/**
+ * @file merge_iterator.h
+ * @brief K-way merge cursor over sorted SSTable iterators.
+ */
+#pragma once
+
 #include "sstable.h"
 #include "arena.h"
 #include "status.h"
@@ -7,6 +13,7 @@
 #include <vector>
 #include "sstable_iterator.h"
 
+/** @brief Internal-key ordering: user key ascending, sequence descending. */
 static bool internal_before(const InternalRecord& a, const InternalRecord& b)
 {
     if (a.key_entry < b.key_entry) return true;
@@ -15,6 +22,15 @@ static bool internal_before(const InternalRecord& a, const InternalRecord& b)
     // Same user key: newer sequence comes first.
     return a.seq_num > b.seq_num;
 }
+/**
+ * @brief Heap-based merge view over multiple SSTableIterator inputs.
+ *
+ * The iterator exposes the globally smallest internal key. Equal user keys are
+ * ordered newest-first, which lets compaction apply its version-retention
+ * policy in one forward pass.
+ *
+ * @note Input iterators must outlive this object.
+ */
 class MergeIterator
 {
 private:
@@ -46,7 +62,9 @@ private:
 public:
     MergeIterator() noexcept;
 
+    /** @brief Initializes the heap from all valid input iterators. */
     Status build(std::vector<SSTableIterator>& data);
+    /** @brief Advances the current input and restores heap order. */
     Status next();
 
     bool valid() const;

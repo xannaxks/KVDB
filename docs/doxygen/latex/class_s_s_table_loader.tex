@@ -1,31 +1,24 @@
 \doxysection{SSTable\+Loader Class Reference}
 \hypertarget{class_s_s_table_loader}{}\label{class_s_s_table_loader}\index{SSTableLoader@{SSTableLoader}}
-\doxysubsubsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ \doxymbox{\hyperlink{class_s_s_table_loader_ad9219e4286d712e4dd7f4a59485d73ac}{load}} (const std::\+filesystem::\+path \&path, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
-\end{DoxyCompactItemize}
 
 
-\label{class_s_s_table_loader_doc-func-members}
-\Hypertarget{class_s_s_table_loader_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{class_s_s_table_loader_ad9219e4286d712e4dd7f4a59485d73ac}\index{SSTableLoader@{SSTableLoader}!load@{load}}
-\index{load@{load}!SSTableLoader@{SSTableLoader}}
-\doxysubsubsection{\texorpdfstring{load()}{load()}}
-{\footnotesize\ttfamily \label{class_s_s_table_loader_ad9219e4286d712e4dd7f4a59485d73ac} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ SSTable\+Loader::\+load (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+Stateless facade around \doxylink{class_s_s_table_ac712fae5cf9b6ddc81adbae978838f5c}{SSTable::\+load()}.  
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00007\ \{}
-\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keywordflow}{return}\ SSTable::load(path,\ arena);}
-\DoxyCodeLine{00009\ \}}
 
-\end{DoxyCode}
+
+{\ttfamily \+\#include $<$sstable\+\_\+loader.\+h$>$}
+
+
+
+\doxysubsection{Detailed Description}
+Stateless facade around \doxylink{class_s_s_table_ac712fae5cf9b6ddc81adbae978838f5c}{SSTable::\+load()}. 
+
+Definition at line \doxymbox{\hyperlink{sstable__loader_8h_source_l00014}{14}} of file \doxymbox{\hyperlink{sstable__loader_8h_source}{sstable\+\_\+loader.\+h}}.
+
 
 
 The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+sstable\+\_\+loader.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+sstable\+\_\+loader.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{sstable__loader_8h}{sstable\+\_\+loader.\+h}}\item 
+sstable\+\_\+loader.\+cpp\end{DoxyCompactItemize}

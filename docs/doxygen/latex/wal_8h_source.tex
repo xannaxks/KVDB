@@ -1,386 +1,468 @@
 \doxysection{wal.\+h}
-\hypertarget{wal_8h_source}{}\label{wal_8h_source}\index{C:/Users/user/KVDB/include/wal.h@{C:/Users/user/KVDB/include/wal.h}}
-
+\hypertarget{wal_8h_source}{}\label{wal_8h_source}\index{wal.h@{wal.h}}
+\doxymbox{\hyperlink{wal_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <filesystem>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <optional>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <span>}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
-\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}config.h"{}}}
-\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}file.h"{}}}
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}sstable.h"{}}}
-\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
-\DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }WALFileHeader}
-\DoxyCodeLine{00019\ \{}
-\DoxyCodeLine{00020\ \ \ \ \ std::uint32\_t\ magic\ =\ 0;}
-\DoxyCodeLine{00021\ \ \ \ \ std::uint32\_t\ version\ =\ 0;}
-\DoxyCodeLine{00022\ \ \ \ \ std::uint32\_t\ header\_size\ =\ 0;}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ std::uint64\_t\ wal\_id\ =\ 0;}
-\DoxyCodeLine{00025\ \ \ \ \ std::uint64\_t\ start\_seq\ =\ 0;}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ std::uint32\_t\ block\_size\ =\ 0;}
-\DoxyCodeLine{00028\ \ \ \ \ std::uint32\_t\ reserved\ =\ 0;}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \ \ std::uint32\_t\ header\_crc32\ =\ 0;}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ WALFileHeader()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00033\ \ \ \ \ WALFileHeader(std::uint32\_t\ wal\_id,\ std::uint64\_t\ start\_seq);}
-\DoxyCodeLine{00034\ }
-\DoxyCodeLine{00035\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00038\ \ \ \ \ )\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<WALFileHeader>}}>\ load(}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00044\ \ \ \ \ );}
-\DoxyCodeLine{00045\ }
-\DoxyCodeLine{00046\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ self\_check()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00047\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00048\ \ \ \ \ \{}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ u32\ +\ u32\ +\ u32\ +\ u64\ +\ u64\ +\ u32\ +\ u32\ +\ u32}}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 40;}
-\DoxyCodeLine{00051\ \ \ \ \ \}}
-\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ compute\_crc32();}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{static}\ std::uint32\_t\ compute\_crc32(\textcolor{keyword}{const}\ WALFileHeader\&\ wal\_file\_header);}
-\DoxyCodeLine{00055\ \};}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_fragment}{Fragment}}}
-\DoxyCodeLine{00058\ \{}
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Type\ :\ std::uint8\_t}
-\DoxyCodeLine{00060\ \ \ \ \ \{}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ FULL\ =\ 0,}
-\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ FIRST\ =\ 1,}
-\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ MIDDLE\ =\ 2,}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ LAST\ =\ 3,}
-\DoxyCodeLine{00065\ \ \ \ \ \};}
-\DoxyCodeLine{00066\ }
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_fragment_1_1_header}{Header}}}
-\DoxyCodeLine{00068\ \ \ \ \ \{}
-\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ std::uint32\_t\ fragment\_crc32\ =\ 0;}
-\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ std::uint32\_t\ header\_size\ =\ 0;}
-\DoxyCodeLine{00071\ }
-\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ Fragment::Type\ fragment\_type\ =\ Fragment::Type::FULL;}
-\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ ::Type\ type\ =\ ::Type::Put;}
-\DoxyCodeLine{00074\ }
-\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ std::uint64\_t\ seq\_num\ =\ 0;}
-\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ std::uint32\_t\ fragment\_size\ =\ 0;}
-\DoxyCodeLine{00077\ }
-\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ u32\ +\ u32\ +\ u8\ +\ u8\ +\ u64\ +\ u32}}
-\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 22;}
-\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00083\ }
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
-\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00088\ }
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Header>}}\ load(}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fragment\ CRC\ also\ covers\ the\ payload,\ so\ it\ is\ computed\ by}}
-\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fragment::compute\_crc32(),\ not\ by\ Header\ alone}}
-\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//[[nodiscard]]\ Status\ compute\_crc32();}}
-\DoxyCodeLine{00096\ \ \ \ \ \};}
-\DoxyCodeLine{00097\ }
-\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_fragment_1_1_payload}{Payload}}}
-\DoxyCodeLine{00099\ \ \ \ \ \{}
-\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ std::vector<std::byte>\ bytes;}
-\DoxyCodeLine{00101\ }
-\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
-\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00106\ }
-\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Payload>}}\ load(}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
-\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ size,}
-\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00112\ }
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bytes.size();}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00117\ \ \ \ \ \};}
-\DoxyCodeLine{00118\ }
-\DoxyCodeLine{00119\ \ \ \ \ \doxymbox{\hyperlink{struct_fragment_1_1_header}{Header}}\ header;}
-\DoxyCodeLine{00120\ \ \ \ \ \doxymbox{\hyperlink{struct_fragment_1_1_payload}{Payload}}\ payload;}
-\DoxyCodeLine{00121\ }
-\DoxyCodeLine{00122\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ compute\_crc32();}
-\DoxyCodeLine{00123\ }
-\DoxyCodeLine{00124\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_status}{Status}}\ compute\_crc32(}
-\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ std::uint32\_t\&\ crc32\_out,}
-\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_fragment}{Fragment}}\&\ fragment}
-\DoxyCodeLine{00127\ \ \ \ \ );}
-\DoxyCodeLine{00128\ }
-\DoxyCodeLine{00129\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00132\ \ \ \ \ );}
-\DoxyCodeLine{00133\ }
-\DoxyCodeLine{00134\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<Fragment>}}>\ load(}
-\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
-\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
-\DoxyCodeLine{00137\ \ \ \ \ );}
-\DoxyCodeLine{00138\ }
-\DoxyCodeLine{00139\ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ const\ noexcept}
-\DoxyCodeLine{00140\ \ \ \ \ \{}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Header::disk\_size()\ +\ payload.disk\_size();}
-\DoxyCodeLine{00142\ \ \ \ \ \}}
-\DoxyCodeLine{00143\ \};}
-\DoxyCodeLine{00144\ }
-\DoxyCodeLine{00145\ \textcolor{keyword}{class\ }WALWriter}
-\DoxyCodeLine{00146\ \{}
-\DoxyCodeLine{00147\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00148\ \ \ \ \ WALWriter()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00149\ \ \ \ \ \string~WALWriter();}
-\DoxyCodeLine{00150\ }
-\DoxyCodeLine{00151\ \ \ \ \ WALWriter(\textcolor{keyword}{const}\ WALWriter\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00152\ \ \ \ \ WALWriter\&\ operator=(\textcolor{keyword}{const}\ WALWriter\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00153\ \ \ \ \ WALWriter(WALWriter\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00154\ \ \ \ \ WALWriter\&\ operator=(WALWriter\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00155\ }
-\DoxyCodeLine{00156\ \ \ \ \ \textcolor{comment}{//\ Creates\ a\ fresh\ WAL.\ open\_writable\_file()\ truncates,\ so\ this\ must\ not}}
-\DoxyCodeLine{00157\ \ \ \ \ \textcolor{comment}{//\ be\ used\ to\ reopen\ an\ existing\ WAL\ after\ recovery.}}
-\DoxyCodeLine{00158\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ create(}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ std::uint32\_t\ wal\_id,}
-\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
-\DoxyCodeLine{00162\ \ \ \ \ );}
-\DoxyCodeLine{00163\ }
-\DoxyCodeLine{00164\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ rotate(}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ new\_path,}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ std::uint32\_t\ new\_wal\_id,}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
-\DoxyCodeLine{00168\ \ \ \ \ );}
-\DoxyCodeLine{00169\ }
-\DoxyCodeLine{00170\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record);}
-\DoxyCodeLine{00171\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync();}
-\DoxyCodeLine{00172\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ close();}
-\DoxyCodeLine{00173\ }
-\DoxyCodeLine{00174\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ is\_open()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00175\ \ \ \ \ \{}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ file\_\ !=\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00177\ \ \ \ \ \}}
-\DoxyCodeLine{00178\ }
-\DoxyCodeLine{00179\ \ \ \ \ [[nodiscard]]\ std::uint32\_t\ wal\_id()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00180\ \ \ \ \ \{}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ wal\_id\_;}
-\DoxyCodeLine{00182\ \ \ \ \ \}}
-\DoxyCodeLine{00183\ }
-\DoxyCodeLine{00184\ \ \ \ \ [[nodiscard]]\ std::uint64\_t\ offset()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00185\ \ \ \ \ \{}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ offset\_;}
-\DoxyCodeLine{00187\ \ \ \ \ \}}
-\DoxyCodeLine{00188\ }
-\DoxyCodeLine{00189\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ std::filesystem::path\&\ path()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00190\ \ \ \ \ \{}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ path\_;}
-\DoxyCodeLine{00192\ \ \ \ \ \}}
-\DoxyCodeLine{00193\ }
-\DoxyCodeLine{00194\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00195\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write\_payload(}
-\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>\ byte\_sequence,}
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record}
-\DoxyCodeLine{00198\ \ \ \ \ );}
-\DoxyCodeLine{00199\ }
-\DoxyCodeLine{00200\ \ \ \ \ std::unique\_ptr<WritableFile>\ file\_;}
-\DoxyCodeLine{00201\ \ \ \ \ std::filesystem::path\ path\_;}
-\DoxyCodeLine{00202\ \ \ \ \ std::uint32\_t\ wal\_id\_\ =\ 0;}
-\DoxyCodeLine{00203\ \ \ \ \ std::uint64\_t\ offset\_\ =\ 0;}
-\DoxyCodeLine{00204\ \};}
-\DoxyCodeLine{00205\ }
-\DoxyCodeLine{00206\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_w_a_l_loader}{WALLoader}}}
-\DoxyCodeLine{00207\ \{}
-\DoxyCodeLine{00208\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{LoadResult}}}
-\DoxyCodeLine{00210\ \ \ \ \ \{}
-\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ key/value\ bytes\ are\ owned\ by\ the\ Arena\ passed\ to\ load().}}
-\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ std::vector<InternalRecord>\ records;}
-\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ std::optional<WALFileHeader>\ header;}
-\DoxyCodeLine{00214\ }
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Safe\ truncation/recovery\ boundary:\ immediately\ after\ the\ last}}
-\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ completely\ reconstructed\ logical\ record,\ or\ after\ the\ file\ header.}}
-\DoxyCodeLine{00217\ }
-\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ ok\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_torn\_tail\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_corruption\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ std::string\ error;}
-\DoxyCodeLine{00222\ \ \ \ \ \};}
-\DoxyCodeLine{00223\ }
-\DoxyCodeLine{00224\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<LoadResult>}}\ load(}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
-\DoxyCodeLine{00229\ \ \ \ \ );}
-\DoxyCodeLine{00230\ }
-\DoxyCodeLine{00231\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<LoadResult>}}\ load(}
-\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
-\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
-\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
-\DoxyCodeLine{00235\ \ \ \ \ );}
-\DoxyCodeLine{00236\ \};}
-\DoxyCodeLine{00237\ }
-\DoxyCodeLine{00238\ \textcolor{keyword}{class\ }WALStreamingLoader}
-\DoxyCodeLine{00239\ \{}
-\DoxyCodeLine{00240\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_w_a_l_streaming_loader_1_1_load_result}{LoadResult}}}
-\DoxyCodeLine{00242\ \ \ \ \ \{}
-\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Present\ only\ when\ the\ latest\ load\_next()\ produced\ a\ record.}}
-\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ std::optional<InternalRecord>\ logical\_record;}
-\DoxyCodeLine{00245\ }
-\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Persists\ after\ the\ WAL\ header\ has\ been\ loaded.}}
-\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ std::optional<WALFileHeader>\ header;}
-\DoxyCodeLine{00248\ }
-\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Describes\ the\ latest\ load\_next()\ call.}}
-\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ reached\_eof\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ ok\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_torn\_tail\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_corruption\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00254\ }
-\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ End\ offset\ of\ the\ last\ completely\ valid\ item.}}
-\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Useful\ when\ truncating\ a\ torn\ WAL\ tail.}}
-\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ std::uint64\_t\ last\_good\_offset\ =\ 0;}
-\DoxyCodeLine{00258\ }
-\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ std::string\ error;}
-\DoxyCodeLine{00260\ \ \ \ \ \};}
-\DoxyCodeLine{00261\ }
-\DoxyCodeLine{00262\ \ \ \ \ WALStreamingLoader(}
-\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ std::filesystem::path\ path,}
-\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
-\DoxyCodeLine{00265\ \ \ \ \ )}
-\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ :\ path\_(std::move(path)),}
-\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ arena\_(arena)}
-\DoxyCodeLine{00268\ \ \ \ \ \{}
-\DoxyCodeLine{00269\ \ \ \ \ \}}
-\DoxyCodeLine{00270\ }
-\DoxyCodeLine{00271\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}()\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00272\ }
-\DoxyCodeLine{00273\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00274\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}\&\ operator=(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00275\ }
-\DoxyCodeLine{00276\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ open();}
-\DoxyCodeLine{00277\ }
-\DoxyCodeLine{00278\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ load\_next(}
-\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
-\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id}
-\DoxyCodeLine{00281\ \ \ \ \ );}
-\DoxyCodeLine{00282\ }
-\DoxyCodeLine{00283\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ LoadResult\&\ result()\ const\ noexcept}
-\DoxyCodeLine{00284\ \ \ \ \ \{}
-\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result\_;}
-\DoxyCodeLine{00286\ \ \ \ \ \}}
-\DoxyCodeLine{00287\ }
-\DoxyCodeLine{00288\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keyword}{enum\ class}\ State}
-\DoxyCodeLine{00290\ \ \ \ \ \{}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ Closed,}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ Ready,}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ EndOfFile,}
-\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ TornTail,}
-\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ Corrupted}
-\DoxyCodeLine{00296\ \ \ \ \ \};}
-\DoxyCodeLine{00297\ }
-\DoxyCodeLine{00298\ \ \ \ \ [[nodiscard]]\ Status\ validate\_state(}
-\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
-\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id}
-\DoxyCodeLine{00301\ \ \ \ \ )\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00302\ }
-\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keywordtype}{void}\ reset\_call\_result();}
-\DoxyCodeLine{00304\ }
-\DoxyCodeLine{00305\ \ \ \ \ \textcolor{keywordtype}{void}\ mark\_torn\_tail(std::string\ message);}
-\DoxyCodeLine{00306\ }
-\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordtype}{void}\ mark\_corruption(std::string\ message);}
-\DoxyCodeLine{00308\ }
-\DoxyCodeLine{00309\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00310\ \ \ \ \ std::filesystem::path\ path\_;}
-\DoxyCodeLine{00311\ \ \ \ \ std::unique\_ptr<ReadableFile>\ file\_;}
-\DoxyCodeLine{00312\ \ \ \ \ Arena\&\ arena\_;}
-\DoxyCodeLine{00313\ }
-\DoxyCodeLine{00314\ \ \ \ \ \doxymbox{\hyperlink{struct_w_a_l_streaming_loader_1_1_load_result}{LoadResult}}\ result\_;}
-\DoxyCodeLine{00315\ }
-\DoxyCodeLine{00316\ \ \ \ \ State\ state\_\ =\ State::Closed;}
-\DoxyCodeLine{00317\ }
-\DoxyCodeLine{00318\ \ \ \ \ std::string\ terminal\_error\_;}
-\DoxyCodeLine{00319\ \};}
-\DoxyCodeLine{00320\ }
-\DoxyCodeLine{00321\ \textcolor{keyword}{class\ }WAL}
-\DoxyCodeLine{00322\ \{}
-\DoxyCodeLine{00323\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00324\ \ \ \ \ WAL()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00325\ }
-\DoxyCodeLine{00326\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ create(}
-\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ std::uint32\_t\ wal\_id,}
-\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
-\DoxyCodeLine{00330\ \ \ \ \ )}
-\DoxyCodeLine{00331\ \ \ \ \ \{}
-\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.create(path,\ wal\_id,\ start\_seq);}
-\DoxyCodeLine{00333\ \ \ \ \ \}}
-\DoxyCodeLine{00334\ }
-\DoxyCodeLine{00335\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ rotate(}
-\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ new\_path,}
-\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ std::uint32\_t\ new\_wal\_id,}
-\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
-\DoxyCodeLine{00339\ \ \ \ \ )}
-\DoxyCodeLine{00340\ \ \ \ \ \{}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.rotate(new\_path,\ new\_wal\_id,\ start\_seq);}
-\DoxyCodeLine{00342\ \ \ \ \ \}}
-\DoxyCodeLine{00343\ }
-\DoxyCodeLine{00344\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record)}
-\DoxyCodeLine{00345\ \ \ \ \ \{}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.write(record);}
-\DoxyCodeLine{00347\ \ \ \ \ \}}
-\DoxyCodeLine{00348\ }
-\DoxyCodeLine{00349\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync()}
-\DoxyCodeLine{00350\ \ \ \ \ \{}
-\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.sync();}
-\DoxyCodeLine{00352\ \ \ \ \ \}}
-\DoxyCodeLine{00353\ }
-\DoxyCodeLine{00354\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ close()}
-\DoxyCodeLine{00355\ \ \ \ \ \{}
-\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.close();}
-\DoxyCodeLine{00357\ \ \ \ \ \}}
-\DoxyCodeLine{00358\ }
-\DoxyCodeLine{00359\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<WALLoader::LoadResult>}}\ recover(}
-\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
-\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
-\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
-\DoxyCodeLine{00363\ \ \ \ \ )}
-\DoxyCodeLine{00364\ \ \ \ \ \{}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ WALLoader::load(path,\ expected\_wal\_id,\ arena);}
-\DoxyCodeLine{00366\ \ \ \ \ \}}
-\DoxyCodeLine{00367\ }
-\DoxyCodeLine{00368\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}}\&\ writer()\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00369\ \ \ \ \ \{}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_;}
-\DoxyCodeLine{00371\ \ \ \ \ \}}
-\DoxyCodeLine{00372\ }
-\DoxyCodeLine{00373\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}}\&\ writer()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
-\DoxyCodeLine{00374\ \ \ \ \ \{}
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_;}
-\DoxyCodeLine{00376\ \ \ \ \ \}}
-\DoxyCodeLine{00377\ }
-\DoxyCodeLine{00378\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00379\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}}\ writer\_;}
-\DoxyCodeLine{00380\ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00001}00001\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ wal.h}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00003}00003\ \textcolor{comment}{\ *\ @brief\ Write-\/ahead\ logging,\ fragmentation,\ and\ crash\ recovery.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00004}00004\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00005}00005\ \textcolor{comment}{\ *\ The\ write-\/ahead\ log\ (WAL)\ records\ database\ mutations\ before\ they\ are\ applied}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00006}00006\ \textcolor{comment}{\ *\ to\ the\ in-\/memory\ MemTable.\ If\ the\ process\ terminates\ before\ the\ MemTable\ is}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00007}00007\ \textcolor{comment}{\ *\ flushed\ to\ an\ SSTable,\ the\ WAL\ can\ be\ replayed\ during\ database\ recovery\ to}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00008}00008\ \textcolor{comment}{\ *\ reconstruct\ the\ lost\ in-\/memory\ state.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00009}00009\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00010}00010\ \textcolor{comment}{\ *\ WAL\ records\ are\ appended\ sequentially.\ A\ logical\ record\ may\ be\ stored\ as\ one}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00011}00011\ \textcolor{comment}{\ *\ or\ more\ fragments\ when\ it\ does\ not\ fit\ within\ a\ single\ WAL\ block.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00012}00012\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00013}00013\ \textcolor{comment}{\ *\ The\ WAL\ file\ layout\ is:}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00014}00014\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00015}00015\ \textcolor{comment}{\ *\ @code}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00016}00016\ \textcolor{comment}{\ *\ [\ WAL\ file\ header\ ]}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00017}00017\ \textcolor{comment}{\ *\ [\ Fragment\ header\ ][\ Fragment\ payload\ ]}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00018}00018\ \textcolor{comment}{\ *\ [\ Fragment\ header\ ][\ Fragment\ payload\ ]}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00019}00019\ \textcolor{comment}{\ *\ ...}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00020}00020\ \textcolor{comment}{\ *\ @endcode}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00021}00021\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00022}00022\ \textcolor{comment}{\ *\ Each\ fragment\ header\ contains\ metadata\ required\ to\ validate\ and\ reconstruct}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00023}00023\ \textcolor{comment}{\ *\ the\ corresponding\ logical\ record,\ such\ as\ the\ fragment\ type,\ payload\ size,}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00024}00024\ \textcolor{comment}{\ *\ and\ checksum.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00025}00025\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00026}00026\ \textcolor{comment}{\ *\ A\ mutation\ is\ considered\ recoverable\ only\ after\ its\ WAL\ record\ has\ been}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00027}00027\ \textcolor{comment}{\ *\ written\ and\ synchronized\ according\ to\ the\ configured\ durability\ policy.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00028}00028\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00029}00029\ \textcolor{comment}{\ *\ @note\ These\ entities\ are\ not\ thread-\/safe.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00030}00030\ \textcolor{comment}{\ *\ @see\ docs/design/wal.md\ for\ the\ complete\ format\ and\ recovery\ rationale.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00031}00031\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00032}00032\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00034}00034\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00035}00035\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00036}00036\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00037}00037\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00038}00038\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00039}00039\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00040}00040\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00041}00041\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00043}00043\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{arena_8h}{arena.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00044}00044\ \textcolor{preprocessor}{\#include\ "{}config.h"{}}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00045}00045\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{file_8h}{file.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00046}00046\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{sstable_8h}{sstable.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00047}00047\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{status_8h}{status.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00048}00048\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00049}00049\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00050}00050\ \textcolor{comment}{\ *\ @brief\ Checksummed\ fixed-\/width\ identity\ header\ for\ one\ WAL\ generation.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00051}00051\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00052}00052\ \textcolor{comment}{\ *\ The\ WAL\ id\ prevents\ replaying\ a\ file\ under\ the\ wrong\ generation\ name,\ while}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00053}00053\ \textcolor{comment}{\ *\ start\_seq\ establishes\ the\ first\ sequence\ expected\ from\ the\ log.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00054}00054\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00055}\doxymbox{\hyperlink{struct_w_a_l_file_header}{00055}}\ \textcolor{keyword}{struct\ }WALFileHeader}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00056}00056\ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00057}00057\ \ \ \ \ std::uint32\_t\ magic\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00058}00058\ \ \ \ \ std::uint32\_t\ version\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00059}00059\ \ \ \ \ std::uint32\_t\ header\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00061}00061\ \ \ \ \ std::uint64\_t\ wal\_id\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00062}00062\ \ \ \ \ std::uint64\_t\ start\_seq\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00064}00064\ \ \ \ \ std::uint32\_t\ block\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00065}00065\ \ \ \ \ std::uint32\_t\ reserved\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00067}00067\ \ \ \ \ std::uint32\_t\ header\_crc32\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00069}00069\ \ \ \ \ WALFileHeader()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00070}00070\ \ \ \ \ WALFileHeader(std::uint32\_t\ wal\_id,\ std::uint64\_t\ start\_seq);}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00071}00071\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00072}00072\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00073}00073\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00074}00074\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00075}00075\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00077}00077\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<WALFileHeader>}}>\ load(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00078}00078\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00079}00079\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00080}00080\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00081}00081\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00083}00083\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ self\_check()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00084}00084\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00085}00085\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ u32\ +\ u32\ +\ u32\ +\ u64\ +\ u64\ +\ u32\ +\ u32\ +\ u32}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 40;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00088}00088\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00089}00089\ \ \ \ \ \textcolor{keywordtype}{void}\ compute\_crc32();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00090}00090\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00091}00091\ \ \ \ \ \textcolor{keyword}{static}\ std::uint32\_t\ compute\_crc32(\textcolor{keyword}{const}\ WALFileHeader\&\ wal\_file\_header);}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00092}00092\ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00093}00093\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00094}00094\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00095}00095\ \textcolor{comment}{\ *\ @brief\ One\ physical\ piece\ of\ a\ logical\ WAL\ mutation\ record.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00096}00096\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00097}00097\ \textcolor{comment}{\ *\ Large\ records\ are\ divided\ into\ FIRST/MIDDLE/LAST\ fragments\ at\ block}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00098}00098\ \textcolor{comment}{\ *\ boundaries.\ Small\ records\ use\ FULL.\ The\ checksum\ covers\ both\ the\ fragment}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00099}00099\ \textcolor{comment}{\ *\ header\ fields\ and\ payload.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00100}00100\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00101}\doxymbox{\hyperlink{struct_fragment}{00101}}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_fragment}{Fragment}}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00102}00102\ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00103}00103\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Type\ :\ std::uint8\_t}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00104}00104\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00105}00105\ \ \ \ \ \ \ \ \ FULL\ =\ 0,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00106}00106\ \ \ \ \ \ \ \ \ FIRST\ =\ 1,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00107}00107\ \ \ \ \ \ \ \ \ MIDDLE\ =\ 2,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00108}00108\ \ \ \ \ \ \ \ \ LAST\ =\ 3,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00109}00109\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00111}00111\ \ \ \ \ \textcolor{keyword}{struct\ }Header}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00112}00112\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00113}00113\ \ \ \ \ \ \ \ \ std::uint32\_t\ fragment\_crc32\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00114}00114\ \ \ \ \ \ \ \ \ std::uint32\_t\ header\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00116}00116\ \ \ \ \ \ \ \ \ Fragment::Type\ fragment\_type\ =\ Fragment::Type::FULL;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00117}00117\ \ \ \ \ \ \ \ \ ::Type\ type\ =\ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479ad0bf1810982e9728fcf3ac444a015373}{::Type::Put}};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00119}00119\ \ \ \ \ \ \ \ \ std::uint64\_t\ seq\_num\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00120}00120\ \ \ \ \ \ \ \ \ std::uint32\_t\ fragment\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00122}00122\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00123}00123\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ u32\ +\ u32\ +\ u8\ +\ u8\ +\ u64\ +\ u32}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 22;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00126}00126\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00128}00128\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00131}00131\ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00132}00132\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00133}00133\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Header>}}\ load(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00136}00136\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fragment\ CRC\ also\ covers\ the\ payload,\ so\ it\ is\ computed\ by}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00138}00138\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fragment::compute\_crc32(),\ not\ by\ Header\ alone}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{comment}{//[[nodiscard]]\ Status\ compute\_crc32();}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00140}00140\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00142}00142\ \ \ \ \ \textcolor{keyword}{struct\ }Payload}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00143}00143\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00144}00144\ \ \ \ \ \ \ \ \ std::vector<std::byte>\ bytes;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00146}00146\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00149}00149\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00151}00151\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Payload>}}\ load(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ size,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00155}00155\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00157}00157\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00158}00158\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bytes.size();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00160}00160\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00161}00161\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00163}00163\ \ \ \ \ Header\ header;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00164}00164\ \ \ \ \ Payload\ payload;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00166}00166\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ compute\_crc32();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00168}00168\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_status}{Status}}\ compute\_crc32(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00169}00169\ \ \ \ \ \ \ \ \ std::uint32\_t\&\ crc32\_out,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_fragment}{Fragment}}\&\ fragment}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00171}00171\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00173}00173\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00174}00174\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00175}00175\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00176}00176\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00178}00178\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<Fragment>}}>\ load(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00179}00179\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00180}00180\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00181}00181\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00183}00183\ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00184}00184\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00185}00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Header::disk\_size()\ +\ payload.disk\_size();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00186}00186\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00187}00187\ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00188}00188\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00189}00189\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00190}00190\ \textcolor{comment}{\ *\ @brief\ Append-\/only\ writer\ for\ a\ single\ active\ WAL\ generation.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00191}00191\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00192}00192\ \textcolor{comment}{\ *\ create()\ writes\ a\ fresh\ file\ header.\ write()\ encodes\ an\ InternalRecord\ and}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00193}00193\ \textcolor{comment}{\ *\ fragments\ it\ across\ physical\ blocks\ as\ needed.\ rotate()\ closes\ the\ current}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00194}00194\ \textcolor{comment}{\ *\ generation\ before\ creating\ the\ next\ one.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00195}00195\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00196}\doxymbox{\hyperlink{class_w_a_l_writer}{00196}}\ \textcolor{keyword}{class\ }WALWriter}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00197}00197\ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00198}00198\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00199}00199\ \ \ \ \ WALWriter()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00200}00200\ \ \ \ \ \string~WALWriter();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00202}00202\ \ \ \ \ WALWriter(\textcolor{keyword}{const}\ WALWriter\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00203}00203\ \ \ \ \ WALWriter\&\ operator=(\textcolor{keyword}{const}\ WALWriter\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00204}00204\ \ \ \ \ WALWriter(WALWriter\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00205}00205\ \ \ \ \ WALWriter\&\ operator=(WALWriter\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00206}00206\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00207}00207\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00208}00208\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Creates\ a\ fresh\ WAL\ and\ writes\ its\ durable\ identity\ header.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00209}00209\ \textcolor{comment}{\ \ \ \ \ *\ @warning\ This\ truncating\ path\ must\ not\ reopen\ an\ existing\ recovered\ WAL.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00210}00210\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00211}00211\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_w_a_l_writer_ac3cd5afee6c3dcb2b48d9c6547d42cb8}{create}}(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00213}00213\ \ \ \ \ \ \ \ \ std::uint32\_t\ wal\_id,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00214}00214\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00215}00215\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00217}00217\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ rotate(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00218}00218\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ new\_path,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00219}00219\ \ \ \ \ \ \ \ \ std::uint32\_t\ new\_wal\_id,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00220}00220\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00221}00221\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00222}00222\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00223}00223\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00224}00224\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Appends\ one\ logical\ mutation,\ fragmenting\ it\ when\ necessary.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00225}00225\ \textcolor{comment}{\ \ \ \ \ *\ @callgraph}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00226}00226\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00227}00227\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_w_a_l_writer_a67b7a05a5ce840d91fd2b8687c0e9f9d}{write}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record);}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00228}00228\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00229}00229\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ close();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00231}00231\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ is\_open()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00232}00232\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ file\_\ !=\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00234}00234\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00236}00236\ \ \ \ \ [[nodiscard]]\ std::uint32\_t\ wal\_id()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00237}00237\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ wal\_id\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00239}00239\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00241}00241\ \ \ \ \ [[nodiscard]]\ std::uint64\_t\ offset()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00242}00242\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ offset\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00244}00244\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00246}00246\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ std::filesystem::path\&\ path()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00247}00247\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00248}00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ path\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00249}00249\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00250}00250\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00251}00251\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00252}00252\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write\_payload(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00253}00253\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>\ byte\_sequence,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00255}00255\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00257}00257\ \ \ \ \ std::unique\_ptr<WritableFile>\ file\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00258}00258\ \ \ \ \ std::filesystem::path\ path\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00259}00259\ \ \ \ \ std::uint32\_t\ wal\_id\_\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00260}00260\ \ \ \ \ std::uint64\_t\ offset\_\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00261}00261\ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00262}00262\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00263}00263\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00264}00264\ \textcolor{comment}{\ *\ @brief\ Batch\ recovery\ of\ every\ complete\ logical\ record\ in\ a\ WAL.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00265}00265\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00266}00266\ \textcolor{comment}{\ *\ Recovery\ accepts\ a\ torn\ final\ fragment\ as\ an\ incomplete\ tail,\ but\ rejects}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00267}00267\ \textcolor{comment}{\ *\ checksum,\ ordering,\ and\ fragmentation\ errors\ in\ the\ durable\ prefix.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00268}00268\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00269}\doxymbox{\hyperlink{class_w_a_l_loader}{00269}}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_w_a_l_loader}{WALLoader}}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00270}00270\ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00271}00271\ \textcolor{keyword}{public}:\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00272}00272\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Batch\ recovery\ result\ and\ tail\ classification.\ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00273}\doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{00273}}\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{LoadResult}}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00274}00274\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ key/value\ bytes\ are\ owned\ by\ the\ Arena\ passed\ to\ load().}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00276}00276\ \ \ \ \ \ \ \ \ std::vector<InternalRecord>\ records;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00277}00277\ \ \ \ \ \ \ \ \ std::optional<WALFileHeader>\ header;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Safe\ truncation/recovery\ boundary:\ immediately\ after\ the\ last}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ completely\ reconstructed\ logical\ record,\ or\ after\ the\ file\ header.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ ok\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_torn\_tail\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00284}00284\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_corruption\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00285}00285\ \ \ \ \ \ \ \ \ std::string\ error;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00286}00286\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00287}00287\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00288}00288\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00289}00289\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Replays\ a\ WAL\ from\ an\ already-\/open\ file.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00290}00290\ \textcolor{comment}{\ \ \ \ \ *\ @callgraph}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00291}00291\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00292}00292\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<LoadResult>}}\ \doxymbox{\hyperlink{class_w_a_l_loader_aec824af81344cc1179c5ae97c8a534ba}{load}}(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00293}00293\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00294}00294\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00295}00295\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00296}00296\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00297}00297\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00299}00299\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<LoadResult>}}\ \doxymbox{\hyperlink{class_w_a_l_loader_aec824af81344cc1179c5ae97c8a534ba}{load}}(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00301}00301\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00302}00302\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00303}00303\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00304}00304\ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00305}00305\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00306}00306\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00307}00307\ \textcolor{comment}{\ *\ @brief\ Stateful\ one-\/record-\/at-\/a-\/time\ WAL\ recovery\ cursor.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00308}00308\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00309}00309\ \textcolor{comment}{\ *\ The\ loader\ preserves\ terminal\ EOF/torn/corrupt\ states\ across\ calls\ and}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00310}00310\ \textcolor{comment}{\ *\ reports\ last\_good\_offset\ so\ callers\ can\ truncate\ only\ an\ incomplete\ tail.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00311}00311\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00312}\doxymbox{\hyperlink{class_w_a_l_streaming_loader}{00312}}\ \textcolor{keyword}{class\ }WALStreamingLoader}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00313}00313\ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00314}00314\ \textcolor{keyword}{public}:\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00315}00315\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Outcome\ of\ the\ latest\ load\_next()\ call\ plus\ persistent\ header\ state.\ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00316}\doxymbox{\hyperlink{struct_w_a_l_streaming_loader_1_1_load_result}{00316}}\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_w_a_l_streaming_loader_1_1_load_result}{LoadResult}}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00317}00317\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Present\ only\ when\ the\ latest\ load\_next()\ produced\ a\ record.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00319}00319\ \ \ \ \ \ \ \ \ std::optional<InternalRecord>\ logical\_record;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00320}00320\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00321}00321\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Persists\ after\ the\ WAL\ header\ has\ been\ loaded.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00322}00322\ \ \ \ \ \ \ \ \ std::optional<WALFileHeader>\ header;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00324}00324\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Describes\ the\ latest\ load\_next()\ call.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00325}00325\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ reached\_eof\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00326}00326\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ ok\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00327}00327\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_torn\_tail\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00328}00328\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_corruption\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00329}00329\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00330}00330\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ End\ offset\ of\ the\ last\ completely\ valid\ item.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Useful\ when\ truncating\ a\ torn\ WAL\ tail.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00332}00332\ \ \ \ \ \ \ \ \ std::uint64\_t\ last\_good\_offset\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00334}00334\ \ \ \ \ \ \ \ \ std::string\ error;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00335}00335\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00337}00337\ \ \ \ \ WALStreamingLoader(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00338}00338\ \ \ \ \ \ \ \ \ std::filesystem::path\ path,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00339}00339\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00340}00340\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00341}00341\ \ \ \ \ \ \ \ \ :\ path\_(std::move(path)),}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00342}00342\ \ \ \ \ \ \ \ \ arena\_(arena)}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00343}00343\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00344}00344\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00346}00346\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}()\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00348}00348\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00349}00349\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}\&\ operator=(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00351}00351\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ open();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00352}00352\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00353}00353\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00354}00354\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Produces\ the\ next\ complete\ logical\ record\ or\ a\ terminal\ state.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00355}00355\ \textcolor{comment}{\ \ \ \ \ *\ @callgraph}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00356}00356\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00357}00357\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_w_a_l_streaming_loader_a3d27f26595f74f8e0c8b3d7d889bfe34}{load\_next}}(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00358}00358\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00359}00359\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00360}00360\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00361}00361\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00362}00362\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ LoadResult\&\ result()\ const\ noexcept}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00363}00363\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00364}00364\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00365}00365\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00366}00366\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00367}00367\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00368}00368\ \ \ \ \ \textcolor{keyword}{enum\ class}\ State}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00369}00369\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00370}00370\ \ \ \ \ \ \ \ \ Closed,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00371}00371\ \ \ \ \ \ \ \ \ Ready,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00372}00372\ \ \ \ \ \ \ \ \ EndOfFile,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00373}00373\ \ \ \ \ \ \ \ \ TornTail,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00374}00374\ \ \ \ \ \ \ \ \ Corrupted}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00375}00375\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00376}00376\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00377}00377\ \ \ \ \ [[nodiscard]]\ Status\ validate\_state(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00378}00378\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00379}00379\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00380}00380\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00381}00381\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00382}00382\ \ \ \ \ \textcolor{keywordtype}{void}\ reset\_call\_result();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00383}00383\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00384}00384\ \ \ \ \ \textcolor{keywordtype}{void}\ mark\_torn\_tail(std::string\ message);}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00385}00385\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00386}00386\ \ \ \ \ \textcolor{keywordtype}{void}\ mark\_corruption(std::string\ message);}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00387}00387\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00388}00388\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00389}00389\ \ \ \ \ std::filesystem::path\ path\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00390}00390\ \ \ \ \ std::unique\_ptr<ReadableFile>\ file\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00391}00391\ \ \ \ \ Arena\&\ arena\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00392}00392\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00393}00393\ \ \ \ \ \doxymbox{\hyperlink{struct_w_a_l_streaming_loader_1_1_load_result}{LoadResult}}\ result\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00394}00394\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00395}00395\ \ \ \ \ State\ state\_\ =\ State::Closed;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00396}00396\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00397}00397\ \ \ \ \ std::string\ terminal\_error\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00398}00398\ \};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00399}00399\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00400}00400\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00401}00401\ \textcolor{comment}{\ *\ @brief\ Small\ facade\ combining\ the\ normal\ writer\ and\ batch\ recovery\ API.}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00402}00402\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00403}\doxymbox{\hyperlink{class_w_a_l}{00403}}\ \textcolor{keyword}{class\ }WAL}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00404}00404\ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00405}00405\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00406}00406\ \ \ \ \ WAL()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00407}00407\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00408}00408\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ create(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00409}00409\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00410}00410\ \ \ \ \ \ \ \ \ std::uint32\_t\ wal\_id,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00411}00411\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00412}00412\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00413}00413\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00414}00414\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.create(path,\ wal\_id,\ start\_seq);}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00415}00415\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00416}00416\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00417}00417\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ rotate(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00418}00418\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ new\_path,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00419}00419\ \ \ \ \ \ \ \ \ std::uint32\_t\ new\_wal\_id,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00420}00420\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00421}00421\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00422}00422\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00423}00423\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.rotate(new\_path,\ new\_wal\_id,\ start\_seq);}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00424}00424\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00425}00425\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00426}00426\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record)}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00427}00427\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00428}00428\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.write(record);}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00429}00429\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00430}00430\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00431}00431\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync()}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00432}00432\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00433}00433\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.sync();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00434}00434\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00435}00435\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00436}00436\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ close()}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00437}00437\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00438}00438\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.close();}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00439}00439\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00440}00440\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00441}00441\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<WALLoader::LoadResult>}}\ recover(}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00442}00442\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00443}00443\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00444}00444\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00445}00445\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00446}00446\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00447}00447\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{class_w_a_l_loader_aec824af81344cc1179c5ae97c8a534ba}{WALLoader::load}}(path,\ expected\_wal\_id,\ arena);}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00448}00448\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00449}00449\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00450}00450\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}}\&\ writer()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00451}00451\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00452}00452\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00453}00453\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00454}00454\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00455}00455\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}}\&\ writer()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00456}00456\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00457}00457\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00458}00458\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00459}00459\ }
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00460}00460\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00461}00461\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}}\ writer\_;}
+\DoxyCodeLine{\Hypertarget{wal_8h_source_l00462}00462\ \};}
 
 \end{DoxyCode}

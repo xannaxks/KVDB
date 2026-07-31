@@ -1,45 +1,57 @@
 \doxysection{compaction\+\_\+options.\+h}
-\hypertarget{compaction__options_8h_source}{}\label{compaction__options_8h_source}\index{C:/Users/user/KVDB/include/compaction\_options.h@{C:/Users/user/KVDB/include/compaction\_options.h}}
-
+\hypertarget{compaction__options_8h_source}{}\label{compaction__options_8h_source}\index{compaction\_options.h@{compaction\_options.h}}
+\doxymbox{\hyperlink{compaction__options_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
-\DoxyCodeLine{00007\ }
-\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_compaction_options}{CompactionOptions}}}
-\DoxyCodeLine{00009\ \{}
-\DoxyCodeLine{00010\ \ \ \ \ std::uint32\_t\ max\_levels\ =\ 7;}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \ \ \ \ \textcolor{comment}{//\ L0\ is\ special\ because\ its\ files\ may\ overlap.}}
-\DoxyCodeLine{00013\ \ \ \ \ std::uint32\_t\ l0\_file\_count\_trigger\ =\ 4;}
-\DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{comment}{//\ L1..L(max\_levels-\/2)\ limits.\ The\ bottommost\ level\ is\ not\ compacted}}
-\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ further,\ so\ its\ entry\ is\ retained\ only\ to\ keep\ indexing\ simple.}}
-\DoxyCodeLine{00017\ \ \ \ \ std::vector<std::uint64\_t>\ max\_bytes\_per\_level\ =\ \{}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ 0,}
-\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ 640ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ 6400ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ 64000ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ 640000ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ 0}
-\DoxyCodeLine{00025\ \ \ \ \ \};}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{comment}{//\ Target\ output\ SSTable\ sizes\ for\ each\ destination\ level.}}
-\DoxyCodeLine{00028\ \ \ \ \ std::vector<std::uint64\_t>\ target\_file\_size\_per\_level\ =\ \{}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ 16ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ 32ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ 128ull\ *\ 1024\ *\ 1024,}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ 256ull\ *\ 1024\ *\ 1024}
-\DoxyCodeLine{00036\ \ \ \ \ \};}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00039\ \};}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00001}00001\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ compaction\_options.h}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00003}00003\ \textcolor{comment}{\ *\ @brief\ Thresholds\ and\ output\ sizing\ used\ by\ compaction\ scheduling.}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00004}00004\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00005}00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00009}00009\ }
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{status_8h}{status.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00011}00011\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00012}00012\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00013}00013\ \textcolor{comment}{\ *\ @brief\ Validated\ policy\ for\ deciding\ and\ shaping\ level\ compactions.}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00014}00014\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00015}00015\ \textcolor{comment}{\ *\ Level\ zero\ is\ triggered\ by\ file\ count\ because\ its\ tables\ may\ overlap.}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00016}00016\ \textcolor{comment}{\ *\ Higher\ levels\ use\ aggregate\ byte\ limits.\ Per-\/destination\ target\ sizes\ bound}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00017}00017\ \textcolor{comment}{\ *\ the\ SSTables\ emitted\ by\ a\ compaction\ job.}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00018}00018\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00019}\doxymbox{\hyperlink{struct_compaction_options}{00019}}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_compaction_options}{CompactionOptions}}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00020}00020\ \{}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00021}00021\ \ \ \ \ std::uint32\_t\ max\_levels\ =\ 7;}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00022}00022\ }
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00023}00023\ \ \ \ \ \textcolor{comment}{//\ L0\ is\ special\ because\ its\ files\ may\ overlap.}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00024}00024\ \ \ \ \ std::uint32\_t\ l0\_file\_count\_trigger\ =\ 4;}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00026}00026\ \ \ \ \ \textcolor{comment}{//\ L1..L(max\_levels-\/2)\ limits.\ The\ bottommost\ level\ is\ not\ compacted}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00027}00027\ \ \ \ \ \textcolor{comment}{//\ further,\ so\ its\ entry\ is\ retained\ only\ to\ keep\ indexing\ simple.}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00028}00028\ \ \ \ \ std::vector<std::uint64\_t>\ max\_bytes\_per\_level\ =\ \{}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00029}00029\ \ \ \ \ \ \ \ \ 0,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00030}00030\ \ \ \ \ \ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00031}00031\ \ \ \ \ \ \ \ \ 640ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00032}00032\ \ \ \ \ \ \ \ \ 6400ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ 64000ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ 640000ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00035}00035\ \ \ \ \ \ \ \ \ 0}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00036}00036\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00038}00038\ \ \ \ \ \textcolor{comment}{//\ Target\ output\ SSTable\ sizes\ for\ each\ destination\ level.}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00039}00039\ \ \ \ \ std::vector<std::uint64\_t>\ target\_file\_size\_per\_level\ =\ \{}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00040}00040\ \ \ \ \ \ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ 16ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ 32ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00045}00045\ \ \ \ \ \ \ \ \ 128ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00046}00046\ \ \ \ \ \ \ \ \ 256ull\ *\ 1024\ *\ 1024}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00047}00047\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00048}00048\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00049}00049\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Verifies\ level-\/vector\ sizes\ and\ non-\/zero\ operational\ limits.\ */}}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00050}00050\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{struct_compaction_options_a41b7edab666e2c3c21a3248a794a8c48}{validate}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{compaction__options_8h_source_l00051}00051\ \};}
 
 \end{DoxyCode}

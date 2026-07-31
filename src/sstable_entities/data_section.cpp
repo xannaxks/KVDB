@@ -1,3 +1,6 @@
+// Records are accumulated as non-owning payload views. add_payload starts a new
+// block before the current one would exceed the physical limit. write aligns
+// each block and builds matching index entries in staged state.
 #include "sstable_entities/data_section.h"
 
 #include <algorithm>

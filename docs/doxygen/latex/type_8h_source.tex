@@ -1,16 +1,26 @@
 \doxysection{type.\+h}
-\hypertarget{type_8h_source}{}\label{type_8h_source}\index{C:/Users/user/KVDB/include/type.h@{C:/Users/user/KVDB/include/type.h}}
-
+\hypertarget{type_8h_source}{}\label{type_8h_source}\index{type.h@{type.h}}
+\doxymbox{\hyperlink{type_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{00004\ }
-\DoxyCodeLine{00005\ \textcolor{keyword}{enum\ class}\ Type\ :\ uint8\_t}
-\DoxyCodeLine{00006\ \{}
-\DoxyCodeLine{00007\ \ \ \ \ Put\ =\ 0,}
-\DoxyCodeLine{00008\ \ \ \ \ Tombstone\ =\ 1,}
-\DoxyCodeLine{00009\ \ \ \ \ Undefined}
-\DoxyCodeLine{00010\ \};}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00001}00001\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ type.h}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00003}00003\ \textcolor{comment}{\ *\ @brief\ Mutation\ kind\ stored\ in\ internal\ records.}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00004}00004\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00005}00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00008}00008\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00009}00009\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00010}00010\ \textcolor{comment}{\ *\ @brief\ Logical\ state\ carried\ by\ a\ versioned\ record.}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00011}00011\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00012}00012\ \textcolor{comment}{\ *\ Tombstones\ stop\ older-\/value\ lookup\ and\ may\ be\ discarded\ only\ when\ compaction}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00013}00013\ \textcolor{comment}{\ *\ proves\ that\ no\ lower\ level\ can\ still\ contain\ the\ deleted\ key.}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00014}00014\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00015}\doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{00015}}\ \textcolor{keyword}{enum\ class}\ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{Type}}\ :\ uint8\_t}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00016}00016\ \{}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00017}\doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479ad0bf1810982e9728fcf3ac444a015373}{00017}}\ \ \ \ \ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479ad0bf1810982e9728fcf3ac444a015373}{Put}}\ =\ 0,\ \textcolor{comment}{///<\ Key\ has\ a\ stored\ value.}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00018}\doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479a0d57c4a25f4d2ddf16ec10a8a8922602}{00018}}\ \ \ \ \ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479a0d57c4a25f4d2ddf16ec10a8a8922602}{Tombstone}}\ =\ 1,\ \textcolor{comment}{///<\ Key\ is\ logically\ deleted\ at\ this\ sequence.}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00019}\doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479aec0fc0100c4fc1ce4eea230c3dc10360}{00019}}\ \ \ \ \ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479aec0fc0100c4fc1ce4eea230c3dc10360}{Undefined}}\ \textcolor{comment}{///<\ Invalid\ or\ uninitialized\ record\ type.}}
+\DoxyCodeLine{\Hypertarget{type_8h_source_l00020}00020\ \};}
 
 \end{DoxyCode}

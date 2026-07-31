@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('struct_s_s_table_entities_1_1_index_section.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,12 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a href="namespace_s_s_table_entities.html">SSTableEntities</a></li><li class="navelem"><a href="struct_s_s_table_entities_1_1_index_section.html">IndexSection</a></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">SSTableEntities::IndexSection Member List</div></div>
 </div><!--header-->
@@ -109,30 +122,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <p>This is the complete list of members for <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>, including all inherited members.</p>
 <table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>add_index</b>(std::uint64_t data_block_offset, std::uint32_t first_key_size, std::uint32_t last_key_size, const void *first_key_ptr, const void *last_key_ptr) (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>calculate_crc32</b>(std::uint32_t &amp;crc_buffer) const noexcept (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>disk_size</b>() const noexcept (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>find_candidate_range</b>(const void *key_ptr, std::uint32_t key_size) const (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>find_first_candidate</b>(const void *key_ptr, std::uint32_t key_size) const (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>fixed_disk_size</b>() noexcept (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"><span class="mlabel">inline</span><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>header</b> (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>IndexSection</b>() noexcept (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>IndexSection</b>(const IndexSection &amp;)=default (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>IndexSection</b>(IndexSection &amp;&amp;) noexcept=default (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>load</b>(ReadableFile &amp;file, std::uint64_t &amp;offset, Arena &amp;arena, std::uint64_t index_offset, std::uint32_t expected_index_size=0) (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>load</b>(ReadableFile &amp;file, std::uint64_t &amp;offset, Arena &amp;arena, std::uint64_t index_offset, std::uint32_t expected_index_size, std::uint64_t first_data_block_offset, std::uint64_t data_block_count) (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>operator=</b>(const IndexSection &amp;)=default (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator=</b>(IndexSection &amp;&amp;) noexcept=default (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>payloads</b> (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>rebuild_header</b>() (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>validate</b>() const (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>validate_data_layout</b>(std::uint64_t first_data_block_offset, std::uint64_t data_block_count) const (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>write</b>(WritableFile &amp;file, std::uint64_t &amp;offset, std::uint64_t &amp;index_offset) (defined in <a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a>)</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html#a02f2fe1c6f7947871f3d47bfe1e09be8">find_candidate_range</a>(const void *key_ptr, std::uint32_t key_size) const</td><td class="entry"><a class="el" href="struct_s_s_table_entities_1_1_index_section.html">SSTableEntities::IndexSection</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

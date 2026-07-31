@@ -1,79 +1,104 @@
 \doxysection{sstable\+\_\+builder.\+h}
-\hypertarget{sstable__builder_8h_source}{}\label{sstable__builder_8h_source}\index{C:/Users/user/KVDB/include/sstable\_builder.h@{C:/Users/user/KVDB/include/sstable\_builder.h}}
-
+\hypertarget{sstable__builder_8h_source}{}\label{sstable__builder_8h_source}\index{sstable\_builder.h@{sstable\_builder.h}}
+\doxymbox{\hyperlink{sstable__builder_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}mem\_table.h"{}}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}record.h"{}}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}sstable.h"{}}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}sstable\_iterator.h"{}}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}table\_meta.h"{}}}
-\DoxyCodeLine{00010\ }
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <filesystem>}}
-\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <optional>}}
-\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00016\ }
-\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_s_s_table_builder}{SSTableBuilder}}}
-\DoxyCodeLine{00018\ \{}
-\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00020\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ build(}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id,}
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_mem_table}{MemTable}}\&\ mem\_table,}
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
-\DoxyCodeLine{00025\ \ \ \ \ );}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ build(}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id,}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_s_s_table_iterator}{SSTableIterator}}\&\ it,}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
-\DoxyCodeLine{00032\ \ \ \ \ );}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ build(}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id,}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records,}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
-\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
-\DoxyCodeLine{00039\ \ \ \ \ );}
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ std::uint64\_t\ approximate\_disk\_space(}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records}
-\DoxyCodeLine{00043\ \ \ \ \ );}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00046\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ build\_impl(}
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id,}
-\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records,}
-\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
-\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
-\DoxyCodeLine{00051\ \ \ \ \ );}
-\DoxyCodeLine{00052\ \};}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \textcolor{keyword}{class\ }SSTableStreamingBuilder}
-\DoxyCodeLine{00055\ \{}
-\DoxyCodeLine{00056\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00057\ \ \ \ \ SSTableStreamingBuilder(}
-\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ std::filesystem::path\ path,}
-\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ std::filesystem::path\ final\_path,}
-\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id\ =\ 0}
-\DoxyCodeLine{00061\ \ \ \ \ );}
-\DoxyCodeLine{00062\ }
-\DoxyCodeLine{00063\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ empty()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00064\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<TableMeta>}}>\ finish(}
-\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ std::uint32\_t\ level,}
-\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
-\DoxyCodeLine{00067\ \ \ \ \ );}
-\DoxyCodeLine{00068\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ add(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record);}
-\DoxyCodeLine{00069\ \ \ \ \ [[nodiscard]]\ std::size\_t\ approximate\_disk\_space()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00070\ }
-\DoxyCodeLine{00071\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00072\ \ \ \ \ \doxymbox{\hyperlink{class_s_s_table}{SSTable}}\ sstable;}
-\DoxyCodeLine{00073\ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00001}00001\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ sstable\_builder.h}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00003}00003\ \textcolor{comment}{\ *\ @brief\ Batch\ and\ streaming\ construction\ of\ sorted\ immutable\ tables.}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00004}00004\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00005}00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{arena_8h}{arena.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{mem__table_8h}{mem\_table.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{record_8h}{record.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{sstable_8h}{sstable.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{sstable__iterator_8h}{sstable\_iterator.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{status_8h}{status.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{table__meta_8h}{table\_meta.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00015}00015\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00016}00016\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00017}00017\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00018}00018\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00019}00019\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00020}00020\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00021}00021\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00022}00022\ \textcolor{comment}{\ *\ @brief\ Converts\ an\ immutable\ record\ source\ into\ a\ publishable\ SSTable.}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00023}00023\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00024}00024\ \textcolor{comment}{\ *\ The\ overloads\ normalize\ MemTable,\ iterator,\ and\ vector\ inputs\ into\ the\ same}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00025}00025\ \textcolor{comment}{\ *\ ordered\ build\ path.\ An\ empty\ source\ returns\ an\ empty\ optional\ instead\ of}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00026}00026\ \textcolor{comment}{\ *\ creating\ a\ file.}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00027}00027\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00028}\doxymbox{\hyperlink{class_s_s_table_builder}{00028}}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_s_s_table_builder}{SSTableBuilder}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00029}00029\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00030}00030\ \textcolor{keyword}{public}:\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00031}00031\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Builds\ from\ the\ oldest\ immutable\ MemTable\ generation.\ */}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00032}00032\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ \doxymbox{\hyperlink{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}{build}}(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_mem_table}{MemTable}}\&\ mem\_table,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00037}00037\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00038}00038\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00039}00039\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Builds\ from\ the\ remaining\ records\ of\ @p\ it.\ */}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00040}00040\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ \doxymbox{\hyperlink{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}{build}}(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00041}00041\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00042}00042\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_s_s_table_iterator}{SSTableIterator}}\&\ it,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00045}00045\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00046}00046\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00047}00047\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00048}00048\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Builds\ from\ records\ already\ sorted\ in\ internal-\/key\ order.}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00049}00049\ \textcolor{comment}{\ \ \ \ \ *\ @callgraph}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00050}00050\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00051}00051\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ \doxymbox{\hyperlink{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}{build}}(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00052}00052\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00056}00056\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00057}00057\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00058}00058\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ std::uint64\_t\ approximate\_disk\_space(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00060}00060\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00062}00062\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00063}00063\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ build\_impl(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00064}00064\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00068}00068\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00069}00069\ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00070}00070\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00071}00071\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00072}00072\ \textcolor{comment}{\ *\ @brief\ Incremental\ SSTable\ builder\ used\ by\ compaction\ output\ rolling.}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00073}00073\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00074}00074\ \textcolor{comment}{\ *\ add()\ preserves\ a\ single\ in-\/progress\ table.\ finish()\ writes\ and\ publishes\ the}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00075}00075\ \textcolor{comment}{\ *\ file,\ then\ derives\ TableMeta\ for\ the\ destination\ level.}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00076}00076\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00077}\doxymbox{\hyperlink{class_s_s_table_streaming_builder}{00077}}\ \textcolor{keyword}{class\ }SSTableStreamingBuilder}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00078}00078\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00079}00079\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00080}00080\ \ \ \ \ SSTableStreamingBuilder(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00081}00081\ \ \ \ \ \ \ \ \ std::filesystem::path\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00082}00082\ \ \ \ \ \ \ \ \ std::filesystem::path\ final\_path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00083}00083\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id\ =\ 0}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00084}00084\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00086}00086\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ empty()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00087}00087\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Publishes\ the\ table\ and\ returns\ its\ manifest\ metadata.\ */}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00088}00088\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<TableMeta>}}>\ \doxymbox{\hyperlink{class_s_s_table_streaming_builder_ad622b5f980ce51bce3a6d8ced56ff643}{finish}}(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00089}00089\ \ \ \ \ \ \ \ \ std::uint32\_t\ level,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00090}00090\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00091}00091\ \ \ \ \ );\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00092}00092\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Appends\ one\ record\ in\ internal-\/key\ order.\ */}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00093}00093\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_s_s_table_streaming_builder_af0ab782400cb18085df803ef9f50a2a5}{add}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00094}00094\ \ \ \ \ [[nodiscard]]\ std::size\_t\ approximate\_disk\_space()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00096}00096\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00097}00097\ \ \ \ \ \doxymbox{\hyperlink{class_s_s_table}{SSTable}}\ sstable;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8h_source_l00098}00098\ \};}
 
 \end{DoxyCode}

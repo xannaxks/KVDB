@@ -1,57 +1,29 @@
 \doxysection{kvdb::\+DBOptions::\+SSTable\+Options Struct Reference}
 \hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options}{}\label{structkvdb_1_1_d_b_options_1_1_s_s_table_options}\index{kvdb::DBOptions::SSTableOptions@{kvdb::DBOptions::SSTableOptions}}
+
+
+Immutable-\/table format options.  
+
+
+
+
+{\ttfamily \+\#include $<$db\+\_\+options.\+h$>$}
+
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options}{Bloom\+Filter\+Options}}
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_options_adc73bdf719d281fd82d548695a3d2460}{validate}} () const
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options}{Bloom\+Filter\+Options}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_options_a793d50b8a86feeb42c2c0564f8e1fea0}{bloom\+\_\+filter}} \{\}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Bloom-\/filter hash and storage sizing. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\label{structkvdb_1_1_d_b_options_1_1_s_s_table_options_doc-func-members}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options_adc73bdf719d281fd82d548695a3d2460}\index{kvdb::DBOptions::SSTableOptions@{kvdb::DBOptions::SSTableOptions}!validate@{validate}}
-\index{validate@{validate}!kvdb::DBOptions::SSTableOptions@{kvdb::DBOptions::SSTableOptions}}
-\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
-{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_s_s_table_options_adc73bdf719d281fd82d548695a3d2460} 
-\doxymbox{\hyperlink{struct_status}{Status}} kvdb::\+\+DBOptions::\+\+SSTable\+Options::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+\doxysubsection{Detailed Description}
+Immutable-\/table format options. 
 
+Definition at line \doxymbox{\hyperlink{db__options_8h_source_l00092}{92}} of file \doxymbox{\hyperlink{db__options_8h_source}{db\+\_\+options.\+h}}.
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00063\ \ \ \ \ \{}
-\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bloom\_filter.validate();}
-\DoxyCodeLine{00065\ \ \ \ \ \}}
-
-\end{DoxyCode}
-
-
-\label{structkvdb_1_1_d_b_options_1_1_s_s_table_options_doc-variable-members}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options_doc-variable-members}
-\doxysubsection{Member Data Documentation}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options_a793d50b8a86feeb42c2c0564f8e1fea0}\index{kvdb::DBOptions::SSTableOptions@{kvdb::DBOptions::SSTableOptions}!bloom\_filter@{bloom\_filter}}
-\index{bloom\_filter@{bloom\_filter}!kvdb::DBOptions::SSTableOptions@{kvdb::DBOptions::SSTableOptions}}
-\doxysubsubsection{\texorpdfstring{bloom\_filter}{bloom\_filter}}
-{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_s_s_table_options_a793d50b8a86feeb42c2c0564f8e1fea0} 
-\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options}{Bloom\+Filter\+Options}} kvdb::\+\+DBOptions::\+\+SSTable\+Options::\+bloom\+\_\+filter \{\}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00090\ \{\};}
-
-\end{DoxyCode}
 
 
 The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+db\+\_\+options.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+db\+\_\+options.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{db__options_8h}{db\+\_\+options.\+h}}\item 
+db\+\_\+options.\+cpp\end{DoxyCompactItemize}

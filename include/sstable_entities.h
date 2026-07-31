@@ -1,3 +1,15 @@
+/**
+ * @file sstable_entities.h
+ * @brief Shared constants and section types for SSTable format version 1.
+ *
+ * The physical layout is:
+ * @code
+ * file header | aligned data blocks | index | bloom | metadata | file footer
+ * @endcode
+ *
+ * Offsets and sizes in the footer provide bounded random access to the variable
+ * sections; each section also carries its own validation metadata.
+ */
 #pragma once
 
 #include <cstdint>
@@ -19,12 +31,13 @@ namespace SSTableEntities
 	struct MetaSection;
 	struct FileFooterSection;
 
+	/** @brief On-disk discriminator for variable SSTable sections. */
 	enum class BlockType : std::uint8_t
 	{
-		Data = 1,
-		Index = 2,
-		Bloom = 3,
-		Meta = 4
+		Data = 1, ///< Sorted versioned record payloads.
+		Index = 2, ///< Data-block offsets and inclusive key bounds.
+		Bloom = 3, ///< Probabilistic negative-lookup filter.
+		Meta = 4 ///< Aggregate table statistics and bounds.
 	};
 
 }

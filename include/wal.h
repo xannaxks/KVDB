@@ -1,5 +1,6 @@
 /**
- * @brief Provides write-ahead logging for crash recovery and durability.
+ * @file wal.h
+ * @brief Write-ahead logging, fragmentation, and crash recovery.
  *
  * The write-ahead log (WAL) records database mutations before they are applied
  * to the in-memory MemTable. If the process terminates before the MemTable is
@@ -26,7 +27,7 @@
  * written and synchronized according to the configured durability policy.
  *
  * @note These entities are not thread-safe.
- * @note For detailed WAL documentation refer to: https://github.com/xannaxks/KVDB/blob/master/docs/architecture/wal.md
+ * @see docs/design/wal.md for the complete format and recovery rationale.
  */
 #pragma once
 
@@ -45,6 +46,12 @@
 #include "sstable.h"
 #include "status.h"
 
+/**
+ * @brief Checksummed fixed-width identity header for one WAL generation.
+ *
+ * The WAL id prevents replaying a file under the wrong generation name, while
+ * start_seq establishes the first sequence expected from the log.
+ */
 struct WALFileHeader
 {
     std::uint32_t magic = 0;
@@ -84,6 +91,13 @@ struct WALFileHeader
     static std::uint32_t compute_crc32(const WALFileHeader& wal_file_header);
 };
 
+/**
+ * @brief One physical piece of a logical WAL mutation record.
+ *
+ * Large records are divided into FIRST/MIDDLE/LAST fragments at block
+ * boundaries. Small records use FULL. The checksum covers both the fragment
+ * header fields and payload.
+ */
 struct Fragment
 {
     enum class Type : std::uint8_t
@@ -172,6 +186,13 @@ struct Fragment
     }
 };
 
+/**
+ * @brief Append-only writer for a single active WAL generation.
+ *
+ * create() writes a fresh file header. write() encodes an InternalRecord and
+ * fragments it across physical blocks as needed. rotate() closes the current
+ * generation before creating the next one.
+ */
 class WALWriter
 {
 public:
@@ -183,8 +204,10 @@ public:
     WALWriter(WALWriter&&) noexcept = default;
     WALWriter& operator=(WALWriter&&) noexcept = default;
 
-    // Creates a fresh WAL. open_writable_file() truncates, so this must not
-    // be used to reopen an existing WAL after recovery.
+    /**
+     * @brief Creates a fresh WAL and writes its durable identity header.
+     * @warning This truncating path must not reopen an existing recovered WAL.
+     */
     [[nodiscard]] Status create(
         const std::filesystem::path& path,
         std::uint32_t wal_id,
@@ -197,6 +220,10 @@ public:
         std::uint64_t start_seq
     );
 
+    /**
+     * @brief Appends one logical mutation, fragmenting it when necessary.
+     * @callgraph
+     */
     [[nodiscard]] Status write(const InternalRecord& record);
     [[nodiscard]] Status sync();
     [[nodiscard]] Status close();
@@ -233,9 +260,16 @@ private:
     std::uint64_t offset_ = 0;
 };
 
+/**
+ * @brief Batch recovery of every complete logical record in a WAL.
+ *
+ * Recovery accepts a torn final fragment as an incomplete tail, but rejects
+ * checksum, ordering, and fragmentation errors in the durable prefix.
+ */
 class WALLoader
 {
 public:
+    /** @brief Batch recovery result and tail classification. */
     struct LoadResult
     {
         // key/value bytes are owned by the Arena passed to load().
@@ -251,6 +285,10 @@ public:
         std::string error;
     };
 
+    /**
+     * @brief Replays a WAL from an already-open file.
+     * @callgraph
+     */
     [[nodiscard]] static Result<LoadResult> load(
         ReadableFile& file,
         std::uint64_t& offset,
@@ -265,9 +303,16 @@ public:
     );
 };
 
+/**
+ * @brief Stateful one-record-at-a-time WAL recovery cursor.
+ *
+ * The loader preserves terminal EOF/torn/corrupt states across calls and
+ * reports last_good_offset so callers can truncate only an incomplete tail.
+ */
 class WALStreamingLoader
 {
 public:
+    /** @brief Outcome of the latest load_next() call plus persistent header state. */
     struct LoadResult
     {
         // Present only when the latest load_next() produced a record.
@@ -305,6 +350,10 @@ public:
 
     [[nodiscard]] Status open();
 
+    /**
+     * @brief Produces the next complete logical record or a terminal state.
+     * @callgraph
+     */
     [[nodiscard]] Status load_next(
         std::uint64_t& offset,
         std::uint32_t expected_wal_id
@@ -348,6 +397,9 @@ private:
     std::string terminal_error_;
 };
 
+/**
+ * @brief Small facade combining the normal writer and batch recovery API.
+ */
 class WAL
 {
 public:

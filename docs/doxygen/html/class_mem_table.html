@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('class_mem_table.html','','class_mem_table-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,80 +115,45 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_mem_table-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">MemTable Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Thread-safe owner of the active <a class="el" href="class_r_b_tree.html" title="Red-black tree containing versioned InternalRecord values.">RBTree</a> and its immutable generations.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="mem__table_8h_source.html">mem_table.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-nested-classes" class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:ImmutableSnapshot" id="r_ImmutableSnapshot"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_mem_table_1_1_immutable_snapshot.html">ImmutableSnapshot</a></td></tr>
-<tr class="memitem:ImmutableTable" id="r_ImmutableTable"><td class="memItemLeft">struct &#160;</td><td class="memItemRight"><a class="el" href="struct_mem_table_1_1_immutable_table.html">ImmutableTable</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shared handle that pins one immutable generation during a flush.  <a href="struct_mem_table_1_1_immutable_snapshot.html#details">More...</a><br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac4b8e2aad87634e3c0852caa3e73e0e7" id="r_ac4b8e2aad87634e3c0852caa3e73e0e7"><td class="memItemLeft"><a id="ac4b8e2aad87634e3c0852caa3e73e0e7" name="ac4b8e2aad87634e3c0852caa3e73e0e7"></a>
-&#160;</td><td class="memItemRight"><b>MemTable</b> (const <a class="el" href="class_mem_table.html">MemTable</a> &amp;)=delete</td></tr>
-<tr class="memitem:a8d23aebe947d27f41e9dcdf4bacecd35" id="r_a8d23aebe947d27f41e9dcdf4bacecd35"><td class="memItemLeft"><a id="a8d23aebe947d27f41e9dcdf4bacecd35" name="a8d23aebe947d27f41e9dcdf4bacecd35"></a>
-<a class="el" href="class_mem_table.html">MemTable</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (const <a class="el" href="class_mem_table.html">MemTable</a> &amp;)=delete</td></tr>
-<tr class="memitem:a3db5f7fd408f66a10c036d8a0aa3d6e8" id="r_a3db5f7fd408f66a10c036d8a0aa3d6e8"><td class="memItemLeft"><a id="a3db5f7fd408f66a10c036d8a0aa3d6e8" name="a3db5f7fd408f66a10c036d8a0aa3d6e8"></a>
-&#160;</td><td class="memItemRight"><b>MemTable</b> (<a class="el" href="class_mem_table.html">MemTable</a> &amp;&amp;)=delete</td></tr>
-<tr class="memitem:a9a4cd05916fde1c199f3b810987e1c22" id="r_a9a4cd05916fde1c199f3b810987e1c22"><td class="memItemLeft"><a id="a9a4cd05916fde1c199f3b810987e1c22" name="a9a4cd05916fde1c199f3b810987e1c22"></a>
-<a class="el" href="class_mem_table.html">MemTable</a> &amp;&#160;</td><td class="memItemRight"><b>operator=</b> (<a class="el" href="class_mem_table.html">MemTable</a> &amp;&amp;)=delete</td></tr>
 <tr class="memitem:a6a6be71606e95baaa9fe8100dea78c0d" id="r_a6a6be71606e95baaa9fe8100dea78c0d"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a6a6be71606e95baaa9fe8100dea78c0d">apply</a> (const <a class="el" href="struct_internal_record.html">InternalRecord</a> &amp;entry)</td></tr>
-<tr class="memitem:a8d1ff4549e3851421b431a2216e55cfc" id="r_a8d1ff4549e3851421b431a2216e55cfc"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a8d1ff4549e3851421b431a2216e55cfc">put</a> (<a class="el" href="struct_arena_entry.html">ArenaEntry</a> key, <a class="el" href="struct_arena_entry.html">ArenaEntry</a> value, std::uint64_t sequence_number)</td></tr>
-<tr class="memitem:a7fcede231cd45832c9343e007177b56d" id="r_a7fcede231cd45832c9343e007177b56d"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a7fcede231cd45832c9343e007177b56d">remove</a> (<a class="el" href="struct_arena_entry.html">ArenaEntry</a> key, std::uint64_t sequence_number)</td></tr>
+<tr class="memdesc:a6a6be71606e95baaa9fe8100dea78c0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts an already materialized record into the active tree.  <br /></td></tr>
 <tr class="memitem:a8e2514179955068eed3240434dc71f5a" id="r_a8e2514179955068eed3240434dc71f5a"><td class="memItemLeft"><a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a8e2514179955068eed3240434dc71f5a">get</a> (const <a class="el" href="struct_arena_entry.html">ArenaEntry</a> &amp;key) const</td></tr>
+<tr class="memdesc:a8e2514179955068eed3240434dc71f5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the newest in-memory version of <code class="param">key</code>.  <br /></td></tr>
 <tr class="memitem:a25c00186d93b38930f30f2332e2661fa" id="r_a25c00186d93b38930f30f2332e2661fa"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a25c00186d93b38930f30f2332e2661fa">freeze_mutable</a> ()</td></tr>
-<tr class="memitem:aba979209695bbea2ef53f4b93bd7359a" id="r_aba979209695bbea2ef53f4b93bd7359a"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#aba979209695bbea2ef53f4b93bd7359a">manual_freeze</a> ()</td></tr>
+<tr class="memdesc:a25c00186d93b38930f30f2332e2661fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Moves the active tree to the immutable queue.  <br /></td></tr>
 <tr class="memitem:a0a3adf3fbc9b4344db05b6790d5456c1" id="r_a0a3adf3fbc9b4344db05b6790d5456c1"><td class="memItemLeft"><a class="el" href="struct_result.html">Result</a>&lt; <a class="el" href="struct_mem_table_1_1_immutable_snapshot.html">ImmutableSnapshot</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a0a3adf3fbc9b4344db05b6790d5456c1">oldest_immutable</a> () const</td></tr>
+<tr class="memdesc:a0a3adf3fbc9b4344db05b6790d5456c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pins and returns the oldest generation waiting to be flushed.  <br /></td></tr>
 <tr class="memitem:aef9ecb392d6beca24825c378a8232744" id="r_aef9ecb392d6beca24825c378a8232744"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#aef9ecb392d6beca24825c378a8232744">retire_oldest_immutable</a> (std::uint64_t generation_id)</td></tr>
-<tr class="memitem:a39ca7616d46566911f92b42ca63fe63a" id="r_a39ca7616d46566911f92b42ca63fe63a"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a39ca7616d46566911f92b42ca63fe63a">dump_oldest_immutable</a> (std::vector&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &amp;out, std::uint64_t &amp;generation_id) const</td></tr>
-<tr class="memitem:ae0a3ede11faa0f51831fb780231c4da2" id="r_ae0a3ede11faa0f51831fb780231c4da2"><td class="memItemLeft">bool&#160;</td><td class="memItemRight"><a class="el" href="#ae0a3ede11faa0f51831fb780231c4da2">has_immutable</a> () const</td></tr>
-<tr class="memitem:a13a92d1efbc346f8cdd0165a58344828" id="r_a13a92d1efbc346f8cdd0165a58344828"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#a13a92d1efbc346f8cdd0165a58344828">immutable_count</a> () const</td></tr>
-<tr class="memitem:aee131c2f48640097f147ad27c6d3928e" id="r_aee131c2f48640097f147ad27c6d3928e"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#aee131c2f48640097f147ad27c6d3928e">mutable_memory_usage</a> () const</td></tr>
-<tr class="memitem:aeb412fa81325d918566f0f8b1e0af1b7" id="r_aeb412fa81325d918566f0f8b1e0af1b7"><td class="memItemLeft">std::size_t&#160;</td><td class="memItemRight"><a class="el" href="#aeb412fa81325d918566f0f8b1e0af1b7">approximate_memory_usage</a> () const</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pri-attribs" class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
-Private Attributes</h2></td></tr>
-<tr class="memitem:ae901741c005d7f32cf9ae84a06a28de2" id="r_ae901741c005d7f32cf9ae84a06a28de2"><td class="memItemLeft"><a id="ae901741c005d7f32cf9ae84a06a28de2" name="ae901741c005d7f32cf9ae84a06a28de2"></a>
-std::shared_mutex&#160;</td><td class="memItemRight"><b>mutex_</b></td></tr>
-<tr class="memitem:a4ef6930ce4b1680c131ac1a7494d51c1" id="r_a4ef6930ce4b1680c131ac1a7494d51c1"><td class="memItemLeft"><a id="a4ef6930ce4b1680c131ac1a7494d51c1" name="a4ef6930ce4b1680c131ac1a7494d51c1"></a>
-std::shared_ptr&lt; <a class="el" href="class_r_b_tree.html">RBTree</a> &gt;&#160;</td><td class="memItemRight"><b>mutable_table_</b></td></tr>
-<tr class="memitem:a234fc67c664234876f4cc2e59b9bef55" id="r_a234fc67c664234876f4cc2e59b9bef55"><td class="memItemLeft"><a id="a234fc67c664234876f4cc2e59b9bef55" name="a234fc67c664234876f4cc2e59b9bef55"></a>
-std::deque&lt; <a class="el" href="struct_mem_table_1_1_immutable_table.html">ImmutableTable</a> &gt;&#160;</td><td class="memItemRight"><b>immutable_tables_</b></td></tr>
-<tr class="memitem:ae195f65870af33338e5c6a6ec590387e" id="r_ae195f65870af33338e5c6a6ec590387e"><td class="memItemLeft"><a id="ae195f65870af33338e5c6a6ec590387e" name="ae195f65870af33338e5c6a6ec590387e"></a>
-std::uint64_t&#160;</td><td class="memItemRight"><b>next_generation_id_</b> = 1</td></tr>
+<tr class="memdesc:aef9ecb392d6beca24825c378a8232744"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retires exactly the flushed generation.  <br /></td></tr>
 </table>
-<a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aabdd490e19bde96397ec56e0b34e00f9" name="aabdd490e19bde96397ec56e0b34e00f9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aabdd490e19bde96397ec56e0b34e00f9">&#9670;&#160;</a></span>MemTable()</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Thread-safe owner of the active <a class="el" href="class_r_b_tree.html" title="Red-black tree containing versioned InternalRecord values.">RBTree</a> and its immutable generations. </p>
+<p>New records enter the mutable tree. Freezing atomically moves that tree to an ordered immutable queue and installs a fresh mutable tree. Readers inspect all generations, while flush code holds a shared snapshot until the exact generation is durably published and retired.</p>
+<dl class="section note"><dt>Note</dt><dd>The <a class="el" href="struct_arena_entry.html" title="Non-owning byte range whose storage is normally owned by an Arena.">ArenaEntry</a> storage referenced by records is externally owned and must outlive every generation that can still be read. </dd></dl>
 
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">MemTable::MemTable </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">    9</span>    : mutable_table_(std::make_shared&lt;RBTree&gt;())</div>
-<div class="line"><span class="lineno">   10</span>{</div>
-<div class="line"><span class="lineno">   11</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="mem__table_8h_source.html#l00027">27</a> of file <a class="el" href="mem__table_8h_source.html">mem_table.h</a>.</p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
 <a id="a6a6be71606e95baaa9fe8100dea78c0d" name="a6a6be71606e95baaa9fe8100dea78c0d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6a6be71606e95baaa9fe8100dea78c0d">&#9670;&#160;</a></span>apply()</h2>
 
@@ -192,98 +176,17 @@ std::uint64_t&#160;</td><td class="memItemRight"><b>next_generation_id_</b> = 1<
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   14</span>{</div>
-<div class="line"><span class="lineno">   15</span>    std::unique_lock lock(mutex_);</div>
-<div class="line"><span class="lineno">   16</span>    <span class="keywordflow">return</span> mutable_table_-&gt;insert(entry);</div>
-<div class="line"><span class="lineno">   17</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aeb412fa81325d918566f0f8b1e0af1b7" name="aeb412fa81325d918566f0f8b1e0af1b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb412fa81325d918566f0f8b1e0af1b7">&#9670;&#160;</a></span>approximate_memory_usage()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t MemTable::approximate_memory_usage </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  211</span>{</div>
-<div class="line"><span class="lineno">  212</span>    std::shared_lock lock(mutex_);</div>
-<div class="line"><span class="lineno">  213</span> </div>
-<div class="line"><span class="lineno">  214</span>    std::size_t total = mutable_table_-&gt;approximate_memory_usage();</div>
-<div class="line"><span class="lineno">  215</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="struct_mem_table_1_1_immutable_table.html">ImmutableTable</a>&amp; immutable : immutable_tables_)</div>
-<div class="line"><span class="lineno">  216</span>        total += immutable.table-&gt;approximate_memory_usage();</div>
-<div class="line"><span class="lineno">  217</span> </div>
-<div class="line"><span class="lineno">  218</span>    <span class="keywordflow">return</span> total;</div>
-<div class="line"><span class="lineno">  219</span>}</div>
-<div class="ttc" id="astruct_mem_table_1_1_immutable_table_html"><div class="ttname"><a href="struct_mem_table_1_1_immutable_table.html">MemTable::ImmutableTable</a></div><div class="ttdef"><b>Definition</b> mem_table.h:78</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a39ca7616d46566911f92b42ca63fe63a" name="a39ca7616d46566911f92b42ca63fe63a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a39ca7616d46566911f92b42ca63fe63a">&#9670;&#160;</a></span>dump_oldest_immutable()</h2>
+<p>Inserts an already materialized record into the active tree. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entry</td><td>Versioned record whose byte ranges remain externally owned. </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> MemTable::dump_oldest_immutable </td>
-          <td>(</td>
-          <td class="paramtype">std::vector&lt; <a class="el" href="struct_internal_record.html">InternalRecord</a> &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>out</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t &amp;</td>          <td class="paramname"><span class="paramname"><em>generation_id</em></span>&#160;) const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  168</span>{</div>
-<div class="line"><span class="lineno">  169</span>    Result&lt;ImmutableSnapshot&gt; snapshot_result = oldest_immutable();</div>
-<div class="line"><span class="lineno">  170</span>    <span class="keywordflow">if</span> (!snapshot_result.is_ok())</div>
-<div class="line"><span class="lineno">  171</span>        <span class="keywordflow">return</span> snapshot_result.status;</div>
-<div class="line"><span class="lineno">  172</span> </div>
-<div class="line"><span class="lineno">  173</span>    std::vector&lt;InternalRecord&gt; dumped;</div>
-<div class="line"><span class="lineno">  174</span> </div>
-<div class="line"><span class="lineno">  175</span>    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  176</span>    {</div>
-<div class="line"><span class="lineno">  177</span>        snapshot_result.value.table-&gt;dump_inorder(dumped);</div>
-<div class="line"><span class="lineno">  178</span>    }</div>
-<div class="line"><span class="lineno">  179</span>    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::bad_alloc&amp;)</div>
-<div class="line"><span class="lineno">  180</span>    {</div>
-<div class="line"><span class="lineno">  181</span>        <span class="keywordflow">return</span> Status{</div>
-<div class="line"><span class="lineno">  182</span>            StatusCode::OutOfMemory,</div>
-<div class="line"><span class="lineno">  183</span>            <span class="stringliteral">&quot;Failed to materialize the immutable MemTable for flushing&quot;</span></div>
-<div class="line"><span class="lineno">  184</span>        };</div>
-<div class="line"><span class="lineno">  185</span>    }</div>
-<div class="line"><span class="lineno">  186</span> </div>
-<div class="line"><span class="lineno">  187</span>    generation_id = snapshot_result.value.generation_id;</div>
-<div class="line"><span class="lineno">  188</span>    out = std::move(dumped);</div>
-<div class="line"><span class="lineno">  189</span>    <span class="keywordflow">return</span> Status::ok();</div>
-<div class="line"><span class="lineno">  190</span>}</div>
-</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="mem__table_8cpp_source.html#l00018">18</a> of file <a class="el" href="mem__table_8cpp_source.html">mem_table.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a25c00186d93b38930f30f2332e2661fa" name="a25c00186d93b38930f30f2332e2661fa"></a>
@@ -308,48 +211,12 @@ std::uint64_t&#160;</td><td class="memItemRight"><b>next_generation_id_</b> = 1<
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   82</span>{</div>
-<div class="line"><span class="lineno">   83</span>    std::shared_ptr&lt;RBTree&gt; replacement;</div>
-<div class="line"><span class="lineno">   84</span> </div>
-<div class="line"><span class="lineno">   85</span>    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">   86</span>    {</div>
-<div class="line"><span class="lineno">   87</span>        <span class="comment">// Allocate before taking the lock. If allocation fails, the active</span></div>
-<div class="line"><span class="lineno">   88</span>        <span class="comment">// table and immutable queue are unchanged.</span></div>
-<div class="line"><span class="lineno">   89</span>        replacement = std::make_shared&lt;RBTree&gt;();</div>
-<div class="line"><span class="lineno">   90</span>    }</div>
-<div class="line"><span class="lineno">   91</span>    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::bad_alloc&amp;)</div>
-<div class="line"><span class="lineno">   92</span>    {</div>
-<div class="line"><span class="lineno">   93</span>        <span class="keywordflow">return</span> Status{</div>
-<div class="line"><span class="lineno">   94</span>            StatusCode::OutOfMemory,</div>
-<div class="line"><span class="lineno">   95</span>            <span class="stringliteral">&quot;Failed to allocate a replacement mutable table&quot;</span></div>
-<div class="line"><span class="lineno">   96</span>        };</div>
-<div class="line"><span class="lineno">   97</span>    }</div>
-<div class="line"><span class="lineno">   98</span> </div>
-<div class="line"><span class="lineno">   99</span>    std::unique_lock lock(mutex_);</div>
-<div class="line"><span class="lineno">  100</span> </div>
-<div class="line"><span class="lineno">  101</span>    <span class="keywordflow">if</span> (mutable_table_-&gt;empty())</div>
-<div class="line"><span class="lineno">  102</span>        <span class="keywordflow">return</span> Status::ok();</div>
-<div class="line"><span class="lineno">  103</span> </div>
-<div class="line"><span class="lineno">  104</span>    <span class="keywordflow">try</span></div>
-<div class="line"><span class="lineno">  105</span>    {</div>
-<div class="line"><span class="lineno">  106</span>        immutable_tables_.push_back(<a class="code hl_struct" href="struct_mem_table_1_1_immutable_table.html">ImmutableTable</a>{</div>
-<div class="line"><span class="lineno">  107</span>            next_generation_id_,</div>
-<div class="line"><span class="lineno">  108</span>            std::shared_ptr&lt;const RBTree&gt;(mutable_table_)</div>
-<div class="line"><span class="lineno">  109</span>            });</div>
-<div class="line"><span class="lineno">  110</span>    }</div>
-<div class="line"><span class="lineno">  111</span>    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::bad_alloc&amp;)</div>
-<div class="line"><span class="lineno">  112</span>    {</div>
-<div class="line"><span class="lineno">  113</span>        <span class="keywordflow">return</span> Status{</div>
-<div class="line"><span class="lineno">  114</span>            StatusCode::OutOfMemory,</div>
-<div class="line"><span class="lineno">  115</span>            <span class="stringliteral">&quot;Failed to append the frozen table to the immutable queue&quot;</span></div>
-<div class="line"><span class="lineno">  116</span>        };</div>
-<div class="line"><span class="lineno">  117</span>    }</div>
-<div class="line"><span class="lineno">  118</span> </div>
-<div class="line"><span class="lineno">  119</span>    ++next_generation_id_;</div>
-<div class="line"><span class="lineno">  120</span>    mutable_table_ = std::move(replacement);</div>
-<div class="line"><span class="lineno">  121</span>    <span class="keywordflow">return</span> Status::ok();</div>
-<div class="line"><span class="lineno">  122</span>}</div>
-</div><!-- fragment -->
+
+<p>Moves the active tree to the immutable queue. </p>
+<p>A fresh active tree is installed atomically. Freezing an empty active tree is a successful no-op. </p>
+
+<p class="definition">Definition at line <a class="el" href="mem__table_8cpp_source.html#l00086">86</a> of file <a class="el" href="mem__table_8cpp_source.html">mem_table.cpp</a>.</p>
+
 </div>
 </div>
 <a id="a8e2514179955068eed3240434dc71f5a" name="a8e2514179955068eed3240434dc71f5a"></a>
@@ -374,155 +241,13 @@ std::uint64_t&#160;</td><td class="memItemRight"><b>next_generation_id_</b> = 1<
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   47</span>{</div>
-<div class="line"><span class="lineno">   48</span>    std::shared_lock lock(mutex_);</div>
-<div class="line"><span class="lineno">   49</span> </div>
-<div class="line"><span class="lineno">   50</span>    Result&lt;std::optional&lt;InternalRecord&gt;&gt; latest =</div>
-<div class="line"><span class="lineno">   51</span>        mutable_table_-&gt;find_latest_by_key(key);</div>
-<div class="line"><span class="lineno">   52</span> </div>
-<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">if</span> (!latest.is_ok())</div>
-<div class="line"><span class="lineno">   54</span>        <span class="keywordflow">return</span> Result&lt;std::optional&lt;InternalRecord&gt;&gt;::fail(std::move(latest.status));</div>
-<div class="line"><span class="lineno">   55</span> </div>
-<div class="line"><span class="lineno">   56</span>    <span class="comment">// Comparing sequence numbers makes the lookup correct even if recovery or</span></div>
-<div class="line"><span class="lineno">   57</span>    <span class="comment">// tests insert records out of generation order. In the normal monotonic</span></div>
-<div class="line"><span class="lineno">   58</span>    <span class="comment">// sequence-number case, the first hit is already the newest one.</span></div>
-<div class="line"><span class="lineno">   59</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = immutable_tables_.rbegin();</div>
-<div class="line"><span class="lineno">   60</span>        it != immutable_tables_.rend();</div>
-<div class="line"><span class="lineno">   61</span>        ++it)</div>
-<div class="line"><span class="lineno">   62</span>    {</div>
-<div class="line"><span class="lineno">   63</span>        Result&lt;std::optional&lt;InternalRecord&gt;&gt; candidate_result =</div>
-<div class="line"><span class="lineno">   64</span>            it-&gt;table-&gt;find_latest_by_key(key);</div>
-<div class="line"><span class="lineno">   65</span> </div>
-<div class="line"><span class="lineno">   66</span>        <span class="keywordflow">if</span> (!candidate_result.is_ok())</div>
-<div class="line"><span class="lineno">   67</span>            <span class="keywordflow">return</span> Result&lt;std::optional&lt;InternalRecord&gt;&gt;::fail(std::move(candidate_result.status));</div>
-<div class="line"><span class="lineno">   68</span> </div>
-<div class="line"><span class="lineno">   69</span>        std::optional&lt;InternalRecord&gt; candidate = std::move(candidate_result.value);</div>
-<div class="line"><span class="lineno">   70</span> </div>
-<div class="line"><span class="lineno">   71</span>        <span class="keywordflow">if</span> (candidate.has_value() &amp;&amp;</div>
-<div class="line"><span class="lineno">   72</span>            (!latest.value.has_value() || candidate-&gt;seq_num &gt; latest.value-&gt;seq_num))</div>
-<div class="line"><span class="lineno">   73</span>        {</div>
-<div class="line"><span class="lineno">   74</span>            latest.value = std::move(candidate);</div>
-<div class="line"><span class="lineno">   75</span>        }</div>
-<div class="line"><span class="lineno">   76</span>    }</div>
-<div class="line"><span class="lineno">   77</span> </div>
-<div class="line"><span class="lineno">   78</span>    <span class="keywordflow">return</span> Result&lt;std::optional&lt;InternalRecord&gt;&gt;::ok(std::move(latest.value));</div>
-<div class="line"><span class="lineno">   79</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="ae0a3ede11faa0f51831fb780231c4da2" name="ae0a3ede11faa0f51831fb780231c4da2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0a3ede11faa0f51831fb780231c4da2">&#9670;&#160;</a></span>has_immutable()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool MemTable::has_immutable </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  193</span>{</div>
-<div class="line"><span class="lineno">  194</span>    std::shared_lock lock(mutex_);</div>
-<div class="line"><span class="lineno">  195</span>    <span class="keywordflow">return</span> !immutable_tables_.empty();</div>
-<div class="line"><span class="lineno">  196</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a13a92d1efbc346f8cdd0165a58344828" name="a13a92d1efbc346f8cdd0165a58344828"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a13a92d1efbc346f8cdd0165a58344828">&#9670;&#160;</a></span>immutable_count()</h2>
+<p>Finds the newest in-memory version of <code class="param">key</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd>The newest <a class="el" href="struct_internal_record.html" title="Non-owning versioned record stored in MemTables, WALs, and SSTables.">InternalRecord</a>, including a tombstone, or an empty optional when no generation contains the key.</dd></dl>
+<p>A returned tombstone is a successful lookup and must prevent callers from searching older SSTables. </p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t MemTable::immutable_count </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  199</span>{</div>
-<div class="line"><span class="lineno">  200</span>    std::shared_lock lock(mutex_);</div>
-<div class="line"><span class="lineno">  201</span>    <span class="keywordflow">return</span> immutable_tables_.size();</div>
-<div class="line"><span class="lineno">  202</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aba979209695bbea2ef53f4b93bd7359a" name="aba979209695bbea2ef53f4b93bd7359a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba979209695bbea2ef53f4b93bd7359a">&#9670;&#160;</a></span>manual_freeze()</h2>
+<p class="definition">Definition at line <a class="el" href="mem__table_8cpp_source.html#l00051">51</a> of file <a class="el" href="mem__table_8cpp_source.html">mem_table.cpp</a>.</p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> MemTable::manual_freeze </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  125</span>{</div>
-<div class="line"><span class="lineno">  126</span>    <span class="keywordflow">return</span> freeze_mutable();</div>
-<div class="line"><span class="lineno">  127</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="aee131c2f48640097f147ad27c6d3928e" name="aee131c2f48640097f147ad27c6d3928e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee131c2f48640097f147ad27c6d3928e">&#9670;&#160;</a></span>mutable_memory_usage()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::size_t MemTable::mutable_memory_usage </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  205</span>{</div>
-<div class="line"><span class="lineno">  206</span>    std::shared_lock lock(mutex_);</div>
-<div class="line"><span class="lineno">  207</span>    <span class="keywordflow">return</span> mutable_table_-&gt;approximate_memory_usage();</div>
-<div class="line"><span class="lineno">  208</span>}</div>
-</div><!-- fragment -->
 </div>
 </div>
 <a id="a0a3adf3fbc9b4344db05b6790d5456c1" name="a0a3adf3fbc9b4344db05b6790d5456c1"></a>
@@ -547,104 +272,12 @@ std::uint64_t&#160;</td><td class="memItemRight"><b>next_generation_id_</b> = 1<
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  130</span>{</div>
-<div class="line"><span class="lineno">  131</span>    std::shared_lock lock(mutex_);</div>
-<div class="line"><span class="lineno">  132</span> </div>
-<div class="line"><span class="lineno">  133</span>    <span class="keywordflow">if</span> (immutable_tables_.empty())</div>
-<div class="line"><span class="lineno">  134</span>    {</div>
-<div class="line"><span class="lineno">  135</span>        <span class="keywordflow">return</span> Result&lt;ImmutableSnapshot&gt;::fail(Status{</div>
-<div class="line"><span class="lineno">  136</span>            StatusCode::NotFound,</div>
-<div class="line"><span class="lineno">  137</span>            <span class="stringliteral">&quot;No immutable MemTable is available for flushing&quot;</span></div>
-<div class="line"><span class="lineno">  138</span>            });</div>
-<div class="line"><span class="lineno">  139</span>    }</div>
-<div class="line"><span class="lineno">  140</span> </div>
-<div class="line"><span class="lineno">  141</span>    <span class="keyword">const</span> <a class="code hl_struct" href="struct_mem_table_1_1_immutable_table.html">ImmutableTable</a>&amp; oldest = immutable_tables_.front();</div>
-<div class="line"><span class="lineno">  142</span>    <span class="keywordflow">return</span> Result&lt;ImmutableSnapshot&gt;::ok(<a class="code hl_struct" href="struct_mem_table_1_1_immutable_snapshot.html">ImmutableSnapshot</a>{</div>
-<div class="line"><span class="lineno">  143</span>        oldest.generation_id,</div>
-<div class="line"><span class="lineno">  144</span>        oldest.table</div>
-<div class="line"><span class="lineno">  145</span>        });</div>
-<div class="line"><span class="lineno">  146</span>}</div>
-<div class="ttc" id="astruct_mem_table_1_1_immutable_snapshot_html"><div class="ttname"><a href="struct_mem_table_1_1_immutable_snapshot.html">MemTable::ImmutableSnapshot</a></div><div class="ttdef"><b>Definition</b> mem_table.h:16</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a8d1ff4549e3851421b431a2216e55cfc" name="a8d1ff4549e3851421b431a2216e55cfc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d1ff4549e3851421b431a2216e55cfc">&#9670;&#160;</a></span>put()</h2>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> MemTable::put </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_arena_entry.html">ArenaEntry</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="struct_arena_entry.html">ArenaEntry</a></td>          <td class="paramname"><span class="paramname"><em>value</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>sequence_number</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   24</span>{</div>
-<div class="line"><span class="lineno">   25</span>    <span class="keywordflow">return</span> apply(InternalRecord(</div>
-<div class="line"><span class="lineno">   26</span>        key,</div>
-<div class="line"><span class="lineno">   27</span>        value,</div>
-<div class="line"><span class="lineno">   28</span>        Type::Put,</div>
-<div class="line"><span class="lineno">   29</span>        sequence_number</div>
-<div class="line"><span class="lineno">   30</span>    ));</div>
-<div class="line"><span class="lineno">   31</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a7fcede231cd45832c9343e007177b56d" name="a7fcede231cd45832c9343e007177b56d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7fcede231cd45832c9343e007177b56d">&#9670;&#160;</a></span>remove()</h2>
+<p>Pins and returns the oldest generation waiting to be flushed. </p>
+<p>The generation remains visible to reads until <a class="el" href="#aef9ecb392d6beca24825c378a8232744" title="Retires exactly the flushed generation.">retire_oldest_immutable()</a> succeeds. </p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> MemTable::remove </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="struct_arena_entry.html">ArenaEntry</a></td>          <td class="paramname"><span class="paramname"><em>key</em></span>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t</td>          <td class="paramname"><span class="paramname"><em>sequence_number</em></span>&#160;)</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">   37</span>{</div>
-<div class="line"><span class="lineno">   38</span>    <span class="keywordflow">return</span> apply(InternalRecord(</div>
-<div class="line"><span class="lineno">   39</span>        key,</div>
-<div class="line"><span class="lineno">   40</span>        ArenaEntry{},</div>
-<div class="line"><span class="lineno">   41</span>        Type::Tombstone,</div>
-<div class="line"><span class="lineno">   42</span>        sequence_number</div>
-<div class="line"><span class="lineno">   43</span>    ));</div>
-<div class="line"><span class="lineno">   44</span>}</div>
-</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="mem__table_8cpp_source.html#l00134">134</a> of file <a class="el" href="mem__table_8cpp_source.html">mem_table.cpp</a>.</p>
+
 </div>
 </div>
 <a id="aef9ecb392d6beca24825c378a8232744" name="aef9ecb392d6beca24825c378a8232744"></a>
@@ -669,30 +302,27 @@ std::uint64_t&#160;</td><td class="memItemRight"><b>next_generation_id_</b> = 1<
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">  151</span>{</div>
-<div class="line"><span class="lineno">  152</span>    std::unique_lock lock(mutex_);</div>
-<div class="line"><span class="lineno">  153</span> </div>
-<div class="line"><span class="lineno">  154</span>    <span class="keywordflow">if</span> (immutable_tables_.empty() ||</div>
-<div class="line"><span class="lineno">  155</span>        immutable_tables_.front().generation_id != generation_id)</div>
-<div class="line"><span class="lineno">  156</span>    {</div>
-<div class="line"><span class="lineno">  157</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">  158</span>    }</div>
-<div class="line"><span class="lineno">  159</span> </div>
-<div class="line"><span class="lineno">  160</span>    immutable_tables_.pop_front();</div>
-<div class="line"><span class="lineno">  161</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><span class="lineno">  162</span>}</div>
-</div><!-- fragment -->
+
+<p>Retires exactly the flushed generation. </p>
+<dl class="section return"><dt>Returns</dt><dd>false when the queue changed or <code class="param">generation_id</code> is stale. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="mem__table_8cpp_source.html#l00153">153</a> of file <a class="el" href="mem__table_8cpp_source.html">mem_table.cpp</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/user/KVDB/include/<a class="el" href="mem__table_8h_source.html">mem_table.h</a></li>
-<li>C:/Users/user/KVDB/src/<b>mem_table.cpp</b></li>
+<li><a class="el" href="mem__table_8h_source.html">mem_table.h</a></li>
+<li><a class="el" href="mem__table_8cpp_source.html">mem_table.cpp</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="class_mem_table.html">MemTable</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

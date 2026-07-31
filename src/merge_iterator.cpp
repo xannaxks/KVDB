@@ -1,3 +1,6 @@
+// The heap stores iterator indices rather than records, so advancing an input
+// updates only one heap item. Its inverted comparator adapts internal-key order
+// to std::priority_queue's max-heap convention.
 #include "merge_iterator.h"
 
 MergeIterator::MergeIterator() noexcept = default;

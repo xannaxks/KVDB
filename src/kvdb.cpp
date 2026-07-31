@@ -1,3 +1,5 @@
+// The public factory keeps construction and recovery atomic from the caller's
+// perspective: an Engine pointer is returned only after open() fully succeeds.
 #include "kvdb.h"
 
 #include "engine.h"

@@ -1,3 +1,6 @@
+// Plan validation rejects stale or ambiguous work before any table I/O: levels
+// must be adjacent, ids unique, all table ranges valid, selected ranges covered,
+// and the output size non-zero.
 #include "compaction_plan.h"
 
 #include <limits>

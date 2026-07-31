@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['build_0',['build',['../class_merge_iterator.html#a480bcf19525e1a827046a22b293c7e1d',1,'MergeIterator::build()'],['../class_s_s_table_builder.html#ad89acf35d5d3aeef210f2384804545e5',1,'SSTableBuilder::build(std::uint32_t table_id, MemTable &amp;mem_table, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)'],['../class_s_s_table_builder.html#af62e441b5f61ca562552c9fd4a7500f1',1,'SSTableBuilder::build(std::uint32_t table_id, SSTableIterator &amp;it, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)'],['../class_s_s_table_builder.html#a34902b788f3a6dc5c8d422900d21a810',1,'SSTableBuilder::build(std::uint32_t table_id, const std::vector&lt; InternalRecord &gt; &amp;records, const std::filesystem::path &amp;path, const std::filesystem::path &amp;final_path)']]]
+];

@@ -1,0 +1,320 @@
+\doxysection{sstable\+\_\+builder.\+cpp}
+\hypertarget{sstable__builder_8cpp_source}{}\label{sstable__builder_8cpp_source}\index{sstable\_builder.cpp@{sstable\_builder.cpp}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00001}00001\ \textcolor{comment}{//\ All\ builder\ front\ ends\ validate\ internal-\/key\ order\ before\ feeding}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00002}00002\ \textcolor{comment}{//\ SSTable::append\_record.\ Streaming\ construction\ avoids\ materializing\ an\ entire}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00003}00003\ \textcolor{comment}{//\ compaction\ output\ and\ lets\ the\ caller\ roll\ files\ at\ its\ target\ size.}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00004}00004\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{sstable__builder_8h}{sstable\_builder.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00005}00005\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00006}00006\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{index__section_8h}{sstable\_entities/index\_section.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00011}00011\ \textcolor{keyword}{namespace}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00012}00012\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00013}00013\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ record\_less(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00014}00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ lhs,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00015}00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ rhs}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00016}00016\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00017}00017\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00018}00018\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs.key\_entry\ ==\ rhs.key\_entry)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00019}00019\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lhs.seq\_num\ >\ rhs.seq\_num;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00020}00020\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00021}00021\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lhs.key\_entry\ <\ rhs.key\_entry;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00022}00022\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00024}00024\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate\_record(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record)}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00025}00025\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00026}00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (record.key\_entry.size\ >\ 0\ \&\&\ record.key\_entry.data\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00027}00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00028}00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b}{StatusCode::InvalidArgument}},}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00029}00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ record\ has\ a\ non-\/zero\ key\ size\ with\ a\ null\ key\ pointer"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00030}00030\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00031}00031\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (record.value\_entry.size\ >\ 0\ \&\&\ record.value\_entry.data\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b}{StatusCode::InvalidArgument}},}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ record\ has\ a\ non-\/zero\ value\ size\ with\ a\ null\ value\ pointer"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00038}00038\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00043}00043\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate\_records(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00045}00045\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00046}00046\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ records.size();\ ++i)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ status\ =\ validate\_record(records[i]);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00051}00051\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00053}00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >\ 0\ \&\&\ record\_less(records[i],\ records[i\ -\/\ 1]))\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b}{StatusCode::InvalidArgument}},}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00056}00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ input\ records\ are\ not\ sorted\ by\ key\ ascending\ and\ sequence\ descending"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00057}00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00059}00059\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status_a2ea79d6f908a8d9aa179ea7bbe0a67be}{Status::ok}}();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00062}00062\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00063}00063\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00064}00064\ \ \ \ \ [[nodiscard]]\ std::uint64\_t\ saturating\_add(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00065}00065\ \ \ \ \ \ \ \ \ std::uint64\_t\ lhs,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00066}00066\ \ \ \ \ \ \ \ \ std::uint64\_t\ rhs}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00067}00067\ \ \ \ \ )\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00068}00068\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ max\ =\ std::numeric\_limits<std::uint64\_t>::max();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs\ >\ max\ -\/\ rhs)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ max;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00072}00072\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lhs\ +\ rhs;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00074}00074\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00075}00075\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00077}\doxymbox{\hyperlink{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}{00077}}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ \doxymbox{\hyperlink{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}{SSTableBuilder::build}}(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00078}00078\ \ \ \ \ std::uint32\_t\ table\_id,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00079}00079\ \ \ \ \ \doxymbox{\hyperlink{class_mem_table}{MemTable}}\&\ mem\_table,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00080}00080\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00081}00081\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00082}00082\ )}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00083}00083\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00084}00084\ \ \ \ \ std::vector<InternalRecord>\ records;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00085}00085\ \ \ \ \ std::uint64\_t\ generation\_id\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00086}00086\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ status\ =\ mem\_table.dump\_oldest\_immutable(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00087}00087\ \ \ \ \ \ \ \ \ records,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00088}00088\ \ \ \ \ \ \ \ \ generation\_id}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00089}00089\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00090}00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (status.\doxymbox{\hyperlink{struct_status_a011acb32f8fe25364b459bd4a77f20ea}{code}}\ ==\ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea38c300f4fc9ce8a77aad4a30de05cad8}{StatusCode::NotFound}})\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>::ok(std::nullopt);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00093}00093\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00094}00094\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>::fail(std::move(status));}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00095}00095\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00097}00097\ \ \ \ \ \textcolor{keywordflow}{return}\ build\_impl(table\_id,\ records,\ path,\ final\_path);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00098}00098\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00100}\doxymbox{\hyperlink{class_s_s_table_builder_af62e441b5f61ca562552c9fd4a7500f1}{00100}}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ \doxymbox{\hyperlink{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}{SSTableBuilder::build}}(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00101}00101\ \ \ \ \ std::uint32\_t\ table\_id,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00102}00102\ \ \ \ \ \doxymbox{\hyperlink{class_s_s_table_iterator}{SSTableIterator}}\&\ it,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00103}00103\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00104}00104\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00105}00105\ )}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00106}00106\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00107}00107\ \ \ \ \ std::vector<InternalRecord>\ records;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00109}00109\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ status\ =\ it.\doxymbox{\hyperlink{class_s_s_table_iterator_a55680209922f3d6211b63b9d9133ae82}{seek\_to\_first}}();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00110}00110\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>::fail(std::move(status));}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00112}00112\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00114}00114\ \ \ \ \ \textcolor{keywordflow}{while}\ (it.valid())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00115}00115\ \ \ \ \ \ \ \ \ records.emplace\_back(it.record());}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00117}00117\ \ \ \ \ \ \ \ \ status\ =\ it.\doxymbox{\hyperlink{class_s_s_table_iterator_acb7f87728a7b87f38dd70b9fae9c1451}{next}}();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00118}00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>::fail(std::move(status));}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00120}00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00121}00121\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00123}00123\ \ \ \ \ \textcolor{keywordflow}{return}\ build\_impl(table\_id,\ records,\ path,\ final\_path);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00124}00124\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00126}\doxymbox{\hyperlink{class_s_s_table_builder_a34902b788f3a6dc5c8d422900d21a810}{00126}}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ \doxymbox{\hyperlink{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}{SSTableBuilder::build}}(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00127}00127\ \ \ \ \ std::uint32\_t\ table\_id,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00128}00128\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00129}00129\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00130}00130\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00131}00131\ )}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00132}00132\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00133}00133\ \ \ \ \ \textcolor{keywordflow}{return}\ build\_impl(table\_id,\ records,\ path,\ final\_path);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00134}00134\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00136}00136\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>\ SSTableBuilder::build\_impl(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00137}00137\ \ \ \ \ std::uint32\_t\ table\_id,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00138}00138\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00139}00139\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00140}00140\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ final\_path}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00141}00141\ )}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00142}00142\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00143}00143\ \ \ \ \ \textcolor{keywordflow}{if}\ (records.empty())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<SSTable>}}>::ok(std::nullopt);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00145}00145\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00147}00147\ \ \ \ \ Status\ validation\ =\ validate\_records(records);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00148}00148\ \ \ \ \ \textcolor{keywordflow}{if}\ (!validation.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00149}00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::fail(std::move(validation));}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00150}00150\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00152}00152\ \ \ \ \ SSTable\ sstable(path,\ final\_path,\ table\_id);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00154}00154\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ record\ :\ records)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00155}00155\ \ \ \ \ \ \ \ \ Status\ status\ =\ sstable.append\_record(record);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::fail(std::move(status));}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00158}00158\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00159}00159\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00161}00161\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::ok(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00162}00162\ \ \ \ \ \ \ \ \ std::optional<SSTable>\{\ std::move(sstable)\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00163}00163\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00164}00164\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00165}00165\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00166}00166\ std::uint64\_t\ SSTableBuilder::approximate\_disk\_space(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00167}00167\ \ \ \ \ \textcolor{keyword}{const}\ std::vector<InternalRecord>\&\ records}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00168}00168\ )}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00169}00169\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00170}00170\ \ \ \ \ std::uint64\_t\ records\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00171}00171\ \ \ \ \ std::uint64\_t\ index\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00173}00173\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ block\_size\ =\ SSTableEntities::BLOCK\_SIZE;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00174}00174\ \ \ \ \ std::uint64\_t\ current\_block\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00175}00175\ \ \ \ \ \textcolor{keyword}{const}\ InternalRecord*\ last\_record\_in\_block\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00177}00177\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ record\ :\ records)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ record\_size\ =\ record.disk\_size();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00179}00179\ \ \ \ \ \ \ \ \ records\_size\ =\ saturating\_add(records\_size,\ record\_size);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Match\ DataSection's\ normal\ block-\/splitting\ rule\ as\ closely\ as}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ possible.\ add\_payload()\ remains\ authoritative\ for\ oversized\ records.}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00183}00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_block\_size\ >\ 0\ \&\&}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ record\_size\ <=\ std::numeric\_limits<std::uint64\_t>::max()\ -\/\ current\_block\_size\ \&\&}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ current\_block\_size\ +\ record\_size\ >\ block\_size)}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00186}00186\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ index\_size\ =\ saturating\_add(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SSTableEntities::IndexSection::Payload::fixed\_disk\_size()}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ index\_size\ =\ saturating\_add(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_record\_in\_block-\/>key\_entry.size}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ current\_block\_size\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ last\_record\_in\_block\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00198}00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00200}00200\ \ \ \ \ \ \ \ \ current\_block\_size\ =\ saturating\_add(current\_block\_size,\ record\_size);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00201}00201\ \ \ \ \ \ \ \ \ last\_record\_in\_block\ =\ \&record;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00202}00202\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00204}00204\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_block\_size\ >\ 0\ \&\&\ last\_record\_in\_block\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00205}00205\ \ \ \ \ \ \ \ \ index\_size\ =\ saturating\_add(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ index\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ SSTableEntities::IndexSection::Payload::fixed\_disk\_size()}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00208}00208\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00209}00209\ \ \ \ \ \ \ \ \ index\_size\ =\ saturating\_add(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ index\_size,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ last\_record\_in\_block-\/>key\_entry.size}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00212}00212\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00213}00213\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00215}00215\ \ \ \ \ std::uint64\_t\ total\ =\ SSTable::fixed\_disk\_size();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00216}00216\ \ \ \ \ total\ =\ saturating\_add(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00217}00217\ \ \ \ \ \ \ \ \ total,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00218}00218\ \ \ \ \ \ \ \ \ SSTableEntities::IndexSection::Header::disk\_size()}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00219}00219\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00220}00220\ \ \ \ \ total\ =\ saturating\_add(total,\ records\_size);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00221}00221\ \ \ \ \ total\ =\ saturating\_add(total,\ index\_size);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00222}00222\ \ \ \ \ \textcolor{keywordflow}{return}\ total;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00223}00223\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00225}00225\ SSTableStreamingBuilder::SSTableStreamingBuilder(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00226}00226\ \ \ \ \ std::filesystem::path\ path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00227}00227\ \ \ \ \ std::filesystem::path\ final\_path,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00228}00228\ \ \ \ \ std::uint32\_t\ table\_id}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00229}00229\ )}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00230}00230\ \ \ \ \ :\ sstable(std::move(path),\ std::move(final\_path),\ table\_id)}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00231}00231\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00232}00232\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00234}00234\ \textcolor{keywordtype}{bool}\ SSTableStreamingBuilder::empty()\ const\ noexcept}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00235}00235\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00236}00236\ \ \ \ \ \textcolor{keywordflow}{return}\ sstable.get\_data\_section().data\_blocks.empty();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00237}00237\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00239}\doxymbox{\hyperlink{class_s_s_table_streaming_builder_af0ab782400cb18085df803ef9f50a2a5}{00239}}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_s_s_table_streaming_builder_af0ab782400cb18085df803ef9f50a2a5}{SSTableStreamingBuilder::add}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record)}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00240}00240\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00241}00241\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ validation\ =\ validate\_record(record);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00242}00242\ \ \ \ \ \textcolor{keywordflow}{if}\ (!validation.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ validation;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00244}00244\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00246}00246\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ blocks\ =\ sstable.get\_data\_section().data\_blocks;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00247}00247\ \ \ \ \ \textcolor{keywordflow}{if}\ (!blocks.empty()\ \&\&\ !blocks.back().payloads.empty())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00248}00248\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ payload\ =\ blocks.back().payloads.back();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00250}00250\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\ previous\{\};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00251}00251\ \ \ \ \ \ \ \ \ previous.key\_entry\ =\ \{\ payload.key\_ptr,\ payload.key\_size\ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00252}00252\ \ \ \ \ \ \ \ \ previous.value\_entry\ =\ \{\ payload.value\_ptr,\ payload.value\_size\ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00253}00253\ \ \ \ \ \ \ \ \ previous.type\ =\ payload.type;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00254}00254\ \ \ \ \ \ \ \ \ previous.seq\_num\ =\ payload.seq\_num;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (record\_less(record,\ previous))\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b}{StatusCode::InvalidArgument}},}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ streaming\ input\ is\ not\ sorted\ by\ key\ ascending\ and\ sequence\ descending"{}}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00261}00261\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00262}00262\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00263}00263\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00264}00264\ \ \ \ \ \textcolor{keywordflow}{return}\ sstable.append\_record(record);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00265}00265\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00267}00267\ std::size\_t\ SSTableStreamingBuilder::approximate\_disk\_space()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00268}00268\ \textcolor{keyword}{}\{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00269}00269\ \ \ \ \ std::vector<InternalRecord>\ records;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00271}00271\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ block\ :\ sstable.get\_data\_section().data\_blocks)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ payload\ :\ block.payloads)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\ record;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ record.key\_entry\ =\ \{\ payload.key\_ptr,\ payload.key\_size\ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ record.value\_entry\ =\ \{\ payload.value\_ptr,\ payload.value\_size\ \};}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ record.type\ =\ payload.type;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ record.seq\_num\ =\ payload.seq\_num;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ records.push\_back(std::move(record));}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00279}00279\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00280}00280\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00281}00281\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00282}00282\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ size\ =\ SSTableBuilder::approximate\_disk\_space(records);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00283}00283\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ max\_size\_t\ =\ std::numeric\_limits<std::size\_t>::max();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00284}00284\ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ >\ max\_size\_t)\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ max\_size\_t;}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00286}00286\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00287}00287\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(size);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00288}00288\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00290}\doxymbox{\hyperlink{class_s_s_table_streaming_builder_ad622b5f980ce51bce3a6d8ced56ff643}{00290}}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<TableMeta>}}>\ \doxymbox{\hyperlink{class_s_s_table_streaming_builder_ad622b5f980ce51bce3a6d8ced56ff643}{SSTableStreamingBuilder::finish}}(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00291}00291\ \ \ \ \ std::uint32\_t\ level,}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00292}00292\ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00293}00293\ )}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00294}00294\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00295}00295\ \ \ \ \ \textcolor{keywordflow}{if}\ (empty())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<TableMeta>}}>::ok(std::nullopt);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00297}00297\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00298}00298\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00299}00299\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ status\ =\ sstable.write();}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00300}00300\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.\doxymbox{\hyperlink{struct_status_a458a4b7f8b5e524989ece54936369201}{is\_ok}}())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<TableMeta>}}>::fail(std::move(status));}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00302}00302\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00304}00304\ \ \ \ \ \doxymbox{\hyperlink{struct_result}{Result<TableMeta>}}\ meta\_result\ =\ \doxymbox{\hyperlink{table__meta_8h_a8ef7d4c31238a9e5471988fae28d51ed}{make\_table\_meta}}(sstable,\ level,\ arena);}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00305}00305\ \ \ \ \ \textcolor{keywordflow}{if}\ (!meta\_result.is\_ok())\ \{}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<TableMeta>}}>::fail(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(meta\_result.\doxymbox{\hyperlink{struct_result_a34cce226a35947a5bf7dc52160bbd10f}{status}})}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00308}00308\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00309}00309\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00311}00311\ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<TableMeta>}}>::ok(}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00312}00312\ \ \ \ \ \ \ \ \ std::optional<TableMeta>\{\ std::move(meta\_result.\doxymbox{\hyperlink{struct_result_a08cdc62a4daa93868d7971ae68eaacce}{value}})\ \}}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00313}00313\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{sstable__builder_8cpp_source_l00314}00314\ \}}
+
+\end{DoxyCode}

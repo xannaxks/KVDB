@@ -1,3 +1,7 @@
+/**
+ * @file table_meta.h
+ * @brief Durable metadata describing one SSTable and its key range.
+ */
 #pragma once
 
 #include <cstdint>
@@ -11,6 +15,13 @@ inline constexpr std::uint32_t MANIFEST_BLOCK_SIZE = 4096;
 inline constexpr std::uint64_t MAX_TABLE_META_VARIABLE_BYTES =
 static_cast<std::uint64_t>(MANIFEST_BLOCK_SIZE) * 16ull;
 
+/**
+ * @brief Manifest-serializable identity and bounds for an SSTable.
+ *
+ * TableMeta is the unit stored by LevelManager and VersionEdit. Its smallest
+ * and largest keys are arena-backed and must remain valid while the metadata
+ * remains in use.
+ */
 struct TableMeta
 {
     std::uint64_t table_id = 0;
@@ -33,6 +44,7 @@ struct TableMeta
     // Checks invariants that are intrinsic to TableMeta and its on-disk format.
     // Level-range/table-id policy belongs to higher layers because TableMeta does
     // not know DBOptions/max_levels or whether table id 0 is reserved.
+    /** @brief Validates ids, level, size, and ordered non-empty key bounds. */
     [[nodiscard]] Status validate() const;
 
     // Result<> avoids silent uint32_t truncation for malformed/in-memory values.
@@ -44,11 +56,13 @@ struct TableMeta
     // All validation happens before the first physical write. After I/O begins,
     // an underlying write failure may still leave a torn tail in the file; the
     // manifest record/framing layer should detect/ignore that during recovery.
+    /** @brief Appends the canonical little-endian representation to @p file. */
     [[nodiscard]] Status write(WritableFile& file, std::uint64_t& offset) const;
 
     // Transactional with respect to the caller-visible offset and Arena:
     // on failure, offset is unchanged and Arena allocations made by this load
     // are rolled back.
+    /** @brief Loads, bounds-checks, and arena-copies one metadata entry. */
     [[nodiscard]] static Result<TableMeta> load(
         ReadableFile& file,
         std::uint64_t& offset,
@@ -56,8 +70,9 @@ struct TableMeta
     );
 };
 
+/** @brief Derives validated manifest metadata from a completed SSTable. */
 [[nodiscard]] Result<TableMeta> make_table_meta(
     const SSTable& sstable,
     std::uint32_t level,
     Arena& arena
-);  
+);

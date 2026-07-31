@@ -1,3 +1,7 @@
+/**
+ * @file file_footer_section.h
+ * @brief Fixed-size SSTable section directory stored at end-of-file.
+ */
 #pragma once
 
 #include <cstddef>
@@ -9,6 +13,13 @@
 
 namespace SSTableEntities
 {
+    /**
+     * @brief Checksummed offsets and extents for every variable SSTable section.
+     *
+     * The footer is located from EOF, allowing a reader to discover the rest of
+     * the file without scanning. Validation checks ordering, non-overlap, sizes,
+     * physical file extent, and the footer checksum.
+     */
     struct FileFooterSection
     {
         FileFooterSection() noexcept;
@@ -52,6 +63,7 @@ namespace SSTableEntities
 
         // Validates a complete version-1 footer against its physical location
         // and the actual file size. This includes CRC validation.
+        /** @brief Validates the complete footer against its physical file. */
         [[nodiscard]] Status validate(
             std::uint64_t footer_offset,
             std::uint64_t actual_file_size

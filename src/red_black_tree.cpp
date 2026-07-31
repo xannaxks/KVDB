@@ -1,3 +1,7 @@
+// Records are ordered by (user key ascending, sequence descending). Insertion
+// uses the ordinary BST path, then rotations and recoloring restore red-black
+// invariants. Because newer versions sort first within one user key, lookup can
+// stop at the first matching internal record.
 #include "red_black_tree.h"
 #include <memory>
 #include <cassert>

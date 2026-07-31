@@ -1,3 +1,6 @@
+// Table metadata is encoded field-by-field in canonical little-endian order.
+// Loading uses an Arena checkpoint so partially copied key bounds are reclaimed
+// on any size, I/O, checksum, or semantic validation failure.
 #include "table_meta.h"
 
 #include <format>

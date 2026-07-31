@@ -1,3 +1,6 @@
+// The manager is the naming and sharing boundary for SSTables. Builders receive
+// deterministic .tmp/final paths, while open/get validate files before placing
+// shared immutable table objects in the id-keyed cache.
 #include "sstable_manager.h"
 #include "sstable_writer.h"
 

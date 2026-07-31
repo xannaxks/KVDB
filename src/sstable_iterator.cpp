@@ -1,3 +1,6 @@
+// Iteration is block-lazy: seek_to_first initializes footer-derived bounds,
+// load_next_block validates and materializes one data block, and next() advances
+// within that block before touching the file again.
 #include "sstable_iterator.h"
 
 using namespace SSTableEntities;

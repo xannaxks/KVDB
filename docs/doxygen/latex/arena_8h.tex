@@ -1,0 +1,65 @@
+\doxysection{arena.\+h File Reference}
+\hypertarget{arena_8h}{}\label{arena_8h}\index{arena.h@{arena.h}}
+
+
+Page-\/based region allocation and arena-\/owned object lifetime support.  
+
+
+{\ttfamily \+\#include "{}status.\+h"{}}\newline
+{\ttfamily \+\#include $<$bit$>$}\newline
+{\ttfamily \+\#include $<$cassert$>$}\newline
+{\ttfamily \+\#include $<$cstddef$>$}\newline
+{\ttfamily \+\#include $<$cstdint$>$}\newline
+{\ttfamily \+\#include $<$cstring$>$}\newline
+{\ttfamily \+\#include $<$format$>$}\newline
+{\ttfamily \+\#include $<$limits$>$}\newline
+{\ttfamily \+\#include $<$memory$>$}\newline
+{\ttfamily \+\#include $<$new$>$}\newline
+{\ttfamily \+\#include $<$span$>$}\newline
+{\ttfamily \+\#include $<$string$>$}\newline
+{\ttfamily \+\#include $<$type\+\_\+traits$>$}\newline
+{\ttfamily \+\#include $<$utility$>$}\newline
+{\ttfamily \+\#include $<$vector$>$}\newline
+Include dependency graph for arena.\+h:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{arena_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{arena_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}}
+\begin{DoxyCompactList}\small\item\em Non-\/owning byte range whose storage is normally owned by an \doxylink{class_arena}{Arena}. \end{DoxyCompactList}\item 
+class \doxymbox{\hyperlink{class_arena}{Arena}}
+\begin{DoxyCompactList}\small\item\em Region allocator with checkpoints and optional destructor tracking. \end{DoxyCompactList}\item 
+struct \doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Arena::\+\+Checkpoint}}
+\begin{DoxyCompactList}\small\item\em Opaque snapshot of the arena\textquotesingle{}s allocation and lifetime state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Page-\/based region allocation and arena-\/owned object lifetime support. 
+
+The arena serves the transient ownership needs of Mem\+Tables, manifest recovery, and \doxylink{class_s_s_table}{SSTable} decoding. Small allocations are packed into reusable pages, while large or over-\/aligned allocations receive dedicated pages.
+
+Checkpoints provide stack-\/like rollback. Objects created with arena\+\_\+new() or arena\+\_\+new\+\_\+array() have their destructors invoked in reverse construction order when the arena is rolled back, reset, or destroyed.
+
+\begin{DoxyNote}{Note}
+Memory returned by an \doxylink{class_arena}{Arena} remains valid only until a rollback that crosses its allocation, reset(), or destruction of the arena. 
+
+\doxylink{class_arena}{Arena} is not thread-\/safe. 
+\end{DoxyNote}
+
+
+Definition in file \doxymbox{\hyperlink{arena_8h_source}{arena.\+h}}.
+

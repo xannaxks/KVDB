@@ -1,3 +1,11 @@
+/**
+ * @file sstable.h
+ * @brief Immutable sorted-table aggregate, lookup path, and file lifecycle.
+ *
+ * An SSTable is built at a temporary path, serialized section by section, made
+ * durable, and atomically renamed to its final path. Loaded tables retain only
+ * section metadata and read record bytes lazily through DataSectionView.
+ */
 #pragma once
 
 #ifdef _WIN32
@@ -42,6 +50,14 @@
 #include "sstable_entities/meta_section.h"
 #include "status.h"
 
+/**
+ * @brief State-checked aggregate of all sections in one SSTable file.
+ *
+ * Records are globally ordered by user key ascending and sequence descending.
+ * Lookup first consults the Bloom filter, narrows the search with the index,
+ * validates candidate data blocks, and materializes the newest matching record
+ * into the caller's Arena.
+ */
 class SSTable
 {
 private:
@@ -105,8 +121,16 @@ private:
     friend class SSTableIterator;
 
 public:
+    /**
+     * @brief Serializes, synchronizes, and publishes a building table.
+     * @callgraph
+     */
     [[nodiscard]] Status write();
 
+    /**
+     * @brief Opens and validates an existing SSTable's structural metadata.
+     * @callgraph
+     */
     [[nodiscard]] static Result<SSTable> load(
         const std::filesystem::path& path,
         Arena& arena
@@ -136,10 +160,16 @@ public:
     [[nodiscard]] const SSTableEntities::FileFooterSection&
         get_file_footer_section() const;
 
+    /** @brief Adds one sorted record to a table in the Building state. */
     [[nodiscard]] Status append_record(const InternalRecord& record);
 
     [[nodiscard]] static std::size_t fixed_disk_size() noexcept;
 
+    /**
+     * @brief Finds the newest stored version of @p key.
+     * @return Empty when the Bloom/index/data path proves the key is absent.
+     * @callgraph
+     */
     [[nodiscard]] Result<std::optional<InternalRecord>> get(
         const ArenaEntry& key,
         Arena& arena

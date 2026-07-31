@@ -1,107 +1,459 @@
 \doxysection{file.\+h}
-\hypertarget{file_8h_source}{}\label{file_8h_source}\index{C:/Users/user/KVDB/include/file.h@{C:/Users/user/KVDB/include/file.h}}
-
+\hypertarget{file_8h_source}{}\label{file_8h_source}\index{file.h@{file.h}}
+\doxymbox{\hyperlink{file_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ NOMINMAX}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ WIN32\_LEAN\_AND\_MEAN}}
-\DoxyCodeLine{00005\ }
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cstddef>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <filesystem>}}
-\DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_readable_file}{ReadableFile}}}
-\DoxyCodeLine{00014\ \{}
-\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00016\ \ \ \ \ \ std::filesystem::path\ path;}
-\DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{class_readable_file}{\string~ReadableFile}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ read\_at(}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ buffer,}
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ std::size\_t\&\ bytes\_read}
-\DoxyCodeLine{00025\ \ \ \ \ )\ =\ 0;}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ read\_exact\_at(}
-\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
-\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ buffer,}
-\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ track\_offset}
-\DoxyCodeLine{00032\ \ \ \ \ );}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ close()\ =\ 0;}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ get\_file\_size(std::uint64\_t\&\ size\_out)\ =\ 0;}
-\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ get\_descriptor()\ \textcolor{keyword}{const}\ =\ 0;}
-\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#else\ }}
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ get\_descriptor()\ \textcolor{keyword}{const}\ =\ 0;}
-\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{00042\ \};}
-\DoxyCodeLine{00043\ }
-\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_writable_file}{WritableFile}}}
-\DoxyCodeLine{00045\ \{}
-\DoxyCodeLine{00046\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00047\ \ \ \ \ std::filesystem::path\ path;}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{class_writable_file}{\string~WritableFile}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00050\ }
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ append(}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data,}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ std::size\_t\ size,\ }
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ track\_offset}
-\DoxyCodeLine{00055\ \ \ \ \ )\ =\ 0;}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync()\ =\ 0;}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ close()\ =\ 0;}
-\DoxyCodeLine{00060\ }
-\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ current\_position()\ =\ 0;}
-\DoxyCodeLine{00062\ }
-\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ get\_file\_size(std::uint64\_t\&\ size\_out)\ =\ 0;}
-\DoxyCodeLine{00064\ }
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ durable\_rename(\textcolor{keyword}{const}\ std::filesystem::path\&\ to,\ \textcolor{keywordtype}{bool}\ replace\_existing)\ =\ 0;}
-\DoxyCodeLine{00066\ }
-\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync\_parent\_directory()\ =\ 0;}
-\DoxyCodeLine{00068\ }
-\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{virtual}\ std::filesystem::path\ parent\_directory()\ =\ 0;}
-\DoxyCodeLine{00070\ }
-\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ seek\_to\_end()\ =\ 0;}
-\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
-\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ get\_descriptor()\ \textcolor{keyword}{const}\ =\ 0;}
-\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#else\ }}
-\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ get\_descriptor()\ \textcolor{keyword}{const}\ =\ 0;}
-\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#endif}}
-\DoxyCodeLine{00077\ \};}
-\DoxyCodeLine{00078\ }
-\DoxyCodeLine{00079\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>\ open\_readable\_file(}
-\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path}
-\DoxyCodeLine{00081\ );}
-\DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>\ open\_writable\_file(}
-\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path}
-\DoxyCodeLine{00085\ );}
-\DoxyCodeLine{00086\ }
-\DoxyCodeLine{00087\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>\ open\_writable\_file(\textcolor{keyword}{const}\ std::filesystem::path\&\ path);}
-\DoxyCodeLine{00088\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>\ open\_readable\_file(\textcolor{keyword}{const}\ std::filesystem::path\&\ path);}
-\DoxyCodeLine{00089\ }
-\DoxyCodeLine{00090\ \textcolor{comment}{//\#ifdef\ \_WIN32}}
-\DoxyCodeLine{00091\ \textcolor{comment}{//}}
-\DoxyCodeLine{00092\ \textcolor{comment}{//class\ WindowsReadableFile\ :\ public\ ReadableFile;}}
-\DoxyCodeLine{00093\ \textcolor{comment}{//class\ WindowsWritableFile\ :\ public\ WritableFile;}}
-\DoxyCodeLine{00094\ \textcolor{comment}{//}}
-\DoxyCodeLine{00095\ \textcolor{comment}{//\#else}}
-\DoxyCodeLine{00096\ \textcolor{comment}{//}}
-\DoxyCodeLine{00097\ \textcolor{comment}{//class\ PosixReadableFile\ :\ public\ ReadableFile;}}
-\DoxyCodeLine{00098\ \textcolor{comment}{//class\ PoxisWriteableFile\ :\ public\ WritableFile;}}
-\DoxyCodeLine{00099\ \textcolor{comment}{//}}
-\DoxyCodeLine{00100\ \textcolor{comment}{//\#endif}}
-\DoxyCodeLine{00101\ }
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00001}00001\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ file.h}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00003}00003\ \textcolor{comment}{\ *\ @brief\ Provides\ platform-\/specific\ wrappers\ around\ OS\ file\ and\ directory}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00004}00004\ \textcolor{comment}{\ *\ \ \ \ \ \ \ \ system\ calls.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00005}00005\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00006}00006\ \textcolor{comment}{\ *\ Supports\ file\ reading\ and\ writing,\ synchronization,\ directory\ operations,}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00007}00007\ \textcolor{comment}{\ *\ and\ atomic\ file\ renaming.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00008}00008\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00009}00009\ \textcolor{comment}{\ *\ @note\ Entities\ are\ not\ concurrency\ safe\ for\ now.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00010}00010\ \textcolor{comment}{\ *\ @note\ Entities\ don't\ guarentee\ atomicity\ and\ durability.\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00011}00011\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00012}00012\ \textcolor{comment}{\ *\ @todo\ Ensure\ atomicity\ and\ durability.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00013}00013\ \textcolor{comment}{\ *\ @todo\ Add\ concurrency\ safety.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00014}00014\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00015}00015\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00017}00017\ \textcolor{preprocessor}{\#define\ NOMINMAX\ }\textcolor{comment}{//\ Disable\ Windows\ min()\ and\ max()\ functions,\ in\ order\ to\ prevent\ collissions\ with\ STL.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00018}00018\ \textcolor{preprocessor}{\#define\ WIN32\_LEAN\_AND\_MEAN\ }\textcolor{comment}{//\ Exclude\ rarely\ used\ Windows\ APIs}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00020}00020\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{status_8h}{status.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00021}00021\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00022}00022\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00023}00023\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00024}00024\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00025}00025\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00026}00026\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00027}00027\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00028}00028\ \textcolor{comment}{\ *\ @brief\ Abstract\ interface\ for\ readable\ files.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00029}00029\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00030}00030\ \textcolor{comment}{\ *\ Defines\ the\ operations\ that\ platform-\/specific\ implementations,\ such\ as}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00031}00031\ \textcolor{comment}{\ *\ Windows\ and\ POSIX\ readable\ files,\ must\ provide.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00032}00032\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00033}00033\ \textcolor{comment}{\ *\ Implementations\ must\ override\ operations\ including:}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00034}00034\ \textcolor{comment}{\ *\ -\/\ read\_at()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00035}00035\ \textcolor{comment}{\ *\ -\/\ close()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00036}00036\ \textcolor{comment}{\ *\ -\/\ get\_file\_size()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00037}00037\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00038}00038\ \textcolor{comment}{\ *\ @note\ This\ class\ is\ not\ thread-\/safe.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00039}00039\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00040}\doxymbox{\hyperlink{class_readable_file}{00040}}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_readable_file}{ReadableFile}}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00041}00041\ \{}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00042}00042\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00043}\doxymbox{\hyperlink{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}{00043}}\ \ \ \ \ std::filesystem::path\ \doxymbox{\hyperlink{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}{path}};\ \textcolor{comment}{///<\ Path\ of\ file\ being\ read.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00044}00044\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00045}00045\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00046}00046\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Virtual\ destructor\ for\ polymorphic\ destruction.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00047}00047\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00048}\doxymbox{\hyperlink{class_readable_file_a5afa1f1b013537bfbca95eae52478354}{00048}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{class_readable_file_a5afa1f1b013537bfbca95eae52478354}{\string~ReadableFile}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00049}00049\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00050}00050\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00051}00051\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Reads\ up\ to\ the\ requested\ number\ of\ bytes\ from\ the\ givern\ offset.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00052}00052\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00053}00053\ \textcolor{comment}{\ \ \ \ \ *\ This\ method\ should\ be\ implemented\ by\ derived\ classes\ using\ appropriate\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00054}00054\ \textcolor{comment}{\ \ \ \ \ *\ system\ calls,\ such\ as\ ReadFile()\ on\ Windows\ or\ ::pread()\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00055}00055\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00056}00056\ \textcolor{comment}{\ \ \ \ \ *\ @param[in]\ offset\ File\ offset\ at\ which\ reading\ begins.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00057}00057\ \textcolor{comment}{\ \ \ \ \ *\ @param[out]\ buffer\ Destination\ buffer.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00058}00058\ \textcolor{comment}{\ \ \ \ \ *\ @param[in]\ size\ Number\ of\ bytes\ to\ read.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00059}00059\ \textcolor{comment}{\ \ \ \ \ *\ @param[out]\ bytes\_read\ Number\ of\ bytes\ read.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00060}00060\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00061}00061\ \textcolor{comment}{\ \ \ \ \ *\ @return\ Status::ok()\ in\ case\ of\ succesfull\ read\ of\ required\ amount\ of\ bytes.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00062}00062\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00063}00063\ \textcolor{comment}{\ \ \ \ \ *\ @retval\ Status\{DataTypeOverflow\}\ in\ case\ of\ off\_t\ overflow,\ usually\ if\ @p\ offset\ cannot\ be\ represented\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00064}00064\ \textcolor{comment}{\ \ \ \ \ *\ by\ the\ platform-\/specific\ offset\ type.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00065}00065\ \textcolor{comment}{\ \ \ \ \ *\ @retval\ Status\{ReadFailed\}\ In\ case\ of\ failed\ read\ system\ call\ or\ attempt\ on\ closed\ file,\ including\ partial\ reads.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00066}00066\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00067}00067\ \textcolor{comment}{\ \ \ \ \ *\ @note\ Partial\ reads\ can\ occur,\ its\ normal\ behavior.\ Consider\ retrying\ or\ using\ read\_exact\_at()\ method.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00068}00068\ \textcolor{comment}{\ \ \ \ \ */}\ }
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00069}\doxymbox{\hyperlink{class_readable_file_a96d6273c57c0e8fa0163aca0b1cfa4bb}{00069}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_readable_file_a96d6273c57c0e8fa0163aca0b1cfa4bb}{read\_at}}(}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00070}00070\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ buffer,}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00072}00072\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00073}00073\ \ \ \ \ \ \ \ \ std::size\_t\&\ bytes\_read}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00074}00074\ \ \ \ \ )\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00075}00075\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00076}00076\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00077}00077\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Reads\ exactly\ the\ requested\ number\ of\ bytes\ from\ the\ given\ offset.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00078}00078\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00079}00079\ \textcolor{comment}{\ \ \ \ \ *\ This\ method\ repeatedly\ calls\ the\ virtual\ read\_at()\ operation\ through\ the}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00080}00080\ \textcolor{comment}{\ \ \ \ \ *\ ReadableFile\ interface\ until\ the\ destination\ buffer\ is\ completely\ filled}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00081}00081\ \textcolor{comment}{\ \ \ \ \ *\ or\ an\ error\ or\ unexpected\ end-\/of-\/file\ condition\ occurs.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00082}00082\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00083}00083\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ classes\ must\ implement\ read\_at();\ they\ normally\ do\ not\ need\ to}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00084}00084\ \textcolor{comment}{\ \ \ \ \ *\ override\ this\ method.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00085}00085\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00086}00086\ \textcolor{comment}{\ \ \ \ \ *\ @param\ offset\ File\ offset\ at\ which\ reading\ begins.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00087}00087\ \textcolor{comment}{\ \ \ \ \ *\ @param\ buffer\ Destination\ buffer.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00088}00088\ \textcolor{comment}{\ \ \ \ \ *\ @param\ size\ Number\ of\ bytes\ to\ read.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00089}00089\ \textcolor{comment}{\ \ \ \ \ *\ @param\ track\_offset\ Manual\ cursor/offset\ tracker.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00090}00090\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00091}00091\ \textcolor{comment}{\ \ \ \ \ *\ @return\ Status\ indicating\ success\ or\ the\ encountered\ error.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00092}00092\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00093}00093\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_readable_file_a3962bd261041d2514cef4e0460574052}{read\_exact\_at}}(}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00094}00094\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00095}00095\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ buffer,}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00096}00096\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00097}00097\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ track\_offset}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00098}00098\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00099}00099\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00100}00100\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00101}00101\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Closes\ the\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00102}00102\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00103}00103\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ classes\ must\ implement\ this\ method\ using\ the\ appropriate}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00104}00104\ \textcolor{comment}{\ \ \ \ \ *\ platform-\/specific\ system\ call,\ such\ as\ CloseHandle()\ on\ Windows\ or}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00105}00105\ \textcolor{comment}{\ \ \ \ \ *\ close()\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00106}00106\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00107}00107\ \textcolor{comment}{\ \ \ \ \ *\ @return\ Status::ok()\ on\ success;\ otherwise,\ a\ status\ describing\ the\ system-\/call\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00108}00108\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00109}\doxymbox{\hyperlink{class_readable_file_ad6d2a1437adf3045fcf712d0923a01de}{00109}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_readable_file_ad6d2a1437adf3045fcf712d0923a01de}{close}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00110}00110\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00111}00111\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00112}00112\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Retrieves\ the\ size\ of\ the\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00113}00113\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00114}00114\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ classes\ must\ implement\ this\ method\ using\ the\ appropriate}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00115}00115\ \textcolor{comment}{\ \ \ \ \ *\ platform-\/specific\ system\ call,\ such\ as\ GetFileSizeEx()\ on\ Windows\ or}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00116}00116\ \textcolor{comment}{\ \ \ \ \ *\ ::fstat()\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00117}00117\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00118}00118\ \textcolor{comment}{\ \ \ \ \ *\ @param[out]\ size\_out\ Receives\ the\ file\ size\ in\ bytes.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00119}00119\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00120}00120\ \textcolor{comment}{\ \ \ \ \ *\ @return\ Status::ok()\ on\ success;\ otherwise,\ a\ status\ describing\ the\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00121}00121\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00122}00122\ \textcolor{comment}{\ \ \ \ \ *\ @retval\ Status\{GetSizeFailed\}\ If\ the\ file-\/size\ query\ fails\ or\ the\ file\ is\ closed.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00123}00123\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00124}\doxymbox{\hyperlink{class_readable_file_a3f793f1dcb7f88a7c1b46adf865c4fad}{00124}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_readable_file_a3f793f1dcb7f88a7c1b46adf865c4fad}{get\_file\_size}}(std::uint64\_t\&\ size\_out)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00125}00125\ \ \ \ \ }
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00126}00126\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00127}00127\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00128}00128\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Gets\ the\ native\ Windows\ handle\ of\ the\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00129}00129\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00130}00130\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ WindowsReadableFile\ classes\ must\ implement\ this\ method\ by\ returning}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00131}00131\ \textcolor{comment}{\ \ \ \ \ *\ the\ underlying\ file\ handle.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00132}00132\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00133}00133\ \textcolor{comment}{\ \ \ \ \ *\ @return\ The\ underlying\ Windows\ handle\ represented\ as\ a\ const\ void\ pointer.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00134}00134\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00135}00135\ \textcolor{comment}{\ \ \ \ \ *\ @warning\ Returning\ a\ native\ handle\ as\ const\ void*\ loses\ type\ safety\ and\ is}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00136}00136\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ generally\ not\ recommended.\ Prefer\ returning\ HANDLE\ directly\ when}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00137}00137\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ possible.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00138}00138\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00139}00139\ \textcolor{comment}{\ \ \ \ \ *\ @warning\ The\ returned\ handle\ is\ owned\ by\ this\ object.\ The\ caller\ must\ not}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00140}00140\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ close\ it\ or\ retain\ it\ after\ the\ file\ object\ is\ destroyed\ or\ closed.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00141}00141\ \textcolor{comment}{\ \ \ \ \ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00142}00142\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_readable_file_acb7117ffe31bcb0d1d3b3e9990d302ef}{get\_descriptor}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00143}00143\ \textcolor{preprocessor}{\#else}\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00144}00144\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00145}00145\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Gets\ the\ native\ POSIX\ file\ descriptor\ of\ the\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00146}00146\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00147}00147\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ PosixReadableFile\ classes\ must\ implement\ this\ method\ by\ returning\ a}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00148}00148\ \textcolor{comment}{\ \ \ \ \ *\ reference\ to\ the\ underlying\ file\ descriptor.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00149}00149\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00150}00150\ \textcolor{comment}{\ \ \ \ \ *\ @return\ A\ const\ reference\ to\ the\ underlying\ POSIX\ file\ descriptor.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00151}00151\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00152}00152\ \textcolor{comment}{\ \ \ \ \ *\ @warning\ Returning\ the\ descriptor\ by\ reference\ exposes\ internal\ object}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00153}00153\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ storage\ and\ may\ produce\ a\ dangling\ reference\ after\ the\ file\ object}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00154}00154\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ is\ destroyed.\ Returning\ int\ by\ value\ is\ generally\ safer\ and}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00155}00155\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ recommended.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00156}00156\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00157}00157\ \textcolor{comment}{\ \ \ \ \ *\ @warning\ The\ descriptor\ is\ owned\ by\ this\ object.\ The\ caller\ must\ not\ close}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00158}00158\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ it\ or\ retain\ the\ reference\ after\ the\ file\ object\ is\ destroyed\ or}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00159}00159\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ closed.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00160}00160\ \textcolor{comment}{\ \ \ \ \ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00161}\doxymbox{\hyperlink{class_readable_file_acb7117ffe31bcb0d1d3b3e9990d302ef}{00161}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ \doxymbox{\hyperlink{class_readable_file_acb7117ffe31bcb0d1d3b3e9990d302ef}{get\_descriptor}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00162}00162\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00163}00163\ \};}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00164}00164\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00165}00165\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00166}00166\ \textcolor{comment}{\ *\ @brief\ Abstract\ interface\ for\ writeable\ files.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00167}00167\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00168}00168\ \textcolor{comment}{\ *\ Defines\ the\ operations\ that\ platform-\/specific\ implementations,\ such\ as}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00169}00169\ \textcolor{comment}{\ *\ Windows\ and\ POSIX\ writable\ files,\ must\ provide.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00170}00170\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00171}00171\ \textcolor{comment}{\ *\ Implementations\ must\ override\ operations\ including:}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00172}00172\ \textcolor{comment}{\ *\ -\/\ sync()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00173}00173\ \textcolor{comment}{\ *\ -\/\ append()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00174}00174\ \textcolor{comment}{\ *\ -\/\ close()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00175}00175\ \textcolor{comment}{\ *\ -\/\ get\_file\_size()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00176}00176\ \textcolor{comment}{\ *\ -\/\ current\_position()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00177}00177\ \textcolor{comment}{\ *\ -\/\ durable\_rename()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00178}00178\ \textcolor{comment}{\ *\ -\/\ sync\_parent\_directory()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00179}00179\ \textcolor{comment}{\ *\ -\/\ parent\_directory()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00180}00180\ \textcolor{comment}{\ *\ -\/\ seek\_to\_end()}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00181}00181\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00182}00182\ \textcolor{comment}{\ *\ @note\ LSM-\/based\ databases\ generally\ use\ ReadableFile\ objects\ primarily\ for}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00183}00183\ \textcolor{comment}{\ *\ read\ operations,\ which\ is\ why\ WritableFile\ provides\ a\ larger\ set\ of\ methods.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00184}00184\ \textcolor{comment}{\ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00185}00185\ \textcolor{comment}{\ *\ @note\ This\ class\ is\ not\ thread-\/safe.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00186}00186\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00187}\doxymbox{\hyperlink{class_writable_file}{00187}}\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_writable_file}{WritableFile}}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00188}00188\ \{}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00189}00189\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00190}\doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{00190}}\ \ \ \ \ std::filesystem::path\ \doxymbox{\hyperlink{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}{path}};\ \textcolor{comment}{///<\ Path\ of\ file\ being\ written.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00191}00191\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00192}00192\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00193}00193\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Virtual\ destructor\ for\ polymorphic\ destruction.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00194}00194\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00195}\doxymbox{\hyperlink{class_writable_file_a8338ec7a97003dc2fe7a11fe6082d979}{00195}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{class_writable_file_a8338ec7a97003dc2fe7a11fe6082d979}{\string~WritableFile}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00196}00196\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00197}00197\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00198}00198\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Appends\ data\ to\ the\ writable\ file,\ based\ on\ internal\ cursors\ position.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00199}00199\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00200}00200\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ classes\ must\ implement\ this\ methods\ using\ appropriate\ system\ calls}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00201}00201\ \textcolor{comment}{\ \ \ \ \ *\ such\ as\ WriteFile\ on\ Windows\ or\ ::write\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00202}00202\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00203}00203\ \textcolor{comment}{\ \ \ \ \ *\ @param[in]\ data\ Pointer\ to\ data\ bytes.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00204}00204\ \textcolor{comment}{\ \ \ \ \ *\ @param[in]\ size\ Amount\ of\ bytes\ to\ be\ written.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00205}00205\ \textcolor{comment}{\ \ \ \ \ *\ @param\ track\_offset\ Manual\ cursor/offset\ tracker.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00206}00206\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00207}00207\ \textcolor{comment}{\ \ \ \ \ *\ @return\ Status::ok()\ in\ case\ of\ success,\ otherwise\ Status\ with\ appropriate\ StatusCode}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00208}00208\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00209}00209\ \textcolor{comment}{\ \ \ \ \ *\ @retval\ Status\{WriteFailed\}\ In\ case\ of\ failed\ write\ system\ call\ or\ attempt\ on\ closed\ file,}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00210}00210\ \textcolor{comment}{\ \ \ \ \ *\ including\ partial\ writes.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00211}00211\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00212}00212\ \textcolor{comment}{\ \ \ \ \ *\ @note\ Partial\ writes\ doesn't\ necessarily\ mean\ fatal\ error.\ Consider\ retrying\ or\ using\ helpers.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00213}00213\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00214}\doxymbox{\hyperlink{class_writable_file_a30b8fe50516f78178adf7975de0bd485}{00214}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_writable_file_a30b8fe50516f78178adf7975de0bd485}{append}}(}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data,}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00216}00216\ \ \ \ \ \ \ \ \ std::size\_t\ size,\ }
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00217}00217\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ track\_offset}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00218}00218\ \ \ \ \ )\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00219}00219\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00220}00220\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00221}00221\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Flushes\ buffered\ file\ data\ to\ stable\ storage.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00222}00222\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00223}00223\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ classes\ must\ implement\ this\ method\ using\ appropriate\ system\ calls}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00224}00224\ \textcolor{comment}{\ \ \ \ \ *\ such\ as\ FlushFileBuffers\ on\ Windows\ and\ ::fsync\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00225}00225\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00226}00226\ \textcolor{comment}{\ \ \ \ \ *\ @return\ Status::ok()\ in\ case\ of\ success,\ otherwise\ Status\ with\ describing\ the\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00227}00227\ \textcolor{comment}{\ \ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00228}00228\ \textcolor{comment}{\ \ \ \ \ *\ @retval\ Status\{SyncFailed\}\ If\ the\ underlying\ synchronization\ operation\ fails\ or\ the\ file\ is\ closed.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00229}00229\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00230}\doxymbox{\hyperlink{class_writable_file_a64ffe9bd2641630e31ad5f8d00540544}{00230}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_writable_file_a64ffe9bd2641630e31ad5f8d00540544}{sync}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00231}00231\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00232}00232\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00233}00233\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Closes\ the\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00234}00234\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00235}00235\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ classes\ must\ implement\ this\ method\ using\ the\ appropriate}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00236}00236\ \textcolor{comment}{\ \ \ \ \ *\ platform-\/specific\ system\ call,\ such\ as\ CloseHandle()\ on\ Windows\ or}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00237}00237\ \textcolor{comment}{\ \ \ \ \ *\ close()\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00238}00238\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00239}00239\ \textcolor{comment}{\ \ \ \ \ *\ @return\ Status::ok()\ on\ success;\ otherwise,\ a\ status\ describing\ the\ system-\/call\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00240}00240\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00241}\doxymbox{\hyperlink{class_writable_file_a143df0fa5cb12be264d9656232cf66bd}{00241}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_writable_file_a143df0fa5cb12be264d9656232cf66bd}{close}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00242}00242\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00243}00243\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00244}00244\ \textcolor{comment}{\ \ \ \ *\ @brief\ Returns\ the\ current\ position\ of\ the\ internal\ file\ cursor.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00245}00245\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00246}00246\ \textcolor{comment}{\ \ \ \ *\ Derived\ classes\ must\ implement\ this\ method\ using\ the\ appropriate}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00247}00247\ \textcolor{comment}{\ \ \ \ *\ platform-\/specific\ system\ call,\ such\ as\ SetFilePointerEx()\ on\ Windows\ or}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00248}00248\ \textcolor{comment}{\ \ \ \ *\ ::lseek()\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00249}00249\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00250}00250\ \textcolor{comment}{\ \ \ \ *\ @return\ A\ successful\ Result\ containing\ the\ current\ cursor\ position\ as\ a}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00251}00251\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ std::uint64\_t;\ otherwise,\ a\ failed\ Result\ describing\ the\ error.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00252}00252\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00253}00253\ \textcolor{comment}{\ \ \ \ *\ @retval\ Result<std::uint64\_t>::fail(GetPositionFailed)\ If\ the\ file\ is\ closed,}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00254}00254\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ the\ system\ call\ fails,\ or\ the\ returned\ position\ is\ invalid\ or\ cannot}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00255}00255\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ be\ represented\ as\ std::uint64\_t.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00256}00256\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00257}\doxymbox{\hyperlink{class_writable_file_a33234a6b764d42d98574e35eb936ae67}{00257}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ \doxymbox{\hyperlink{class_writable_file_a33234a6b764d42d98574e35eb936ae67}{current\_position}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00258}00258\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00259}00259\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00260}00260\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Retrieves\ the\ size\ of\ the\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00261}00261\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00262}00262\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ classes\ must\ implement\ this\ method\ using\ the\ appropriate}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00263}00263\ \textcolor{comment}{\ \ \ \ \ *\ platform-\/specific\ system\ call,\ such\ as\ GetFileSizeEx()\ on\ Windows\ or}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00264}00264\ \textcolor{comment}{\ \ \ \ \ *\ ::fstat()\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00265}00265\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00266}00266\ \textcolor{comment}{\ \ \ \ \ *\ @param[out]\ size\_out\ Receives\ the\ file\ size\ in\ bytes.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00267}00267\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00268}00268\ \textcolor{comment}{\ \ \ \ \ *\ @return\ Status::ok()\ on\ success;\ otherwise,\ a\ status\ describing\ the\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00269}00269\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00270}00270\ \textcolor{comment}{\ \ \ \ \ *\ @retval\ Status\{GetSizeFailed\}\ If\ the\ file-\/size\ query\ fails\ or\ the\ file\ is\ closed.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00271}00271\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00272}\doxymbox{\hyperlink{class_writable_file_a765ebfdc7203dd323419454c5c081040}{00272}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_writable_file_a765ebfdc7203dd323419454c5c081040}{get\_file\_size}}(std::uint64\_t\&\ size\_out)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00273}00273\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00274}00274\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00275}00275\ \textcolor{comment}{\ \ \ \ *\ @brief\ Renames\ the\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00276}00276\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00277}00277\ \textcolor{comment}{\ \ \ \ *\ Derived\ classes\ must\ implement\ this\ method\ using\ the\ appropriate}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00278}00278\ \textcolor{comment}{\ \ \ \ *\ platform-\/specific\ operation,\ such\ as\ MoveFileExW()\ on\ Windows\ or}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00279}00279\ \textcolor{comment}{\ \ \ \ *\ ::rename()\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00280}00280\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00281}00281\ \textcolor{comment}{\ \ \ \ *\ @param[in]\ to\ Destination\ path\ containing\ the\ new\ file\ name.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00282}00282\ \textcolor{comment}{\ \ \ \ *\ @param[in]\ replace\_existing\ Whether\ an\ existing\ destination\ file\ may\ be}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00283}00283\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ \ \ \ replaced.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00284}00284\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00285}00285\ \textcolor{comment}{\ \ \ \ *\ @return\ Status::ok()\ on\ success;\ otherwise,\ a\ status\ describing\ the\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00286}00286\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00287}00287\ \textcolor{comment}{\ \ \ \ *\ @todo\ Consider\ combining\ rename(),\ file\ synchronization,\ and\ parent-\/directory}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00288}00288\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ synchronization\ into\ a\ single\ durable\ replacement\ operation.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00289}00289\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00290}00290\ \textcolor{comment}{\ \ \ \ *\ @warning\ This\ method\ has\ not\ been\ verified\ for\ crash\ atomicity\ or\ durability.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00291}00291\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00292}00292\ \textcolor{comment}{\ \ \ \ *\ @note\ The\ rename\ operation\ does\ not\ by\ itself\ guarantee\ that\ the\ directory}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00293}00293\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ metadata\ has\ reached\ persistent\ storage.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00294}00294\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00295}00295\ \textcolor{comment}{\ \ \ \ *\ @note\ On\ POSIX\ systems,\ ::rename()\ provides\ atomic\ namespace\ replacement\ when}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00296}00296\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ its\ platform\ and\ filesystem\ requirements\ are\ satisfied.\ However,\ a}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00297}00297\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ successful\ return\ does\ not\ by\ itself\ make\ the\ rename\ durable\ across\ a}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00298}00298\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ system\ crash.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00299}00299\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00300}00300\ \textcolor{comment}{\ \ \ \ *\ @note\ On\ Windows,\ MoveFileExW()\ does\ not\ provide\ a\ general\ guarantee\ that\ the}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00301}00301\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ replacement\ is\ crash-\/atomic\ or\ durable\ on\ every\ filesystem\ and\ storage}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00302}00302\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ configuration.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00303}00303\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00304}00304\ \textcolor{comment}{\ \ \ \ *\ @details\ On\ POSIX\ systems,\ durable\ replacement\ normally\ requires\ synchronizing}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00305}00305\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ the\ newly\ written\ file\ before\ renaming\ it\ and\ synchronizing\ the}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00306}00306\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ affected\ parent\ directory\ after\ the\ rename.\ If\ the\ source\ and}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00307}00307\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ destination\ have\ different\ parent\ directories,\ both\ directories\ may}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00308}00308\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ need\ to\ be\ synchronized.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00309}00309\ \textcolor{comment}{\ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00310}00310\ \textcolor{comment}{\ \ \ \ *\ @details\ On\ Windows,\ MOVEFILE\_WRITE\_THROUGH\ requests\ that\ MoveFileExW()\ wait}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00311}00311\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ until\ the\ move\ operation\ is\ completed.\ It\ should\ not\ be\ treated\ as\ a}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00312}00312\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ universal\ guarantee\ that\ all\ file\ and\ directory\ metadata\ will\ survive}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00313}00313\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ \ every\ possible\ system\ or\ storage\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00314}00314\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00315}\doxymbox{\hyperlink{class_writable_file_a8c73c0150ee87bce4c1299a4bb2349ad}{00315}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_writable_file_a8c73c0150ee87bce4c1299a4bb2349ad}{durable\_rename}}(\textcolor{keyword}{const}\ std::filesystem::path\&\ to,\ \textcolor{keywordtype}{bool}\ replace\_existing)\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00316}00316\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00317}00317\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00318}00318\ \textcolor{comment}{\ \ \ \ *\ @brief\ Synchronization/flushing\ of\ parent\ directories\ metadata\ to\ persistent\ storage.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00319}00319\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00320}00320\ \textcolor{comment}{\ \ \ \ *\ Derived\ classes\ must\ implement\ this\ method\ using\ appropriate\ platform-\/dependent\ system}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00321}00321\ \textcolor{comment}{\ \ \ \ *\ calls\ such\ as\ ::fsync\ on\ POSIX\ sytsems.\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00322}00322\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00323}00323\ \textcolor{comment}{\ \ \ \ *\ @note\ Unlike\ the\ POSIX\ implementation,\ Windows\ provides\ no\ documented}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00324}00324\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ per-\/directory\ equivalent\ of\ fsync(parent\_directory\_fd).\ Therefore,}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00325}00325\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ identical\ crash-\/durability\ guarantees\ are\ not\ claimed\ across\ platforms.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00326}00326\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00327}00327\ \textcolor{comment}{\ \ \ \ *\ @return\ Status\ with\ operations\ result.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00328}00328\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00329}00329\ \textcolor{comment}{\ \ \ \ *\ @retval\ Status::ok()\ in\ case\ of\ success.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00330}00330\ \textcolor{comment}{\ \ \ \ *\ @retval\ Status\{DirectorySyncFailed\}\ in\ case\ of\ system\ call\ failure,\ or\ attempt\ over\ closed\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00331}00331\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00332}00332\ \textcolor{comment}{\ \ \ \ *\ @warning\ This\ method\ has\ not\ been\ verified\ for\ crash\ atomicity\ or\ durability.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00333}00333\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00334}\doxymbox{\hyperlink{class_writable_file_a56f297cd850cbb7bf411bcf849bfb832}{00334}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_writable_file_a56f297cd850cbb7bf411bcf849bfb832}{sync\_parent\_directory}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00335}00335\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00336}00336\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00337}00337\ \textcolor{comment}{\ \ \ \ *\ @brief\ Returns\ parent\ directory\ of\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00338}00338\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00339}00339\ \textcolor{comment}{\ \ \ \ *\ Derived\ classes\ must\ implement\ this\ methods\ using\ filesystem\ library's\ entities.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00340}00340\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00341}00341\ \textcolor{comment}{\ \ \ \ *\ @return\ std::filesystem::path\ of\ underlying\ file's\ parent.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00342}00342\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00343}\doxymbox{\hyperlink{class_writable_file_abf29a0ff5ebb47ab2d3f05238bee3d74}{00343}}\ \ \ \ \ \textcolor{keyword}{virtual}\ std::filesystem::path\ \doxymbox{\hyperlink{class_writable_file_abf29a0ff5ebb47ab2d3f05238bee3d74}{parent\_directory}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00344}00344\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00345}00345\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00346}00346\ \textcolor{comment}{\ \ \ \ *\ @brief\ Places\ underlying\ file's\ cursor\ at\ the\ end.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00347}00347\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00348}00348\ \textcolor{comment}{\ \ \ \ *\ Derived\ classes\ must\ implement\ this\ method\ using\ appropriate\ platform-\/dependent\ system\ calls}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00349}00349\ \textcolor{comment}{\ \ \ \ *\ such\ as\ SetFilePointerEx()\ on\ Windows\ or\ ::lseek()\ on\ POSIX\ systems.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00350}00350\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00351}00351\ \textcolor{comment}{\ \ \ \ *\ @return\ Result<std::uint64\_t>\ with\ appropriate\ status\ and\ position\ of\ internal\ cursor,\ which\ now\ points\ to\ eof,}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00352}00352\ \textcolor{comment}{\ \ \ \ *\ \ \ \ \ \ \ \ \ in\ case\ of\ success.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00353}00353\ \textcolor{comment}{\ \ \ \ *\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00354}00354\ \textcolor{comment}{\ \ \ \ *\ @retval\ Result<std::uint64\_t>::ok(std::uint64\_t)\ in\ case\ of\ success,\ containing\ internal\ cursor's\ new\ position.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00355}00355\ \textcolor{comment}{\ \ \ \ *\ @retval\ Result<std::uint64\_t>::fail(SeekFailed)\ in\ case\ of\ failure,\ with\ appropriate\ StatusCode}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00356}00356\ \textcolor{comment}{\ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00357}\doxymbox{\hyperlink{class_writable_file_aef360f0276df9e2a2164139790b0e3f5}{00357}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ \doxymbox{\hyperlink{class_writable_file_aef360f0276df9e2a2164139790b0e3f5}{seek\_to\_end}}()\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00358}00358\ }
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00359}00359\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00360}00360\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00361}00361\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Gets\ the\ native\ Windows\ handle\ of\ the\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00362}00362\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00363}00363\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ WindowsReadableFile\ classes\ must\ implement\ this\ method\ by\ returning}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00364}00364\ \textcolor{comment}{\ \ \ \ \ *\ the\ underlying\ file\ handle.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00365}00365\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00366}00366\ \textcolor{comment}{\ \ \ \ \ *\ @return\ The\ underlying\ Windows\ handle\ represented\ as\ a\ const\ void\ pointer.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00367}00367\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00368}00368\ \textcolor{comment}{\ \ \ \ \ *\ @warning\ Returning\ a\ native\ handle\ as\ const\ void*\ loses\ type\ safety\ and\ is}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00369}00369\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ generally\ not\ recommended.\ Prefer\ returning\ HANDLE\ directly\ when}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00370}00370\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ possible.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00371}00371\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00372}00372\ \textcolor{comment}{\ \ \ \ \ *\ @warning\ The\ returned\ handle\ is\ owned\ by\ this\ object.\ The\ caller\ must\ not}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00373}00373\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ close\ it\ or\ retain\ it\ after\ the\ file\ object\ is\ destroyed\ or\ closed.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00374}00374\ \textcolor{comment}{\ \ \ \ \ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00375}00375\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ \doxymbox{\hyperlink{class_writable_file_afd5545deccf2b0233d2140c2c0945601}{get\_descriptor}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00376}00376\ \textcolor{preprocessor}{\#else}\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00377}00377\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00378}00378\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Gets\ the\ native\ POSIX\ file\ descriptor\ of\ the\ underlying\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00379}00379\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00380}00380\ \textcolor{comment}{\ \ \ \ \ *\ Derived\ PosixReadableFile\ classes\ must\ implement\ this\ method\ by\ returning\ a}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00381}00381\ \textcolor{comment}{\ \ \ \ \ *\ reference\ to\ the\ underlying\ file\ descriptor.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00382}00382\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00383}00383\ \textcolor{comment}{\ \ \ \ \ *\ @return\ A\ const\ reference\ to\ the\ underlying\ POSIX\ file\ descriptor.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00384}00384\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00385}00385\ \textcolor{comment}{\ \ \ \ \ *\ @warning\ Returning\ the\ descriptor\ by\ reference\ exposes\ internal\ object}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00386}00386\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ storage\ and\ may\ produce\ a\ dangling\ reference\ after\ the\ file\ object}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00387}00387\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ is\ destroyed.\ Returning\ int\ by\ value\ is\ generally\ safer\ and}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00388}00388\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ recommended.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00389}00389\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00390}00390\ \textcolor{comment}{\ \ \ \ \ *\ @warning\ The\ descriptor\ is\ owned\ by\ this\ object.\ The\ caller\ must\ not\ close}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00391}00391\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ it\ or\ retain\ the\ reference\ after\ the\ file\ object\ is\ destroyed\ or}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00392}00392\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ \ closed.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00393}00393\ \textcolor{comment}{\ \ \ \ \ */}\textcolor{preprocessor}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00394}\doxymbox{\hyperlink{class_writable_file_afd5545deccf2b0233d2140c2c0945601}{00394}}\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ \doxymbox{\hyperlink{class_writable_file_afd5545deccf2b0233d2140c2c0945601}{get\_descriptor}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00395}00395\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00396}00396\ \};}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00397}00397\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00398}00398\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00399}00399\ \textcolor{comment}{*\ @brief\ Opens\ appropriate\ readable\ file}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00400}00400\ \textcolor{comment}{*\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00401}00401\ \textcolor{comment}{*\ Opens\ appropriate\ readable\ file\ based\ on\ platform.\ Returns\ result\ as\ pointer\ to\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00402}00402\ \textcolor{comment}{*\ base\ class.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00403}00403\ \textcolor{comment}{*\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00404}00404\ \textcolor{comment}{*\ @param[in]\ path\ path\ to\ readable\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00405}00405\ \textcolor{comment}{*\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00406}00406\ \textcolor{comment}{*\ @return\ Result<std::unique\_ptr<ReadableFile>>\ with\ appropriate\ Status\ and\ value.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00407}00407\ \textcolor{comment}{*\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00408}00408\ \textcolor{comment}{*\ @retval\ Result<std::unique\_ptr<ReadableFile>>::ok(std::unique\_ptr<ReadableFile>)}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00409}00409\ \textcolor{comment}{*\ \ \ \ \ \ \ \ \ in\ case\ of\ success,\ contains\ base\ class\ pointer\ to\ newly\ opened\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00410}00410\ \textcolor{comment}{*\ @retval\ Result<std::unique\_ptr<ReadableFile>>::fail(BadAlloc)\ in\ case\ of\ allocation\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00411}00411\ \textcolor{comment}{*\ @retval\ Result<std::unique\_ptr<ReadableFile>>::fail(OpenFailed)\ in\ case\ of\ system\ call\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00412}00412\ \textcolor{comment}{*\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00413}00413\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00414}00414\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>\ \doxymbox{\hyperlink{file_8h_aeb92b9b7eff8199755621892128e0ef0}{open\_readable\_file}}(}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00415}00415\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00416}00416\ );}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00417}00417\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00418}00418\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00419}00419\ \textcolor{comment}{*\ @brief\ Opens\ appropriate\ writable\ file}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00420}00420\ \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00421}00421\ \textcolor{comment}{*\ Opens\ appropriate\ writable\ file\ based\ on\ platform.\ Returns\ result\ as\ pointer\ to}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00422}00422\ \textcolor{comment}{*\ base\ class.\ Moves\ underlying\ files\ internal\ cursor\ to\ the\ end\ of\ file\ (for\ correct\ }}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00423}00423\ \textcolor{comment}{*\ behavior\ of\ WritableFile::append()\ method).}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00424}00424\ \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00425}00425\ \textcolor{comment}{*\ @param[in]\ path\ path\ to\ writable\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00426}00426\ \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00427}00427\ \textcolor{comment}{*\ @return\ Result<std::unique\_ptr<WritableFile>>\ with\ appropriate\ Status\ and\ value.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00428}00428\ \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00429}00429\ \textcolor{comment}{*\ @retval\ Result<std::unique\_ptr<WritableFile>>::ok(std::unique\_ptr<WritableFile>)}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00430}00430\ \textcolor{comment}{*\ \ \ \ \ \ \ \ \ in\ case\ of\ success,\ contains\ base\ class\ pointer\ to\ newly\ opened\ file.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00431}00431\ \textcolor{comment}{*\ @retval\ Result<std::unique\_ptr<WritableFile>>::fail(BadAlloc)\ in\ case\ of\ allocation\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00432}00432\ \textcolor{comment}{*\ @retval\ Result<std::unique\_ptr<WritableFile>>::fail(OpenFailed)\ in\ case\ of\ system\ call\ failure.}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00433}00433\ \textcolor{comment}{*}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00434}00434\ \textcolor{comment}{*/}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00435}00435\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>\ \doxymbox{\hyperlink{file_8h_a98a8580832968655df325718531dc570}{open\_writable\_file}}(}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00436}00436\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00437}00437\ );}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00438}00438\ }
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00439}00439\ \textcolor{comment}{//Result<std::unique\_ptr<WritableFile>>\ open\_writable\_file(const\ std::filesystem::path\&\ path);}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00440}00440\ \textcolor{comment}{//Result<std::unique\_ptr<ReadableFile>>\ open\_readable\_file(const\ std::filesystem::path\&\ path);}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00441}00441\ }
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00442}00442\ \textcolor{comment}{//\#ifdef\ \_WIN32}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00443}00443\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00444}00444\ \textcolor{comment}{//class\ WindowsReadableFile\ :\ public\ ReadableFile;}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00445}00445\ \textcolor{comment}{//class\ WindowsWritableFile\ :\ public\ WritableFile;}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00446}00446\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00447}00447\ \textcolor{comment}{//\#else}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00448}00448\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00449}00449\ \textcolor{comment}{//class\ PosixReadableFile\ :\ public\ ReadableFile;}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00450}00450\ \textcolor{comment}{//class\ PoxisWriteableFile\ :\ public\ WritableFile;}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00451}00451\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00452}00452\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{\Hypertarget{file_8h_source_l00453}00453\ }
 
 \end{DoxyCode}

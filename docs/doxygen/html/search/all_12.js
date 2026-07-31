@@ -1,11 +1,6 @@
 var searchData=
 [
-  ['wal_0',['WAL',['../class_w_a_l.html',1,'']]],
-  ['walfileheader_1',['WALFileHeader',['../struct_w_a_l_file_header.html',1,'']]],
-  ['walloader_2',['WALLoader',['../class_w_a_l_loader.html',1,'']]],
-  ['waloptions_3',['WALOptions',['../structkvdb_1_1_d_b_options_1_1_w_a_l_options.html',1,'kvdb::DBOptions']]],
-  ['walstreamingloader_4',['WALStreamingLoader',['../class_w_a_l_streaming_loader.html',1,'']]],
-  ['waltest_5',['WALTest',['../classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test.html',1,'anonymous_namespace{wal_test.cpp}']]],
-  ['walwriter_6',['WALWriter',['../class_w_a_l_writer.html',1,'']]],
-  ['writablefile_7',['WritableFile',['../class_writable_file.html',1,'']]]
+  ['validate_0',['validate',['../struct_compaction_options.html#a41b7edab666e2c3c21a3248a794a8c48',1,'CompactionOptions::validate()'],['../struct_compaction_plan.html#a189bfe7e6b5db88652862850c14df1b8',1,'CompactionPlan::validate()'],['../structkvdb_1_1_d_b_options.html#a1606ec1a69755e92aeef8350cf262f3c',1,'kvdb::DBOptions::validate()'],['../class_r_b_tree.html#a1b53fe6929a5733c387ddaada2b6b52d',1,'RBTree::validate()'],['../struct_s_s_table_entities_1_1_file_footer_section.html#a3471844a0cafc8c1f4fb5bc66dc5d325',1,'SSTableEntities::FileFooterSection::validate()'],['../struct_table_meta.html#a9ccac5097c7fb940ce01bb1a7b3d2fb9',1,'TableMeta::validate()']]],
+  ['value_1',['value',['../struct_result.html#a08cdc62a4daa93868d7971ae68eaacce',1,'Result']]],
+  ['versionedit_2',['VersionEdit',['../struct_version_edit.html',1,'']]]
 ];

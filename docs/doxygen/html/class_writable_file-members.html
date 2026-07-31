@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('class_writable_file.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,8 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">WritableFile Member List</div></div>
 </div><!--header-->
@@ -105,23 +122,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <p>This is the complete list of members for <a class="el" href="class_writable_file.html">WritableFile</a>, including all inherited members.</p>
 <table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>append</b>(const void *data, std::size_t size, std::uint64_t &amp;track_offset)=0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>close</b>()=0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>current_position</b>()=0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>durable_rename</b>(const std::filesystem::path &amp;to, bool replace_existing)=0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>get_descriptor</b>() const =0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>get_file_size</b>(std::uint64_t &amp;size_out)=0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>parent_directory</b>()=0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>path</b> (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>seek_to_end</b>()=0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>sync</b>()=0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>sync_parent_directory</b>()=0 (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>~WritableFile</b>()=default (defined in <a class="el" href="class_writable_file.html">WritableFile</a>)</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_writable_file.html#a30b8fe50516f78178adf7975de0bd485">append</a>(const void *data, std::size_t size, std::uint64_t &amp;track_offset)=0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_writable_file.html#a143df0fa5cb12be264d9656232cf66bd">close</a>()=0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_writable_file.html#a33234a6b764d42d98574e35eb936ae67">current_position</a>()=0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_writable_file.html#a8c73c0150ee87bce4c1299a4bb2349ad">durable_rename</a>(const std::filesystem::path &amp;to, bool replace_existing)=0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_writable_file.html#afd5545deccf2b0233d2140c2c0945601">get_descriptor</a>() const =0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_writable_file.html#a765ebfdc7203dd323419454c5c081040">get_file_size</a>(std::uint64_t &amp;size_out)=0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_writable_file.html#abf29a0ff5ebb47ab2d3f05238bee3d74">parent_directory</a>()=0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_writable_file.html#afd39f8a1f9a4d71a163ce1536489f3e2">path</a></td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_writable_file.html#aef360f0276df9e2a2164139790b0e3f5">seek_to_end</a>()=0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_writable_file.html#a64ffe9bd2641630e31ad5f8d00540544">sync</a>()=0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_writable_file.html#a56f297cd850cbb7bf411bcf849bfb832">sync_parent_directory</a>()=0</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_writable_file.html#a8338ec7a97003dc2fe7a11fe6082d979">~WritableFile</a>()=default</td><td class="entry"><a class="el" href="class_writable_file.html">WritableFile</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
 </table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

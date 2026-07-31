@@ -5,10 +5,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.17.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KVDB: C:/Users/user/KVDB/include/status.h Source File</title>
+<title>KVDB: status.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('status_8h_source.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,161 +115,295 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><b>include</b></li>  </ul>
-</div>
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">status.h</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define NOMINMAX</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">enum class</span> StatusCode : std::uint8_t {</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    Ok = 0,</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    UseAfterClose,</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    InvalidState,</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    DataTypeOverflow,</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="comment">// Compaction</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    OverlappingKeys,</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="comment">// Generic</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    BadAccess,</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    Underflow,</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    InvalidArgument,</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    FailedPrecondition,</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    NotFound,</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    AlreadyExists,</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    NotSupported,</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    InternalError,</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    InvariantViolation,</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    Duplicate,</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// Memory</span></div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    OutOfMemory,</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    AllocationFailed,</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    InvalidAlignment,</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    AllocationTooLarge,</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    BufferTooSmall,</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    NullPointer,</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    BadAlloc,</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="comment">// File helpers</span></div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    InvalidOffset,</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    InvalidReadSize,</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    SizeExceedsBlockSize,</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    SizeExceedsBlockBoundary,</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="comment">// IO / syscalls</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    IOError,</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    OpenFailed,</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    ReadFailed,</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    WriteFailed,</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    SyncFailed,</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    CloseFailed,</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    RenameFailed,</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    DirectorySyncFailed,</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    GetPositionFailed,</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    GetSizeFailed,</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    PermissionDenied,</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    SeekFailed,</div>
+<a href="status_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">* @file status.h</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">* @brief Provides classes, types and utilities for error handling.</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">*</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">* Instead of terminating execution when an operation fails, these entities</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="comment">* allow functions to return objects containing an appropriate error code and</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">* descriptive message. This enables callers to handle failures explicitly.</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="comment">*</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">* @note These entities are not currently thread-safe.</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="comment">*/</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#define NOMINMAX </span><span class="comment">// disabling Windows min and max functions, to avoid collission with STL</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="comment"></span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="comment">* @brief Error&#39;s type indication.</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="comment">*/</span></div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5e">   22</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5e">StatusCode</a> : std::uint8_t {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaa60852f204ed8028c1c58808b746d115">   24</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaa60852f204ed8028c1c58808b746d115">Ok</a> = 0, <span class="comment">///&lt; success</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea67cdc64e13f54ba2b7ec2f3cda945ccf">   25</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea67cdc64e13f54ba2b7ec2f3cda945ccf">UseAfterClose</a>, <span class="comment">///&lt; resource was closed, yet attempt to perform operations over it were tried.</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaedf260198e4d75d1cb3c7588f7380120">   26</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaedf260198e4d75d1cb3c7588f7380120">InvalidState</a>, <span class="comment">///&lt; invalid state of entity. might include</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1c212561bd4adc7c009115b18c972fa2">   27</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1c212561bd4adc7c009115b18c972fa2">DataTypeOverflow</a>, <span class="comment">///&lt; data type overflow</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="comment">// Compaction</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea4579a24c72669a55f34368ef71194775">   29</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea4579a24c72669a55f34368ef71194775">OverlappingKeys</a>, <span class="comment">///&lt; no overlapping keys allowed on L1+ levels.</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// Generic</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3680d3d991bed5386c1793b77b14d9c1">   32</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3680d3d991bed5386c1793b77b14d9c1">BadAccess</a>, <span class="comment">///&lt; permissions denied, use after close</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea07f6a565e17a0b5f7341422b6f9101cc">   33</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea07f6a565e17a0b5f7341422b6f9101cc">Underflow</a>, <span class="comment">///&lt; Arithmetic or cursor underflow.</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b">   34</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b">InvalidArgument</a>, <span class="comment">///&lt; invalid argument was provided</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ead8fc6a8cf630261aa9439efe8c1c7eb4">   35</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ead8fc6a8cf630261aa9439efe8c1c7eb4">FailedPrecondition</a>, <span class="comment">///&lt; failed to satify preconditions</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea38c300f4fc9ce8a77aad4a30de05cad8">   36</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea38c300f4fc9ce8a77aad4a30de05cad8">NotFound</a>, <span class="comment">///&lt; not found</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea89b69484680b18e9179e826c6e023805">   37</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea89b69484680b18e9179e826c6e023805">AlreadyExists</a>, <span class="comment">///&lt; typical scenario when file already exists, but attempt to recreate it was performed.</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea9ed2d871602556951e39f3cebd08d6cb">   38</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea9ed2d871602556951e39f3cebd08d6cb">NotSupported</a>, <span class="comment">///&lt; Not suppported, might refer to invalid </span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea8462b58246e70e5c83e5b939a9332cb5">   39</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea8462b58246e70e5c83e5b939a9332cb5">InternalError</a>, <span class="comment">///&lt; Unexpected invariant or implementation failure.</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ead5577819bdd3dadf2ce8cd0c265ff6b5">   40</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ead5577819bdd3dadf2ce8cd0c265ff6b5">InvariantViolation</a>, <span class="comment">///&lt; Violates entities invariants.</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaed75712b0eb1913c28a3872731ffd48d">   41</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaed75712b0eb1913c28a3872731ffd48d">Duplicate</a>, <span class="comment">///&lt; duplicate. in some cases, like L1+ level tables, might mean corruption.</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">// Memory</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab498327feeb51430af73e07deac268fd">   44</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab498327feeb51430af73e07deac268fd">OutOfMemory</a>, <span class="comment">///&lt; out of aviable memory, usuallly fatal.</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab1a1f934a076c47f947fd8766ca6d2df">   45</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab1a1f934a076c47f947fd8766ca6d2df">AllocationFailed</a>, <span class="comment">///&lt; allocation of memory failed, might be fatal.</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea6d69f88eb0d6ddadcf9785bd01cb3288">   46</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea6d69f88eb0d6ddadcf9785bd01cb3288">InvalidAlignment</a>, <span class="comment">///&lt; invalid entity alignment was provided, maximum allowed alignment is std::max_align_t</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea5fa372c806bac6095436767de671cb2c">   47</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea5fa372c806bac6095436767de671cb2c">AllocationTooLarge</a>, <span class="comment">///&lt; Requested allocation exceeds supported limits.</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab801c4d44abd4738b7f69c4e390ed61d">   48</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab801c4d44abd4738b7f69c4e390ed61d">BufferTooSmall</a>, <span class="comment">///&lt; provided buffer is too small, might lead to overflow of buffer</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea260d92b2beff2bf345911077edcd3f3c">   49</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea260d92b2beff2bf345911077edcd3f3c">NullPointer</a>, <span class="comment">///&lt; reference to null pointer.</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3c7a8251808153249519ae080c9d4b65">   50</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3c7a8251808153249519ae080c9d4b65">BadAlloc</a>, <span class="comment">///&lt; Bad allocation</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="comment">// File helpers</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadca5889d21c2871a53cea8493044149f">   53</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadca5889d21c2871a53cea8493044149f">InvalidOffset</a>, <span class="comment">///&lt; invalid offset</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea79764bbe96374648cf6f9ec80a022031">   54</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea79764bbe96374648cf6f9ec80a022031">InvalidReadSize</a>, <span class="comment">///&lt; invalid amount of bytes requested to read</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadb41b603935cd862062c11d5a5184770">   55</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadb41b603935cd862062c11d5a5184770">SizeExceedsBlockSize</a>, <span class="comment">///&lt; size of entity overflow size of block. @note Consider records fragmentation to avoid it.</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaf700b9dbf230860bd2b3feaaf037dd40">   56</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaf700b9dbf230860bd2b3feaaf037dd40">SizeExceedsBlockBoundary</a>, <span class="comment">///&lt; requested amount of bytes to process move cursor (manual has priority over internal) out of current block&#39;s boundaries.</span></div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// File format</span></div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    Corruption,</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    BadMagic,</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    UnsupportedVersion,</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    UnsupportedBlockSize,</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    ChecksumMismatch,</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    InvalidHeader,</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    InvalidFooter,</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    InvalidBlockType,</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    InvalidBlockAlignment,</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    InvalidSectionOffset,</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    InvalidSectionSize,</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    InvalidPayloadSize,</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    OffsetOutOfRange,</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    OffsetOverlap,</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    UnexpectedEOF,</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    BadFileDescriptor</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>};</div>
-<div class="foldopen" id="foldopen00076" data-start="{" data-end="};">
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="struct_status.html">   76</a></span><span class="keyword">struct </span>Status {</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    Status() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    Status(<span class="keyword">const</span> Status&amp;) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    Status(Status&amp;&amp;) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    Status(StatusCode code, std::string message = <span class="stringliteral">&quot;&quot;</span>)</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        : code(code), message(std::move(message)) {</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    Status(StatusCode code, <span class="keyword">const</span> <span class="keywordtype">char</span>* message)</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        : code(code), message(message) {</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    StatusCode code = StatusCode::Ok;</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    std::string message;</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keyword">static</span> Status ok();</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keyword">static</span> Status invalid_argument(std::string message)</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">return</span> Status{ StatusCode::InvalidArgument, std::move(message) };</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordtype">bool</span> is_ok() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    Status&amp; operator=(<span class="keyword">const</span> Status&amp;) = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    Status&amp; operator=(Status&amp;&amp;) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>};</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// IO / syscalls</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea5206bd7472156351d2d9a99633ac9580">   59</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea5206bd7472156351d2d9a99633ac9580">IOError</a>, <span class="comment">///&lt; io error</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eac60b10c14b43d15f91424c6addfc31ac">   60</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eac60b10c14b43d15f91424c6addfc31ac">OpenFailed</a>, <span class="comment">///&lt; failed to open, might be denied access</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed">   61</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed">ReadFailed</a>, <span class="comment">///&lt; read failed</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa">   62</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa">WriteFailed</a>, <span class="comment">///&lt; write failed</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5">   63</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5">SyncFailed</a>, <span class="comment">///&lt; failed to flush data to persistent storage</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0">   64</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0">CloseFailed</a>, <span class="comment">///&lt; failed to close resource</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5">   65</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5">RenameFailed</a>, <span class="comment">///&lt; failed to rename resource</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38">   66</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38">DirectorySyncFailed</a>, <span class="comment">///&lt; failed to flush directory changes to persistent storage</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2">   67</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2">GetPositionFailed</a>, <span class="comment">///&lt; failed to get position of files internal cursor.</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a">   68</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a">GetSizeFailed</a>, <span class="comment">///&lt; failed to get size of file.</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea4b33a686be73bb172407d73b26356275">   69</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea4b33a686be73bb172407d73b26356275">PermissionDenied</a>, <span class="comment">///&lt; permission denied.</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf">   70</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf">SeekFailed</a>, <span class="comment">///&lt; failed to move positions of files internal cursor.</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="comment">// File format</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8">   73</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8">Corruption</a>, <span class="comment">///&lt; Corruption, not necessarily fatal.</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eac87c2d41af62cc035e76f90e0f889e4f">   74</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eac87c2d41af62cc035e76f90e0f889e4f">BadMagic</a>, <span class="comment">///&lt; Bad magic number, fatal.</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea0f89bc98e9b12bdeda0604e57bdc0518">   75</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea0f89bc98e9b12bdeda0604e57bdc0518">UnsupportedVersion</a>, <span class="comment">///&lt; Unsupported version, not necessarily fatal.</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1b20d999fe1884fa16584eb7c5b003b0">   76</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1b20d999fe1884fa16584eb7c5b003b0">UnsupportedBlockSize</a>, <span class="comment">///&lt; Unsupported block size</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea23cd86e43512932a4bc975552c8d17fd">   77</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea23cd86e43512932a4bc975552c8d17fd">ChecksumMismatch</a>, <span class="comment">///&lt; Checksum mismatch</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eae39ad990effe3b4cd951b6ae7c642b66">   78</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eae39ad990effe3b4cd951b6ae7c642b66">InvalidHeader</a>, <span class="comment">///&lt; invalid header of sstable section.</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea2efeaf3a466a95365c6dc36b644a4164">   79</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea2efeaf3a466a95365c6dc36b644a4164">InvalidFooter</a>, <span class="comment">///&lt; invalid footer section</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea8126c769b7c30850b4c92138ed06d815">   80</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea8126c769b7c30850b4c92138ed06d815">InvalidBlockType</a>, <span class="comment">///&lt; invalid block/section type of sstable.</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1d4a352a294234246cd6774d38360a8c">   81</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1d4a352a294234246cd6774d38360a8c">InvalidBlockAlignment</a>, <span class="comment">///&lt; default data block must be alignment to block boundaries.</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea81fe951c730e6b79707e62075b710b10">   82</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea81fe951c730e6b79707e62075b710b10">InvalidSectionOffset</a>, <span class="comment">///&lt; invalid offset of sstable section (data section, index section etc.) </span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3f0804d94be21c04e0bc00e584b3730f">   83</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3f0804d94be21c04e0bc00e584b3730f">InvalidSectionSize</a>, <span class="comment">///&lt; invalid size of sstable section.</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea49d9a8dd4267bfc32f913369d13458b6">   84</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea49d9a8dd4267bfc32f913369d13458b6">InvalidPayloadSize</a>, <span class="comment">///&lt; invalid payload size of sstable section.</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea53a698a992bda163ece2b9d3cca729c2">   85</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea53a698a992bda163ece2b9d3cca729c2">OffsetOutOfRange</a>, <span class="comment">///&lt; offset points over eof.</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea9527444c805c146c790a5949b933fbd9">   86</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea9527444c805c146c790a5949b933fbd9">OffsetOverlap</a>, <span class="comment">///&lt; offset overlap</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eafb4f20c45a43b05ac6e7cb3c5a4c5997">   87</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eafb4f20c45a43b05ac6e7cb3c5a4c5997">UnexpectedEOF</a>, <span class="comment">///&lt; unexpected end of file, not necessarily fatal.</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea458fdaf36add031c1d0b54e6f484f48d">   88</a></span>    <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea458fdaf36add031c1d0b54e6f484f48d">BadFileDescriptor</a> <span class="comment">///&lt; bad file descriptor, might mean that file alrady closed.</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>};</div>
 </div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
-<div class="foldopen" id="foldopen00105" data-start="{" data-end="};">
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="struct_result.html">  105</a></span><span class="keyword">struct </span>[[nodiscard]] <a class="code hl_struct" href="struct_result.html">Result</a></div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>{</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    T value;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <a class="code hl_struct" href="struct_status.html">Status</a> status;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="comment"></span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span><span class="comment">* @brief Indicates status of operations final result.</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="comment">* </span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="comment">* Consider using with void functions.</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="comment">* In case of functions that return value, consider using Result&lt;T&gt;.</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="comment">*/</span></div>
+<div class="foldopen" id="foldopen00097" data-start="{" data-end="};">
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="struct_status.html">   97</a></span><span class="keyword">struct </span>Status {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    Status() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    Status(<span class="keyword">const</span> Status&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    Status(Status&amp;&amp;) <span class="keyword">noexcept</span> = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    Status(<a class="code hl_enumeration" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5e">StatusCode</a> <a class="code hl_variable" href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">code</a>, std::string <a class="code hl_variable" href="struct_status.html#a8566548713268c2247949f426496e60d">message</a> = <span class="stringliteral">&quot;&quot;</span>)</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        : <a class="code hl_variable" href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">code</a>(<a class="code hl_variable" href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">code</a>), <a class="code hl_variable" href="struct_status.html#a8566548713268c2247949f426496e60d">message</a>(std::move(<a class="code hl_variable" href="struct_status.html#a8566548713268c2247949f426496e60d">message</a>)) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    Status(<a class="code hl_enumeration" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5e">StatusCode</a> <a class="code hl_variable" href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">code</a>, <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_variable" href="struct_status.html#a8566548713268c2247949f426496e60d">message</a>)</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        : <a class="code hl_variable" href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">code</a>(<a class="code hl_variable" href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">code</a>), <a class="code hl_variable" href="struct_status.html#a8566548713268c2247949f426496e60d">message</a>(<a class="code hl_variable" href="struct_status.html#a8566548713268c2247949f426496e60d">message</a>) {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    }</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_result.html">Result</a> ok(T v)</div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keywordflow">return</span> <a class="code hl_struct" href="struct_result.html">Result</a>{ std::move(v), Status::ok() };</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    }</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_result.html">Result</a> fail(<a class="code hl_struct" href="struct_status.html">Status</a> s)</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    {</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordflow">return</span> <a class="code hl_struct" href="struct_result.html">Result</a>{ T{}, std::move(s) };</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    }</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordtype">bool</span> is_ok()<span class="keyword"> const</span></div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="keyword">    </span>{</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="keywordflow">return</span> this-&gt;status.is_ok();</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    }</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>};</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">  110</a></span>    <a class="code hl_enumeration" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5e">StatusCode</a> <a class="code hl_variable" href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">code</a> = <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaa60852f204ed8028c1c58808b746d115">StatusCode::Ok</a>; <span class="comment">///&lt; default status code indicates success.</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="struct_status.html#a8566548713268c2247949f426496e60d">  111</a></span>    std::string <a class="code hl_variable" href="struct_status.html#a8566548713268c2247949f426496e60d">message</a>; <span class="comment">///&lt; message providing detailed information.</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="comment"></span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span><span class="comment">    * @brief Returns success statuscode and empty message.</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span><span class="comment">    * </span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span><span class="comment">    * @return Status{StatusCode::Ok}</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span><span class="comment">    */</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keyword">static</span> Status <a class="code hl_function" href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be">ok</a>();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="comment"></span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span><span class="comment">    * @brief Returns status indicating invalid argument with message providing detailed information.</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="comment">    * </span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span><span class="comment">    * @param[in] message message with detailed information.</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span><span class="comment">    * </span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="comment">    * @return Status{StatusCode::InvalidArgument, std::string}</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="comment">    */</span></div>
+<div class="foldopen" id="foldopen00127" data-start="{" data-end="}">
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="struct_status.html#a194e66166743a75a8e37553894d7dae4">  127</a></span>    <span class="keyword">static</span> Status <a class="code hl_function" href="struct_status.html#a194e66166743a75a8e37553894d7dae4">invalid_argument</a>(std::string <a class="code hl_variable" href="struct_status.html#a8566548713268c2247949f426496e60d">message</a>)</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    {</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="keywordflow">return</span> Status{ <a class="code hl_enumvalue" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b">StatusCode::InvalidArgument</a>, std::move(<a class="code hl_variable" href="struct_status.html#a8566548713268c2247949f426496e60d">message</a>) };</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    }</div>
 </div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span><span class="preprocessor">#include &lt;system_error&gt;</span></div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="preprocessor">#include &lt;windows.h&gt;</span></div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="preprocessor">#include &lt;cerrno&gt;</span></div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><a class="code hl_struct" href="struct_status.html">Status</a> syscall_error(StatusCode code, std::string op);</div>
-<div class="ttc" id="astruct_result_html"><div class="ttname"><a href="struct_result.html">Result</a></div><div class="ttdef"><b>Definition</b> status.h:106</div></div>
-<div class="ttc" id="astruct_status_html"><div class="ttname"><a href="struct_status.html">Status</a></div><div class="ttdef"><b>Definition</b> status.h:76</div></div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span><span class="comment"></span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="comment">    * @brief Checks whether StatusCode is StatusCode::Ok.</span></div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="comment">    * </span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span><span class="comment">    * @retval true in case if StatusCode == StatusCode::Ok</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span><span class="comment">    * @retval false otherwise</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="comment">    */</span></div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="struct_status.html#a458a4b7f8b5e524989ece54936369201">is_ok</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <a class="code hl_struct" href="struct_status.html">Status</a>&amp; operator=(<span class="keyword">const</span> <a class="code hl_struct" href="struct_status.html">Status</a>&amp;) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <a class="code hl_struct" href="struct_status.html">Status</a>&amp; operator=(<a class="code hl_struct" href="struct_status.html">Status</a>&amp;&amp;) noexcept = default;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>};</div>
+</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span><span class="comment"></span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span><span class="comment">* @brief Returns status of functions final result, with result itself.</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span><span class="comment">* </span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span><span class="comment">* Consider using with functions that have return value. T indicates the</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="comment">* data type of return value. </span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span><span class="comment">* Ex: Result&lt;bool&gt; test()</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span><span class="comment">*        return Result&lt;bool&gt;::ok(true);</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span><span class="comment">* </span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span><span class="comment">* @note Consider using std::optional&lt;T&gt; to avoid construction of empty object.</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="comment">*/</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>template &lt;typename T&gt;</div>
+<div class="foldopen" id="foldopen00155" data-start="{" data-end="};">
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="struct_result.html">  155</a></span>struct [[nodiscard]] <a class="code hl_struct" href="struct_result.html">Result</a></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>{</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno"><a class="line" href="struct_result.html#a08cdc62a4daa93868d7971ae68eaacce">  157</a></span>    T <a class="code hl_variable" href="struct_result.html#a08cdc62a4daa93868d7971ae68eaacce">value</a>; <span class="comment">///&lt; data type of functions return value.</span></div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="struct_result.html#a34cce226a35947a5bf7dc52160bbd10f">  158</a></span>    <a class="code hl_struct" href="struct_status.html">Status</a> <a class="code hl_variable" href="struct_result.html#a34cce226a35947a5bf7dc52160bbd10f">status</a>; <span class="comment">///&lt; status indicating status code and message.</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_result.html">Result</a> <a class="code hl_function" href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be">ok</a>(T v)</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="keywordflow">return</span> <a class="code hl_struct" href="struct_result.html">Result</a>{ std::move(v), <a class="code hl_function" href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be">Status::ok</a>() };</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    }</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="comment"></span> </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span><span class="comment">    /**</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="comment">    * @brief Use this in case of failure, return empty object</span></div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span><span class="comment">    * </span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span><span class="comment">    * @param[in] s Status object, indicating final result of function execution.</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span><span class="comment">    * </span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span><span class="comment">    * @note This statis method constructs empty object, which might be expensive.</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span><span class="comment">    * @note Consider using std::optional&lt;T&gt; to avoid construction of empty object.</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span><span class="comment">    */</span></div>
+<div class="foldopen" id="foldopen00173" data-start="{" data-end="}">
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="struct_result.html#a09a4b5fc4daea1a6372b560ab4a6995c">  173</a></span>    <span class="keyword">static</span> <a class="code hl_struct" href="struct_result.html">Result</a> <a class="code hl_function" href="struct_result.html#a09a4b5fc4daea1a6372b560ab4a6995c">fail</a>(<a class="code hl_struct" href="struct_status.html">Status</a> s)</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="keywordflow">return</span> <a class="code hl_struct" href="struct_result.html">Result</a>{ T{}, std::move(s) };</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    }</div>
+</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="struct_status.html#a458a4b7f8b5e524989ece54936369201">is_ok</a>()<span class="keyword"> const</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span><span class="keyword">    </span>{</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        <span class="keywordflow">return</span> this-&gt;status.<a class="code hl_function" href="struct_status.html#a458a4b7f8b5e524989ece54936369201">is_ok</a>();</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    }</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>};</div>
+</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span><span class="preprocessor">#include &lt;system_error&gt;</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span><span class="preprocessor">#ifdef _WIN32</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span><span class="preprocessor">#include &lt;windows.h&gt;</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span><span class="preprocessor">#else</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span><span class="preprocessor">#include &lt;cerrno&gt;</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span><span class="comment"></span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span><span class="comment">/**</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span><span class="comment">* @brief Returns status indicating system call error/failure.</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span><span class="comment">* </span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span><span class="comment">* @param[in] code StatusCode indicating system call error or any other.</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="comment">* @param[in] op Optional message prefix. It should not contain last syscall error codes interpretation.</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span><span class="comment">* </span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="comment">* @return Status Indicating status of syscall error, with message containg error code and its interpretation.</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span><span class="comment">*/</span></div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>Status <a class="code hl_function" href="status_8h.html#a309944ec2f6d8d14c827fdd6a6f59a17">syscall_error</a>(<a class="code hl_enumeration" href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5e">StatusCode</a> <a class="code hl_variable" href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">code</a>, std::string op);</div>
+<div class="ttc" id="astatus_8h_html_a309944ec2f6d8d14c827fdd6a6f59a17"><div class="ttname"><a href="status_8h.html#a309944ec2f6d8d14c827fdd6a6f59a17">syscall_error</a></div><div class="ttdeci">Status syscall_error(StatusCode code, std::string op)</div><div class="ttdoc">Returns status indicating system call error/failure.</div><div class="ttdef"><b>Definition</b> <a href="status_8cpp_source.html#l00013">status.cpp:13</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5e"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5e">StatusCode</a></div><div class="ttdeci">StatusCode</div><div class="ttdoc">Error&#39;s type indication.</div><div class="ttdef"><b>Definition</b> <a href="#l00022">status.h:22</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2">StatusCode::GetPositionFailed</a></div><div class="ttdeci">@ GetPositionFailed</div><div class="ttdoc">failed to get position of files internal cursor.</div><div class="ttdef"><b>Definition</b> <a href="#l00067">status.h:67</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea07f6a565e17a0b5f7341422b6f9101cc"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea07f6a565e17a0b5f7341422b6f9101cc">StatusCode::Underflow</a></div><div class="ttdeci">@ Underflow</div><div class="ttdoc">Arithmetic or cursor underflow.</div><div class="ttdef"><b>Definition</b> <a href="#l00033">status.h:33</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea0f89bc98e9b12bdeda0604e57bdc0518"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea0f89bc98e9b12bdeda0604e57bdc0518">StatusCode::UnsupportedVersion</a></div><div class="ttdeci">@ UnsupportedVersion</div><div class="ttdoc">Unsupported version, not necessarily fatal.</div><div class="ttdef"><b>Definition</b> <a href="#l00075">status.h:75</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5">StatusCode::SyncFailed</a></div><div class="ttdeci">@ SyncFailed</div><div class="ttdoc">failed to flush data to persistent storage</div><div class="ttdef"><b>Definition</b> <a href="#l00063">status.h:63</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea1b20d999fe1884fa16584eb7c5b003b0"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1b20d999fe1884fa16584eb7c5b003b0">StatusCode::UnsupportedBlockSize</a></div><div class="ttdeci">@ UnsupportedBlockSize</div><div class="ttdoc">Unsupported block size.</div><div class="ttdef"><b>Definition</b> <a href="#l00076">status.h:76</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea1c212561bd4adc7c009115b18c972fa2"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1c212561bd4adc7c009115b18c972fa2">StatusCode::DataTypeOverflow</a></div><div class="ttdeci">@ DataTypeOverflow</div><div class="ttdoc">data type overflow</div><div class="ttdef"><b>Definition</b> <a href="#l00027">status.h:27</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea1d4a352a294234246cd6774d38360a8c"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea1d4a352a294234246cd6774d38360a8c">StatusCode::InvalidBlockAlignment</a></div><div class="ttdeci">@ InvalidBlockAlignment</div><div class="ttdoc">default data block must be alignment to block boundaries.</div><div class="ttdef"><b>Definition</b> <a href="#l00081">status.h:81</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea23cd86e43512932a4bc975552c8d17fd"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea23cd86e43512932a4bc975552c8d17fd">StatusCode::ChecksumMismatch</a></div><div class="ttdeci">@ ChecksumMismatch</div><div class="ttdoc">Checksum mismatch.</div><div class="ttdef"><b>Definition</b> <a href="#l00077">status.h:77</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b">StatusCode::InvalidArgument</a></div><div class="ttdeci">@ InvalidArgument</div><div class="ttdoc">invalid argument was provided</div><div class="ttdef"><b>Definition</b> <a href="#l00034">status.h:34</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea260d92b2beff2bf345911077edcd3f3c"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea260d92b2beff2bf345911077edcd3f3c">StatusCode::NullPointer</a></div><div class="ttdeci">@ NullPointer</div><div class="ttdoc">reference to null pointer.</div><div class="ttdef"><b>Definition</b> <a href="#l00049">status.h:49</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea2efeaf3a466a95365c6dc36b644a4164"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea2efeaf3a466a95365c6dc36b644a4164">StatusCode::InvalidFooter</a></div><div class="ttdeci">@ InvalidFooter</div><div class="ttdoc">invalid footer section</div><div class="ttdef"><b>Definition</b> <a href="#l00079">status.h:79</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea3680d3d991bed5386c1793b77b14d9c1"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3680d3d991bed5386c1793b77b14d9c1">StatusCode::BadAccess</a></div><div class="ttdeci">@ BadAccess</div><div class="ttdoc">permissions denied, use after close</div><div class="ttdef"><b>Definition</b> <a href="#l00032">status.h:32</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea38c300f4fc9ce8a77aad4a30de05cad8"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea38c300f4fc9ce8a77aad4a30de05cad8">StatusCode::NotFound</a></div><div class="ttdeci">@ NotFound</div><div class="ttdoc">not found</div><div class="ttdef"><b>Definition</b> <a href="#l00036">status.h:36</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea3c7a8251808153249519ae080c9d4b65"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3c7a8251808153249519ae080c9d4b65">StatusCode::BadAlloc</a></div><div class="ttdeci">@ BadAlloc</div><div class="ttdoc">Bad allocation.</div><div class="ttdef"><b>Definition</b> <a href="#l00050">status.h:50</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea3f0804d94be21c04e0bc00e584b3730f"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea3f0804d94be21c04e0bc00e584b3730f">StatusCode::InvalidSectionSize</a></div><div class="ttdeci">@ InvalidSectionSize</div><div class="ttdoc">invalid size of sstable section.</div><div class="ttdef"><b>Definition</b> <a href="#l00083">status.h:83</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea4579a24c72669a55f34368ef71194775"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea4579a24c72669a55f34368ef71194775">StatusCode::OverlappingKeys</a></div><div class="ttdeci">@ OverlappingKeys</div><div class="ttdoc">no overlapping keys allowed on L1+ levels.</div><div class="ttdef"><b>Definition</b> <a href="#l00029">status.h:29</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea458fdaf36add031c1d0b54e6f484f48d"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea458fdaf36add031c1d0b54e6f484f48d">StatusCode::BadFileDescriptor</a></div><div class="ttdeci">@ BadFileDescriptor</div><div class="ttdoc">bad file descriptor, might mean that file alrady closed.</div><div class="ttdef"><b>Definition</b> <a href="#l00088">status.h:88</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa">StatusCode::WriteFailed</a></div><div class="ttdeci">@ WriteFailed</div><div class="ttdoc">write failed</div><div class="ttdef"><b>Definition</b> <a href="#l00062">status.h:62</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea49d9a8dd4267bfc32f913369d13458b6"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea49d9a8dd4267bfc32f913369d13458b6">StatusCode::InvalidPayloadSize</a></div><div class="ttdeci">@ InvalidPayloadSize</div><div class="ttdoc">invalid payload size of sstable section.</div><div class="ttdef"><b>Definition</b> <a href="#l00084">status.h:84</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea4b33a686be73bb172407d73b26356275"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea4b33a686be73bb172407d73b26356275">StatusCode::PermissionDenied</a></div><div class="ttdeci">@ PermissionDenied</div><div class="ttdoc">permission denied.</div><div class="ttdef"><b>Definition</b> <a href="#l00069">status.h:69</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0">StatusCode::CloseFailed</a></div><div class="ttdeci">@ CloseFailed</div><div class="ttdoc">failed to close resource</div><div class="ttdef"><b>Definition</b> <a href="#l00064">status.h:64</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea5206bd7472156351d2d9a99633ac9580"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea5206bd7472156351d2d9a99633ac9580">StatusCode::IOError</a></div><div class="ttdeci">@ IOError</div><div class="ttdoc">io error</div><div class="ttdef"><b>Definition</b> <a href="#l00059">status.h:59</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea53a698a992bda163ece2b9d3cca729c2"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea53a698a992bda163ece2b9d3cca729c2">StatusCode::OffsetOutOfRange</a></div><div class="ttdeci">@ OffsetOutOfRange</div><div class="ttdoc">offset points over eof.</div><div class="ttdef"><b>Definition</b> <a href="#l00085">status.h:85</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea5fa372c806bac6095436767de671cb2c"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea5fa372c806bac6095436767de671cb2c">StatusCode::AllocationTooLarge</a></div><div class="ttdeci">@ AllocationTooLarge</div><div class="ttdoc">Requested allocation exceeds supported limits.</div><div class="ttdef"><b>Definition</b> <a href="#l00047">status.h:47</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8">StatusCode::Corruption</a></div><div class="ttdeci">@ Corruption</div><div class="ttdoc">Corruption, not necessarily fatal.</div><div class="ttdef"><b>Definition</b> <a href="#l00073">status.h:73</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea67cdc64e13f54ba2b7ec2f3cda945ccf"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea67cdc64e13f54ba2b7ec2f3cda945ccf">StatusCode::UseAfterClose</a></div><div class="ttdeci">@ UseAfterClose</div><div class="ttdoc">resource was closed, yet attempt to perform operations over it were tried.</div><div class="ttdef"><b>Definition</b> <a href="#l00025">status.h:25</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea6d69f88eb0d6ddadcf9785bd01cb3288"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea6d69f88eb0d6ddadcf9785bd01cb3288">StatusCode::InvalidAlignment</a></div><div class="ttdeci">@ InvalidAlignment</div><div class="ttdoc">invalid entity alignment was provided, maximum allowed alignment is std::max_align_t</div><div class="ttdef"><b>Definition</b> <a href="#l00046">status.h:46</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed">StatusCode::ReadFailed</a></div><div class="ttdeci">@ ReadFailed</div><div class="ttdoc">read failed</div><div class="ttdef"><b>Definition</b> <a href="#l00061">status.h:61</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea79764bbe96374648cf6f9ec80a022031"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea79764bbe96374648cf6f9ec80a022031">StatusCode::InvalidReadSize</a></div><div class="ttdeci">@ InvalidReadSize</div><div class="ttdoc">invalid amount of bytes requested to read</div><div class="ttdef"><b>Definition</b> <a href="#l00054">status.h:54</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea8126c769b7c30850b4c92138ed06d815"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea8126c769b7c30850b4c92138ed06d815">StatusCode::InvalidBlockType</a></div><div class="ttdeci">@ InvalidBlockType</div><div class="ttdoc">invalid block/section type of sstable.</div><div class="ttdef"><b>Definition</b> <a href="#l00080">status.h:80</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea81fe951c730e6b79707e62075b710b10"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea81fe951c730e6b79707e62075b710b10">StatusCode::InvalidSectionOffset</a></div><div class="ttdeci">@ InvalidSectionOffset</div><div class="ttdoc">invalid offset of sstable section (data section, index section etc.)</div><div class="ttdef"><b>Definition</b> <a href="#l00082">status.h:82</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea8462b58246e70e5c83e5b939a9332cb5"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea8462b58246e70e5c83e5b939a9332cb5">StatusCode::InternalError</a></div><div class="ttdeci">@ InternalError</div><div class="ttdoc">Unexpected invariant or implementation failure.</div><div class="ttdef"><b>Definition</b> <a href="#l00039">status.h:39</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea89b69484680b18e9179e826c6e023805"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea89b69484680b18e9179e826c6e023805">StatusCode::AlreadyExists</a></div><div class="ttdeci">@ AlreadyExists</div><div class="ttdoc">typical scenario when file already exists, but attempt to recreate it was performed.</div><div class="ttdef"><b>Definition</b> <a href="#l00037">status.h:37</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea9527444c805c146c790a5949b933fbd9"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea9527444c805c146c790a5949b933fbd9">StatusCode::OffsetOverlap</a></div><div class="ttdeci">@ OffsetOverlap</div><div class="ttdoc">offset overlap</div><div class="ttdef"><b>Definition</b> <a href="#l00086">status.h:86</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ea9ed2d871602556951e39f3cebd08d6cb"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ea9ed2d871602556951e39f3cebd08d6cb">StatusCode::NotSupported</a></div><div class="ttdeci">@ NotSupported</div><div class="ttdoc">Not suppported, might refer to invalid.</div><div class="ttdef"><b>Definition</b> <a href="#l00038">status.h:38</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eaa60852f204ed8028c1c58808b746d115"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaa60852f204ed8028c1c58808b746d115">StatusCode::Ok</a></div><div class="ttdeci">@ Ok</div><div class="ttdoc">success</div><div class="ttdef"><b>Definition</b> <a href="#l00024">status.h:24</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf">StatusCode::SeekFailed</a></div><div class="ttdeci">@ SeekFailed</div><div class="ttdoc">failed to move positions of files internal cursor.</div><div class="ttdef"><b>Definition</b> <a href="#l00070">status.h:70</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5">StatusCode::RenameFailed</a></div><div class="ttdeci">@ RenameFailed</div><div class="ttdoc">failed to rename resource</div><div class="ttdef"><b>Definition</b> <a href="#l00065">status.h:65</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eab1a1f934a076c47f947fd8766ca6d2df"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab1a1f934a076c47f947fd8766ca6d2df">StatusCode::AllocationFailed</a></div><div class="ttdeci">@ AllocationFailed</div><div class="ttdoc">allocation of memory failed, might be fatal.</div><div class="ttdef"><b>Definition</b> <a href="#l00045">status.h:45</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eab498327feeb51430af73e07deac268fd"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab498327feeb51430af73e07deac268fd">StatusCode::OutOfMemory</a></div><div class="ttdeci">@ OutOfMemory</div><div class="ttdoc">out of aviable memory, usuallly fatal.</div><div class="ttdef"><b>Definition</b> <a href="#l00044">status.h:44</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a">StatusCode::GetSizeFailed</a></div><div class="ttdeci">@ GetSizeFailed</div><div class="ttdoc">failed to get size of file.</div><div class="ttdef"><b>Definition</b> <a href="#l00068">status.h:68</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eab801c4d44abd4738b7f69c4e390ed61d"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eab801c4d44abd4738b7f69c4e390ed61d">StatusCode::BufferTooSmall</a></div><div class="ttdeci">@ BufferTooSmall</div><div class="ttdoc">provided buffer is too small, might lead to overflow of buffer</div><div class="ttdef"><b>Definition</b> <a href="#l00048">status.h:48</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eac60b10c14b43d15f91424c6addfc31ac"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eac60b10c14b43d15f91424c6addfc31ac">StatusCode::OpenFailed</a></div><div class="ttdeci">@ OpenFailed</div><div class="ttdoc">failed to open, might be denied access</div><div class="ttdef"><b>Definition</b> <a href="#l00060">status.h:60</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eac87c2d41af62cc035e76f90e0f889e4f"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eac87c2d41af62cc035e76f90e0f889e4f">StatusCode::BadMagic</a></div><div class="ttdeci">@ BadMagic</div><div class="ttdoc">Bad magic number, fatal.</div><div class="ttdef"><b>Definition</b> <a href="#l00074">status.h:74</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ead5577819bdd3dadf2ce8cd0c265ff6b5"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ead5577819bdd3dadf2ce8cd0c265ff6b5">StatusCode::InvariantViolation</a></div><div class="ttdeci">@ InvariantViolation</div><div class="ttdoc">Violates entities invariants.</div><div class="ttdef"><b>Definition</b> <a href="#l00040">status.h:40</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5ead8fc6a8cf630261aa9439efe8c1c7eb4"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5ead8fc6a8cf630261aa9439efe8c1c7eb4">StatusCode::FailedPrecondition</a></div><div class="ttdeci">@ FailedPrecondition</div><div class="ttdoc">failed to satify preconditions</div><div class="ttdef"><b>Definition</b> <a href="#l00035">status.h:35</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eadb41b603935cd862062c11d5a5184770"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadb41b603935cd862062c11d5a5184770">StatusCode::SizeExceedsBlockSize</a></div><div class="ttdeci">@ SizeExceedsBlockSize</div><div class="ttdoc">size of entity overflow size of block.</div><div class="ttdef"><b>Definition</b> <a href="#l00055">status.h:55</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eadca5889d21c2871a53cea8493044149f"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadca5889d21c2871a53cea8493044149f">StatusCode::InvalidOffset</a></div><div class="ttdeci">@ InvalidOffset</div><div class="ttdoc">invalid offset</div><div class="ttdef"><b>Definition</b> <a href="#l00053">status.h:53</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38">StatusCode::DirectorySyncFailed</a></div><div class="ttdeci">@ DirectorySyncFailed</div><div class="ttdoc">failed to flush directory changes to persistent storage</div><div class="ttdef"><b>Definition</b> <a href="#l00066">status.h:66</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eae39ad990effe3b4cd951b6ae7c642b66"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eae39ad990effe3b4cd951b6ae7c642b66">StatusCode::InvalidHeader</a></div><div class="ttdeci">@ InvalidHeader</div><div class="ttdoc">invalid header of sstable section.</div><div class="ttdef"><b>Definition</b> <a href="#l00078">status.h:78</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eaed75712b0eb1913c28a3872731ffd48d"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaed75712b0eb1913c28a3872731ffd48d">StatusCode::Duplicate</a></div><div class="ttdeci">@ Duplicate</div><div class="ttdoc">duplicate. in some cases, like L1+ level tables, might mean corruption.</div><div class="ttdef"><b>Definition</b> <a href="#l00041">status.h:41</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eaedf260198e4d75d1cb3c7588f7380120"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaedf260198e4d75d1cb3c7588f7380120">StatusCode::InvalidState</a></div><div class="ttdeci">@ InvalidState</div><div class="ttdoc">invalid state of entity. might include</div><div class="ttdef"><b>Definition</b> <a href="#l00026">status.h:26</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eaf700b9dbf230860bd2b3feaaf037dd40"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eaf700b9dbf230860bd2b3feaaf037dd40">StatusCode::SizeExceedsBlockBoundary</a></div><div class="ttdeci">@ SizeExceedsBlockBoundary</div><div class="ttdoc">requested amount of bytes to process move cursor (manual has priority over internal) out of current b...</div><div class="ttdef"><b>Definition</b> <a href="#l00056">status.h:56</a></div></div>
+<div class="ttc" id="astatus_8h_html_a9d113176ec12afdd9df0043c45b97f5eafb4f20c45a43b05ac6e7cb3c5a4c5997"><div class="ttname"><a href="status_8h.html#a9d113176ec12afdd9df0043c45b97f5eafb4f20c45a43b05ac6e7cb3c5a4c5997">StatusCode::UnexpectedEOF</a></div><div class="ttdeci">@ UnexpectedEOF</div><div class="ttdoc">unexpected end of file, not necessarily fatal.</div><div class="ttdef"><b>Definition</b> <a href="#l00087">status.h:87</a></div></div>
+<div class="ttc" id="astruct_result_html"><div class="ttname"><a href="struct_result.html">Result</a></div><div class="ttdoc">Returns status of functions final result, with result itself.</div><div class="ttdef"><b>Definition</b> <a href="#l00155">status.h:156</a></div></div>
+<div class="ttc" id="astruct_result_html_a08cdc62a4daa93868d7971ae68eaacce"><div class="ttname"><a href="struct_result.html#a08cdc62a4daa93868d7971ae68eaacce">Result::value</a></div><div class="ttdeci">T value</div><div class="ttdoc">data type of functions return value.</div><div class="ttdef"><b>Definition</b> <a href="#l00157">status.h:157</a></div></div>
+<div class="ttc" id="astruct_result_html_a09a4b5fc4daea1a6372b560ab4a6995c"><div class="ttname"><a href="struct_result.html#a09a4b5fc4daea1a6372b560ab4a6995c">Result::fail</a></div><div class="ttdeci">static Result fail(Status s)</div><div class="ttdoc">Use this in case of failure, return empty object.</div><div class="ttdef"><b>Definition</b> <a href="#l00173">status.h:173</a></div></div>
+<div class="ttc" id="astruct_result_html_a34cce226a35947a5bf7dc52160bbd10f"><div class="ttname"><a href="struct_result.html#a34cce226a35947a5bf7dc52160bbd10f">Result::status</a></div><div class="ttdeci">Status status</div><div class="ttdoc">status indicating status code and message.</div><div class="ttdef"><b>Definition</b> <a href="#l00158">status.h:158</a></div></div>
+<div class="ttc" id="astruct_status_html"><div class="ttname"><a href="struct_status.html">Status</a></div><div class="ttdoc">Indicates status of operations final result.</div><div class="ttdef"><b>Definition</b> <a href="#l00097">status.h:97</a></div></div>
+<div class="ttc" id="astruct_status_html_a011acb32f8fe25364b459bd4a77f20ea"><div class="ttname"><a href="struct_status.html#a011acb32f8fe25364b459bd4a77f20ea">Status::code</a></div><div class="ttdeci">StatusCode code</div><div class="ttdoc">default status code indicates success.</div><div class="ttdef"><b>Definition</b> <a href="#l00110">status.h:110</a></div></div>
+<div class="ttc" id="astruct_status_html_a194e66166743a75a8e37553894d7dae4"><div class="ttname"><a href="struct_status.html#a194e66166743a75a8e37553894d7dae4">Status::invalid_argument</a></div><div class="ttdeci">static Status invalid_argument(std::string message)</div><div class="ttdoc">Returns status indicating invalid argument with message providing detailed information.</div><div class="ttdef"><b>Definition</b> <a href="#l00127">status.h:127</a></div></div>
+<div class="ttc" id="astruct_status_html_a2ea79d6f908a8d9aa179ea7bbe0a67be"><div class="ttname"><a href="struct_status.html#a2ea79d6f908a8d9aa179ea7bbe0a67be">Status::ok</a></div><div class="ttdeci">static Status ok()</div><div class="ttdoc">Returns success statuscode and empty message.</div><div class="ttdef"><b>Definition</b> <a href="status_8cpp_source.html#l00003">status.cpp:3</a></div></div>
+<div class="ttc" id="astruct_status_html_a458a4b7f8b5e524989ece54936369201"><div class="ttname"><a href="struct_status.html#a458a4b7f8b5e524989ece54936369201">Status::is_ok</a></div><div class="ttdeci">bool is_ok() const</div><div class="ttdoc">Checks whether StatusCode is StatusCode::Ok.</div><div class="ttdef"><b>Definition</b> <a href="status_8cpp_source.html#l00008">status.cpp:8</a></div></div>
+<div class="ttc" id="astruct_status_html_a8566548713268c2247949f426496e60d"><div class="ttname"><a href="struct_status.html#a8566548713268c2247949f426496e60d">Status::message</a></div><div class="ttdeci">std::string message</div><div class="ttdoc">message providing detailed information.</div><div class="ttdef"><b>Definition</b> <a href="#l00111">status.h:111</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>include</b></li><li class="navelem"><a href="status_8h.html">status.h</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

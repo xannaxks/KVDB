@@ -1,42 +1,24 @@
 \doxysection{kvdb::\+DBOptions::\+Manifest\+Options Struct Reference}
 \hypertarget{structkvdb_1_1_d_b_options_1_1_manifest_options}{}\label{structkvdb_1_1_d_b_options_1_1_manifest_options}\index{kvdb::DBOptions::ManifestOptions@{kvdb::DBOptions::ManifestOptions}}
-\doxysubsubsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_manifest_options_aef353d61714d01795b5dc1558af70c70}{validate}} () const
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_manifest_options_ac094ad87dec4257fdf177ebdd142edd6}\label{structkvdb_1_1_d_b_options_1_1_manifest_options_ac094ad87dec4257fdf177ebdd142edd6} 
-std::\+uint64\+\_\+t {\bfseries file\+\_\+size\+\_\+limit} = 16ull \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024
-\end{DoxyCompactItemize}
 
 
-\label{structkvdb_1_1_d_b_options_1_1_manifest_options_doc-func-members}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_manifest_options_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{structkvdb_1_1_d_b_options_1_1_manifest_options_aef353d61714d01795b5dc1558af70c70}\index{kvdb::DBOptions::ManifestOptions@{kvdb::DBOptions::ManifestOptions}!validate@{validate}}
-\index{validate@{validate}!kvdb::DBOptions::ManifestOptions@{kvdb::DBOptions::ManifestOptions}}
-\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
-{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_manifest_options_aef353d61714d01795b5dc1558af70c70} 
-\doxymbox{\hyperlink{struct_status}{Status}} kvdb::\+\+DBOptions::\+\+Manifest\+Options::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+Threshold for future manifest rewriting/\+compaction.  
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00110\ \ \ \ \ \{}
-\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_size\_limit\ ==\ 0)\ \{}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
-\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ file\_size\_limit\ must\ be\ greater\ than\ zero"{}}}
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
-\DoxyCodeLine{00117\ \ \ \ \ \}}
 
-\end{DoxyCode}
+
+{\ttfamily \+\#include $<$db\+\_\+options.\+h$>$}
+
+
+
+\doxysubsection{Detailed Description}
+Threshold for future manifest rewriting/\+compaction. 
+
+Definition at line \doxymbox{\hyperlink{db__options_8h_source_l00162}{162}} of file \doxymbox{\hyperlink{db__options_8h_source}{db\+\_\+options.\+h}}.
+
 
 
 The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+db\+\_\+options.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+db\+\_\+options.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{db__options_8h}{db\+\_\+options.\+h}}\item 
+db\+\_\+options.\+cpp\end{DoxyCompactItemize}

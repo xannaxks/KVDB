@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('class_k_v_d_b.html','',''); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,8 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="headertitle"><div class="title">KVDB Member List</div></div>
 </div><!--header-->
@@ -105,20 +122,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <p>This is the complete list of members for <a class="el" href="class_k_v_d_b.html">KVDB</a>, including all inherited members.</p>
 <table class="directory">
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>close</b>()=0 (defined in <a class="el" href="class_k_v_d_b.html">KVDB</a>)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>compact_range</b>(std::string_view begin, std::string_view end)=0 (defined in <a class="el" href="class_k_v_d_b.html">KVDB</a>)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>flush</b>()=0 (defined in <a class="el" href="class_k_v_d_b.html">KVDB</a>)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>get</b>(std::string_view key)=0 (defined in <a class="el" href="class_k_v_d_b.html">KVDB</a>)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>KVDB</b>()=default (defined in <a class="el" href="class_k_v_d_b.html">KVDB</a>)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">protected</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>open</b>(const DBOptions &amp;options) (defined in <a class="el" href="class_k_v_d_b.html">KVDB</a>)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>put</b>(std::string &amp;key, std::string &amp;value)=0 (defined in <a class="el" href="class_k_v_d_b.html">KVDB</a>)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>remove</b>(std::string &amp;key)=0 (defined in <a class="el" href="class_k_v_d_b.html">KVDB</a>)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~KVDB</b>()=default (defined in <a class="el" href="class_k_v_d_b.html">KVDB</a>)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_k_v_d_b.html#a48abcdd3d9552ed7fb1cd8c6374511da">close</a>()=0</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_k_v_d_b.html#af38d05438802931029545bd6c5224467">compact_range</a>(std::string_view begin, std::string_view end)=0</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_k_v_d_b.html#a371bf499c95cf730375f12c7d4b2cc46">flush</a>()=0</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_k_v_d_b.html#a53e471470fa55fdc17cfa88bce3965d1">get</a>(std::string_view key)=0</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_k_v_d_b.html#a41747ed9695c687bbcb962f0e1da7da6">open</a>(const DBOptions &amp;options)</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">static</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="class_k_v_d_b.html#aad1f4e4f274c0a8dd2d3c92ab5eb5d5f">put</a>(std::string &amp;key, std::string &amp;value)=0</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="class_k_v_d_b.html#a996dd92a39e508df783d653784a043ed">remove</a>(std::string &amp;key)=0</td><td class="entry"><a class="el" href="class_k_v_d_b.html">KVDB</a></td><td class="entry"><span class="mlabel">pure virtual</span></td></tr>
 </table></div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

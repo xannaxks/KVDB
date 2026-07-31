@@ -29,3 +29,8 @@ include/main.h
 src/api.cpp
 src/bytes.cpp
 third_party/zlib-1.3.2/
+
+# Doxygen/Graphviz incremental-rendering cache (not required by the HTML site).
+docs/doxygen/html/*.md5
+docs/doxygen/html/*.map
+docs/doxygen/html/*.cmapx

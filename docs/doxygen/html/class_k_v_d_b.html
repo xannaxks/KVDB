@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('class_k_v_d_b.html','','class_k_v_d_b-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,8 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -106,36 +123,78 @@ document.addEventListener('DOMContentLoaded', () => {
   <div class="headertitle"><div class="title">KVDB Class Reference<span class="mlabels"><span class="mlabel abstract">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Abstract, thread-safe interface to the LSM key-value database.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="kvdb_8h_source.html">kvdb.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for KVDB:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_k_v_d_b.png" usemap="#KVDB_map" alt=""/>
-  <map id="KVDB_map" name="KVDB_map">
-<area href="class_engine.html" alt="Engine" shape="rect" coords="0,56,51,80"/>
-  </map>
-</div></div>
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_k_v_d_b__inherit__graph.svg" width="72" height="112"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<center><span class="legend">[<a target="top" href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:aad1f4e4f274c0a8dd2d3c92ab5eb5d5f" id="r_aad1f4e4f274c0a8dd2d3c92ab5eb5d5f"><td class="memItemLeft"><a id="aad1f4e4f274c0a8dd2d3c92ab5eb5d5f" name="aad1f4e4f274c0a8dd2d3c92ab5eb5d5f"></a>
 virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>put</b> (std::string &amp;key, std::string &amp;value)=0</td></tr>
-<tr class="memitem:a53e471470fa55fdc17cfa88bce3965d1" id="r_a53e471470fa55fdc17cfa88bce3965d1"><td class="memItemLeft"><a id="a53e471470fa55fdc17cfa88bce3965d1" name="a53e471470fa55fdc17cfa88bce3965d1"></a>
-virtual <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight"><b>get</b> (std::string_view key)=0</td></tr>
+<tr class="memdesc:aad1f4e4f274c0a8dd2d3c92ab5eb5d5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores <code class="param">value</code> as the newest version of <code class="param">key</code>. <br /></td></tr>
+<tr class="memitem:a53e471470fa55fdc17cfa88bce3965d1" id="r_a53e471470fa55fdc17cfa88bce3965d1"><td class="memItemLeft">virtual <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; std::string &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a53e471470fa55fdc17cfa88bce3965d1">get</a> (std::string_view key)=0</td></tr>
+<tr class="memdesc:a53e471470fa55fdc17cfa88bce3965d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Looks up the newest visible value for <code class="param">key</code>.  <br /></td></tr>
 <tr class="memitem:a996dd92a39e508df783d653784a043ed" id="r_a996dd92a39e508df783d653784a043ed"><td class="memItemLeft"><a id="a996dd92a39e508df783d653784a043ed" name="a996dd92a39e508df783d653784a043ed"></a>
 virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>remove</b> (std::string &amp;key)=0</td></tr>
+<tr class="memdesc:a996dd92a39e508df783d653784a043ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a tombstone for <code class="param">key</code>. <br /></td></tr>
 <tr class="memitem:a371bf499c95cf730375f12c7d4b2cc46" id="r_a371bf499c95cf730375f12c7d4b2cc46"><td class="memItemLeft"><a id="a371bf499c95cf730375f12c7d4b2cc46" name="a371bf499c95cf730375f12c7d4b2cc46"></a>
 virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>flush</b> ()=0</td></tr>
+<tr class="memdesc:a371bf499c95cf730375f12c7d4b2cc46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes the active and queued <a class="el" href="class_mem_table.html" title="Thread-safe owner of the active RBTree and its immutable generations.">MemTable</a> generations to SSTables. <br /></td></tr>
 <tr class="memitem:af38d05438802931029545bd6c5224467" id="r_af38d05438802931029545bd6c5224467"><td class="memItemLeft"><a id="af38d05438802931029545bd6c5224467" name="af38d05438802931029545bd6c5224467"></a>
 virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>compact_range</b> (std::string_view begin, std::string_view end)=0</td></tr>
+<tr class="memdesc:af38d05438802931029545bd6c5224467"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compacts the half-open user-key range [<code class="param">begin</code>, <code class="param">end</code>). <br /></td></tr>
 <tr class="memitem:a48abcdd3d9552ed7fb1cd8c6374511da" id="r_a48abcdd3d9552ed7fb1cd8c6374511da"><td class="memItemLeft"><a id="a48abcdd3d9552ed7fb1cd8c6374511da" name="a48abcdd3d9552ed7fb1cd8c6374511da"></a>
 virtual <a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>close</b> ()=0</td></tr>
+<tr class="memdesc:a48abcdd3d9552ed7fb1cd8c6374511da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Flushes pending state and releases database resources. <br /></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-static-methods" class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a41747ed9695c687bbcb962f0e1da7da6" id="r_a41747ed9695c687bbcb962f0e1da7da6"><td class="memItemLeft">static <a class="el" href="struct_result.html">Result</a>&lt; std::unique_ptr&lt; <a class="el" href="class_k_v_d_b.html">KVDB</a> &gt; &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a41747ed9695c687bbcb962f0e1da7da6">open</a> (const DBOptions &amp;options)</td></tr>
+<tr class="memdesc:a41747ed9695c687bbcb962f0e1da7da6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Validates options, creates the engine, and performs recovery.  <br /></td></tr>
 </table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Abstract, thread-safe interface to the LSM key-value database. </p>
+<p>Mutations are ordered through the write-ahead log and <a class="el" href="class_mem_table.html" title="Thread-safe owner of the active RBTree and its immutable generations.">MemTable</a>. Reads search the in-memory generations before consulting SSTables. Use <a class="el" href="#a41747ed9695c687bbcb962f0e1da7da6" title="Validates options, creates the engine, and performs recovery.">open()</a> instead of constructing an implementation directly. </p>
+
+<p class="definition">Definition at line <a class="el" href="kvdb_8h_source.html#l00018">18</a> of file <a class="el" href="kvdb_8h_source.html">kvdb.h</a>.</p>
+</div><a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
+<a id="a53e471470fa55fdc17cfa88bce3965d1" name="a53e471470fa55fdc17cfa88bce3965d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53e471470fa55fdc17cfa88bce3965d1">&#9670;&#160;</a></span>get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="struct_result.html">Result</a>&lt; std::optional&lt; std::string &gt; &gt; KVDB::get </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>key</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel pure-virtual">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Looks up the newest visible value for <code class="param">key</code>. </p>
+<dl class="section return"><dt>Returns</dt><dd>An empty optional when the key is absent or deleted. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_engine.html#afc46875391c291da360c7261bc44fcc3">Engine</a>.</p>
+
+</div>
+</div>
 <a id="a41747ed9695c687bbcb962f0e1da7da6" name="a41747ed9695c687bbcb962f0e1da7da6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a41747ed9695c687bbcb962f0e1da7da6">&#9670;&#160;</a></span>open()</h2>
 
@@ -158,46 +217,38 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">    9</span>{</div>
-<div class="line"><span class="lineno">   10</span>    <span class="keywordflow">try</span> {</div>
-<div class="line"><span class="lineno">   11</span>        <span class="keyword">auto</span> engine = std::make_unique&lt;Engine&gt;(options);</div>
-<div class="line"><span class="lineno">   12</span>        Status status = engine-&gt;open();</div>
-<div class="line"><span class="lineno">   13</span>        <span class="keywordflow">if</span> (!status.is_ok()) {</div>
-<div class="line"><span class="lineno">   14</span>            <span class="keywordflow">return</span> Result&lt;std::unique_ptr&lt;KVDB&gt;&gt;::fail(</div>
-<div class="line"><span class="lineno">   15</span>                std::move(status)</div>
-<div class="line"><span class="lineno">   16</span>            );</div>
-<div class="line"><span class="lineno">   17</span>        }</div>
-<div class="line"><span class="lineno">   18</span> </div>
-<div class="line"><span class="lineno">   19</span>        std::unique_ptr&lt;KVDB&gt; database = std::move(engine);</div>
-<div class="line"><span class="lineno">   20</span>        <span class="keywordflow">return</span> Result&lt;std::unique_ptr&lt;KVDB&gt;&gt;::ok(</div>
-<div class="line"><span class="lineno">   21</span>            std::move(database)</div>
-<div class="line"><span class="lineno">   22</span>        );</div>
-<div class="line"><span class="lineno">   23</span>    }</div>
-<div class="line"><span class="lineno">   24</span>    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::bad_alloc&amp;) {</div>
-<div class="line"><span class="lineno">   25</span>        <span class="keywordflow">return</span> Result&lt;std::unique_ptr&lt;KVDB&gt;&gt;::fail(Status{</div>
-<div class="line"><span class="lineno">   26</span>            StatusCode::OutOfMemory,</div>
-<div class="line"><span class="lineno">   27</span>            <span class="stringliteral">&quot;could not allocate the database engine&quot;</span></div>
-<div class="line"><span class="lineno">   28</span>        });</div>
-<div class="line"><span class="lineno">   29</span>    }</div>
-<div class="line"><span class="lineno">   30</span>    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; exception) {</div>
-<div class="line"><span class="lineno">   31</span>        <span class="keywordflow">return</span> Result&lt;std::unique_ptr&lt;KVDB&gt;&gt;::fail(Status{</div>
-<div class="line"><span class="lineno">   32</span>            StatusCode::InternalError,</div>
-<div class="line"><span class="lineno">   33</span>            exception.what()</div>
-<div class="line"><span class="lineno">   34</span>        });</div>
-<div class="line"><span class="lineno">   35</span>    }</div>
-<div class="line"><span class="lineno">   36</span>}</div>
-</div><!-- fragment -->
+
+<p>Validates options, creates the engine, and performs recovery. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">options</td><td>Database location and storage-engine policy. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An opened database or the validation/recovery error. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="kvdb_8cpp_source.html#l00010">10</a> of file <a class="el" href="kvdb_8cpp_source.html">kvdb.cpp</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" loading="lazy" frameborder="0" src="class_k_v_d_b_a41747ed9695c687bbcb962f0e1da7da6_cgraph.svg" width="252" height="38"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>C:/Users/user/KVDB/include/<a class="el" href="kvdb_8h_source.html">kvdb.h</a></li>
-<li>C:/Users/user/KVDB/src/<b>kvdb.cpp</b></li>
+<li><a class="el" href="kvdb_8h_source.html">kvdb.h</a></li>
+<li><a class="el" href="kvdb_8cpp_source.html">kvdb.cpp</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="class_k_v_d_b.html">KVDB</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

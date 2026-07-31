@@ -1,3 +1,8 @@
+// Implementation notes:
+// Small allocations advance an aligned cursor in the newest normal page.
+// Dedicated pages isolate large and over-aligned requests. Checkpoints record
+// vector sizes plus the last page cursor, so rollback can destroy registered
+// objects in reverse order before releasing all storage created after the mark.
 #include "arena.h"
 
 #include <algorithm>

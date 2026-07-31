@@ -1,3 +1,7 @@
+/**
+ * @file db_options.h
+ * @brief Configuration and cross-field validation for the storage engine.
+ */
 #pragma once
 
 #include "status.h"
@@ -9,6 +13,12 @@
 
 namespace kvdb {
 
+    /**
+     * @brief Complete configuration used to create or recover a database.
+     *
+     * Each nested component validates its local constraints; validate() also
+     * checks cross-component requirements such as level-vector lengths.
+     */
     struct DBOptions
     {
         // -------------------------------------------------------------------------
@@ -27,6 +37,7 @@ namespace kvdb {
         // Arena
         // -------------------------------------------------------------------------
 
+        /** @brief Arena page sizing and large-allocation threshold. */
         struct ArenaOptions
         {
             std::size_t page_size = 64 * 1024;
@@ -41,6 +52,7 @@ namespace kvdb {
         // MemTable
         // -------------------------------------------------------------------------
 
+        /** @brief Flush threshold and immutable-generation backpressure. */
         struct MemTableOptions
         {
             // Flush active MemTable after approximately this many bytes.
@@ -58,6 +70,7 @@ namespace kvdb {
         // WAL
         // -------------------------------------------------------------------------
 
+        /** @brief WAL rotation limit and per-write durability policy. */
         struct WALOptions
         {
             // Maximum size of one WAL file before rotation.
@@ -75,8 +88,10 @@ namespace kvdb {
         // SSTable
         // -------------------------------------------------------------------------
 
+        /** @brief Immutable-table format options. */
         struct SSTableOptions
         {
+            /** @brief Bloom-filter hash and storage sizing. */
             struct BloomFilterOptions
             {
                 std::uint32_t hash_count = 2;
@@ -98,6 +113,7 @@ namespace kvdb {
         // Compaction
         // -------------------------------------------------------------------------
 
+        /** @brief Level count, pressure thresholds, and output table sizing. */
         struct CompactionOptions
         {
             bool enable_background_compaction = true;
@@ -142,6 +158,7 @@ namespace kvdb {
         // Manifest
         // -------------------------------------------------------------------------
 
+        /** @brief Threshold for future manifest rewriting/compaction. */
         struct ManifestOptions
         {
             // Rewrite/compact the manifest once it grows beyond this size.
@@ -156,6 +173,7 @@ namespace kvdb {
         // SSTable Manager
         // -------------------------------------------------------------------------
 
+        /** @brief SSTable caching and loading policy. */
         struct SSTableManagerOptions
         {
             // If true, SSTables are loaded/opened only when needed instead of
@@ -171,6 +189,7 @@ namespace kvdb {
         // Validation
         // -------------------------------------------------------------------------
 
+        /** @brief Validates every component and their cross-field invariants. */
         [[nodiscard]] Status validate() const;
     };
 

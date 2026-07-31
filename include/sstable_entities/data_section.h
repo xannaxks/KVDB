@@ -1,3 +1,7 @@
+/**
+ * @file data_section.h
+ * @brief In-memory construction model for sorted SSTable data blocks.
+ */
 #pragma once
 
 #include <cstddef>
@@ -13,6 +17,13 @@
 
 namespace SSTableEntities
 {
+    /**
+     * @brief Groups non-owning record payloads into checksummed physical blocks.
+     *
+     * Blocks never split a record and are aligned to SSTable block boundaries.
+     * Writing a block simultaneously contributes its key range and offset to the
+     * IndexSection.
+     */
     struct DataSection
     {
         struct Header
@@ -127,6 +138,7 @@ namespace SSTableEntities
         // Prefer add_payload() for normal construction.
         void init_new_block();
 
+        /** @brief Appends a sorted record, opening a new block when required. */
         [[nodiscard]] Status add_payload(const InternalRecord& record);
         [[nodiscard]] Status validate() const;
 
@@ -141,6 +153,10 @@ namespace SSTableEntities
 
         // Physical writes and offset cannot be rolled back after an I/O failure.
         // data_offset and index_section are committed only after full success.
+        /**
+         * @brief Writes all blocks and transactionally builds their index entries.
+         * @callgraph
+         */
         [[nodiscard]] Status write(
             WritableFile& file,
             std::uint64_t& offset,

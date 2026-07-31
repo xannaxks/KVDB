@@ -1,195 +1,38 @@
 \doxysection{SSTable\+Builder Class Reference}
 \hypertarget{class_s_s_table_builder}{}\label{class_s_s_table_builder}\index{SSTableBuilder@{SSTableBuilder}}
+
+
+Converts an immutable record source into a publishable \doxylink{class_s_s_table}{SSTable}.  
+
+
+
+
+{\ttfamily \+\#include $<$sstable\+\_\+builder.\+h$>$}
+
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}{build}} (std::\+uint32\+\_\+t table\+\_\+id, \doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \&mem\+\_\+table, const std::\+filesystem::\+path \&path, const std::\+filesystem::\+path \&final\+\_\+path)
-\item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_builder_af62e441b5f61ca562552c9fd4a7500f1}{build}} (std::\+uint32\+\_\+t table\+\_\+id, \doxymbox{\hyperlink{class_s_s_table_iterator}{SSTable\+Iterator}} \&it, const std::\+filesystem::\+path \&path, const std::\+filesystem::\+path \&final\+\_\+path)
-\item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_builder_a34902b788f3a6dc5c8d422900d21a810}{build}} (std::\+uint32\+\_\+t table\+\_\+id, const std::\+vector$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \&records, const std::\+filesystem::\+path \&path, const std::\+filesystem::\+path \&final\+\_\+path)
-\item 
-static std::\+uint64\+\_\+t \doxymbox{\hyperlink{class_s_s_table_builder_a2a762a3b1ecb0c0d2210cceda81968e7}{approximate\+\_\+disk\+\_\+space}} (const std::\+vector$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \&records)
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Static Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_builder_a5371d21450341e28aefd74f7c622fa30}{build\+\_\+impl}} (std::\+uint32\+\_\+t table\+\_\+id, const std::\+vector$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \&records, const std::\+filesystem::\+path \&path, const std::\+filesystem::\+path \&final\+\_\+path)
-\end{DoxyCompactItemize}
+\Hypertarget{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}\label{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5} 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ {\bfseries build} (std::\+uint32\+\_\+t table\+\_\+id, \doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \&mem\+\_\+table, const std::\+filesystem::\+path \&path, const std::\+filesystem::\+path \&final\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Builds from the oldest immutable \doxylink{class_mem_table}{Mem\+Table} generation. \end{DoxyCompactList}\item 
+\Hypertarget{class_s_s_table_builder_af62e441b5f61ca562552c9fd4a7500f1}\label{class_s_s_table_builder_af62e441b5f61ca562552c9fd4a7500f1} 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ {\bfseries build} (std::\+uint32\+\_\+t table\+\_\+id, \doxymbox{\hyperlink{class_s_s_table_iterator}{SSTable\+Iterator}} \&it, const std::\+filesystem::\+path \&path, const std::\+filesystem::\+path \&final\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Builds from the remaining records of {\ttfamily it}. \end{DoxyCompactList}\item 
+\Hypertarget{class_s_s_table_builder_a34902b788f3a6dc5c8d422900d21a810}\label{class_s_s_table_builder_a34902b788f3a6dc5c8d422900d21a810} 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ {\bfseries build} (std::\+uint32\+\_\+t table\+\_\+id, const std::\+vector$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \&records, const std::\+filesystem::\+path \&path, const std::\+filesystem::\+path \&final\+\_\+path)
+\begin{DoxyCompactList}\small\item\em Builds from records already sorted in internal-\/key order. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\label{class_s_s_table_builder_doc-func-members}
-\Hypertarget{class_s_s_table_builder_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{class_s_s_table_builder_a2a762a3b1ecb0c0d2210cceda81968e7}\index{SSTableBuilder@{SSTableBuilder}!approximate\_disk\_space@{approximate\_disk\_space}}
-\index{approximate\_disk\_space@{approximate\_disk\_space}!SSTableBuilder@{SSTableBuilder}}
-\doxysubsubsection{\texorpdfstring{approximate\_disk\_space()}{approximate\_disk\_space()}}
-{\footnotesize\ttfamily \label{class_s_s_table_builder_a2a762a3b1ecb0c0d2210cceda81968e7} 
-std::\+uint64\+\_\+t SSTable\+Builder::\+approximate\+\_\+disk\+\_\+space (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \&}]{records}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+\doxysubsection{Detailed Description}
+Converts an immutable record source into a publishable \doxylink{class_s_s_table}{SSTable}. 
 
+The overloads normalize \doxylink{class_mem_table}{Mem\+Table}, iterator, and vector inputs into the same ordered build path. An empty source returns an empty optional instead of creating a file. 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00166\ \{}
-\DoxyCodeLine{00167\ \ \ \ \ std::uint64\_t\ records\_size\ =\ 0;}
-\DoxyCodeLine{00168\ \ \ \ \ std::uint64\_t\ index\_size\ =\ 0;}
-\DoxyCodeLine{00169\ }
-\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ block\_size\ =\ SSTableEntities::BLOCK\_SIZE;}
-\DoxyCodeLine{00171\ \ \ \ \ std::uint64\_t\ current\_block\_size\ =\ 0;}
-\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keyword}{const}\ InternalRecord*\ last\_record\_in\_block\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00173\ }
-\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ record\ :\ records)\ \{}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ record\_size\ =\ record.disk\_size();}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ records\_size\ =\ saturating\_add(records\_size,\ record\_size);}
-\DoxyCodeLine{00177\ }
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Match\ DataSection's\ normal\ block-\/splitting\ rule\ as\ closely\ as}}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ possible.\ add\_payload()\ remains\ authoritative\ for\ oversized\ records.}}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_block\_size\ >\ 0\ \&\&}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ record\_size\ <=\ std::numeric\_limits<std::uint64\_t>::max()\ -\/\ current\_block\_size\ \&\&}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ current\_block\_size\ +\ record\_size\ >\ block\_size)}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ index\_size\ =\ saturating\_add(}
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\_size,}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ SSTableEntities::IndexSection::Payload::fixed\_disk\_size()}
-\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ index\_size\ =\ saturating\_add(}
-\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ index\_size,}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last\_record\_in\_block-\/>key\_entry.size}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00192\ }
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ current\_block\_size\ =\ 0;}
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ last\_record\_in\_block\ =\ \textcolor{keyword}{nullptr};}
-\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00196\ }
-\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ current\_block\_size\ =\ saturating\_add(current\_block\_size,\ record\_size);}
-\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ last\_record\_in\_block\ =\ \&record;}
-\DoxyCodeLine{00199\ \ \ \ \ \}}
-\DoxyCodeLine{00200\ }
-\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_block\_size\ >\ 0\ \&\&\ last\_record\_in\_block\ !=\ \textcolor{keyword}{nullptr})\ \{}
-\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ index\_size\ =\ saturating\_add(}
-\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ index\_size,}
-\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ SSTableEntities::IndexSection::Payload::fixed\_disk\_size()}
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ index\_size\ =\ saturating\_add(}
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ index\_size,}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ last\_record\_in\_block-\/>key\_entry.size}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00210\ \ \ \ \ \}}
-\DoxyCodeLine{00211\ }
-\DoxyCodeLine{00212\ \ \ \ \ std::uint64\_t\ total\ =\ SSTable::fixed\_disk\_size();}
-\DoxyCodeLine{00213\ \ \ \ \ total\ =\ saturating\_add(}
-\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ total,}
-\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ SSTableEntities::IndexSection::Header::disk\_size()}
-\DoxyCodeLine{00216\ \ \ \ \ );}
-\DoxyCodeLine{00217\ \ \ \ \ total\ =\ saturating\_add(total,\ records\_size);}
-\DoxyCodeLine{00218\ \ \ \ \ total\ =\ saturating\_add(total,\ index\_size);}
-\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keywordflow}{return}\ total;}
-\DoxyCodeLine{00220\ \}}
+Definition at line \doxymbox{\hyperlink{sstable__builder_8h_source_l00028}{28}} of file \doxymbox{\hyperlink{sstable__builder_8h_source}{sstable\+\_\+builder.\+h}}.
 
-\end{DoxyCode}
-\Hypertarget{class_s_s_table_builder_a34902b788f3a6dc5c8d422900d21a810}\index{SSTableBuilder@{SSTableBuilder}!build@{build}}
-\index{build@{build}!SSTableBuilder@{SSTableBuilder}}
-\doxysubsubsection{\texorpdfstring{build()}{build()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily \label{class_s_s_table_builder_a34902b788f3a6dc5c8d422900d21a810} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Builder::\+build (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{const std::\+vector$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \&}]{records}{, }\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{const std::\+filesystem::\+path \&}]{final\+\_\+path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00129\ \{}
-\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordflow}{return}\ build\_impl(table\_id,\ records,\ path,\ final\_path);}
-\DoxyCodeLine{00131\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5}\index{SSTableBuilder@{SSTableBuilder}!build@{build}}
-\index{build@{build}!SSTableBuilder@{SSTableBuilder}}
-\doxysubsubsection{\texorpdfstring{build()}{build()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily \label{class_s_s_table_builder_ad89acf35d5d3aeef210f2384804545e5} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Builder::\+build (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{\doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \&}]{mem\+\_\+table}{, }\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{const std::\+filesystem::\+path \&}]{final\+\_\+path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00080\ \{}
-\DoxyCodeLine{00081\ \ \ \ \ std::vector<InternalRecord>\ records;}
-\DoxyCodeLine{00082\ \ \ \ \ std::uint64\_t\ generation\_id\ =\ 0;}
-\DoxyCodeLine{00083\ \ \ \ \ Status\ status\ =\ mem\_table.dump\_oldest\_immutable(}
-\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ records,}
-\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ generation\_id}
-\DoxyCodeLine{00086\ \ \ \ \ );}
-\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (status.code\ ==\ StatusCode::NotFound)\ \{}
-\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::ok(std::nullopt);}
-\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::fail(std::move(status));}
-\DoxyCodeLine{00092\ \ \ \ \ \}}
-\DoxyCodeLine{00093\ }
-\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keywordflow}{return}\ build\_impl(table\_id,\ records,\ path,\ final\_path);}
-\DoxyCodeLine{00095\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_s_s_table_builder_af62e441b5f61ca562552c9fd4a7500f1}\index{SSTableBuilder@{SSTableBuilder}!build@{build}}
-\index{build@{build}!SSTableBuilder@{SSTableBuilder}}
-\doxysubsubsection{\texorpdfstring{build()}{build()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily \label{class_s_s_table_builder_af62e441b5f61ca562552c9fd4a7500f1} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Builder::\+build (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{\doxymbox{\hyperlink{class_s_s_table_iterator}{SSTable\+Iterator}} \&}]{it}{, }\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{const std::\+filesystem::\+path \&}]{final\+\_\+path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00103\ \{}
-\DoxyCodeLine{00104\ \ \ \ \ std::vector<InternalRecord>\ records;}
-\DoxyCodeLine{00105\ }
-\DoxyCodeLine{00106\ \ \ \ \ Status\ status\ =\ it.seek\_to\_first();}
-\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::fail(std::move(status));}
-\DoxyCodeLine{00109\ \ \ \ \ \}}
-\DoxyCodeLine{00110\ }
-\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{while}\ (it.valid())\ \{}
-\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ records.emplace\_back(it.record());}
-\DoxyCodeLine{00113\ }
-\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ status\ =\ it.next();}
-\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::fail(std::move(status));}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00118\ \ \ \ \ \}}
-\DoxyCodeLine{00119\ }
-\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordflow}{return}\ build\_impl(table\_id,\ records,\ path,\ final\_path);}
-\DoxyCodeLine{00121\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_s_s_table_builder_a5371d21450341e28aefd74f7c622fa30}\index{SSTableBuilder@{SSTableBuilder}!build\_impl@{build\_impl}}
-\index{build\_impl@{build\_impl}!SSTableBuilder@{SSTableBuilder}}
-\doxysubsubsection{\texorpdfstring{build\_impl()}{build\_impl()}}
-{\footnotesize\ttfamily \label{class_s_s_table_builder_a5371d21450341e28aefd74f7c622fa30} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Builder::\+build\+\_\+impl (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{const std::\+vector$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \&}]{records}{, }\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{const std::\+filesystem::\+path \&}]{final\+\_\+path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}, {\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00139\ \{}
-\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{if}\ (records.empty())\ \{}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::ok(std::nullopt);}
-\DoxyCodeLine{00142\ \ \ \ \ \}}
-\DoxyCodeLine{00143\ }
-\DoxyCodeLine{00144\ \ \ \ \ Status\ validation\ =\ validate\_records(records);}
-\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keywordflow}{if}\ (!validation.is\_ok())\ \{}
-\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::fail(std::move(validation));}
-\DoxyCodeLine{00147\ \ \ \ \ \}}
-\DoxyCodeLine{00148\ }
-\DoxyCodeLine{00149\ \ \ \ \ SSTable\ sstable(path,\ final\_path,\ table\_id);}
-\DoxyCodeLine{00150\ }
-\DoxyCodeLine{00151\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ record\ :\ records)\ \{}
-\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ Status\ status\ =\ sstable.append\_record(record);}
-\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
-\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::fail(std::move(status));}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00156\ \ \ \ \ \}}
-\DoxyCodeLine{00157\ }
-\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<SSTable>>::ok(}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ std::optional<SSTable>\{\ std::move(sstable)\ \}}
-\DoxyCodeLine{00160\ \ \ \ \ );}
-\DoxyCodeLine{00161\ \}}
-
-\end{DoxyCode}
 
 
 The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+sstable\+\_\+builder.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+sstable\+\_\+builder.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{sstable__builder_8h}{sstable\+\_\+builder.\+h}}\item 
+sstable\+\_\+builder.\+cpp\end{DoxyCompactItemize}

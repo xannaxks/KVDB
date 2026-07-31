@@ -1,3 +1,6 @@
+// Encoding primitives explicitly assemble little-endian bytes instead of
+// depending on host representation. Block-aware wrappers preflight boundaries,
+// add alignment padding when required, and advance offsets only as I/O succeeds.
 #include "endian_io.h"
 
 #include <array>

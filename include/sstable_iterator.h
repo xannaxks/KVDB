@@ -1,3 +1,7 @@
+/**
+ * @file sstable_iterator.h
+ * @brief Forward record cursor over a validated SSTable data section.
+ */
 #pragma once
 
 #include "arena.h"
@@ -10,6 +14,12 @@
 #include <cstdint>
 #include <memory>
 
+/**
+ * @brief Lazily reads SSTable data blocks in internal-key order.
+ *
+ * Only the current block's records are materialized. Their key/value bytes are
+ * copied into the supplied Arena and therefore follow its lifetime.
+ */
 class SSTableIterator
 {
 private:
@@ -32,7 +42,9 @@ public:
 	SSTableIterator() = delete;
 	SSTableIterator(const SSTable& sstable, std::unique_ptr<ReadableFile>&& file, Arena& arena);
 
+	/** @brief Positions at the first record, or becomes invalid for an empty table. */
 	Status seek_to_first();
+	/** @brief Advances to the next record, loading a new block when necessary. */
 	Status next();
 
 	bool valid() const;

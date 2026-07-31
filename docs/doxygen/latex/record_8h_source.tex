@@ -1,54 +1,66 @@
 \doxysection{record.\+h}
-\hypertarget{record_8h_source}{}\label{record_8h_source}\index{C:/Users/user/KVDB/include/record.h@{C:/Users/user/KVDB/include/record.h}}
-
+\hypertarget{record_8h_source}{}\label{record_8h_source}\index{record.h@{record.h}}
+\doxymbox{\hyperlink{record_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}endian\_io.h"{}}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}type.h"{}}}
-\DoxyCodeLine{00006\ }
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <fstream>}}
-\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <optional>}}
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <string>}}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_record}{Record}}}
-\DoxyCodeLine{00013\ \{}
-\DoxyCodeLine{00014\ \ \ \ \ std::string\ key,\ value;}
-\DoxyCodeLine{00015\ \ \ \ \ Type\ type;}
-\DoxyCodeLine{00016\ \};}
-\DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }InternalRecord}
-\DoxyCodeLine{00019\ \{}
-\DoxyCodeLine{00020\ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key\_entry,\ value\_entry;}
-\DoxyCodeLine{00021\ \ \ \ \ Type\ type;}
-\DoxyCodeLine{00022\ \ \ \ \ uint64\_t\ seq\_num;}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ [[nodiscard]]\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00025\ \ \ \ \ InternalRecord()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00026\ \ \ \ \ InternalRecord(InternalRecord\&\&\ other)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00027\ \ \ \ \ InternalRecord(\textcolor{keyword}{const}\ InternalRecord\&\ other)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00028\ \ \ \ \ InternalRecord(\doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key\_entry,\ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ value\_entry,\ Type\ type,\ uint64\_t\ seq\_num);}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{bool}\ write(std::ofstream\&\ file)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ InternalRecord\&\ other)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00033\ \ \ \ \ InternalRecord\&\ operator=(\textcolor{keyword}{const}\ InternalRecord\&)\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00034\ \ \ \ \ InternalRecord\&\ operator=(InternalRecord\&\&)\ \textcolor{keyword}{noexcept};}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{static}\ std::optional<InternalRecord>\ read(std::ifstream\&\ file,\ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena);}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{//std::vector<std::byte>\ return\_byte\_sequence();}}
-\DoxyCodeLine{00039\ \};}
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \textcolor{comment}{//struct\ ByteRecord}}
-\DoxyCodeLine{00042\ \textcolor{comment}{//\{}}
-\DoxyCodeLine{00043\ \textcolor{comment}{//\ \ \ \ ArenaEntry\ key,\ value;}}
-\DoxyCodeLine{00044\ \textcolor{comment}{//\ \ \ \ Type\ type;}}
-\DoxyCodeLine{00045\ \textcolor{comment}{//}}
-\DoxyCodeLine{00046\ \textcolor{comment}{//\ \ \ \ ByteRecord(const\ InternalRecord\&\ entry);}}
-\DoxyCodeLine{00047\ \textcolor{comment}{//\ \ \ \ ByteRecord(ArenaEntry\ key\_entry,\ ArenaEntry\ value\_entry,\ Type\ type);}}
-\DoxyCodeLine{00048\ \textcolor{comment}{//\};}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00001}00001\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ record.h}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00003}00003\ \textcolor{comment}{\ *\ @brief\ User-\/facing\ and\ versioned\ internal\ record\ representations.}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00004}00004\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00005}00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{arena_8h}{arena.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{endian__io_8h}{endian\_io.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{type_8h}{type.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00013}00013\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00015}00015\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00016}00016\ \textcolor{comment}{/**\ @brief\ Owning\ user\ record\ used\ at\ API\ and\ utility\ boundaries.\ */}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00017}\doxymbox{\hyperlink{struct_record}{00017}}\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_record}{Record}}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00018}00018\ \{}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00019}00019\ \ \ \ \ std::string\ key,\ value;}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00020}00020\ \ \ \ \ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{Type}}\ type;}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00021}00021\ \};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00022}00022\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00023}00023\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00024}00024\ \textcolor{comment}{\ *\ @brief\ Non-\/owning\ versioned\ record\ stored\ in\ MemTables,\ WALs,\ and\ SSTables.}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00025}00025\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00026}00026\ \textcolor{comment}{\ *\ Sequence\ numbers\ establish\ recency\ for\ equal\ user\ keys.\ Tombstone\ records}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00027}00027\ \textcolor{comment}{\ *\ carry\ deletion\ state\ through\ lookup\ and\ compaction.\ Key\ and\ value\ bytes\ are}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00028}00028\ \textcolor{comment}{\ *\ referenced\ through\ ArenaEntry\ and\ therefore\ inherit\ the\ arena's\ lifetime.}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00029}00029\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00030}\doxymbox{\hyperlink{struct_internal_record}{00030}}\ \textcolor{keyword}{struct\ }InternalRecord}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00031}00031\ \{}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00032}00032\ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key\_entry,\ value\_entry;}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00033}00033\ \ \ \ \ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{Type}}\ type;}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00034}00034\ \ \ \ \ uint64\_t\ seq\_num;}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00035}00035\ }
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00036}00036\ \ \ \ \ [[nodiscard]]\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00037}00037\ \ \ \ \ InternalRecord()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00038}00038\ \ \ \ \ InternalRecord(InternalRecord\&\&\ other)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00039}00039\ \ \ \ \ InternalRecord(\textcolor{keyword}{const}\ InternalRecord\&\ other)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00040}00040\ \ \ \ \ InternalRecord(\doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key\_entry,\ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ value\_entry,\ \doxymbox{\hyperlink{type_8h_a5f787df9cdf370248382504196841479}{Type}}\ type,\ uint64\_t\ seq\_num);}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00042}00042\ \ \ \ \ \textcolor{keywordtype}{bool}\ write(std::ofstream\&\ file)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00044}00044\ \ \ \ \ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ InternalRecord\&\ other)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00045}00045\ \ \ \ \ InternalRecord\&\ operator=(\textcolor{keyword}{const}\ InternalRecord\&)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00046}00046\ \ \ \ \ InternalRecord\&\ operator=(InternalRecord\&\&)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00048}00048\ \ \ \ \ \textcolor{keyword}{static}\ std::optional<InternalRecord>\ read(std::ifstream\&\ file,\ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena);}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00050}00050\ \ \ \ \ \textcolor{comment}{//std::vector<std::byte>\ return\_byte\_sequence();}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00051}00051\ \};}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00053}00053\ \textcolor{comment}{//struct\ ByteRecord}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00054}00054\ \textcolor{comment}{//\{}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00055}00055\ \textcolor{comment}{//\ \ \ \ ArenaEntry\ key,\ value;}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00056}00056\ \textcolor{comment}{//\ \ \ \ Type\ type;}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00057}00057\ \textcolor{comment}{//}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00058}00058\ \textcolor{comment}{//\ \ \ \ ByteRecord(const\ InternalRecord\&\ entry);}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00059}00059\ \textcolor{comment}{//\ \ \ \ ByteRecord(ArenaEntry\ key\_entry,\ ArenaEntry\ value\_entry,\ Type\ type);}}
+\DoxyCodeLine{\Hypertarget{record_8h_source_l00060}00060\ \textcolor{comment}{//\};}}
 
 \end{DoxyCode}

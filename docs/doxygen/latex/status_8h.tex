@@ -1,0 +1,504 @@
+\doxysection{status.\+h File Reference}
+\hypertarget{status_8h}{}\label{status_8h}\index{status.h@{status.h}}
+
+
+Provides classes, types and utilities for error handling.  
+
+
+{\ttfamily \+\#include $<$cstdint$>$}\newline
+{\ttfamily \+\#include $<$string$>$}\newline
+{\ttfamily \+\#include $<$utility$>$}\newline
+{\ttfamily \+\#include $<$system\+\_\+error$>$}\newline
+{\ttfamily \+\#include $<$cerrno$>$}\newline
+Include dependency graph for status.\+h:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{status_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file:\+
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{status_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{struct_status}{Status}}
+\begin{DoxyCompactList}\small\item\em Indicates status of operations final result. \end{DoxyCompactList}\item 
+struct \doxymbox{\hyperlink{struct_result}{Result$<$ T $>$}}
+\begin{DoxyCompactList}\small\item\em Returns status of functions final result, with result itself. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum class \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{Status\+Code}} :\+ std::\+uint8\+\_\+t \{ \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaa60852f204ed8028c1c58808b746d115}{Ok}} = 0
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea67cdc64e13f54ba2b7ec2f3cda945ccf}{Use\+After\+Close}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaedf260198e4d75d1cb3c7588f7380120}{Invalid\+State}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1c212561bd4adc7c009115b18c972fa2}{Data\+Type\+Overflow}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea4579a24c72669a55f34368ef71194775}{Overlapping\+Keys}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3680d3d991bed5386c1793b77b14d9c1}{Bad\+Access}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea07f6a565e17a0b5f7341422b6f9101cc}{Underflow}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b}{Invalid\+Argument}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ead8fc6a8cf630261aa9439efe8c1c7eb4}{Failed\+Precondition}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea38c300f4fc9ce8a77aad4a30de05cad8}{Not\+Found}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea89b69484680b18e9179e826c6e023805}{Already\+Exists}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea9ed2d871602556951e39f3cebd08d6cb}{Not\+Supported}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea8462b58246e70e5c83e5b939a9332cb5}{Internal\+Error}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ead5577819bdd3dadf2ce8cd0c265ff6b5}{Invariant\+Violation}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaed75712b0eb1913c28a3872731ffd48d}{Duplicate}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab498327feeb51430af73e07deac268fd}{Out\+Of\+Memory}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab1a1f934a076c47f947fd8766ca6d2df}{Allocation\+Failed}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea6d69f88eb0d6ddadcf9785bd01cb3288}{Invalid\+Alignment}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea5fa372c806bac6095436767de671cb2c}{Allocation\+Too\+Large}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab801c4d44abd4738b7f69c4e390ed61d}{Buffer\+Too\+Small}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea260d92b2beff2bf345911077edcd3f3c}{Null\+Pointer}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3c7a8251808153249519ae080c9d4b65}{Bad\+Alloc}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eadca5889d21c2871a53cea8493044149f}{Invalid\+Offset}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea79764bbe96374648cf6f9ec80a022031}{Invalid\+Read\+Size}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eadb41b603935cd862062c11d5a5184770}{Size\+Exceeds\+Block\+Size}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaf700b9dbf230860bd2b3feaaf037dd40}{Size\+Exceeds\+Block\+Boundary}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea5206bd7472156351d2d9a99633ac9580}{IOError}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eac60b10c14b43d15f91424c6addfc31ac}{Open\+Failed}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed}{Read\+Failed}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa}{Write\+Failed}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5}{Sync\+Failed}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0}{Close\+Failed}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5}{Rename\+Failed}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38}{Directory\+Sync\+Failed}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2}{Get\+Position\+Failed}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}{Get\+Size\+Failed}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea4b33a686be73bb172407d73b26356275}{Permission\+Denied}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf}{Seek\+Failed}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8}{Corruption}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eac87c2d41af62cc035e76f90e0f889e4f}{Bad\+Magic}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea0f89bc98e9b12bdeda0604e57bdc0518}{Unsupported\+Version}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1b20d999fe1884fa16584eb7c5b003b0}{Unsupported\+Block\+Size}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea23cd86e43512932a4bc975552c8d17fd}{Checksum\+Mismatch}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eae39ad990effe3b4cd951b6ae7c642b66}{Invalid\+Header}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea2efeaf3a466a95365c6dc36b644a4164}{Invalid\+Footer}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea8126c769b7c30850b4c92138ed06d815}{Invalid\+Block\+Type}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1d4a352a294234246cd6774d38360a8c}{Invalid\+Block\+Alignment}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea81fe951c730e6b79707e62075b710b10}{Invalid\+Section\+Offset}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3f0804d94be21c04e0bc00e584b3730f}{Invalid\+Section\+Size}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea49d9a8dd4267bfc32f913369d13458b6}{Invalid\+Payload\+Size}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea53a698a992bda163ece2b9d3cca729c2}{Offset\+Out\+Of\+Range}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea9527444c805c146c790a5949b933fbd9}{Offset\+Overlap}}
+, \newline
+\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5eafb4f20c45a43b05ac6e7cb3c5a4c5997}{Unexpected\+EOF}}
+, \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5ea458fdaf36add031c1d0b54e6f484f48d}{Bad\+File\+Descriptor}}
+ \}
+\begin{DoxyCompactList}\small\item\em Error\textquotesingle{}s type indication. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}{syscall\+\_\+error}} (\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{Status\+Code}} code, std::\+string op)
+\begin{DoxyCompactList}\small\item\em Returns status indicating system call error/\+failure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Provides classes, types and utilities for error handling. 
+
+Instead of terminating execution when an operation fails, these entities allow functions to return objects containing an appropriate error code and descriptive message. This enables callers to handle failures explicitly.
+
+\begin{DoxyNote}{Note}
+These entities are not currently thread-\/safe. 
+\end{DoxyNote}
+
+
+Definition in file \doxymbox{\hyperlink{status_8h_source}{status.\+h}}.
+
+
+
+\label{status_8h_doc-enum-members}
+\Hypertarget{status_8h_doc-enum-members}
+\doxysubsection{Enumeration Type Documentation}
+\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5e}\index{status.h@{status.h}!StatusCode@{StatusCode}}
+\index{StatusCode@{StatusCode}!status.h@{status.h}}
+\doxysubsubsection{\texorpdfstring{StatusCode}{StatusCode}}
+{\footnotesize\ttfamily \label{status_8h_a9d113176ec12afdd9df0043c45b97f5e} 
+enum class \doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{Status\+Code}} :\+ std::\+uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+
+Error\textquotesingle{}s type indication. 
+
+\begin{DoxyEnumFields}[2]{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Ok@{Ok}!status.h@{status.h}}
+\index{status.h@{status.h}!Ok@{Ok}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eaa60852f204ed8028c1c58808b746d115}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eaa60852f204ed8028c1c58808b746d115} 
+Ok&success \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UseAfterClose@{UseAfterClose}!status.h@{status.h}}
+\index{status.h@{status.h}!UseAfterClose@{UseAfterClose}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea67cdc64e13f54ba2b7ec2f3cda945ccf}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea67cdc64e13f54ba2b7ec2f3cda945ccf} 
+Use\+After\+Close&resource was closed, yet attempt to perform operations over it were tried. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidState@{InvalidState}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidState@{InvalidState}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eaedf260198e4d75d1cb3c7588f7380120}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eaedf260198e4d75d1cb3c7588f7380120} 
+Invalid\+State&invalid state of entity. might include \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DataTypeOverflow@{DataTypeOverflow}!status.h@{status.h}}
+\index{status.h@{status.h}!DataTypeOverflow@{DataTypeOverflow}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1c212561bd4adc7c009115b18c972fa2}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1c212561bd4adc7c009115b18c972fa2} 
+Data\+Type\+Overflow&data type overflow \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OverlappingKeys@{OverlappingKeys}!status.h@{status.h}}
+\index{status.h@{status.h}!OverlappingKeys@{OverlappingKeys}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea4579a24c72669a55f34368ef71194775}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea4579a24c72669a55f34368ef71194775} 
+Overlapping\+Keys&no overlapping keys allowed on L1+ levels. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BadAccess@{BadAccess}!status.h@{status.h}}
+\index{status.h@{status.h}!BadAccess@{BadAccess}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3680d3d991bed5386c1793b77b14d9c1}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3680d3d991bed5386c1793b77b14d9c1} 
+Bad\+Access&permissions denied, use after close \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Underflow@{Underflow}!status.h@{status.h}}
+\index{status.h@{status.h}!Underflow@{Underflow}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea07f6a565e17a0b5f7341422b6f9101cc}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea07f6a565e17a0b5f7341422b6f9101cc} 
+Underflow&Arithmetic or cursor underflow. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidArgument@{InvalidArgument}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidArgument@{InvalidArgument}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea253ca7dd096ee0956cccee4d376cab8b} 
+Invalid\+Argument&invalid argument was provided \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FailedPrecondition@{FailedPrecondition}!status.h@{status.h}}
+\index{status.h@{status.h}!FailedPrecondition@{FailedPrecondition}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ead8fc6a8cf630261aa9439efe8c1c7eb4}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ead8fc6a8cf630261aa9439efe8c1c7eb4} 
+Failed\+Precondition&failed to satify preconditions \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NotFound@{NotFound}!status.h@{status.h}}
+\index{status.h@{status.h}!NotFound@{NotFound}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea38c300f4fc9ce8a77aad4a30de05cad8}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea38c300f4fc9ce8a77aad4a30de05cad8} 
+Not\+Found&not found \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AlreadyExists@{AlreadyExists}!status.h@{status.h}}
+\index{status.h@{status.h}!AlreadyExists@{AlreadyExists}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea89b69484680b18e9179e826c6e023805}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea89b69484680b18e9179e826c6e023805} 
+Already\+Exists&typical scenario when file already exists, but attempt to recreate it was performed. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NotSupported@{NotSupported}!status.h@{status.h}}
+\index{status.h@{status.h}!NotSupported@{NotSupported}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea9ed2d871602556951e39f3cebd08d6cb}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea9ed2d871602556951e39f3cebd08d6cb} 
+Not\+Supported&Not suppported, might refer to invalid. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InternalError@{InternalError}!status.h@{status.h}}
+\index{status.h@{status.h}!InternalError@{InternalError}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea8462b58246e70e5c83e5b939a9332cb5}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea8462b58246e70e5c83e5b939a9332cb5} 
+Internal\+Error&Unexpected invariant or implementation failure. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvariantViolation@{InvariantViolation}!status.h@{status.h}}
+\index{status.h@{status.h}!InvariantViolation@{InvariantViolation}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ead5577819bdd3dadf2ce8cd0c265ff6b5}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ead5577819bdd3dadf2ce8cd0c265ff6b5} 
+Invariant\+Violation&Violates entities invariants. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Duplicate@{Duplicate}!status.h@{status.h}}
+\index{status.h@{status.h}!Duplicate@{Duplicate}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eaed75712b0eb1913c28a3872731ffd48d}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eaed75712b0eb1913c28a3872731ffd48d} 
+Duplicate&duplicate. in some cases, like L1+ level tables, might mean corruption. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OutOfMemory@{OutOfMemory}!status.h@{status.h}}
+\index{status.h@{status.h}!OutOfMemory@{OutOfMemory}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eab498327feeb51430af73e07deac268fd}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eab498327feeb51430af73e07deac268fd} 
+Out\+Of\+Memory&out of aviable memory, usuallly fatal. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AllocationFailed@{AllocationFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!AllocationFailed@{AllocationFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eab1a1f934a076c47f947fd8766ca6d2df}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eab1a1f934a076c47f947fd8766ca6d2df} 
+Allocation\+Failed&allocation of memory failed, might be fatal. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidAlignment@{InvalidAlignment}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidAlignment@{InvalidAlignment}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea6d69f88eb0d6ddadcf9785bd01cb3288}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea6d69f88eb0d6ddadcf9785bd01cb3288} 
+Invalid\+Alignment&invalid entity alignment was provided, maximum allowed alignment is std::\+max\+\_\+align\+\_\+t \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{AllocationTooLarge@{AllocationTooLarge}!status.h@{status.h}}
+\index{status.h@{status.h}!AllocationTooLarge@{AllocationTooLarge}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea5fa372c806bac6095436767de671cb2c}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea5fa372c806bac6095436767de671cb2c} 
+Allocation\+Too\+Large&Requested allocation exceeds supported limits. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BufferTooSmall@{BufferTooSmall}!status.h@{status.h}}
+\index{status.h@{status.h}!BufferTooSmall@{BufferTooSmall}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eab801c4d44abd4738b7f69c4e390ed61d}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eab801c4d44abd4738b7f69c4e390ed61d} 
+Buffer\+Too\+Small&provided buffer is too small, might lead to overflow of buffer \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NullPointer@{NullPointer}!status.h@{status.h}}
+\index{status.h@{status.h}!NullPointer@{NullPointer}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea260d92b2beff2bf345911077edcd3f3c}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea260d92b2beff2bf345911077edcd3f3c} 
+Null\+Pointer&reference to null pointer. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BadAlloc@{BadAlloc}!status.h@{status.h}}
+\index{status.h@{status.h}!BadAlloc@{BadAlloc}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3c7a8251808153249519ae080c9d4b65}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3c7a8251808153249519ae080c9d4b65} 
+Bad\+Alloc&Bad allocation. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidOffset@{InvalidOffset}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidOffset@{InvalidOffset}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eadca5889d21c2871a53cea8493044149f}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eadca5889d21c2871a53cea8493044149f} 
+Invalid\+Offset&invalid offset \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidReadSize@{InvalidReadSize}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidReadSize@{InvalidReadSize}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea79764bbe96374648cf6f9ec80a022031}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea79764bbe96374648cf6f9ec80a022031} 
+Invalid\+Read\+Size&invalid amount of bytes requested to read \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SizeExceedsBlockSize@{SizeExceedsBlockSize}!status.h@{status.h}}
+\index{status.h@{status.h}!SizeExceedsBlockSize@{SizeExceedsBlockSize}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eadb41b603935cd862062c11d5a5184770}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eadb41b603935cd862062c11d5a5184770} 
+Size\+Exceeds\+Block\+Size&size of entity overflow size of block. \begin{DoxyNote}{Note}
+Consider records fragmentation to avoid it. 
+\end{DoxyNote}
+\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SizeExceedsBlockBoundary@{SizeExceedsBlockBoundary}!status.h@{status.h}}
+\index{status.h@{status.h}!SizeExceedsBlockBoundary@{SizeExceedsBlockBoundary}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eaf700b9dbf230860bd2b3feaaf037dd40}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eaf700b9dbf230860bd2b3feaaf037dd40} 
+Size\+Exceeds\+Block\+Boundary&requested amount of bytes to process move cursor (manual has priority over internal) out of current block\textquotesingle{}s boundaries. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{IOError@{IOError}!status.h@{status.h}}
+\index{status.h@{status.h}!IOError@{IOError}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea5206bd7472156351d2d9a99633ac9580}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea5206bd7472156351d2d9a99633ac9580} 
+IOError&io error \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OpenFailed@{OpenFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!OpenFailed@{OpenFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eac60b10c14b43d15f91424c6addfc31ac}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eac60b10c14b43d15f91424c6addfc31ac} 
+Open\+Failed&failed to open, might be denied access \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ReadFailed@{ReadFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!ReadFailed@{ReadFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea723ee677cab1d41ba376d588d78146ed} 
+Read\+Failed&read failed \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WriteFailed@{WriteFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!WriteFailed@{WriteFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea490d6710e12fd4a37fb7e42b4d46b1fa} 
+Write\+Failed&write failed \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SyncFailed@{SyncFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!SyncFailed@{SyncFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1983db84c3ca71d8763a13e743c2eaf5} 
+Sync\+Failed&failed to flush data to persistent storage \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{CloseFailed@{CloseFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!CloseFailed@{CloseFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea51e0bf5342d28b4824d0c74ef161c2c0} 
+Close\+Failed&failed to close resource \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{RenameFailed@{RenameFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!RenameFailed@{RenameFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eaadb8bb853d39513b063d1323b87787e5} 
+Rename\+Failed&failed to rename resource \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DirectorySyncFailed@{DirectorySyncFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!DirectorySyncFailed@{DirectorySyncFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eadff632d638240131db10d049b57e2d38} 
+Directory\+Sync\+Failed&failed to flush directory changes to persistent storage \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GetPositionFailed@{GetPositionFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!GetPositionFailed@{GetPositionFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea00b6fa60e31c96db073798da99948cc2} 
+Get\+Position\+Failed&failed to get position of files internal cursor. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{GetSizeFailed@{GetSizeFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!GetSizeFailed@{GetSizeFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eab7769e2a5b40ae84c849e3983267f10a} 
+Get\+Size\+Failed&failed to get size of file. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{PermissionDenied@{PermissionDenied}!status.h@{status.h}}
+\index{status.h@{status.h}!PermissionDenied@{PermissionDenied}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea4b33a686be73bb172407d73b26356275}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea4b33a686be73bb172407d73b26356275} 
+Permission\+Denied&permission denied. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SeekFailed@{SeekFailed}!status.h@{status.h}}
+\index{status.h@{status.h}!SeekFailed@{SeekFailed}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eaaab04098047c7a8dc46e1a83ca3011bf} 
+Seek\+Failed&failed to move positions of files internal cursor. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{Corruption@{Corruption}!status.h@{status.h}}
+\index{status.h@{status.h}!Corruption@{Corruption}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea658a15d633ea9338b06e40a410629dd8} 
+Corruption&Corruption, not necessarily fatal. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BadMagic@{BadMagic}!status.h@{status.h}}
+\index{status.h@{status.h}!BadMagic@{BadMagic}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eac87c2d41af62cc035e76f90e0f889e4f}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eac87c2d41af62cc035e76f90e0f889e4f} 
+Bad\+Magic&Bad magic number, fatal. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UnsupportedVersion@{UnsupportedVersion}!status.h@{status.h}}
+\index{status.h@{status.h}!UnsupportedVersion@{UnsupportedVersion}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea0f89bc98e9b12bdeda0604e57bdc0518}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea0f89bc98e9b12bdeda0604e57bdc0518} 
+Unsupported\+Version&Unsupported version, not necessarily fatal. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UnsupportedBlockSize@{UnsupportedBlockSize}!status.h@{status.h}}
+\index{status.h@{status.h}!UnsupportedBlockSize@{UnsupportedBlockSize}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1b20d999fe1884fa16584eb7c5b003b0}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1b20d999fe1884fa16584eb7c5b003b0} 
+Unsupported\+Block\+Size&Unsupported block size. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{ChecksumMismatch@{ChecksumMismatch}!status.h@{status.h}}
+\index{status.h@{status.h}!ChecksumMismatch@{ChecksumMismatch}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea23cd86e43512932a4bc975552c8d17fd}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea23cd86e43512932a4bc975552c8d17fd} 
+Checksum\+Mismatch&Checksum mismatch. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidHeader@{InvalidHeader}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidHeader@{InvalidHeader}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eae39ad990effe3b4cd951b6ae7c642b66}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eae39ad990effe3b4cd951b6ae7c642b66} 
+Invalid\+Header&invalid header of sstable section. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidFooter@{InvalidFooter}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidFooter@{InvalidFooter}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea2efeaf3a466a95365c6dc36b644a4164}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea2efeaf3a466a95365c6dc36b644a4164} 
+Invalid\+Footer&invalid footer section \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidBlockType@{InvalidBlockType}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidBlockType@{InvalidBlockType}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea8126c769b7c30850b4c92138ed06d815}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea8126c769b7c30850b4c92138ed06d815} 
+Invalid\+Block\+Type&invalid block/\+section type of sstable. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidBlockAlignment@{InvalidBlockAlignment}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidBlockAlignment@{InvalidBlockAlignment}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1d4a352a294234246cd6774d38360a8c}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea1d4a352a294234246cd6774d38360a8c} 
+Invalid\+Block\+Alignment&default data block must be alignment to block boundaries. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidSectionOffset@{InvalidSectionOffset}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidSectionOffset@{InvalidSectionOffset}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea81fe951c730e6b79707e62075b710b10}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea81fe951c730e6b79707e62075b710b10} 
+Invalid\+Section\+Offset&invalid offset of sstable section (data section, index section etc.) \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidSectionSize@{InvalidSectionSize}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidSectionSize@{InvalidSectionSize}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3f0804d94be21c04e0bc00e584b3730f}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea3f0804d94be21c04e0bc00e584b3730f} 
+Invalid\+Section\+Size&invalid size of sstable section. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{InvalidPayloadSize@{InvalidPayloadSize}!status.h@{status.h}}
+\index{status.h@{status.h}!InvalidPayloadSize@{InvalidPayloadSize}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea49d9a8dd4267bfc32f913369d13458b6}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea49d9a8dd4267bfc32f913369d13458b6} 
+Invalid\+Payload\+Size&invalid payload size of sstable section. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OffsetOutOfRange@{OffsetOutOfRange}!status.h@{status.h}}
+\index{status.h@{status.h}!OffsetOutOfRange@{OffsetOutOfRange}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea53a698a992bda163ece2b9d3cca729c2}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea53a698a992bda163ece2b9d3cca729c2} 
+Offset\+Out\+Of\+Range&offset points over eof. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OffsetOverlap@{OffsetOverlap}!status.h@{status.h}}
+\index{status.h@{status.h}!OffsetOverlap@{OffsetOverlap}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea9527444c805c146c790a5949b933fbd9}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea9527444c805c146c790a5949b933fbd9} 
+Offset\+Overlap&offset overlap \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UnexpectedEOF@{UnexpectedEOF}!status.h@{status.h}}
+\index{status.h@{status.h}!UnexpectedEOF@{UnexpectedEOF}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5eafb4f20c45a43b05ac6e7cb3c5a4c5997}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5eafb4f20c45a43b05ac6e7cb3c5a4c5997} 
+Unexpected\+EOF&unexpected end of file, not necessarily fatal. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{BadFileDescriptor@{BadFileDescriptor}!status.h@{status.h}}
+\index{status.h@{status.h}!BadFileDescriptor@{BadFileDescriptor}}
+}\Hypertarget{status_8h_a9d113176ec12afdd9df0043c45b97f5ea458fdaf36add031c1d0b54e6f484f48d}\label{status_8h_a9d113176ec12afdd9df0043c45b97f5ea458fdaf36add031c1d0b54e6f484f48d} 
+Bad\+File\+Descriptor&bad file descriptor, might mean that file alrady closed. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line \doxymbox{\hyperlink{status_8h_source_l00022}{22}} of file \doxymbox{\hyperlink{status_8h_source}{status.\+h}}.
+
+
+
+\label{status_8h_doc-func-members}
+\Hypertarget{status_8h_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17}\index{status.h@{status.h}!syscall\_error@{syscall\_error}}
+\index{syscall\_error@{syscall\_error}!status.h@{status.h}}
+\doxysubsubsection{\texorpdfstring{syscall\_error()}{syscall\_error()}}
+{\footnotesize\ttfamily \label{status_8h_a309944ec2f6d8d14c827fdd6a6f59a17} 
+\doxymbox{\hyperlink{struct_status}{Status}} syscall\+\_\+error (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{Status\+Code}}}]{code}{, }\item[{std::\+string}]{op}{}\end{DoxyParamCaption})}
+
+
+
+Returns status indicating system call error/\+failure. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\doxymbox{\texttt{in}}  & {\em code} & \doxylink{status_8h_a9d113176ec12afdd9df0043c45b97f5e}{Status\+Code} indicating system call error or any other. \\
+\hline
+\doxymbox{\texttt{in}}  & {\em op} & Optional message prefix. It should not contain last syscall error codes interpretation.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\doxylink{struct_status}{Status} Indicating status of syscall error, with message containg error code and its interpretation. 
+\end{DoxyReturn}
+
+
+Definition at line \doxymbox{\hyperlink{status_8cpp_source_l00013}{13}} of file \doxymbox{\hyperlink{status_8cpp_source}{status.\+cpp}}.
+

@@ -1,3 +1,6 @@
+// These helpers centralize overflow-safe range arithmetic and physical block
+// transitions. Read paths skip padding without consuming it; write paths append
+// zero padding so no fixed-size entity straddles an unsupported boundary.
 #define NOMINMAX
 #include "file_helpers.h"
 

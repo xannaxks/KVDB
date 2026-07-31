@@ -1,206 +1,47 @@
 \doxysection{Arena Class Reference}
 \hypertarget{class_arena}{}\label{class_arena}\index{Arena@{Arena}}
+
+
+Region allocator with checkpoints and optional destructor tracking.  
+
+
+
+
+{\ttfamily \+\#include $<$arena.\+h$>$}
+
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
-struct \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}
-\item 
-struct \doxymbox{\hyperlink{struct_arena_1_1_destructor_entry}{Destructor\+Entry}}
-\item 
 struct \doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Checkpoint}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Opaque snapshot of the arena\textquotesingle{}s allocation and lifetime state. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\doxymbox{\hyperlink{class_arena_ae65566b4e1402146338d419e9feb0983}{Arena}} (std::\+size\+\_\+t page\+\_\+size=64 \texorpdfstring{$\ast$}{*}1024, std::\+size\+\_\+t large\+\_\+threshold=16 \texorpdfstring{$\ast$}{*}1024)
-\item 
-\Hypertarget{class_arena_a023d7727cea746a46f43099f63188ac0}\label{class_arena_a023d7727cea746a46f43099f63188ac0} 
-{\bfseries Arena} (const \doxymbox{\hyperlink{class_arena}{Arena}} \&)=delete
-\item 
-\Hypertarget{class_arena_a51e33ce54650be654fefcceeddf8f5bf}\label{class_arena_a51e33ce54650be654fefcceeddf8f5bf} 
-\doxymbox{\hyperlink{class_arena}{Arena}} \& {\bfseries operator=} (const \doxymbox{\hyperlink{class_arena}{Arena}} \&)=delete
-\item 
-\Hypertarget{class_arena_abb2d3abe42bdee4fb29a9c6c0d5392ec}\label{class_arena_abb2d3abe42bdee4fb29a9c6c0d5392ec} 
-{\bfseries Arena} (\doxymbox{\hyperlink{class_arena}{Arena}} \&\&)=delete
-\item 
-\Hypertarget{class_arena_a2a585eaff2ea0bc5c292264cb31701b9}\label{class_arena_a2a585eaff2ea0bc5c292264cb31701b9} 
-\doxymbox{\hyperlink{class_arena}{Arena}} \& {\bfseries operator=} (\doxymbox{\hyperlink{class_arena}{Arena}} \&\&)=delete
-\item 
 \doxymbox{\hyperlink{struct_result}{Result}}$<$ void \texorpdfstring{$\ast$}{*} $>$ \doxymbox{\hyperlink{class_arena_a8ed7746e6c58d7365df5e296142c9b86}{alloc}} (std::\+size\+\_\+t n, std::\+size\+\_\+t alignment=alignof(std::\+max\+\_\+align\+\_\+t))
-\item 
-\doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Checkpoint}} \doxymbox{\hyperlink{class_arena_a6c80b9016466fe4aeffb128680dcfa13}{checkpoint}} () const noexcept
-\item 
+\begin{DoxyCompactList}\small\item\em Allocates raw, uninitialized storage. \end{DoxyCompactList}\item 
+\Hypertarget{class_arena_a6c80b9016466fe4aeffb128680dcfa13}\label{class_arena_a6c80b9016466fe4aeffb128680dcfa13} 
+\doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Checkpoint}} {\bfseries checkpoint} () const noexcept
+\begin{DoxyCompactList}\small\item\em Captures a state that can later be passed to \doxylink{class_arena_a90fa6400f0e68493c45b504ce60bcb34}{rollback()}. \end{DoxyCompactList}\item 
 void \doxymbox{\hyperlink{class_arena_a90fa6400f0e68493c45b504ce60bcb34}{rollback}} (const \doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Checkpoint}} \&cp)
-\item 
+\begin{DoxyCompactList}\small\item\em Destroys objects and reclaims allocations made after {\ttfamily cp}. \end{DoxyCompactList}\item 
 void \doxymbox{\hyperlink{class_arena_ae09fa630deb2e929aec2b1337cc28d51}{reset}} (bool release\+\_\+all=false) noexcept
-\item 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ \doxymbox{\hyperlink{class_arena_ad939e7b360e36d83237f6e846a8630dc}{get\+\_\+used\+\_\+bytes}} () const
-\item 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ \doxymbox{\hyperlink{class_arena_a93166af88f4a49d8980e7712ca0f12c7}{get\+\_\+reserved\+\_\+bytes}} () const
-\item 
-std::\+size\+\_\+t \doxymbox{\hyperlink{class_arena_accc20a3ca7456fed7ea5f861975783e7}{get\+\_\+pages\+\_\+size}} () const noexcept
-\item 
-std::\+size\+\_\+t \doxymbox{\hyperlink{class_arena_a57f3f1466a1267a5ed05230abd5318c8}{get\+\_\+large\+\_\+size}} () const noexcept
-\item 
-std::\+size\+\_\+t \doxymbox{\hyperlink{class_arena_a513cb0d21cc5e61030631f0b55a45be7}{get\+\_\+destructor\+\_\+count}} () const noexcept
-\item 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+size\+\_\+t $>$ \doxymbox{\hyperlink{class_arena_aaeb9a9969daaf52368d0366ed4749db7}{get\+\_\+next\+\_\+page\+\_\+size}} (std::\+size\+\_\+t n) const
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Types}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{class_arena_a37138935248498a57b69c8e41ee32e3f}\label{class_arena_a37138935248498a57b69c8e41ee32e3f} 
-using {\bfseries Destroy\+Function} = void (\texorpdfstring{$\ast$}{*})(void\texorpdfstring{$\ast$}{*}, std::\+size\+\_\+t) noexcept
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ void \texorpdfstring{$\ast$}{*} $>$ \doxymbox{\hyperlink{class_arena_ac45312b2b5de50a90e046432873b2b45}{alloc\+\_\+small}} (std::\+size\+\_\+t n, std::\+size\+\_\+t alignment)
-\item 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ void \texorpdfstring{$\ast$}{*} $>$ \doxymbox{\hyperlink{class_arena_a43e09bbce340356d5fd0e4f82d1a28a8}{alloc\+\_\+large}} (std::\+size\+\_\+t n, std::\+size\+\_\+t alignment)
-\item 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ bool $>$ \doxymbox{\hyperlink{class_arena_a5d34903e19d7d8de83e537f694f11b13}{fits\+\_\+in}} (const \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}} \&page, std::\+size\+\_\+t n, std::\+size\+\_\+t alignment) const
-\item 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}} $>$ \doxymbox{\hyperlink{class_arena_a6696f01ca501e7e2411088721ec68b15}{alloc\+\_\+page}} (std::\+size\+\_\+t cap, std::\+size\+\_\+t alignment)
-\item 
-bool \doxymbox{\hyperlink{class_arena_ac04f2d5dd278226ef2a60deefbeccd8e}{register\+\_\+destructor}} (void \texorpdfstring{$\ast$}{*}object, std::\+size\+\_\+t count, Destroy\+Function destroy) noexcept
-\item 
-void \doxymbox{\hyperlink{class_arena_a9b92a0f63f5b4056c581f9350876bba0}{destroy\+\_\+to}} (std::\+size\+\_\+t destructor\+\_\+count) noexcept
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Static Private Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+size\+\_\+t $>$ \doxymbox{\hyperlink{class_arena_a8a2da40b005c63a890a591c90ce1cab0}{align\+\_\+up}} (std::\+size\+\_\+t x, std::\+size\+\_\+t alignment)
-\item 
-static void \doxymbox{\hyperlink{class_arena_a2fabc74a66006497be49f174e6ec88e8}{poison}} (void \texorpdfstring{$\ast$}{*}memory, std::\+size\+\_\+t size) noexcept
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Private Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{class_arena_af7400b531987f36853e3911e0ec45bd2}\label{class_arena_af7400b531987f36853e3911e0ec45bd2} 
-std::\+size\+\_\+t {\bfseries page\+\_\+size\+\_\+}
-\item 
-\Hypertarget{class_arena_a75a2f3337a189be7a1b7071fa1548226}\label{class_arena_a75a2f3337a189be7a1b7071fa1548226} 
-std::\+size\+\_\+t {\bfseries large\+\_\+threshold\+\_\+}
-\item 
-\Hypertarget{class_arena_ae4b7350e6486446ca1c04b5a27c9746e}\label{class_arena_ae4b7350e6486446ca1c04b5a27c9746e} 
-std::\+vector$<$ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}} $>$ {\bfseries pages\+\_\+}
-\item 
-\Hypertarget{class_arena_a95ea0a552ddc3c43841f20020772459d}\label{class_arena_a95ea0a552ddc3c43841f20020772459d} 
-std::\+vector$<$ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}} $>$ {\bfseries large\+\_\+}
-\item 
-\Hypertarget{class_arena_ab58d631a124af34dea71afb5497c7def}\label{class_arena_ab58d631a124af34dea71afb5497c7def} 
-std::\+vector$<$ \doxymbox{\hyperlink{struct_arena_1_1_destructor_entry}{Destructor\+Entry}} $>$ {\bfseries destructors\+\_\+}
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Static Private Attributes}
-\begin{DoxyCompactItemize}
-\item 
-\Hypertarget{class_arena_ab00e4a2bcae0fe54a9ac523933b9bdeb}\label{class_arena_ab00e4a2bcae0fe54a9ac523933b9bdeb} 
-static constexpr std::\+size\+\_\+t {\bfseries max\+\_\+page\+\_\+size\+\_\+} = 1u $<$$<$ 20
-\item 
-static constexpr std::\+byte \doxymbox{\hyperlink{class_arena_adacb251a6d253d292c09fa1fa705acf7}{poison\+\_\+byte\+\_\+}} \{ 0x\+CD \}
-\end{DoxyCompactItemize}
-\doxysubsubsection*{Friends}
-\begin{DoxyCompactItemize}
-\item 
-{\footnotesize template$<$class T, class... Args$>$ }\\\doxymbox{\hyperlink{struct_result}{Result}}$<$ T \texorpdfstring{$\ast$}{*} $>$ \doxymbox{\hyperlink{class_arena_a05b3ed9eb95d9fb4ca9d703ae485b61c}{arena\+\_\+new}} (\doxymbox{\hyperlink{class_arena}{Arena}} \&arena, Args \&\&... args)
-\item 
-{\footnotesize template$<$class T$>$ }\\\doxymbox{\hyperlink{struct_result}{Result}}$<$ T \texorpdfstring{$\ast$}{*} $>$ \doxymbox{\hyperlink{class_arena_a566959fe14aea7130711c76529ddf6a8}{arena\+\_\+new\+\_\+array}} (\doxymbox{\hyperlink{class_arena}{Arena}} \&arena, std::\+size\+\_\+t count)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Destroys all arena-\/owned objects and resets allocation state. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\label{class_arena_doc-constructors}
-\Hypertarget{class_arena_doc-constructors}
-\doxysubsection{Constructor \& Destructor Documentation}
-\Hypertarget{class_arena_ae65566b4e1402146338d419e9feb0983}\index{Arena@{Arena}!Arena@{Arena}}
-\index{Arena@{Arena}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{Arena()}{Arena()}}
-{\footnotesize\ttfamily \label{class_arena_ae65566b4e1402146338d419e9feb0983} 
-Arena::\+\+Arena (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{page\+\_\+size}{ = {\ttfamily 64~\texorpdfstring{$\ast$}{*}~1024}, }\item[{std::\+size\+\_\+t}]{large\+\_\+threshold}{ = {\ttfamily 16~\texorpdfstring{$\ast$}{*}~1024}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+\doxysubsection{Detailed Description}
+Region allocator with checkpoints and optional destructor tracking. 
 
+Normal allocations grow geometrically sized pages up to an internal cap. Requests at or above the configured large threshold use independent pages so that a single large value does not consume the normal allocation stream.
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00087\ \ \ \ \ :\ page\_size\_(initial\_page\_size),}
-\DoxyCodeLine{00088\ \ \ \ \ large\_threshold\_(initial\_large\_threshold) }
-\DoxyCodeLine{00089\ \{}
-\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordflow}{if}\ (initial\_page\_size\ ==\ 0)}
-\DoxyCodeLine{00091\ \ \ \ \ \{}
-\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Arena\ page\ size\ cannot\ be\ zero"{}});}
-\DoxyCodeLine{00093\ \ \ \ \ \}}
-\DoxyCodeLine{00094\ }
-\DoxyCodeLine{00095\ \ \ \ \ \textcolor{keywordflow}{if}\ (initial\_page\_size\ >\ max\_page\_size\_)}
-\DoxyCodeLine{00096\ \ \ \ \ \{}
-\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
-\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ page\ size\ exceeds\ the\ maximum\ normal\ page\ size"{}}}
-\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00100\ \ \ \ \ \}}
-\DoxyCodeLine{00101\ }
-\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordflow}{if}\ (initial\_large\_threshold\ ==\ 0)}
-\DoxyCodeLine{00103\ \ \ \ \ \{}
-\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Arena\ large\ threshold\ cannot\ be\ zero"{}});}
-\DoxyCodeLine{00105\ \ \ \ \ \}}
-\DoxyCodeLine{00106\ \}}
+Use \doxylink{class_arena_a8ed7746e6c58d7365df5e296142c9b86}{alloc()} for raw storage and arena\+\_\+new()/\+arena\+\_\+new\+\_\+array() for objects whose destructors must be managed by the arena. 
 
-\end{DoxyCode}
-\Hypertarget{class_arena_a758c4fe66e1f5e25ed909b9a2342711f}\index{Arena@{Arena}!````~Arena@{\texorpdfstring{$\sim$}{\string~}Arena}}
-\index{````~Arena@{\texorpdfstring{$\sim$}{\string~}Arena}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Arena()}{\string~Arena()}}
-{\footnotesize\ttfamily \label{class_arena_a758c4fe66e1f5e25ed909b9a2342711f} 
-Arena::\+\texorpdfstring{$\sim$}{\string~}\+Arena (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+Definition at line \doxymbox{\hyperlink{arena_8h_source_l00119}{119}} of file \doxymbox{\hyperlink{arena_8h_source}{arena.\+h}}.
 
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00109\ \{}
-\DoxyCodeLine{00110\ \ \ \ \ reset(\textcolor{keyword}{true});}
-\DoxyCodeLine{00111\ \}}
-
-\end{DoxyCode}
 
 
 \label{class_arena_doc-func-members}
 \Hypertarget{class_arena_doc-func-members}
 \doxysubsection{Member Function Documentation}
-\Hypertarget{class_arena_a8a2da40b005c63a890a591c90ce1cab0}\index{Arena@{Arena}!align\_up@{align\_up}}
-\index{align\_up@{align\_up}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{align\_up()}{align\_up()}}
-{\footnotesize\ttfamily \label{class_arena_a8a2da40b005c63a890a591c90ce1cab0} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+size\+\_\+t $>$ Arena::\+align\+\_\+up (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{x}{, }\item[{std::\+size\+\_\+t}]{alignment}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}, {\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00322\ \{}
-\DoxyCodeLine{00323\ \ \ \ \ \textcolor{keywordflow}{if}\ (alignment\ ==\ 0)}
-\DoxyCodeLine{00324\ \ \ \ \ \{}
-\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::size\_t>::fail(}
-\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{\ StatusCode::InvalidAlignment,\ \textcolor{stringliteral}{"{}Alignment\ is\ zero"{}}\ \}}
-\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00328\ \ \ \ \ \}}
-\DoxyCodeLine{00329\ }
-\DoxyCodeLine{00330\ \ \ \ \ \textcolor{keywordflow}{if}\ (!std::has\_single\_bit(alignment))}
-\DoxyCodeLine{00331\ \ \ \ \ \{}
-\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::size\_t>::fail(}
-\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidAlignment,}
-\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Alignment\ is\ not\ a\ power\ of\ two"{}}}
-\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00338\ \ \ \ \ \}}
-\DoxyCodeLine{00339\ }
-\DoxyCodeLine{00340\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ mask\ =\ alignment\ -\/\ 1;}
-\DoxyCodeLine{00341\ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ >\ std::numeric\_limits<std::size\_t>::max()\ -\/\ mask)}
-\DoxyCodeLine{00342\ \ \ \ \ \{}
-\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::size\_t>::fail(}
-\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ alignment\ calculation\ overflowed"{}}}
-\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00349\ \ \ \ \ \}}
-\DoxyCodeLine{00350\ }
-\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::size\_t>::ok((x\ +\ mask)\ \&\ \string~mask);}
-\DoxyCodeLine{00352\ \}}
-
-\end{DoxyCode}
 \Hypertarget{class_arena_a8ed7746e6c58d7365df5e296142c9b86}\index{Arena@{Arena}!alloc@{alloc}}
 \index{alloc@{alloc}!Arena@{Arena}}
 \doxysubsubsection{\texorpdfstring{alloc()}{alloc()}}
@@ -208,496 +49,23 @@ Arena::\+\texorpdfstring{$\sim$}{\string~}\+Arena (\begin{DoxyParamCaption}{}{}\
 \doxymbox{\hyperlink{struct_result}{Result}}$<$ void \texorpdfstring{$\ast$}{*} $>$ Arena::\+alloc (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{n}{, }\item[{std::\+size\+\_\+t}]{alignment}{ = {\ttfamily alignof(std:\+:\+max\+\_\+align\+\_\+t)}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00114\ \{}
-\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ 0)}
-\DoxyCodeLine{00116\ \ \ \ \ \{}
-\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::ok(\textcolor{keyword}{nullptr});}
-\DoxyCodeLine{00118\ \ \ \ \ \}}
-\DoxyCodeLine{00119\ }
-\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordflow}{if}\ (alignment\ ==\ 0)}
-\DoxyCodeLine{00121\ \ \ \ \ \{}
-\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::fail(}
-\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{\ StatusCode::InvalidAlignment,\ \textcolor{stringliteral}{"{}Alignment\ is\ zero"{}}\ \}}
-\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00125\ \ \ \ \ \}}
-\DoxyCodeLine{00126\ }
-\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordflow}{if}\ (!std::has\_single\_bit(alignment))}
-\DoxyCodeLine{00128\ \ \ \ \ \{}
-\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::fail(}
-\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidAlignment,}
-\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Alignment\ is\ not\ a\ power\ of\ two"{}}}
-\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00135\ \ \ \ \ \}}
-\DoxyCodeLine{00136\ }
-\DoxyCodeLine{00137\ \ \ \ \ \textcolor{comment}{//\ Normal\ pages\ are\ max\_align\_t-\/aligned.\ Over-\/aligned\ objects\ receive\ a}}
-\DoxyCodeLine{00138\ \ \ \ \ \textcolor{comment}{//\ dedicated\ allocation\ so\ their\ alignment\ is\ preserved.}}
-\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ >=\ large\_threshold\_\ ||}
-\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ n\ >\ max\_page\_size\_\ ||}
-\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ alignment\ >\ \textcolor{keyword}{alignof}(std::max\_align\_t))}
-\DoxyCodeLine{00142\ \ \ \ \ \{}
-\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ alloc\_large(n,\ alignment);}
-\DoxyCodeLine{00144\ \ \ \ \ \}}
-\DoxyCodeLine{00145\ }
-\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordflow}{return}\ alloc\_small(n,\ alignment);}
-\DoxyCodeLine{00147\ \}}
 
-\end{DoxyCode}
-\Hypertarget{class_arena_a43e09bbce340356d5fd0e4f82d1a28a8}\index{Arena@{Arena}!alloc\_large@{alloc\_large}}
-\index{alloc\_large@{alloc\_large}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{alloc\_large()}{alloc\_large()}}
-{\footnotesize\ttfamily \label{class_arena_a43e09bbce340356d5fd0e4f82d1a28a8} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ void \texorpdfstring{$\ast$}{*} $>$ Arena::\+alloc\+\_\+large (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{n}{, }\item[{std::\+size\+\_\+t}]{alignment}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}}
+Allocates raw, uninitialized storage. 
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00241\ \{}
-\DoxyCodeLine{00242\ \ \ \ \ Result<Page>\ page\_result\ =\ alloc\_page(n,\ alignment);}
-\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keywordflow}{if}\ (!page\_result.is\_ok())}
-\DoxyCodeLine{00244\ \ \ \ \ \{}
-\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::fail(std::move(page\_result.status));}
-\DoxyCodeLine{00246\ \ \ \ \ \}}
-\DoxyCodeLine{00247\ }
-\DoxyCodeLine{00248\ \ \ \ \ page\_result.value.used\ =\ n;}
-\DoxyCodeLine{00249\ }
-\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordflow}{try}}
-\DoxyCodeLine{00251\ \ \ \ \ \{}
-\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ large\_.emplace\_back(std::move(page\_result.value));}
-\DoxyCodeLine{00253\ \ \ \ \ \}}
-\DoxyCodeLine{00254\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)}
-\DoxyCodeLine{00255\ \ \ \ \ \{}
-\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::fail(}
-\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
-\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ grow\ Arena\ large-\/allocation\ metadata"{}}}
-\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00262\ \ \ \ \ \}}
-\DoxyCodeLine{00263\ }
-\DoxyCodeLine{00264\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::ok(large\_.back().base);}
-\DoxyCodeLine{00265\ \}}
+\begin{DoxyParams}{Parameters}
+{\em n} & Number of bytes to allocate; must be non-\/zero. \\
+\hline
+{\em alignment} & Required power-\/of-\/two alignment. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pointer to aligned storage or an allocation/\+argument error.
+\end{DoxyReturn}
+Raw allocations do not register destructors. Use arena\+\_\+new() or arena\+\_\+new\+\_\+array() for arena-\/owned object lifetime. 
 
-\end{DoxyCode}
-\Hypertarget{class_arena_a6696f01ca501e7e2411088721ec68b15}\index{Arena@{Arena}!alloc\_page@{alloc\_page}}
-\index{alloc\_page@{alloc\_page}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{alloc\_page()}{alloc\_page()}}
-{\footnotesize\ttfamily \label{class_arena_a6696f01ca501e7e2411088721ec68b15} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_arena_1_1_page}{Arena::\+\+Page}} $>$ Arena::\+alloc\+\_\+page (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{cap}{, }\item[{std::\+size\+\_\+t}]{alignment}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}}
+Definition at line \doxymbox{\hyperlink{arena_8cpp_source_l00118}{118}} of file \doxymbox{\hyperlink{arena_8cpp_source}{arena.\+cpp}}.
 
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00271\ \{}
-\DoxyCodeLine{00272\ \ \ \ \ \textcolor{keywordflow}{if}\ (cap\ ==\ 0)}
-\DoxyCodeLine{00273\ \ \ \ \ \{}
-\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Page>::fail(}
-\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{\ StatusCode::InvalidArgument,\ \textcolor{stringliteral}{"{}Arena\ page\ capacity\ is\ zero"{}}\ \}}
-\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00277\ \ \ \ \ \}}
-\DoxyCodeLine{00278\ }
-\DoxyCodeLine{00279\ \ \ \ \ \textcolor{keywordflow}{try}}
-\DoxyCodeLine{00280\ \ \ \ \ \{}
-\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ memory\ =\ ::operator\ \textcolor{keyword}{new}(cap,\ std::align\_val\_t\{\ alignment\ \});}
-\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ poison(memory,\ cap);}
-\DoxyCodeLine{00283\ }
-\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Page>::ok(\doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\{\ memory,\ cap,\ 0,\ alignment\ \});}
-\DoxyCodeLine{00285\ \ \ \ \ \}}
-\DoxyCodeLine{00286\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)}
-\DoxyCodeLine{00287\ \ \ \ \ \{}
-\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Page>::fail(}
-\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
-\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ allocate\ an\ arena\ page"{}}}
-\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00294\ \ \ \ \ \}}
-\DoxyCodeLine{00295\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_ac45312b2b5de50a90e046432873b2b45}\index{Arena@{Arena}!alloc\_small@{alloc\_small}}
-\index{alloc\_small@{alloc\_small}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{alloc\_small()}{alloc\_small()}}
-{\footnotesize\ttfamily \label{class_arena_ac45312b2b5de50a90e046432873b2b45} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ void \texorpdfstring{$\ast$}{*} $>$ Arena::\+alloc\+\_\+small (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{n}{, }\item[{std::\+size\+\_\+t}]{alignment}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00153\ \{}
-\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keyword}{auto}\ append\_page\ =\ [\textcolor{keyword}{this},\ n]()\ -\/>\ Result<bool>}
-\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ Result<std::size\_t>\ size\_result\ =\ get\_next\_page\_size(n);}
-\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!size\_result.is\_ok())}
-\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<bool>::fail(std::move(size\_result.status));}
-\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00161\ }
-\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ Result<Page>\ page\_result\ =\ alloc\_page(}
-\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ size\_result.value,}
-\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{alignof}(std::max\_align\_t)}
-\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!page\_result.is\_ok())}
-\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<bool>::fail(std::move(page\_result.status));}
-\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00170\ }
-\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}}
-\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pages\_.emplace\_back(std::move(page\_result.value));}
-\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)}
-\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<bool>::fail(}
-\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
-\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ grow\ Arena\ normal-\/page\ metadata"{}}}
-\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00184\ }
-\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<bool>::ok(\textcolor{keyword}{true});}
-\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00187\ }
-\DoxyCodeLine{00188\ \ \ \ \ \textcolor{keywordflow}{if}\ (pages\_.empty())}
-\DoxyCodeLine{00189\ \ \ \ \ \{}
-\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ Result<bool>\ append\_result\ =\ append\_page();}
-\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!append\_result.is\_ok())}
-\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::fail(std::move(append\_result.status));}
-\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00195\ \ \ \ \ \}}
-\DoxyCodeLine{00196\ }
-\DoxyCodeLine{00197\ \ \ \ \ Result<bool>\ fit\_result\ =\ fits\_in(pages\_.back(),\ n,\ alignment);}
-\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordflow}{if}\ (!fit\_result.is\_ok())}
-\DoxyCodeLine{00199\ \ \ \ \ \{}
-\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::fail(std::move(fit\_result.status));}
-\DoxyCodeLine{00201\ \ \ \ \ \}}
-\DoxyCodeLine{00202\ }
-\DoxyCodeLine{00203\ \ \ \ \ \textcolor{keywordflow}{if}\ (!fit\_result.value)}
-\DoxyCodeLine{00204\ \ \ \ \ \{}
-\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ Result<bool>\ append\_result\ =\ append\_page();}
-\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!append\_result.is\_ok())}
-\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::fail(std::move(append\_result.status));}
-\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00210\ \ \ \ \ \}}
-\DoxyCodeLine{00211\ }
-\DoxyCodeLine{00212\ \ \ \ \ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ page\ =\ pages\_.back();}
-\DoxyCodeLine{00213\ }
-\DoxyCodeLine{00214\ \ \ \ \ Result<std::size\_t>\ offset\_result\ =\ align\_up(page.used,\ alignment);}
-\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordflow}{if}\ (!offset\_result.is\_ok())}
-\DoxyCodeLine{00216\ \ \ \ \ \{}
-\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::fail(std::move(offset\_result.status));}
-\DoxyCodeLine{00218\ \ \ \ \ \}}
-\DoxyCodeLine{00219\ }
-\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ offset\ =\ offset\_result.value;}
-\DoxyCodeLine{00221\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ >\ page.cap\ ||\ n\ >\ page.cap\ -\/\ offset)}
-\DoxyCodeLine{00222\ \ \ \ \ \{}
-\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::fail(}
-\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
-\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ page\ does\ not\ have\ enough\ space"{}}}
-\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00229\ \ \ \ \ \}}
-\DoxyCodeLine{00230\ }
-\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keywordtype}{void}*\ output\ =\ \textcolor{keyword}{static\_cast<}std::byte*\textcolor{keyword}{>}(page.base)\ +\ offset;}
-\DoxyCodeLine{00232\ \ \ \ \ page.used\ =\ offset\ +\ n;}
-\DoxyCodeLine{00233\ }
-\DoxyCodeLine{00234\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<void*>::ok(output);}
-\DoxyCodeLine{00235\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_a6c80b9016466fe4aeffb128680dcfa13}\index{Arena@{Arena}!checkpoint@{checkpoint}}
-\index{checkpoint@{checkpoint}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{checkpoint()}{checkpoint()}}
-{\footnotesize\ttfamily \label{class_arena_a6c80b9016466fe4aeffb128680dcfa13} 
-\doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Arena::\+\+Checkpoint}} Arena::\+checkpoint (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00475\ \{}
-\DoxyCodeLine{00476\ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Checkpoint}}\{}
-\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \textcolor{keyword}{this},}
-\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ pages\_.size(),}
-\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ pages\_.empty()\ ?\ 0\ :\ pages\_.back().used,}
-\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ large\_.size(),}
-\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ destructors\_.size()}
-\DoxyCodeLine{00482\ \ \ \ \ \};}
-\DoxyCodeLine{00483\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_a9b92a0f63f5b4056c581f9350876bba0}\index{Arena@{Arena}!destroy\_to@{destroy\_to}}
-\index{destroy\_to@{destroy\_to}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{destroy\_to()}{destroy\_to()}}
-{\footnotesize\ttfamily \label{class_arena_a9b92a0f63f5b4056c581f9350876bba0} 
-void Arena::\+destroy\+\_\+to (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{destructor\+\_\+count}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00576\ \{}
-\DoxyCodeLine{00577\ \ \ \ \ assert(destructor\_count\ <=\ destructors\_.size());}
-\DoxyCodeLine{00578\ }
-\DoxyCodeLine{00579\ \ \ \ \ \textcolor{keywordflow}{while}\ (destructors\_.size()\ >\ destructor\_count)}
-\DoxyCodeLine{00580\ \ \ \ \ \{}
-\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_1_1_destructor_entry}{DestructorEntry}}\ entry\ =\ destructors\_.back();}
-\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ destructors\_.pop\_back();}
-\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ entry.destroy(entry.object,\ entry.count);}
-\DoxyCodeLine{00584\ \ \ \ \ \}}
-\DoxyCodeLine{00585\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_a5d34903e19d7d8de83e537f694f11b13}\index{Arena@{Arena}!fits\_in@{fits\_in}}
-\index{fits\_in@{fits\_in}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{fits\_in()}{fits\_in()}}
-{\footnotesize\ttfamily \label{class_arena_a5d34903e19d7d8de83e537f694f11b13} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ bool $>$ Arena::\+fits\+\_\+in (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}} \&}]{page}{, }\item[{std::\+size\+\_\+t}]{n}{, }\item[{std::\+size\+\_\+t}]{alignment}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00302\ \{}
-\DoxyCodeLine{00303\ \ \ \ \ Result<std::size\_t>\ offset\_result\ =\ align\_up(page.used,\ alignment);}
-\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keywordflow}{if}\ (!offset\_result.is\_ok())}
-\DoxyCodeLine{00305\ \ \ \ \ \{}
-\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<bool>::fail(std::move(offset\_result.status));}
-\DoxyCodeLine{00307\ \ \ \ \ \}}
-\DoxyCodeLine{00308\ }
-\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ offset\ =\ offset\_result.value;}
-\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ >\ page.cap)}
-\DoxyCodeLine{00311\ \ \ \ \ \{}
-\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<bool>::ok(\textcolor{keyword}{false});}
-\DoxyCodeLine{00313\ \ \ \ \ \}}
-\DoxyCodeLine{00314\ }
-\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<bool>::ok(n\ <=\ page.cap\ -\/\ offset);}
-\DoxyCodeLine{00316\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_a513cb0d21cc5e61030631f0b55a45be7}\index{Arena@{Arena}!get\_destructor\_count@{get\_destructor\_count}}
-\index{get\_destructor\_count@{get\_destructor\_count}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{get\_destructor\_count()}{get\_destructor\_count()}}
-{\footnotesize\ttfamily \label{class_arena_a513cb0d21cc5e61030631f0b55a45be7} 
-std::\+size\+\_\+t Arena::\+get\+\_\+destructor\+\_\+count (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00636\ \{}
-\DoxyCodeLine{00637\ \ \ \ \ \textcolor{keywordflow}{return}\ destructors\_.size();}
-\DoxyCodeLine{00638\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_a57f3f1466a1267a5ed05230abd5318c8}\index{Arena@{Arena}!get\_large\_size@{get\_large\_size}}
-\index{get\_large\_size@{get\_large\_size}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{get\_large\_size()}{get\_large\_size()}}
-{\footnotesize\ttfamily \label{class_arena_a57f3f1466a1267a5ed05230abd5318c8} 
-std::\+size\+\_\+t Arena::\+get\+\_\+large\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00631\ \{}
-\DoxyCodeLine{00632\ \ \ \ \ \textcolor{keywordflow}{return}\ large\_.size();}
-\DoxyCodeLine{00633\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_aaeb9a9969daaf52368d0366ed4749db7}\index{Arena@{Arena}!get\_next\_page\_size@{get\_next\_page\_size}}
-\index{get\_next\_page\_size@{get\_next\_page\_size}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{get\_next\_page\_size()}{get\_next\_page\_size()}}
-{\footnotesize\ttfamily \label{class_arena_aaeb9a9969daaf52368d0366ed4749db7} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+size\+\_\+t $>$ Arena::\+get\+\_\+next\+\_\+page\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{n}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00355\ \{}
-\DoxyCodeLine{00356\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ ==\ 0)}
-\DoxyCodeLine{00357\ \ \ \ \ \{}
-\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::size\_t>::fail(}
-\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{\ StatusCode::InvalidArgument,\ \textcolor{stringliteral}{"{}Requested\ page\ size\ is\ zero"{}}\ \}}
-\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00361\ \ \ \ \ \}}
-\DoxyCodeLine{00362\ }
-\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ >\ max\_page\_size\_)}
-\DoxyCodeLine{00364\ \ \ \ \ \{}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::size\_t>::fail(}
-\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Requested\ allocation\ exceeds\ maximum\ normal\ page\ size"{}}}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00371\ \ \ \ \ \}}
-\DoxyCodeLine{00372\ }
-\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keywordflow}{if}\ (pages\_.empty())}
-\DoxyCodeLine{00374\ \ \ \ \ \{}
-\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::size\_t>::ok(std::max(page\_size\_,\ n));}
-\DoxyCodeLine{00376\ \ \ \ \ \}}
-\DoxyCodeLine{00377\ }
-\DoxyCodeLine{00378\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ previous\ =\ pages\_.back().cap;}
-\DoxyCodeLine{00379\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ doubled\ =\ previous\ >\ max\_page\_size\_\ /\ 2}
-\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ ?\ max\_page\_size\_}
-\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ :\ previous\ *\ 2;}
-\DoxyCodeLine{00382\ }
-\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::size\_t>::ok(std::max(doubled,\ n));}
-\DoxyCodeLine{00384\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_accc20a3ca7456fed7ea5f861975783e7}\index{Arena@{Arena}!get\_pages\_size@{get\_pages\_size}}
-\index{get\_pages\_size@{get\_pages\_size}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{get\_pages\_size()}{get\_pages\_size()}}
-{\footnotesize\ttfamily \label{class_arena_accc20a3ca7456fed7ea5f861975783e7} 
-std::\+size\+\_\+t Arena::\+get\+\_\+pages\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00626\ \{}
-\DoxyCodeLine{00627\ \ \ \ \ \textcolor{keywordflow}{return}\ pages\_.size();}
-\DoxyCodeLine{00628\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_a93166af88f4a49d8980e7712ca0f12c7}\index{Arena@{Arena}!get\_reserved\_bytes@{get\_reserved\_bytes}}
-\index{get\_reserved\_bytes@{get\_reserved\_bytes}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{get\_reserved\_bytes()}{get\_reserved\_bytes()}}
-{\footnotesize\ttfamily \label{class_arena_a93166af88f4a49d8980e7712ca0f12c7} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ Arena::\+get\+\_\+reserved\+\_\+bytes (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00387\ \{}
-\DoxyCodeLine{00388\ \ \ \ \ std::uint64\_t\ total\ =\ 0;}
-\DoxyCodeLine{00389\ }
-\DoxyCodeLine{00390\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ add\_capacity\ =\ [\&total](\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ page)\ -\/>\ \textcolor{keywordtype}{bool}}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (total\ >\ std::numeric\_limits<std::uint64\_t>::max()\ -\/\ page.cap)}
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00396\ }
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ total\ +=\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(page.cap);}
-\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00400\ }
-\DoxyCodeLine{00401\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ page\ :\ pages\_)}
-\DoxyCodeLine{00402\ \ \ \ \ \{}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!add\_capacity(page))}
-\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::fail(}
-\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ reserved-\/byte\ count\ overflowed\ uint64\_t"{}}}
-\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00412\ \ \ \ \ \}}
-\DoxyCodeLine{00413\ }
-\DoxyCodeLine{00414\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ page\ :\ large\_)}
-\DoxyCodeLine{00415\ \ \ \ \ \{}
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!add\_capacity(page))}
-\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::fail(}
-\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ reserved-\/byte\ count\ overflowed\ uint64\_t"{}}}
-\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00425\ \ \ \ \ \}}
-\DoxyCodeLine{00426\ }
-\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::ok(total);}
-\DoxyCodeLine{00428\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_ad939e7b360e36d83237f6e846a8630dc}\index{Arena@{Arena}!get\_used\_bytes@{get\_used\_bytes}}
-\index{get\_used\_bytes@{get\_used\_bytes}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{get\_used\_bytes()}{get\_used\_bytes()}}
-{\footnotesize\ttfamily \label{class_arena_ad939e7b360e36d83237f6e846a8630dc} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ Arena::\+get\+\_\+used\+\_\+bytes (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00431\ \{}
-\DoxyCodeLine{00432\ \ \ \ \ std::uint64\_t\ total\ =\ 0;}
-\DoxyCodeLine{00433\ }
-\DoxyCodeLine{00434\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ add\_used\ =\ [\&total](\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ page)\ -\/>\ \textcolor{keywordtype}{bool}}
-\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (total\ >\ std::numeric\_limits<std::uint64\_t>::max()\ -\/\ page.used)}
-\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00440\ }
-\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ total\ +=\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(page.used);}
-\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \};}
-\DoxyCodeLine{00444\ }
-\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ page\ :\ pages\_)}
-\DoxyCodeLine{00446\ \ \ \ \ \{}
-\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!add\_used(page))}
-\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::fail(}
-\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ used-\/byte\ count\ overflowed\ uint64\_t"{}}}
-\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00456\ \ \ \ \ \}}
-\DoxyCodeLine{00457\ }
-\DoxyCodeLine{00458\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ page\ :\ large\_)}
-\DoxyCodeLine{00459\ \ \ \ \ \{}
-\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!add\_used(page))}
-\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::fail(}
-\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ used-\/byte\ count\ overflowed\ uint64\_t"{}}}
-\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00469\ \ \ \ \ \}}
-\DoxyCodeLine{00470\ }
-\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::ok(total);}
-\DoxyCodeLine{00472\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_a2fabc74a66006497be49f174e6ec88e8}\index{Arena@{Arena}!poison@{poison}}
-\index{poison@{poison}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{poison()}{poison()}}
-{\footnotesize\ttfamily \label{class_arena_a2fabc74a66006497be49f174e6ec88e8} 
-void Arena::\+poison (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{memory}{, }\item[{std::\+size\+\_\+t}]{size}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [private]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00588\ \{}
-\DoxyCodeLine{00589\ \ \ \ \ \textcolor{keywordflow}{if}\ (memory\ ==\ \textcolor{keyword}{nullptr}\ ||\ size\ ==\ 0)}
-\DoxyCodeLine{00590\ \ \ \ \ \{}
-\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00592\ \ \ \ \ \}}
-\DoxyCodeLine{00593\ }
-\DoxyCodeLine{00594\ \ \ \ \ std::memset(memory,\ std::to\_integer<int>(poison\_byte\_),\ size);}
-\DoxyCodeLine{00595\ \}}
-
-\end{DoxyCode}
-\Hypertarget{class_arena_ac04f2d5dd278226ef2a60deefbeccd8e}\index{Arena@{Arena}!register\_destructor@{register\_destructor}}
-\index{register\_destructor@{register\_destructor}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{register\_destructor()}{register\_destructor()}}
-{\footnotesize\ttfamily \label{class_arena_ac04f2d5dd278226ef2a60deefbeccd8e} 
-bool Arena::\+register\+\_\+destructor (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{object}{, }\item[{std::\+size\+\_\+t}]{count}{, }\item[{Destroy\+Function}]{destroy}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}, {\ttfamily [noexcept]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00559\ \{}
-\DoxyCodeLine{00560\ \ \ \ \ assert(\textcolor{keywordtype}{object}\ !=\ \textcolor{keyword}{nullptr});}
-\DoxyCodeLine{00561\ \ \ \ \ assert(count\ >\ 0);}
-\DoxyCodeLine{00562\ \ \ \ \ assert(destroy\ !=\ \textcolor{keyword}{nullptr});}
-\DoxyCodeLine{00563\ }
-\DoxyCodeLine{00564\ \ \ \ \ \textcolor{keywordflow}{try}}
-\DoxyCodeLine{00565\ \ \ \ \ \{}
-\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ destructors\_.push\_back(\doxymbox{\hyperlink{struct_arena_1_1_destructor_entry}{DestructorEntry}}\{\ object,\ count,\ destroy\ \});}
-\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
-\DoxyCodeLine{00568\ \ \ \ \ \}}
-\DoxyCodeLine{00569\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)}
-\DoxyCodeLine{00570\ \ \ \ \ \{}
-\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
-\DoxyCodeLine{00572\ \ \ \ \ \}}
-\DoxyCodeLine{00573\ \}}
-
-\end{DoxyCode}
 \Hypertarget{class_arena_ae09fa630deb2e929aec2b1337cc28d51}\index{Arena@{Arena}!reset@{reset}}
 \index{reset@{reset}!Arena@{Arena}}
 \doxysubsubsection{\texorpdfstring{reset()}{reset()}}
@@ -705,32 +73,18 @@ bool Arena::\+register\+\_\+destructor (\begin{DoxyParamCaption}\item[{void \tex
 void Arena::\+reset (\begin{DoxyParamCaption}\item[{bool}]{release\+\_\+all}{ = {\ttfamily false}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00530\ \{}
-\DoxyCodeLine{00531\ \ \ \ \ destroy\_to(0);}
-\DoxyCodeLine{00532\ }
-\DoxyCodeLine{00533\ \ \ \ \ large\_.clear();}
-\DoxyCodeLine{00534\ }
-\DoxyCodeLine{00535\ \ \ \ \ \textcolor{keywordflow}{if}\ (release\_all)}
-\DoxyCodeLine{00536\ \ \ \ \ \{}
-\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ pages\_.clear();}
-\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
-\DoxyCodeLine{00539\ \ \ \ \ \}}
-\DoxyCodeLine{00540\ }
-\DoxyCodeLine{00541\ \ \ \ \ \textcolor{keywordflow}{if}\ (!pages\_.empty())}
-\DoxyCodeLine{00542\ \ \ \ \ \{}
-\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ first\ =\ pages\_.front();}
-\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ poison(first.base,\ first.cap);}
-\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ first.used\ =\ 0;}
-\DoxyCodeLine{00546\ }
-\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pages\_.size()\ >\ 1)}
-\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ pages\_.resize(1);}
-\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00551\ \ \ \ \ \}}
-\DoxyCodeLine{00552\ \}}
 
-\end{DoxyCode}
+Destroys all arena-\/owned objects and resets allocation state. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em release\+\_\+all} & When false, retains the first normal page for reuse. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line \doxymbox{\hyperlink{arena_8cpp_source_l00534}{534}} of file \doxymbox{\hyperlink{arena_8cpp_source}{arena.\+cpp}}.
+
 \Hypertarget{class_arena_a90fa6400f0e68493c45b504ce60bcb34}\index{Arena@{Arena}!rollback@{rollback}}
 \index{rollback@{rollback}!Arena@{Arena}}
 \doxysubsubsection{\texorpdfstring{rollback()}{rollback()}}
@@ -738,222 +92,21 @@ void Arena::\+reset (\begin{DoxyParamCaption}\item[{bool}]{release\+\_\+all}{ = 
 void Arena::\+rollback (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Checkpoint}} \&}]{cp}{}\end{DoxyParamCaption})}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00486\ \{}
-\DoxyCodeLine{00487\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ valid\ =}
-\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ cp.owner\ ==\ \textcolor{keyword}{this}\ \&\&}
-\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ cp.page\_count\ <=\ pages\_.size()\ \&\&}
-\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ cp.large\_count\ <=\ large\_.size()\ \&\&}
-\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ cp.destructor\_count\ <=\ destructors\_.size()\ \&\&}
-\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ (cp.page\_count\ ==\ 0\ ||}
-\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ cp.page\_used\ <=\ pages\_[cp.page\_count\ -\/\ 1].used);}
-\DoxyCodeLine{00494\ }
-\DoxyCodeLine{00495\ \ \ \ \ \textcolor{keywordflow}{if}\ (!valid)}
-\DoxyCodeLine{00496\ \ \ \ \ \{}
-\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
-\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ checkpoint\ is\ foreign\ or\ no\ longer\ reachable"{}}}
-\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00500\ \ \ \ \ \}}
-\DoxyCodeLine{00501\ }
-\DoxyCodeLine{00502\ \ \ \ \ \textcolor{comment}{//\ Objects\ must\ die\ while\ their\ backing\ pages\ are\ still\ allocated.}}
-\DoxyCodeLine{00503\ \ \ \ \ destroy\_to(cp.destructor\_count);}
-\DoxyCodeLine{00504\ }
-\DoxyCodeLine{00505\ \ \ \ \ \textcolor{keywordflow}{if}\ (pages\_.size()\ >\ cp.page\_count)}
-\DoxyCodeLine{00506\ \ \ \ \ \{}
-\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ pages\_.resize(cp.page\_count);}
-\DoxyCodeLine{00508\ \ \ \ \ \}}
-\DoxyCodeLine{00509\ }
-\DoxyCodeLine{00510\ \ \ \ \ \textcolor{keywordflow}{if}\ (cp.page\_count\ >\ 0)}
-\DoxyCodeLine{00511\ \ \ \ \ \{}
-\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ checkpoint\_page\ =\ pages\_.back();}
-\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (checkpoint\_page.used\ >\ cp.page\_used)}
-\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ poison(}
-\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::byte*\textcolor{keyword}{>}(checkpoint\_page.base)\ +\ cp.page\_used,}
-\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ checkpoint\_page.used\ -\/\ cp.page\_used}
-\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ checkpoint\_page.used\ =\ cp.page\_used;}
-\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00521\ \ \ \ \ \}}
-\DoxyCodeLine{00522\ }
-\DoxyCodeLine{00523\ \ \ \ \ \textcolor{keywordflow}{if}\ (large\_.size()\ >\ cp.large\_count)}
-\DoxyCodeLine{00524\ \ \ \ \ \{}
-\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ large\_.resize(cp.large\_count);}
-\DoxyCodeLine{00526\ \ \ \ \ \}}
-\DoxyCodeLine{00527\ \}}
 
-\end{DoxyCode}
+Destroys objects and reclaims allocations made after {\ttfamily cp}. 
 
 
-\label{class_arena_doc-related-members}
-\Hypertarget{class_arena_doc-related-members}
-\doxysubsection{Friends And Related Symbol Documentation}
-\Hypertarget{class_arena_a05b3ed9eb95d9fb4ca9d703ae485b61c}\index{Arena@{Arena}!arena\_new@{arena\_new}}
-\index{arena\_new@{arena\_new}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{arena\_new}{arena\_new}}
-{\footnotesize\ttfamily \label{class_arena_a05b3ed9eb95d9fb4ca9d703ae485b61c} 
-template$<$class T, class... Args$>$ \\
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ T \texorpdfstring{$\ast$}{*} $>$ arena\+\_\+new (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{, }\item[{Args \&\&...}]{args}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+\begin{DoxyExceptions}{Exceptions}
+{\em std::\+invalid\+\_\+argument} & If the checkpoint is foreign or no longer reachable from the current arena state. \\
+\hline
+\end{DoxyExceptions}
 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00291\ \{}
-\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_object\_v<T>,\ \textcolor{stringliteral}{"{}T\ must\ be\ an\ object\ type"{}});}
-\DoxyCodeLine{00293\ \ \ \ \ \textcolor{keyword}{static\_assert}(!std::is\_array\_v<T>,\ \textcolor{stringliteral}{"{}Use\ arena\_new\_array\ for\ arrays"{}});}
-\DoxyCodeLine{00294\ \ \ \ \ \textcolor{keyword}{static\_assert}(}
-\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ std::is\_nothrow\_destructible\_v<T>,}
-\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena-\/managed\ destructors\ must\ be\ noexcept"{}}}
-\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00298\ }
-\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keyword}{const}\ Arena::Checkpoint\ cp\ =\ arena.checkpoint();}
-\DoxyCodeLine{00300\ }
-\DoxyCodeLine{00301\ \ \ \ \ Result<void*>\ allocation\ =\ arena.alloc(\textcolor{keyword}{sizeof}(T),\ \textcolor{keyword}{alignof}(T));}
-\DoxyCodeLine{00302\ \ \ \ \ \textcolor{keywordflow}{if}\ (!allocation.is\_ok())}
-\DoxyCodeLine{00303\ \ \ \ \ \{}
-\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(std::move(allocation.status));}
-\DoxyCodeLine{00305\ \ \ \ \ \}}
-\DoxyCodeLine{00306\ }
-\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keyword}{auto}*\ object\_memory\ =\ \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(allocation.value);}
-\DoxyCodeLine{00308\ \ \ \ \ assert(object\_memory\ !=\ \textcolor{keyword}{nullptr});}
-\DoxyCodeLine{00309\ }
-\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keywordflow}{try}}
-\DoxyCodeLine{00311\ \ \ \ \ \{}
-\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ T*\ \textcolor{keywordtype}{object}\ =\ std::construct\_at(}
-\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ object\_memory,}
-\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Args>(args)...}
-\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00316\ }
-\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (!std::is\_trivially\_destructible\_v<T>)}
-\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!arena.register\_destructor(}
-\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{object},}
-\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1,}
-\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&arena\_detail::destroy\_objects<T>}
-\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ ))}
-\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::destroy\_at(\textcolor{keywordtype}{object});}
-\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(cp);}
-\DoxyCodeLine{00327\ }
-\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(}
-\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
-\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ register\ arena\ object\ destructor"{}}}
-\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00336\ }
-\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::ok(\textcolor{keywordtype}{object});}
-\DoxyCodeLine{00338\ \ \ \ \ \}}
-\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordflow}{catch}\ (...)}
-\DoxyCodeLine{00340\ \ \ \ \ \{}
-\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ arena.rollback(cp);}
-\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw};}
-\DoxyCodeLine{00343\ \ \ \ \ \}}
-\DoxyCodeLine{00344\ \}}
+Definition at line \doxymbox{\hyperlink{arena_8cpp_source_l00490}{490}} of file \doxymbox{\hyperlink{arena_8cpp_source}{arena.\+cpp}}.
 
-\end{DoxyCode}
-\Hypertarget{class_arena_a566959fe14aea7130711c76529ddf6a8}\index{Arena@{Arena}!arena\_new\_array@{arena\_new\_array}}
-\index{arena\_new\_array@{arena\_new\_array}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{arena\_new\_array}{arena\_new\_array}}
-{\footnotesize\ttfamily \label{class_arena_a566959fe14aea7130711c76529ddf6a8} 
-template$<$class T$>$ \\
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ T \texorpdfstring{$\ast$}{*} $>$ arena\+\_\+new\+\_\+array (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{, }\item[{std::\+size\+\_\+t}]{count}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00348\ \{}
-\DoxyCodeLine{00349\ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_object\_v<T>,\ \textcolor{stringliteral}{"{}T\ must\ be\ an\ object\ type"{}});}
-\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keyword}{static\_assert}(!std::is\_array\_v<T>,\ \textcolor{stringliteral}{"{}Nested\ arrays\ are\ not\ supported"{}});}
-\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keyword}{static\_assert}(}
-\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ std::is\_nothrow\_destructible\_v<T>,}
-\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena-\/managed\ destructors\ must\ be\ noexcept"{}}}
-\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00355\ }
-\DoxyCodeLine{00356\ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ ==\ 0)}
-\DoxyCodeLine{00357\ \ \ \ \ \{}
-\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(}
-\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{\ StatusCode::InvalidArgument,\ \textcolor{stringliteral}{"{}Array\ count\ is\ zero"{}}\ \}}
-\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00361\ \ \ \ \ \}}
-\DoxyCodeLine{00362\ }
-\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ >\ std::numeric\_limits<std::size\_t>::max()\ /\ \textcolor{keyword}{sizeof}(T))}
-\DoxyCodeLine{00364\ \ \ \ \ \{}
-\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(}
-\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
-\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ array\ byte\ size\ overflows\ size\_t"{}}}
-\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00371\ \ \ \ \ \}}
-\DoxyCodeLine{00372\ }
-\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keyword}{const}\ Arena::Checkpoint\ cp\ =\ arena.checkpoint();}
-\DoxyCodeLine{00374\ }
-\DoxyCodeLine{00375\ \ \ \ \ Result<void*>\ allocation\ =\ arena.alloc(\textcolor{keyword}{sizeof}(T)\ *\ count,\ \textcolor{keyword}{alignof}(T));}
-\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keywordflow}{if}\ (!allocation.is\_ok())}
-\DoxyCodeLine{00377\ \ \ \ \ \{}
-\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(std::move(allocation.status));}
-\DoxyCodeLine{00379\ \ \ \ \ \}}
-\DoxyCodeLine{00380\ }
-\DoxyCodeLine{00381\ \ \ \ \ \textcolor{keyword}{auto}*\ objects\ =\ \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(allocation.value);}
-\DoxyCodeLine{00382\ \ \ \ \ assert(objects\ !=\ \textcolor{keyword}{nullptr});}
-\DoxyCodeLine{00383\ }
-\DoxyCodeLine{00384\ \ \ \ \ \textcolor{keywordflow}{try}}
-\DoxyCodeLine{00385\ \ \ \ \ \{}
-\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ count;\ ++i)}
-\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ T*\ \textcolor{keywordtype}{object}\ =\ std::construct\_at(objects\ +\ i);}
-\DoxyCodeLine{00389\ }
-\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (!std::is\_trivially\_destructible\_v<T>)}
-\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!arena.register\_destructor(}
-\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{object},}
-\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1,}
-\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&arena\_detail::destroy\_objects<T>}
-\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ))}
-\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
-\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::destroy\_at(\textcolor{keywordtype}{object});}
-\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(cp);}
-\DoxyCodeLine{00400\ }
-\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(}
-\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
-\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ register\ arena\ array\ destructor"{}}}
-\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{00410\ }
-\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::ok(objects);}
-\DoxyCodeLine{00412\ \ \ \ \ \}}
-\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordflow}{catch}\ (...)}
-\DoxyCodeLine{00414\ \ \ \ \ \{}
-\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ arena.rollback(cp);}
-\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw};}
-\DoxyCodeLine{00417\ \ \ \ \ \}}
-\DoxyCodeLine{00418\ \}}
-
-\end{DoxyCode}
-
-
-\label{class_arena_doc-variable-members}
-\Hypertarget{class_arena_doc-variable-members}
-\doxysubsection{Member Data Documentation}
-\Hypertarget{class_arena_adacb251a6d253d292c09fa1fa705acf7}\index{Arena@{Arena}!poison\_byte\_@{poison\_byte\_}}
-\index{poison\_byte\_@{poison\_byte\_}!Arena@{Arena}}
-\doxysubsubsection{\texorpdfstring{poison\_byte\_}{poison\_byte\_}}
-{\footnotesize\ttfamily \label{class_arena_adacb251a6d253d292c09fa1fa705acf7} 
-std::\+byte Arena::\+poison\+\_\+byte\+\_\+ \{ 0x\+CD \}\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [constexpr]}, {\ttfamily [private]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{00175\ \{\ 0xCD\ \};}
-
-\end{DoxyCode}
 
 
 The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+arena.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+arena.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{arena_8h}{arena.\+h}}\item 
+arena.\+cpp\end{DoxyCompactItemize}

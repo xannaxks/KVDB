@@ -1,219 +1,37 @@
 \doxysection{WALLoader Class Reference}
 \hypertarget{class_w_a_l_loader}{}\label{class_w_a_l_loader}\index{WALLoader@{WALLoader}}
+
+
+Batch recovery of every complete logical record in a \doxylink{class_w_a_l}{WAL}.  
+
+
+
+
+{\ttfamily \+\#include $<$wal.\+h$>$}
+
 \doxysubsubsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{Load\+Result}}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Batch recovery result and tail classification. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{Load\+Result}} $>$ \doxymbox{\hyperlink{class_w_a_l_loader_aec824af81344cc1179c5ae97c8a534ba}{load}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset, std::\+uint32\+\_\+t expected\+\_\+wal\+\_\+id, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
-\item 
-static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{Load\+Result}} $>$ \doxymbox{\hyperlink{class_w_a_l_loader_a240ce1841a1f1a32942d5dfed7beb5de}{load}} (const std::\+filesystem::\+path \&path, std::\+uint32\+\_\+t expected\+\_\+wal\+\_\+id, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
-\end{DoxyCompactItemize}
+\Hypertarget{class_w_a_l_loader_aec824af81344cc1179c5ae97c8a534ba}\label{class_w_a_l_loader_aec824af81344cc1179c5ae97c8a534ba} 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{Load\+Result}} $>$ {\bfseries load} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset, std::\+uint32\+\_\+t expected\+\_\+wal\+\_\+id, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\begin{DoxyCompactList}\small\item\em Replays a \doxylink{class_w_a_l}{WAL} from an already-\/open file. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
-\label{class_w_a_l_loader_doc-func-members}
-\Hypertarget{class_w_a_l_loader_doc-func-members}
-\doxysubsection{Member Function Documentation}
-\Hypertarget{class_w_a_l_loader_a240ce1841a1f1a32942d5dfed7beb5de}\index{WALLoader@{WALLoader}!load@{load}}
-\index{load@{load}!WALLoader@{WALLoader}}
-\doxysubsubsection{\texorpdfstring{load()}{load()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily \label{class_w_a_l_loader_a240ce1841a1f1a32942d5dfed7beb5de} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{WALLoader::\+\+Load\+Result}} $>$ WALLoader::\+load (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{std::\+uint32\+\_\+t}]{expected\+\_\+wal\+\_\+id}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+\doxysubsection{Detailed Description}
+Batch recovery of every complete logical record in a \doxylink{class_w_a_l}{WAL}. 
 
+Recovery accepts a torn final fragment as an incomplete tail, but rejects checksum, ordering, and fragmentation errors in the durable prefix. 
 
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01727\ \{}
-\DoxyCodeLine{01728\ \ \ \ \ \textcolor{keywordflow}{if}\ (path.empty())\ \{}
-\DoxyCodeLine{01729\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01730\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{01731\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
-\DoxyCodeLine{01732\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ path\ is\ empty"{}}}
-\DoxyCodeLine{01733\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01734\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01735\ \ \ \ \ \}}
-\DoxyCodeLine{01736\ }
-\DoxyCodeLine{01737\ \ \ \ \ Result<std::unique\_ptr<ReadableFile>>\ open\_result;}
-\DoxyCodeLine{01738\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{01739\ \ \ \ \ \ \ \ \ open\_result\ =\ open\_readable\_file(path);}
-\DoxyCodeLine{01740\ \ \ \ \ \}}
-\DoxyCodeLine{01741\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
-\DoxyCodeLine{01742\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01743\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{01744\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
-\DoxyCodeLine{01745\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ allocate\ readable\ WAL\ file"{}}}
-\DoxyCodeLine{01746\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01747\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01748\ \ \ \ \ \}}
-\DoxyCodeLine{01749\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&\ exception)\ \{}
-\DoxyCodeLine{01750\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01751\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{01752\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OpenFailed,}
-\DoxyCodeLine{01753\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ open\ WAL\ for\ recovery:\ "{}}\ +}
-\DoxyCodeLine{01754\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string(exception.what())}
-\DoxyCodeLine{01755\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01756\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01757\ \ \ \ \ \}}
-\DoxyCodeLine{01758\ }
-\DoxyCodeLine{01759\ \ \ \ \ \textcolor{keywordflow}{if}\ (!open\_result.is\_ok())\ \{}
-\DoxyCodeLine{01760\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01761\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(open\_result.status)}
-\DoxyCodeLine{01762\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01763\ \ \ \ \ \}}
-\DoxyCodeLine{01764\ }
-\DoxyCodeLine{01765\ \ \ \ \ \textcolor{keywordflow}{if}\ (!open\_result.value)}
-\DoxyCodeLine{01766\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01767\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{01768\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadFileDescriptor,}
-\DoxyCodeLine{01769\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}opening\ WAL\ returned\ a\ null\ readable\ file"{}}}
-\DoxyCodeLine{01770\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01771\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01772\ }
-\DoxyCodeLine{01773\ \ \ \ \ std::unique\_ptr<ReadableFile>\ file\ =}
-\DoxyCodeLine{01774\ \ \ \ \ \ \ \ \ std::move(open\_result.value);}
-\DoxyCodeLine{01775\ }
-\DoxyCodeLine{01776\ \ \ \ \ std::uint64\_t\ offset\ =\ 0;}
-\DoxyCodeLine{01777\ \ \ \ \ Result<LoadResult>\ load\_result\ =}
-\DoxyCodeLine{01778\ \ \ \ \ \ \ \ \ WALLoader::load(*file,\ offset,\ expected\_wal\_id,\ arena);}
-\DoxyCodeLine{01779\ }
-\DoxyCodeLine{01780\ \ \ \ \ Status\ close\_status\ =\ file-\/>close();}
-\DoxyCodeLine{01781\ }
-\DoxyCodeLine{01782\ \ \ \ \ \textcolor{keywordflow}{if}\ (!load\_result.is\_ok())\ \{}
-\DoxyCodeLine{01783\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ load\_result;}
-\DoxyCodeLine{01784\ \ \ \ \ \}}
-\DoxyCodeLine{01785\ }
-\DoxyCodeLine{01786\ \ \ \ \ \textcolor{keywordflow}{if}\ (!close\_status.is\_ok())\ \{}
-\DoxyCodeLine{01787\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01788\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(close\_status)}
-\DoxyCodeLine{01789\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01790\ \ \ \ \ \}}
-\DoxyCodeLine{01791\ }
-\DoxyCodeLine{01792\ \ \ \ \ \textcolor{keywordflow}{return}\ load\_result;}
-\DoxyCodeLine{01793\ \}}
+Definition at line \doxymbox{\hyperlink{wal_8h_source_l00269}{269}} of file \doxymbox{\hyperlink{wal_8h_source}{wal.\+h}}.
 
-\end{DoxyCode}
-\Hypertarget{class_w_a_l_loader_aec824af81344cc1179c5ae97c8a534ba}\index{WALLoader@{WALLoader}!load@{load}}
-\index{load@{load}!WALLoader@{WALLoader}}
-\doxysubsubsection{\texorpdfstring{load()}{load()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily \label{class_w_a_l_loader_aec824af81344cc1179c5ae97c8a534ba} 
-\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{WALLoader::\+\+Load\+Result}} $>$ WALLoader::\+load (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{, }\item[{std::\+uint32\+\_\+t}]{expected\+\_\+wal\+\_\+id}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
-
-
-\begin{DoxyCode}{0}
-\DoxyCodeLine{01614\ \{}
-\DoxyCodeLine{01615\ \ \ \ \ \doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{LoadResult}}\ result\{\};}
-\DoxyCodeLine{01616\ }
-\DoxyCodeLine{01617\ \ \ \ \ Result<std::optional<WALFileHeader>>\ header\_result\ =}
-\DoxyCodeLine{01618\ \ \ \ \ \ \ \ \ WALFileHeader::load(file,\ expected\_wal\_id,\ offset);}
-\DoxyCodeLine{01619\ \ \ \ \ \textcolor{keywordflow}{if}\ (!header\_result.is\_ok())\ \{}
-\DoxyCodeLine{01620\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01621\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(header\_result.status)}
-\DoxyCodeLine{01622\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01623\ \ \ \ \ \}}
-\DoxyCodeLine{01624\ }
-\DoxyCodeLine{01625\ \ \ \ \ \textcolor{keywordflow}{if}\ (!header\_result.value.has\_value())\ \{}
-\DoxyCodeLine{01626\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01627\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{01628\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
-\DoxyCodeLine{01629\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ file\ is\ empty\ and\ has\ no\ header"{}}}
-\DoxyCodeLine{01630\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01631\ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01632\ \ \ \ \ \}}
-\DoxyCodeLine{01633\ }
-\DoxyCodeLine{01634\ \ \ \ \ result.header\ =\ std::move(header\_result.value);}
-\DoxyCodeLine{01635\ }
-\DoxyCodeLine{01636\ \ \ \ \ LogicalRecordAssembler\ assembler;}
-\DoxyCodeLine{01637\ \ \ \ \ std::uint64\_t\ last\_good\_offset\ =\ offset;}
-\DoxyCodeLine{01638\ \ \ \ \ Arena::Checkpoint\ record\_checkpoint\ =\ arena.checkpoint();}
-\DoxyCodeLine{01639\ }
-\DoxyCodeLine{01640\ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})\ \{}
-\DoxyCodeLine{01641\ }
-\DoxyCodeLine{01642\ \ \ \ \ \ \ \ \ Result<std::optional<Fragment>>\ fragment\_result\ =}
-\DoxyCodeLine{01643\ \ \ \ \ \ \ \ \ \ \ \ \ Fragment::load(file,\ offset);}
-\DoxyCodeLine{01644\ }
-\DoxyCodeLine{01645\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!fragment\_result.is\_ok())\ \{}
-\DoxyCodeLine{01646\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ StatusCode\ code\ =\ fragment\_result.status.code;}
-\DoxyCodeLine{01647\ \ \ \ \ \ \ \ \ \ \ \ \ result.error\ =\ fragment\_result.status.message;}
-\DoxyCodeLine{01648\ }
-\DoxyCodeLine{01649\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_recoverable\_tail\_error(code))\ \{}
-\DoxyCodeLine{01650\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(record\_checkpoint);}
-\DoxyCodeLine{01651\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ last\_good\_offset;}
-\DoxyCodeLine{01652\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.had\_torn\_tail\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01653\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.ok\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01654\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{01655\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01656\ }
-\DoxyCodeLine{01657\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (is\_corruption\_error(code))\ \{}
-\DoxyCodeLine{01658\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(record\_checkpoint);}
-\DoxyCodeLine{01659\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ last\_good\_offset;}
-\DoxyCodeLine{01660\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.had\_corruption\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01661\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.ok\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{01662\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{01663\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01664\ }
-\DoxyCodeLine{01665\ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(record\_checkpoint);}
-\DoxyCodeLine{01666\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ last\_good\_offset;}
-\DoxyCodeLine{01667\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01668\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(fragment\_result.status)}
-\DoxyCodeLine{01669\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01670\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01671\ }
-\DoxyCodeLine{01672\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!fragment\_result.value.has\_value())\ \{}
-\DoxyCodeLine{01673\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (assembler.active())\ \{}
-\DoxyCodeLine{01674\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(record\_checkpoint);}
-\DoxyCodeLine{01675\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ last\_good\_offset;}
-\DoxyCodeLine{01676\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.had\_torn\_tail\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01677\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.error\ =}
-\DoxyCodeLine{01678\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ ended\ before\ the\ LAST\ fragment\ of\ a\ logical\ record"{}};}
-\DoxyCodeLine{01679\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01680\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{01681\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01682\ }
-\DoxyCodeLine{01683\ \ \ \ \ \ \ \ \ Result<std::optional<InternalRecord>>\ assembled\ =}
-\DoxyCodeLine{01684\ \ \ \ \ \ \ \ \ \ \ \ \ assembler.consume(*fragment\_result.value,\ arena);}
-\DoxyCodeLine{01685\ }
-\DoxyCodeLine{01686\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!assembled.is\_ok())\ \{}
-\DoxyCodeLine{01687\ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(record\_checkpoint);}
-\DoxyCodeLine{01688\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ last\_good\_offset;}
-\DoxyCodeLine{01689\ \ \ \ \ \ \ \ \ \ \ \ \ result.had\_corruption\ =\ \textcolor{keyword}{true};}
-\DoxyCodeLine{01690\ \ \ \ \ \ \ \ \ \ \ \ \ result.ok\ =\ \textcolor{keyword}{false};}
-\DoxyCodeLine{01691\ \ \ \ \ \ \ \ \ \ \ \ \ result.error\ =\ assembled.status.message;}
-\DoxyCodeLine{01692\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
-\DoxyCodeLine{01693\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01694\ }
-\DoxyCodeLine{01695\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!assembled.value.has\_value())\ \{}
-\DoxyCodeLine{01696\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
-\DoxyCodeLine{01697\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01698\ }
-\DoxyCodeLine{01699\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
-\DoxyCodeLine{01700\ \ \ \ \ \ \ \ \ \ \ \ \ result.records.emplace\_back(}
-\DoxyCodeLine{01701\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(*assembled.value)}
-\DoxyCodeLine{01702\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01703\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01704\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
-\DoxyCodeLine{01705\ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(record\_checkpoint);}
-\DoxyCodeLine{01706\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ last\_good\_offset;}
-\DoxyCodeLine{01707\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::fail(}
-\DoxyCodeLine{01708\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
-\DoxyCodeLine{01709\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
-\DoxyCodeLine{01710\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ store\ recovered\ WAL\ record"{}}}
-\DoxyCodeLine{01711\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01712\ \ \ \ \ \ \ \ \ \ \ \ \ );}
-\DoxyCodeLine{01713\ \ \ \ \ \ \ \ \ \}}
-\DoxyCodeLine{01714\ }
-\DoxyCodeLine{01715\ \ \ \ \ \ \ \ \ last\_good\_offset\ =\ offset;}
-\DoxyCodeLine{01716\ \ \ \ \ \ \ \ \ record\_checkpoint\ =\ arena.checkpoint();}
-\DoxyCodeLine{01717\ \ \ \ \ \}}
-\DoxyCodeLine{01718\ }
-\DoxyCodeLine{01719\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<LoadResult>::ok(std::move(result));}
-\DoxyCodeLine{01720\ \}}
-
-\end{DoxyCode}
 
 
 The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
 \item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+wal.\+h\item 
-C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+wal.\+cpp\end{DoxyCompactItemize}
+\doxymbox{\hyperlink{wal_8h}{wal.\+h}}\item 
+wal.\+cpp\end{DoxyCompactItemize}

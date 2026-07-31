@@ -1,3 +1,7 @@
+/**
+ * @file bloom_section.h
+ * @brief Fixed-size Bloom filter section for negative SSTable lookups.
+ */
 #pragma once
 
 #include <array>
@@ -10,6 +14,12 @@
 
 namespace SSTableEntities
 {
+    /**
+     * @brief Version-1 Bloom filter and its checksummed disk representation.
+     *
+     * The filter may return false only for a valid filter that definitely lacks
+     * the key. Malformed state deliberately fails open to avoid hiding records.
+     */
     struct BloomSection
     {
         struct Header
@@ -120,12 +130,14 @@ namespace SSTableEntities
         );
 
         // Rebuild is transactional with respect to the in-memory BloomSection.
+        /** @brief Transactionally rebuilds the filter from all data records. */
         [[nodiscard]] Status rebuild(const DataSection& data_section);
         [[nodiscard]] Status recompute_crc32();
 
         // A malformed filter must fail open: true means the caller must still
         // check the SSTable. Returning false from invalid state could create a
         // Bloom-filter false negative and hide a real key.
+        /** @brief Returns false only when a valid filter excludes the key. */
         [[nodiscard]] bool may_contain(
             const void* key_ptr,
             std::uint32_t key_size

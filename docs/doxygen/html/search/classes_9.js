@@ -1,7 +1,9 @@
 var searchData=
 [
-  ['levelmanager_0',['LevelManager',['../class_level_manager.html',1,'']]],
-  ['lifetimecounter_1',['LifetimeCounter',['../structanonymous__namespace_02arena__test_8cpp_03_1_1_lifetime_counter.html',1,'anonymous_namespace{arena_test.cpp}']]],
-  ['loadresult_2',['LoadResult',['../struct_w_a_l_loader_1_1_load_result.html',1,'WALLoader::LoadResult'],['../struct_w_a_l_streaming_loader_1_1_load_result.html',1,'WALStreamingLoader::LoadResult']]],
-  ['logicalrecordassembler_3',['LogicalRecordAssembler',['../classanonymous__namespace_02wal_8cpp_03_1_1_logical_record_assembler.html',1,'anonymous_namespace{wal.cpp}']]]
+  ['manifest_0',['Manifest',['../class_manifest.html',1,'']]],
+  ['manifestoptions_1',['ManifestOptions',['../structkvdb_1_1_d_b_options_1_1_manifest_options.html',1,'kvdb::DBOptions']]],
+  ['memtable_2',['MemTable',['../class_mem_table.html',1,'']]],
+  ['memtableoptions_3',['MemTableOptions',['../structkvdb_1_1_d_b_options_1_1_mem_table_options.html',1,'kvdb::DBOptions']]],
+  ['mergeiterator_4',['MergeIterator',['../class_merge_iterator.html',1,'']]],
+  ['metasection_5',['MetaSection',['../struct_s_s_table_entities_1_1_meta_section.html',1,'SSTableEntities']]]
 ];

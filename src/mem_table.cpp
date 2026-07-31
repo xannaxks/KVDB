@@ -1,3 +1,8 @@
+// Generation handling:
+// Readers take a shared lock and compare the active tree with immutable trees
+// from newest to oldest. A freeze uses the exclusive lock to enqueue the old
+// tree and install a new one. Flush code pins the oldest tree with shared_ptr,
+// then retires it by generation id only after durable SSTable publication.
 #include "mem_table.h"
 
 #include <mutex>

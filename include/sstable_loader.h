@@ -1,3 +1,7 @@
+/**
+ * @file sstable_loader.h
+ * @brief Convenience entry point for validated SSTable loading.
+ */
 #pragma once
 
 #include "arena.h"
@@ -6,6 +10,7 @@
 
 #include <filesystem>
 
+/** @brief Stateless facade around SSTable::load(). */
 class SSTableLoader
 {
 public:

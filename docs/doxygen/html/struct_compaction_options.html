@@ -9,6 +9,9 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
 <script type="text/javascript" src="cookie.js"></script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', codefold.init);
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript">
 document.addEventListener('DOMContentLoaded', () => {
-  initMenu('',false);
+  initMenu('',true);
   init_search();
 });
 </script>
@@ -75,6 +78,22 @@ document.addEventListener('DOMContentLoaded', () => {
     </li>
   </ul>
 </div><!-- main-nav -->
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded',() => { initNavTree('struct_compaction_options.html','','struct_compaction_options-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -96,167 +115,43 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 </div>
 
-</div><!-- top -->
-<div id="doc-content">
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="struct_compaction_options-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">CompactionOptions Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Validated policy for deciding and shaping level compactions.  
+ <a href="#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="compaction__options_8h_source.html">compaction_options.h</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a41b7edab666e2c3c21a3248a794a8c48" id="r_a41b7edab666e2c3c21a3248a794a8c48"><td class="memItemLeft"><a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><a class="el" href="#a41b7edab666e2c3c21a3248a794a8c48">validate</a> () const</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 id="header-pub-attribs" class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
-Public Attributes</h2></td></tr>
-<tr class="memitem:acbab9e77c54dfe1d3f6009767705c203" id="r_acbab9e77c54dfe1d3f6009767705c203"><td class="memItemLeft"><a id="acbab9e77c54dfe1d3f6009767705c203" name="acbab9e77c54dfe1d3f6009767705c203"></a>
-std::uint32_t&#160;</td><td class="memItemRight"><b>max_levels</b> = 7</td></tr>
-<tr class="memitem:acdc2cd854d0b01dd4e0b27816f4ba89a" id="r_acdc2cd854d0b01dd4e0b27816f4ba89a"><td class="memItemLeft"><a id="acdc2cd854d0b01dd4e0b27816f4ba89a" name="acdc2cd854d0b01dd4e0b27816f4ba89a"></a>
-std::uint32_t&#160;</td><td class="memItemRight"><b>l0_file_count_trigger</b> = 4</td></tr>
-<tr class="memitem:a4490437d733eb00424314302f289f8f1" id="r_a4490437d733eb00424314302f289f8f1"><td class="memItemLeft">std::vector&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#a4490437d733eb00424314302f289f8f1">max_bytes_per_level</a></td></tr>
-<tr class="memitem:affe5fa2d909cce0abebc204be8be2c7a" id="r_affe5fa2d909cce0abebc204be8be2c7a"><td class="memItemLeft">std::vector&lt; std::uint64_t &gt;&#160;</td><td class="memItemRight"><a class="el" href="#affe5fa2d909cce0abebc204be8be2c7a">target_file_size_per_level</a></td></tr>
+<tr class="memitem:a41b7edab666e2c3c21a3248a794a8c48" id="r_a41b7edab666e2c3c21a3248a794a8c48"><td class="memItemLeft"><a id="a41b7edab666e2c3c21a3248a794a8c48" name="a41b7edab666e2c3c21a3248a794a8c48"></a>
+<a class="el" href="struct_status.html">Status</a>&#160;</td><td class="memItemRight"><b>validate</b> () const</td></tr>
+<tr class="memdesc:a41b7edab666e2c3c21a3248a794a8c48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verifies level-vector sizes and non-zero operational limits. <br /></td></tr>
 </table>
-<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Member Function Documentation</h2>
-<a id="a41b7edab666e2c3c21a3248a794a8c48" name="a41b7edab666e2c3c21a3248a794a8c48"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a41b7edab666e2c3c21a3248a794a8c48">&#9670;&#160;</a></span>validate()</h2>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Validated policy for deciding and shaping level compactions. </p>
+<p>Level zero is triggered by file count because its tables may overlap. Higher levels use aggregate byte limits. Per-destination target sizes bound the SSTables emitted by a compaction job. </p>
 
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="struct_status.html">Status</a> CompactionOptions::validate </td>
-          <td>(</td>
-          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel nodiscard">nodiscard</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<div class="fragment"><div class="line"><span class="lineno">    4</span>{</div>
-<div class="line"><span class="lineno">    5</span>    <span class="keywordflow">if</span> (max_levels &lt; 2) {</div>
-<div class="line"><span class="lineno">    6</span>        <span class="keywordflow">return</span> Status::invalid_argument(<span class="stringliteral">&quot;max_levels must be at least 2&quot;</span>);</div>
-<div class="line"><span class="lineno">    7</span>    }</div>
-<div class="line"><span class="lineno">    8</span> </div>
-<div class="line"><span class="lineno">    9</span>    <span class="keywordflow">if</span> (l0_file_count_trigger == 0) {</div>
-<div class="line"><span class="lineno">   10</span>        <span class="keywordflow">return</span> Status::invalid_argument(<span class="stringliteral">&quot;l0_file_count_trigger must be greater than 0&quot;</span>);</div>
-<div class="line"><span class="lineno">   11</span>    }</div>
-<div class="line"><span class="lineno">   12</span> </div>
-<div class="line"><span class="lineno">   13</span>    <span class="keywordflow">if</span> (max_bytes_per_level.size() &lt; max_levels) {</div>
-<div class="line"><span class="lineno">   14</span>        <span class="keywordflow">return</span> Status::invalid_argument(<span class="stringliteral">&quot;max_bytes_per_level must contain one entry per level&quot;</span>);</div>
-<div class="line"><span class="lineno">   15</span>    }</div>
-<div class="line"><span class="lineno">   16</span> </div>
-<div class="line"><span class="lineno">   17</span>    <span class="keywordflow">if</span> (target_file_size_per_level.size() &lt; max_levels) {</div>
-<div class="line"><span class="lineno">   18</span>        <span class="keywordflow">return</span> Status::invalid_argument(<span class="stringliteral">&quot;target_file_size_per_level must contain one entry per level&quot;</span>);</div>
-<div class="line"><span class="lineno">   19</span>    }</div>
-<div class="line"><span class="lineno">   20</span> </div>
-<div class="line"><span class="lineno">   21</span>    <span class="comment">// Levels 1..max_levels-2 can be selected as source levels.</span></div>
-<div class="line"><span class="lineno">   22</span>    <span class="keywordflow">for</span> (std::uint32_t level = 1; level + 1 &lt; max_levels; ++level) {</div>
-<div class="line"><span class="lineno">   23</span>        <span class="keywordflow">if</span> (max_bytes_per_level[level] == 0) {</div>
-<div class="line"><span class="lineno">   24</span>            <span class="keywordflow">return</span> Status::invalid_argument(</div>
-<div class="line"><span class="lineno">   25</span>                <span class="stringliteral">&quot;max_bytes_per_level for every compactable L1+ level must be greater than 0&quot;</span></div>
-<div class="line"><span class="lineno">   26</span>            );</div>
-<div class="line"><span class="lineno">   27</span>        }</div>
-<div class="line"><span class="lineno">   28</span>    }</div>
-<div class="line"><span class="lineno">   29</span> </div>
-<div class="line"><span class="lineno">   30</span>    <span class="comment">// Levels 1..max_levels-1 can be output levels.</span></div>
-<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">for</span> (std::uint32_t level = 1; level &lt; max_levels; ++level) {</div>
-<div class="line"><span class="lineno">   32</span>        <span class="keywordflow">if</span> (target_file_size_per_level[level] == 0) {</div>
-<div class="line"><span class="lineno">   33</span>            <span class="keywordflow">return</span> Status::invalid_argument(</div>
-<div class="line"><span class="lineno">   34</span>                <span class="stringliteral">&quot;target_file_size_per_level for every output level must be greater than 0&quot;</span></div>
-<div class="line"><span class="lineno">   35</span>            );</div>
-<div class="line"><span class="lineno">   36</span>        }</div>
-<div class="line"><span class="lineno">   37</span>    }</div>
-<div class="line"><span class="lineno">   38</span> </div>
-<div class="line"><span class="lineno">   39</span>    <span class="keywordflow">return</span> Status::ok();</div>
-<div class="line"><span class="lineno">   40</span>}</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a name="doc-variable-members" id="doc-variable-members"></a><h2 id="header-doc-variable-members" class="groupheader">Member Data Documentation</h2>
-<a id="a4490437d733eb00424314302f289f8f1" name="a4490437d733eb00424314302f289f8f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4490437d733eb00424314302f289f8f1">&#9670;&#160;</a></span>max_bytes_per_level</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;std::uint64_t&gt; CompactionOptions::max_bytes_per_level</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">                                = {</div>
-<div class="line">    0,</div>
-<div class="line">    64ull * 1024 * 1024,</div>
-<div class="line">    640ull * 1024 * 1024,</div>
-<div class="line">    6400ull * 1024 * 1024,</div>
-<div class="line">    64000ull * 1024 * 1024,</div>
-<div class="line">    640000ull * 1024 * 1024,</div>
-<div class="line">    0</div>
-<div class="line">}</div>
-</div><!-- fragment --><div class="fragment"><div class="line"><span class="lineno">   17</span>                                               {</div>
-<div class="line"><span class="lineno">   18</span>        0,</div>
-<div class="line"><span class="lineno">   19</span>        64ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   20</span>        640ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   21</span>        6400ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   22</span>        64000ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   23</span>        640000ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   24</span>        0</div>
-<div class="line"><span class="lineno">   25</span>    };</div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="affe5fa2d909cce0abebc204be8be2c7a" name="affe5fa2d909cce0abebc204be8be2c7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#affe5fa2d909cce0abebc204be8be2c7a">&#9670;&#160;</a></span>target_file_size_per_level</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt;std::uint64_t&gt; CompactionOptions::target_file_size_per_level</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">                                       = {</div>
-<div class="line">    8ull * 1024 * 1024,</div>
-<div class="line">    8ull * 1024 * 1024,</div>
-<div class="line">    16ull * 1024 * 1024,</div>
-<div class="line">    32ull * 1024 * 1024,</div>
-<div class="line">    64ull * 1024 * 1024,</div>
-<div class="line">    128ull * 1024 * 1024,</div>
-<div class="line">    256ull * 1024 * 1024</div>
-<div class="line">}</div>
-</div><!-- fragment --><div class="fragment"><div class="line"><span class="lineno">   28</span>                                                      {</div>
-<div class="line"><span class="lineno">   29</span>        8ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   30</span>        8ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   31</span>        16ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   32</span>        32ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   33</span>        64ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   34</span>        128ull * 1024 * 1024,</div>
-<div class="line"><span class="lineno">   35</span>        256ull * 1024 * 1024</div>
-<div class="line"><span class="lineno">   36</span>    };</div>
-</div><!-- fragment -->
-</div>
-</div>
-<hr/>The documentation for this struct was generated from the following files:<ul>
-<li>C:/Users/user/KVDB/include/<a class="el" href="compaction__options_8h_source.html">compaction_options.h</a></li>
-<li>C:/Users/user/KVDB/src/<b>compaction_options.cpp</b></li>
+<p class="definition">Definition at line <a class="el" href="compaction__options_8h_source.html#l00019">19</a> of file <a class="el" href="compaction__options_8h_source.html">compaction_options.h</a>.</p>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li><a class="el" href="compaction__options_8h_source.html">compaction_options.h</a></li>
+<li><a class="el" href="compaction__options_8cpp_source.html">compaction_options.cpp</a></li>
 </ul>
 </div><!-- contents -->
-<!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on <span class="timestamp"></span> for KVDB by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0
-</small></address>
 </div><!-- doc-content -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="struct_compaction_options.html">CompactionOptions</a></li>
+    <li class="footer">Generated on <span class="timestamp"></span> for KVDB by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.17.0 </li>
+  </ul>
+</div>
 </body>
 </html>

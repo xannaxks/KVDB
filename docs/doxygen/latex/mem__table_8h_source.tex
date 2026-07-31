@@ -1,93 +1,126 @@
 \doxysection{mem\+\_\+table.\+h}
-\hypertarget{mem__table_8h_source}{}\label{mem__table_8h_source}\index{C:/Users/user/KVDB/include/mem\_table.h@{C:/Users/user/KVDB/include/mem\_table.h}}
-
+\hypertarget{mem__table_8h_source}{}\label{mem__table_8h_source}\index{mem\_table.h@{mem\_table.h}}
+\doxymbox{\hyperlink{mem__table_8h}{Go to the documentation of this file.}}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
-\DoxyCodeLine{00002\ }
-\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <deque>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <memory>}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <shared\_mutex>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <vector>}}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}red\_black\_tree.h"{}}}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }MemTable}
-\DoxyCodeLine{00013\ \{}
-\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_mem_table_1_1_immutable_snapshot}{ImmutableSnapshot}}}
-\DoxyCodeLine{00016\ \ \ \ \ \{}
-\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ std::uint64\_t\ generation\_id\ =\ 0;}
-\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ std::shared\_ptr<const\ RBTree>\ table;}
-\DoxyCodeLine{00019\ \ \ \ \ \};}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00021\ \ \ \ \ MemTable();}
-\DoxyCodeLine{00022\ \ \ \ \ \string~MemTable()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00023\ }
-\DoxyCodeLine{00024\ \ \ \ \ MemTable(\textcolor{keyword}{const}\ MemTable\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00025\ \ \ \ \ MemTable\&\ operator=(\textcolor{keyword}{const}\ MemTable\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00026\ \ \ \ \ MemTable(MemTable\&\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00027\ \ \ \ \ MemTable\&\ operator=(MemTable\&\&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//\ Inserts\ an\ already\ materialized\ internal\ record\ into\ the\ active\ table.}}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{comment}{//\ ArenaEntry\ storage\ referenced\ by\ the\ record\ must\ remain\ alive\ for\ as\ long}}
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{comment}{//\ as\ the\ corresponding\ mutable/immutable\ generation\ remains\ readable.}}
-\DoxyCodeLine{00032\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ apply(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ entry);}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ put(}
-\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key,}
-\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ value,}
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ std::uint64\_t\ sequence\_number}
-\DoxyCodeLine{00038\ \ \ \ \ );}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ remove(}
-\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key,}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ std::uint64\_t\ sequence\_number}
-\DoxyCodeLine{00043\ \ \ \ \ );}
-\DoxyCodeLine{00044\ }
-\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//\ Returns\ the\ newest\ InternalRecord,\ including\ tombstones.\ A\ tombstone\ is\ a}}
-\DoxyCodeLine{00046\ \ \ \ \ \textcolor{comment}{//\ successful\ lookup\ and\ must\ stop\ the\ Engine\ from\ searching\ older\ SSTables.}}
-\DoxyCodeLine{00047\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<InternalRecord>}}>\ get(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\&\ key)\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00048\ }
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ Moves\ the\ current\ active\ tree\ into\ the\ immutable\ queue\ and\ installs\ a\ new}}
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{comment}{//\ active\ tree.\ Freezing\ an\ empty\ active\ tree\ is\ a\ successful\ no-\/op.}}
-\DoxyCodeLine{00051\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ freeze\_mutable();}
-\DoxyCodeLine{00052\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ manual\_freeze();}
-\DoxyCodeLine{00053\ }
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{comment}{//\ A\ flush\ worker\ keeps\ this\ shared\ snapshot\ alive\ while\ building\ an\ SSTable.}}
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{comment}{//\ The\ table\ remains\ visible\ to\ reads\ until\ retire\_oldest\_immutable\ succeeds.}}
-\DoxyCodeLine{00056\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<ImmutableSnapshot>}}\ oldest\_immutable()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00057\ }
-\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//\ Retires\ exactly\ the\ generation\ that\ was\ flushed.\ Returns\ false\ when\ the}}
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{comment}{//\ queue\ changed\ or\ the\ supplied\ generation\ is\ stale.}}
-\DoxyCodeLine{00060\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ retire\_oldest\_immutable(}
-\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ std::uint64\_t\ generation\_id}
-\DoxyCodeLine{00062\ \ \ \ \ );}
-\DoxyCodeLine{00063\ }
-\DoxyCodeLine{00064\ \ \ \ \ \textcolor{comment}{//\ Compatibility\ helper\ for\ builders\ that\ currently\ consume\ a\ vector.}}
-\DoxyCodeLine{00065\ \ \ \ \ \textcolor{comment}{//\ On\ success,\ out\ is\ replaced\ with\ the\ oldest\ immutable\ table's\ records.}}
-\DoxyCodeLine{00066\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ dump\_oldest\_immutable(}
-\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ std::vector<InternalRecord>\&\ out,}
-\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ generation\_id}
-\DoxyCodeLine{00069\ \ \ \ \ )\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00070\ }
-\DoxyCodeLine{00071\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ has\_immutable()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00072\ \ \ \ \ [[nodiscard]]\ std::size\_t\ immutable\_count()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00073\ \ \ \ \ [[nodiscard]]\ std::size\_t\ mutable\_memory\_usage()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00074\ \ \ \ \ [[nodiscard]]\ std::size\_t\ approximate\_memory\_usage()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00075\ }
-\DoxyCodeLine{00076\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_mem_table_1_1_immutable_table}{ImmutableTable}}}
-\DoxyCodeLine{00078\ \ \ \ \ \{}
-\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ std::uint64\_t\ generation\_id\ =\ 0;}
-\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ std::shared\_ptr<const\ RBTree>\ table;}
-\DoxyCodeLine{00081\ \ \ \ \ \};}
-\DoxyCodeLine{00082\ }
-\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{mutable}\ std::shared\_mutex\ mutex\_;}
-\DoxyCodeLine{00084\ \ \ \ \ std::shared\_ptr<RBTree>\ mutable\_table\_;}
-\DoxyCodeLine{00085\ \ \ \ \ std::deque<ImmutableTable>\ immutable\_tables\_;}
-\DoxyCodeLine{00086\ \ \ \ \ std::uint64\_t\ next\_generation\_id\_\ =\ 1;}
-\DoxyCodeLine{00087\ \};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00001}00001\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00002}00002\ \textcolor{comment}{\ *\ @file\ mem\_table.h}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00003}00003\ \textcolor{comment}{\ *\ @brief\ Mutable\ and\ immutable\ in-\/memory\ generations\ for\ recent\ records.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00004}00004\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00005}00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00006}00006\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00007}00007\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00008}00008\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00009}00009\ \textcolor{preprocessor}{\#include\ <deque>}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00010}00010\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00011}00011\ \textcolor{preprocessor}{\#include\ <shared\_mutex>}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00012}00012\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00014}00014\ \textcolor{preprocessor}{\#include\ "{}\doxymbox{\hyperlink{red__black__tree_8h}{red\_black\_tree.h}}"{}}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00015}00015\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00016}00016\ \textcolor{comment}{/**}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00017}00017\ \textcolor{comment}{\ *\ @brief\ Thread-\/safe\ owner\ of\ the\ active\ RBTree\ and\ its\ immutable\ generations.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00018}00018\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00019}00019\ \textcolor{comment}{\ *\ New\ records\ enter\ the\ mutable\ tree.\ Freezing\ atomically\ moves\ that\ tree\ to}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00020}00020\ \textcolor{comment}{\ *\ an\ ordered\ immutable\ queue\ and\ installs\ a\ fresh\ mutable\ tree.\ Readers\ inspect}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00021}00021\ \textcolor{comment}{\ *\ all\ generations,\ while\ flush\ code\ holds\ a\ shared\ snapshot\ until\ the\ exact}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00022}00022\ \textcolor{comment}{\ *\ generation\ is\ durably\ published\ and\ retired.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00023}00023\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00024}00024\ \textcolor{comment}{\ *\ @note\ The\ ArenaEntry\ storage\ referenced\ by\ records\ is\ externally\ owned\ and}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00025}00025\ \textcolor{comment}{\ *\ \ \ \ \ \ \ must\ outlive\ every\ generation\ that\ can\ still\ be\ read.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00026}00026\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00027}\doxymbox{\hyperlink{class_mem_table}{00027}}\ \textcolor{keyword}{class\ }MemTable}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00028}00028\ \{}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00029}00029\ \textcolor{keyword}{public}:\textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00030}00030\ \textcolor{comment}{\ \ \ \ /**\ @brief\ Shared\ handle\ that\ pins\ one\ immutable\ generation\ during\ a\ flush.\ */}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00031}\doxymbox{\hyperlink{struct_mem_table_1_1_immutable_snapshot}{00031}}\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_mem_table_1_1_immutable_snapshot}{ImmutableSnapshot}}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00032}00032\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00033}00033\ \ \ \ \ \ \ \ \ std::uint64\_t\ generation\_id\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00034}00034\ \ \ \ \ \ \ \ \ std::shared\_ptr<const\ RBTree>\ table;}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00035}00035\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00037}00037\ \ \ \ \ MemTable();}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00038}00038\ \ \ \ \ \string~MemTable()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00040}00040\ \ \ \ \ MemTable(\textcolor{keyword}{const}\ MemTable\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00041}00041\ \ \ \ \ MemTable\&\ operator=(\textcolor{keyword}{const}\ MemTable\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00042}00042\ \ \ \ \ MemTable(MemTable\&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00043}00043\ \ \ \ \ MemTable\&\ operator=(MemTable\&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00044}00044\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00045}00045\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00046}00046\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Inserts\ an\ already\ materialized\ record\ into\ the\ active\ tree.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00047}00047\ \textcolor{comment}{\ \ \ \ \ *\ @param\ entry\ Versioned\ record\ whose\ byte\ ranges\ remain\ externally\ owned.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00048}00048\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00049}00049\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_mem_table_a6a6be71606e95baaa9fe8100dea78c0d}{apply}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ entry);}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00051}00051\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ put(}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00052}00052\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key,}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00053}00053\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ value,}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00054}00054\ \ \ \ \ \ \ \ \ std::uint64\_t\ sequence\_number}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00055}00055\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00057}00057\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ remove(}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00058}00058\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key,}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00059}00059\ \ \ \ \ \ \ \ \ std::uint64\_t\ sequence\_number}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00060}00060\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00061}00061\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00062}00062\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00063}00063\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Finds\ the\ newest\ in-\/memory\ version\ of\ @p\ key.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00064}00064\ \textcolor{comment}{\ \ \ \ \ *\ @return\ The\ newest\ InternalRecord,\ including\ a\ tombstone,\ or\ an\ empty}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00065}00065\ \textcolor{comment}{\ \ \ \ \ *\ \ \ \ \ \ \ \ \ optional\ when\ no\ generation\ contains\ the\ key.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00066}00066\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00067}00067\ \textcolor{comment}{\ \ \ \ \ *\ A\ returned\ tombstone\ is\ a\ successful\ lookup\ and\ must\ prevent\ callers\ from}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00068}00068\ \textcolor{comment}{\ \ \ \ \ *\ searching\ older\ SSTables.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00069}00069\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00070}00070\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<InternalRecord>}}>\ \doxymbox{\hyperlink{class_mem_table_a8e2514179955068eed3240434dc71f5a}{get}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\&\ key)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00071}00071\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00072}00072\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00073}00073\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Moves\ the\ active\ tree\ to\ the\ immutable\ queue.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00074}00074\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00075}00075\ \textcolor{comment}{\ \ \ \ \ *\ A\ fresh\ active\ tree\ is\ installed\ atomically.\ Freezing\ an\ empty\ active}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00076}00076\ \textcolor{comment}{\ \ \ \ \ *\ tree\ is\ a\ successful\ no-\/op.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00077}00077\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00078}00078\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ \doxymbox{\hyperlink{class_mem_table_a25c00186d93b38930f30f2332e2661fa}{freeze\_mutable}}();}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00079}00079\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ manual\_freeze();}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00080}00080\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00081}00081\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00082}00082\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Pins\ and\ returns\ the\ oldest\ generation\ waiting\ to\ be\ flushed.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00083}00083\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00084}00084\ \textcolor{comment}{\ \ \ \ \ *\ The\ generation\ remains\ visible\ to\ reads\ until}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00085}00085\ \textcolor{comment}{\ \ \ \ \ *\ retire\_oldest\_immutable()\ succeeds.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00086}00086\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00087}00087\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<ImmutableSnapshot>}}\ \doxymbox{\hyperlink{class_mem_table_a0a3adf3fbc9b4344db05b6790d5456c1}{oldest\_immutable}}()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00088}00088\ \textcolor{comment}{}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00089}00089\ \textcolor{comment}{\ \ \ \ /**}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00090}00090\ \textcolor{comment}{\ \ \ \ \ *\ @brief\ Retires\ exactly\ the\ flushed\ generation.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00091}00091\ \textcolor{comment}{\ \ \ \ \ *\ @return\ false\ when\ the\ queue\ changed\ or\ @p\ generation\_id\ is\ stale.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00092}00092\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00093}00093\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ \doxymbox{\hyperlink{class_mem_table_aef9ecb392d6beca24825c378a8232744}{retire\_oldest\_immutable}}(}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00094}00094\ \ \ \ \ \ \ \ \ std::uint64\_t\ generation\_id}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00095}00095\ \ \ \ \ );}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00097}00097\ \ \ \ \ \textcolor{comment}{//\ Compatibility\ helper\ for\ builders\ that\ currently\ consume\ a\ vector.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00098}00098\ \ \ \ \ \textcolor{comment}{//\ On\ success,\ out\ is\ replaced\ with\ the\ oldest\ immutable\ table's\ records.}}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00099}00099\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ dump\_oldest\_immutable(}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00100}00100\ \ \ \ \ \ \ \ \ std::vector<InternalRecord>\&\ out,}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00101}00101\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ generation\_id}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00102}00102\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00103}00103\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00104}00104\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ has\_immutable()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00105}00105\ \ \ \ \ [[nodiscard]]\ std::size\_t\ immutable\_count()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00106}00106\ \ \ \ \ [[nodiscard]]\ std::size\_t\ mutable\_memory\_usage()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00107}00107\ \ \ \ \ [[nodiscard]]\ std::size\_t\ approximate\_memory\_usage()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00109}00109\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00110}00110\ \ \ \ \ \textcolor{keyword}{struct\ }ImmutableTable}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00111}00111\ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00112}00112\ \ \ \ \ \ \ \ \ std::uint64\_t\ generation\_id\ =\ 0;}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00113}00113\ \ \ \ \ \ \ \ \ std::shared\_ptr<const\ RBTree>\ table;}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00114}00114\ \ \ \ \ \};}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00116}00116\ \ \ \ \ \textcolor{keyword}{mutable}\ std::shared\_mutex\ mutex\_;}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00117}00117\ \ \ \ \ std::shared\_ptr<RBTree>\ mutable\_table\_;}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00118}00118\ \ \ \ \ std::deque<ImmutableTable>\ immutable\_tables\_;}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00119}00119\ \ \ \ \ std::uint64\_t\ next\_generation\_id\_\ =\ 1;}
+\DoxyCodeLine{\Hypertarget{mem__table_8h_source_l00120}00120\ \};}
 
 \end{DoxyCode}
