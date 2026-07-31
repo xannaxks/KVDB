@@ -56,7 +56,7 @@ Status align_to_block_boundary(WritableFile& file,
 
     std::uint64_t pad = block_size - in_block;
 
-    std::vector<char> poison(static_cast<std::size_t>(std::min(4096ull, pad)),
+    std::vector<char> poison(static_cast<std::size_t>(std::uint64_t{4096}, pad),
         static_cast<char>(0xCD));
 
     Status status;
