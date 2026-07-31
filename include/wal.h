@@ -1,3 +1,33 @@
+/**
+ * @brief Provides write-ahead logging for crash recovery and durability.
+ *
+ * The write-ahead log (WAL) records database mutations before they are applied
+ * to the in-memory MemTable. If the process terminates before the MemTable is
+ * flushed to an SSTable, the WAL can be replayed during database recovery to
+ * reconstruct the lost in-memory state.
+ *
+ * WAL records are appended sequentially. A logical record may be stored as one
+ * or more fragments when it does not fit within a single WAL block.
+ *
+ * The WAL file layout is:
+ *
+ * @code
+ * [ WAL file header ]
+ * [ Fragment header ][ Fragment payload ]
+ * [ Fragment header ][ Fragment payload ]
+ * ...
+ * @endcode
+ *
+ * Each fragment header contains metadata required to validate and reconstruct
+ * the corresponding logical record, such as the fragment type, payload size,
+ * and checksum.
+ *
+ * A mutation is considered recoverable only after its WAL record has been
+ * written and synchronized according to the configured durability policy.
+ *
+ * @note These entities are not thread-safe.
+ * @note For detailed WAL documentation refer to: https://github.com/xannaxks/KVDB/blob/master/docs/architecture/wal.md
+ */
 #pragma once
 
 #include <cstddef>

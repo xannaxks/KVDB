@@ -34,6 +34,8 @@ Status ReadableFile::read_exact_at(
 
 	char* out = static_cast<char*>(buffer);
 
+	// Deligate reading to derived classes
+	// read_at() uses system calls, which may result in partial reads
 	while (total_read < size)
 	{
 		std::size_t bytes_read = 0;
@@ -54,7 +56,7 @@ Status ReadableFile::read_exact_at(
 				"Unexpected end of file during read of " + std::to_string(size) + " bytes on " + this->path.string()
 			};
 
-		total_read += bytes_read;
+		total_read += bytes_read; // total amount of read bytes
 
 	}
 
@@ -106,6 +108,7 @@ public:
 
 		std::size_t remaining = size;
 
+		// system calls might result in partial reads or might allow limited read size at once
 		while (remaining > 0)
 		{
 			const DWORD chunk = static_cast<DWORD>(
@@ -116,6 +119,7 @@ public:
 
 			const std::uint64_t current = offset + bytes_read;
 
+			// converting std::uint64_t into OVERLAPPED 
 			ov.Offset = static_cast<DWORD>(current & 0xFFFFFFFFull);
 			ov.OffsetHigh = static_cast<DWORD>((current >> 32) & 0xFFFFFFFFull);
 
@@ -129,6 +133,7 @@ public:
 				&ov
 			);
 
+			// unexpected end of file, not fatal
 			if (!ok && GetLastError() == ERROR_HANDLE_EOF)
 				return Status::ok();
 
@@ -147,6 +152,7 @@ public:
 
 	Status close() override
 	{
+		// idempotency
 		if (handle_ == INVALID_HANDLE_VALUE)
 			return Status::ok();
 
@@ -235,6 +241,7 @@ public:
 		const char* ptr = static_cast<const char*>(data);
 		std::size_t remaining = size;
 
+		// system calls can return partial appends
 		while (remaining > 0)
 		{
 			const DWORD chunk = static_cast<DWORD>(
@@ -402,7 +409,7 @@ public:
 	{
 		this->path = path;
 
-		fd_ = ::open(path.c_str(), O_RDONLY);
+		fd_ = ::open(path.c_str(), O_RDONLY); // RDONLY - read only
 
 		if (fd_ == -1)
 			throw std::runtime_error("open for reading failed");
@@ -410,7 +417,7 @@ public:
 
 	~PosixReadableFile() override
 	{
-		if (fd_ != -1)
+		if (fd_ != -1) 
 			::close(fd_);
 	}
 
@@ -428,6 +435,7 @@ public:
 
 		char* out = reinterpret_cast<char*>(buffer);
 
+		// system calls might result in partial reads
 		while (bytes_read < size)
 		{
 			const std::size_t remaining = size - bytes_read;
@@ -441,9 +449,9 @@ public:
 
 			if (current_offset > static_cast<std::uint64_t>(std::numeric_limits<off_t>::max()))
 				return Status{
-					StatusCode::ReadFailed,
+					StatusCode::DataTypeOverflow,
 					"read_at offset does not fit into off_t for file " + this->path.string()
-			};
+			}; // off_t is platform dependent, meanwhile std::uint64_t is not. So overflow check needed
 
 			const ssize_t got = ::pread(
 				fd_,
@@ -454,7 +462,7 @@ public:
 
 			if (got < 0)
 			{
-				if (errno == EINTR)
+				if (errno == EINTR) // not fatal
 					continue;
 
 				return syscall_error(StatusCode::ReadFailed, "read_at");
@@ -471,6 +479,7 @@ public:
 
 	Status close() override
 	{
+		// idempotency
 		if (fd_ == -1)
 			return Status::ok();
 
@@ -624,6 +633,8 @@ public:
 
 			return syscall_error(StatusCode::SyncFailed, "sync");
 		}
+
+		return Status::ok();
 	}
 
 	Status close() override
