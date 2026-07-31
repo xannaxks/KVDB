@@ -1,0 +1,160 @@
+\doxysection{anonymous\+\_\+namespace\{compaction\+\_\+scheduler.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03}{}\label{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03}\index{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+const std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ \texorpdfstring{$\ast$}{*} \doxymbox{\hyperlink{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_ad0302a7b98ca556a8c7f4d021eb8f580}{tables\+\_\+at}} (const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&manager, std::\+uint32\+\_\+t level) noexcept
+\item 
+std::\+uint64\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_a6832b4b961ba71c9c4e602ad1706d74a}{level\+\_\+size\+\_\+bytes}} (const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&manager, std::\+uint32\+\_\+t level) noexcept
+\item 
+void \doxymbox{\hyperlink{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_a6a23b77e457ed9cb59efb371960ea937}{widen\+\_\+plan\+\_\+range}} (\doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&plan, const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&table)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} $>$ $>$ \doxymbox{\hyperlink{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_aa343a6b4a653c52c013382d2916017b6}{pick\+\_\+level\+\_\+compaction}} (const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&manager, std::\+uint32\+\_\+t level, const \doxymbox{\hyperlink{struct_compaction_options}{Compaction\+Options}} \&options)
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_a6832b4b961ba71c9c4e602ad1706d74a}\index{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}}!level\_size\_bytes@{level\_size\_bytes}}
+\index{level\_size\_bytes@{level\_size\_bytes}!anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{level\_size\_bytes()}{level\_size\_bytes()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_a6832b4b961ba71c9c4e602ad1706d74a} 
+std::\+uint64\+\_\+t anonymous\+\_\+namespace\{compaction\+\_\+scheduler.\+cpp\}::\+level\+\_\+size\+\_\+bytes (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{manager}{, }\item[{std::\+uint32\+\_\+t}]{level}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}*\ tables\ =\ tables\_at(manager,\ level);}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tables\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ std::uint64\_t\ total\ =\ 0;}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ *tables)\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.file\_size\ >\ std::numeric\_limits<std::uint64\_t>::max()\ -\/\ total)\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::numeric\_limits<std::uint64\_t>::max();}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ total\ +=\ table.file\_size;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ total;}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_aa343a6b4a653c52c013382d2916017b6}\index{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}}!pick\_level\_compaction@{pick\_level\_compaction}}
+\index{pick\_level\_compaction@{pick\_level\_compaction}!anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{pick\_level\_compaction()}{pick\_level\_compaction()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_aa343a6b4a653c52c013382d2916017b6} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} $>$ $>$ anonymous\+\_\+namespace\{compaction\+\_\+scheduler.\+cpp\}::\+pick\+\_\+level\+\_\+compaction (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{manager}{, }\item[{std::\+uint32\+\_\+t}]{level}{, }\item[{const \doxymbox{\hyperlink{struct_compaction_options}{Compaction\+Options}} \&}]{options}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00052\ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}*\ source\ =\ tables\_at(manager,\ level);}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (source\ ==\ \textcolor{keyword}{nullptr}\ ||\ source-\/>empty())\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<CompactionPlan>}}>::fail(}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Compaction\ source\ level\ is\ missing\ or\ empty"{}}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ +\ 1\ >=\ options.max\_levels)\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<CompactionPlan>>::fail(}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cannot\ compact\ the\ bottommost\ level"{}}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ CompactionPlan\ plan;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ plan.source\_level\ =\ level;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ plan.target\_level\ =\ level\ +\ 1;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ plan.max\_output\_file\_size\ =}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ options.target\_file\_size\_per\_level[plan.target\_level];}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ ==\ 0)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ plan.reason\ =\ CompactionReason::L0ReachedLimit;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ plan.source\_tables\ =\ *source;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ plan.reason\ =\ CompactionReason::LxReachedLimit;}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Without\ a\ persisted\ compaction\ pointer,\ selecting\ the\ largest\ table}}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ is\ a\ better\ default\ than\ always\ selecting\ the\ rightmost\ key\ range.}}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ selected\ =\ std::max\_element(}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ source-\/>begin(),}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ source-\/>end(),}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ TableMeta\&\ lhs,\ \textcolor{keyword}{const}\ TableMeta\&\ rhs)\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ if\ (lhs.file\_size\ !=\ rhs.file\_size)\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ lhs.file\_size\ <\ rhs.file\_size;}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ lhs.table\_id\ >\ rhs.table\_id;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ plan.source\_tables.push\_back(*selected);}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ plan.smallest\_key\ =\ plan.source\_tables.front().smallest\_key;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ plan.largest\_key\ =\ plan.source\_tables.front().largest\_key;}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ plan.source\_tables)\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ widen\_plan\_range(plan,\ table);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ plan.overlapping\_tables\ =\ manager.find\_overlapping\_tables(}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ plan.target\_level,}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ plan.smallest\_key,}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ plan.largest\_key}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ plan.overlapping\_tables)\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ widen\_plan\_range(plan,\ table);}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!plan.validate())\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<CompactionPlan>>::fail(}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Scheduler\ produced\ an\ invalid\ compaction\ plan"{}}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<CompactionPlan>>::ok(std::move(plan));}
+\DoxyCodeLine{00127\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_ad0302a7b98ca556a8c7f4d021eb8f580}\index{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}}!tables\_at@{tables\_at}}
+\index{tables\_at@{tables\_at}!anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{tables\_at()}{tables\_at()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_ad0302a7b98ca556a8c7f4d021eb8f580} 
+const std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ \texorpdfstring{$\ast$}{*} anonymous\+\_\+namespace\{compaction\+\_\+scheduler.\+cpp\}::\+tables\+\_\+at (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{manager}{, }\item[{std::\+uint32\+\_\+t}]{level}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00013\ \ \ \ \ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ manager.get\_lx\_tables(level);}
+\DoxyCodeLine{00015\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_a6a23b77e457ed9cb59efb371960ea937}\index{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}}!widen\_plan\_range@{widen\_plan\_range}}
+\index{widen\_plan\_range@{widen\_plan\_range}!anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_scheduler.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{widen\_plan\_range()}{widen\_plan\_range()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02compaction__scheduler_8cpp_03_a6a23b77e457ed9cb59efb371960ea937} 
+void anonymous\+\_\+namespace\{compaction\+\_\+scheduler.\+cpp\}::\+widen\+\_\+plan\+\_\+range (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&}]{plan}{, }\item[{const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&}]{table}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.smallest\_key\ <\ plan.smallest\_key)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ plan.smallest\_key\ =\ table.smallest\_key;}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (plan.largest\_key\ <\ table.largest\_key)\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ plan.largest\_key\ =\ table.largest\_key;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+
+\end{DoxyCode}

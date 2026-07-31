@@ -1,0 +1,153 @@
+\doxysection{sstable.\+h}
+\hypertarget{sstable_8h_source}{}\label{sstable_8h_source}\index{C:/Users/user/KVDB/include/sstable.h@{C:/Users/user/KVDB/include/sstable.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#ifndef\ NOMINMAX}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#define\ NOMINMAX}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#ifndef\ WIN32\_LEAN\_AND\_MEAN}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#define\ WIN32\_LEAN\_AND\_MEAN}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <format>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#include\ "{}MurmurHash3.h"{}}}
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#include\ "{}crc32\_helpers.h"{}}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#include\ "{}endian\_io.h"{}}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#include\ "{}file.h"{}}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#include\ "{}file\_helpers.h"{}}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#include\ "{}mem\_table.h"{}}}
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#include\ "{}record.h"{}}}
+\DoxyCodeLine{00035\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities.h"{}}}
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities/bloom\_section.h"{}}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities/data\_section.h"{}}}
+\DoxyCodeLine{00038\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities/data\_section\_view.h"{}}}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities/file\_footer\_section.h"{}}}
+\DoxyCodeLine{00040\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities/file\_header\_section.h"{}}}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities/index\_section.h"{}}}
+\DoxyCodeLine{00042\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities/meta\_section.h"{}}}
+\DoxyCodeLine{00043\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \textcolor{keyword}{class\ }SSTable}
+\DoxyCodeLine{00046\ \{}
+\DoxyCodeLine{00047\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{enum\ class}\ State\ :\ std::uint8\_t}
+\DoxyCodeLine{00049\ \ \ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ Empty,}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ Building,}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ Loaded,}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ Published}
+\DoxyCodeLine{00054\ \ \ \ \ \};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00057\ \ \ \ \ SSTable()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ SSTable(}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ std::filesystem::path\ temporary\_path,}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ std::filesystem::path\ destination\_path,}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ std::uint32\_t\ table\_id\ =\ 0}
+\DoxyCodeLine{00063\ \ \ \ \ )}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ :\ path(std::move(temporary\_path)),}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ final\_path(std::move(destination\_path)),}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ state(State::Building),}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ file\_header\_section(table\_id)}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{explicit}\ SSTable(std::filesystem::path\ existing\_path)}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ :\ path(existing\_path),}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ final\_path(std::move(existing\_path)),}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ state(State::Loaded)}
+\DoxyCodeLine{00075\ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ SSTable(\textcolor{keyword}{const}\ SSTable\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00079\ \ \ \ \ SSTable\&\ operator=(\textcolor{keyword}{const}\ SSTable\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ SSTable(SSTable\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00082\ \ \ \ \ SSTable\&\ operator=(SSTable\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00085\ \ \ \ \ std::filesystem::path\ path;}
+\DoxyCodeLine{00086\ \ \ \ \ std::filesystem::path\ final\_path;}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ State\ state\{\ State::Empty\ \};}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \ \ \ \ std::unique\_ptr<ReadableFile>\ file\_in;}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_header_section}{SSTableEntities::FileHeaderSection}}\ file\_header\_section\{\};}
+\DoxyCodeLine{00093\ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section}{SSTableEntities::DataSection}}\ data\_section\{\};}
+\DoxyCodeLine{00094\ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view}{SSTableEntities::DataSectionView}}\ data\_section\_view\{\};}
+\DoxyCodeLine{00095\ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{SSTableEntities::IndexSection}}\ index\_section\{\};}
+\DoxyCodeLine{00096\ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section}{SSTableEntities::BloomSection}}\ bloom\_section\{\};}
+\DoxyCodeLine{00097\ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_meta_section}{SSTableEntities::MetaSection}}\ meta\_section\{\};}
+\DoxyCodeLine{00098\ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_footer_section}{SSTableEntities::FileFooterSection}}\ file\_footer\_section\{\};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ fsync(\doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file\_out);}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }SSTableManager;}
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }SSTableWriter;}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }SSTableLoader;}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keyword}{class\ }SSTableIterator;}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00108\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write();}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<SSTable>}}\ load(}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00113\ \ \ \ \ );}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ std::filesystem::path\&\ get\_path()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00116\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ std::filesystem::path\&\ get\_final\_path()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_header_section}{SSTableEntities::FileHeaderSection}}\&}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ get\_file\_header\_section()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section}{SSTableEntities::DataSection}}\&}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ get\_data\_section()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view}{SSTableEntities::DataSectionView}}\&}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ get\_data\_section\_view()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{SSTableEntities::IndexSection}}\&}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ get\_index\_section()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section}{SSTableEntities::BloomSection}}\&}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ get\_bloom\_section()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_meta_section}{SSTableEntities::MetaSection}}\&}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ get\_meta\_section()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_footer_section}{SSTableEntities::FileFooterSection}}\&}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ get\_file\_footer\_section()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ append\_record(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record);}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ std::size\_t\ fixed\_disk\_size()\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<InternalRecord>}}>\ get(}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\&\ key,}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00146\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00147\ \};}
+
+\end{DoxyCode}

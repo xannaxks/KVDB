@@ -1,0 +1,517 @@
+\doxysection{Table\+Meta Struct Reference}
+\hypertarget{struct_table_meta}{}\label{struct_table_meta}\index{TableMeta@{TableMeta}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_table_meta_a9ccac5097c7fb940ce01bb1a7b3d2fb9}{validate}} () const
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint32\+\_\+t $>$ \doxymbox{\hyperlink{struct_table_meta_a47b52c68f4024d459a1228948dcc906e}{disk\+\_\+size}} () const
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_table_meta_a7977880d2b45767d32fb12cf14c99134}{calculate\+\_\+crc}} (std::\+uint32\+\_\+t \&crc\+\_\+buffer, bool init=false) const
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_table_meta_a94cbe07ae01b3783937ea53fa885672f}{write}} (\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&file, std::\+uint64\+\_\+t \&offset) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ \doxymbox{\hyperlink{struct_table_meta_a39d89c6bc9b4edd05e1c454731694eab}{load}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_table_meta_a12a6f413494b695762c6d81691f5cd51}\label{struct_table_meta_a12a6f413494b695762c6d81691f5cd51} 
+std::\+uint64\+\_\+t {\bfseries table\+\_\+id} = 0
+\item 
+\Hypertarget{struct_table_meta_aa85c15cba0f018cb0588801a7039a005}\label{struct_table_meta_aa85c15cba0f018cb0588801a7039a005} 
+std::\+uint32\+\_\+t {\bfseries level} = 0
+\item 
+\Hypertarget{struct_table_meta_a59084fab3685a536074ea666c4098948}\label{struct_table_meta_a59084fab3685a536074ea666c4098948} 
+std::\+filesystem::\+path {\bfseries path}
+\item 
+\Hypertarget{struct_table_meta_afeef784a2902afee9ebfde96ad9364be}\label{struct_table_meta_afeef784a2902afee9ebfde96ad9364be} 
+std::\+uint64\+\_\+t {\bfseries min\+\_\+seq} = 0
+\item 
+\Hypertarget{struct_table_meta_a082e869672ada9f0956e744d022e344c}\label{struct_table_meta_a082e869672ada9f0956e744d022e344c} 
+std::\+uint64\+\_\+t {\bfseries max\+\_\+seq} = 0
+\item 
+\Hypertarget{struct_table_meta_a5b92ef1ae36abc57e25cd3e8dc950441}\label{struct_table_meta_a5b92ef1ae36abc57e25cd3e8dc950441} 
+std::\+uint64\+\_\+t {\bfseries file\+\_\+size} = 0
+\item 
+\Hypertarget{struct_table_meta_a3f993f33c2a79d11208540fabb5a019e}\label{struct_table_meta_a3f993f33c2a79d11208540fabb5a019e} 
+std::\+uint64\+\_\+t {\bfseries record\+\_\+count} = 0
+\item 
+\Hypertarget{struct_table_meta_abb9ec4ac4e02b7c1b88583476896b02f}\label{struct_table_meta_abb9ec4ac4e02b7c1b88583476896b02f} 
+std::\+uint64\+\_\+t {\bfseries tombstone\+\_\+count} = 0
+\item 
+\Hypertarget{struct_table_meta_ac59356c9c11f45e4053167970db1af18}\label{struct_table_meta_ac59356c9c11f45e4053167970db1af18} 
+std::\+uint64\+\_\+t {\bfseries data\+\_\+block\+\_\+count} = 0
+\item 
+\Hypertarget{struct_table_meta_a6b2784ebe263acd4dbdc9e2e45f1ae89}\label{struct_table_meta_a6b2784ebe263acd4dbdc9e2e45f1ae89} 
+std::\+uint64\+\_\+t {\bfseries data\+\_\+bytes} = 0
+\item 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \doxymbox{\hyperlink{struct_table_meta_a972318984aeebe680cd566fc70a80d4b}{smallest\+\_\+key}} \{\}
+\item 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \doxymbox{\hyperlink{struct_table_meta_aa81fabe43bd81e2f7ef72fde828a798e}{largest\+\_\+key}} \{\}
+\end{DoxyCompactItemize}
+
+
+\label{struct_table_meta_doc-func-members}
+\Hypertarget{struct_table_meta_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_table_meta_a7977880d2b45767d32fb12cf14c99134}\index{TableMeta@{TableMeta}!calculate\_crc@{calculate\_crc}}
+\index{calculate\_crc@{calculate\_crc}!TableMeta@{TableMeta}}
+\doxysubsubsection{\texorpdfstring{calculate\_crc()}{calculate\_crc()}}
+{\footnotesize\ttfamily \label{struct_table_meta_a7977880d2b45767d32fb12cf14c99134} 
+\doxymbox{\hyperlink{struct_status}{Status}} Table\+Meta::\+calculate\+\_\+crc (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t \&}]{crc\+\_\+buffer}{, }\item[{bool}]{init}{ = {\ttfamily false}}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00254\ \{}
+\DoxyCodeLine{00255\ \ \ \ \ Status\ validation\ =\ validate();}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keywordflow}{if}\ (!validation.is\_ok())\ \{}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ validation;}
+\DoxyCodeLine{00258\ \ \ \ \ \}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keywordflow}{if}\ (init)\ \{}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ crc\_buffer\ =\ ::crc32(0,\ Z\_NULL,\ 0);}
+\DoxyCodeLine{00262\ \ \ \ \ \}}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ path\_bytes\ =\ path.generic\_string();}
+\DoxyCodeLine{00265\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ path\_size\_result\ =\ checked\_u32\_size(path\_bytes.size(),\ \textcolor{stringliteral}{"{}path"{}});}
+\DoxyCodeLine{00266\ \ \ \ \ \textcolor{keywordflow}{if}\ (!path\_size\_result.is\_ok())\ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ path\_size\_result.status;}
+\DoxyCodeLine{00268\ \ \ \ \ \}}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ path\_size\ =\ path\_size\_result.value;}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \ \ \ crc32\_add\_pod<std::uint64\_t>(crc\_buffer,\ table\_id);}
+\DoxyCodeLine{00273\ \ \ \ \ crc32\_add\_pod<std::uint32\_t>(crc\_buffer,\ level);}
+\DoxyCodeLine{00274\ \ \ \ \ crc32\_add\_pod<std::uint64\_t>(crc\_buffer,\ min\_seq);}
+\DoxyCodeLine{00275\ \ \ \ \ crc32\_add\_pod<std::uint64\_t>(crc\_buffer,\ max\_seq);}
+\DoxyCodeLine{00276\ \ \ \ \ crc32\_add\_pod<std::uint64\_t>(crc\_buffer,\ file\_size);}
+\DoxyCodeLine{00277\ \ \ \ \ crc32\_add\_pod<std::uint64\_t>(crc\_buffer,\ record\_count);}
+\DoxyCodeLine{00278\ \ \ \ \ crc32\_add\_pod<std::uint64\_t>(crc\_buffer,\ tombstone\_count);}
+\DoxyCodeLine{00279\ \ \ \ \ crc32\_add\_pod<std::uint64\_t>(crc\_buffer,\ data\_block\_count);}
+\DoxyCodeLine{00280\ \ \ \ \ crc32\_add\_pod<std::uint64\_t>(crc\_buffer,\ data\_bytes);}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ crc32\_add\_pod<std::uint32\_t>(crc\_buffer,\ path\_size);}
+\DoxyCodeLine{00283\ \ \ \ \ crc32\_add\_pod<std::uint32\_t>(crc\_buffer,\ smallest\_key.size);}
+\DoxyCodeLine{00284\ \ \ \ \ crc32\_add\_pod<std::uint32\_t>(crc\_buffer,\ largest\_key.size);}
+\DoxyCodeLine{00285\ }
+\DoxyCodeLine{00286\ \ \ \ \ \textcolor{keywordflow}{if}\ (path\_size\ !=\ 0)\ \{}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ compute\_crc32(crc\_buffer,\ path\_bytes.data(),\ path\_size);}
+\DoxyCodeLine{00288\ \ \ \ \ \}}
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keywordflow}{if}\ (smallest\_key.size\ !=\ 0)\ \{}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ compute\_crc32(crc\_buffer,\ smallest\_key.data,\ smallest\_key.size);}
+\DoxyCodeLine{00291\ \ \ \ \ \}}
+\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keywordflow}{if}\ (largest\_key.size\ !=\ 0)\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ compute\_crc32(crc\_buffer,\ largest\_key.data,\ largest\_key.size);}
+\DoxyCodeLine{00294\ \ \ \ \ \}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00297\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_table_meta_a47b52c68f4024d459a1228948dcc906e}\index{TableMeta@{TableMeta}!disk\_size@{disk\_size}}
+\index{disk\_size@{disk\_size}!TableMeta@{TableMeta}}
+\doxysubsubsection{\texorpdfstring{disk\_size()}{disk\_size()}}
+{\footnotesize\ttfamily \label{struct_table_meta_a47b52c68f4024d459a1228948dcc906e} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint32\+\_\+t $>$ Table\+Meta::\+disk\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00230\ \{}
+\DoxyCodeLine{00231\ \ \ \ \ Status\ validation\ =\ validate();}
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{keywordflow}{if}\ (!validation.is\_ok())\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::fail(std::move(validation));}
+\DoxyCodeLine{00234\ \ \ \ \ \}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ path\_bytes\ =\ path.generic\_string();}
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keyword}{auto}\ path\_size\_result\ =\ checked\_u32\_size(path\_bytes.size(),\ \textcolor{stringliteral}{"{}path"{}});}
+\DoxyCodeLine{00238\ \ \ \ \ \textcolor{keywordflow}{if}\ (!path\_size\_result.is\_ok())\ \{}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::fail(std::move(path\_size\_result.status));}
+\DoxyCodeLine{00240\ \ \ \ \ \}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ size\ =}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ TABLE\_META\_FIXED\_DISK\_BYTES\ +}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ variable\_payload\_size(}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ path\_size\_result.value,}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ smallest\_key.size,}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ largest\_key.size}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordflow}{return}\ checked\_u32\_size(size,\ \textcolor{stringliteral}{"{}serialized\ table\ meta"{}});}
+\DoxyCodeLine{00251\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_table_meta_a39d89c6bc9b4edd05e1c454731694eab}\index{TableMeta@{TableMeta}!load@{load}}
+\index{load@{load}!TableMeta@{TableMeta}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \label{struct_table_meta_a39d89c6bc9b4edd05e1c454731694eab} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ Table\+Meta::\+load (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00470\ \{}
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{comment}{//\ Never\ publish\ a\ partially\ advanced\ offset.}}
+\DoxyCodeLine{00472\ \ \ \ \ std::uint64\_t\ cursor\ =\ offset;}
+\DoxyCodeLine{00473\ }
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{comment}{//\ Any\ key\ allocations\ made\ while\ decoding\ this\ record\ are\ discarded\ on}}
+\DoxyCodeLine{00475\ \ \ \ \ \textcolor{comment}{//\ failure,\ including\ failures\ after\ the\ first\ key\ has\ already\ been\ read.}}
+\DoxyCodeLine{00476\ \ \ \ \ \textcolor{keyword}{const}\ Arena::Checkpoint\ checkpoint\ =\ arena.checkpoint();}
+\DoxyCodeLine{00477\ }
+\DoxyCodeLine{00478\ \ \ \ \ \textcolor{keyword}{auto}\ fail\_and\_rollback\ =\ [\&](Status\ status)\ -\/>\ Result<TableMeta>\ \{}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ arena.rollback(checkpoint);}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<TableMeta>::fail(std::move(status));}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00482\ }
+\DoxyCodeLine{00483\ \ \ \ \ Status\ read\_result;}
+\DoxyCodeLine{00484\ \ \ \ \ TableMeta\ result\{\};}
+\DoxyCodeLine{00485\ }
+\DoxyCodeLine{00486\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u64\_t\_le(file,\ result.table\_id,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00487\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00488\ }
+\DoxyCodeLine{00489\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(file,\ result.level,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00490\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00491\ }
+\DoxyCodeLine{00492\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u64\_t\_le(file,\ result.min\_seq,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00494\ }
+\DoxyCodeLine{00495\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u64\_t\_le(file,\ result.max\_seq,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00496\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00497\ }
+\DoxyCodeLine{00498\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u64\_t\_le(file,\ result.file\_size,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00499\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u64\_t\_le(file,\ result.record\_count,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00504\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u64\_t\_le(file,\ result.tombstone\_count,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00505\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00506\ }
+\DoxyCodeLine{00507\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u64\_t\_le(file,\ result.data\_block\_count,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00508\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00509\ }
+\DoxyCodeLine{00510\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u64\_t\_le(file,\ result.data\_bytes,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00512\ }
+\DoxyCodeLine{00513\ \ \ \ \ std::uint32\_t\ path\_size\ =\ 0;}
+\DoxyCodeLine{00514\ }
+\DoxyCodeLine{00515\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(file,\ path\_size,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00516\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00517\ }
+\DoxyCodeLine{00518\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(file,\ result.smallest\_key.size,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00519\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00520\ }
+\DoxyCodeLine{00521\ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_u32\_t\_le(file,\ result.largest\_key.size,\ cursor,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00522\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00524\ \ \ \ \ Status\ payload\_size\_status\ =\ validate\_variable\_payload\_size(}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ path\_size,}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ result.smallest\_key.size,}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ result.largest\_key.size}
+\DoxyCodeLine{00528\ \ \ \ \ );}
+\DoxyCodeLine{00529\ \ \ \ \ \textcolor{keywordflow}{if}\ (!payload\_size\_status.is\_ok())\ \{}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(payload\_size\_status));}
+\DoxyCodeLine{00531\ \ \ \ \ \}}
+\DoxyCodeLine{00532\ }
+\DoxyCodeLine{00533\ \ \ \ \ std::string\ path\_buffer;}
+\DoxyCodeLine{00534\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ path\_buffer.assign(path\_size,\ \textcolor{charliteral}{'\(\backslash\)0'});}
+\DoxyCodeLine{00536\ \ \ \ \ \}}
+\DoxyCodeLine{00537\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail\_and\_rollback(}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ allocate\ table\ meta\ path\ buffer"{}}}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00544\ \ \ \ \ \}}
+\DoxyCodeLine{00545\ }
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{keywordflow}{if}\ (path\_size\ !=\ 0)\ \{}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ read\_result\ =\ kvdb::blockio::read\_bytes(}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}std::byte*\textcolor{keyword}{>}(path\_buffer.data()),}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ path\_size,}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ cursor,}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ MANIFEST\_BLOCK\_SIZE}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \{}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00557\ \ \ \ \ \}}
+\DoxyCodeLine{00558\ }
+\DoxyCodeLine{00559\ \ \ \ \ \textcolor{comment}{//\ Construct\ the\ path\ before\ allocating\ keys\ in\ the\ Arena\ so\ a\ path}}
+\DoxyCodeLine{00560\ \ \ \ \ \textcolor{comment}{//\ conversion/allocation\ exception\ cannot\ strand\ Arena\ allocations.}}
+\DoxyCodeLine{00561\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ result.path\ =\ std::filesystem::path(path\_buffer);}
+\DoxyCodeLine{00563\ \ \ \ \ \}}
+\DoxyCodeLine{00564\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail\_and\_rollback(}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ allocate\ table\ meta\ filesystem\ path"{}}}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00571\ \ \ \ \ \}}
+\DoxyCodeLine{00572\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::filesystem::filesystem\_error\&\ e)\ \{}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail\_and\_rollback(}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(\textcolor{stringliteral}{"{}invalid\ serialized\ table\ path:\ \{\}"{}},\ e.what())}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00579\ \ \ \ \ \}}
+\DoxyCodeLine{00580\ }
+\DoxyCodeLine{00581\ \ \ \ \ read\_result\ =\ read\_arena\_bytes(}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ result.smallest\_key.size,}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ cursor,}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ arena,}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ result.smallest\_key.data}
+\DoxyCodeLine{00587\ \ \ \ \ );}
+\DoxyCodeLine{00588\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \{}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00590\ \ \ \ \ \}}
+\DoxyCodeLine{00591\ }
+\DoxyCodeLine{00592\ \ \ \ \ read\_result\ =\ read\_arena\_bytes(}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ result.largest\_key.size,}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ cursor,}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ arena,}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ result.largest\_key.data}
+\DoxyCodeLine{00598\ \ \ \ \ );}
+\DoxyCodeLine{00599\ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \{}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(read\_result));}
+\DoxyCodeLine{00601\ \ \ \ \ \}}
+\DoxyCodeLine{00602\ }
+\DoxyCodeLine{00603\ \ \ \ \ Status\ validation\ =\ result.validate();}
+\DoxyCodeLine{00604\ \ \ \ \ \textcolor{keywordflow}{if}\ (!validation.is\_ok())\ \{}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail\_and\_rollback(std::move(validation));}
+\DoxyCodeLine{00606\ \ \ \ \ \}}
+\DoxyCodeLine{00607\ }
+\DoxyCodeLine{00608\ \ \ \ \ \textcolor{comment}{//\ Commit\ only\ after\ the\ full\ record\ has\ been\ decoded\ and\ validated.}}
+\DoxyCodeLine{00609\ \ \ \ \ offset\ =\ cursor;}
+\DoxyCodeLine{00610\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<TableMeta>::ok(std::move(result));}
+\DoxyCodeLine{00611\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_table_meta_a9ccac5097c7fb940ce01bb1a7b3d2fb9}\index{TableMeta@{TableMeta}!validate@{validate}}
+\index{validate@{validate}!TableMeta@{TableMeta}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily \label{struct_table_meta_a9ccac5097c7fb940ce01bb1a7b3d2fb9} 
+\doxymbox{\hyperlink{struct_status}{Status}} Table\+Meta::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00142\ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ path\_bytes\ =\ path.generic\_string();}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \ \ \ \ \textcolor{keyword}{auto}\ path\_size\_result\ =\ checked\_u32\_size(path\_bytes.size(),\ \textcolor{stringliteral}{"{}path"{}});}
+\DoxyCodeLine{00146\ \ \ \ \ \textcolor{keywordflow}{if}\ (!path\_size\_result.is\_ok())\ \{}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(path\_size\_result.status);}
+\DoxyCodeLine{00148\ \ \ \ \ \}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordflow}{if}\ (smallest\_key.size\ !=\ 0\ \&\&\ smallest\_key.data\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NullPointer,}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}smallest\ key\ has\ non-\/zero\ size\ but\ null\ data"{}}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00155\ \ \ \ \ \}}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{if}\ (largest\_key.size\ !=\ 0\ \&\&\ largest\_key.data\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NullPointer,}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}largest\ key\ has\ non-\/zero\ size\ but\ null\ data"{}}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00162\ \ \ \ \ \}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ Status\ payload\_size\_status\ =\ validate\_variable\_payload\_size(}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ path\_size\_result.value,}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ smallest\_key.size,}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ largest\_key.size}
+\DoxyCodeLine{00168\ \ \ \ \ );}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{if}\ (!payload\_size\_status.is\_ok())\ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ payload\_size\_status;}
+\DoxyCodeLine{00171\ \ \ \ \ \}}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordflow}{if}\ (min\_seq\ >\ max\_seq)\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ min\ sequence\ \{\}\ exceeds\ max\ sequence\ \{\}"{}},}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ min\_seq,}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ max\_seq}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00182\ \ \ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \textcolor{keywordflow}{if}\ (tombstone\_count\ >\ record\_count)\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ tombstone\ count\ \{\}\ exceeds\ record\ count\ \{\}"{}},}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tombstone\_count,}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ record\_count}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00193\ \ \ \ \ \}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_bytes\ >\ file\_size)\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ data\ bytes\ \{\}\ exceeds\ file\ size\ \{\}"{}},}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data\_bytes,}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_size}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00204\ \ \ \ \ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{comment}{//\ Empty\ byte\ strings\ are\ allowed\ as\ keys.\ Lexicographically,\ an\ empty\ key}}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{comment}{//\ is\ smaller\ than\ any\ non-\/empty\ key.}}
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordflow}{if}\ (record\_count\ !=\ 0)\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (smallest\_key.size\ !=\ 0\ \&\&\ largest\_key.size\ ==\ 0)\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ smallest\ key\ is\ greater\ than\ empty\ largest\ key"{}}}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (smallest\_key.size\ !=\ 0\ \&\&}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ largest\_key.size\ !=\ 0\ \&\&}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ largest\_key\ <\ smallest\_key)\ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ largest\ key\ is\ smaller\ than\ smallest\ key"{}}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00224\ \ \ \ \ \}}
+\DoxyCodeLine{00225\ }
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00227\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_table_meta_a94cbe07ae01b3783937ea53fa885672f}\index{TableMeta@{TableMeta}!write@{write}}
+\index{write@{write}!TableMeta@{TableMeta}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily \label{struct_table_meta_a94cbe07ae01b3783937ea53fa885672f} 
+\doxymbox{\hyperlink{struct_status}{Status}} Table\+Meta::\+write (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00384\ \{}
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{comment}{//\ The\ full\ object\ is\ checked\ before\ touching\ the\ file.\ This\ prevents\ an}}
+\DoxyCodeLine{00386\ \ \ \ \ \textcolor{comment}{//\ invalid\ in-\/memory\ TableMeta\ from\ creating\ a\ partial\ manifest\ record.}}
+\DoxyCodeLine{00387\ \ \ \ \ Status\ validation\ =\ validate();}
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordflow}{if}\ (!validation.is\_ok())\ \{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ validation;}
+\DoxyCodeLine{00390\ \ \ \ \ \}}
+\DoxyCodeLine{00391\ }
+\DoxyCodeLine{00392\ \ \ \ \ \textcolor{keyword}{const}\ std::string\ path\_bytes\ =\ path.generic\_string();}
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keyword}{auto}\ path\_size\_result\ =\ checked\_u32\_size(path\_bytes.size(),\ \textcolor{stringliteral}{"{}path"{}});}
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordflow}{if}\ (!path\_size\_result.is\_ok())\ \{}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(path\_size\_result.status);}
+\DoxyCodeLine{00396\ \ \ \ \ \}}
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ path\_size\ =\ path\_size\_result.value;}
+\DoxyCodeLine{00398\ }
+\DoxyCodeLine{00399\ \ \ \ \ Result<std::uint64\_t>\ current\_position\ =\ file.current\_position();}
+\DoxyCodeLine{00400\ \ \ \ \ \textcolor{keywordflow}{if}\ (!current\_position.is\_ok())\ \{}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(current\_position.status);}
+\DoxyCodeLine{00402\ \ \ \ \ \}}
+\DoxyCodeLine{00403\ }
+\DoxyCodeLine{00404\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_position.value\ !=\ offset)\ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}writable\ file\ current\ offset\ \{\}\ and\ tracked\ offset\ \{\}\ differ"{}},}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_position.value,}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ offset}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00413\ \ \ \ \ \}}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \ \ \ \ Status\ result;}
+\DoxyCodeLine{00416\ }
+\DoxyCodeLine{00417\ \ \ \ \ result\ =\ kvdb::blockio::write\_u64\_t\_le(file,\ table\_id,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00418\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00420\ \ \ \ \ result\ =\ kvdb::blockio::write\_u32\_t\_le(file,\ level,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00422\ }
+\DoxyCodeLine{00423\ \ \ \ \ result\ =\ kvdb::blockio::write\_u64\_t\_le(file,\ min\_seq,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00424\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00425\ }
+\DoxyCodeLine{00426\ \ \ \ \ result\ =\ kvdb::blockio::write\_u64\_t\_le(file,\ max\_seq,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00428\ }
+\DoxyCodeLine{00429\ \ \ \ \ result\ =\ kvdb::blockio::write\_u64\_t\_le(file,\ file\_size,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00430\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00431\ }
+\DoxyCodeLine{00432\ \ \ \ \ result\ =\ kvdb::blockio::write\_u64\_t\_le(file,\ record\_count,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00433\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00434\ }
+\DoxyCodeLine{00435\ \ \ \ \ result\ =\ kvdb::blockio::write\_u64\_t\_le(file,\ tombstone\_count,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00437\ }
+\DoxyCodeLine{00438\ \ \ \ \ result\ =\ kvdb::blockio::write\_u64\_t\_le(file,\ data\_block\_count,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00439\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00440\ }
+\DoxyCodeLine{00441\ \ \ \ \ result\ =\ kvdb::blockio::write\_u64\_t\_le(file,\ data\_bytes,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00442\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00443\ }
+\DoxyCodeLine{00444\ \ \ \ \ result\ =\ kvdb::blockio::write\_u32\_t\_le(file,\ path\_size,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00446\ }
+\DoxyCodeLine{00447\ \ \ \ \ result\ =\ kvdb::blockio::write\_u32\_t\_le(file,\ smallest\_key.size,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00448\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00449\ }
+\DoxyCodeLine{00450\ \ \ \ \ result\ =\ kvdb::blockio::write\_u32\_t\_le(file,\ largest\_key.size,\ offset,\ MANIFEST\_BLOCK\_SIZE);}
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00452\ }
+\DoxyCodeLine{00453\ \ \ \ \ result\ =\ write\_raw\_bytes(file,\ path\_bytes.data(),\ path\_size,\ offset);}
+\DoxyCodeLine{00454\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00455\ }
+\DoxyCodeLine{00456\ \ \ \ \ result\ =\ write\_raw\_bytes(file,\ smallest\_key.data,\ smallest\_key.size,\ offset);}
+\DoxyCodeLine{00457\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00458\ }
+\DoxyCodeLine{00459\ \ \ \ \ result\ =\ write\_raw\_bytes(file,\ largest\_key.data,\ largest\_key.size,\ offset);}
+\DoxyCodeLine{00460\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00461\ }
+\DoxyCodeLine{00462\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00463\ \}}
+
+\end{DoxyCode}
+
+
+\label{struct_table_meta_doc-variable-members}
+\Hypertarget{struct_table_meta_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_table_meta_aa81fabe43bd81e2f7ef72fde828a798e}\index{TableMeta@{TableMeta}!largest\_key@{largest\_key}}
+\index{largest\_key@{largest\_key}!TableMeta@{TableMeta}}
+\doxysubsubsection{\texorpdfstring{largest\_key}{largest\_key}}
+{\footnotesize\ttfamily \label{struct_table_meta_aa81fabe43bd81e2f7ef72fde828a798e} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} Table\+Meta::\+largest\+\_\+key \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00031\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{struct_table_meta_a972318984aeebe680cd566fc70a80d4b}\index{TableMeta@{TableMeta}!smallest\_key@{smallest\_key}}
+\index{smallest\_key@{smallest\_key}!TableMeta@{TableMeta}}
+\doxysubsubsection{\texorpdfstring{smallest\_key}{smallest\_key}}
+{\footnotesize\ttfamily \label{struct_table_meta_a972318984aeebe680cd566fc70a80d4b} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} Table\+Meta::\+smallest\+\_\+key \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00030\ \{\};}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+table\+\_\+meta.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+table\+\_\+meta.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,28 @@
+\doxysection{compaction\+\_\+scheduler.\+h}
+\hypertarget{compaction__scheduler_8h_source}{}\label{compaction__scheduler_8h_source}\index{C:/Users/user/KVDB/include/compaction\_scheduler.h@{C:/Users/user/KVDB/include/compaction\_scheduler.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}compaction\_options.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}compaction\_plan.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}level\_manager.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_compaction_scheduler}{CompactionScheduler}}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00013\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ should\_compact(}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_level_manager}{LevelManager}}\&\ levels,}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_compaction_options}{CompactionOptions}}\&\ options}
+\DoxyCodeLine{00016\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<CompactionPlan>}}>\ pick\_compaction(}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_level_manager}{LevelManager}}\&\ levels,}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_compaction_options}{CompactionOptions}}\&\ options}
+\DoxyCodeLine{00021\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00022\ \};}
+
+\end{DoxyCode}

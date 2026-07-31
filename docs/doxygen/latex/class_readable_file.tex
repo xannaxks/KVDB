@@ -1,0 +1,84 @@
+\doxysection{Readable\+File Class Reference}
+\hypertarget{class_readable_file}{}\label{class_readable_file}\index{ReadableFile@{ReadableFile}}
+Inheritance diagram for Readable\+File:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.587583cm]{class_readable_file}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_readable_file_a96d6273c57c0e8fa0163aca0b1cfa4bb}\label{class_readable_file_a96d6273c57c0e8fa0163aca0b1cfa4bb} 
+virtual \doxymbox{\hyperlink{struct_status}{Status}} {\bfseries read\+\_\+at} (std::\+uint64\+\_\+t offset, void \texorpdfstring{$\ast$}{*}buffer, std::\+size\+\_\+t size, std::\+size\+\_\+t \&bytes\+\_\+read)=0
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_readable_file_a3962bd261041d2514cef4e0460574052}{read\+\_\+exact\+\_\+at}} (std::\+uint64\+\_\+t offset, void \texorpdfstring{$\ast$}{*}buffer, std::\+size\+\_\+t size, std::\+uint64\+\_\+t \&track\+\_\+offset)
+\item 
+\Hypertarget{class_readable_file_ad6d2a1437adf3045fcf712d0923a01de}\label{class_readable_file_ad6d2a1437adf3045fcf712d0923a01de} 
+virtual \doxymbox{\hyperlink{struct_status}{Status}} {\bfseries close} ()=0
+\item 
+\Hypertarget{class_readable_file_a3f793f1dcb7f88a7c1b46adf865c4fad}\label{class_readable_file_a3f793f1dcb7f88a7c1b46adf865c4fad} 
+virtual \doxymbox{\hyperlink{struct_status}{Status}} {\bfseries get\+\_\+file\+\_\+size} (std::\+uint64\+\_\+t \&size\+\_\+out)=0
+\item 
+\Hypertarget{class_readable_file_acb7117ffe31bcb0d1d3b3e9990d302ef}\label{class_readable_file_acb7117ffe31bcb0d1d3b3e9990d302ef} 
+virtual const int \& {\bfseries get\+\_\+descriptor} () const =0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}\label{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5} 
+std::\+filesystem::\+path {\bfseries path}
+\end{DoxyCompactItemize}
+
+
+\label{class_readable_file_doc-func-members}
+\Hypertarget{class_readable_file_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_readable_file_a3962bd261041d2514cef4e0460574052}\index{ReadableFile@{ReadableFile}!read\_exact\_at@{read\_exact\_at}}
+\index{read\_exact\_at@{read\_exact\_at}!ReadableFile@{ReadableFile}}
+\doxysubsubsection{\texorpdfstring{read\_exact\_at()}{read\_exact\_at()}}
+{\footnotesize\ttfamily \label{class_readable_file_a3962bd261041d2514cef4e0460574052} 
+\doxymbox{\hyperlink{struct_status}{Status}} Readable\+File::\+read\+\_\+exact\+\_\+at (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{offset}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{buffer}{, }\item[{std::\+size\+\_\+t}]{size}{, }\item[{std::\+uint64\+\_\+t \&}]{track\+\_\+offset}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00032\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ std::size\_t\ total\_read\ =\ 0;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{char}*\ out\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(buffer);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{while}\ (total\_read\ <\ size)}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ std::size\_t\ bytes\_read\ =\ 0;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Status\ read\_result\ =\ read\_at(}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ +\ total\_read,}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +\ total\_read,}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ size\ -\/\ total\_read,}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_read}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{comment}{//\ os\ read\ failed}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes\_read\ ==\ 0)\ \textcolor{comment}{//\ eof\ before\ reading\ enough\ bytes}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Unexpected\ end\ of\ file\ during\ read\ of\ "{}}\ +\ std::to\_string(size)\ +\ \textcolor{stringliteral}{"{}\ bytes\ on\ "{}}\ +\ this-\/>path.string()}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ total\_read\ +=\ bytes\_read;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ track\_offset\ =\ offset\ +\ total\_read;}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00063\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+file.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+file.\+cpp\end{DoxyCompactItemize}

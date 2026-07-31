@@ -1,0 +1,340 @@
+\doxysection{anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+Memory\+Writable\+File Class Reference}
+\hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file}{}\label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+Inheritance diagram for anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+Memory\+Writable\+File:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a9eb1a75864e903f302efbfd922458f35}{Memory\+Writable\+File}} (std::\+uint64\+\_\+t initial\+\_\+position=0, std::\+size\+\_\+t fail\+\_\+after\+\_\+bytes=std::\+numeric\+\_\+limits$<$ std::\+size\+\_\+t $>$::\+max())
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a94d6aa53e993f021d6c20a7048081eb8}{append}} (const void \texorpdfstring{$\ast$}{*}data, std::\+size\+\_\+t size, std::\+uint64\+\_\+t \&tracked\+\_\+offset) override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_acc5cc91ea0c01496f616f24cbce6f6be}{sync}} () override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_abe3049a4f63ac5134dfd40c728f8af41}{close}} () override
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a1627192b7f567fa9e240e8272ca6f1e5}{current\+\_\+position}} () override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a24595e9466242e185eb2d814f1773402}{get\+\_\+file\+\_\+size}} (std::\+uint64\+\_\+t \&size\+\_\+out) override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a2d3be81964008313a9d5f646325130a6}{durable\+\_\+rename}} (const std::\+filesystem::\+path \&, bool) override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a7a3140bd5958cf8f0c05aa62d263726c}{sync\+\_\+parent\+\_\+directory}} () override
+\item 
+std::\+filesystem::\+path \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_ac79521118fbef09d632b5f63e796954c}{parent\+\_\+directory}} () override
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a505ed0039563d67421dd036a22fd9a10}{seek\+\_\+to\+\_\+end}} () override
+\item 
+const int \& \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a5163bb14778355682274e31697542a3d}{get\+\_\+descriptor}} () const override
+\item 
+const std::\+vector$<$ std::\+byte $>$ \& \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_abcbb975c13835454f9be76fd39e6cb98}{bytes}} () const noexcept
+\item 
+std::\+uint64\+\_\+t \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a184add8c6cac38ea892c22d2efae7eb8}{position}} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}\label{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2} 
+std::\+filesystem::\+path {\bfseries path}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a2457f98bb479794a9d3358fc26bccdb6}\label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a2457f98bb479794a9d3358fc26bccdb6} 
+int {\bfseries descriptor\+\_\+} = -\/1
+\item 
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a93e267dfff20f8a8c2c316586b9b76cb}\label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a93e267dfff20f8a8c2c316586b9b76cb} 
+std::\+uint64\+\_\+t {\bfseries position\+\_\+} = 0
+\item 
+std::\+size\+\_\+t \doxymbox{\hyperlink{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a1e60d953e5c4ce948228a27b846974ad}{fail\+\_\+after\+\_\+bytes\+\_\+}}
+\item 
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_aa7a984cd276e3ed211c9131b004bde91}\label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_aa7a984cd276e3ed211c9131b004bde91} 
+std::\+size\+\_\+t {\bfseries bytes\+\_\+written\+\_\+} = 0
+\item 
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_af3d38d0ac3bfccdc74ab2ab711c3bcfc}\label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_af3d38d0ac3bfccdc74ab2ab711c3bcfc} 
+std::\+vector$<$ std::\+byte $>$ {\bfseries bytes\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_doc-constructors}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a9eb1a75864e903f302efbfd922458f35}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!MemoryWritableFile@{MemoryWritableFile}}
+\index{MemoryWritableFile@{MemoryWritableFile}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{MemoryWritableFile()}{MemoryWritableFile()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a9eb1a75864e903f302efbfd922458f35} 
+anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+\+Memory\+Writable\+File (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{initial\+\_\+position}{ = {\ttfamily 0}, }\item[{std::\+size\+\_\+t}]{fail\+\_\+after\+\_\+bytes}{ = {\ttfamily std:\+:\+numeric\+\_\+limits$<$std:\+:\+size\+\_\+t$>$:\+:\+max()}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ :\ position\_(initial\_position),}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ fail\_after\_bytes\_(fail\_after\_bytes),}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_(}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(initial\_position),}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::byte\{\ 0\ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_doc-func-members}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a94d6aa53e993f021d6c20a7048081eb8}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!append@{append}}
+\index{append@{append}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a94d6aa53e993f021d6c20a7048081eb8} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+append (\begin{DoxyParamCaption}\item[{const void \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{std::\+size\+\_\+t}]{size}{, }\item[{std::\+uint64\+\_\+t \&}]{tracked\+\_\+offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tracked\_offset\ !=\ position\_)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}test\ writable\ offset\ mismatch"{}}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ remaining\ =}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_written\_\ >=\ fail\_after\_bytes\_}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ 0}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ fail\_after\_bytes\_\ -\/\ bytes\_written\_;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ writable\ =\ std::min(size,\ remaining);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (writable\ >\ 0)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ required\ =}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(position\_)\ +\ writable;}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes\_.size()\ <\ required)\ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_.resize(required);}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_.data()\ +\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(position\_),}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data,}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ writable}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position\_\ +=\ writable;}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tracked\_offset\ +=\ writable;}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_written\_\ +=\ writable;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (writable\ !=\ size)\ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::WriteFailed,}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}injected\ index\ write\ failure"{}}}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_abcbb975c13835454f9be76fd39e6cb98}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!bytes@{bytes}}
+\index{bytes@{bytes}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{bytes()}{bytes()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_abcbb975c13835454f9be76fd39e6cb98} 
+const std::\+vector$<$ std::\+byte $>$ \& anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+bytes (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bytes\_;}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_abe3049a4f63ac5134dfd40c728f8af41}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!close@{close}}
+\index{close@{close}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_abe3049a4f63ac5134dfd40c728f8af41} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+close (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00089\ \{\ \textcolor{keywordflow}{return}\ Status::ok();\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a1627192b7f567fa9e240e8272ca6f1e5}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!current\_position@{current\_position}}
+\index{current\_position@{current\_position}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{current\_position()}{current\_position()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a1627192b7f567fa9e240e8272ca6f1e5} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+current\+\_\+position (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::ok(position\_);}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a2d3be81964008313a9d5f646325130a6}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!durable\_rename@{durable\_rename}}
+\index{durable\_rename@{durable\_rename}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{durable\_rename()}{durable\_rename()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a2d3be81964008313a9d5f646325130a6} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+durable\+\_\+rename (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{}{, }\item[{bool}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a5163bb14778355682274e31697542a3d}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!get\_descriptor@{get\_descriptor}}
+\index{get\_descriptor@{get\_descriptor}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{get\_descriptor()}{get\_descriptor()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a5163bb14778355682274e31697542a3d} 
+const int \& anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+get\+\_\+descriptor (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00129\ \{\ \textcolor{keywordflow}{return}\ descriptor\_;\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a24595e9466242e185eb2d814f1773402}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!get\_file\_size@{get\_file\_size}}
+\index{get\_file\_size@{get\_file\_size}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{get\_file\_size()}{get\_file\_size()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a24595e9466242e185eb2d814f1773402} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+get\+\_\+file\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t \&}]{size\+\_\+out}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ size\_out\ =\ bytes\_.size();}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_ac79521118fbef09d632b5f63e796954c}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!parent\_directory@{parent\_directory}}
+\index{parent\_directory@{parent\_directory}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{parent\_directory()}{parent\_directory()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_ac79521118fbef09d632b5f63e796954c} 
+std::\+filesystem::\+path anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+parent\+\_\+directory (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a184add8c6cac38ea892c22d2efae7eb8}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!position@{position}}
+\index{position@{position}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{position()}{position()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a184add8c6cac38ea892c22d2efae7eb8} 
+std::\+uint64\+\_\+t anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+position (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ position\_;}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a505ed0039563d67421dd036a22fd9a10}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!seek\_to\_end@{seek\_to\_end}}
+\index{seek\_to\_end@{seek\_to\_end}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{seek\_to\_end()}{seek\_to\_end()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a505ed0039563d67421dd036a22fd9a10} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+seek\+\_\+to\+\_\+end (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ position\_\ =\ bytes\_.size();}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint64\_t>::ok(position\_);}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_acc5cc91ea0c01496f616f24cbce6f6be}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!sync@{sync}}
+\index{sync@{sync}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{sync()}{sync()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_acc5cc91ea0c01496f616f24cbce6f6be} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+sync (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00088\ \{\ \textcolor{keywordflow}{return}\ Status::ok();\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a7a3140bd5958cf8f0c05aa62d263726c}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!sync\_parent\_directory@{sync\_parent\_directory}}
+\index{sync\_parent\_directory@{sync\_parent\_directory}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{sync\_parent\_directory()}{sync\_parent\_directory()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a7a3140bd5958cf8f0c05aa62d263726c} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+sync\+\_\+parent\+\_\+directory (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_writable_file}{Writable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_doc-variable-members}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a1e60d953e5c4ce948228a27b846974ad}\index{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}!fail\_after\_bytes\_@{fail\_after\_bytes\_}}
+\index{fail\_after\_bytes\_@{fail\_after\_bytes\_}!anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile@{anonymous\_namespace\lcurly{}index\_section\_test.cpp\rcurly{}::MemoryWritableFile}}
+\doxysubsubsection{\texorpdfstring{fail\_after\_bytes\_}{fail\_after\_bytes\_}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02index__section__test_8cpp_03_1_1_memory_writable_file_a1e60d953e5c4ce948228a27b846974ad} 
+std::\+size\+\_\+t anonymous\+\_\+namespace\{index\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Writable\+File::\+fail\+\_\+after\+\_\+bytes\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{std::numeric\_limits<std::size\_t>::max()}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+sstable\+\_\+entities/\+index\+\_\+section\+\_\+test.\+cpp\end{DoxyCompactItemize}

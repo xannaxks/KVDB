@@ -1,0 +1,65 @@
+\doxysection{anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+Stored\+Record Struct Reference}
+\hypertarget{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record}{}\label{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_a619abfc8196f15b1ef4d49f7d736d9a6}{Stored\+Record}} (std::\+string key\+\_\+bytes, std::\+string value\+\_\+bytes, Type type, std::\+uint64\+\_\+t sequence)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_a419c15d0456c1139f09c4b78eaa8f3c5}\label{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_a419c15d0456c1139f09c4b78eaa8f3c5} 
+std::\+string {\bfseries key}
+\item 
+\Hypertarget{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_af9c82898c9971c5be70834349ab4cb3c}\label{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_af9c82898c9971c5be70834349ab4cb3c} 
+std::\+string {\bfseries value}
+\item 
+\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \doxymbox{\hyperlink{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_a61538791b3ccb2d7838fd8503f3eaee5}{record}} \{\}
+\end{DoxyCompactItemize}
+
+
+\label{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_doc-constructors}
+\Hypertarget{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_a619abfc8196f15b1ef4d49f7d736d9a6}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord}!StoredRecord@{StoredRecord}}
+\index{StoredRecord@{StoredRecord}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord}}
+\doxysubsubsection{\texorpdfstring{StoredRecord()}{StoredRecord()}}
+{\footnotesize\ttfamily \label{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_a619abfc8196f15b1ef4d49f7d736d9a6} 
+anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+\+Stored\+Record::\+\+Stored\+Record (\begin{DoxyParamCaption}\item[{std::\+string}]{key\+\_\+bytes}{, }\item[{std::\+string}]{value\+\_\+bytes}{, }\item[{Type}]{type}{, }\item[{std::\+uint64\+\_\+t}]{sequence}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ :\ key(std::move(key\_bytes)),}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ value(std::move(value\_bytes)) }
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ record.key\_entry.data\ =\ key.empty()\ ?\ nullptr\ :\ key.data();}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ record.key\_entry.size\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(key.size());}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ record.value\_entry.data\ =\ value.empty()\ ?\ nullptr\ :\ value.data();}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ record.value\_entry.size\ =}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(value.size());}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ record.type\ =\ type;}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ record.seq\_num\ =\ sequence;}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_doc-variable-members}
+\Hypertarget{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_a61538791b3ccb2d7838fd8503f3eaee5}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord}!record@{record}}
+\index{record@{record}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}::StoredRecord}}
+\doxysubsubsection{\texorpdfstring{record}{record}}
+{\footnotesize\ttfamily \label{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record_a61538791b3ccb2d7838fd8503f3eaee5} 
+\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+\+Stored\+Record::\+record \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00217\ \{\};}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+sstable\+\_\+entities/\+meta\+\_\+section\+\_\+test.\+cpp\end{DoxyCompactItemize}

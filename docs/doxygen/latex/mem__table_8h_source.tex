@@ -1,0 +1,93 @@
+\doxysection{mem\+\_\+table.\+h}
+\hypertarget{mem__table_8h_source}{}\label{mem__table_8h_source}\index{C:/Users/user/KVDB/include/mem\_table.h@{C:/Users/user/KVDB/include/mem\_table.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <deque>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <shared\_mutex>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}red\_black\_tree.h"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }MemTable}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_mem_table_1_1_immutable_snapshot}{ImmutableSnapshot}}}
+\DoxyCodeLine{00016\ \ \ \ \ \{}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ std::uint64\_t\ generation\_id\ =\ 0;}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ std::shared\_ptr<const\ RBTree>\ table;}
+\DoxyCodeLine{00019\ \ \ \ \ \};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ MemTable();}
+\DoxyCodeLine{00022\ \ \ \ \ \string~MemTable()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ MemTable(\textcolor{keyword}{const}\ MemTable\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00025\ \ \ \ \ MemTable\&\ operator=(\textcolor{keyword}{const}\ MemTable\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00026\ \ \ \ \ MemTable(MemTable\&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00027\ \ \ \ \ MemTable\&\ operator=(MemTable\&\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//\ Inserts\ an\ already\ materialized\ internal\ record\ into\ the\ active\ table.}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{comment}{//\ ArenaEntry\ storage\ referenced\ by\ the\ record\ must\ remain\ alive\ for\ as\ long}}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{comment}{//\ as\ the\ corresponding\ mutable/immutable\ generation\ remains\ readable.}}
+\DoxyCodeLine{00032\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ apply(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ entry);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ put(}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key,}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ value,}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ std::uint64\_t\ sequence\_number}
+\DoxyCodeLine{00038\ \ \ \ \ );}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ remove(}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ key,}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ std::uint64\_t\ sequence\_number}
+\DoxyCodeLine{00043\ \ \ \ \ );}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{comment}{//\ Returns\ the\ newest\ InternalRecord,\ including\ tombstones.\ A\ tombstone\ is\ a}}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{comment}{//\ successful\ lookup\ and\ must\ stop\ the\ Engine\ from\ searching\ older\ SSTables.}}
+\DoxyCodeLine{00047\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<InternalRecord>}}>\ get(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\&\ key)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//\ Moves\ the\ current\ active\ tree\ into\ the\ immutable\ queue\ and\ installs\ a\ new}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{comment}{//\ active\ tree.\ Freezing\ an\ empty\ active\ tree\ is\ a\ successful\ no-\/op.}}
+\DoxyCodeLine{00051\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ freeze\_mutable();}
+\DoxyCodeLine{00052\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ manual\_freeze();}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{comment}{//\ A\ flush\ worker\ keeps\ this\ shared\ snapshot\ alive\ while\ building\ an\ SSTable.}}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{comment}{//\ The\ table\ remains\ visible\ to\ reads\ until\ retire\_oldest\_immutable\ succeeds.}}
+\DoxyCodeLine{00056\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<ImmutableSnapshot>}}\ oldest\_immutable()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//\ Retires\ exactly\ the\ generation\ that\ was\ flushed.\ Returns\ false\ when\ the}}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{comment}{//\ queue\ changed\ or\ the\ supplied\ generation\ is\ stale.}}
+\DoxyCodeLine{00060\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ retire\_oldest\_immutable(}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ std::uint64\_t\ generation\_id}
+\DoxyCodeLine{00062\ \ \ \ \ );}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{comment}{//\ Compatibility\ helper\ for\ builders\ that\ currently\ consume\ a\ vector.}}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{comment}{//\ On\ success,\ out\ is\ replaced\ with\ the\ oldest\ immutable\ table's\ records.}}
+\DoxyCodeLine{00066\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ dump\_oldest\_immutable(}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ std::vector<InternalRecord>\&\ out,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ generation\_id}
+\DoxyCodeLine{00069\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ has\_immutable()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00072\ \ \ \ \ [[nodiscard]]\ std::size\_t\ immutable\_count()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00073\ \ \ \ \ [[nodiscard]]\ std::size\_t\ mutable\_memory\_usage()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00074\ \ \ \ \ [[nodiscard]]\ std::size\_t\ approximate\_memory\_usage()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_mem_table_1_1_immutable_table}{ImmutableTable}}}
+\DoxyCodeLine{00078\ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ std::uint64\_t\ generation\_id\ =\ 0;}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ std::shared\_ptr<const\ RBTree>\ table;}
+\DoxyCodeLine{00081\ \ \ \ \ \};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{mutable}\ std::shared\_mutex\ mutex\_;}
+\DoxyCodeLine{00084\ \ \ \ \ std::shared\_ptr<RBTree>\ mutable\_table\_;}
+\DoxyCodeLine{00085\ \ \ \ \ std::deque<ImmutableTable>\ immutable\_tables\_;}
+\DoxyCodeLine{00086\ \ \ \ \ std::uint64\_t\ next\_generation\_id\_\ =\ 1;}
+\DoxyCodeLine{00087\ \};}
+
+\end{DoxyCode}

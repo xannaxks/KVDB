@@ -1,0 +1,82 @@
+\doxysection{anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+Owned\+Internal\+Record Struct Reference}
+\hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record}{}\label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a8c8d30f80ac763690ba06e0faa130416}{Owned\+Internal\+Record}} (std::\+string key, std::\+string value, ::\+\+Type type, std::\+uint64\+\_\+t seq\+\_\+num)
+\item 
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_aa87991eb50d30996375fe3f94cd2d56b}\label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_aa87991eb50d30996375fe3f94cd2d56b} 
+{\bfseries Owned\+Internal\+Record} (const Owned\+Internal\+Record \&)=delete
+\item 
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_af2134bf617d032639e00fa8a5a6ff5ae}\label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_af2134bf617d032639e00fa8a5a6ff5ae} 
+Owned\+Internal\+Record \& {\bfseries operator=} (const Owned\+Internal\+Record \&)=delete
+\item 
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a21f3e974595efe7f363a0902702cd631}\label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a21f3e974595efe7f363a0902702cd631} 
+{\bfseries Owned\+Internal\+Record} (Owned\+Internal\+Record \&\&)=delete
+\item 
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a3e278edb0e9682b31aae83fc34c6434f}\label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a3e278edb0e9682b31aae83fc34c6434f} 
+Owned\+Internal\+Record \& {\bfseries operator=} (Owned\+Internal\+Record \&\&)=delete
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a4d2fdb690e04f130a39eb034a20584ec}\label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a4d2fdb690e04f130a39eb034a20584ec} 
+std::\+string {\bfseries key\+\_\+storage}
+\item 
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a8ced1e304cce6eb4404f275ff4cad5eb}\label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a8ced1e304cce6eb4404f275ff4cad5eb} 
+std::\+string {\bfseries value\+\_\+storage}
+\item 
+\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \doxymbox{\hyperlink{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_aa5f8f4002a524d41819b503819d00392}{record}} \{\}
+\end{DoxyCompactItemize}
+
+
+\label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_doc-constructors}
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a8c8d30f80ac763690ba06e0faa130416}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord}!OwnedInternalRecord@{OwnedInternalRecord}}
+\index{OwnedInternalRecord@{OwnedInternalRecord}!anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord}}
+\doxysubsubsection{\texorpdfstring{OwnedInternalRecord()}{OwnedInternalRecord()}}
+{\footnotesize\ttfamily \label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_a8c8d30f80ac763690ba06e0faa130416} 
+anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+\+Owned\+Internal\+Record::\+\+Owned\+Internal\+Record (\begin{DoxyParamCaption}\item[{std::\+string}]{key}{, }\item[{std::\+string}]{value}{, }\item[{::\+\+Type}]{type}{, }\item[{std::\+uint64\+\_\+t}]{seq\+\_\+num}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ :\ key\_storage(std::move(key)),}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ value\_storage(std::move(value)) }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ record.type\ =\ type;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ record.seq\_num\ =\ seq\_num;}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ record.key\_entry.data\ =\ key\_storage.empty()}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ nullptr}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ key\_storage.data();}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ record.key\_entry.size\ =\ key\_storage.size();}
+\DoxyCodeLine{00092\ }
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ record.value\_entry.data\ =\ value\_storage.empty()}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ nullptr}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ value\_storage.data();}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ record.value\_entry.size\ =\ value\_storage.size();}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_doc-variable-members}
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_aa5f8f4002a524d41819b503819d00392}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord}!record@{record}}
+\index{record@{record}!anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::OwnedInternalRecord}}
+\doxysubsubsection{\texorpdfstring{record}{record}}
+{\footnotesize\ttfamily \label{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record_aa5f8f4002a524d41819b503819d00392} 
+\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+\+Owned\+Internal\+Record::\+record \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00074\ \{\};}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+sstable\+\_\+pipeline\+\_\+test.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,188 @@
+\doxysection{SSTable\+Entities::\+Data\+Section\+View::\+Header Struct Reference}
+\hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header}{}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_header}\index{SSTableEntities::DataSectionView::Header@{SSTableEntities::DataSectionView::Header}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std::\+uint64\+\_\+t \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_header_a6f13e3a8f292064fa3624c4f3b1f60fd}{used\+\_\+size}} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_header}{Header}} $>$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_header_a762dd81002ad72dc0478019f83ee7cd4}{load}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset, std::\+uint64\+\_\+t section\+\_\+end\+\_\+offset)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_header}{Data\+Section::\+\+Header}} \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_header_ae1ece4c3785f6658e5cc59b7042b66c5}{header}} \{\}
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header_aa42441701944076eb72ffa07f7e5c7ec}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_header_aa42441701944076eb72ffa07f7e5c7ec} 
+std::\+uint64\+\_\+t {\bfseries header\+\_\+offset} = 0
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header_aacf4525a183cc9b904d36571384c3c2d}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_header_aacf4525a183cc9b904d36571384c3c2d} 
+std::\+uint64\+\_\+t {\bfseries payload\+\_\+offset} = 0
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header_aba4715b21ec10d7050a6a8e8e60cd860}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_header_aba4715b21ec10d7050a6a8e8e60cd860} 
+std::\+uint64\+\_\+t {\bfseries payload\+\_\+end\+\_\+offset} = 0
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header_aa955f7bb84e63d314121f47fdeb799b4}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_header_aa955f7bb84e63d314121f47fdeb799b4} 
+std::\+uint64\+\_\+t {\bfseries next\+\_\+block\+\_\+offset} = 0
+\end{DoxyCompactItemize}
+
+
+\label{struct_s_s_table_entities_1_1_data_section_view_1_1_header_doc-func-members}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header_a762dd81002ad72dc0478019f83ee7cd4}\index{SSTableEntities::DataSectionView::Header@{SSTableEntities::DataSectionView::Header}!load@{load}}
+\index{load@{load}!SSTableEntities::DataSectionView::Header@{SSTableEntities::DataSectionView::Header}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_header_a762dd81002ad72dc0478019f83ee7cd4} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_header}{Data\+Section\+View::\+\+Header}} $>$ Data\+Section\+View::\+\+Header::\+load (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{, }\item[{std::\+uint64\+\_\+t}]{section\+\_\+end\+\_\+offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00152\ \{}
+\DoxyCodeLine{00153\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ original\_offset\ =\ offset;}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ \%\ BLOCK\_SIZE\ !=\ 0)\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(Status\{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidAlignment,}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ block\ header\ offset\ is\ not\ block\ aligned"{}}}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00160\ \ \ \ \ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ std::uint64\_t\ header\_end\ =\ 0;}
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(offset,\ kHeaderSize,\ header\_end)\ ||}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ header\_end\ >\ section\_end\_offset)\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(Status\{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ block\ header\ lies\ outside\ the\ declared\ data\ section"{}}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00169\ \ \ \ \ \}}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \ \ Header\ result\{\};}
+\DoxyCodeLine{00172\ \ \ \ \ result.header\_offset\ =\ offset;}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ std::uint8\_t\ encoded\_type\ =\ 0;}
+\DoxyCodeLine{00175\ \ \ \ \ Status\ status\ =\ kvdb::blockio::read\_u8\_t(}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ encoded\_type,}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00180\ \ \ \ \ );}
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(std::move(status));}
+\DoxyCodeLine{00184\ \ \ \ \ \}}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00186\ \ \ \ \ result.header.type\ =\ \textcolor{keyword}{static\_cast<}BlockType\textcolor{keyword}{>}(encoded\_type);}
+\DoxyCodeLine{00187\ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ result.header.payload\_disk\_size,}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00192\ \ \ \ \ );}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(std::move(status));}
+\DoxyCodeLine{00196\ \ \ \ \ \}}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ result.header.crc32,}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00203\ \ \ \ \ );}
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(std::move(status));}
+\DoxyCodeLine{00207\ \ \ \ \ \}}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keywordflow}{if}\ (result.header.type\ !=\ BlockType::Data)\ \{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(Status\{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidBlockType,}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}expected\ a\ data\ block\ while\ discovering\ DataSectionView"{}}}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00215\ \ \ \ \ \}}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ payload\_capacity\ =}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(BLOCK\_SIZE\ -\/\ kHeaderSize);}
+\DoxyCodeLine{00219\ \ \ \ \ \textcolor{keywordflow}{if}\ (result.header.payload\_disk\_size\ >\ payload\_capacity)\ \{}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(Status\{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ block\ payload\ size\ exceeds\ physical\ block\ capacity"{}}}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00225\ \ \ \ \ \}}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ result.payload\_offset\ =\ offset;}
+\DoxyCodeLine{00228\ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ result.payload\_offset,}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ result.header.payload\_disk\_size,}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ result.payload\_end\_offset))\ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(Status\{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OffsetOutOfRange,}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ block\ payload\ end\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00237\ \ \ \ \ \}}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ result.header\_offset,}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ BLOCK\_SIZE,}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ result.next\_block\_offset))\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(Status\{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OffsetOutOfRange,}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}next\ data\ block\ offset\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00248\ \ \ \ \ \}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordflow}{if}\ (result.payload\_end\_offset\ >\ result.next\_block\_offset\ ||}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ result.next\_block\_offset\ >\ section\_end\_offset)\ \{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(Status\{}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OffsetOverlap,}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ block\ extends\ outside\ its\ physical\ block\ or\ declared\ section"{}}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00257\ \ \ \ \ \}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::ok(std::move(result));}
+\DoxyCodeLine{00260\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header_a6f13e3a8f292064fa3624c4f3b1f60fd}\index{SSTableEntities::DataSectionView::Header@{SSTableEntities::DataSectionView::Header}!used\_size@{used\_size}}
+\index{used\_size@{used\_size}!SSTableEntities::DataSectionView::Header@{SSTableEntities::DataSectionView::Header}}
+\doxysubsubsection{\texorpdfstring{used\_size()}{used\_size()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_header_a6f13e3a8f292064fa3624c4f3b1f60fd} 
+std::\+uint64\+\_\+t Data\+Section\+View::\+\+Header::\+used\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00143\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(kHeaderSize)\ +\ header.payload\_disk\_size;}
+\DoxyCodeLine{00145\ \}}
+
+\end{DoxyCode}
+
+
+\label{struct_s_s_table_entities_1_1_data_section_view_1_1_header_doc-variable-members}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_header_ae1ece4c3785f6658e5cc59b7042b66c5}\index{SSTableEntities::DataSectionView::Header@{SSTableEntities::DataSectionView::Header}!header@{header}}
+\index{header@{header}!SSTableEntities::DataSectionView::Header@{SSTableEntities::DataSectionView::Header}}
+\doxysubsubsection{\texorpdfstring{header}{header}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_header_ae1ece4c3785f6658e5cc59b7042b66c5} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_header}{Data\+Section::\+\+Header}} SSTable\+Entities::\+\+Data\+Section\+View::\+\+Header::\+header \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00021\ \{\};}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+sstable\+\_\+entities/\+data\+\_\+section\+\_\+view.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+sstable\+\_\+entities/\+data\+\_\+section\+\_\+view.\+cpp\end{DoxyCompactItemize}

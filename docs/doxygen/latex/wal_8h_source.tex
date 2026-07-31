@@ -1,0 +1,386 @@
+\doxysection{wal.\+h}
+\hypertarget{wal_8h_source}{}\label{wal_8h_source}\index{C:/Users/user/KVDB/include/wal.h@{C:/Users/user/KVDB/include/wal.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}config.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}file.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}sstable.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{struct\ }WALFileHeader}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ std::uint32\_t\ magic\ =\ 0;}
+\DoxyCodeLine{00021\ \ \ \ \ std::uint32\_t\ version\ =\ 0;}
+\DoxyCodeLine{00022\ \ \ \ \ std::uint32\_t\ header\_size\ =\ 0;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ std::uint64\_t\ wal\_id\ =\ 0;}
+\DoxyCodeLine{00025\ \ \ \ \ std::uint64\_t\ start\_seq\ =\ 0;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ std::uint32\_t\ block\_size\ =\ 0;}
+\DoxyCodeLine{00028\ \ \ \ \ std::uint32\_t\ reserved\ =\ 0;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ std::uint32\_t\ header\_crc32\ =\ 0;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ WALFileHeader()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00033\ \ \ \ \ WALFileHeader(std::uint32\_t\ wal\_id,\ std::uint64\_t\ start\_seq);}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00038\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<WALFileHeader>}}>\ load(}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00044\ \ \ \ \ );}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ self\_check()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00047\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ u32\ +\ u32\ +\ u32\ +\ u64\ +\ u64\ +\ u32\ +\ u32\ +\ u32}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 40;}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ compute\_crc32();}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{static}\ std::uint32\_t\ compute\_crc32(\textcolor{keyword}{const}\ WALFileHeader\&\ wal\_file\_header);}
+\DoxyCodeLine{00055\ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_fragment}{Fragment}}}
+\DoxyCodeLine{00058\ \{}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{enum\ class}\ Type\ :\ std::uint8\_t}
+\DoxyCodeLine{00060\ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ FULL\ =\ 0,}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ FIRST\ =\ 1,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ MIDDLE\ =\ 2,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ LAST\ =\ 3,}
+\DoxyCodeLine{00065\ \ \ \ \ \};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_fragment_1_1_header}{Header}}}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ std::uint32\_t\ fragment\_crc32\ =\ 0;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ std::uint32\_t\ header\_size\ =\ 0;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ Fragment::Type\ fragment\_type\ =\ Fragment::Type::FULL;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ ::Type\ type\ =\ ::Type::Put;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ std::uint64\_t\ seq\_num\ =\ 0;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ std::uint32\_t\ fragment\_size\ =\ 0;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ u32\ +\ u32\ +\ u8\ +\ u8\ +\ u64\ +\ u32}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 22;}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Header>}}\ load(}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fragment\ CRC\ also\ covers\ the\ payload,\ so\ it\ is\ computed\ by}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Fragment::compute\_crc32(),\ not\ by\ Header\ alone}}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{comment}{//[[nodiscard]]\ Status\ compute\_crc32();}}
+\DoxyCodeLine{00096\ \ \ \ \ \};}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_fragment_1_1_payload}{Payload}}}
+\DoxyCodeLine{00099\ \ \ \ \ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ std::vector<std::byte>\ bytes;}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Payload>}}\ load(}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ size,}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bytes.size();}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00117\ \ \ \ \ \};}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ \doxymbox{\hyperlink{struct_fragment_1_1_header}{Header}}\ header;}
+\DoxyCodeLine{00120\ \ \ \ \ \doxymbox{\hyperlink{struct_fragment_1_1_payload}{Payload}}\ payload;}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ compute\_crc32();}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00124\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_status}{Status}}\ compute\_crc32(}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ std::uint32\_t\&\ crc32\_out,}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_fragment}{Fragment}}\&\ fragment}
+\DoxyCodeLine{00127\ \ \ \ \ );}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00132\ \ \ \ \ );}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<Fragment>}}>\ load(}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00137\ \ \ \ \ );}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ const\ noexcept}
+\DoxyCodeLine{00140\ \ \ \ \ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Header::disk\_size()\ +\ payload.disk\_size();}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+\DoxyCodeLine{00143\ \};}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00145\ \textcolor{keyword}{class\ }WALWriter}
+\DoxyCodeLine{00146\ \{}
+\DoxyCodeLine{00147\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00148\ \ \ \ \ WALWriter()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00149\ \ \ \ \ \string~WALWriter();}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ WALWriter(\textcolor{keyword}{const}\ WALWriter\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00152\ \ \ \ \ WALWriter\&\ operator=(\textcolor{keyword}{const}\ WALWriter\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00153\ \ \ \ \ WALWriter(WALWriter\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00154\ \ \ \ \ WALWriter\&\ operator=(WALWriter\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00155\ }
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{comment}{//\ Creates\ a\ fresh\ WAL.\ open\_writable\_file()\ truncates,\ so\ this\ must\ not}}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{comment}{//\ be\ used\ to\ reopen\ an\ existing\ WAL\ after\ recovery.}}
+\DoxyCodeLine{00158\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ create(}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ std::uint32\_t\ wal\_id,}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
+\DoxyCodeLine{00162\ \ \ \ \ );}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ rotate(}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ new\_path,}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ std::uint32\_t\ new\_wal\_id,}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
+\DoxyCodeLine{00168\ \ \ \ \ );}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record);}
+\DoxyCodeLine{00171\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync();}
+\DoxyCodeLine{00172\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ close();}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ is\_open()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00175\ \ \ \ \ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ file\_\ !=\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00177\ \ \ \ \ \}}
+\DoxyCodeLine{00178\ }
+\DoxyCodeLine{00179\ \ \ \ \ [[nodiscard]]\ std::uint32\_t\ wal\_id()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00180\ \ \ \ \ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ wal\_id\_;}
+\DoxyCodeLine{00182\ \ \ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ [[nodiscard]]\ std::uint64\_t\ offset()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00185\ \ \ \ \ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ offset\_;}
+\DoxyCodeLine{00187\ \ \ \ \ \}}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ std::filesystem::path\&\ path()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00190\ \ \ \ \ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ path\_;}
+\DoxyCodeLine{00192\ \ \ \ \ \}}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00195\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write\_payload(}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>\ byte\_sequence,}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record}
+\DoxyCodeLine{00198\ \ \ \ \ );}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ std::unique\_ptr<WritableFile>\ file\_;}
+\DoxyCodeLine{00201\ \ \ \ \ std::filesystem::path\ path\_;}
+\DoxyCodeLine{00202\ \ \ \ \ std::uint32\_t\ wal\_id\_\ =\ 0;}
+\DoxyCodeLine{00203\ \ \ \ \ std::uint64\_t\ offset\_\ =\ 0;}
+\DoxyCodeLine{00204\ \};}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_w_a_l_loader}{WALLoader}}}
+\DoxyCodeLine{00207\ \{}
+\DoxyCodeLine{00208\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_w_a_l_loader_1_1_load_result}{LoadResult}}}
+\DoxyCodeLine{00210\ \ \ \ \ \{}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ key/value\ bytes\ are\ owned\ by\ the\ Arena\ passed\ to\ load().}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ std::vector<InternalRecord>\ records;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ std::optional<WALFileHeader>\ header;}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Safe\ truncation/recovery\ boundary:\ immediately\ after\ the\ last}}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ completely\ reconstructed\ logical\ record,\ or\ after\ the\ file\ header.}}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ ok\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_torn\_tail\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_corruption\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ std::string\ error;}
+\DoxyCodeLine{00222\ \ \ \ \ \};}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<LoadResult>}}\ load(}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00229\ \ \ \ \ );}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<LoadResult>}}\ load(}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00235\ \ \ \ \ );}
+\DoxyCodeLine{00236\ \};}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \textcolor{keyword}{class\ }WALStreamingLoader}
+\DoxyCodeLine{00239\ \{}
+\DoxyCodeLine{00240\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_w_a_l_streaming_loader_1_1_load_result}{LoadResult}}}
+\DoxyCodeLine{00242\ \ \ \ \ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Present\ only\ when\ the\ latest\ load\_next()\ produced\ a\ record.}}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ std::optional<InternalRecord>\ logical\_record;}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Persists\ after\ the\ WAL\ header\ has\ been\ loaded.}}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ std::optional<WALFileHeader>\ header;}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Describes\ the\ latest\ load\_next()\ call.}}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ reached\_eof\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ ok\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_torn\_tail\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ had\_corruption\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ End\ offset\ of\ the\ last\ completely\ valid\ item.}}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Useful\ when\ truncating\ a\ torn\ WAL\ tail.}}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ std::uint64\_t\ last\_good\_offset\ =\ 0;}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ std::string\ error;}
+\DoxyCodeLine{00260\ \ \ \ \ \};}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \ \ WALStreamingLoader(}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ std::filesystem::path\ path,}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00265\ \ \ \ \ )}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ :\ path\_(std::move(path)),}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ arena\_(arena)}
+\DoxyCodeLine{00268\ \ \ \ \ \{}
+\DoxyCodeLine{00269\ \ \ \ \ \}}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}()\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00274\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}\&\ operator=(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_w_a_l_streaming_loader}{WALStreamingLoader}}\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00276\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ open();}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ load\_next(}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id}
+\DoxyCodeLine{00281\ \ \ \ \ );}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ LoadResult\&\ result()\ const\ noexcept}
+\DoxyCodeLine{00284\ \ \ \ \ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result\_;}
+\DoxyCodeLine{00286\ \ \ \ \ \}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keyword}{enum\ class}\ State}
+\DoxyCodeLine{00290\ \ \ \ \ \{}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ Closed,}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ Ready,}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ EndOfFile,}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ TornTail,}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ Corrupted}
+\DoxyCodeLine{00296\ \ \ \ \ \};}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ [[nodiscard]]\ Status\ validate\_state(}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id}
+\DoxyCodeLine{00301\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00302\ }
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keywordtype}{void}\ reset\_call\_result();}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \textcolor{keywordtype}{void}\ mark\_torn\_tail(std::string\ message);}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordtype}{void}\ mark\_corruption(std::string\ message);}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00310\ \ \ \ \ std::filesystem::path\ path\_;}
+\DoxyCodeLine{00311\ \ \ \ \ std::unique\_ptr<ReadableFile>\ file\_;}
+\DoxyCodeLine{00312\ \ \ \ \ Arena\&\ arena\_;}
+\DoxyCodeLine{00313\ }
+\DoxyCodeLine{00314\ \ \ \ \ \doxymbox{\hyperlink{struct_w_a_l_streaming_loader_1_1_load_result}{LoadResult}}\ result\_;}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \ \ \ \ State\ state\_\ =\ State::Closed;}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \ \ \ \ std::string\ terminal\_error\_;}
+\DoxyCodeLine{00319\ \};}
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00321\ \textcolor{keyword}{class\ }WAL}
+\DoxyCodeLine{00322\ \{}
+\DoxyCodeLine{00323\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00324\ \ \ \ \ WAL()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00326\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ create(}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ std::uint32\_t\ wal\_id,}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
+\DoxyCodeLine{00330\ \ \ \ \ )}
+\DoxyCodeLine{00331\ \ \ \ \ \{}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.create(path,\ wal\_id,\ start\_seq);}
+\DoxyCodeLine{00333\ \ \ \ \ \}}
+\DoxyCodeLine{00334\ }
+\DoxyCodeLine{00335\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ rotate(}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ new\_path,}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ std::uint32\_t\ new\_wal\_id,}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ std::uint64\_t\ start\_seq}
+\DoxyCodeLine{00339\ \ \ \ \ )}
+\DoxyCodeLine{00340\ \ \ \ \ \{}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.rotate(new\_path,\ new\_wal\_id,\ start\_seq);}
+\DoxyCodeLine{00342\ \ \ \ \ \}}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00344\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record)}
+\DoxyCodeLine{00345\ \ \ \ \ \{}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.write(record);}
+\DoxyCodeLine{00347\ \ \ \ \ \}}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync()}
+\DoxyCodeLine{00350\ \ \ \ \ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.sync();}
+\DoxyCodeLine{00352\ \ \ \ \ \}}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ close()}
+\DoxyCodeLine{00355\ \ \ \ \ \{}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_.close();}
+\DoxyCodeLine{00357\ \ \ \ \ \}}
+\DoxyCodeLine{00358\ }
+\DoxyCodeLine{00359\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<WALLoader::LoadResult>}}\ recover(}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_wal\_id,}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00363\ \ \ \ \ )}
+\DoxyCodeLine{00364\ \ \ \ \ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ WALLoader::load(path,\ expected\_wal\_id,\ arena);}
+\DoxyCodeLine{00366\ \ \ \ \ \}}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}}\&\ writer()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00369\ \ \ \ \ \{}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_;}
+\DoxyCodeLine{00371\ \ \ \ \ \}}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}}\&\ writer()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00374\ \ \ \ \ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ writer\_;}
+\DoxyCodeLine{00376\ \ \ \ \ \}}
+\DoxyCodeLine{00377\ }
+\DoxyCodeLine{00378\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00379\ \ \ \ \ \doxymbox{\hyperlink{class_w_a_l_writer}{WALWriter}}\ writer\_;}
+\DoxyCodeLine{00380\ \};}
+
+\end{DoxyCode}

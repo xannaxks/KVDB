@@ -1,0 +1,94 @@
+\doxysection{engine.\+h}
+\hypertarget{engine_8h_source}{}\label{engine_8h_source}\index{C:/Users/user/KVDB/include/engine.h@{C:/Users/user/KVDB/include/engine.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NOMINMAX}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ WIN32\_LEAN\_AND\_MEAN}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}kvdb.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}manifest.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}wal.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}mem\_table.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}sstable\_manager.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}db\_options.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}compaction\_scheduler.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}level\_manager.h"{}}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <string\_view>}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#include\ <mutex>}}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \textcolor{keyword}{class\ }Engine\ final\ :\ \textcolor{keyword}{public}\ KVDB}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{explicit}\ Engine(DBOptions\ options);}
+\DoxyCodeLine{00028\ \ \ \ \ \string~Engine()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ open();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ put(std::string\&\ key,\ std::string\&\ value)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00033\ \ \ \ \ \doxymbox{\hyperlink{struct_result}{Result<std::optional<std::string>}}>\ get(std::string\_view\ key)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00034\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ remove(std::string\&\ key)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00035\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ flush()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ compact\_range(}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ std::string\_view\ begin,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ std::string\_view\ end}
+\DoxyCodeLine{00040\ \ \ \ \ )\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ close()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00045\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ ensure\_open()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00046\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ prepare\_dirs();}
+\DoxyCodeLine{00047\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ open\_manifest();}
+\DoxyCodeLine{00048\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ open\_wal();}
+\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ put\_impl(}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ std::string\_view\ key,}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ std::string\_view\ value,}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ Type\ type}
+\DoxyCodeLine{00053\ \ \ \ \ );}
+\DoxyCodeLine{00054\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ flush\_unlocked();}
+\DoxyCodeLine{00055\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ flush\_oldest\_immutable();}
+\DoxyCodeLine{00056\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ maybe\_flush\_unlocked();}
+\DoxyCodeLine{00057\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ maybe\_compact\_unlocked();}
+\DoxyCodeLine{00058\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ run\_compaction(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_compaction_plan}{CompactionPlan}}\&\ plan);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ [[nodiscard]]\ std::filesystem::path\ wal\_path(}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ std::uint32\_t\ wal\_id}
+\DoxyCodeLine{00062\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00065\ \ \ \ \ DBOptions\ options\_;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ std::unique\_ptr<Manifest>\ manifest\_;}
+\DoxyCodeLine{00068\ \ \ \ \ std::unique\_ptr<LevelManager>\ level\_manager\_;}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ std::unique\_ptr<WAL>\ wal\_;}
+\DoxyCodeLine{00071\ \ \ \ \ std::unique\_ptr<MemTable>\ mem\_table\_;}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ std::unique\_ptr<CompactionScheduler>\ compaction\_scheduler\_;}
+\DoxyCodeLine{00074\ \ \ \ \ std::unique\_ptr<SSTableManager>\ sstable\_manager\_;}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ std::unique\_ptr<Arena>\ arena\_;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ std::filesystem::path\ manifest\_path\_;}
+\DoxyCodeLine{00079\ \ \ \ \ std::filesystem::path\ sstable\_dir\_;}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ std::uint64\_t\ next\_sequence\_\ =\ 1;}
+\DoxyCodeLine{00082\ \ \ \ \ std::uint32\_t\ current\_wal\_id\_\ =\ 1;}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{bool}\ opened\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{bool}\ closed\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{mutable}\ std::mutex\ mutex\_;}
+\DoxyCodeLine{00088\ \};}
+
+\end{DoxyCode}

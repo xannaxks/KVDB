@@ -1,0 +1,119 @@
+\doxysection{anonymous\+\_\+namespace\{data\+\_\+section.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02data__section_8cpp_03}{}\label{namespaceanonymous__namespace_02data__section_8cpp_03}\index{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+constexpr std::\+uint64\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section_8cpp_03_a232bb01a892004a871fb12f217087290}{payload\+\_\+disk\+\_\+size\+\_\+u64}} (const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&payload) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section_8cpp_03_a7c8619fdf23f72cba65d9ceb51c9bd07}{is\+\_\+valid\+\_\+record\+\_\+type}} (::\+\+Type type) noexcept
+\item 
+int \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section_8cpp_03_a4927418799591c76e99355a6936cc9d8}{compare\+\_\+keys}} (const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&lhs, const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&rhs) noexcept
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section_8cpp_03_aa20212a339c72da4dffa28d7fedbc53a}{validate\+\_\+order}} (const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&previous, const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&current)
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02data__section_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02data__section_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02data__section_8cpp_03_a4927418799591c76e99355a6936cc9d8}\index{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}}!compare\_keys@{compare\_keys}}
+\index{compare\_keys@{compare\_keys}!anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{compare\_keys()}{compare\_keys()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section_8cpp_03_a4927418799591c76e99355a6936cc9d8} 
+int anonymous\+\_\+namespace\{data\+\_\+section.\+cpp\}::\+compare\+\_\+keys (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&}]{lhs}{, }\item[{const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&}]{rhs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00037\ \ \ \ \ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ common\ =\ std::min<std::size\_t>(}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ lhs.key\_size,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ rhs.key\_size}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (common\ >\ 0)\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ compared\ =\ std::memcmp(lhs.key\_ptr,\ rhs.key\_ptr,\ common);}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (compared\ <\ 0)\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (compared\ >\ 0)\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs.key\_size\ <\ rhs.key\_size)\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs.key\_size\ >\ rhs.key\_size)\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section_8cpp_03_a7c8619fdf23f72cba65d9ceb51c9bd07}\index{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}}!is\_valid\_record\_type@{is\_valid\_record\_type}}
+\index{is\_valid\_record\_type@{is\_valid\_record\_type}!anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{is\_valid\_record\_type()}{is\_valid\_record\_type()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section_8cpp_03_a7c8619fdf23f72cba65d9ceb51c9bd07} 
+bool anonymous\+\_\+namespace\{data\+\_\+section.\+cpp\}::\+is\+\_\+valid\+\_\+record\+\_\+type (\begin{DoxyParamCaption}\item[{::\+\+Type}]{type}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00029\ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ type\ ==\ ::Type::Put\ ||\ type\ ==\ ::Type::Tombstone;}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section_8cpp_03_a232bb01a892004a871fb12f217087290}\index{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}}!payload\_disk\_size\_u64@{payload\_disk\_size\_u64}}
+\index{payload\_disk\_size\_u64@{payload\_disk\_size\_u64}!anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{payload\_disk\_size\_u64()}{payload\_disk\_size\_u64()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section_8cpp_03_a232bb01a892004a871fb12f217087290} 
+std::\+uint64\+\_\+t anonymous\+\_\+namespace\{data\+\_\+section.\+cpp\}::\+payload\+\_\+disk\+\_\+size\+\_\+u64 (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&}]{payload}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ DataSection::Payload::fixed\_part\_disk\_size()}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ )\ +\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(payload.key\_size)\ +}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(payload.value\_size);}
+\DoxyCodeLine{00026\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section_8cpp_03_aa20212a339c72da4dffa28d7fedbc53a}\index{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}}!validate\_order@{validate\_order}}
+\index{validate\_order@{validate\_order}!anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{validate\_order()}{validate\_order()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section_8cpp_03_aa20212a339c72da4dffa28d7fedbc53a} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{data\+\_\+section.\+cpp\}::\+validate\+\_\+order (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&}]{previous}{, }\item[{const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} \&}]{current}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00066\ \ \ \ \ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ key\_order\ =\ compare\_keys(previous,\ current);}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_order\ >\ 0)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ records\ must\ be\ appended\ in\ ascending\ key\ order"{}}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_order\ ==\ 0)\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current.seq\_num\ >\ previous.seq\_num)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}equal\ keys\ must\ be\ appended\ in\ descending\ sequence\ order"{}}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00083\ }
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current.seq\_num\ ==\ previous.seq\_num)\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Duplicate,}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}duplicate\ internal\ record\ key\ and\ sequence\ number"{}}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00093\ \ \ \ \ \}}
+
+\end{DoxyCode}

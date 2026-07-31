@@ -1,0 +1,215 @@
+\doxysection{index\+\_\+section.\+h}
+\hypertarget{index__section_8h_source}{}\label{index__section_8h_source}\index{C:/Users/user/KVDB/include/sstable\_entities/index\_section.h@{C:/Users/user/KVDB/include/sstable\_entities/index\_section.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}crc32\_helpers.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}endian\_io.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}file.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}file\_helpers.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}sstable\_entities.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{namespace\ }\doxymbox{\hyperlink{namespace_s_s_table_entities}{SSTableEntities}}}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{struct\ }IndexSection}
+\DoxyCodeLine{00020\ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }Header}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ BlockType\ type\ =\ BlockType::Index;}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ payload\_size\ =\ 0;}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ crc32\ =\ 0;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ Header()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ Header(\textcolor{keyword}{const}\ Header\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ Header(Header\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ Header\&\ operator=(\textcolor{keyword}{const}\ Header\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ Header\&\ operator=(Header\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Encoded\ widths,\ not\ sizeof(BlockType).}}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(std::uint8\_t)\ +}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t);}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Direct\ header\ I/O\ never\ aligns.\ The\ containing\ IndexSection\ owns}}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ section\ alignment\ and\ must\ preflight\ the\ whole\ section\ first.}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Header>}}\ load(}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }Payload}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ data\_block\_offset\ =\ 0;}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ first\_key\_size\ =\ 0;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ last\_key\_size\ =\ 0;}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Construction\ borrows\ immutable\ DataSection\ key\ bytes.\ Loading}}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ points\ these\ fields\ at\ Arena-\/owned\ copies.}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ first\_key\_ptr\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ last\_key\_ptr\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ Payload()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ Payload(\textcolor{keyword}{const}\ Payload\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ Payload(Payload\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ Payload\&\ operator=(\textcolor{keyword}{const}\ Payload\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ Payload\&\ operator=(Payload\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ fixed\_disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(std::uint64\_t)\ +}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t);}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::span<const\ std::byte>\ first\_key()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::span<const\ std::byte>\ last\_key()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_crc32(}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\&\ crc\_buffer}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ append\_crc32(}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\&\ crc\_buffer}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_candidate_range}{CandidateRange}}}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ first\ =\ 0;}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ last\_exclusive\ =\ 0;}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ empty()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ first\ ==\ last\_exclusive;}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ size()\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ last\_exclusive\ -\/\ first;}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ IndexSection()\ noexcept;}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ IndexSection(const\ IndexSection\&)\ =\ default;}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ IndexSection(IndexSection\&\&)\ noexcept\ =\ default;}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ IndexSection\&\ operator=(const\ IndexSection\&)\ =\ default;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ IndexSection\&\ operator=(IndexSection\&\&)\ noexcept\ =\ default;}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_header}{Header}}\ header;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ std::vector<\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_payload}{Payload}}>\ payloads;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ [[nodiscard]]\ static\ constexpr\ std::\textcolor{keywordtype}{size\_t}\ fixed\_disk\_size()\ noexcept}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Header::disk\_size()\ +\ Payload::fixed\_disk\_size();}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Logical\ encoded\ bytes.\ Version\ 1\ requires\ this\ entire\ value\ to\ fit\ in}}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ one\ physical\ block.}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ [[nodiscard]]\ std::size\_t\ disk\_size()\ const\ noexcept;}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validates\ the\ current\ public\ header\ and\ payloads,\ including\ exact}}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ derived\ payload\ size\ and\ CRC.}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ const;}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Recomputes\ type,\ payload\_size,\ and\ CRC\ from\ the\ payload\ vector.}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ rebuild\_header();}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Verifies\ that\ one\ index\ entry\ exists\ for\ every\ contiguous\ physical}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ data\ block\ starting\ at\ first\_data\_block\_offset.}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate\_data\_layout(}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ first\_data\_block\_offset,}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ data\_block\_count}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ )\ const;}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Transactional\ with\ respect\ to\ this\ object.\ The\ pointed-\/to\ key\ bytes\ are}}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ borrowed\ and\ must\ outlive\ index\ serialization.}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ add\_index(}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ data\_block\_offset,}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ first\_key\_size,}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ last\_key\_size,}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ const\ \textcolor{keywordtype}{void}*\ first\_key\_ptr,}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ const\ \textcolor{keywordtype}{void}*\ last\_key\_ptr}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Validates\ and\ rebuilds\ the\ header\ before\ its\ first\ output\ byte.}}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ header\ and\ index\_offset\ are\ committed\ only\ after\ complete\ success.}}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ index\_offset}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Compatibility\ loader.\ A\ nonzero\ expected\_index\_size\ should\ normally\ be}}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ footer.index\_size.\ Zero\ means\ no\ independent\ size\ was\ supplied.}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ [[nodiscard]]\ static\ \doxymbox{\hyperlink{struct_result}{Result}}<\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{IndexSection}}>\ load(}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena,}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ index\_offset,}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_index\_size\ =\ 0}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Strict\ loader\ used\ by\ SSTable::load().\ In\ addition\ to\ section\ size,\ it}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ verifies\ entry\ count\ and\ every\ data-\/block\ offset\ against\ the\ footer.}}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ [[nodiscard]]\ static\ \doxymbox{\hyperlink{struct_result}{Result}}<\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{IndexSection}}>\ load(}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena,}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ index\_offset,}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ expected\_index\_size,}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ first\_data\_block\_offset,}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ data\_block\_count}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00188\ }
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Returns\ every\ block\ whose\ inclusive\ [first\_key,last\_key]\ range\ contains}}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ key.\ Adjacent\ ranges\ may\ share\ one\ boundary\ key\ when\ versions\ of\ that}}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ user\ key\ span\ physical\ blocks.}}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<CandidateRange>\ find\_candidate\_range(}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ const\ \textcolor{keywordtype}{void}*\ key\_ptr,}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ key\_size}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ )\ const;}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ For\ an\ ordinary\ latest-\/value\ lookup,\ the\ earliest\ candidate\ contains}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ the\ newest\ versions\ because\ data\ records\ are\ globally\ ordered\ by\ key}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ ascending\ and\ sequence\ number\ descending.}}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<std::\textcolor{keywordtype}{size\_t}>\ find\_first\_candidate(}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ const\ \textcolor{keywordtype}{void}*\ key\_ptr,}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ key\_size}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ )\ const;}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_crc32(}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\&\ crc\_buffer}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ )\ const\ noexcept;}
+\DoxyCodeLine{00208\ \ \ \ \ \};}
+\DoxyCodeLine{00209\ \}}
+
+\end{DoxyCode}

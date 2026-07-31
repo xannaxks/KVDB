@@ -1,0 +1,258 @@
+\doxysection{SSTable\+Manager Class Reference}
+\hypertarget{class_s_s_table_manager}{}\label{class_s_s_table_manager}\index{SSTableManager@{SSTableManager}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_s_s_table_manager_ab753ee10d23b7053e5324265ce4bdc0d}{SSTable\+Manager}} (std::\+filesystem::\+path db\+\_\+dir)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_manager_a16efbd5bb7c65874989f00effc64e502}{build}} (std::\+uint32\+\_\+t table\+\_\+id, \doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \&mem\+\_\+table)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_manager_a48dd2e105f27918bbfe4b195b4dc5ca6}{build}} (std::\+uint32\+\_\+t table\+\_\+id, \doxymbox{\hyperlink{class_s_s_table_iterator}{SSTable\+Iterator}} \&iterator)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_manager_a44ab912260fa129cc4652d8d650e6102}{open}} (std::\+uint32\+\_\+t table\+\_\+id, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_manager_acdbe584e278f6815dd791b7ef08a077a}{open}} (const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&meta, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_s_s_table_manager_acca1e71691e5e5903aa7b827eb7bf8ac}{write}} (\doxymbox{\hyperlink{class_s_s_table}{SSTable}} \&sstable)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_manager_ac0bd114c3454f52acdf04d27b60620bf}{get}} (std::\+uint32\+\_\+t table\+\_\+id, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\item 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table_streaming_builder}{SSTable\+Streaming\+Builder}} $>$ \doxymbox{\hyperlink{class_s_s_table_manager_a7ce0859041288d54aff1731193b0ec37}{create\+\_\+streaming\+\_\+builder}} (std::\+uint32\+\_\+t table\+\_\+id)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_manager_ad318d938b4c4640dc5560775b856f016}{open\+\_\+impl}} (std::\+uint32\+\_\+t table\+\_\+id, const std::\+filesystem::\+path \&path, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std::\+filesystem::\+path \doxymbox{\hyperlink{class_s_s_table_manager_a0f7bf4af4fdbaccbc16596bdbf873fa1}{make\+\_\+table\+\_\+path}} (std::\+uint32\+\_\+t table\+\_\+id, const std::\+filesystem::\+path \&dir)
+\item 
+static std::\+filesystem::\+path \doxymbox{\hyperlink{class_s_s_table_manager_ac6142b4f7620dbf37f0d5898da7a56f3}{make\+\_\+tmp\+\_\+table\+\_\+path}} (std::\+uint32\+\_\+t table\+\_\+id, const std::\+filesystem::\+path \&dir)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_s_s_table_manager_a77cafde7e60b184d259bcdcd01d1e452}\label{class_s_s_table_manager_a77cafde7e60b184d259bcdcd01d1e452} 
+std::\+filesystem::\+path {\bfseries db\+\_\+dir}
+\item 
+\Hypertarget{class_s_s_table_manager_ad6ab44053c80063fc37f36729a1d8a66}\label{class_s_s_table_manager_ad6ab44053c80063fc37f36729a1d8a66} 
+std::\+unordered\+\_\+map$<$ std::\+uint32\+\_\+t, std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ {\bfseries pool}
+\end{DoxyCompactItemize}
+
+
+\label{class_s_s_table_manager_doc-constructors}
+\Hypertarget{class_s_s_table_manager_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_s_table_manager_ab753ee10d23b7053e5324265ce4bdc0d}\index{SSTableManager@{SSTableManager}!SSTableManager@{SSTableManager}}
+\index{SSTableManager@{SSTableManager}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{SSTableManager()}{SSTableManager()}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_ab753ee10d23b7053e5324265ce4bdc0d} 
+SSTable\+Manager::\+\+SSTable\+Manager (\begin{DoxyParamCaption}\item[{std::\+filesystem::\+path}]{db\+\_\+dir}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00025\ \ \ \ \ :\ db\_dir(std::move(path)) }
+\DoxyCodeLine{00026\ \{}
+\DoxyCodeLine{00027\ \}}
+
+\end{DoxyCode}
+
+
+\label{class_s_s_table_manager_doc-func-members}
+\Hypertarget{class_s_s_table_manager_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_s_table_manager_a16efbd5bb7c65874989f00effc64e502}\index{SSTableManager@{SSTableManager}!build@{build}}
+\index{build@{build}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{build()}{build()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_a16efbd5bb7c65874989f00effc64e502} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Manager::\+build (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{\doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \&}]{mem\+\_\+table}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00103\ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ path\ =\ make\_tmp\_table\_path(table\_id,\ db\_dir);}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ final\_path\ =\ make\_table\_path(table\_id,\ db\_dir);}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordflow}{return}\ SSTableBuilder::build(}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ table\_id,}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ mem\_table,}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ path,}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ final\_path}
+\DoxyCodeLine{00112\ \ \ \ \ );}
+\DoxyCodeLine{00113\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_manager_a48dd2e105f27918bbfe4b195b4dc5ca6}\index{SSTableManager@{SSTableManager}!build@{build}}
+\index{build@{build}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{build()}{build()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_a48dd2e105f27918bbfe4b195b4dc5ca6} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Manager::\+build (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{\doxymbox{\hyperlink{class_s_s_table_iterator}{SSTable\+Iterator}} \&}]{iterator}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00119\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ path\ =\ make\_tmp\_table\_path(table\_id,\ db\_dir);}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ final\_path\ =\ make\_table\_path(table\_id,\ db\_dir);}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordflow}{return}\ SSTableBuilder::build(}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ table\_id,}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ iterator,}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ path,}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ final\_path}
+\DoxyCodeLine{00128\ \ \ \ \ );}
+\DoxyCodeLine{00129\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_manager_a7ce0859041288d54aff1731193b0ec37}\index{SSTableManager@{SSTableManager}!create\_streaming\_builder@{create\_streaming\_builder}}
+\index{create\_streaming\_builder@{create\_streaming\_builder}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{create\_streaming\_builder()}{create\_streaming\_builder()}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_a7ce0859041288d54aff1731193b0ec37} 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table_streaming_builder}{SSTable\+Streaming\+Builder}} $>$ SSTable\+Manager::\+create\+\_\+streaming\+\_\+builder (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00138\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keywordflow}{return}\ std::make\_unique<SSTableStreamingBuilder>(}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ make\_tmp\_table\_path(table\_id,\ db\_dir),}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ make\_table\_path(table\_id,\ db\_dir),}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ table\_id}
+\DoxyCodeLine{00143\ \ \ \ \ );}
+\DoxyCodeLine{00144\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_manager_ac0bd114c3454f52acdf04d27b60620bf}\index{SSTableManager@{SSTableManager}!get@{get}}
+\index{get@{get}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_ac0bd114c3454f52acdf04d27b60620bf} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Manager::\+get (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00033\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ it\ =\ pool.find(table\_id);}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordflow}{if}\ (it\ !=\ pool.end())\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::shared\_ptr<SSTable>>::ok(it-\/>second);}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{return}\ open(table\_id,\ arena);}
+\DoxyCodeLine{00040\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_manager_a0f7bf4af4fdbaccbc16596bdbf873fa1}\index{SSTableManager@{SSTableManager}!make\_table\_path@{make\_table\_path}}
+\index{make\_table\_path@{make\_table\_path}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{make\_table\_path()}{make\_table\_path()}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_a0f7bf4af4fdbaccbc16596bdbf873fa1} 
+std::\+filesystem::\+path SSTable\+Manager::\+make\+\_\+table\+\_\+path (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{const std::\+filesystem::\+path \&}]{dir}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}, {\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordflow}{return}\ dir\ /\ std::format(\textcolor{stringliteral}{"{}table-\/\{:09\}.sst"{}},\ table\_id);}
+\DoxyCodeLine{00014\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_manager_ac6142b4f7620dbf37f0d5898da7a56f3}\index{SSTableManager@{SSTableManager}!make\_tmp\_table\_path@{make\_tmp\_table\_path}}
+\index{make\_tmp\_table\_path@{make\_tmp\_table\_path}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{make\_tmp\_table\_path()}{make\_tmp\_table\_path()}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_ac6142b4f7620dbf37f0d5898da7a56f3} 
+std::\+filesystem::\+path SSTable\+Manager::\+make\+\_\+tmp\+\_\+table\+\_\+path (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{const std::\+filesystem::\+path \&}]{dir}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}, {\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordflow}{return}\ dir\ /\ std::format(\textcolor{stringliteral}{"{}table-\/\{:09\}.sst.tmp"{}},\ table\_id);}
+\DoxyCodeLine{00022\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_manager_acdbe584e278f6815dd791b7ef08a077a}\index{SSTableManager@{SSTableManager}!open@{open}}
+\index{open@{open}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_acdbe584e278f6815dd791b7ef08a077a} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Manager::\+open (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&}]{meta}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordflow}{if}\ (meta.table\_id\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::shared\_ptr<SSTable>>::fail(Status\{}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ ID\ exceeds\ the\ SSTableManager\ 32-\/bit\ limit"{}}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{return}\ open\_impl(}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(meta.table\_id),}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ meta.path,}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ arena}
+\DoxyCodeLine{00066\ \ \ \ \ );}
+\DoxyCodeLine{00067\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_manager_a44ab912260fa129cc4652d8d650e6102}\index{SSTableManager@{SSTableManager}!open@{open}}
+\index{open@{open}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_a44ab912260fa129cc4652d8d650e6102} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Manager::\+open (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00046\ \{}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{return}\ open\_impl(table\_id,\ make\_table\_path(table\_id,\ db\_dir),\ arena);}
+\DoxyCodeLine{00048\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_manager_ad318d938b4c4640dc5560775b856f016}\index{SSTableManager@{SSTableManager}!open\_impl@{open\_impl}}
+\index{open\_impl@{open\_impl}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{open\_impl()}{open\_impl()}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_ad318d938b4c4640dc5560775b856f016} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ $>$ SSTable\+Manager::\+open\+\_\+impl (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{, }\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00074\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ cached\ =\ pool.find(table\_id);}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordflow}{if}\ (cached\ !=\ pool.end())\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::shared\_ptr<SSTable>>::ok(cached-\/>second);}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{auto}\ sstable\_result\ =\ SSTableLoader::load(path,\ arena);}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordflow}{if}\ (!sstable\_result.is\_ok())\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::shared\_ptr<SSTable>>::fail(}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(sstable\_result.status)}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00085\ \ \ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{auto}\ sstable\_ptr\ =\ std::make\_shared<SSTable>(}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ std::move(sstable\_result.value)}
+\DoxyCodeLine{00089\ \ \ \ \ );}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ [it,\ inserted]\ =\ pool.emplace(table\_id,\ sstable\_ptr);}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordflow}{if}\ (!inserted)\ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::shared\_ptr<SSTable>>::ok(it-\/>second);}
+\DoxyCodeLine{00094\ \ \ \ \ \}}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::shared\_ptr<SSTable>>::ok(std::move(sstable\_ptr));}
+\DoxyCodeLine{00097\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_manager_acca1e71691e5e5903aa7b827eb7bf8ac}\index{SSTableManager@{SSTableManager}!write@{write}}
+\index{write@{write}!SSTableManager@{SSTableManager}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily \label{class_s_s_table_manager_acca1e71691e5e5903aa7b827eb7bf8ac} 
+\doxymbox{\hyperlink{struct_status}{Status}} SSTable\+Manager::\+write (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_s_s_table}{SSTable}} \&}]{sstable}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00132\ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordflow}{return}\ SSTableWriter::write(sstable);}
+\DoxyCodeLine{00134\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+sstable\+\_\+manager.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+sstable\+\_\+manager.\+cpp\end{DoxyCompactItemize}

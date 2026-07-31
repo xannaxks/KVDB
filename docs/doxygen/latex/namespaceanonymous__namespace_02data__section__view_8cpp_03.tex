@@ -1,0 +1,219 @@
+\doxysection{anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03}{}\label{namespaceanonymous__namespace_02data__section__view_8cpp_03}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_a19f2941d6634431957e9a6bf9851cfea}{checked\+\_\+add\+\_\+u64}} (std::\+uint64\+\_\+t lhs, std::\+uint64\+\_\+t rhs, std::\+uint64\+\_\+t \&result) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_a640697b54ca0a785a19d20eb47a088c3}{checked\+\_\+mul\+\_\+u64}} (std::\+uint64\+\_\+t lhs, std::\+uint64\+\_\+t rhs, std::\+uint64\+\_\+t \&result) noexcept
+\item 
+std::\+uint8\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_a0317a57ab0c63c79fa8fb0cb5ae91c39}{byte\+\_\+value}} (std::\+byte value) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_a4c659814aac12764fa4a20babbdd8f70}{read\+\_\+u8}} (std::\+span$<$ const std::\+byte $>$ bytes, std::\+size\+\_\+t \&position, std::\+uint8\+\_\+t \&value) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_ad10c9e708f0ae8324f82a94d7d82aa2e}{read\+\_\+u32\+\_\+le}} (std::\+span$<$ const std::\+byte $>$ bytes, std::\+size\+\_\+t \&position, std::\+uint32\+\_\+t \&value) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_ab19a1d160efb7305320695c7b8a6e315}{read\+\_\+u64\+\_\+le}} (std::\+span$<$ const std::\+byte $>$ bytes, std::\+size\+\_\+t \&position, std::\+uint64\+\_\+t \&value) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_a1044774b1a3b2ee4e938e0d779538350}{is\+\_\+valid\+\_\+record\+\_\+type}} (::\+\+Type type) noexcept
+\item 
+int \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_a342e705cccc321435135bd2009021c6f}{compare\+\_\+keys}} (std::\+span$<$ const std::\+byte $>$ lhs, std::\+span$<$ const std::\+byte $>$ rhs) noexcept
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_a842dbee51781f60b1a5b34569555e079}{corruption}} (std::\+string message)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_a77c115b19adf25057566af52175dac40}\label{namespaceanonymous__namespace_02data__section__view_8cpp_03_a77c115b19adf25057566af52175dac40} 
+constexpr std::\+size\+\_\+t {\bfseries k\+Header\+Size} = Data\+Section::\+\+Header::\+disk\+\_\+size()
+\item 
+constexpr std::\+size\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__view_8cpp_03_a39984e2e1f9aa7adb8ee53f25fb62ff1}{k\+Record\+Fixed\+Size}}
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02data__section__view_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_a0317a57ab0c63c79fa8fb0cb5ae91c39}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!byte\_value@{byte\_value}}
+\index{byte\_value@{byte\_value}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{byte\_value()}{byte\_value()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_a0317a57ab0c63c79fa8fb0cb5ae91c39} 
+std::\+uint8\+\_\+t anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+byte\+\_\+value (\begin{DoxyParamCaption}\item[{std::\+byte}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00051\ \ \ \ \ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::to\_integer<std::uint8\_t>(value);}
+\DoxyCodeLine{00053\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_a19f2941d6634431957e9a6bf9851cfea}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!checked\_add\_u64@{checked\_add\_u64}}
+\index{checked\_add\_u64@{checked\_add\_u64}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{checked\_add\_u64()}{checked\_add\_u64()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_a19f2941d6634431957e9a6bf9851cfea} 
+bool anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+checked\+\_\+add\+\_\+u64 (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{lhs}{, }\item[{std::\+uint64\+\_\+t}]{rhs}{, }\item[{std::\+uint64\+\_\+t \&}]{result}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00029\ \ \ \ \ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs\ >\ std::numeric\_limits<std::uint64\_t>::max()\ -\/\ rhs)\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ result\ =\ lhs\ +\ rhs;}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_a640697b54ca0a785a19d20eb47a088c3}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!checked\_mul\_u64@{checked\_mul\_u64}}
+\index{checked\_mul\_u64@{checked\_mul\_u64}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{checked\_mul\_u64()}{checked\_mul\_u64()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_a640697b54ca0a785a19d20eb47a088c3} 
+bool anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+checked\+\_\+mul\+\_\+u64 (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{lhs}{, }\item[{std::\+uint64\+\_\+t}]{rhs}{, }\item[{std::\+uint64\+\_\+t \&}]{result}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00042\ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs\ !=\ 0\ \&\&\ rhs\ >\ std::numeric\_limits<std::uint64\_t>::max()\ /\ lhs)\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ result\ =\ lhs\ *\ rhs;}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00048\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_a342e705cccc321435135bd2009021c6f}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!compare\_keys@{compare\_keys}}
+\index{compare\_keys@{compare\_keys}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{compare\_keys()}{compare\_keys()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_a342e705cccc321435135bd2009021c6f} 
+int anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+compare\+\_\+keys (\begin{DoxyParamCaption}\item[{std::\+span$<$ const std::\+byte $>$}]{lhs}{, }\item[{std::\+span$<$ const std::\+byte $>$}]{rhs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00115\ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ common\ =\ std::min(lhs.size(),\ rhs.size());}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (common\ >\ 0)\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ result\ =\ std::memcmp(lhs.data(),\ rhs.data(),\ common);}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ <\ 0)\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result\ >\ 0)\ \{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs.size()\ <\ rhs.size())\ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs.size()\ >\ rhs.size())\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00134\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_a842dbee51781f60b1a5b34569555e079}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!corruption@{corruption}}
+\index{corruption@{corruption}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{corruption()}{corruption()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_a842dbee51781f60b1a5b34569555e079} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+corruption (\begin{DoxyParamCaption}\item[{std::\+string}]{message}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00137\ \ \ \ \ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{\ StatusCode::Corruption,\ std::move(message)\ \};}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_a1044774b1a3b2ee4e938e0d779538350}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!is\_valid\_record\_type@{is\_valid\_record\_type}}
+\index{is\_valid\_record\_type@{is\_valid\_record\_type}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{is\_valid\_record\_type()}{is\_valid\_record\_type()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_a1044774b1a3b2ee4e938e0d779538350} 
+bool anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+is\+\_\+valid\+\_\+record\+\_\+type (\begin{DoxyParamCaption}\item[{::\+\+Type}]{type}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00107\ \ \ \ \ \{}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ type\ ==\ ::Type::Put\ ||\ type\ ==\ ::Type::Tombstone;}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_ad10c9e708f0ae8324f82a94d7d82aa2e}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!read\_u32\_le@{read\_u32\_le}}
+\index{read\_u32\_le@{read\_u32\_le}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{read\_u32\_le()}{read\_u32\_le()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_ad10c9e708f0ae8324f82a94d7d82aa2e} 
+bool anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+read\+\_\+u32\+\_\+le (\begin{DoxyParamCaption}\item[{std::\+span$<$ const std::\+byte $>$}]{bytes}{, }\item[{std::\+size\+\_\+t \&}]{position}{, }\item[{std::\+uint32\+\_\+t \&}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00074\ \ \ \ \ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes.size()\ -\/\ position\ <\ \textcolor{keyword}{sizeof}(std::uint32\_t))\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ value\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(byte\_value(bytes[position]))\ |}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(byte\_value(bytes[position\ +\ 1]))\ <<\ 8U)\ |}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(byte\_value(bytes[position\ +\ 2]))\ <<\ 16U)\ |}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(byte\_value(bytes[position\ +\ 3]))\ <<\ 24U);}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ position\ +=\ \textcolor{keyword}{sizeof}(std::uint32\_t);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00085\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_ab19a1d160efb7305320695c7b8a6e315}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!read\_u64\_le@{read\_u64\_le}}
+\index{read\_u64\_le@{read\_u64\_le}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{read\_u64\_le()}{read\_u64\_le()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_ab19a1d160efb7305320695c7b8a6e315} 
+bool anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+read\+\_\+u64\+\_\+le (\begin{DoxyParamCaption}\item[{std::\+span$<$ const std::\+byte $>$}]{bytes}{, }\item[{std::\+size\+\_\+t \&}]{position}{, }\item[{std::\+uint64\+\_\+t \&}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00092\ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes.size()\ -\/\ position\ <\ \textcolor{keyword}{sizeof}(std::uint64\_t))\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ value\ =\ 0;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ \textcolor{keyword}{sizeof}(std::uint64\_t);\ ++i)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ value\ |=\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(byte\_value(bytes[position\ +\ i]))}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ <<\ (i\ *\ 8U);}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ position\ +=\ \textcolor{keyword}{sizeof}(std::uint64\_t);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00104\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_a4c659814aac12764fa4a20babbdd8f70}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!read\_u8@{read\_u8}}
+\index{read\_u8@{read\_u8}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{read\_u8()}{read\_u8()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_a4c659814aac12764fa4a20babbdd8f70} 
+bool anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+read\+\_\+u8 (\begin{DoxyParamCaption}\item[{std::\+span$<$ const std::\+byte $>$}]{bytes}{, }\item[{std::\+size\+\_\+t \&}]{position}{, }\item[{std::\+uint8\+\_\+t \&}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00060\ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (position\ >=\ bytes.size())\ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ value\ =\ byte\_value(bytes[position]);}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ ++position;}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00067\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{namespaceanonymous__namespace_02data__section__view_8cpp_03_doc-var-members}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceanonymous__namespace_02data__section__view_8cpp_03_a39984e2e1f9aa7adb8ee53f25fb62ff1}\index{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}!kRecordFixedSize@{kRecordFixedSize}}
+\index{kRecordFixedSize@{kRecordFixedSize}!anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_view.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{kRecordFixedSize}{kRecordFixedSize}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__view_8cpp_03_a39984e2e1f9aa7adb8ee53f25fb62ff1} 
+std::\+size\+\_\+t anonymous\+\_\+namespace\{data\+\_\+section\+\_\+view.\+cpp\}::\+k\+Record\+Fixed\+Size\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{DataSection::Payload::fixed\_part\_disk\_size()}
+
+\end{DoxyCode}

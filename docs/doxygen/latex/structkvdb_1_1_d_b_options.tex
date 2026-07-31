@@ -1,0 +1,182 @@
+\doxysection{kvdb::\+DBOptions Struct Reference}
+\hypertarget{structkvdb_1_1_d_b_options}{}\label{structkvdb_1_1_d_b_options}\index{kvdb::DBOptions@{kvdb::DBOptions}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_arena_options}{Arena\+Options}}
+\item 
+struct \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_mem_table_options}{Mem\+Table\+Options}}
+\item 
+struct \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_w_a_l_options}{WALOptions}}
+\item 
+struct \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_options}{SSTable\+Options}}
+\item 
+struct \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_compaction_options}{Compaction\+Options}}
+\item 
+struct \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_manifest_options}{Manifest\+Options}}
+\item 
+struct \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_manager_options}{SSTable\+Manager\+Options}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_a1606ec1a69755e92aeef8350cf262f3c}{validate}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_a2786db168bfd775635fd4d16f2a5a6d6}\label{structkvdb_1_1_d_b_options_a2786db168bfd775635fd4d16f2a5a6d6} 
+std::\+filesystem::\+path {\bfseries db\+\_\+path}
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_a0b5b783517a403613b38df3c98727c99}\label{structkvdb_1_1_d_b_options_a0b5b783517a403613b38df3c98727c99} 
+bool {\bfseries create\+\_\+if\+\_\+missing} = true
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_a1e1fdc3f2e0df6d2ef0cedb30865ddae}\label{structkvdb_1_1_d_b_options_a1e1fdc3f2e0df6d2ef0cedb30865ddae} 
+bool {\bfseries error\+\_\+if\+\_\+exists} = false
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_a1d7ad67f5ea75a9100e4b91679eb2496}\label{structkvdb_1_1_d_b_options_a1d7ad67f5ea75a9100e4b91679eb2496} 
+std::\+size\+\_\+t {\bfseries block\+\_\+size} = 4 \texorpdfstring{$\ast$}{*} 1024
+\item 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_arena_options}{Arena\+Options}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_ab90911dd689bab4fad9d3d4abfbf2bc3}{arena}} \{\}
+\item 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_mem_table_options}{Mem\+Table\+Options}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_a21e5cb58eeccadd7b2a55968cfbcfcc1}{memtable}} \{\}
+\item 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_w_a_l_options}{WALOptions}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_a3a36e98b91e1595d680f510444766a4e}{wal}} \{\}
+\item 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_options}{SSTable\+Options}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_abab900b99754dc41c70fb3f356292b61}{sstable}} \{\}
+\item 
+\doxymbox{\hyperlink{struct_compaction_options}{Compaction\+Options}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_a18add129e28f20e2c646fbc135b1bb8f}{compaction}} \{\}
+\item 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_manifest_options}{Manifest\+Options}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_a77f43bf3f9d50ec790663aa8d2263fd0}{manifest}} \{\}
+\item 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_manager_options}{SSTable\+Manager\+Options}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_a01eedbab8edaf349bab040749767e1b9}{sstable\+\_\+manager}} \{\}
+\end{DoxyCompactItemize}
+
+
+\label{structkvdb_1_1_d_b_options_doc-func-members}
+\Hypertarget{structkvdb_1_1_d_b_options_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structkvdb_1_1_d_b_options_a1606ec1a69755e92aeef8350cf262f3c}\index{kvdb::DBOptions@{kvdb::DBOptions}!validate@{validate}}
+\index{validate@{validate}!kvdb::DBOptions@{kvdb::DBOptions}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_a1606ec1a69755e92aeef8350cf262f3c} 
+\doxymbox{\hyperlink{struct_status}{Status}} kvdb::\+\+DBOptions::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00125\ \ \ \ \ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (db\_path.empty())\ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}database\ path\ must\ not\ be\ empty"{}}}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (block\_size\ ==\ 0\ ||}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ block\_size\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}block\_size\ is\ outside\ the\ supported\ range"{}}}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ Status\ status\ =\ arena.validate();}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ status\ =\ memtable.validate();}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ status\ =\ wal.validate();}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ status\ =\ sstable.validate();}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ status\ =\ compaction.validate();}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ status\ =\ manifest.validate();}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sstable\_manager.validate();}
+\DoxyCodeLine{00150\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{structkvdb_1_1_d_b_options_doc-variable-members}
+\Hypertarget{structkvdb_1_1_d_b_options_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structkvdb_1_1_d_b_options_ab90911dd689bab4fad9d3d4abfbf2bc3}\index{kvdb::DBOptions@{kvdb::DBOptions}!arena@{arena}}
+\index{arena@{arena}!kvdb::DBOptions@{kvdb::DBOptions}}
+\doxysubsubsection{\texorpdfstring{arena}{arena}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_ab90911dd689bab4fad9d3d4abfbf2bc3} 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_arena_options}{Arena\+Options}} kvdb::\+\+DBOptions::\+arena \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00038\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{structkvdb_1_1_d_b_options_a18add129e28f20e2c646fbc135b1bb8f}\index{kvdb::DBOptions@{kvdb::DBOptions}!compaction@{compaction}}
+\index{compaction@{compaction}!kvdb::DBOptions@{kvdb::DBOptions}}
+\doxysubsubsection{\texorpdfstring{compaction}{compaction}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_a18add129e28f20e2c646fbc135b1bb8f} 
+\doxymbox{\hyperlink{struct_compaction_options}{Compaction\+Options}} kvdb::\+\+DBOptions::\+compaction \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00139\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{structkvdb_1_1_d_b_options_a77f43bf3f9d50ec790663aa8d2263fd0}\index{kvdb::DBOptions@{kvdb::DBOptions}!manifest@{manifest}}
+\index{manifest@{manifest}!kvdb::DBOptions@{kvdb::DBOptions}}
+\doxysubsubsection{\texorpdfstring{manifest}{manifest}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_a77f43bf3f9d50ec790663aa8d2263fd0} 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_manifest_options}{Manifest\+Options}} kvdb::\+\+DBOptions::\+manifest \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00153\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{structkvdb_1_1_d_b_options_a21e5cb58eeccadd7b2a55968cfbcfcc1}\index{kvdb::DBOptions@{kvdb::DBOptions}!memtable@{memtable}}
+\index{memtable@{memtable}!kvdb::DBOptions@{kvdb::DBOptions}}
+\doxysubsubsection{\texorpdfstring{memtable}{memtable}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_a21e5cb58eeccadd7b2a55968cfbcfcc1} 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_mem_table_options}{Mem\+Table\+Options}} kvdb::\+\+DBOptions::\+memtable \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00055\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{structkvdb_1_1_d_b_options_abab900b99754dc41c70fb3f356292b61}\index{kvdb::DBOptions@{kvdb::DBOptions}!sstable@{sstable}}
+\index{sstable@{sstable}!kvdb::DBOptions@{kvdb::DBOptions}}
+\doxysubsubsection{\texorpdfstring{sstable}{sstable}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_abab900b99754dc41c70fb3f356292b61} 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_options}{SSTable\+Options}} kvdb::\+\+DBOptions::\+sstable \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00095\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{structkvdb_1_1_d_b_options_a01eedbab8edaf349bab040749767e1b9}\index{kvdb::DBOptions@{kvdb::DBOptions}!sstable\_manager@{sstable\_manager}}
+\index{sstable\_manager@{sstable\_manager}!kvdb::DBOptions@{kvdb::DBOptions}}
+\doxysubsubsection{\texorpdfstring{sstable\_manager}{sstable\_manager}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_a01eedbab8edaf349bab040749767e1b9} 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_manager_options}{SSTable\+Manager\+Options}} kvdb::\+\+DBOptions::\+sstable\+\_\+manager \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00168\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{structkvdb_1_1_d_b_options_a3a36e98b91e1595d680f510444766a4e}\index{kvdb::DBOptions@{kvdb::DBOptions}!wal@{wal}}
+\index{wal@{wal}!kvdb::DBOptions@{kvdb::DBOptions}}
+\doxysubsubsection{\texorpdfstring{wal}{wal}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_a3a36e98b91e1595d680f510444766a4e} 
+\doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_w_a_l_options}{WALOptions}} kvdb::\+\+DBOptions::\+wal \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00072\ \{\};}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+db\+\_\+options.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+db\+\_\+options.\+cpp\end{DoxyCompactItemize}

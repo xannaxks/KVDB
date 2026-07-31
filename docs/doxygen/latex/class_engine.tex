@@ -1,0 +1,1254 @@
+\doxysection{Engine Class Reference}
+\hypertarget{class_engine}{}\label{class_engine}\index{Engine@{Engine}}
+Inheritance diagram for Engine:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_engine}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_engine_a9f9ab7e7a0a35cf08df3d2bf94f15ab3}{Engine}} (DBOptions options)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a98ec1d797125bd20444cbc57d1e3aeb7}{open}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a8210d45685854630298dbf4aa0c7db6b}{put}} (std::\+string \&key, std::\+string \&value) override
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ std::\+string $>$ $>$ \doxymbox{\hyperlink{class_engine_afc46875391c291da360c7261bc44fcc3}{get}} (std::\+string\+\_\+view key) override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_ab7bf843e9d7188703735e676ca6aaeb5}{remove}} (std::\+string \&key) override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a15ee5cb3d9c9967b6f202a8af767b575}{flush}} () override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_aafb6362677f5215fe012f578da3c76d3}{compact\+\_\+range}} (std::\+string\+\_\+view begin, std::\+string\+\_\+view end) override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a56f621d850df593ceaa8329e0936d7a8}{close}} () override
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_k_v_d_b}{KVDB}} $>$ $>$ \doxymbox{\hyperlink{class_k_v_d_b_a41747ed9695c687bbcb962f0e1da7da6}{open}} (const DBOptions \&options)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_ab9c361eba6eb772a608caad59ca534ff}{ensure\+\_\+open}} () const
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a3f23fabed7431d8332cf842304e1d3fb}{prepare\+\_\+dirs}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a5fb968ae1f3ace446fec735d0fb3ee18}{open\+\_\+manifest}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a1a03792a44fcbdb84b402d2362be04f0}{open\+\_\+wal}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a267de41e6a7816655098f0fd6fd56c8e}{put\+\_\+impl}} (std::\+string\+\_\+view key, std::\+string\+\_\+view value, Type type)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_aa377aa66fc9600e6e184617e23713228}{flush\+\_\+unlocked}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a4a6e7f6fdbc8ff0399d568d1a0bd3f19}{flush\+\_\+oldest\+\_\+immutable}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a0035c44acf747be9707a11fe3bd660be}{maybe\+\_\+flush\+\_\+unlocked}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a470267ef62014f64459fdee064c819e6}{maybe\+\_\+compact\+\_\+unlocked}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_engine_a94f9eb7435569fa276215f8b151acd45}{run\+\_\+compaction}} (const \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&plan)
+\item 
+std::\+filesystem::\+path \doxymbox{\hyperlink{class_engine_a0f7f3e5c8d2be2769857d8235ac3bfae}{wal\+\_\+path}} (std::\+uint32\+\_\+t wal\+\_\+id) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_engine_a9dad0a48d9a0c0e596d9d42977d807fe}\label{class_engine_a9dad0a48d9a0c0e596d9d42977d807fe} 
+DBOptions {\bfseries options\+\_\+}
+\item 
+\Hypertarget{class_engine_a88ecbcbe95fe7da16d8b1037a6203abc}\label{class_engine_a88ecbcbe95fe7da16d8b1037a6203abc} 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_manifest}{Manifest}} $>$ {\bfseries manifest\+\_\+}
+\item 
+\Hypertarget{class_engine_ad4c31fee14cdbba575a153f066a6bdc5}\label{class_engine_ad4c31fee14cdbba575a153f066a6bdc5} 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} $>$ {\bfseries level\+\_\+manager\+\_\+}
+\item 
+\Hypertarget{class_engine_ad1452f711771d5c6833f6eb88e0bcd72}\label{class_engine_ad1452f711771d5c6833f6eb88e0bcd72} 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_w_a_l}{WAL}} $>$ {\bfseries wal\+\_\+}
+\item 
+\Hypertarget{class_engine_a6525c809e6b2f746138c58d82762f595}\label{class_engine_a6525c809e6b2f746138c58d82762f595} 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} $>$ {\bfseries mem\+\_\+table\+\_\+}
+\item 
+\Hypertarget{class_engine_ab766c02a291332b750b8e9d3b1b8ee43}\label{class_engine_ab766c02a291332b750b8e9d3b1b8ee43} 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_compaction_scheduler}{Compaction\+Scheduler}} $>$ {\bfseries compaction\+\_\+scheduler\+\_\+}
+\item 
+\Hypertarget{class_engine_ada5376b53b0037c5054ccebde90c23a9}\label{class_engine_ada5376b53b0037c5054ccebde90c23a9} 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_s_s_table_manager}{SSTable\+Manager}} $>$ {\bfseries sstable\+\_\+manager\+\_\+}
+\item 
+\Hypertarget{class_engine_a90e4e40e30a74535dbcdb242c6060ad6}\label{class_engine_a90e4e40e30a74535dbcdb242c6060ad6} 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_arena}{Arena}} $>$ {\bfseries arena\+\_\+}
+\item 
+\Hypertarget{class_engine_a2e07e26713625e3a6a3442a6f009ac73}\label{class_engine_a2e07e26713625e3a6a3442a6f009ac73} 
+std::\+filesystem::\+path {\bfseries manifest\+\_\+path\+\_\+}
+\item 
+\Hypertarget{class_engine_ab1c848c88552a6df5351abb80be29405}\label{class_engine_ab1c848c88552a6df5351abb80be29405} 
+std::\+filesystem::\+path {\bfseries sstable\+\_\+dir\+\_\+}
+\item 
+\Hypertarget{class_engine_ab12d4f9bedd1c0d3110b9bb0e4511e1d}\label{class_engine_ab12d4f9bedd1c0d3110b9bb0e4511e1d} 
+std::\+uint64\+\_\+t {\bfseries next\+\_\+sequence\+\_\+} = 1
+\item 
+\Hypertarget{class_engine_ad31567fc80a0f931555ac6de0b8adc6e}\label{class_engine_ad31567fc80a0f931555ac6de0b8adc6e} 
+std::\+uint32\+\_\+t {\bfseries current\+\_\+wal\+\_\+id\+\_\+} = 1
+\item 
+\Hypertarget{class_engine_a6993b5a5df9d510b1741891b727fc2c4}\label{class_engine_a6993b5a5df9d510b1741891b727fc2c4} 
+bool {\bfseries opened\+\_\+} = false
+\item 
+\Hypertarget{class_engine_a83e0b4cd343a2c9f2f98e448b5c123e1}\label{class_engine_a83e0b4cd343a2c9f2f98e448b5c123e1} 
+bool {\bfseries closed\+\_\+} = false
+\item 
+\Hypertarget{class_engine_a733d6bd99fa6682be85cebb4aef976bb}\label{class_engine_a733d6bd99fa6682be85cebb4aef976bb} 
+std::\+mutex {\bfseries mutex\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\label{class_engine_doc-constructors}
+\Hypertarget{class_engine_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_engine_a9f9ab7e7a0a35cf08df3d2bf94f15ab3}\index{Engine@{Engine}!Engine@{Engine}}
+\index{Engine@{Engine}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{Engine()}{Engine()}}
+{\footnotesize\ttfamily \label{class_engine_a9f9ab7e7a0a35cf08df3d2bf94f15ab3} 
+Engine::\+\+Engine (\begin{DoxyParamCaption}\item[{DBOptions}]{options}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00089\ \ \ \ \ :\ options\_(std::move(options)) }
+\DoxyCodeLine{00090\ \{}
+\DoxyCodeLine{00091\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a11f791f3b49728bec8288ba122e4a9ff}\index{Engine@{Engine}!````~Engine@{\texorpdfstring{$\sim$}{\string~}Engine}}
+\index{````~Engine@{\texorpdfstring{$\sim$}{\string~}Engine}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Engine()}{\string~Engine()}}
+{\footnotesize\ttfamily \label{class_engine_a11f791f3b49728bec8288ba122e4a9ff} 
+Engine::\+\texorpdfstring{$\sim$}{\string~}\+Engine (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00094\ \{}
+\DoxyCodeLine{00095\ \ \ \ \ (void)close();}
+\DoxyCodeLine{00096\ \}}
+
+\end{DoxyCode}
+
+
+\label{class_engine_doc-func-members}
+\Hypertarget{class_engine_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_engine_a56f621d850df593ceaa8329e0936d7a8}\index{Engine@{Engine}!close@{close}}
+\index{close@{close}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily \label{class_engine_a56f621d850df593ceaa8329e0936d7a8} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+close (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_k_v_d_b}{KVDB}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00958\ \{}
+\DoxyCodeLine{00959\ \ \ \ \ std::lock\_guard\ lock(mutex\_);}
+\DoxyCodeLine{00960\ }
+\DoxyCodeLine{00961\ \ \ \ \ \textcolor{keywordflow}{if}\ (closed\_)\ \{}
+\DoxyCodeLine{00962\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00963\ \ \ \ \ \}}
+\DoxyCodeLine{00964\ \ \ \ \ \textcolor{keywordflow}{if}\ (!opened\_)\ \{}
+\DoxyCodeLine{00965\ \ \ \ \ \ \ \ \ closed\_\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00966\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00967\ \ \ \ \ \}}
+\DoxyCodeLine{00968\ }
+\DoxyCodeLine{00969\ \ \ \ \ Status\ status\ =\ wal\_\ ?\ wal\_-\/>sync()\ :\ Status::ok();}
+\DoxyCodeLine{00970\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00971\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00972\ \ \ \ \ \}}
+\DoxyCodeLine{00973\ }
+\DoxyCodeLine{00974\ \ \ \ \ status\ =\ manifest\_\ ?\ manifest\_-\/>sync()\ :\ Status::ok();}
+\DoxyCodeLine{00975\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00976\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00977\ \ \ \ \ \}}
+\DoxyCodeLine{00978\ }
+\DoxyCodeLine{00979\ \ \ \ \ status\ =\ wal\_\ ?\ wal\_-\/>close()\ :\ Status::ok();}
+\DoxyCodeLine{00980\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00981\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00982\ \ \ \ \ \}}
+\DoxyCodeLine{00983\ }
+\DoxyCodeLine{00984\ \ \ \ \ opened\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00985\ \ \ \ \ closed\_\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00986\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00987\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_aafb6362677f5215fe012f578da3c76d3}\index{Engine@{Engine}!compact\_range@{compact\_range}}
+\index{compact\_range@{compact\_range}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{compact\_range()}{compact\_range()}}
+{\footnotesize\ttfamily \label{class_engine_aafb6362677f5215fe012f578da3c76d3} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+compact\+\_\+range (\begin{DoxyParamCaption}\item[{std::\+string\+\_\+view}]{begin}{, }\item[{std::\+string\+\_\+view}]{end}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_k_v_d_b}{KVDB}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00843\ \{}
+\DoxyCodeLine{00844\ \ \ \ \ std::lock\_guard\ lock(mutex\_);}
+\DoxyCodeLine{00845\ }
+\DoxyCodeLine{00846\ \ \ \ \ \textcolor{keywordflow}{if}\ (begin.size()\ >\ std::numeric\_limits<std::uint32\_t>::max()\ ||}
+\DoxyCodeLine{00847\ \ \ \ \ \ \ \ \ end.size()\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00848\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00849\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00850\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}compaction\ range\ key\ is\ too\ large"{}}}
+\DoxyCodeLine{00851\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00852\ \ \ \ \ \}}
+\DoxyCodeLine{00853\ }
+\DoxyCodeLine{00854\ \ \ \ \ Status\ status\ =\ flush\_unlocked();}
+\DoxyCodeLine{00855\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00856\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00857\ \ \ \ \ \}}
+\DoxyCodeLine{00858\ }
+\DoxyCodeLine{00859\ \ \ \ \ ArenaEntry\ smallest(}
+\DoxyCodeLine{00860\ \ \ \ \ \ \ \ \ begin.data(),}
+\DoxyCodeLine{00861\ \ \ \ \ \ \ \ \ begin.size()}
+\DoxyCodeLine{00862\ \ \ \ \ );}
+\DoxyCodeLine{00863\ \ \ \ \ ArenaEntry\ largest(}
+\DoxyCodeLine{00864\ \ \ \ \ \ \ \ \ end.data(),}
+\DoxyCodeLine{00865\ \ \ \ \ \ \ \ \ end.size()}
+\DoxyCodeLine{00866\ \ \ \ \ );}
+\DoxyCodeLine{00867\ \ \ \ \ \textcolor{keywordflow}{if}\ (largest\ <\ smallest)\ \{}
+\DoxyCodeLine{00868\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00869\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00870\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}compaction\ range\ end\ precedes\ its\ begin"{}}}
+\DoxyCodeLine{00871\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00872\ \ \ \ \ \}}
+\DoxyCodeLine{00873\ }
+\DoxyCodeLine{00874\ \ \ \ \ \textcolor{keyword}{const}\ CompactionOptions\ options\ =\ scheduler\_options(options\_);}
+\DoxyCodeLine{00875\ }
+\DoxyCodeLine{00876\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::uint32\_t\ source\_level\ =\ 0;}
+\DoxyCodeLine{00877\ \ \ \ \ \ \ \ \ source\_level\ +\ 1\ <\ level\_manager\_-\/>level\_count();}
+\DoxyCodeLine{00878\ \ \ \ \ \ \ \ \ ++source\_level)\ \{}
+\DoxyCodeLine{00879\ \ \ \ \ \ \ \ \ CompactionPlan\ plan;}
+\DoxyCodeLine{00880\ \ \ \ \ \ \ \ \ plan.reason\ =\ CompactionReason::Manual;}
+\DoxyCodeLine{00881\ \ \ \ \ \ \ \ \ plan.source\_level\ =\ source\_level;}
+\DoxyCodeLine{00882\ \ \ \ \ \ \ \ \ plan.target\_level\ =\ source\_level\ +\ 1;}
+\DoxyCodeLine{00883\ \ \ \ \ \ \ \ \ plan.smallest\_key\ =\ smallest;}
+\DoxyCodeLine{00884\ \ \ \ \ \ \ \ \ plan.largest\_key\ =\ largest;}
+\DoxyCodeLine{00885\ \ \ \ \ \ \ \ \ plan.max\_output\_file\_size\ =}
+\DoxyCodeLine{00886\ \ \ \ \ \ \ \ \ \ \ \ \ options.target\_file\_size\_per\_level[plan.target\_level];}
+\DoxyCodeLine{00887\ }
+\DoxyCodeLine{00888\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (;;)\ \{}
+\DoxyCodeLine{00889\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ old\_source\_count\ =}
+\DoxyCodeLine{00890\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.source\_tables.size();}
+\DoxyCodeLine{00891\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ old\_target\_count\ =}
+\DoxyCodeLine{00892\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.overlapping\_tables.size();}
+\DoxyCodeLine{00893\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ArenaEntry\ old\_smallest\ =\ plan.smallest\_key;}
+\DoxyCodeLine{00894\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ArenaEntry\ old\_largest\ =\ plan.largest\_key;}
+\DoxyCodeLine{00895\ }
+\DoxyCodeLine{00896\ \ \ \ \ \ \ \ \ \ \ \ \ plan.source\_tables\ =}
+\DoxyCodeLine{00897\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level\_manager\_-\/>find\_overlapping\_tables(}
+\DoxyCodeLine{00898\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.source\_level,}
+\DoxyCodeLine{00899\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.smallest\_key,}
+\DoxyCodeLine{00900\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.largest\_key}
+\DoxyCodeLine{00901\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00902\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (plan.source\_tables.empty())\ \{}
+\DoxyCodeLine{00903\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00904\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00905\ }
+\DoxyCodeLine{00906\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ TableMeta\&\ table\ :\ plan.source\_tables)\ \{}
+\DoxyCodeLine{00907\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.smallest\_key\ <\ plan.smallest\_key)\ \{}
+\DoxyCodeLine{00908\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.smallest\_key\ =\ table.smallest\_key;}
+\DoxyCodeLine{00909\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00910\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (plan.largest\_key\ <\ table.largest\_key)\ \{}
+\DoxyCodeLine{00911\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.largest\_key\ =\ table.largest\_key;}
+\DoxyCodeLine{00912\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00913\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00914\ }
+\DoxyCodeLine{00915\ \ \ \ \ \ \ \ \ \ \ \ \ plan.overlapping\_tables\ =}
+\DoxyCodeLine{00916\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level\_manager\_-\/>find\_overlapping\_tables(}
+\DoxyCodeLine{00917\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.target\_level,}
+\DoxyCodeLine{00918\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.smallest\_key,}
+\DoxyCodeLine{00919\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.largest\_key}
+\DoxyCodeLine{00920\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00921\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ TableMeta\&\ table\ :\ plan.overlapping\_tables)\ \{}
+\DoxyCodeLine{00922\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.smallest\_key\ <\ plan.smallest\_key)\ \{}
+\DoxyCodeLine{00923\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.smallest\_key\ =\ table.smallest\_key;}
+\DoxyCodeLine{00924\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00925\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (plan.largest\_key\ <\ table.largest\_key)\ \{}
+\DoxyCodeLine{00926\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ plan.largest\_key\ =\ table.largest\_key;}
+\DoxyCodeLine{00927\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00928\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00929\ }
+\DoxyCodeLine{00930\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (old\_source\_count\ ==\ plan.source\_tables.size()\ \&\&}
+\DoxyCodeLine{00931\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ old\_target\_count\ ==\ plan.overlapping\_tables.size()\ \&\&}
+\DoxyCodeLine{00932\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ old\_smallest\ ==\ plan.smallest\_key\ \&\&}
+\DoxyCodeLine{00933\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ old\_largest\ ==\ plan.largest\_key)\ \{}
+\DoxyCodeLine{00934\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00935\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00936\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00937\ }
+\DoxyCodeLine{00938\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (plan.source\_tables.empty())\ \{}
+\DoxyCodeLine{00939\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00940\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00941\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!plan.validate())\ \{}
+\DoxyCodeLine{00942\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00943\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
+\DoxyCodeLine{00944\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manual\ compaction\ produced\ an\ invalid\ plan"{}}}
+\DoxyCodeLine{00945\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00946\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00947\ }
+\DoxyCodeLine{00948\ \ \ \ \ \ \ \ \ status\ =\ run\_compaction(plan);}
+\DoxyCodeLine{00949\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00950\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00951\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00952\ \ \ \ \ \}}
+\DoxyCodeLine{00953\ }
+\DoxyCodeLine{00954\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00955\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_ab9c361eba6eb772a608caad59ca534ff}\index{Engine@{Engine}!ensure\_open@{ensure\_open}}
+\index{ensure\_open@{ensure\_open}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{ensure\_open()}{ensure\_open()}}
+{\footnotesize\ttfamily \label{class_engine_ab9c361eba6eb772a608caad59ca534ff} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+ensure\+\_\+open (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00990\ \{}
+\DoxyCodeLine{00991\ \ \ \ \ \textcolor{keywordflow}{if}\ (closed\_)\ \{}
+\DoxyCodeLine{00992\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00993\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UseAfterClose,}
+\DoxyCodeLine{00994\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}database\ is\ closed"{}}}
+\DoxyCodeLine{00995\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00996\ \ \ \ \ \}}
+\DoxyCodeLine{00997\ \ \ \ \ \textcolor{keywordflow}{if}\ (!opened\_)\ \{}
+\DoxyCodeLine{00998\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00999\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::FailedPrecondition,}
+\DoxyCodeLine{01000\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}database\ is\ not\ open"{}}}
+\DoxyCodeLine{01001\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{01002\ \ \ \ \ \}}
+\DoxyCodeLine{01003\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{01004\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a15ee5cb3d9c9967b6f202a8af767b575}\index{Engine@{Engine}!flush@{flush}}
+\index{flush@{flush}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{flush()}{flush()}}
+{\footnotesize\ttfamily \label{class_engine_a15ee5cb3d9c9967b6f202a8af767b575} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+flush (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_k_v_d_b}{KVDB}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00747\ \{}
+\DoxyCodeLine{00748\ \ \ \ \ std::lock\_guard\ lock(mutex\_);}
+\DoxyCodeLine{00749\ \ \ \ \ \textcolor{keywordflow}{return}\ flush\_unlocked();}
+\DoxyCodeLine{00750\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a4a6e7f6fdbc8ff0399d568d1a0bd3f19}\index{Engine@{Engine}!flush\_oldest\_immutable@{flush\_oldest\_immutable}}
+\index{flush\_oldest\_immutable@{flush\_oldest\_immutable}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{flush\_oldest\_immutable()}{flush\_oldest\_immutable()}}
+{\footnotesize\ttfamily \label{class_engine_a4a6e7f6fdbc8ff0399d568d1a0bd3f19} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+flush\+\_\+oldest\+\_\+immutable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00603\ \{}
+\DoxyCodeLine{00604\ \ \ \ \ Result<MemTable::ImmutableSnapshot>\ snapshot\ =}
+\DoxyCodeLine{00605\ \ \ \ \ \ \ \ \ mem\_table\_-\/>oldest\_immutable();}
+\DoxyCodeLine{00606\ \ \ \ \ \textcolor{keywordflow}{if}\ (!snapshot.is\_ok())\ \{}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ snapshot.status.code\ ==\ StatusCode::NotFound}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ Status::ok()}
+\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \ \ \ \ :\ std::move(snapshot.status);}
+\DoxyCodeLine{00610\ \ \ \ \ \}}
+\DoxyCodeLine{00611\ }
+\DoxyCodeLine{00612\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ next\_table\_id\ =\ manifest\_-\/>next\_table\_id();}
+\DoxyCodeLine{00613\ \ \ \ \ \textcolor{keywordflow}{if}\ (next\_table\_id\ ==\ 0\ ||}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ next\_table\_id\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ ID\ space\ is\ exhausted"{}}}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00619\ \ \ \ \ \}}
+\DoxyCodeLine{00620\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ table\_id\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(next\_table\_id);}
+\DoxyCodeLine{00621\ }
+\DoxyCodeLine{00622\ \ \ \ \ Result<std::optional<SSTable>>\ built\ =}
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ sstable\_manager\_-\/>build(table\_id,\ *mem\_table\_);}
+\DoxyCodeLine{00624\ \ \ \ \ \textcolor{keywordflow}{if}\ (!built.is\_ok())\ \{}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(built.status);}
+\DoxyCodeLine{00626\ \ \ \ \ \}}
+\DoxyCodeLine{00627\ \ \ \ \ \textcolor{keywordflow}{if}\ (!built.value.has\_value())\ \{}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}non-\/empty\ immutable\ MemTable\ produced\ no\ SSTable"{}}}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00632\ \ \ \ \ \}}
+\DoxyCodeLine{00633\ }
+\DoxyCodeLine{00634\ \ \ \ \ SSTable\&\ table\ =\ *built.value;}
+\DoxyCodeLine{00635\ \ \ \ \ Status\ status\ =\ sstable\_manager\_-\/>write(table);}
+\DoxyCodeLine{00636\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00638\ \ \ \ \ \}}
+\DoxyCodeLine{00639\ }
+\DoxyCodeLine{00640\ \ \ \ \ Result<TableMeta>\ meta\ =\ make\_table\_meta(}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ table,}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ 0,}
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ *arena\_}
+\DoxyCodeLine{00644\ \ \ \ \ );}
+\DoxyCodeLine{00645\ \ \ \ \ \textcolor{keywordflow}{if}\ (!meta.is\_ok())\ \{}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(meta.status);}
+\DoxyCodeLine{00647\ \ \ \ \ \}}
+\DoxyCodeLine{00648\ }
+\DoxyCodeLine{00649\ \ \ \ \ VersionEdit\ edit;}
+\DoxyCodeLine{00650\ \ \ \ \ edit.payload.new\_tables.push\_back(std::move(meta.value));}
+\DoxyCodeLine{00651\ \ \ \ \ edit.payload.next\_table\_id\ =\ next\_table\_id\ +\ 1;}
+\DoxyCodeLine{00652\ \ \ \ \ edit.payload.next\_sequence\_number\ =\ next\_sequence\_;}
+\DoxyCodeLine{00653\ }
+\DoxyCodeLine{00654\ \ \ \ \ std::unique\_ptr<WAL>\ replacement;}
+\DoxyCodeLine{00655\ \ \ \ \ std::filesystem::path\ old\_wal\_path;}
+\DoxyCodeLine{00656\ \ \ \ \ std::filesystem::path\ replacement\_path;}
+\DoxyCodeLine{00657\ \ \ \ \ std::uint32\_t\ replacement\_id\ =\ 0;}
+\DoxyCodeLine{00658\ }
+\DoxyCodeLine{00659\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ rotates\_wal\ =\ mem\_table\_-\/>immutable\_count()\ ==\ 1;}
+\DoxyCodeLine{00660\ \ \ \ \ \textcolor{keywordflow}{if}\ (rotates\_wal)\ \{}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_wal\_id\_\ ==}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ ID\ space\ is\ exhausted"{}}}
+\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00668\ }
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ replacement\_id\ =\ current\_wal\_id\_\ +\ 1;}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ replacement\_path\ =\ wal\_path(replacement\_id);}
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \ \ old\_wal\_path\ =\ wal\_path(current\_wal\_id\_);}
+\DoxyCodeLine{00672\ }
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ status\ =\ remove\_if\_present(replacement\_path);}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00677\ }
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ replacement\ =\ std::make\_unique<WAL>();}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ status\ =\ replacement-\/>create(}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ \ \ \ \ replacement\_path,}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \ \ \ \ replacement\_id,}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ \ \ \ \ next\_sequence\_}
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ edit.payload.current\_wal\_id\ =\ replacement\_id;}
+\DoxyCodeLine{00688\ \ \ \ \ \}}
+\DoxyCodeLine{00689\ }
+\DoxyCodeLine{00690\ \ \ \ \ status\ =\ manifest\_-\/>commit(*level\_manager\_,\ edit);}
+\DoxyCodeLine{00691\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (replacement)\ \{}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \ \ (void)replacement-\/>close();}
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \ \ \ \ (void)remove\_if\_present(replacement\_path);}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00697\ \ \ \ \ \}}
+\DoxyCodeLine{00698\ }
+\DoxyCodeLine{00699\ \ \ \ \ \textcolor{keywordflow}{if}\ (!mem\_table\_-\/>retire\_oldest\_immutable(}
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ snapshot.value.generation\_id))\ \{}
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
+\DoxyCodeLine{00703\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}flushed\ immutable\ MemTable\ generation\ changed\ unexpectedly"{}}}
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00705\ \ \ \ \ \}}
+\DoxyCodeLine{00706\ }
+\DoxyCodeLine{00707\ \ \ \ \ \textcolor{keywordflow}{if}\ (replacement)\ \{}
+\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ status\ =\ wal\_-\/>close();}
+\DoxyCodeLine{00709\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ wal\_\ =\ std::move(replacement);}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ current\_wal\_id\_\ =\ replacement\_id;}
+\DoxyCodeLine{00714\ }
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ status\ =\ remove\_if\_present(old\_wal\_path);}
+\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00717\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00718\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00719\ \ \ \ \ \}}
+\DoxyCodeLine{00720\ }
+\DoxyCodeLine{00721\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00722\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_aa377aa66fc9600e6e184617e23713228}\index{Engine@{Engine}!flush\_unlocked@{flush\_unlocked}}
+\index{flush\_unlocked@{flush\_unlocked}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{flush\_unlocked()}{flush\_unlocked()}}
+{\footnotesize\ttfamily \label{class_engine_aa377aa66fc9600e6e184617e23713228} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+flush\+\_\+unlocked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00725\ \{}
+\DoxyCodeLine{00726\ \ \ \ \ Status\ state\ =\ ensure\_open();}
+\DoxyCodeLine{00727\ \ \ \ \ \textcolor{keywordflow}{if}\ (!state.is\_ok())\ \{}
+\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ state;}
+\DoxyCodeLine{00729\ \ \ \ \ \}}
+\DoxyCodeLine{00730\ }
+\DoxyCodeLine{00731\ \ \ \ \ Status\ status\ =\ mem\_table\_-\/>freeze\_mutable();}
+\DoxyCodeLine{00732\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00734\ \ \ \ \ \}}
+\DoxyCodeLine{00735\ }
+\DoxyCodeLine{00736\ \ \ \ \ \textcolor{keywordflow}{while}\ (mem\_table\_-\/>has\_immutable())\ \{}
+\DoxyCodeLine{00737\ \ \ \ \ \ \ \ \ status\ =\ flush\_oldest\_immutable();}
+\DoxyCodeLine{00738\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00741\ \ \ \ \ \}}
+\DoxyCodeLine{00742\ }
+\DoxyCodeLine{00743\ \ \ \ \ \textcolor{keywordflow}{return}\ maybe\_compact\_unlocked();}
+\DoxyCodeLine{00744\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_afc46875391c291da360c7261bc44fcc3}\index{Engine@{Engine}!get@{get}}
+\index{get@{get}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \label{class_engine_afc46875391c291da360c7261bc44fcc3} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ std::\+string $>$ $>$ Engine::\+get (\begin{DoxyParamCaption}\item[{std::\+string\+\_\+view}]{key}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_k_v_d_b}{KVDB}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00522\ \{}
+\DoxyCodeLine{00523\ \ \ \ \ std::lock\_guard\ lock(mutex\_);}
+\DoxyCodeLine{00524\ }
+\DoxyCodeLine{00525\ \ \ \ \ Status\ state\ =\ ensure\_open();}
+\DoxyCodeLine{00526\ \ \ \ \ \textcolor{keywordflow}{if}\ (!state.is\_ok())\ \{}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::string>>::fail(}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(state)}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00530\ \ \ \ \ \}}
+\DoxyCodeLine{00531\ }
+\DoxyCodeLine{00532\ \ \ \ \ \textcolor{keywordflow}{if}\ (key.size()\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::string>>::fail(Status\{}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}key\ is\ too\ large"{}}}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00537\ \ \ \ \ \}}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00539\ \ \ \ \ ArenaEntry\ search\_key(}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ key.data(),}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ key.size()}
+\DoxyCodeLine{00542\ \ \ \ \ );}
+\DoxyCodeLine{00543\ }
+\DoxyCodeLine{00544\ \ \ \ \ Result<std::optional<InternalRecord>>\ memory\_result\ =}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ mem\_table\_-\/>get(search\_key);}
+\DoxyCodeLine{00546\ \ \ \ \ \textcolor{keywordflow}{if}\ (!memory\_result.is\_ok())\ \{}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::string>>::fail(}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(memory\_result.status)}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00550\ \ \ \ \ \}}
+\DoxyCodeLine{00551\ \ \ \ \ \textcolor{keywordflow}{if}\ (memory\_result.value.has\_value())\ \{}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ api\_value(*memory\_result.value);}
+\DoxyCodeLine{00553\ \ \ \ \ \}}
+\DoxyCodeLine{00554\ }
+\DoxyCodeLine{00555\ \ \ \ \ Arena\ read\_arena(}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ options\_.arena.page\_size,}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ options\_.arena.large\_threshold}
+\DoxyCodeLine{00558\ \ \ \ \ );}
+\DoxyCodeLine{00559\ }
+\DoxyCodeLine{00560\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::uint32\_t\ level\ =\ 0;}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ level\ <\ level\_manager\_-\/>level\_count();}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ ++level)\ \{}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ Result<std::vector<TableMeta>>\ candidates\ =}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ level\_manager\_-\/>find\_candidate\_tables\_in\_level(}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level,}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ search\_key}
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!candidates.is\_ok())\ \{}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::string>>::fail(}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(candidates.status)}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00573\ }
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ TableMeta\&\ meta\ :\ candidates.value)\ \{}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ \ \ \ \ Result<std::shared\_ptr<SSTable>>\ table\ =}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sstable\_manager\_-\/>open(meta,\ *arena\_);}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!table.is\_ok())\ \{}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::string>>::fail(}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(table.status)}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00582\ }
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ Result<std::optional<InternalRecord>>\ record\ =}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table.value-\/>get(search\_key,\ read\_arena);}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!record.is\_ok())\ \{}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (record.status.code\ ==\ StatusCode::NotFound)\ \{}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::string>>::fail(}
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(record.status)}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (record.value.has\_value())\ \{}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ api\_value(*record.value);}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00597\ \ \ \ \ \}}
+\DoxyCodeLine{00598\ }
+\DoxyCodeLine{00599\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::string>>::ok(std::nullopt);}
+\DoxyCodeLine{00600\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a470267ef62014f64459fdee064c819e6}\index{Engine@{Engine}!maybe\_compact\_unlocked@{maybe\_compact\_unlocked}}
+\index{maybe\_compact\_unlocked@{maybe\_compact\_unlocked}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{maybe\_compact\_unlocked()}{maybe\_compact\_unlocked()}}
+{\footnotesize\ttfamily \label{class_engine_a470267ef62014f64459fdee064c819e6} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+maybe\+\_\+compact\+\_\+unlocked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00809\ \{}
+\DoxyCodeLine{00810\ \ \ \ \ \textcolor{keywordflow}{if}\ (!options\_.compaction.enable\_background\_compaction)\ \{}
+\DoxyCodeLine{00811\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00812\ \ \ \ \ \}}
+\DoxyCodeLine{00813\ }
+\DoxyCodeLine{00814\ \ \ \ \ \textcolor{keyword}{const}\ CompactionOptions\ options\ =\ scheduler\_options(options\_);}
+\DoxyCodeLine{00815\ \ \ \ \ \textcolor{keywordflow}{while}\ (compaction\_scheduler\_-\/>should\_compact(}
+\DoxyCodeLine{00816\ \ \ \ \ \ \ \ \ *level\_manager\_,}
+\DoxyCodeLine{00817\ \ \ \ \ \ \ \ \ options}
+\DoxyCodeLine{00818\ \ \ \ \ ))\ \{}
+\DoxyCodeLine{00819\ \ \ \ \ \ \ \ \ Result<std::optional<CompactionPlan>>\ plan\ =}
+\DoxyCodeLine{00820\ \ \ \ \ \ \ \ \ \ \ \ \ compaction\_scheduler\_-\/>pick\_compaction(}
+\DoxyCodeLine{00821\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ *level\_manager\_,}
+\DoxyCodeLine{00822\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ options}
+\DoxyCodeLine{00823\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00824\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!plan.is\_ok())\ \{}
+\DoxyCodeLine{00825\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(plan.status);}
+\DoxyCodeLine{00826\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00827\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!plan.value.has\_value())\ \{}
+\DoxyCodeLine{00828\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00829\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00830\ }
+\DoxyCodeLine{00831\ \ \ \ \ \ \ \ \ Status\ status\ =\ run\_compaction(*plan.value);}
+\DoxyCodeLine{00832\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00833\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00834\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00835\ \ \ \ \ \}}
+\DoxyCodeLine{00836\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00837\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a0035c44acf747be9707a11fe3bd660be}\index{Engine@{Engine}!maybe\_flush\_unlocked@{maybe\_flush\_unlocked}}
+\index{maybe\_flush\_unlocked@{maybe\_flush\_unlocked}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{maybe\_flush\_unlocked()}{maybe\_flush\_unlocked()}}
+{\footnotesize\ttfamily \label{class_engine_a0035c44acf747be9707a11fe3bd660be} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+maybe\+\_\+flush\+\_\+unlocked (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00753\ \{}
+\DoxyCodeLine{00754\ \ \ \ \ \textcolor{keywordflow}{if}\ (mem\_table\_-\/>mutable\_memory\_usage()\ >=}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ options\_.memtable.size\_limit\ ||}
+\DoxyCodeLine{00756\ \ \ \ \ \ \ \ \ wal\_-\/>writer().offset()\ >=\ options\_.wal.file\_size\_limit)\ \{}
+\DoxyCodeLine{00757\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ flush\_unlocked();}
+\DoxyCodeLine{00758\ \ \ \ \ \}}
+\DoxyCodeLine{00759\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00760\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a98ec1d797125bd20444cbc57d1e3aeb7}\index{Engine@{Engine}!open@{open}}
+\index{open@{open}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_engine_a98ec1d797125bd20444cbc57d1e3aeb7} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+open (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00371\ \{}
+\DoxyCodeLine{00372\ \ \ \ \ std::lock\_guard\ lock(mutex\_);}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \ \ \ \ \textcolor{keywordflow}{if}\ (opened\_)\ \{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00376\ \ \ \ \ \}}
+\DoxyCodeLine{00377\ \ \ \ \ \textcolor{keywordflow}{if}\ (closed\_)\ \{}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UseAfterClose,}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}database\ is\ closed"{}}}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00382\ \ \ \ \ \}}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00384\ \ \ \ \ Status\ status\ =\ options\_.validate();}
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00387\ \ \ \ \ \}}
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00389\ \ \ \ \ status\ =\ prepare\_dirs();}
+\DoxyCodeLine{00390\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00392\ \ \ \ \ \}}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ arena\_\ =\ std::make\_unique<Arena>(}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ options\_.arena.page\_size,}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ options\_.arena.large\_threshold}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ level\_manager\_\ =\ std::make\_unique<LevelManager>(}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \ \ \ \ options\_.compaction.max\_levels}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ mem\_table\_\ =\ std::make\_unique<MemTable>();}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ compaction\_scheduler\_\ =}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ std::make\_unique<CompactionScheduler>();}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ sstable\_manager\_\ =}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ std::make\_unique<SSTableManager>(sstable\_dir\_);}
+\DoxyCodeLine{00407\ \ \ \ \ \}}
+\DoxyCodeLine{00408\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OutOfMemory,}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ allocate\ database\ runtime\ state"{}}}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00413\ \ \ \ \ \}}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \ \ \ \ status\ =\ open\_manifest();}
+\DoxyCodeLine{00416\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00418\ \ \ \ \ \}}
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00420\ \ \ \ \ status\ =\ open\_wal();}
+\DoxyCodeLine{00421\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00423\ \ \ \ \ \}}
+\DoxyCodeLine{00424\ }
+\DoxyCodeLine{00425\ \ \ \ \ opened\_\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00426\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00427\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_k_v_d_b_a41747ed9695c687bbcb962f0e1da7da6}\index{Engine@{Engine}!open@{open}}
+\index{open@{open}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{open()}{open()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_k_v_d_b_a41747ed9695c687bbcb962f0e1da7da6} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_k_v_d_b}{KVDB}} $>$ $>$ KVDB::\+open (\begin{DoxyParamCaption}\item[{const DBOptions \&}]{options}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [inherited]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00011\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ engine\ =\ std::make\_unique<Engine>(options);}
+\DoxyCodeLine{00012\ \ \ \ \ \ \ \ \ Status\ status\ =\ engine-\/>open();}
+\DoxyCodeLine{00013\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::unique\_ptr<KVDB>>::fail(}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(status)}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ std::unique\_ptr<KVDB>\ database\ =\ std::move(engine);}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::unique\_ptr<KVDB>>::ok(}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(database)}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::unique\_ptr<KVDB>>::fail(Status\{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OutOfMemory,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ allocate\ the\ database\ engine"{}}}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00029\ \ \ \ \ \}}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::exception\&\ exception)\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::unique\_ptr<KVDB>>::fail(Status\{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InternalError,}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ exception.what()}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a5fb968ae1f3ace446fec735d0fb3ee18}\index{Engine@{Engine}!open\_manifest@{open\_manifest}}
+\index{open\_manifest@{open\_manifest}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{open\_manifest()}{open\_manifest()}}
+{\footnotesize\ttfamily \label{class_engine_a5fb968ae1f3ace446fec735d0fb3ee18} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+open\+\_\+manifest (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00173\ \{}
+\DoxyCodeLine{00174\ \ \ \ \ std::error\_code\ error;}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ exists\ =\ std::filesystem::exists(manifest\_path\_,\ error);}
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filesystem\_error(}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ inspect\ manifest"{}},}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ manifest\_path\_,}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ error}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00182\ \ \ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ std::uintmax\_t\ size\ =\ 0;}
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordflow}{if}\ (exists)\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ size\ =\ std::filesystem::file\_size(manifest\_path\_,\ error);}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filesystem\_error(}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ inspect\ manifest\ size"{}},}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ manifest\_path\_,}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00194\ \ \ \ \ \}}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordflow}{if}\ (exists\ \&\&\ size\ >\ 0)\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ Result<Manifest>\ loaded\ =\ Manifest::load(}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ *level\_manager\_,}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ manifest\_path\_,}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ *arena\_}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!loaded.is\_ok())\ \{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(loaded.status);}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ manifest\_\ =\ std::make\_unique<Manifest>(}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(loaded.value)}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ Status\ status\ =\ manifest\_-\/>prepare\_for\_append();}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ Result<std::unique\_ptr<WritableFile>>\ writer\ =}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ open\_writable\_file(manifest\_path\_);}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!writer.is\_ok())\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(writer.status);}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ status\ =\ manifest\_-\/>attach\_writer(std::move(writer.value));}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00226\ \ \ \ \ \}}
+\DoxyCodeLine{00227\ }
+\DoxyCodeLine{00228\ \ \ \ \ manifest\_\ =\ std::make\_unique<Manifest>(manifest\_path\_);}
+\DoxyCodeLine{00229\ \ \ \ \ \textcolor{keywordflow}{return}\ manifest\_-\/>open\_or\_create();}
+\DoxyCodeLine{00230\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a1a03792a44fcbdb84b402d2362be04f0}\index{Engine@{Engine}!open\_wal@{open\_wal}}
+\index{open\_wal@{open\_wal}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{open\_wal()}{open\_wal()}}
+{\footnotesize\ttfamily \label{class_engine_a1a03792a44fcbdb84b402d2362be04f0} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+open\+\_\+wal (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00233\ \{}
+\DoxyCodeLine{00234\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ manifest\_wal\_id\ =\ manifest\_-\/>current\_wal\_id();}
+\DoxyCodeLine{00235\ \ \ \ \ \textcolor{keywordflow}{if}\ (manifest\_wal\_id\ ==\ 0\ ||}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ manifest\_wal\_id\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}manifest\ WAL\ ID\ is\ outside\ the\ supported\ range"{}}}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00241\ \ \ \ \ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ current\_wal\_id\_\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(manifest\_wal\_id);}
+\DoxyCodeLine{00244\ \ \ \ \ next\_sequence\_\ =\ manifest\_-\/>next\_sequence\_number();}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ current\_path\ =}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ wal\_path(current\_wal\_id\_);}
+\DoxyCodeLine{00248\ }
+\DoxyCodeLine{00249\ \ \ \ \ std::error\_code\ error;}
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ exists\ =\ std::filesystem::exists(current\_path,\ error);}
+\DoxyCodeLine{00251\ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filesystem\_error(}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ inspect\ WAL"{}},}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ current\_path,}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ error}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00257\ \ \ \ \ \}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordflow}{if}\ (!exists)\ \{}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ Status\ remove\_status\ =\ remove\_if\_present(current\_path);}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!remove\_status.is\_ok())\ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ remove\_status;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00264\ }
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ wal\_\ =\ std::make\_unique<WAL>();}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ wal\_-\/>create(}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ current\_path,}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ current\_wal\_id\_,}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ next\_sequence\_}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00271\ \ \ \ \ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ Result<WALLoader::LoadResult>\ recovered\ =\ WAL::recover(}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ current\_path,}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ current\_wal\_id\_,}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ *arena\_}
+\DoxyCodeLine{00277\ \ \ \ \ );}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordflow}{if}\ (!recovered.is\_ok())\ \{}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(recovered.status);}
+\DoxyCodeLine{00280\ \ \ \ \ \}}
+\DoxyCodeLine{00281\ \ \ \ \ \textcolor{keywordflow}{if}\ (!recovered.value.ok\ ||\ recovered.value.had\_corruption)\ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ recovered.value.error.empty()}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \textcolor{stringliteral}{"{}WAL\ recovery\ detected\ corruption"{}}}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ recovered.value.error}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00288\ \ \ \ \ \}}
+\DoxyCodeLine{00289\ }
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ InternalRecord\&\ record\ :\ recovered.value.records)\ \{}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ Status\ status\ =\ mem\_table\_-\/>apply(record);}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (record.seq\_num\ ==\ std::numeric\_limits<std::uint64\_t>::max())\ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ sequence\ number\ space\ is\ exhausted"{}}}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ next\_sequence\_\ =\ std::max(}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ next\_sequence\_,}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ record.seq\_num\ +\ 1}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00306\ \ \ \ \ \}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \ \ \ \ \textcolor{keywordflow}{if}\ (current\_wal\_id\_\ ==\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ ID\ space\ is\ exhausted"{}}}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00313\ \ \ \ \ \}}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ replacement\_id\ =\ current\_wal\_id\_\ +\ 1;}
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\ replacement\_path\ =}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ wal\_path(replacement\_id);}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \ \ \ \ Status\ status\ =\ remove\_if\_present(replacement\_path);}
+\DoxyCodeLine{00320\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00322\ \ \ \ \ \}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \ \ \ \ \textcolor{keyword}{auto}\ replacement\ =\ std::make\_unique<WAL>();}
+\DoxyCodeLine{00325\ \ \ \ \ status\ =\ replacement-\/>create(}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ replacement\_path,}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ replacement\_id,}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ recovered.value.records.empty()}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ ?\ next\_sequence\_}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ :\ recovered.value.records.front().seq\_num}
+\DoxyCodeLine{00331\ \ \ \ \ );}
+\DoxyCodeLine{00332\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00334\ \ \ \ \ \}}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ InternalRecord\&\ record\ :\ recovered.value.records)\ \{}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ status\ =\ replacement-\/>write(record);}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ (void)replacement-\/>close();}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ (void)remove\_if\_present(replacement\_path);}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00343\ \ \ \ \ \}}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \ \ \ \ status\ =\ replacement-\/>sync();}
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ (void)replacement-\/>close();}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00349\ \ \ \ \ \}}
+\DoxyCodeLine{00350\ }
+\DoxyCodeLine{00351\ \ \ \ \ VersionEdit\ edit;}
+\DoxyCodeLine{00352\ \ \ \ \ edit.payload.current\_wal\_id\ =\ replacement\_id;}
+\DoxyCodeLine{00353\ \ \ \ \ edit.payload.next\_sequence\_number\ =\ next\_sequence\_;}
+\DoxyCodeLine{00354\ \ \ \ \ status\ =\ manifest\_-\/>commit(*level\_manager\_,\ edit);}
+\DoxyCodeLine{00355\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ (void)replacement-\/>close();}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00358\ \ \ \ \ \}}
+\DoxyCodeLine{00359\ }
+\DoxyCodeLine{00360\ \ \ \ \ wal\_\ =\ std::move(replacement);}
+\DoxyCodeLine{00361\ \ \ \ \ current\_wal\_id\_\ =\ replacement\_id;}
+\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00363\ \ \ \ \ status\ =\ remove\_if\_present(current\_path);}
+\DoxyCodeLine{00364\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00366\ \ \ \ \ \}}
+\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00368\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a3f23fabed7431d8332cf842304e1d3fb}\index{Engine@{Engine}!prepare\_dirs@{prepare\_dirs}}
+\index{prepare\_dirs@{prepare\_dirs}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{prepare\_dirs()}{prepare\_dirs()}}
+{\footnotesize\ttfamily \label{class_engine_a3f23fabed7431d8332cf842304e1d3fb} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+prepare\+\_\+dirs (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00105\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keyword}{namespace\ }fs\ =\ std::filesystem;}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00108\ \ \ \ \ std::error\_code\ error;}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ existed\ =\ fs::exists(options\_.db\_path,\ error);}
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filesystem\_error(}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ inspect\ database\ directory"{}},}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ options\_.db\_path,}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ error}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordflow}{if}\ (existed)\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!fs::is\_directory(options\_.db\_path,\ error))\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filesystem\_error(}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ inspect\ database\ path"{}},}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ options\_.db\_path,}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}database\ path\ exists\ but\ is\ not\ a\ directory"{}}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (options\_.error\_if\_exists)\ \{}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AlreadyExists,}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}database\ directory\ already\ exists"{}}}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!options\_.create\_if\_missing)\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NotFound,}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}database\ directory\ does\ not\ exist"{}}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ fs::create\_directories(options\_.db\_path,\ error);}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filesystem\_error(}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ create\ database\ directory"{}},}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ options\_.db\_path,}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00156\ \ \ \ \ \}}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ sstable\_dir\_\ =\ options\_.db\_path\ /\ \textcolor{stringliteral}{"{}sstables"{}};}
+\DoxyCodeLine{00159\ \ \ \ \ fs::create\_directories(sstable\_dir\_,\ error);}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordflow}{if}\ (error)\ \{}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filesystem\_error(}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}could\ not\ create\ SSTable\ directory"{}},}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ sstable\_dir\_,}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ error}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00166\ \ \ \ \ \}}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ \ \ \ \ manifest\_path\_\ =\ options\_.db\_path\ /\ \textcolor{stringliteral}{"{}MANIFEST"{}};}
+\DoxyCodeLine{00169\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00170\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a8210d45685854630298dbf4aa0c7db6b}\index{Engine@{Engine}!put@{put}}
+\index{put@{put}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{put()}{put()}}
+{\footnotesize\ttfamily \label{class_engine_a8210d45685854630298dbf4aa0c7db6b} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+put (\begin{DoxyParamCaption}\item[{std::\+string \&}]{key}{, }\item[{std::\+string \&}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_k_v_d_b}{KVDB}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00510\ \{}
+\DoxyCodeLine{00511\ \ \ \ \ std::lock\_guard\ lock(mutex\_);}
+\DoxyCodeLine{00512\ \ \ \ \ \textcolor{keywordflow}{return}\ put\_impl(key,\ value,\ Type::Put);}
+\DoxyCodeLine{00513\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a267de41e6a7816655098f0fd6fd56c8e}\index{Engine@{Engine}!put\_impl@{put\_impl}}
+\index{put\_impl@{put\_impl}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{put\_impl()}{put\_impl()}}
+{\footnotesize\ttfamily \label{class_engine_a267de41e6a7816655098f0fd6fd56c8e} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+put\+\_\+impl (\begin{DoxyParamCaption}\item[{std::\+string\+\_\+view}]{key}{, }\item[{std::\+string\+\_\+view}]{value}{, }\item[{Type}]{type}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00434\ \{}
+\DoxyCodeLine{00435\ \ \ \ \ Status\ state\ =\ ensure\_open();}
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keywordflow}{if}\ (!state.is\_ok())\ \{}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ state;}
+\DoxyCodeLine{00438\ \ \ \ \ \}}
+\DoxyCodeLine{00439\ \ \ \ \ \textcolor{keywordflow}{if}\ (type\ !=\ Type::Put\ \&\&\ type\ !=\ Type::Tombstone)\ \{}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}invalid\ record\ type"{}}}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00444\ \ \ \ \ \}}
+\DoxyCodeLine{00445\ \ \ \ \ \textcolor{keywordflow}{if}\ (next\_sequence\_\ ==\ std::numeric\_limits<std::uint64\_t>::max())\ \{}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvariantViolation,}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sequence\ number\ space\ is\ exhausted"{}}}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00450\ \ \ \ \ \}}
+\DoxyCodeLine{00451\ }
+\DoxyCodeLine{00452\ \ \ \ \ \textcolor{keyword}{const}\ Arena::Checkpoint\ checkpoint\ =\ arena\_-\/>checkpoint();}
+\DoxyCodeLine{00453\ }
+\DoxyCodeLine{00454\ \ \ \ \ Result<ArenaEntry>\ key\_entry\ =\ ArenaEntry::make\_entry(}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ *arena\_,}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>(}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }std::byte*\textcolor{keyword}{>}(key.data()),}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ key.size()}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00460\ \ \ \ \ );}
+\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordflow}{if}\ (!key\_entry.is\_ok())\ \{}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(key\_entry.status);}
+\DoxyCodeLine{00463\ \ \ \ \ \}}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \ \ \ \ Result<ArenaEntry>\ value\_entry\ =}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ type\ ==\ Type::Tombstone}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ ?\ Result<ArenaEntry>::ok(ArenaEntry\{\})}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ :\ ArenaEntry::make\_entry(}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ *arena\_,}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ std::span<const\ std::byte>(}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reinterpret\_cast<const\ std::byte*>(value.data()),}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value.size()}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00475\ \ \ \ \ \textcolor{keywordflow}{if}\ (!value\_entry.is\_ok())\ \{}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ arena\_-\/>rollback(checkpoint);}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ return\ std::move(value\_entry.status);}
+\DoxyCodeLine{00478\ \ \ \ \ \}}
+\DoxyCodeLine{00479\ }
+\DoxyCodeLine{00480\ \ \ \ \ InternalRecord\ record(}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ key\_entry.value,}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ value\_entry.value,}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ type,}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ next\_sequence\_}
+\DoxyCodeLine{00485\ \ \ \ \ );}
+\DoxyCodeLine{00486\ }
+\DoxyCodeLine{00487\ \ \ \ \ Status\ status\ =\ wal\_-\/>write(record);}
+\DoxyCodeLine{00488\ \ \ \ \ if\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ arena\_-\/>rollback(checkpoint);}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ return\ status;}
+\DoxyCodeLine{00491\ \ \ \ \ \}}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00493\ \ \ \ \ if\ (options\_.wal.sync\_on\_write)\ \{}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ status\ =\ wal\_-\/>sync();}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ if\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ return\ status;}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00498\ \ \ \ \ \}}
+\DoxyCodeLine{00499\ }
+\DoxyCodeLine{00500\ \ \ \ \ status\ =\ mem\_table\_-\/>apply(record);}
+\DoxyCodeLine{00501\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00503\ \ \ \ \ \}}
+\DoxyCodeLine{00504\ }
+\DoxyCodeLine{00505\ \ \ \ \ ++next\_sequence\_;}
+\DoxyCodeLine{00506\ \ \ \ \ \textcolor{keywordflow}{return}\ maybe\_flush\_unlocked();}
+\DoxyCodeLine{00507\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_ab7bf843e9d7188703735e676ca6aaeb5}\index{Engine@{Engine}!remove@{remove}}
+\index{remove@{remove}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{remove()}{remove()}}
+{\footnotesize\ttfamily \label{class_engine_ab7bf843e9d7188703735e676ca6aaeb5} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+remove (\begin{DoxyParamCaption}\item[{std::\+string \&}]{key}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_k_v_d_b}{KVDB}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00516\ \{}
+\DoxyCodeLine{00517\ \ \ \ \ std::lock\_guard\ lock(mutex\_);}
+\DoxyCodeLine{00518\ \ \ \ \ \textcolor{keywordflow}{return}\ put\_impl(key,\ \{\},\ Type::Tombstone);}
+\DoxyCodeLine{00519\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a94f9eb7435569fa276215f8b151acd45}\index{Engine@{Engine}!run\_compaction@{run\_compaction}}
+\index{run\_compaction@{run\_compaction}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{run\_compaction()}{run\_compaction()}}
+{\footnotesize\ttfamily \label{class_engine_a94f9eb7435569fa276215f8b151acd45} 
+\doxymbox{\hyperlink{struct_status}{Status}} Engine::\+run\+\_\+compaction (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&}]{plan}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00763\ \{}
+\DoxyCodeLine{00764\ \ \ \ \ CompactionJob\ job;}
+\DoxyCodeLine{00765\ \ \ \ \ Result<std::optional<VersionEdit>>\ result\ =\ job.run(}
+\DoxyCodeLine{00766\ \ \ \ \ \ \ \ \ plan,}
+\DoxyCodeLine{00767\ \ \ \ \ \ \ \ \ *level\_manager\_,}
+\DoxyCodeLine{00768\ \ \ \ \ \ \ \ \ *manifest\_,}
+\DoxyCodeLine{00769\ \ \ \ \ \ \ \ \ *sstable\_manager\_,}
+\DoxyCodeLine{00770\ \ \ \ \ \ \ \ \ *arena\_}
+\DoxyCodeLine{00771\ \ \ \ \ );}
+\DoxyCodeLine{00772\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())\ \{}
+\DoxyCodeLine{00773\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(result.status);}
+\DoxyCodeLine{00774\ \ \ \ \ \}}
+\DoxyCodeLine{00775\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.value.has\_value())\ \{}
+\DoxyCodeLine{00776\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00777\ \ \ \ \ \}}
+\DoxyCodeLine{00778\ }
+\DoxyCodeLine{00779\ \ \ \ \ std::vector<std::filesystem::path>\ obsolete\_paths;}
+\DoxyCodeLine{00780\ \ \ \ \ obsolete\_paths.reserve(}
+\DoxyCodeLine{00781\ \ \ \ \ \ \ \ \ plan.source\_tables.size()\ +}
+\DoxyCodeLine{00782\ \ \ \ \ \ \ \ \ plan.overlapping\_tables.size()}
+\DoxyCodeLine{00783\ \ \ \ \ );}
+\DoxyCodeLine{00784\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ TableMeta\&\ table\ :\ plan.source\_tables)\ \{}
+\DoxyCodeLine{00785\ \ \ \ \ \ \ \ \ obsolete\_paths.push\_back(table.path);}
+\DoxyCodeLine{00786\ \ \ \ \ \}}
+\DoxyCodeLine{00787\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ TableMeta\&\ table\ :\ plan.overlapping\_tables)\ \{}
+\DoxyCodeLine{00788\ \ \ \ \ \ \ \ \ obsolete\_paths.push\_back(table.path);}
+\DoxyCodeLine{00789\ \ \ \ \ \}}
+\DoxyCodeLine{00790\ }
+\DoxyCodeLine{00791\ \ \ \ \ Status\ status\ =\ manifest\_-\/>commit(}
+\DoxyCodeLine{00792\ \ \ \ \ \ \ \ \ *level\_manager\_,}
+\DoxyCodeLine{00793\ \ \ \ \ \ \ \ \ *result.value}
+\DoxyCodeLine{00794\ \ \ \ \ );}
+\DoxyCodeLine{00795\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00796\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00797\ \ \ \ \ \}}
+\DoxyCodeLine{00798\ }
+\DoxyCodeLine{00799\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ path\ :\ obsolete\_paths)\ \{}
+\DoxyCodeLine{00800\ \ \ \ \ \ \ \ \ status\ =\ remove\_if\_present(path);}
+\DoxyCodeLine{00801\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00802\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00803\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00804\ \ \ \ \ \}}
+\DoxyCodeLine{00805\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00806\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_engine_a0f7f3e5c8d2be2769857d8235ac3bfae}\index{Engine@{Engine}!wal\_path@{wal\_path}}
+\index{wal\_path@{wal\_path}!Engine@{Engine}}
+\doxysubsubsection{\texorpdfstring{wal\_path()}{wal\_path()}}
+{\footnotesize\ttfamily \label{class_engine_a0f7f3e5c8d2be2769857d8235ac3bfae} 
+std::\+filesystem::\+path Engine::\+wal\+\_\+path (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{wal\+\_\+id}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00099\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordflow}{return}\ options\_.db\_path\ /}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ std::format(\textcolor{stringliteral}{"{}wal-\/\{:09\}.log"{}},\ wal\_id);}
+\DoxyCodeLine{00102\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+engine.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+engine.\+cpp\end{DoxyCompactItemize}

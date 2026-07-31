@@ -1,0 +1,820 @@
+\doxysection{anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03}{}\label{namespaceanonymous__namespace_02index__section_8cpp_03}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{structanonymous__namespace_02index__section_8cpp_03_1_1_parsed_payload}{Parsed\+Payload}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_a8d4ebfead0c7947aa1ad5201fbca91ac}{checked\+\_\+add\+\_\+u64}} (std::\+uint64\+\_\+t lhs, std::\+uint64\+\_\+t rhs, std::\+uint64\+\_\+t \&result) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_aca64c2cdb3751099d401fbba70beabf8}{checked\+\_\+mul\+\_\+u64}} (std::\+uint64\+\_\+t lhs, std::\+uint64\+\_\+t rhs, std::\+uint64\+\_\+t \&result) noexcept
+\item 
+std::\+uint8\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_a9f209ced3a22b9ff8160d18d07fac353}{byte\+\_\+value}} (std::\+byte value) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_a05f6129a40012cd5a4da1be5179da7f6}{read\+\_\+u32\+\_\+le}} (std::\+span$<$ const std::\+byte $>$ bytes, std::\+size\+\_\+t \&position, std::\+uint32\+\_\+t \&value) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_aaff5d820f74a7eadca1d1de1d0480829}{read\+\_\+u64\+\_\+le}} (std::\+span$<$ const std::\+byte $>$ bytes, std::\+size\+\_\+t \&position, std::\+uint64\+\_\+t \&value) noexcept
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_a360287a74f7709041729a08360b8f996}{validate\+\_\+bytes}} (const void \texorpdfstring{$\ast$}{*}pointer, std::\+uint32\+\_\+t size, const char \texorpdfstring{$\ast$}{*}field\+\_\+name)
+\item 
+int \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_a588cdb8f69156ccf6962518dcdeba512}{compare\+\_\+bytes}} (const void \texorpdfstring{$\ast$}{*}lhs, std::\+uint32\+\_\+t lhs\+\_\+size, const void \texorpdfstring{$\ast$}{*}rhs, std::\+uint32\+\_\+t rhs\+\_\+size) noexcept
+\item 
+int \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_ae0b8964d23d038eec5495bcb01401071}{compare\+\_\+spans}} (std::\+span$<$ const std::\+byte $>$ lhs, std::\+span$<$ const std::\+byte $>$ rhs) noexcept
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_acd45a9b73b887d87783c6310f6d4375f}{validate\+\_\+payload\+\_\+sequence}} (const std::\+vector$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_payload}{Index\+Section::\+\+Payload}} $>$ \&payloads, std::\+uint64\+\_\+t \&payload\+\_\+bytes)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_header}{Index\+Section::\+\+Header}} $>$ \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_a96bcf7896bba578674cd44dbe07260eb}{build\+\_\+header}} (const std::\+vector$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_payload}{Index\+Section::\+\+Payload}} $>$ \&payloads)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_afb8b59c4084bbc22d3209d61ce91450d}{validate\+\_\+parsed\+\_\+sequence}} (const std::\+vector$<$ std::\+byte $>$ \&encoded, const std::\+vector$<$ \doxymbox{\hyperlink{structanonymous__namespace_02index__section_8cpp_03_1_1_parsed_payload}{Parsed\+Payload}} $>$ \&parsed)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{Index\+Section}} $>$ \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_afb005a6dcd17782e10b2fca00bccab36}{load\+\_\+impl}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena, std::\+uint64\+\_\+t index\+\_\+offset, std::\+uint32\+\_\+t expected\+\_\+index\+\_\+size, bool validate\+\_\+layout, std::\+uint64\+\_\+t first\+\_\+data\+\_\+block\+\_\+offset, std::\+uint64\+\_\+t data\+\_\+block\+\_\+count)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_a50c33a56f105d3371d2f5e4ce0a7d6f6}\label{namespaceanonymous__namespace_02index__section_8cpp_03_a50c33a56f105d3371d2f5e4ce0a7d6f6} 
+constexpr std::\+uint64\+\_\+t {\bfseries k\+Header\+Size} = Index\+Section::\+\+Header::\+disk\+\_\+size()
+\item 
+constexpr std::\+uint64\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02index__section_8cpp_03_a5d8815c7a8e78ba44348fcf82f443ba6}{k\+Payload\+Capacity}}
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02index__section_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_a96bcf7896bba578674cd44dbe07260eb}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!build\_header@{build\_header}}
+\index{build\_header@{build\_header}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{build\_header()}{build\_header()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_a96bcf7896bba578674cd44dbe07260eb} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_header}{Index\+Section::\+\+Header}} $>$ anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+build\+\_\+header (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_payload}{Index\+Section::\+\+Payload}} $>$ \&}]{payloads}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00248\ \ \ \ \ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ std::uint64\_t\ payload\_bytes\ =\ 0;}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ status\ =\ validate\_payload\_sequence(payloads,\ payload\_bytes);}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<IndexSection::Header>::fail(std::move(status));}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_bytes\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<IndexSection::Header>::fail(\doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ payload\ size\ cannot\ be\ represented\ by\ uint32\_t"{}}}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ IndexSection::Header\ result\{\};}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ result.type\ =\ BlockType::Index;}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ result.payload\_size\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(payload\_bytes);}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ result.crc32\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \ \ \ \ ::crc32(0L,\ Z\_NULL,\ 0)}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ IndexSection::Payload\&\ payload\ :\ payloads)\ \{}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ payload.append\_crc32(result.crc32);}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ status\ =\ result.validate();}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<IndexSection::Header>::fail(std::move(status));}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<IndexSection::Header>::ok(std::move(result));}
+\DoxyCodeLine{00279\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_a9f209ced3a22b9ff8160d18d07fac353}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!byte\_value@{byte\_value}}
+\index{byte\_value@{byte\_value}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{byte\_value()}{byte\_value()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_a9f209ced3a22b9ff8160d18d07fac353} 
+std::\+uint8\+\_\+t anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+byte\+\_\+value (\begin{DoxyParamCaption}\item[{std::\+byte}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00061\ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::to\_integer<std::uint8\_t>(value);}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_a8d4ebfead0c7947aa1ad5201fbca91ac}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!checked\_add\_u64@{checked\_add\_u64}}
+\index{checked\_add\_u64@{checked\_add\_u64}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{checked\_add\_u64()}{checked\_add\_u64()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_a8d4ebfead0c7947aa1ad5201fbca91ac} 
+bool anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+checked\+\_\+add\+\_\+u64 (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{lhs}{, }\item[{std::\+uint64\+\_\+t}]{rhs}{, }\item[{std::\+uint64\+\_\+t \&}]{result}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00036\ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs\ >\ std::numeric\_limits<std::uint64\_t>::max()\ -\/\ rhs)\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ result\ =\ lhs\ +\ rhs;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_aca64c2cdb3751099d401fbba70beabf8}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!checked\_mul\_u64@{checked\_mul\_u64}}
+\index{checked\_mul\_u64@{checked\_mul\_u64}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{checked\_mul\_u64()}{checked\_mul\_u64()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_aca64c2cdb3751099d401fbba70beabf8} 
+bool anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+checked\+\_\+mul\+\_\+u64 (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{lhs}{, }\item[{std::\+uint64\+\_\+t}]{rhs}{, }\item[{std::\+uint64\+\_\+t \&}]{result}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00050\ \ \ \ \ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs\ !=\ 0\ \&\&}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ rhs\ >\ std::numeric\_limits<std::uint64\_t>::max()\ /\ lhs)\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ result\ =\ lhs\ *\ rhs;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00058\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_a588cdb8f69156ccf6962518dcdeba512}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!compare\_bytes@{compare\_bytes}}
+\index{compare\_bytes@{compare\_bytes}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{compare\_bytes()}{compare\_bytes()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_a588cdb8f69156ccf6962518dcdeba512} 
+int anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+compare\+\_\+bytes (\begin{DoxyParamCaption}\item[{const void \texorpdfstring{$\ast$}{*}}]{lhs}{, }\item[{std::\+uint32\+\_\+t}]{lhs\+\_\+size}{, }\item[{const void \texorpdfstring{$\ast$}{*}}]{rhs}{, }\item[{std::\+uint32\+\_\+t}]{rhs\+\_\+size}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00134\ \ \ \ \ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ common\ =}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ std::min<std::size\_t>(lhs\_size,\ rhs\_size);}
+\DoxyCodeLine{00137\ }
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (common\ >\ 0)\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ compared\ =\ std::memcmp(lhs,\ rhs,\ common);}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (compared\ <\ 0)\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (compared\ >\ 0)\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs\_size\ <\ rhs\_size)\ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs\_size\ >\ rhs\_size)\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00155\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_ae0b8964d23d038eec5495bcb01401071}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!compare\_spans@{compare\_spans}}
+\index{compare\_spans@{compare\_spans}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{compare\_spans()}{compare\_spans()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_ae0b8964d23d038eec5495bcb01401071} 
+int anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+compare\+\_\+spans (\begin{DoxyParamCaption}\item[{std::\+span$<$ const std::\+byte $>$}]{lhs}{, }\item[{std::\+span$<$ const std::\+byte $>$}]{rhs}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00161\ \ \ \ \ \{}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ compare\_bytes(}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ lhs.data(),}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(lhs.size()),}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ rhs.data(),}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(rhs.size())}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00168\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_afb005a6dcd17782e10b2fca00bccab36}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!load\_impl@{load\_impl}}
+\index{load\_impl@{load\_impl}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{load\_impl()}{load\_impl()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_afb005a6dcd17782e10b2fca00bccab36} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{Index\+Section}} $>$ anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+load\+\_\+impl (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{, }\item[{std::\+uint64\+\_\+t}]{index\+\_\+offset}{, }\item[{std::\+uint32\+\_\+t}]{expected\+\_\+index\+\_\+size}{, }\item[{bool}]{validate\+\_\+layout}{, }\item[{std::\+uint64\+\_\+t}]{first\+\_\+data\+\_\+block\+\_\+offset}{, }\item[{std::\+uint64\+\_\+t}]{data\+\_\+block\+\_\+count}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00360\ \ \ \ \ \{}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ original\_offset\ =\ offset;}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Arena::Checkpoint}}\ checkpoint\ =\ arena.checkpoint();}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ fail\ =\ [\&](\doxymbox{\hyperlink{struct_status}{Status}}\ status)\ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(checkpoint);}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<IndexSection>::fail(std::move(status));}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00369\ }
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (index\_offset\ \%\ BLOCK\_SIZE\ !=\ 0)\ \{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(\doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidBlockAlignment,}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ section\ offset\ is\ not\ block\ aligned"{}}}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ std::uint64\_t\ file\_size\ =\ 0;}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ Status\ status\ =\ file.get\_file\_size(file\_size);}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(status));}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (index\_offset\ >\ file\_size)\ \{}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OffsetOutOfRange,}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ section\ offset\ lies\ beyond\ end\ of\ file"{}}}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ std::uint64\_t\ cursor\ =\ index\_offset;}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ Result<IndexSection::Header>\ header\_result\ =}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ IndexSection::Header::load(file,\ cursor);}
+\DoxyCodeLine{00393\ }
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!header\_result.is\_ok())\ \{}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(header\_result.status));}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00397\ }
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ IndexSection::Header\ loaded\_header\ =\ header\_result.value;}
+\DoxyCodeLine{00399\ }
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ std::uint64\_t\ section\_size\ =\ 0;}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ kHeaderSize,}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ loaded\_header.payload\_size,}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ section\_size))\ \{}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ section\ size\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (expected\_index\_size\ !=\ 0\ \&\&}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ section\_size\ !=\ expected\_index\_size)\ \{}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00414\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}footer\ index\ size\ does\ not\ match\ the\ index\ header"{}}}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00418\ }
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ std::uint64\_t\ section\_end\ =\ 0;}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(index\_offset,\ section\_size,\ section\_end)\ ||}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ section\_end\ >\ file\_size)\ \{}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ section\ is\ truncated"{}}}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00427\ }
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (section\_size\ >\ BLOCK\_SIZE)\ \{}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}version-\/1\ index\ section\ crosses\ its\ physical\ block"{}}}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00434\ }
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ std::vector<std::byte>\ encoded\_payload;}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_payload.resize(loaded\_header.payload\_size);}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ allocate\ temporary\ index\ payload\ buffer"{}}}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00445\ }
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!encoded\_payload.empty())\ \{}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ payload\_end\ =\ cursor;}
+\DoxyCodeLine{00448\ \ \ \ \ \ \ \ \ \ \ \ \ status\ =\ file.read\_exact\_at(}
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cursor,}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_payload.data(),}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_payload.size(),}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload\_end}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(status));}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00457\ }
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_end\ !=\ section\_end)\ \{}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ payload\ read\ ended\ at\ an\ unexpected\ offset"{}}}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00464\ }
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ cursor\ =\ payload\_end;}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00467\ }
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ calculated\_crc\ =\ crc32\_of(}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_payload.data(),}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_payload.size()}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (calculated\_crc\ !=\ loaded\_header.crc32)\ \{}
+\DoxyCodeLine{00474\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::ChecksumMismatch,}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ payload\ CRC\ mismatch:\ expected=\{\},\ actual=\{\}"{}},}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ calculated\_crc,}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ loaded\_header.crc32}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00483\ }
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ std::vector<ParsedPayload>\ parsed;}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ parsed.reserve(}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_payload.size()\ /}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ IndexSection::Payload::fixed\_disk\_size()}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ reserve\ parsed\ index\ entries"{}}}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00497\ }
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::span<const\ std::byte>\ bytes(encoded\_payload);}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \ \ std::size\_t\ position\ =\ 0;}
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ std::uint64\_t\ total\_key\_bytes\ =\ 0;}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (position\ <\ bytes.size())\ \{}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes.size()\ -\/\ position\ <}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ IndexSection::Payload::fixed\_disk\_size())\ \{}
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ payload\ ends\ inside\ an\ entry's\ fixed\ fields"{}}}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{structanonymous__namespace_02index__section_8cpp_03_1_1_parsed_payload}{ParsedPayload}}\ payload\{\};}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_u64\_le(}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes,}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position,}
+\DoxyCodeLine{00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.data\_block\_offset)\ ||}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ !read\_u32\_le(}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes,}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position,}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.first\_key\_size)\ ||}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ !read\_u32\_le(}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes,}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position,}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.last\_key\_size))\ \{}
+\DoxyCodeLine{00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ decode\ fixed\ index\ entry\ fields"{}}}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00529\ }
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ key\_bytes\ =}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(payload.first\_key\_size)\ +}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(payload.last\_key\_size);}
+\DoxyCodeLine{00533\ }
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_bytes\ >\ bytes.size()\ -\/\ position)\ \{}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ entry\ key\ sizes\ exceed\ remaining\ payload\ bytes"{}}}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00540\ }
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ payload.first\_key\_position\ =\ position;}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ position\ +=\ payload.first\_key\_size;}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ payload.last\_key\_position\ =\ position;}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ position\ +=\ payload.last\_key\_size;}
+\DoxyCodeLine{00545\ }
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_key\_bytes,}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key\_bytes,}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_key\_bytes))\ \{}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}loaded\ index\ key-\/byte\ count\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed.emplace\_back(payload);}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00559\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00560\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ append\ parsed\ index\ entry"{}}}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00566\ }
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ status\ =\ validate\_parsed\_sequence(encoded\_payload,\ parsed);}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(status));}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00571\ }
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (validate\_layout)\ \{}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ reserved\_data\_bytes\ =\ 0;}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ expected\_index\_offset\ =\ 0;}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_mul\_u64(}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ data\_block\_count,}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE,}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reserved\_data\_bytes)\ ||}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ !checked\_add\_u64(}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ first\_data\_block\_offset,}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reserved\_data\_bytes,}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expected\_index\_offset))\ \{}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}footer\ data\ section\ extent\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00589\ }
+\DoxyCodeLine{00590\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_block\_count\ >\ 0\ \&\&}
+\DoxyCodeLine{00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expected\_index\_offset\ !=\ index\_offset)\ \{}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00593\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionOffset,}
+\DoxyCodeLine{00594\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}footer\ data\ layout\ does\ not\ end\ at\ the\ index\ section"{}}}
+\DoxyCodeLine{00595\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00596\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00597\ }
+\DoxyCodeLine{00598\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_block\_count\ ==\ 0\ \&\&}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ first\_data\_block\_offset\ >\ index\_offset)\ \{}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionOffset,}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}empty\ data\ section\ offset\ lies\ after\ the\ index\ section"{}}}
+\DoxyCodeLine{00603\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00604\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00605\ }
+\DoxyCodeLine{00606\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_block\_count\ >}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00608\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::numeric\_limits<std::size\_t>::max())\ ||}
+\DoxyCodeLine{00609\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed.size()\ !=}
+\DoxyCodeLine{00610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(data\_block\_count))\ \{}
+\DoxyCodeLine{00611\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00613\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ entry\ count\ does\ not\ match\ footer\ data-\/block\ count"{}}}
+\DoxyCodeLine{00614\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00616\ }
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_block\_count\ >\ 0\ \&\&}
+\DoxyCodeLine{00618\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ first\_data\_block\_offset\ \%\ BLOCK\_SIZE\ !=\ 0)\ \{}
+\DoxyCodeLine{00619\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00620\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidBlockAlignment,}
+\DoxyCodeLine{00621\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}footer\ data\ section\ offset\ is\ not\ block\ aligned"{}}}
+\DoxyCodeLine{00622\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00624\ }
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::uint64\_t\ i\ =\ 0;\ i\ <\ data\_block\_count;\ ++i)\ \{}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ displacement\ =\ 0;}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ expected\_offset\ =\ 0;}
+\DoxyCodeLine{00628\ }
+\DoxyCodeLine{00629\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_mul\_u64(i,\ BLOCK\_SIZE,\ displacement)\ ||}
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ !checked\_add\_u64(}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ first\_data\_block\_offset,}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ displacement,}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expected\_offset))\ \{}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}footer\ data\ layout\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00639\ }
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (parsed[\textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(i)].data\_block\_offset\ !=}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expected\_offset)\ \{}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionOffset,}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ data-\/block\ offset\ does\ not\ match\ footer\ data\ layout"{}}}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00649\ }
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (total\_key\_bytes\ >}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::numeric\_limits<std::size\_t>::max()))\ \{}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}loaded\ index\ keys\ cannot\ be\ represented\ by\ size\_t"{}}}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00658\ }
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ IndexSection\ result\{\};}
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ result.header\ =\ loaded\_header;}
+\DoxyCodeLine{00661\ }
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \ \ result.payloads.reserve(parsed.size());}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00666\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ reserve\ loaded\ index\ entries"{}}}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00671\ }
+\DoxyCodeLine{00672\ \ \ \ \ \ \ \ \ std::byte*\ key\_storage\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (total\_key\_bytes\ >\ 0)\ \{}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ \ \ \ \ Result<void*>\ allocation\ =\ arena.alloc(}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(total\_key\_bytes),}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{alignof}(std::byte)}
+\DoxyCodeLine{00677\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00678\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!allocation.is\_ok())\ \{}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(allocation.status));}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00681\ }
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ \ \ \ \ key\_storage\ =\ \textcolor{keyword}{static\_cast<}std::byte*\textcolor{keyword}{>}(allocation.value);}
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00684\ }
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ std::size\_t\ destination\_position\ =\ 0;}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structanonymous__namespace_02index__section_8cpp_03_1_1_parsed_payload}{ParsedPayload}}\&\ parsed\_payload\ :\ parsed)\ \{}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ \ \ IndexSection::Payload\ payload\{\};}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \ \ \ \ payload.data\_block\_offset\ =\ parsed\_payload.data\_block\_offset;}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ payload.first\_key\_size\ =\ parsed\_payload.first\_key\_size;}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \ \ \ \ payload.last\_key\_size\ =\ parsed\_payload.last\_key\_size;}
+\DoxyCodeLine{00691\ }
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.first\_key\_size\ >\ 0)\ \{}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.first\_key\_ptr\ =}
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key\_storage\ +\ destination\_position;}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key\_storage\ +\ destination\_position,}
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_payload.data()\ +}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_payload.first\_key\_position,}
+\DoxyCodeLine{00699\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.first\_key\_size}
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ destination\_position\ +=\ payload.first\_key\_size;}
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00703\ }
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.last\_key\_size\ >\ 0)\ \{}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.last\_key\_ptr\ =}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key\_storage\ +\ destination\_position;}
+\DoxyCodeLine{00707\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(}
+\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key\_storage\ +\ destination\_position,}
+\DoxyCodeLine{00709\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_payload.data()\ +}
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_payload.last\_key\_position,}
+\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.last\_key\_size}
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ destination\_position\ +=\ payload.last\_key\_size;}
+\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00715\ }
+\DoxyCodeLine{00716\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00717\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result.payloads.emplace\_back(payload);}
+\DoxyCodeLine{00718\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00721\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
+\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ append\ loaded\ index\ entry"{}}}
+\DoxyCodeLine{00723\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00724\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00725\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00726\ }
+\DoxyCodeLine{00727\ \ \ \ \ \ \ \ \ status\ =\ result.validate();}
+\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(status));}
+\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00731\ }
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \ \ offset\ =\ section\_end;}
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<IndexSection>::ok(std::move(result));}
+\DoxyCodeLine{00734\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_a05f6129a40012cd5a4da1be5179da7f6}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!read\_u32\_le@{read\_u32\_le}}
+\index{read\_u32\_le@{read\_u32\_le}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{read\_u32\_le()}{read\_u32\_le()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_a05f6129a40012cd5a4da1be5179da7f6} 
+bool anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+read\+\_\+u32\+\_\+le (\begin{DoxyParamCaption}\item[{std::\+span$<$ const std::\+byte $>$}]{bytes}{, }\item[{std::\+size\+\_\+t \&}]{position}{, }\item[{std::\+uint32\+\_\+t \&}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00070\ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (position\ >\ bytes.size()\ ||}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ bytes.size()\ -\/\ position\ <\ \textcolor{keyword}{sizeof}(std::uint32\_t))\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ value\ =}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(byte\_value(bytes[position]))\ |}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ byte\_value(bytes[position\ +\ 1]))\ <<\ 8U)\ |}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ byte\_value(bytes[position\ +\ 2]))\ <<\ 16U)\ |}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ byte\_value(bytes[position\ +\ 3]))\ <<\ 24U);}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ position\ +=\ \textcolor{keyword}{sizeof}(std::uint32\_t);}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_aaff5d820f74a7eadca1d1de1d0480829}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!read\_u64\_le@{read\_u64\_le}}
+\index{read\_u64\_le@{read\_u64\_le}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{read\_u64\_le()}{read\_u64\_le()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_aaff5d820f74a7eadca1d1de1d0480829} 
+bool anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+read\+\_\+u64\+\_\+le (\begin{DoxyParamCaption}\item[{std::\+span$<$ const std::\+byte $>$}]{bytes}{, }\item[{std::\+size\+\_\+t \&}]{position}{, }\item[{std::\+uint64\+\_\+t \&}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00094\ \ \ \ \ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (position\ >\ bytes.size()\ ||}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ bytes.size()\ -\/\ position\ <\ \textcolor{keyword}{sizeof}(std::uint64\_t))\ \{}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ value\ =\ 0;}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ \textcolor{keyword}{sizeof}(std::uint64\_t);\ ++i)\ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ value\ |=}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ byte\_value(bytes[position\ +\ i]))\ <<\ (i\ *\ 8U);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ position\ +=\ \textcolor{keyword}{sizeof}(std::uint64\_t);}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_a360287a74f7709041729a08360b8f996}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!validate\_bytes@{validate\_bytes}}
+\index{validate\_bytes@{validate\_bytes}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{validate\_bytes()}{validate\_bytes()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_a360287a74f7709041729a08360b8f996} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+validate\+\_\+bytes (\begin{DoxyParamCaption}\item[{const void \texorpdfstring{$\ast$}{*}}]{pointer}{, }\item[{std::\+uint32\+\_\+t}]{size}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{field\+\_\+name}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00116\ \ \ \ \ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ >\ 0\ \&\&\ pointer\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NullPointer,}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::string(field\_name)\ +}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\ pointer\ is\ null\ while\ its\ size\ is\ nonzero"{}}}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00126\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_afb8b59c4084bbc22d3209d61ce91450d}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!validate\_parsed\_sequence@{validate\_parsed\_sequence}}
+\index{validate\_parsed\_sequence@{validate\_parsed\_sequence}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{validate\_parsed\_sequence()}{validate\_parsed\_sequence()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_afb8b59c4084bbc22d3209d61ce91450d} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+validate\+\_\+parsed\+\_\+sequence (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ std::\+byte $>$ \&}]{encoded}{, }\item[{const std::\+vector$<$ \doxymbox{\hyperlink{structanonymous__namespace_02index__section_8cpp_03_1_1_parsed_payload}{Parsed\+Payload}} $>$ \&}]{parsed}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00285\ \ \ \ \ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{structanonymous__namespace_02index__section_8cpp_03_1_1_parsed_payload}{ParsedPayload}}*\ previous\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{structanonymous__namespace_02index__section_8cpp_03_1_1_parsed_payload}{ParsedPayload}}\&\ payload\ :\ parsed)\ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ first\ =\ std::span<const\ std::byte>(}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ encoded.data()\ +\ payload.first\_key\_position,}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.first\_key\_size}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ last\ =\ std::span<const\ std::byte>(}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ encoded.data()\ +\ payload.last\_key\_position,}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.last\_key\_size}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.data\_block\_offset\ \%\ BLOCK\_SIZE\ !=\ 0)\ \{}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionOffset,}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}loaded\ index\ entry\ references\ an\ unaligned\ data\ block"{}}}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (compare\_spans(first,\ last)\ >\ 0)\ \{}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}loaded\ index\ entry\ first\ key\ is\ greater\ than\ its\ last\ key"{}}}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (previous\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ expected\_offset\ =\ 0;}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ previous-\/>data\_block\_offset,}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE,}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expected\_offset))\ \{}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}loaded\ index\ data-\/block\ offset\ progression\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.data\_block\_offset\ !=\ expected\_offset)\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionOffset,}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}loaded\ index\ entries\ do\ not\ reference\ consecutive\ data\ blocks"{}}}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ previous\_last\ =\ std::span<const\ std::byte>(}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ encoded.data()\ +\ previous-\/>last\_key\_position,}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ previous-\/>last\_key\_size}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00335\ }
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (compare\_spans(previous\_last,\ first)\ >\ 0)\ \{}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OverlappingKeys,}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}loaded\ adjacent\ index\ ranges\ overlap\ out\ of\ order"{}}}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ previous\ =\ \&payload;}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00348\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_acd45a9b73b887d87783c6310f6d4375f}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!validate\_payload\_sequence@{validate\_payload\_sequence}}
+\index{validate\_payload\_sequence@{validate\_payload\_sequence}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{validate\_payload\_sequence()}{validate\_payload\_sequence()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_acd45a9b73b887d87783c6310f6d4375f} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+validate\+\_\+payload\+\_\+sequence (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_payload}{Index\+Section::\+\+Payload}} $>$ \&}]{payloads}{, }\item[{std::\+uint64\+\_\+t \&}]{payload\+\_\+bytes}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00174\ \ \ \ \ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ \ \ payload\_bytes\ =\ 0;}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_payload}{IndexSection::Payload}}*\ previous\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section_1_1_payload}{IndexSection::Payload}}\&\ payload\ :\ payloads)\ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ status\ =\ payload.validate();}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (previous\ !=\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\ expected\_offset\ =\ 0;}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ previous-\/>data\_block\_offset,}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE,}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expected\_offset))\ \{}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ data-\/block\ offset\ progression\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.data\_block\_offset\ !=\ expected\_offset)\ \{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionOffset,}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ entries\ must\ reference\ consecutive\ physical\ data\ blocks"{}}}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Equality\ is\ intentional.\ One\ user\ key\ may\ span\ adjacent\ blocks.}}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (compare\_bytes(}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ previous-\/>last\_key\_ptr,}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ previous-\/>last\_key\_size,}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.first\_key\_ptr,}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.first\_key\_size)\ >\ 0)\ \{}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OverlappingKeys,}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}adjacent\ index\ ranges\ overlap\ beyond\ one\ shared\ boundary\ key"{}}}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ encoded\_size\ =}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ IndexSection::Payload::fixed\_disk\_size())\ +}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.first\_key\_size\ +}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload.last\_key\_size;}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload\_bytes,}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_size,}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ payload\_bytes))\ \{}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ payload\ byte\ count\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_bytes\ >\ kPayloadCapacity)\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}version-\/1\ index\ does\ not\ fit\ in\ its\ single\ physical\ block"{}}}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ previous\ =\ \&payload;}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00243\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{namespaceanonymous__namespace_02index__section_8cpp_03_doc-var-members}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceanonymous__namespace_02index__section_8cpp_03_a5d8815c7a8e78ba44348fcf82f443ba6}\index{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}!kPayloadCapacity@{kPayloadCapacity}}
+\index{kPayloadCapacity@{kPayloadCapacity}!anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}index\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{kPayloadCapacity}{kPayloadCapacity}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02index__section_8cpp_03_a5d8815c7a8e78ba44348fcf82f443ba6} 
+std::\+uint64\+\_\+t anonymous\+\_\+namespace\{index\+\_\+section.\+cpp\}::\+k\+Payload\+Capacity\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{\textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(BLOCK\_SIZE)\ -\/\ kHeaderSize}
+
+\end{DoxyCode}

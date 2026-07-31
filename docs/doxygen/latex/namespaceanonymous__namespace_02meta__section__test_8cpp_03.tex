@@ -1,0 +1,192 @@
+\doxysection{anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03}{}\label{namespaceanonymous__namespace_02meta__section__test_8cpp_03}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \doxymbox{\hyperlink{classanonymous__namespace_02meta__section__test_8cpp_03_1_1_memory_writable_file}{Memory\+Writable\+File}}
+\item 
+class \doxymbox{\hyperlink{classanonymous__namespace_02meta__section__test_8cpp_03_1_1_memory_readable_file}{Memory\+Readable\+File}}
+\item 
+struct \doxymbox{\hyperlink{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_stored_record}{Stored\+Record}}
+\item 
+struct \doxymbox{\hyperlink{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_built_data}{Built\+Data}}
+\item 
+struct \doxymbox{\hyperlink{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_raw_meta}{Raw\+Meta}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std::\+string\+\_\+view \doxymbox{\hyperlink{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a0e2731a08f1bbe6031937eb59d4c6ce2}{bytes\+\_\+view}} (const void \texorpdfstring{$\ast$}{*}data, std::\+uint32\+\_\+t size)
+\item 
+std::\+uint32\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a33fbafe3a6d035203fb8357c71ecbf7d}{read\+\_\+u32\+\_\+le}} (const std::\+vector$<$ std::\+byte $>$ \&bytes, std::\+size\+\_\+t offset)
+\item 
+void \doxymbox{\hyperlink{namespaceanonymous__namespace_02meta__section__test_8cpp_03_ab67952e056f337ab605f404db9ad9c40}{append\+\_\+u8}} (std::\+vector$<$ std::\+byte $>$ \&out, std::\+uint8\+\_\+t value)
+\item 
+void \doxymbox{\hyperlink{namespaceanonymous__namespace_02meta__section__test_8cpp_03_ac45bf4440b6092224edc3fd2f96469f4}{append\+\_\+u32}} (std::\+vector$<$ std::\+byte $>$ \&out, std::\+uint32\+\_\+t value)
+\item 
+void \doxymbox{\hyperlink{namespaceanonymous__namespace_02meta__section__test_8cpp_03_ac43489131a654e5fd355e183b5684500}{append\+\_\+u64}} (std::\+vector$<$ std::\+byte $>$ \&out, std::\+uint64\+\_\+t value)
+\item 
+std::\+vector$<$ std::\+byte $>$ \doxymbox{\hyperlink{namespaceanonymous__namespace_02meta__section__test_8cpp_03_afb9ff62e2e3c30c6037ae23302b4d018}{encode\+\_\+raw\+\_\+meta}} (const \doxymbox{\hyperlink{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_raw_meta}{Raw\+Meta}} \&raw, Block\+Type type=Block\+Type::\+\+Meta)
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{Index\+Section}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a463305f0520a903a7d1b19f37d074540}{make\+\_\+index}} (std::\+string \&first, std::\+string \&last, std::\+size\+\_\+t count=1)
+\item 
+std::\+uint64\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a46736b7b51eaf53c8baf8c3547755e01}{used\+\_\+bytes}} (\doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02meta__section__test_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03_ac45bf4440b6092224edc3fd2f96469f4}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}!append\_u32@{append\_u32}}
+\index{append\_u32@{append\_u32}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{append\_u32()}{append\_u32()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02meta__section__test_8cpp_03_ac45bf4440b6092224edc3fd2f96469f4} 
+void anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+append\+\_\+u32 (\begin{DoxyParamCaption}\item[{std::\+vector$<$ std::\+byte $>$ \&}]{out}{, }\item[{std::\+uint32\+\_\+t}]{value}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00296\ \ \ \ \ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ shift\ =\ 0;\ shift\ <\ 32;\ shift\ +=\ 8)\ \{}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \ \ \ \ out.push\_back(\textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}((value\ >>\ shift)\ \&\ 0xFFu));}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00300\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03_ac43489131a654e5fd355e183b5684500}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}!append\_u64@{append\_u64}}
+\index{append\_u64@{append\_u64}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{append\_u64()}{append\_u64()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02meta__section__test_8cpp_03_ac43489131a654e5fd355e183b5684500} 
+void anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+append\+\_\+u64 (\begin{DoxyParamCaption}\item[{std::\+vector$<$ std::\+byte $>$ \&}]{out}{, }\item[{std::\+uint64\+\_\+t}]{value}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00303\ \ \ \ \ \{}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ shift\ =\ 0;\ shift\ <\ 64;\ shift\ +=\ 8)\ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \ \ \ \ out.push\_back(\textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}((value\ >>\ shift)\ \&\ 0xFFull));}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00307\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03_ab67952e056f337ab605f404db9ad9c40}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}!append\_u8@{append\_u8}}
+\index{append\_u8@{append\_u8}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{append\_u8()}{append\_u8()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02meta__section__test_8cpp_03_ab67952e056f337ab605f404db9ad9c40} 
+void anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+append\+\_\+u8 (\begin{DoxyParamCaption}\item[{std::\+vector$<$ std::\+byte $>$ \&}]{out}{, }\item[{std::\+uint8\+\_\+t}]{value}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00291\ \ \ \ \ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ out.push\_back(\textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}(value));}
+\DoxyCodeLine{00293\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a0e2731a08f1bbe6031937eb59d4c6ce2}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}!bytes\_view@{bytes\_view}}
+\index{bytes\_view@{bytes\_view}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{bytes\_view()}{bytes\_view()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a0e2731a08f1bbe6031937eb59d4c6ce2} 
+std::\+string\+\_\+view anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+bytes\+\_\+view (\begin{DoxyParamCaption}\item[{const void \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{std::\+uint32\+\_\+t}]{size}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00272\ \ \ \ \ \{}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::string\_view(}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(data),}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ size}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00277\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03_afb9ff62e2e3c30c6037ae23302b4d018}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}!encode\_raw\_meta@{encode\_raw\_meta}}
+\index{encode\_raw\_meta@{encode\_raw\_meta}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{encode\_raw\_meta()}{encode\_raw\_meta()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02meta__section__test_8cpp_03_afb9ff62e2e3c30c6037ae23302b4d018} 
+std::\+vector$<$ std::\+byte $>$ anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+encode\+\_\+raw\+\_\+meta (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{structanonymous__namespace_02meta__section__test_8cpp_03_1_1_raw_meta}{Raw\+Meta}} \&}]{raw}{, }\item[{Block\+Type}]{type}{ = {\ttfamily BlockType:\+:\+Meta}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00327\ \ \ \ \ \{}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ std::vector<std::byte>\ payload;}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ append\_u64(payload,\ raw.record\_count);}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ append\_u64(payload,\ raw.tombstone\_count);}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ append\_u64(payload,\ raw.min\_seq);}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ append\_u64(payload,\ raw.max\_seq);}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ append\_u32(payload,\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(raw.min\_key.size()));}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ append\_u32(payload,\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(raw.max\_key.size()));}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ append\_u64(payload,\ raw.block\_count);}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ append\_u64(payload,\ raw.data\_bytes);}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ payload.insert(}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ \ \ \ \ payload.end(),}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }std::byte*\textcolor{keyword}{>}(raw.min\_key.data()),}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }std::byte*\textcolor{keyword}{>}(raw.min\_key.data())\ +}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ raw.min\_key.size()}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ payload.insert(}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \ \ \ \ payload.end(),}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }std::byte*\textcolor{keyword}{>}(raw.max\_key.data()),}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }std::byte*\textcolor{keyword}{>}(raw.max\_key.data())\ +}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \ \ \ \ raw.max\_key.size()}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ std::vector<std::byte>\ encoded;}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ append\_u8(encoded,\ \textcolor{keyword}{static\_cast<}std::uint8\_t\textcolor{keyword}{>}(type));}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ append\_u32(encoded,\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(payload.size()));}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ append\_u32(encoded,\ crc32\_of(payload.data(),\ payload.size()));}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ encoded.insert(encoded.end(),\ payload.begin(),\ payload.end());}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ encoded;}
+\DoxyCodeLine{00356\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a463305f0520a903a7d1b19f37d074540}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}!make\_index@{make\_index}}
+\index{make\_index@{make\_index}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{make\_index()}{make\_index()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a463305f0520a903a7d1b19f37d074540} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{Index\+Section}} anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+make\+\_\+index (\begin{DoxyParamCaption}\item[{std::\+string \&}]{first}{, }\item[{std::\+string \&}]{last}{, }\item[{std::\+size\+\_\+t}]{count}{ = {\ttfamily 1}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00363\ \ \ \ \ \{}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{IndexSection}}\ index;}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ count;\ ++i)\ \{}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ EXPECT\_TRUE(index.add\_index(}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(i)\ *\ BLOCK\_SIZE,}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(first.size()),}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(last.size()),}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ first.empty()\ ?\ \textcolor{keyword}{nullptr}\ :\ first.data(),}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ last.empty()\ ?\ \textcolor{keyword}{nullptr}\ :\ last.data()}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \ \ \ \ ).is\_ok());}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ index;}
+\DoxyCodeLine{00375\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a33fbafe3a6d035203fb8357c71ecbf7d}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}!read\_u32\_le@{read\_u32\_le}}
+\index{read\_u32\_le@{read\_u32\_le}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{read\_u32\_le()}{read\_u32\_le()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a33fbafe3a6d035203fb8357c71ecbf7d} 
+std::\+uint32\+\_\+t anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+read\+\_\+u32\+\_\+le (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ std::\+byte $>$ \&}]{bytes}{, }\item[{std::\+size\+\_\+t}]{offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00283\ \ \ \ \ \{}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::to\_integer<std::uint32\_t>(bytes.at(offset))\ |}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ (std::to\_integer<std::uint32\_t>(bytes.at(offset\ +\ 1))\ <<\ 8u)\ |}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ (std::to\_integer<std::uint32\_t>(bytes.at(offset\ +\ 2))\ <<\ 16u)\ |}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ (std::to\_integer<std::uint32\_t>(bytes.at(offset\ +\ 3))\ <<\ 24u);}
+\DoxyCodeLine{00288\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a46736b7b51eaf53c8baf8c3547755e01}\index{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}!used\_bytes@{used\_bytes}}
+\index{used\_bytes@{used\_bytes}!anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}meta\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{used\_bytes()}{used\_bytes()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02meta__section__test_8cpp_03_a46736b7b51eaf53c8baf8c3547755e01} 
+std::\+uint64\+\_\+t anonymous\+\_\+namespace\{meta\+\_\+section\+\_\+test.\+cpp\}::\+used\+\_\+bytes (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00378\ \ \ \ \ \{}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ used\ =\ arena.get\_used\_bytes();}
+\DoxyCodeLine{00380\ \ \ \ \ \ \ \ \ EXPECT\_TRUE(used.is\_ok());}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ used.is\_ok()\ ?\ used.value\ :\ 0;}
+\DoxyCodeLine{00382\ \ \ \ \ \}}
+
+\end{DoxyCode}

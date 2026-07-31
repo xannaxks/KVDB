@@ -1,0 +1,620 @@
+\doxysection{SSTable\+Entities::\+Data\+Section\+View::\+Data\+Block Struct Reference}
+\hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block}{}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class {\bfseries Validation\+State} :\+ std::\+uint8\+\_\+t \{ {\bfseries Unvalidated}
+, {\bfseries Valid}
+, {\bfseries Corrupt}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a1a251c4487c79ff79f3b0550e7b4b4ca}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a1a251c4487c79ff79f3b0550e7b4b4ca} 
+{\bfseries Data\+Block} (const Data\+Block \&)=default
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a2b5c6116269363cadaf2277808327fd8}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a2b5c6116269363cadaf2277808327fd8} 
+{\bfseries Data\+Block} (Data\+Block \&\&) noexcept=default
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a9d053e877262469f8898446a76a08e80}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a9d053e877262469f8898446a76a08e80} 
+Data\+Block \& {\bfseries operator=} (const Data\+Block \&)=default
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a6aedbd8ea8d6ce216df127ae0a8c1d97}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a6aedbd8ea8d6ce216df127ae0a8c1d97} 
+Data\+Block \& {\bfseries operator=} (Data\+Block \&\&) noexcept=default
+\item 
+std::\+uint64\+\_\+t \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_ade12e47c6ecdb9f6003566284bfbe759}{used\+\_\+size}} () const noexcept
+\item 
+Validation\+State \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_acf1dc16bc355d4ed7f15e2c1c2e9123c}{validation\+\_\+state}} () const noexcept
+\item 
+std::\+size\+\_\+t \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_add03a569ada87f3c27499a6aff6d9770}{record\+\_\+count}} () const noexcept
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_aa6ce01fe23ee0c5053904dc281e67110}{validate}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file) const
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a8566eb943bc1e347cceca27dace2c8f7}{read\+\_\+record}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+size\+\_\+t record\+\_\+index, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena) const
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ std::\+size\+\_\+t $>$ $>$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a0c088df709d138faef4653aae1d64999}{find\+\_\+first\+\_\+record}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&key) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ Data\+Block $>$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a8c181378a76279a14bed8e8caa36b919}{load}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset, std::\+uint64\+\_\+t section\+\_\+end\+\_\+offset)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_header}{Header}} \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_ac4c470d7ad16489041721a37b2a488f3}{header\+\_\+view}} \{\}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a02241eb05893bd71dde894a1ea0bde35}\label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a02241eb05893bd71dde894a1ea0bde35} 
+Validation\+State {\bfseries validation\+\_\+state\+\_\+} = Validation\+State::\+\+Unvalidated
+\item 
+std::\+optional$<$ \doxymbox{\hyperlink{struct_status}{Status}} $>$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a51c3a78c8d3cd3c96b2df80819852960}{cached\+\_\+corruption\+\_\+}} \{\}
+\item 
+std::\+vector$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_record_meta}{Record\+Meta}} $>$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_af4ee08bbca744437108fc3428a753c34}{records\+\_\+}} \{\}
+\end{DoxyCompactItemize}
+
+
+\label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_doc-enum-members}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_doc-enum-members}
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a5958cba318d19e2f9f8f51502993f3a7}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!ValidationState@{ValidationState}}
+\index{ValidationState@{ValidationState}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{ValidationState}{ValidationState}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a5958cba318d19e2f9f8f51502993f3a7} 
+enum class SSTable\+Entities::\+\+Data\+Section\+View::\+\+Data\+Block::\+\+Validation\+State :\+ std::\+uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Unvalidated,}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Valid,}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Corrupt}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+
+\end{DoxyCode}
+
+
+\label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_doc-func-members}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a0c088df709d138faef4653aae1d64999}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!find\_first\_record@{find\_first\_record}}
+\index{find\_first\_record@{find\_first\_record}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{find\_first\_record()}{find\_first\_record()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a0c088df709d138faef4653aae1d64999} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ std::\+size\+\_\+t $>$ $>$ Data\+Section\+View::\+\+Data\+Block::\+find\+\_\+first\+\_\+record (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{key}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00597\ \{}
+\DoxyCodeLine{00598\ \ \ \ \ \textcolor{keywordflow}{if}\ (key.size\ >\ 0\ \&\&\ key.data\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00599\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::fail(Status\{}
+\DoxyCodeLine{00600\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00601\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}searched\ key\ has\ a\ non-\/zero\ size\ but\ a\ null\ data\ pointer"{}}}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00603\ \ \ \ \ \}}
+\DoxyCodeLine{00604\ }
+\DoxyCodeLine{00605\ \ \ \ \ Status\ status\ =\ validate(file);}
+\DoxyCodeLine{00606\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::fail(std::move(status));}
+\DoxyCodeLine{00608\ \ \ \ \ \}}
+\DoxyCodeLine{00609\ }
+\DoxyCodeLine{00610\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ payload\_size\ =\ header\_view.header.payload\_disk\_size;}
+\DoxyCodeLine{00611\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ payload\_capacity\ =}
+\DoxyCodeLine{00612\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(BLOCK\_SIZE\ -\/\ kHeaderSize);}
+\DoxyCodeLine{00613\ }
+\DoxyCodeLine{00614\ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_size\ >\ payload\_capacity)\ \{}
+\DoxyCodeLine{00615\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::fail(corruption(}
+\DoxyCodeLine{00616\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}validated\ data\ block\ payload\ exceeds\ physical\ block\ capacity"{}}}
+\DoxyCodeLine{00617\ \ \ \ \ \ \ \ \ ));}
+\DoxyCodeLine{00618\ \ \ \ \ \}}
+\DoxyCodeLine{00619\ }
+\DoxyCodeLine{00620\ \ \ \ \ std::array<std::byte,\ BLOCK\_SIZE>\ storage\{\};}
+\DoxyCodeLine{00621\ \ \ \ \ std::uint64\_t\ read\_offset\ =\ header\_view.payload\_offset;}
+\DoxyCodeLine{00622\ \ \ \ \ status\ =\ kvdb::blockio::read\_bytes(}
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ storage.data(),}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ payload\_size,}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ read\_offset,}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00628\ \ \ \ \ );}
+\DoxyCodeLine{00629\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00630\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::fail(std::move(status));}
+\DoxyCodeLine{00631\ \ \ \ \ \}}
+\DoxyCodeLine{00632\ }
+\DoxyCodeLine{00633\ \ \ \ \ \textcolor{keywordflow}{if}\ (read\_offset\ !=\ header\_view.payload\_end\_offset)\ \{}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::fail(Status\{}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ payload\ search\ read\ ended\ at\ an\ unexpected\ offset"{}}}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00638\ \ \ \ \ \}}
+\DoxyCodeLine{00639\ }
+\DoxyCodeLine{00640\ \ \ \ \ \textcolor{keyword}{const}\ std::span<const\ std::byte>\ searched\_key(}
+\DoxyCodeLine{00641\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }std::byte*\textcolor{keyword}{>}(key.data),}
+\DoxyCodeLine{00642\ \ \ \ \ \ \ \ \ key.size}
+\DoxyCodeLine{00643\ \ \ \ \ );}
+\DoxyCodeLine{00644\ }
+\DoxyCodeLine{00645\ \ \ \ \ \textcolor{keyword}{auto}\ record\_key\ =\ [\&](\textcolor{keyword}{const}\ RecordMeta\&\ meta)}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ -\/>\ Result<std::span<const\ std::byte>>}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00648\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (meta.key\_offset\ <\ header\_view.payload\_offset)\ \{}
+\DoxyCodeLine{00649\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::span<const\ std::byte>>::fail(corruption(}
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}record\ key\ offset\ precedes\ its\ block\ payload"{}}}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ));}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00653\ }
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ relative\_u64\ =}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.key\_offset\ -\/\ header\_view.payload\_offset;}
+\DoxyCodeLine{00656\ }
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (relative\_u64\ >\ payload\_size\ ||}
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.key\_size\ >\ payload\_size\ -\/\ relative\_u64)\ \{}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::span<const\ std::byte>>::fail(corruption(}
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}record\ key\ range\ lies\ outside\ its\ validated\ block\ payload"{}}}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ));}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00663\ }
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ relative\ =}
+\DoxyCodeLine{00665\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(relative\_u64);}
+\DoxyCodeLine{00666\ }
+\DoxyCodeLine{00667\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::span<const\ std::byte>>::ok(}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::span<const\ std::byte>(}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ storage.data()\ +\ relative,}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ meta.key\_size}
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00672\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00673\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00674\ }
+\DoxyCodeLine{00675\ \ \ \ \ std::size\_t\ first\ =\ 0;}
+\DoxyCodeLine{00676\ \ \ \ \ std::size\_t\ last\ =\ records\_.size();}
+\DoxyCodeLine{00677\ }
+\DoxyCodeLine{00678\ \ \ \ \ \textcolor{keywordflow}{while}\ (first\ <\ last)\ \{}
+\DoxyCodeLine{00679\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ middle\ =\ first\ +\ (last\ -\/\ first)\ /\ 2;}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ Result<std::span<const\ std::byte>>\ current\ =}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \ \ \ \ record\_key(records\_[middle]);}
+\DoxyCodeLine{00682\ }
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!current.is\_ok())\ \{}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::fail(}
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(current.status)}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00688\ }
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (compare\_keys(current.value,\ searched\_key)\ <\ 0)\ \{}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \ \ \ \ first\ =\ middle\ +\ 1;}
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00693\ \ \ \ \ \ \ \ \ \ \ \ \ last\ =\ middle;}
+\DoxyCodeLine{00694\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00695\ \ \ \ \ \}}
+\DoxyCodeLine{00696\ }
+\DoxyCodeLine{00697\ \ \ \ \ \textcolor{keywordflow}{if}\ (first\ ==\ records\_.size())\ \{}
+\DoxyCodeLine{00698\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::ok(std::nullopt);}
+\DoxyCodeLine{00699\ \ \ \ \ \}}
+\DoxyCodeLine{00700\ }
+\DoxyCodeLine{00701\ \ \ \ \ Result<std::span<const\ std::byte>>\ candidate\ =}
+\DoxyCodeLine{00702\ \ \ \ \ \ \ \ \ record\_key(records\_[first]);}
+\DoxyCodeLine{00703\ \ \ \ \ \textcolor{keywordflow}{if}\ (!candidate.is\_ok())\ \{}
+\DoxyCodeLine{00704\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::fail(}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(candidate.status)}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00707\ \ \ \ \ \}}
+\DoxyCodeLine{00708\ }
+\DoxyCodeLine{00709\ \ \ \ \ \textcolor{keywordflow}{if}\ (compare\_keys(candidate.value,\ searched\_key)\ !=\ 0)\ \{}
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::ok(std::nullopt);}
+\DoxyCodeLine{00711\ \ \ \ \ \}}
+\DoxyCodeLine{00712\ }
+\DoxyCodeLine{00713\ \ \ \ \ \textcolor{comment}{//\ Equal\ user\ keys\ are\ validated\ in\ strictly\ descending\ sequence\ order,}}
+\DoxyCodeLine{00714\ \ \ \ \ \textcolor{comment}{//\ so\ lower\_bound\ returns\ the\ newest\ record\ for\ this\ key.}}
+\DoxyCodeLine{00715\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<std::size\_t>>::ok(first);}
+\DoxyCodeLine{00716\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a8c181378a76279a14bed8e8caa36b919}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!load@{load}}
+\index{load@{load}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a8c181378a76279a14bed8e8caa36b919} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block}{Data\+Section\+View::\+\+Data\+Block}} $>$ Data\+Section\+View::\+\+Data\+Block::\+load (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{, }\item[{std::\+uint64\+\_\+t}]{section\+\_\+end\+\_\+offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00288\ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ original\_offset\ =\ offset;}
+\DoxyCodeLine{00290\ }
+\DoxyCodeLine{00291\ \ \ \ \ Result<Header>\ header\_result\ =\ Header::load(}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ section\_end\_offset}
+\DoxyCodeLine{00295\ \ \ \ \ );}
+\DoxyCodeLine{00296\ \ \ \ \ \textcolor{keywordflow}{if}\ (!header\_result.is\_ok())\ \{}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ offset\ =\ original\_offset;}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<DataBlock>::fail(std::move(header\_result.status));}
+\DoxyCodeLine{00299\ \ \ \ \ \}}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00301\ \ \ \ \ DataBlock\ result\{\};}
+\DoxyCodeLine{00302\ \ \ \ \ result.header\_view\ =\ std::move(header\_result.value);}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{comment}{//\ Payload\ remains\ unread.\ Advance\ only\ the\ caller's\ logical\ discovery\ cursor.}}
+\DoxyCodeLine{00305\ \ \ \ \ offset\ =\ result.header\_view.next\_block\_offset;}
+\DoxyCodeLine{00306\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<DataBlock>::ok(std::move(result));}
+\DoxyCodeLine{00307\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a8566eb943bc1e347cceca27dace2c8f7}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!read\_record@{read\_record}}
+\index{read\_record@{read\_record}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{read\_record()}{read\_record()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a8566eb943bc1e347cceca27dace2c8f7} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ Data\+Section\+View::\+\+Data\+Block::\+read\+\_\+record (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+size\+\_\+t}]{record\+\_\+index}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00510\ \{}
+\DoxyCodeLine{00511\ \ \ \ \ Status\ status\ =\ validate(file);}
+\DoxyCodeLine{00512\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<InternalRecord>::fail(std::move(status));}
+\DoxyCodeLine{00514\ \ \ \ \ \}}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00516\ \ \ \ \ \textcolor{keywordflow}{if}\ (record\_index\ >=\ records\_.size())\ \{}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<InternalRecord>::fail(Status\{}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ record\ index\ is\ outside\ the\ validated\ block"{}}}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00521\ \ \ \ \ \}}
+\DoxyCodeLine{00522\ }
+\DoxyCodeLine{00523\ \ \ \ \ \textcolor{keyword}{const}\ RecordMeta\&\ meta\ =\ records\_[record\_index];}
+\DoxyCodeLine{00524\ \ \ \ \ \textcolor{keyword}{const}\ Arena::Checkpoint\ checkpoint\ =\ arena.checkpoint();}
+\DoxyCodeLine{00525\ }
+\DoxyCodeLine{00526\ \ \ \ \ InternalRecord\ record\{\};}
+\DoxyCodeLine{00527\ \ \ \ \ record.type\ =\ meta.type;}
+\DoxyCodeLine{00528\ \ \ \ \ record.seq\_num\ =\ meta.seq\_num;}
+\DoxyCodeLine{00529\ \ \ \ \ record.key\_entry.size\ =\ meta.key\_size;}
+\DoxyCodeLine{00530\ \ \ \ \ record.value\_entry.size\ =\ meta.value\_size;}
+\DoxyCodeLine{00531\ }
+\DoxyCodeLine{00532\ \ \ \ \ \textcolor{keywordflow}{if}\ (meta.key\_size\ >\ 0)\ \{}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ Result<void*>\ allocation\ =\ arena.alloc(meta.key\_size,\ \textcolor{keyword}{alignof}(std::byte));}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!allocation.is\_ok())\ \{}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(checkpoint);}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<InternalRecord>::fail(std::move(allocation.status));}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ record.key\_entry.data\ =\ allocation.value;}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ std::uint64\_t\ key\_offset\ =\ meta.key\_offset;}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ status\ =\ kvdb::blockio::read\_bytes(}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00543\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::byte*\textcolor{keyword}{>}(record.key\_entry.data),}
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ \ \ \ \ meta.key\_size,}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ key\_offset,}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok()\ ||\ key\_offset\ !=\ meta.value\_offset)\ \{}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(checkpoint);}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<InternalRecord>::fail(std::move(status));}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<InternalRecord>::fail(Status\{}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}key\ read\ did\ not\ end\ at\ the\ validated\ value\ offset"{}}}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00558\ \ \ \ \ \}}
+\DoxyCodeLine{00559\ }
+\DoxyCodeLine{00560\ \ \ \ \ \textcolor{keywordflow}{if}\ (meta.value\_size\ >\ 0)\ \{}
+\DoxyCodeLine{00561\ \ \ \ \ \ \ \ \ Result<void*>\ allocation\ =\ arena.alloc(meta.value\_size,\ \textcolor{keyword}{alignof}(std::byte));}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!allocation.is\_ok())\ \{}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(checkpoint);}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<InternalRecord>::fail(std::move(allocation.status));}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00566\ }
+\DoxyCodeLine{00567\ \ \ \ \ \ \ \ \ record.value\_entry.data\ =\ allocation.value;}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ std::uint64\_t\ value\_offset\ =\ meta.value\_offset;}
+\DoxyCodeLine{00569\ \ \ \ \ \ \ \ \ status\ =\ kvdb::blockio::read\_bytes(}
+\DoxyCodeLine{00570\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00571\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::byte*\textcolor{keyword}{>}(record.value\_entry.data),}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ \ \ \ \ meta.value\_size,}
+\DoxyCodeLine{00573\ \ \ \ \ \ \ \ \ \ \ \ \ value\_offset,}
+\DoxyCodeLine{00574\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00576\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok()\ ||}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ \ \ \ \ value\_offset\ !=\ meta.record\_offset\ +\ meta.disk\_size())\ \{}
+\DoxyCodeLine{00578\ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(checkpoint);}
+\DoxyCodeLine{00579\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00580\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<InternalRecord>::fail(std::move(status));}
+\DoxyCodeLine{00581\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<InternalRecord>::fail(Status\{}
+\DoxyCodeLine{00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
+\DoxyCodeLine{00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}value\ read\ did\ not\ end\ at\ the\ validated\ record\ boundary"{}}}
+\DoxyCodeLine{00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00586\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00587\ \ \ \ \ \}}
+\DoxyCodeLine{00588\ }
+\DoxyCodeLine{00589\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<InternalRecord>::ok(std::move(record));}
+\DoxyCodeLine{00590\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_add03a569ada87f3c27499a6aff6d9770}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!record\_count@{record\_count}}
+\index{record\_count@{record\_count}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{record\_count()}{record\_count()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_add03a569ada87f3c27499a6aff6d9770} 
+std::\+size\+\_\+t Data\+Section\+View::\+\+Data\+Block::\+record\+\_\+count (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00279\ \{}
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keywordflow}{return}\ validation\_state\_\ ==\ ValidationState::Valid\ ?\ records\_.size()\ :\ 0;}
+\DoxyCodeLine{00281\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_ade12e47c6ecdb9f6003566284bfbe759}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!used\_size@{used\_size}}
+\index{used\_size@{used\_size}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{used\_size()}{used\_size()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_ade12e47c6ecdb9f6003566284bfbe759} 
+std::\+uint64\+\_\+t Data\+Section\+View::\+\+Data\+Block::\+used\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00268\ \{}
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{keywordflow}{return}\ header\_view.used\_size();}
+\DoxyCodeLine{00270\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_aa6ce01fe23ee0c5053904dc281e67110}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!validate@{validate}}
+\index{validate@{validate}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_aa6ce01fe23ee0c5053904dc281e67110} 
+\doxymbox{\hyperlink{struct_status}{Status}} Data\+Section\+View::\+\+Data\+Block::\+validate (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00310\ \{}
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordflow}{if}\ (validation\_state\_\ ==\ ValidationState::Valid)\ \{}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00313\ \ \ \ \ \}}
+\DoxyCodeLine{00314\ \ \ \ \ \textcolor{keywordflow}{if}\ (validation\_state\_\ ==\ ValidationState::Corrupt\ \&\&}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ cached\_corruption\_.has\_value())\ \{}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *cached\_corruption\_;}
+\DoxyCodeLine{00317\ \ \ \ \ \}}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ payload\_size\ =\ header\_view.header.payload\_disk\_size;}
+\DoxyCodeLine{00320\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ payload\_capacity\ =}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(BLOCK\_SIZE\ -\/\ kHeaderSize);}
+\DoxyCodeLine{00322\ }
+\DoxyCodeLine{00323\ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_size\ >\ payload\_capacity)\ \{}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ Status\ status\ =\ corruption(}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ block\ payload\ exceeds\ physical\ block\ capacity"{}}}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00330\ \ \ \ \ \}}
+\DoxyCodeLine{00331\ }
+\DoxyCodeLine{00332\ \ \ \ \ std::array<std::byte,\ BLOCK\_SIZE>\ storage\{\};}
+\DoxyCodeLine{00333\ \ \ \ \ std::uint64\_t\ read\_offset\ =\ header\_view.payload\_offset;}
+\DoxyCodeLine{00334\ \ \ \ \ Status\ status\ =\ kvdb::blockio::read\_bytes(}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ storage.data(),}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ payload\_size,}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ read\_offset,}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00340\ \ \ \ \ );}
+\DoxyCodeLine{00341\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Do\ not\ permanently\ cache\ transient\ file-\/system\ failures.}}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00344\ \ \ \ \ \}}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keywordflow}{if}\ (read\_offset\ !=\ header\_view.payload\_end\_offset)\ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ payload\ read\ did\ not\ end\ at\ the\ declared\ payload\ boundary"{}}}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00351\ \ \ \ \ \}}
+\DoxyCodeLine{00352\ }
+\DoxyCodeLine{00353\ \ \ \ \ std::uint32\_t\ actual\_crc\ =\ ::crc32(0L,\ Z\_NULL,\ 0);}
+\DoxyCodeLine{00354\ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_size\ >\ 0)\ \{}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ compute\_crc32(actual\_crc,\ storage.data(),\ payload\_size);}
+\DoxyCodeLine{00356\ \ \ \ \ \}}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00358\ \ \ \ \ \textcolor{keywordflow}{if}\ (actual\_crc\ !=\ header\_view.header.crc32)\ \{}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ status\ =\ Status\{}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::ChecksumMismatch,}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ block\ payload\ CRC\ does\ not\ match\ its\ header"{}}}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00366\ \ \ \ \ \}}
+\DoxyCodeLine{00367\ }
+\DoxyCodeLine{00368\ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_size\ <\ kRecordFixedSize)\ \{}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ status\ =\ corruption(}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ block\ payload\ is\ too\ small\ to\ contain\ one\ complete\ record"{}}}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00373\ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00375\ \ \ \ \ \}}
+\DoxyCodeLine{00376\ }
+\DoxyCodeLine{00377\ \ \ \ \ \textcolor{keyword}{const}\ std::span<const\ std::byte>\ bytes(storage.data(),\ payload\_size);}
+\DoxyCodeLine{00378\ \ \ \ \ std::vector<RecordMeta>\ staged\_records;}
+\DoxyCodeLine{00379\ }
+\DoxyCodeLine{00380\ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ staged\_records.reserve(payload\_size\ /\ kRecordFixedSize);}
+\DoxyCodeLine{00382\ \ \ \ \ \}}
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ reserve\ lazy\ data-\/record\ metadata"{}}}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00388\ \ \ \ \ \}}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \ \ \ \ std::size\_t\ position\ =\ 0;}
+\DoxyCodeLine{00391\ \ \ \ \ std::span<const\ std::byte>\ previous\_key\{\};}
+\DoxyCodeLine{00392\ \ \ \ \ std::uint64\_t\ previous\_seq\ =\ 0;}
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keywordtype}{bool}\ has\_previous\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00394\ }
+\DoxyCodeLine{00395\ \ \ \ \ \textcolor{keywordflow}{while}\ (position\ <\ bytes.size())\ \{}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ record\_start\ =\ position;}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ RecordMeta\ meta\{\};}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ std::uint8\_t\ encoded\_type\ =\ 0;}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ std::uint32\_t\ flags\ =\ 0;}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ std::uint32\_t\ reserved\ =\ 0;}
+\DoxyCodeLine{00401\ }
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes.size()\ -\/\ position\ <\ kRecordFixedSize\ ||}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ !read\_u32\_le(bytes,\ position,\ meta.key\_size)\ ||}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ !read\_u32\_le(bytes,\ position,\ meta.value\_size)\ ||}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ !read\_u8(bytes,\ position,\ encoded\_type)\ ||}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ !read\_u32\_le(bytes,\ position,\ flags)\ ||}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ !read\_u32\_le(bytes,\ position,\ reserved)\ ||}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ !read\_u64\_le(bytes,\ position,\ meta.seq\_num))\ \{}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \ \ \ \ status\ =\ corruption(\textcolor{stringliteral}{"{}truncated\ fixed\ fields\ in\ data\ record"{}});}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00414\ }
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ meta.type\ =\ \textcolor{keyword}{static\_cast<}::Type\textcolor{keyword}{>}(encoded\_type);}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!is\_valid\_record\_type(meta.type))\ \{}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \ \ \ \ status\ =\ corruption(\textcolor{stringliteral}{"{}data\ record\ has\ an\ invalid\ record\ type"{}});}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00419\ \ \ \ \ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (flags\ !=\ 0\ ||\ reserved\ !=\ 0)\ \{}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ status\ =\ corruption(}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ record\ flags\ and\ reserved\ fields\ must\ be\ zero\ in\ version\ 1"{}}}
+\DoxyCodeLine{00425\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00426\ \ \ \ \ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00427\ \ \ \ \ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00428\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00429\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00430\ }
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ variable\_size\ =}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(meta.key\_size)\ +\ meta.value\_size;}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (variable\_size\ >\ bytes.size()\ -\/\ position)\ \{}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ \ \ \ \ status\ =\ corruption(}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ record\ key/value\ lengths\ exceed\ the\ remaining\ block\ payload"{}}}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00441\ }
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ key\_position\ =\ position;}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ value\_position\ =\ position\ +\ meta.key\_size;}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::span<const\ std::byte>\ current\_key(}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ bytes.data()\ +\ key\_position,}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ meta.key\_size}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00448\ }
+\DoxyCodeLine{00449\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (has\_previous)\ \{}
+\DoxyCodeLine{00450\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ key\_order\ =\ compare\_keys(previous\_key,\ current\_key);}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_order\ >\ 0)\ \{}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ status\ =\ corruption(}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ records\ are\ not\ ordered\ by\ ascending\ user\ key"{}}}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00456\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00457\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00458\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (key\_order\ ==\ 0\ \&\&\ meta.seq\_num\ >=\ previous\_seq)\ \{}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ status\ =\ corruption(}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}equal\ data\ keys\ are\ not\ ordered\ by\ strictly\ descending\ sequence"{}}}
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ meta.record\_offset\ =\ header\_view.payload\_offset\ +\ record\_start;}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ meta.key\_offset\ =\ header\_view.payload\_offset\ +\ key\_position;}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ meta.value\_offset\ =\ header\_view.payload\_offset\ +\ value\_position;}
+\DoxyCodeLine{00472\ }
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \ \ position\ +=\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(variable\_size);}
+\DoxyCodeLine{00474\ }
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ \ \ \ \ staged\_records.emplace\_back(meta);}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::BadAlloc,}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}failed\ to\ cache\ lazy\ data-\/record\ metadata"{}}}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00484\ }
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ previous\_key\ =\ current\_key;}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ previous\_seq\ =\ meta.seq\_num;}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ has\_previous\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00488\ \ \ \ \ \}}
+\DoxyCodeLine{00489\ }
+\DoxyCodeLine{00490\ \ \ \ \ \textcolor{keywordflow}{if}\ (staged\_records.empty()\ ||\ position\ !=\ bytes.size())\ \{}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ status\ =\ corruption(}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\ block\ payload\ does\ not\ contain\ a\ canonical\ sequence\ of\ records"{}}}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ validation\_state\_\ =\ ValidationState::Corrupt;}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ cached\_corruption\_\ =\ status;}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00497\ \ \ \ \ \}}
+\DoxyCodeLine{00498\ }
+\DoxyCodeLine{00499\ \ \ \ \ records\_\ =\ std::move(staged\_records);}
+\DoxyCodeLine{00500\ \ \ \ \ cached\_corruption\_.reset();}
+\DoxyCodeLine{00501\ \ \ \ \ validation\_state\_\ =\ ValidationState::Valid;}
+\DoxyCodeLine{00502\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00503\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_acf1dc16bc355d4ed7f15e2c1c2e9123c}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!validation\_state@{validation\_state}}
+\index{validation\_state@{validation\_state}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{validation\_state()}{validation\_state()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_acf1dc16bc355d4ed7f15e2c1c2e9123c} 
+Data\+Section\+View::\+\+Data\+Block::\+\+Validation\+State Data\+Section\+View::\+\+Data\+Block::\+validation\+\_\+state (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00274\ \{}
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordflow}{return}\ validation\_state\_;}
+\DoxyCodeLine{00276\ \}}
+
+\end{DoxyCode}
+
+
+\label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_doc-variable-members}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a51c3a78c8d3cd3c96b2df80819852960}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!cached\_corruption\_@{cached\_corruption\_}}
+\index{cached\_corruption\_@{cached\_corruption\_}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{cached\_corruption\_}{cached\_corruption\_}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_a51c3a78c8d3cd3c96b2df80819852960} 
+std::\+optional$<$\doxymbox{\hyperlink{struct_status}{Status}}$>$ SSTable\+Entities::\+\+Data\+Section\+View::\+\+Data\+Block::\+cached\+\_\+corruption\+\_\+ \{\}\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00104\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_ac4c470d7ad16489041721a37b2a488f3}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!header\_view@{header\_view}}
+\index{header\_view@{header\_view}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{header\_view}{header\_view}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_ac4c470d7ad16489041721a37b2a488f3} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_header}{Header}} SSTable\+Entities::\+\+Data\+Section\+View::\+\+Data\+Block::\+header\+\_\+view \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00063\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_af4ee08bbca744437108fc3428a753c34}\index{SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}!records\_@{records\_}}
+\index{records\_@{records\_}!SSTableEntities::DataSectionView::DataBlock@{SSTableEntities::DataSectionView::DataBlock}}
+\doxysubsubsection{\texorpdfstring{records\_}{records\_}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_data_section_view_1_1_data_block_af4ee08bbca744437108fc3428a753c34} 
+std::\+vector$<$\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view_1_1_record_meta}{Record\+Meta}}$>$ SSTable\+Entities::\+\+Data\+Section\+View::\+\+Data\+Block::\+records\+\_\+ \{\}\hspace{0.3cm}{\ttfamily [mutable]}, {\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00105\ \{\};}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+sstable\+\_\+entities/\+data\+\_\+section\+\_\+view.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+sstable\+\_\+entities/\+data\+\_\+section\+\_\+view.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,161 @@
+\doxysection{SSTable\+Streaming\+Builder Class Reference}
+\hypertarget{class_s_s_table_streaming_builder}{}\label{class_s_s_table_streaming_builder}\index{SSTableStreamingBuilder@{SSTableStreamingBuilder}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_s_s_table_streaming_builder_a7fbd99f0bc0c845e9099e8908a2e8c69}{SSTable\+Streaming\+Builder}} (std::\+filesystem::\+path path, std::\+filesystem::\+path final\+\_\+path, std::\+uint32\+\_\+t table\+\_\+id=0)
+\item 
+bool \doxymbox{\hyperlink{class_s_s_table_streaming_builder_ac1cc0b5ab681295f5eafd5d795d90352}{empty}} () const noexcept
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_streaming_builder_ad622b5f980ce51bce3a6d8ced56ff643}{finish}} (std::\+uint32\+\_\+t level, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_s_s_table_streaming_builder_af0ab782400cb18085df803ef9f50a2a5}{add}} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&record)
+\item 
+std::\+size\+\_\+t \doxymbox{\hyperlink{class_s_s_table_streaming_builder_a8758b139801d5512b4dee177c17d5b99}{approximate\+\_\+disk\+\_\+space}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_s_s_table_streaming_builder_aeda19606406dbcbbfe72d79bd8725aba}\label{class_s_s_table_streaming_builder_aeda19606406dbcbbfe72d79bd8725aba} 
+\doxymbox{\hyperlink{class_s_s_table}{SSTable}} {\bfseries sstable}
+\end{DoxyCompactItemize}
+
+
+\label{class_s_s_table_streaming_builder_doc-constructors}
+\Hypertarget{class_s_s_table_streaming_builder_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_s_table_streaming_builder_a7fbd99f0bc0c845e9099e8908a2e8c69}\index{SSTableStreamingBuilder@{SSTableStreamingBuilder}!SSTableStreamingBuilder@{SSTableStreamingBuilder}}
+\index{SSTableStreamingBuilder@{SSTableStreamingBuilder}!SSTableStreamingBuilder@{SSTableStreamingBuilder}}
+\doxysubsubsection{\texorpdfstring{SSTableStreamingBuilder()}{SSTableStreamingBuilder()}}
+{\footnotesize\ttfamily \label{class_s_s_table_streaming_builder_a7fbd99f0bc0c845e9099e8908a2e8c69} 
+SSTable\+Streaming\+Builder::\+\+SSTable\+Streaming\+Builder (\begin{DoxyParamCaption}\item[{std::\+filesystem::\+path}]{path}{, }\item[{std::\+filesystem::\+path}]{final\+\_\+path}{, }\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{ = {\ttfamily 0}}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00227\ \ \ \ \ :\ sstable(std::move(path),\ std::move(final\_path),\ table\_id) }
+\DoxyCodeLine{00228\ \{}
+\DoxyCodeLine{00229\ \}}
+
+\end{DoxyCode}
+
+
+\label{class_s_s_table_streaming_builder_doc-func-members}
+\Hypertarget{class_s_s_table_streaming_builder_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_s_table_streaming_builder_af0ab782400cb18085df803ef9f50a2a5}\index{SSTableStreamingBuilder@{SSTableStreamingBuilder}!add@{add}}
+\index{add@{add}!SSTableStreamingBuilder@{SSTableStreamingBuilder}}
+\doxysubsubsection{\texorpdfstring{add()}{add()}}
+{\footnotesize\ttfamily \label{class_s_s_table_streaming_builder_af0ab782400cb18085df803ef9f50a2a5} 
+\doxymbox{\hyperlink{struct_status}{Status}} SSTable\+Streaming\+Builder::\+add (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&}]{record}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00237\ \{}
+\DoxyCodeLine{00238\ \ \ \ \ Status\ validation\ =\ validate\_record(record);}
+\DoxyCodeLine{00239\ \ \ \ \ \textcolor{keywordflow}{if}\ (!validation.is\_ok())\ \{}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ validation;}
+\DoxyCodeLine{00241\ \ \ \ \ \}}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ blocks\ =\ sstable.get\_data\_section().data\_blocks;}
+\DoxyCodeLine{00244\ \ \ \ \ \textcolor{keywordflow}{if}\ (!blocks.empty()\ \&\&\ !blocks.back().payloads.empty())\ \{}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ payload\ =\ blocks.back().payloads.back();}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ InternalRecord\ previous\{\};}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ previous.key\_entry\ =\ \{\ payload.key\_ptr,\ payload.key\_size\ \};}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ previous.value\_entry\ =\ \{\ payload.value\_ptr,\ payload.value\_size\ \};}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ previous.type\ =\ payload.type;}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ previous.seq\_num\ =\ payload.seq\_num;}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (record\_less(record,\ previous))\ \{}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ streaming\ input\ is\ not\ sorted\ by\ key\ ascending\ and\ sequence\ descending"{}}}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00259\ \ \ \ \ \}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keywordflow}{return}\ sstable.append\_record(record);}
+\DoxyCodeLine{00262\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_streaming_builder_a8758b139801d5512b4dee177c17d5b99}\index{SSTableStreamingBuilder@{SSTableStreamingBuilder}!approximate\_disk\_space@{approximate\_disk\_space}}
+\index{approximate\_disk\_space@{approximate\_disk\_space}!SSTableStreamingBuilder@{SSTableStreamingBuilder}}
+\doxysubsubsection{\texorpdfstring{approximate\_disk\_space()}{approximate\_disk\_space()}}
+{\footnotesize\ttfamily \label{class_s_s_table_streaming_builder_a8758b139801d5512b4dee177c17d5b99} 
+std::\+size\+\_\+t SSTable\+Streaming\+Builder::\+approximate\+\_\+disk\+\_\+space (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00265\ \{}
+\DoxyCodeLine{00266\ \ \ \ \ std::vector<InternalRecord>\ records;}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ block\ :\ sstable.get\_data\_section().data\_blocks)\ \{}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ payload\ :\ block.payloads)\ \{}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ \ \ \ \ InternalRecord\ record;}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ \ \ \ \ record.key\_entry\ =\ \{\ payload.key\_ptr,\ payload.key\_size\ \};}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \ \ \ \ record.value\_entry\ =\ \{\ payload.value\_ptr,\ payload.value\_size\ \};}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \ \ \ \ record.type\ =\ payload.type;}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \ \ \ \ \ \ record.seq\_num\ =\ payload.seq\_num;}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \ \ \ \ records.push\_back(std::move(record));}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00277\ \ \ \ \ \}}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ size\ =\ SSTableBuilder::approximate\_disk\_space(records);}
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ max\_size\_t\ =\ std::numeric\_limits<std::size\_t>::max();}
+\DoxyCodeLine{00281\ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ >\ max\_size\_t)\ \{}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ max\_size\_t;}
+\DoxyCodeLine{00283\ \ \ \ \ \}}
+\DoxyCodeLine{00284\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(size);}
+\DoxyCodeLine{00285\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_streaming_builder_ac1cc0b5ab681295f5eafd5d795d90352}\index{SSTableStreamingBuilder@{SSTableStreamingBuilder}!empty@{empty}}
+\index{empty@{empty}!SSTableStreamingBuilder@{SSTableStreamingBuilder}}
+\doxysubsubsection{\texorpdfstring{empty()}{empty()}}
+{\footnotesize\ttfamily \label{class_s_s_table_streaming_builder_ac1cc0b5ab681295f5eafd5d795d90352} 
+bool SSTable\+Streaming\+Builder::\+empty (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00232\ \{}
+\DoxyCodeLine{00233\ \ \ \ \ \textcolor{keywordflow}{return}\ sstable.get\_data\_section().data\_blocks.empty();}
+\DoxyCodeLine{00234\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_streaming_builder_ad622b5f980ce51bce3a6d8ced56ff643}\index{SSTableStreamingBuilder@{SSTableStreamingBuilder}!finish@{finish}}
+\index{finish@{finish}!SSTableStreamingBuilder@{SSTableStreamingBuilder}}
+\doxysubsubsection{\texorpdfstring{finish()}{finish()}}
+{\footnotesize\ttfamily \label{class_s_s_table_streaming_builder_ad622b5f980ce51bce3a6d8ced56ff643} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ $>$ SSTable\+Streaming\+Builder::\+finish (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{level}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00291\ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keywordflow}{if}\ (empty())\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<TableMeta>>::ok(std::nullopt);}
+\DoxyCodeLine{00294\ \ \ \ \ \}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ Status\ status\ =\ sstable.write();}
+\DoxyCodeLine{00297\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<TableMeta>>::fail(std::move(status));}
+\DoxyCodeLine{00299\ \ \ \ \ \}}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00301\ \ \ \ \ Result<TableMeta>\ meta\_result\ =\ make\_table\_meta(sstable,\ level,\ arena);}
+\DoxyCodeLine{00302\ \ \ \ \ \textcolor{keywordflow}{if}\ (!meta\_result.is\_ok())\ \{}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<TableMeta>>::fail(}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(meta\_result.status)}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00306\ \ \ \ \ \}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00308\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<TableMeta>>::ok(}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ std::optional<TableMeta>\{\ std::move(meta\_result.value)\ \}}
+\DoxyCodeLine{00310\ \ \ \ \ );}
+\DoxyCodeLine{00311\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+sstable\+\_\+builder.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+sstable\+\_\+builder.\+cpp\end{DoxyCompactItemize}

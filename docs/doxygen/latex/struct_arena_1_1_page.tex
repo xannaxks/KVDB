@@ -1,0 +1,143 @@
+\doxysection{Arena::\+Page Struct Reference}
+\hypertarget{struct_arena_1_1_page}{}\label{struct_arena_1_1_page}\index{Arena::Page@{Arena::Page}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_arena_1_1_page_af67bb781783e9bb9d5a382417b4fd094}{Page}} (void \texorpdfstring{$\ast$}{*}page\+\_\+base, std::\+size\+\_\+t page\+\_\+capacity, std::\+size\+\_\+t page\+\_\+used, std::\+size\+\_\+t page\+\_\+alignment) noexcept
+\item 
+\Hypertarget{struct_arena_1_1_page_af38e6faeeb01abdcf9445d301213a831}\label{struct_arena_1_1_page_af38e6faeeb01abdcf9445d301213a831} 
+{\bfseries Page} (const Page \&)=delete
+\item 
+\Hypertarget{struct_arena_1_1_page_a29b6ab38357a9182edee561f51308b96}\label{struct_arena_1_1_page_a29b6ab38357a9182edee561f51308b96} 
+Page \& {\bfseries operator=} (const Page \&)=delete
+\item 
+\doxymbox{\hyperlink{struct_arena_1_1_page_a3e03802bb2a7487938c92cdc14581d4b}{Page}} (Page \&\&other) noexcept
+\item 
+Page \& \doxymbox{\hyperlink{struct_arena_1_1_page_ab4aa188b2a63f53a5a9e4b8f16a0ef5a}{operator=}} (Page \&\&other) noexcept
+\item 
+void \doxymbox{\hyperlink{struct_arena_1_1_page_a99fe341cb501ee39a0796d7a09881134}{release}} () noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_arena_1_1_page_a6c354b5dbb2168b937f70548ce6ad1aa}\label{struct_arena_1_1_page_a6c354b5dbb2168b937f70548ce6ad1aa} 
+void \texorpdfstring{$\ast$}{*} {\bfseries base} = nullptr
+\item 
+\Hypertarget{struct_arena_1_1_page_ae6b6c281261aec60db4fb1029a6d8c5c}\label{struct_arena_1_1_page_ae6b6c281261aec60db4fb1029a6d8c5c} 
+std::\+size\+\_\+t {\bfseries cap} = 0
+\item 
+\Hypertarget{struct_arena_1_1_page_a1f0777cc11c04410fe1c9203f6e5f5c7}\label{struct_arena_1_1_page_a1f0777cc11c04410fe1c9203f6e5f5c7} 
+std::\+size\+\_\+t {\bfseries used} = 0
+\item 
+\Hypertarget{struct_arena_1_1_page_a551b6b07b786c73ec51976b0c34f5642}\label{struct_arena_1_1_page_a551b6b07b786c73ec51976b0c34f5642} 
+std::\+size\+\_\+t {\bfseries alignment} = alignof(std::\+max\+\_\+align\+\_\+t)
+\end{DoxyCompactItemize}
+
+
+\label{struct_arena_1_1_page_doc-constructors}
+\Hypertarget{struct_arena_1_1_page_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_arena_1_1_page_af67bb781783e9bb9d5a382417b4fd094}\index{Arena::Page@{Arena::Page}!Page@{Page}}
+\index{Page@{Page}!Arena::Page@{Arena::Page}}
+\doxysubsubsection{\texorpdfstring{Page()}{Page()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{struct_arena_1_1_page_af67bb781783e9bb9d5a382417b4fd094} 
+Arena::\+\+Page::\+\+Page (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{page\+\_\+base}{, }\item[{std::\+size\+\_\+t}]{page\+\_\+capacity}{, }\item[{std::\+size\+\_\+t}]{page\+\_\+used}{, }\item[{std::\+size\+\_\+t}]{page\+\_\+alignment}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ :\ base(page\_base),}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ cap(page\_capacity),}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ used(page\_used),}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ alignment(page\_alignment) }
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_1_1_page_a3e03802bb2a7487938c92cdc14581d4b}\index{Arena::Page@{Arena::Page}!Page@{Page}}
+\index{Page@{Page}!Arena::Page@{Arena::Page}}
+\doxysubsubsection{\texorpdfstring{Page()}{Page()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{struct_arena_1_1_page_a3e03802bb2a7487938c92cdc14581d4b} 
+Arena::\+\+Page::\+\+Page (\begin{DoxyParamCaption}\item[{Page \&\&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ :\ base(std::exchange(other.base,\ \textcolor{keyword}{nullptr})),}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ cap(std::exchange(other.cap,\ 0)),}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ used(std::exchange(other.used,\ 0)),}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ alignment(std::exchange(}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ other.alignment,}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{alignof}(std::max\_align\_t)}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ )) }
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_1_1_page_a11581af9e5f0f510784371f149ffa59b}\index{Arena::Page@{Arena::Page}!````~Page@{\texorpdfstring{$\sim$}{\string~}Page}}
+\index{````~Page@{\texorpdfstring{$\sim$}{\string~}Page}!Arena::Page@{Arena::Page}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}Page()}{\string~Page()}}
+{\footnotesize\ttfamily \label{struct_arena_1_1_page_a11581af9e5f0f510784371f149ffa59b} 
+Arena::\+\+Page::\+\texorpdfstring{$\sim$}{\string~}\+Page (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ release();}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{struct_arena_1_1_page_doc-func-members}
+\Hypertarget{struct_arena_1_1_page_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_arena_1_1_page_ab4aa188b2a63f53a5a9e4b8f16a0ef5a}\index{Arena::Page@{Arena::Page}!operator=@{operator=}}
+\index{operator=@{operator=}!Arena::Page@{Arena::Page}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \label{struct_arena_1_1_page_ab4aa188b2a63f53a5a9e4b8f16a0ef5a} 
+Page \& Arena::\+\+Page::\+operator= (\begin{DoxyParamCaption}\item[{Page \&\&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ !=\ \&other)}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ release();}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ base\ =\ std::exchange(other.base,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cap\ =\ std::exchange(other.cap,\ 0);}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ used\ =\ std::exchange(other.used,\ 0);}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ alignment\ =\ std::exchange(}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ other.alignment,}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{alignof}(std::max\_align\_t)}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_1_1_page_a99fe341cb501ee39a0796d7a09881134}\index{Arena::Page@{Arena::Page}!release@{release}}
+\index{release@{release}!Arena::Page@{Arena::Page}}
+\doxysubsubsection{\texorpdfstring{release()}{release()}}
+{\footnotesize\ttfamily \label{struct_arena_1_1_page_a99fe341cb501ee39a0796d7a09881134} 
+void Arena::\+\+Page::\+release (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (base\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::operator\ \textcolor{keyword}{delete}(base,\ std::align\_val\_t\{\ alignment\ \});}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ base\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ cap\ =\ 0;}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ used\ =\ 0;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ alignment\ =\ \textcolor{keyword}{alignof}(std::max\_align\_t);}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+arena.\+h\end{DoxyCompactItemize}

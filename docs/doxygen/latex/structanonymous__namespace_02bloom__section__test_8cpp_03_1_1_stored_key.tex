@@ -1,0 +1,41 @@
+\doxysection{anonymous\+\_\+namespace\{bloom\+\_\+section\+\_\+test.\+cpp\}::\+Stored\+Key Struct Reference}
+\hypertarget{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key}{}\label{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key}\index{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::StoredKey@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::StoredKey}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key_a8aedf7e39633694cfb0be5c0a4e79752}{Stored\+Key}} (std::\+string value)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key_a64c5dd72b34a13f84119f6335553afdd}\label{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key_a64c5dd72b34a13f84119f6335553afdd} 
+std::\+string {\bfseries bytes}
+\item 
+\Hypertarget{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key_ab376501d0bd44bbb032ecc1980a344cc}\label{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key_ab376501d0bd44bbb032ecc1980a344cc} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_1_1_payload}{Data\+Section::\+\+Payload}} {\bfseries payload}
+\end{DoxyCompactItemize}
+
+
+\label{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key_doc-constructors}
+\Hypertarget{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key_a8aedf7e39633694cfb0be5c0a4e79752}\index{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::StoredKey@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::StoredKey}!StoredKey@{StoredKey}}
+\index{StoredKey@{StoredKey}!anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::StoredKey@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::StoredKey}}
+\doxysubsubsection{\texorpdfstring{StoredKey()}{StoredKey()}}
+{\footnotesize\ttfamily \label{structanonymous__namespace_02bloom__section__test_8cpp_03_1_1_stored_key_a8aedf7e39633694cfb0be5c0a4e79752} 
+anonymous\+\_\+namespace\{bloom\+\_\+section\+\_\+test.\+cpp\}::\+\+Stored\+Key::\+\+Stored\+Key (\begin{DoxyParamCaption}\item[{std::\+string}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \ \ \ \ :\ bytes(std::move(value)) }
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \ \ \ \ payload.key\_ptr\ =\ bytes.empty()\ ?\ nullptr\ :\ bytes.data();}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ \ \ \ \ payload.key\_size\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(bytes.size());}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+sstable\+\_\+entities/\+bloom\+\_\+section\+\_\+test.\+cpp\end{DoxyCompactItemize}

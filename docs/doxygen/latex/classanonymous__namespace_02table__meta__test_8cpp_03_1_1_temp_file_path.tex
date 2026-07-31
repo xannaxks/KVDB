@@ -1,0 +1,80 @@
+\doxysection{anonymous\+\_\+namespace\{table\+\_\+meta\+\_\+test.\+cpp\}::\+Temp\+File\+Path Class Reference}
+\hypertarget{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path}{}\label{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path}\index{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+const std::\+filesystem::\+path \& \doxymbox{\hyperlink{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_ab6fa0afa0d12d5e3fce335a827bce88d}{path}} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_ade3f7c8420397e84a3f2c745cfcd24e8}\label{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_ade3f7c8420397e84a3f2c745cfcd24e8} 
+std::\+filesystem::\+path {\bfseries path\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\label{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_doc-constructors}
+\Hypertarget{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_a6604bf3208ca2a9c6c6d721f9814b2e7}\index{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath}!TempFilePath@{TempFilePath}}
+\index{TempFilePath@{TempFilePath}!anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath}}
+\doxysubsubsection{\texorpdfstring{TempFilePath()}{TempFilePath()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_a6604bf3208ca2a9c6c6d721f9814b2e7} 
+anonymous\+\_\+namespace\{table\+\_\+meta\+\_\+test.\+cpp\}::\+\+Temp\+File\+Path::\+\+Temp\+File\+Path (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::atomic<std::uint64\_t>\ counter\{\ 0\ \};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ now\ =\ std::chrono::high\_resolution\_clock::now()}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .time\_since\_epoch()}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .count();}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ path\_\ =\ std::filesystem::temp\_directory\_path()\ /}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}kvdb\_table\_meta\_test\_"{}}\ +}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(now)\ +\ \textcolor{stringliteral}{"{}\_"{}}\ +}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(counter.fetch\_add(1))\ +\ \textcolor{stringliteral}{"{}.bin"{}});}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ std::error\_code\ ec;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::remove(path\_,\ ec);}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_a50cffa8cb674badcfcf389daabb24a40}\index{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath}!````~TempFilePath@{\texorpdfstring{$\sim$}{\string~}TempFilePath}}
+\index{````~TempFilePath@{\texorpdfstring{$\sim$}{\string~}TempFilePath}!anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}TempFilePath()}{\string~TempFilePath()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_a50cffa8cb674badcfcf389daabb24a40} 
+anonymous\+\_\+namespace\{table\+\_\+meta\+\_\+test.\+cpp\}::\+\+Temp\+File\+Path::\+\texorpdfstring{$\sim$}{\string~}\+Temp\+File\+Path (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ std::error\_code\ ec;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::remove(path\_,\ ec);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_doc-func-members}
+\Hypertarget{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_ab6fa0afa0d12d5e3fce335a827bce88d}\index{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath}!path@{path}}
+\index{path@{path}!anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}::TempFilePath}}
+\doxysubsubsection{\texorpdfstring{path()}{path()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path_ab6fa0afa0d12d5e3fce335a827bce88d} 
+const std::\+filesystem::\+path \& anonymous\+\_\+namespace\{table\+\_\+meta\+\_\+test.\+cpp\}::\+\+Temp\+File\+Path::\+path (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ path\_;}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+table\+\_\+meta\+\_\+test.\+cpp\end{DoxyCompactItemize}

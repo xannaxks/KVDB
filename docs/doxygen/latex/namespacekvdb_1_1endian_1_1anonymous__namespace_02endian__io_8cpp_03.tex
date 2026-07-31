@@ -1,0 +1,50 @@
+\doxysection{kvdb::\+endian::\+anonymous\+\_\+namespace\{endian\+\_\+io.\+cpp\} Namespace Reference}
+\hypertarget{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03}{}\label{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03}\index{kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}@{kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$std::\+size\+\_\+t Size$>$ }\\bool \doxymbox{\hyperlink{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03_a1190c686a04730bd09d529c0fa6c31c7}{write\+\_\+encoded}} (std::\+ostream \&out, const std::\+array$<$ std::\+byte, Size $>$ \&encoded)
+\item 
+{\footnotesize template$<$std::\+size\+\_\+t Size$>$ }\\bool \doxymbox{\hyperlink{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03_a257ddc0fac266144f579e4a5700592e5}{read\+\_\+encoded}} (std::\+istream \&in, std::\+array$<$ std::\+byte, Size $>$ \&encoded)
+\end{DoxyCompactItemize}
+
+
+\label{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03_doc-func-members}
+\Hypertarget{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03_a257ddc0fac266144f579e4a5700592e5}\index{kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}@{kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}}!read\_encoded@{read\_encoded}}
+\index{read\_encoded@{read\_encoded}!kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}@{kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{read\_encoded()}{read\_encoded()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03_a257ddc0fac266144f579e4a5700592e5} 
+template$<$std::\+size\+\_\+t Size$>$ \\
+bool kvdb::\+endian::\+anonymous\+\_\+namespace\{endian\+\_\+io.\+cpp\}::\+read\+\_\+encoded (\begin{DoxyParamCaption}\item[{std::\+istream \&}]{in}{, }\item[{std::\+array$<$ std::\+byte, Size $>$ \&}]{encoded}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ in.read(}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(encoded.data()),}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::streamsize\textcolor{keyword}{>}(encoded.size())}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(in);}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03_a1190c686a04730bd09d529c0fa6c31c7}\index{kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}@{kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}}!write\_encoded@{write\_encoded}}
+\index{write\_encoded@{write\_encoded}!kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}@{kvdb::endian::anonymous\_namespace\lcurly{}endian\_io.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{write\_encoded()}{write\_encoded()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_1_1anonymous__namespace_02endian__io_8cpp_03_a1190c686a04730bd09d529c0fa6c31c7} 
+template$<$std::\+size\+\_\+t Size$>$ \\
+bool kvdb::\+endian::\+anonymous\+\_\+namespace\{endian\+\_\+io.\+cpp\}::\+write\+\_\+encoded (\begin{DoxyParamCaption}\item[{std::\+ostream \&}]{out}{, }\item[{const std::\+array$<$ std::\+byte, Size $>$ \&}]{encoded}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ out.write(}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(encoded.data()),}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::streamsize\textcolor{keyword}{>}(encoded.size())}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(out);}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}

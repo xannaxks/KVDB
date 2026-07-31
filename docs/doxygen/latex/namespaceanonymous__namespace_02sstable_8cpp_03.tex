@@ -1,0 +1,59 @@
+\doxysection{anonymous\+\_\+namespace\{sstable.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02sstable_8cpp_03}{}\label{namespaceanonymous__namespace_02sstable_8cpp_03}\index{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02sstable_8cpp_03_a79027fc140619738b19a0e54ef9e82fd}{range\+\_\+fits}} (std::\+uint64\+\_\+t offset, std::\+uint64\+\_\+t size, std::\+uint64\+\_\+t limit) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02sstable_8cpp_03_a9c9babaca5bcc63c3c0077ba6e0b5ad3}{checked\+\_\+add\+\_\+u64}} (std::\+uint64\+\_\+t lhs, std::\+uint64\+\_\+t rhs, std::\+uint64\+\_\+t \&result) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02sstable_8cpp_03_abeeaf4f6e7596f822b1e8efc05c41318}{fits\+\_\+u32}} (std::\+uint64\+\_\+t value) noexcept
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02sstable_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02sstable_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02sstable_8cpp_03_a9c9babaca5bcc63c3c0077ba6e0b5ad3}\index{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}}!checked\_add\_u64@{checked\_add\_u64}}
+\index{checked\_add\_u64@{checked\_add\_u64}!anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{checked\_add\_u64()}{checked\_add\_u64()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02sstable_8cpp_03_a9c9babaca5bcc63c3c0077ba6e0b5ad3} 
+bool anonymous\+\_\+namespace\{sstable.\+cpp\}::\+checked\+\_\+add\+\_\+u64 (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{lhs}{, }\item[{std::\+uint64\+\_\+t}]{rhs}{, }\item[{std::\+uint64\+\_\+t \&}]{result}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00039\ \ \ \ \ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (lhs\ >\ std::numeric\_limits<std::uint64\_t>::max()\ -\/\ rhs)\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ result\ =\ lhs\ +\ rhs;}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02sstable_8cpp_03_abeeaf4f6e7596f822b1e8efc05c41318}\index{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}}!fits\_u32@{fits\_u32}}
+\index{fits\_u32@{fits\_u32}!anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{fits\_u32()}{fits\_u32()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02sstable_8cpp_03_abeeaf4f6e7596f822b1e8efc05c41318} 
+bool anonymous\+\_\+namespace\{sstable.\+cpp\}::\+fits\+\_\+u32 (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ value\ <=\ std::numeric\_limits<std::uint32\_t>::max();}
+\DoxyCodeLine{00050\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02sstable_8cpp_03_a79027fc140619738b19a0e54ef9e82fd}\index{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}}!range\_fits@{range\_fits}}
+\index{range\_fits@{range\_fits}!anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{range\_fits()}{range\_fits()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02sstable_8cpp_03_a79027fc140619738b19a0e54ef9e82fd} 
+bool anonymous\+\_\+namespace\{sstable.\+cpp\}::\+range\+\_\+fits (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{offset}{, }\item[{std::\+uint64\+\_\+t}]{size}{, }\item[{std::\+uint64\+\_\+t}]{limit}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00030\ \ \ \ \ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ offset\ <=\ limit\ \&\&\ size\ <=\ limit\ -\/\ offset;}
+\DoxyCodeLine{00032\ \ \ \ \ \}}
+
+\end{DoxyCode}

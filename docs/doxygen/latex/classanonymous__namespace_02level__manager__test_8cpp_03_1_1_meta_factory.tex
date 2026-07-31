@@ -1,0 +1,59 @@
+\doxysection{anonymous\+\_\+namespace\{level\+\_\+manager\+\_\+test.\+cpp\}::\+Meta\+Factory Class Reference}
+\hypertarget{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory}{}\label{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory}\index{anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory@{anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \doxymbox{\hyperlink{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_ae6d888978e23dfddf4a6052b4792cd83}{key}} (std::\+string\+\_\+view text)
+\item 
+\doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \doxymbox{\hyperlink{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_a869cfe368d9db95903e9af800f628462}{table}} (std::\+uint64\+\_\+t id, std::\+uint32\+\_\+t level, std::\+string\+\_\+view smallest, std::\+string\+\_\+view largest, std::\+uint64\+\_\+t file\+\_\+size=100)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_ae15e0510ebc744b7c3a401e16f0d77b1}\label{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_ae15e0510ebc744b7c3a401e16f0d77b1} 
+std::\+deque$<$ std::\+string $>$ {\bfseries storage\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\label{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_doc-func-members}
+\Hypertarget{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_ae6d888978e23dfddf4a6052b4792cd83}\index{anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory@{anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory}!key@{key}}
+\index{key@{key}!anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory@{anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory}}
+\doxysubsubsection{\texorpdfstring{key()}{key()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_ae6d888978e23dfddf4a6052b4792cd83} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} anonymous\+\_\+namespace\{level\+\_\+manager\+\_\+test.\+cpp\}::\+\+Meta\+Factory::\+key (\begin{DoxyParamCaption}\item[{std::\+string\+\_\+view}]{text}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ storage\_.emplace\_back(text);}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ stored\ =\ storage\_.back();}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ ArenaEntry(stored.data(),\ stored.size());}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_a869cfe368d9db95903e9af800f628462}\index{anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory@{anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory}!table@{table}}
+\index{table@{table}!anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory@{anonymous\_namespace\lcurly{}level\_manager\_test.cpp\rcurly{}::MetaFactory}}
+\doxysubsubsection{\texorpdfstring{table()}{table()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02level__manager__test_8cpp_03_1_1_meta_factory_a869cfe368d9db95903e9af800f628462} 
+\doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} anonymous\+\_\+namespace\{level\+\_\+manager\+\_\+test.\+cpp\}::\+\+Meta\+Factory::\+table (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{id}{, }\item[{std::\+uint32\+\_\+t}]{level}{, }\item[{std::\+string\+\_\+view}]{smallest}{, }\item[{std::\+string\+\_\+view}]{largest}{, }\item[{std::\+uint64\+\_\+t}]{file\+\_\+size}{ = {\ttfamily 100}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ TableMeta\ result\{\};}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ result.table\_id\ =\ id;}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ result.level\ =\ level;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ result.smallest\_key\ =\ key(smallest);}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ result.largest\_key\ =\ key(largest);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ result.file\_size\ =\ file\_size;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+level\+\_\+manager\+\_\+test.\+cpp\end{DoxyCompactItemize}

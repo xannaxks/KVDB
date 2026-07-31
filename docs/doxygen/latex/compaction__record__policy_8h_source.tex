@@ -1,0 +1,19 @@
+\doxysection{compaction\+\_\+record\+\_\+policy.\+h}
+\hypertarget{compaction__record__policy_8h_source}{}\label{compaction__record__policy_8h_source}\index{C:/Users/user/KVDB/include/compaction\_record\_policy.h@{C:/Users/user/KVDB/include/compaction\_record\_policy.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}type.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ This\ policy\ assumes\ KVDB\ has\ no\ active\ snapshots.\ Once\ snapshot\ reads\ are}}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ introduced,\ compaction\ must\ retain\ versions\ required\ by\ the\ oldest\ snapshot.}}
+\DoxyCodeLine{00007\ [[nodiscard]]\ \textcolor{keyword}{inline}\ \textcolor{keywordtype}{bool}\ compaction\_keep\_newest\_record(}
+\DoxyCodeLine{00008\ \ \ \ \ ::Type\ type,}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_bottommost\_level}
+\DoxyCodeLine{00010\ )\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordflow}{return}\ !(type\ ==\ ::Type::Tombstone\ \&\&\ is\_bottommost\_level);}
+\DoxyCodeLine{00013\ \}}
+
+\end{DoxyCode}

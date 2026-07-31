@@ -1,0 +1,1043 @@
+\doxysection{SSTable Class Reference}
+\hypertarget{class_s_s_table}{}\label{class_s_s_table}\index{SSTable@{SSTable}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{class_s_s_table_a1fcc188df2f4cd4613447940c310e037}{SSTable}} (std::\+filesystem::\+path temporary\+\_\+path, std::\+filesystem::\+path destination\+\_\+path, std::\+uint32\+\_\+t table\+\_\+id=0)
+\item 
+\doxymbox{\hyperlink{class_s_s_table_ad728c0be3860bd57857f932e50612d8d}{SSTable}} (std::\+filesystem::\+path existing\+\_\+path)
+\item 
+\Hypertarget{class_s_s_table_aa0ac701d6f33c44ffc2a97109131505e}\label{class_s_s_table_aa0ac701d6f33c44ffc2a97109131505e} 
+{\bfseries SSTable} (const \doxymbox{\hyperlink{class_s_s_table}{SSTable}} \&)=delete
+\item 
+\Hypertarget{class_s_s_table_a10abf5d38d556f22ad21fb1796c8b9e6}\label{class_s_s_table_a10abf5d38d556f22ad21fb1796c8b9e6} 
+\doxymbox{\hyperlink{class_s_s_table}{SSTable}} \& {\bfseries operator=} (const \doxymbox{\hyperlink{class_s_s_table}{SSTable}} \&)=delete
+\item 
+\Hypertarget{class_s_s_table_a0b1de5bb4dffaeb69644970e16b32af0}\label{class_s_s_table_a0b1de5bb4dffaeb69644970e16b32af0} 
+{\bfseries SSTable} (\doxymbox{\hyperlink{class_s_s_table}{SSTable}} \&\&) noexcept=default
+\item 
+\Hypertarget{class_s_s_table_a702407bf6f4468ff3c5f9478affb9ad8}\label{class_s_s_table_a702407bf6f4468ff3c5f9478affb9ad8} 
+\doxymbox{\hyperlink{class_s_s_table}{SSTable}} \& {\bfseries operator=} (\doxymbox{\hyperlink{class_s_s_table}{SSTable}} \&\&) noexcept=default
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_s_s_table_a31f33adaa5ceebc74f52770a9bcbe311}{write}} ()
+\item 
+const std::\+filesystem::\+path \& \doxymbox{\hyperlink{class_s_s_table_a0d8b2f0199aab2d4ffde7d60edbb6695}{get\+\_\+path}} () const
+\item 
+const std::\+filesystem::\+path \& \doxymbox{\hyperlink{class_s_s_table_ae1e47413384b94a5d70f9655d9056883}{get\+\_\+final\+\_\+path}} () const
+\item 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_header_section}{SSTable\+Entities::\+\+File\+Header\+Section}} \& \doxymbox{\hyperlink{class_s_s_table_a20622dfcfd915a087a627ed9e00afa41}{get\+\_\+file\+\_\+header\+\_\+section}} () const
+\item 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section}{SSTable\+Entities::\+\+Data\+Section}} \& \doxymbox{\hyperlink{class_s_s_table_a8f4b04b37e5208fc42dca35c2f4d7248}{get\+\_\+data\+\_\+section}} () const
+\item 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view}{SSTable\+Entities::\+\+Data\+Section\+View}} \& \doxymbox{\hyperlink{class_s_s_table_a065689dcce2a5596bb40bf5372d4bf4f}{get\+\_\+data\+\_\+section\+\_\+view}} () const
+\item 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{SSTable\+Entities::\+\+Index\+Section}} \& \doxymbox{\hyperlink{class_s_s_table_ac59ec3461ffbc8f2193e74c1aa65479f}{get\+\_\+index\+\_\+section}} () const
+\item 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section}{SSTable\+Entities::\+\+Bloom\+Section}} \& \doxymbox{\hyperlink{class_s_s_table_ab38f9d01e426d2807f3135db92420429}{get\+\_\+bloom\+\_\+section}} () const
+\item 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_meta_section}{SSTable\+Entities::\+\+Meta\+Section}} \& \doxymbox{\hyperlink{class_s_s_table_a66d55415667f59af69e8b96a5d518f70}{get\+\_\+meta\+\_\+section}} () const
+\item 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_footer_section}{SSTable\+Entities::\+\+File\+Footer\+Section}} \& \doxymbox{\hyperlink{class_s_s_table_ac2e427258b0d8fab3b8703a57204a566}{get\+\_\+file\+\_\+footer\+\_\+section}} () const
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_s_s_table_a7d1d112dac1bea41e4a1766b19c70989}{append\+\_\+record}} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&record)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ $>$ \doxymbox{\hyperlink{class_s_s_table_ac0ddf02ff0a8aeb748fed68bca39bdac}{get}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&key, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ \doxymbox{\hyperlink{class_s_s_table_ac712fae5cf9b6ddc81adbae978838f5c}{load}} (const std::\+filesystem::\+path \&path, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\item 
+static std::\+size\+\_\+t \doxymbox{\hyperlink{class_s_s_table_a92c3ab2c9a9c02a998b90609e8aa8ca1}{fixed\+\_\+disk\+\_\+size}} () noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class {\bfseries State} :\+ std::\+uint8\+\_\+t \{ {\bfseries Empty}
+, {\bfseries Building}
+, {\bfseries Loaded}
+, {\bfseries Published}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_s_s_table_aaf898ae4957ba8871c955c6fd4840a6c}{fsync}} (\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&file\+\_\+out)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_s_s_table_a42d2877d7088e3a0cdf66b7b5bdf0fd8}\label{class_s_s_table_a42d2877d7088e3a0cdf66b7b5bdf0fd8} 
+std::\+filesystem::\+path {\bfseries path}
+\item 
+\Hypertarget{class_s_s_table_abdfa5358e98e5e6dbf1b0fe4a79145f7}\label{class_s_s_table_abdfa5358e98e5e6dbf1b0fe4a79145f7} 
+std::\+filesystem::\+path {\bfseries final\+\_\+path}
+\item 
+State \doxymbox{\hyperlink{class_s_s_table_a39b6c98639cd67efc034754a4a20c140}{state}} \{ State::\+\+Empty \}
+\item 
+\Hypertarget{class_s_s_table_a3751d731e29f76a74e0ac204c2c0ccce}\label{class_s_s_table_a3751d731e29f76a74e0ac204c2c0ccce} 
+std::\+unique\+\_\+ptr$<$ \doxymbox{\hyperlink{class_readable_file}{Readable\+File}} $>$ {\bfseries file\+\_\+in}
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_header_section}{SSTable\+Entities::\+\+File\+Header\+Section}} \doxymbox{\hyperlink{class_s_s_table_a59d6518d900ab347f2b457f13733d22d}{file\+\_\+header\+\_\+section}} \{\}
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section}{SSTable\+Entities::\+\+Data\+Section}} \doxymbox{\hyperlink{class_s_s_table_a1c241395f098b1db21846873d012887e}{data\+\_\+section}} \{\}
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view}{SSTable\+Entities::\+\+Data\+Section\+View}} \doxymbox{\hyperlink{class_s_s_table_aa9be799f7c3be816599958585233d3ef}{data\+\_\+section\+\_\+view}} \{\}
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{SSTable\+Entities::\+\+Index\+Section}} \doxymbox{\hyperlink{class_s_s_table_a343a9eebbd25f84f81580d69de824475}{index\+\_\+section}} \{\}
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section}{SSTable\+Entities::\+\+Bloom\+Section}} \doxymbox{\hyperlink{class_s_s_table_a036b1c4558e85d7f981ecc0d5fca8648}{bloom\+\_\+section}} \{\}
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_meta_section}{SSTable\+Entities::\+\+Meta\+Section}} \doxymbox{\hyperlink{class_s_s_table_a23c397824018a807563a4dc38e1c9ce7}{meta\+\_\+section}} \{\}
+\item 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_footer_section}{SSTable\+Entities::\+\+File\+Footer\+Section}} \doxymbox{\hyperlink{class_s_s_table_ab8aaea87b297388a44059e867ab4ad4d}{file\+\_\+footer\+\_\+section}} \{\}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_s_s_table_acd64e68b9b03d9e0633e2d50451d5075}\label{class_s_s_table_acd64e68b9b03d9e0633e2d50451d5075} 
+class {\bfseries SSTable\+Manager}
+\item 
+\Hypertarget{class_s_s_table_a6ea12a0c159e37d1b2c00f3aba8592ed}\label{class_s_s_table_a6ea12a0c159e37d1b2c00f3aba8592ed} 
+class {\bfseries SSTable\+Writer}
+\item 
+\Hypertarget{class_s_s_table_acce16341e1a4dbd75711a2c7039a22f8}\label{class_s_s_table_acce16341e1a4dbd75711a2c7039a22f8} 
+class {\bfseries SSTable\+Loader}
+\item 
+\Hypertarget{class_s_s_table_a58bd9f5f3710a8e83ca4db6af8c60b5a}\label{class_s_s_table_a58bd9f5f3710a8e83ca4db6af8c60b5a} 
+class {\bfseries SSTable\+Iterator}
+\end{DoxyCompactItemize}
+
+
+\label{class_s_s_table_doc-enum-members}
+\Hypertarget{class_s_s_table_doc-enum-members}
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{class_s_s_table_a4c2742cd1af404997a8e51926a2d24c0}\index{SSTable@{SSTable}!State@{State}}
+\index{State@{State}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{State}{State}}
+{\footnotesize\ttfamily \label{class_s_s_table_a4c2742cd1af404997a8e51926a2d24c0} 
+enum class SSTable::\+\+State :\+ std::\+uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}, {\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00049\ \ \ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ Empty,}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ Building,}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ Loaded,}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ Published}
+\DoxyCodeLine{00054\ \ \ \ \ \};}
+
+\end{DoxyCode}
+
+
+\label{class_s_s_table_doc-constructors}
+\Hypertarget{class_s_s_table_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_s_s_table_a1fcc188df2f4cd4613447940c310e037}\index{SSTable@{SSTable}!SSTable@{SSTable}}
+\index{SSTable@{SSTable}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{SSTable()}{SSTable()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_s_s_table_a1fcc188df2f4cd4613447940c310e037} 
+SSTable::\+\+SSTable (\begin{DoxyParamCaption}\item[{std::\+filesystem::\+path}]{temporary\+\_\+path}{, }\item[{std::\+filesystem::\+path}]{destination\+\_\+path}{, }\item[{std::\+uint32\+\_\+t}]{table\+\_\+id}{ = {\ttfamily 0}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ :\ path(std::move(temporary\_path)),}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ final\_path(std::move(destination\_path)),}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ state(State::Building),}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ file\_header\_section(table\_id) }
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_ad728c0be3860bd57857f932e50612d8d}\index{SSTable@{SSTable}!SSTable@{SSTable}}
+\index{SSTable@{SSTable}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{SSTable()}{SSTable()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_s_s_table_ad728c0be3860bd57857f932e50612d8d} 
+SSTable::\+\+SSTable (\begin{DoxyParamCaption}\item[{std::\+filesystem::\+path}]{existing\+\_\+path}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ :\ path(existing\_path),}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ final\_path(std::move(existing\_path)),}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ state(State::Loaded) }
+\DoxyCodeLine{00075\ \ \ \ \ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{class_s_s_table_doc-func-members}
+\Hypertarget{class_s_s_table_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_s_s_table_a7d1d112dac1bea41e4a1766b19c70989}\index{SSTable@{SSTable}!append\_record@{append\_record}}
+\index{append\_record@{append\_record}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{append\_record()}{append\_record()}}
+{\footnotesize\ttfamily \label{class_s_s_table_a7d1d112dac1bea41e4a1766b19c70989} 
+\doxymbox{\hyperlink{struct_status}{Status}} SSTable::\+append\+\_\+record (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&}]{record}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00628\ \{}
+\DoxyCodeLine{00629\ \ \ \ \ \textcolor{keywordflow}{if}\ (state\ !=\ State::Building)}
+\DoxyCodeLine{00630\ \ \ \ \ \{}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00632\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00633\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cannot\ append\ a\ record\ to\ a\ loaded,\ published,\ or\ uninitialized\ SSTable"{}}}
+\DoxyCodeLine{00634\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00635\ \ \ \ \ \}}
+\DoxyCodeLine{00636\ }
+\DoxyCodeLine{00637\ \ \ \ \ \textcolor{keywordflow}{return}\ data\_section.add\_payload(record);}
+\DoxyCodeLine{00638\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a92c3ab2c9a9c02a998b90609e8aa8ca1}\index{SSTable@{SSTable}!fixed\_disk\_size@{fixed\_disk\_size}}
+\index{fixed\_disk\_size@{fixed\_disk\_size}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{fixed\_disk\_size()}{fixed\_disk\_size()}}
+{\footnotesize\ttfamily \label{class_s_s_table_a92c3ab2c9a9c02a998b90609e8aa8ca1} 
+std::\+size\+\_\+t SSTable::\+fixed\+\_\+disk\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00641\ \{}
+\DoxyCodeLine{00642\ \ \ \ \ \textcolor{keywordflow}{return}\ FileHeaderSection::disk\_size()\ +}
+\DoxyCodeLine{00643\ \ \ \ \ \ \ \ \ MetaSection::fixed\_disk\_size()\ +}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ BloomSection::disk\_size()\ +}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ FileFooterSection::disk\_size();}
+\DoxyCodeLine{00646\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_aaf898ae4957ba8871c955c6fd4840a6c}\index{SSTable@{SSTable}!fsync@{fsync}}
+\index{fsync@{fsync}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{fsync()}{fsync()}}
+{\footnotesize\ttfamily \label{class_s_s_table_aaf898ae4957ba8871c955c6fd4840a6c} 
+\doxymbox{\hyperlink{struct_status}{Status}} SSTable::\+fsync (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&}]{file\+\_\+out}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00537\ \{}
+\DoxyCodeLine{00538\ \ \ \ \ Status\ result\ =\ file\_out.sync();}
+\DoxyCodeLine{00539\ }
+\DoxyCodeLine{00540\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00542\ }
+\DoxyCodeLine{00543\ \ \ \ \ result\ =\ file\_out.close();}
+\DoxyCodeLine{00544\ }
+\DoxyCodeLine{00545\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00547\ }
+\DoxyCodeLine{00548\ \ \ \ \ result\ =\ file\_out.durable\_rename(final\_path,\ \textcolor{keyword}{true});}
+\DoxyCodeLine{00549\ }
+\DoxyCodeLine{00550\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00552\ }
+\DoxyCodeLine{00553\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00554\ \textcolor{comment}{\ \ \ \ \ *\ The\ rename\ has\ already\ happened.\ Mark\ the\ SSTable\ published\ before }}
+\DoxyCodeLine{00555\ \textcolor{comment}{\ \ \ \ \ *\ syncing\ the\ parent\ directory. }}
+\DoxyCodeLine{00556\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{00557\ \textcolor{comment}{\ \ \ \ \ *\ If\ directory\ syncing\ fails,\ callers\ must\ not\ retry\ write(),\ because }}
+\DoxyCodeLine{00558\ \textcolor{comment}{\ \ \ \ \ *\ doing\ so\ could\ truncate\ the\ newly\ published\ final\ file. }}
+\DoxyCodeLine{00559\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00560\ \ \ \ \ state\ =\ State::Published;}
+\DoxyCodeLine{00561\ \ \ \ \ path\ =\ final\_path;}
+\DoxyCodeLine{00562\ }
+\DoxyCodeLine{00563\ \ \ \ \ result\ =\ file\_out.sync\_parent\_directory();}
+\DoxyCodeLine{00564\ }
+\DoxyCodeLine{00565\ \ \ \ \ \textcolor{keywordflow}{if}\ (!result.is\_ok())}
+\DoxyCodeLine{00566\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00567\ }
+\DoxyCodeLine{00568\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00569\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_ac0ddf02ff0a8aeb748fed68bca39bdac}\index{SSTable@{SSTable}!get@{get}}
+\index{get@{get}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \label{class_s_s_table_ac0ddf02ff0a8aeb748fed68bca39bdac} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ $>$ SSTable::\+get (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{key}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00652\ \{}
+\DoxyCodeLine{00653\ \ \ \ \ \textcolor{keywordflow}{if}\ (state\ !=\ State::Loaded\ ||\ !file\_in)\ \{}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::fail(Status\{}
+\DoxyCodeLine{00655\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00656\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}get()\ requires\ an\ SSTable\ loaded\ from\ an\ immutable\ file"{}}}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00658\ \ \ \ \ \}}
+\DoxyCodeLine{00659\ }
+\DoxyCodeLine{00660\ \ \ \ \ \textcolor{keywordflow}{if}\ (key.size\ >\ 0\ \&\&\ key.data\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::fail(Status\{}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}searched\ key\ has\ a\ non-\/zero\ size\ but\ a\ null\ data\ pointer"{}}}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00665\ \ \ \ \ \}}
+\DoxyCodeLine{00666\ }
+\DoxyCodeLine{00667\ \ \ \ \ Result<std::size\_t>\ block\_result\ =}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ index\_section.find\_first\_candidate(}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{void}*\textcolor{keyword}{>}(key.data),}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ \ \ \ \ key.size}
+\DoxyCodeLine{00671\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00672\ }
+\DoxyCodeLine{00673\ \ \ \ \ \textcolor{keywordflow}{if}\ (!block\_result.is\_ok())\ \{}
+\DoxyCodeLine{00674\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::fail(}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(block\_result.status)}
+\DoxyCodeLine{00676\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00677\ \ \ \ \ \}}
+\DoxyCodeLine{00678\ }
+\DoxyCodeLine{00679\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ block\_index\ =\ block\_result.value;}
+\DoxyCodeLine{00680\ \ \ \ \ \textcolor{keywordflow}{if}\ (block\_index\ >=\ data\_section\_view.data\_blocks.size())\ \{}
+\DoxyCodeLine{00681\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::fail(Status\{}
+\DoxyCodeLine{00682\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00683\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}index\ points\ outside\ the\ SSTable\ data\ section"{}}}
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00685\ \ \ \ \ \}}
+\DoxyCodeLine{00686\ }
+\DoxyCodeLine{00687\ \ \ \ \ Result<std::optional<std::size\_t>>\ record\_index\_result\ =}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ data\_section\_view.find\_first\_record(}
+\DoxyCodeLine{00689\ \ \ \ \ \ \ \ \ \ \ \ \ *file\_in,}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ \ \ \ \ block\_index,}
+\DoxyCodeLine{00691\ \ \ \ \ \ \ \ \ \ \ \ \ key}
+\DoxyCodeLine{00692\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00693\ }
+\DoxyCodeLine{00694\ \ \ \ \ \textcolor{keywordflow}{if}\ (!record\_index\_result.is\_ok())\ \{}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::fail(}
+\DoxyCodeLine{00696\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(record\_index\_result.status)}
+\DoxyCodeLine{00697\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00698\ \ \ \ \ \}}
+\DoxyCodeLine{00699\ }
+\DoxyCodeLine{00700\ \ \ \ \ \textcolor{keywordflow}{if}\ (!record\_index\_result.value.has\_value())\ \{}
+\DoxyCodeLine{00701\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::ok(std::nullopt);}
+\DoxyCodeLine{00702\ \ \ \ \ \}}
+\DoxyCodeLine{00703\ }
+\DoxyCodeLine{00704\ \ \ \ \ Result<InternalRecord>\ record\_result\ =}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ data\_section\_view.read\_record(}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ \ \ \ \ *file\_in,}
+\DoxyCodeLine{00707\ \ \ \ \ \ \ \ \ \ \ \ \ block\_index,}
+\DoxyCodeLine{00708\ \ \ \ \ \ \ \ \ \ \ \ \ *record\_index\_result.value,}
+\DoxyCodeLine{00709\ \ \ \ \ \ \ \ \ \ \ \ \ arena}
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00711\ }
+\DoxyCodeLine{00712\ \ \ \ \ \textcolor{keywordflow}{if}\ (!record\_result.is\_ok())\ \{}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::fail(}
+\DoxyCodeLine{00714\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(record\_result.status)}
+\DoxyCodeLine{00715\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00716\ \ \ \ \ \}}
+\DoxyCodeLine{00717\ }
+\DoxyCodeLine{00718\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::ok(}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ std::optional<InternalRecord>\{\ std::move(record\_result.value)\ \}}
+\DoxyCodeLine{00720\ \ \ \ \ );}
+\DoxyCodeLine{00721\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_ab38f9d01e426d2807f3135db92420429}\index{SSTable@{SSTable}!get\_bloom\_section@{get\_bloom\_section}}
+\index{get\_bloom\_section@{get\_bloom\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get\_bloom\_section()}{get\_bloom\_section()}}
+{\footnotesize\ttfamily \label{class_s_s_table_ab38f9d01e426d2807f3135db92420429} 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section}{SSTable\+Entities::\+\+Bloom\+Section}} \& SSTable::\+get\+\_\+bloom\+\_\+section (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00597\ \{}
+\DoxyCodeLine{00598\ \ \ \ \ \textcolor{keywordflow}{return}\ bloom\_section;}
+\DoxyCodeLine{00599\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a8f4b04b37e5208fc42dca35c2f4d7248}\index{SSTable@{SSTable}!get\_data\_section@{get\_data\_section}}
+\index{get\_data\_section@{get\_data\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get\_data\_section()}{get\_data\_section()}}
+{\footnotesize\ttfamily \label{class_s_s_table_a8f4b04b37e5208fc42dca35c2f4d7248} 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section}{SSTable\+Entities::\+\+Data\+Section}} \& SSTable::\+get\+\_\+data\+\_\+section (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00579\ \{}
+\DoxyCodeLine{00580\ \ \ \ \ \textcolor{keywordflow}{return}\ data\_section;}
+\DoxyCodeLine{00581\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a065689dcce2a5596bb40bf5372d4bf4f}\index{SSTable@{SSTable}!get\_data\_section\_view@{get\_data\_section\_view}}
+\index{get\_data\_section\_view@{get\_data\_section\_view}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get\_data\_section\_view()}{get\_data\_section\_view()}}
+{\footnotesize\ttfamily \label{class_s_s_table_a065689dcce2a5596bb40bf5372d4bf4f} 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view}{SSTable\+Entities::\+\+Data\+Section\+View}} \& SSTable::\+get\+\_\+data\+\_\+section\+\_\+view (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00585\ \{}
+\DoxyCodeLine{00586\ \ \ \ \ \textcolor{keywordflow}{return}\ data\_section\_view;}
+\DoxyCodeLine{00587\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_ac2e427258b0d8fab3b8703a57204a566}\index{SSTable@{SSTable}!get\_file\_footer\_section@{get\_file\_footer\_section}}
+\index{get\_file\_footer\_section@{get\_file\_footer\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get\_file\_footer\_section()}{get\_file\_footer\_section()}}
+{\footnotesize\ttfamily \label{class_s_s_table_ac2e427258b0d8fab3b8703a57204a566} 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_footer_section}{SSTable\+Entities::\+\+File\+Footer\+Section}} \& SSTable::\+get\+\_\+file\+\_\+footer\+\_\+section (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00609\ \{}
+\DoxyCodeLine{00610\ \ \ \ \ \textcolor{keywordflow}{return}\ file\_footer\_section;}
+\DoxyCodeLine{00611\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a20622dfcfd915a087a627ed9e00afa41}\index{SSTable@{SSTable}!get\_file\_header\_section@{get\_file\_header\_section}}
+\index{get\_file\_header\_section@{get\_file\_header\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get\_file\_header\_section()}{get\_file\_header\_section()}}
+{\footnotesize\ttfamily \label{class_s_s_table_a20622dfcfd915a087a627ed9e00afa41} 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_header_section}{SSTable\+Entities::\+\+File\+Header\+Section}} \& SSTable::\+get\+\_\+file\+\_\+header\+\_\+section (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00573\ \{}
+\DoxyCodeLine{00574\ \ \ \ \ \textcolor{keywordflow}{return}\ file\_header\_section;}
+\DoxyCodeLine{00575\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_ae1e47413384b94a5d70f9655d9056883}\index{SSTable@{SSTable}!get\_final\_path@{get\_final\_path}}
+\index{get\_final\_path@{get\_final\_path}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get\_final\_path()}{get\_final\_path()}}
+{\footnotesize\ttfamily \label{class_s_s_table_ae1e47413384b94a5d70f9655d9056883} 
+const std::\+filesystem::\+path \& SSTable::\+get\+\_\+final\+\_\+path (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00621\ \{}
+\DoxyCodeLine{00622\ \ \ \ \ \textcolor{keywordflow}{return}\ final\_path;}
+\DoxyCodeLine{00623\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_ac59ec3461ffbc8f2193e74c1aa65479f}\index{SSTable@{SSTable}!get\_index\_section@{get\_index\_section}}
+\index{get\_index\_section@{get\_index\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get\_index\_section()}{get\_index\_section()}}
+{\footnotesize\ttfamily \label{class_s_s_table_ac59ec3461ffbc8f2193e74c1aa65479f} 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{SSTable\+Entities::\+\+Index\+Section}} \& SSTable::\+get\+\_\+index\+\_\+section (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00591\ \{}
+\DoxyCodeLine{00592\ \ \ \ \ \textcolor{keywordflow}{return}\ index\_section;}
+\DoxyCodeLine{00593\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a66d55415667f59af69e8b96a5d518f70}\index{SSTable@{SSTable}!get\_meta\_section@{get\_meta\_section}}
+\index{get\_meta\_section@{get\_meta\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get\_meta\_section()}{get\_meta\_section()}}
+{\footnotesize\ttfamily \label{class_s_s_table_a66d55415667f59af69e8b96a5d518f70} 
+const \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_meta_section}{SSTable\+Entities::\+\+Meta\+Section}} \& SSTable::\+get\+\_\+meta\+\_\+section (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00603\ \{}
+\DoxyCodeLine{00604\ \ \ \ \ \textcolor{keywordflow}{return}\ meta\_section;}
+\DoxyCodeLine{00605\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a0d8b2f0199aab2d4ffde7d60edbb6695}\index{SSTable@{SSTable}!get\_path@{get\_path}}
+\index{get\_path@{get\_path}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{get\_path()}{get\_path()}}
+{\footnotesize\ttfamily \label{class_s_s_table_a0d8b2f0199aab2d4ffde7d60edbb6695} 
+const std::\+filesystem::\+path \& SSTable::\+get\+\_\+path (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00615\ \{}
+\DoxyCodeLine{00616\ \ \ \ \ \textcolor{keywordflow}{return}\ path;}
+\DoxyCodeLine{00617\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_ac712fae5cf9b6ddc81adbae978838f5c}\index{SSTable@{SSTable}!load@{load}}
+\index{load@{load}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \label{class_s_s_table_ac712fae5cf9b6ddc81adbae978838f5c} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{class_s_s_table}{SSTable}} $>$ SSTable::\+load (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{path}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00257\ \{}
+\DoxyCodeLine{00258\ \ \ \ \ \textcolor{keywordflow}{if}\ (path.empty())}
+\DoxyCodeLine{00259\ \ \ \ \ \{}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<SSTable>::fail(Status\{}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cannot\ load\ an\ SSTable\ from\ an\ empty\ path"{}}}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00264\ \ \ \ \ \}}
+\DoxyCodeLine{00265\ }
+\DoxyCodeLine{00266\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00267\ \textcolor{comment}{\ \ \ \ \ *\ The\ one-\/path\ constructor\ marks\ the\ table\ as\ Loaded,\ so\ append\_record() }}
+\DoxyCodeLine{00268\ \textcolor{comment}{\ \ \ \ \ *\ and\ write()\ will\ reject\ it. }}
+\DoxyCodeLine{00269\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00270\ \ \ \ \ SSTable\ result(path);}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \ \ \ \textcolor{keyword}{const}\ Arena::Checkpoint\ checkpoint\ =\ arena.checkpoint();}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ \ \ \ \ \textcolor{keyword}{auto}\ fail\ =\ [\&](Status\ status)\ -\/>\ Result<SSTable>}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(checkpoint);}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<SSTable>::fail(std::move(status));}
+\DoxyCodeLine{00278\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keyword}{auto}\ file\_result\ =\ open\_readable\_file(path);}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_result.is\_ok())}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(file\_result.status));}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00285\ \ \ \ \ std::unique\_ptr<ReadableFile>\ file\ =}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ std::move(file\_result.value);}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00288\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file)}
+\DoxyCodeLine{00289\ \ \ \ \ \{}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OpenFailed,}
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ open\ SSTable\ for\ reading\ path="{}}\ +\ path.string()}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00294\ \ \ \ \ \}}
+\DoxyCodeLine{00295\ }
+\DoxyCodeLine{00296\ \ \ \ \ std::uint64\_t\ header\_cursor\ =\ 0;}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{keyword}{auto}\ header\_result\ =}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ FileHeaderSection::load(*file,\ header\_cursor);}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00301\ \ \ \ \ \textcolor{keywordflow}{if}\ (!header\_result.is\_ok())}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(header\_result.status));}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00305\ \textcolor{comment}{\ \ \ \ \ *\ This\ assumes\ FileFooterSection::load()\ leaves\ footer\_cursor\ containing }}
+\DoxyCodeLine{00306\ \textcolor{comment}{\ \ \ \ \ *\ the\ footer's\ starting\ offset,\ as\ required\ by\ your\ current\ validation. }}
+\DoxyCodeLine{00307\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00308\ \ \ \ \ std::uint64\_t\ footer\_cursor\ =\ 0;}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keyword}{auto}\ footer\_result\ =\ FileFooterSection::load(}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ *file,}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ footer\_cursor,}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ FileFooterSection::disk\_size()}
+\DoxyCodeLine{00314\ \ \ \ \ );}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{keywordflow}{if}\ (!footer\_result.is\_ok())}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(footer\_result.status));}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \ \ \ \ FileFooterSection\ footer\ =}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ std::move(footer\_result.value);}
+\DoxyCodeLine{00321\ }
+\DoxyCodeLine{00322\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00323\ \textcolor{comment}{\ \ \ \ \ *\ Validate\ the\ declared\ physical\ order\ of\ all\ sections\ before\ trusting }}
+\DoxyCodeLine{00324\ \textcolor{comment}{\ \ \ \ \ *\ their\ offsets. }}
+\DoxyCodeLine{00325\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00326\ \ \ \ \ \textcolor{keywordflow}{if}\ (header\_cursor\ >\ footer.data\_offset)}
+\DoxyCodeLine{00327\ \ \ \ \ \{}
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ file\ header\ overlaps\ with\ or\ comes\ after\ data\ section"{}}}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00332\ \ \ \ \ \}}
+\DoxyCodeLine{00333\ }
+\DoxyCodeLine{00334\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00335\ \textcolor{comment}{\ \ \ \ \ *\ Prevent\ an\ invalid\ block\ count\ from\ overflowing\ during\ multiplication. }}
+\DoxyCodeLine{00336\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint64\_t\ maximum\_u64\ =}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \ \ std::numeric\_limits<std::uint64\_t>::max();}
+\DoxyCodeLine{00339\ }
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ block\_size\ =}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(BLOCK\_SIZE);}
+\DoxyCodeLine{00342\ }
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ data\_block\_count\ =}
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(footer.data\_block\_count);}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keywordflow}{if}\ (block\_size\ ==\ 0\ ||}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ data\_block\_count\ >\ maximum\_u64\ /\ block\_size)}
+\DoxyCodeLine{00348\ \ \ \ \ \{}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ data\ block\ count\ overflows\ its\ data\ section\ size"{}}}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00353\ \ \ \ \ \}}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00355\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ data\_section\_size\ =}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ data\_block\_count\ *\ block\_size;}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00358\ \ \ \ \ \textcolor{keywordflow}{if}\ (!range\_fits(}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ footer.data\_offset,}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ data\_section\_size,}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ footer.index\_offset))}
+\DoxyCodeLine{00362\ \ \ \ \ \{}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ data\ section\ overlaps\ with\ or\ comes\ after\ index\ section"{}}}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00367\ \ \ \ \ \}}
+\DoxyCodeLine{00368\ }
+\DoxyCodeLine{00369\ \ \ \ \ \textcolor{keywordflow}{if}\ (!range\_fits(}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ footer.index\_offset,}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ footer.index\_size,}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ footer.bloom\_offset))}
+\DoxyCodeLine{00373\ \ \ \ \ \{}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ index\ section\ overlaps\ with\ or\ comes\ after\ bloom\ section"{}}}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00378\ \ \ \ \ \}}
+\DoxyCodeLine{00379\ }
+\DoxyCodeLine{00380\ \ \ \ \ \textcolor{keywordflow}{if}\ (!range\_fits(}
+\DoxyCodeLine{00381\ \ \ \ \ \ \ \ \ footer.bloom\_offset,}
+\DoxyCodeLine{00382\ \ \ \ \ \ \ \ \ footer.bloom\_size,}
+\DoxyCodeLine{00383\ \ \ \ \ \ \ \ \ footer.meta\_offset))}
+\DoxyCodeLine{00384\ \ \ \ \ \{}
+\DoxyCodeLine{00385\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ bloom\ section\ overlaps\ with\ or\ comes\ after\ meta\ section"{}}}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00389\ \ \ \ \ \}}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00391\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00392\ \textcolor{comment}{\ \ \ \ \ *\ Use\ meta\_size\ too.\ Checking\ only\ meta\_offset\ would\ allow\ metadata\ bytes }}
+\DoxyCodeLine{00393\ \textcolor{comment}{\ \ \ \ \ *\ to\ overlap\ the\ footer. }}
+\DoxyCodeLine{00394\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00395\ \ \ \ \ \textcolor{keywordflow}{if}\ (!range\_fits(}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ footer.meta\_offset,}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ footer.meta\_size,}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ footer\_cursor))}
+\DoxyCodeLine{00399\ \ \ \ \ \{}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ meta\ section\ overlaps\ with\ or\ comes\ after\ file\ footer"{}}}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00404\ \ \ \ \ \}}
+\DoxyCodeLine{00405\ }
+\DoxyCodeLine{00406\ \ \ \ \ std::uint64\_t\ data\_cursor\ =\ footer.data\_offset;}
+\DoxyCodeLine{00407\ }
+\DoxyCodeLine{00408\ \ \ \ \ \textcolor{keyword}{auto}\ data\_result\ =\ DataSectionView::load(}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ *file,}
+\DoxyCodeLine{00410\ \ \ \ \ \ \ \ \ data\_cursor,}
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ footer.data\_offset,}
+\DoxyCodeLine{00412\ \ \ \ \ \ \ \ \ footer.data\_block\_count,}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ footer.index\_offset}
+\DoxyCodeLine{00414\ \ \ \ \ );}
+\DoxyCodeLine{00415\ }
+\DoxyCodeLine{00416\ \ \ \ \ \textcolor{keywordflow}{if}\ (!data\_result.is\_ok())}
+\DoxyCodeLine{00417\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(data\_result.status));}
+\DoxyCodeLine{00418\ \ \ \ \ \textcolor{keywordflow}{if}\ (data\_result.value.section\_end\_offset\ !=\ footer.index\_offset)}
+\DoxyCodeLine{00419\ \ \ \ \ \{}
+\DoxyCodeLine{00420\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00421\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00422\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ data\ section\ does\ not\ end\ at\ the\ index\ section"{}}}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00424\ \ \ \ \ \}}
+\DoxyCodeLine{00425\ }
+\DoxyCodeLine{00426\ \ \ \ \ std::uint64\_t\ declared\_index\_end\ =\ 0;}
+\DoxyCodeLine{00427\ \ \ \ \ std::uint64\_t\ declared\_bloom\_end\ =\ 0;}
+\DoxyCodeLine{00428\ \ \ \ \ std::uint64\_t\ declared\_meta\_end\ =\ 0;}
+\DoxyCodeLine{00429\ }
+\DoxyCodeLine{00430\ \ \ \ \ \textcolor{keywordflow}{if}\ (!checked\_add\_u64(}
+\DoxyCodeLine{00431\ \ \ \ \ \ \ \ \ footer.index\_offset,}
+\DoxyCodeLine{00432\ \ \ \ \ \ \ \ \ footer.index\_size,}
+\DoxyCodeLine{00433\ \ \ \ \ \ \ \ \ declared\_index\_end)\ ||}
+\DoxyCodeLine{00434\ \ \ \ \ \ \ \ \ !checked\_add\_u64(}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ footer.bloom\_offset,}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ \ \ \ \ footer.bloom\_size,}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \ \ \ \ declared\_bloom\_end)\ ||}
+\DoxyCodeLine{00438\ \ \ \ \ \ \ \ \ !checked\_add\_u64(}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \ \ \ \ \ \ footer.meta\_offset,}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \ \ \ \ \ \ footer.meta\_size,}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \ \ \ \ \ \ declared\_meta\_end))}
+\DoxyCodeLine{00442\ \ \ \ \ \{}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ declared\ section\ end\ overflows\ uint64\_t"{}}}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00447\ \ \ \ \ \}}
+\DoxyCodeLine{00448\ }
+\DoxyCodeLine{00449\ \ \ \ \ std::uint64\_t\ index\_cursor\ =\ footer.index\_offset;}
+\DoxyCodeLine{00450\ }
+\DoxyCodeLine{00451\ \ \ \ \ \textcolor{keyword}{auto}\ index\_result\ =\ IndexSection::load(}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ *file,}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ index\_cursor,}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ arena,}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ footer.index\_offset}
+\DoxyCodeLine{00456\ \ \ \ \ );}
+\DoxyCodeLine{00457\ }
+\DoxyCodeLine{00458\ \ \ \ \ \textcolor{keywordflow}{if}\ (!index\_result.is\_ok())}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(index\_result.status));}
+\DoxyCodeLine{00460\ }
+\DoxyCodeLine{00461\ \ \ \ \ \textcolor{keywordflow}{if}\ (index\_cursor\ !=\ declared\_index\_end)}
+\DoxyCodeLine{00462\ \ \ \ \ \{}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ index\ loader\ consumed\ a\ different\ size\ than\ declared"{}}}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00467\ \ \ \ \ \}}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00469\ \ \ \ \ IndexSection\ index\ =}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ std::move(index\_result.value);}
+\DoxyCodeLine{00471\ }
+\DoxyCodeLine{00472\ \ \ \ \ std::uint64\_t\ bloom\_cursor\ =\ footer.bloom\_offset;}
+\DoxyCodeLine{00473\ }
+\DoxyCodeLine{00474\ \ \ \ \ \textcolor{keyword}{auto}\ bloom\_result\ =\ BloomSection::load(}
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \ \ *file,}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \ \ bloom\_cursor,}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \ \ footer.bloom\_offset}
+\DoxyCodeLine{00478\ \ \ \ \ );}
+\DoxyCodeLine{00479\ }
+\DoxyCodeLine{00480\ \ \ \ \ \textcolor{keywordflow}{if}\ (!bloom\_result.is\_ok())}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(bloom\_result.status));}
+\DoxyCodeLine{00482\ }
+\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keywordflow}{if}\ (bloom\_cursor\ !=\ declared\_bloom\_end)}
+\DoxyCodeLine{00484\ \ \ \ \ \{}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ bloom\ loader\ consumed\ a\ different\ size\ than\ declared"{}}}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00489\ \ \ \ \ \}}
+\DoxyCodeLine{00490\ }
+\DoxyCodeLine{00491\ \ \ \ \ std::uint64\_t\ meta\_cursor\ =\ footer.meta\_offset;}
+\DoxyCodeLine{00492\ }
+\DoxyCodeLine{00493\ \ \ \ \ \textcolor{keyword}{auto}\ meta\_result\ =\ MetaSection::load(}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ *file,}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ meta\_cursor,}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ index,}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ arena,}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ footer.meta\_offset}
+\DoxyCodeLine{00499\ \ \ \ \ );}
+\DoxyCodeLine{00500\ }
+\DoxyCodeLine{00501\ \ \ \ \ \textcolor{keywordflow}{if}\ (!meta\_result.is\_ok())}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(meta\_result.status));}
+\DoxyCodeLine{00503\ }
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{keywordflow}{if}\ (meta\_cursor\ !=\ declared\_meta\_end)}
+\DoxyCodeLine{00505\ \ \ \ \ \{}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(Status\{}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ metadata\ loader\ consumed\ a\ different\ size\ than\ declared"{}}}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00510\ \ \ \ \ \}}
+\DoxyCodeLine{00511\ }
+\DoxyCodeLine{00512\ \ \ \ \ result.file\_header\_section\ =}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ std::move(header\_result.value);}
+\DoxyCodeLine{00514\ }
+\DoxyCodeLine{00515\ \ \ \ \ result.file\_footer\_section\ =}
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ std::move(footer);}
+\DoxyCodeLine{00517\ }
+\DoxyCodeLine{00518\ \ \ \ \ result.data\_section\_view\ =}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ std::move(data\_result.value);}
+\DoxyCodeLine{00520\ }
+\DoxyCodeLine{00521\ \ \ \ \ result.index\_section\ =}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ std::move(index);}
+\DoxyCodeLine{00523\ }
+\DoxyCodeLine{00524\ \ \ \ \ result.bloom\_section\ =}
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ std::move(bloom\_result.value);}
+\DoxyCodeLine{00526\ }
+\DoxyCodeLine{00527\ \ \ \ \ result.meta\_section\ =}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ std::move(meta\_result.value);}
+\DoxyCodeLine{00529\ }
+\DoxyCodeLine{00530\ \ \ \ \ result.file\_in\ =}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ std::move(file);}
+\DoxyCodeLine{00532\ }
+\DoxyCodeLine{00533\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<SSTable>::ok(std::move(result));}
+\DoxyCodeLine{00534\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a31f33adaa5ceebc74f52770a9bcbe311}\index{SSTable@{SSTable}!write@{write}}
+\index{write@{write}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily \label{class_s_s_table_a31f33adaa5ceebc74f52770a9bcbe311} 
+\doxymbox{\hyperlink{struct_status}{Status}} SSTable::\+write (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00054\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00056\ \textcolor{comment}{\ \ \ \ \ *\ Only\ a\ newly\ constructed\ builder\ SSTable\ may\ be\ written. }}
+\DoxyCodeLine{00057\ \textcolor{comment}{\ \ \ \ \ *}}
+\DoxyCodeLine{00058\ \textcolor{comment}{\ \ \ \ \ *\ Loaded\ SSTables\ are\ immutable. }}
+\DoxyCodeLine{00059\ \textcolor{comment}{\ \ \ \ \ *\ Published\ SSTables\ must\ not\ be\ rewritten\ because\ path\ now\ points\ to }}
+\DoxyCodeLine{00060\ \textcolor{comment}{\ \ \ \ \ *\ the\ final\ file\ and\ opening\ it\ for\ writing\ could\ truncate\ it. }}
+\DoxyCodeLine{00061\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{if}\ (state\ !=\ State::Building)}
+\DoxyCodeLine{00063\ \ \ \ \ \{}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cannot\ write\ a\ loaded,\ published,\ or\ uninitialized\ SSTable"{}}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00068\ \ \ \ \ \}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{if}\ (path.empty())}
+\DoxyCodeLine{00071\ \ \ \ \ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cannot\ write\ SSTable:\ temporary\ path\ is\ empty"{}}}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (final\_path.empty())}
+\DoxyCodeLine{00079\ \ \ \ \ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cannot\ write\ SSTable:\ final\ path\ is\ empty"{}}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00087\ \textcolor{comment}{\ \ \ \ \ *\ Never\ write\ directly\ to\ the\ destination\ file.\ The\ temporary\ file\ must }}
+\DoxyCodeLine{00088\ \textcolor{comment}{\ \ \ \ \ *\ be\ separate\ so\ that\ an\ incomplete\ write\ cannot\ destroy\ the\ existing }}
+\DoxyCodeLine{00089\ \textcolor{comment}{\ \ \ \ \ *\ final\ SSTable. }}
+\DoxyCodeLine{00090\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordflow}{if}\ (path.lexically\_normal()\ ==\ final\_path.lexically\_normal())}
+\DoxyCodeLine{00092\ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ temporary\ path\ and\ final\ path\ must\ be\ different"{}}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ std::error\_code\ remove\_error;}
+\DoxyCodeLine{00100\ \ \ \ \ (void)std::filesystem::remove(path,\ remove\_error);}
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordflow}{if}\ (remove\_error)}
+\DoxyCodeLine{00102\ \ \ \ \ \{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::IOError,}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cannot\ replace\ stale\ SSTable\ temporary\ file\ "{}}\ +}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path.string()\ +\ \textcolor{stringliteral}{"{}:\ "{}}\ +\ remove\_error.message()}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{auto}\ file\_out\_result\ =\ open\_writable\_file(path);}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_out\_result.is\_ok())}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(file\_out\_result.status);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ std::unique\_ptr<WritableFile>\ atomic\_file\_out\ =}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ std::move(file\_out\_result.value);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordflow}{if}\ (!atomic\_file\_out)}
+\DoxyCodeLine{00119\ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OpenFailed,}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ open\ SSTable\ for\ writing\ path="{}}\ +\ path.string()}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ std::uint64\_t\ offset\ =\ 0;}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \ \ \ Status\ write\_result\ =}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ file\_header\_section.write(*atomic\_file\_out,\ offset);}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordflow}{if}\ (!write\_result.is\_ok())}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_result;}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00135\ \textcolor{comment}{\ \ \ \ \ *\ DataSection::write()\ rebuilds\ the\ index\ while\ writing\ the\ data. }}
+\DoxyCodeLine{00136\ \textcolor{comment}{\ \ \ \ \ *\ Clear\ an\ index\ left\ by\ a\ previous\ failed\ write\ attempt. }}
+\DoxyCodeLine{00137\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00138\ \ \ \ \ index\_section\ =\ IndexSection\{\};}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00140\ \ \ \ \ std::uint64\_t\ data\_offset\ =\ 0;}
+\DoxyCodeLine{00141\ }
+\DoxyCodeLine{00142\ \ \ \ \ write\_result\ =\ data\_section.write(}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ *atomic\_file\_out,}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ index\_section,}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ data\_offset}
+\DoxyCodeLine{00147\ \ \ \ \ );}
+\DoxyCodeLine{00148\ }
+\DoxyCodeLine{00149\ \ \ \ \ \textcolor{keywordflow}{if}\ (!write\_result.is\_ok())}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_result;}
+\DoxyCodeLine{00151\ }
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00153\ \textcolor{comment}{\ \ \ \ \ *\ These\ sections\ depend\ on\ the\ finalized\ data\ and\ index\ contents. }}
+\DoxyCodeLine{00154\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00155\ \ \ \ \ write\_result\ =\ bloom\_section.rebuild(data\_section);}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordflow}{if}\ (!write\_result.is\_ok())}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_result;}
+\DoxyCodeLine{00158\ }
+\DoxyCodeLine{00159\ \ \ \ \ write\_result\ =\ meta\_section.rebuild(data\_section,\ index\_section);}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordflow}{if}\ (!write\_result.is\_ok())}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_result;}
+\DoxyCodeLine{00162\ }
+\DoxyCodeLine{00163\ \ \ \ \ std::uint64\_t\ index\_offset\ =\ 0;}
+\DoxyCodeLine{00164\ \ \ \ \ std::uint64\_t\ bloom\_offset\ =\ 0;}
+\DoxyCodeLine{00165\ \ \ \ \ std::uint64\_t\ meta\_offset\ =\ 0;}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ \ \ \ \ write\_result\ =\ index\_section.write(}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ *atomic\_file\_out,}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ index\_offset}
+\DoxyCodeLine{00171\ \ \ \ \ );}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordflow}{if}\ (!write\_result.is\_ok())}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_result;}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ write\_result\ =\ bloom\_section.write(}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ *atomic\_file\_out,}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ bloom\_offset}
+\DoxyCodeLine{00180\ \ \ \ \ );}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordflow}{if}\ (!write\_result.is\_ok())}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_result;}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ write\_result\ =\ meta\_section.write(}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ *atomic\_file\_out,}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ meta\_offset}
+\DoxyCodeLine{00189\ \ \ \ \ );}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keywordflow}{if}\ (!write\_result.is\_ok())}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_result;}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ index\_size\ =\ index\_section.disk\_size();}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ bloom\_size\ =\ bloom\_section.disk\_size();}
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ meta\_size\ =\ meta\_section.disk\_size();}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordflow}{if}\ (!fits\_u32(index\_size)\ ||}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ !fits\_u32(bloom\_size)\ ||}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ !fits\_u32(meta\_size))}
+\DoxyCodeLine{00201\ \ \ \ \ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidSectionSize,}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ section\ size\ cannot\ be\ represented\ in\ the\ footer"{}}}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00206\ \ \ \ \ \}}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00208\ \ \ \ \ file\_footer\_section.data\_offset\ =\ data\_offset;}
+\DoxyCodeLine{00209\ \ \ \ \ file\_footer\_section.data\_block\_count\ =}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ data\_section.data\_blocks.size();}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ file\_footer\_section.index\_offset\ =\ index\_offset;}
+\DoxyCodeLine{00213\ \ \ \ \ file\_footer\_section.index\_size\ =}
+\DoxyCodeLine{00214\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(index\_size);}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ file\_footer\_section.bloom\_offset\ =\ bloom\_offset;}
+\DoxyCodeLine{00217\ \ \ \ \ file\_footer\_section.bloom\_size\ =}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(bloom\_size);}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ file\_footer\_section.meta\_offset\ =\ meta\_offset;}
+\DoxyCodeLine{00221\ \ \ \ \ file\_footer\_section.meta\_size\ =}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(meta\_size);}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \ \ \ \ Status\ alignment\_result\ =\ align\_to\_block\_boundary(}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ *atomic\_file\_out,}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00228\ \ \ \ \ );}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keywordflow}{if}\ (!alignment\_result.is\_ok())}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ alignment\_result;}
+\DoxyCodeLine{00232\ }
+\DoxyCodeLine{00233\ \ \ \ \ Status\ finalize\_result\ =}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ file\_footer\_section.finalize(*atomic\_file\_out,\ offset);}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordflow}{if}\ (!finalize\_result.is\_ok())}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ finalize\_result;}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00239\ \ \ \ \ write\_result\ =}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ file\_footer\_section.write(*atomic\_file\_out,\ offset);}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00242\ \ \ \ \ \textcolor{keywordflow}{if}\ (!write\_result.is\_ok())}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_result;}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ Status\ publish\_result\ =\ fsync(*atomic\_file\_out);}
+\DoxyCodeLine{00246\ }
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keywordflow}{if}\ (!publish\_result.is\_ok())}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ publish\_result;}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00251\ \}}
+
+\end{DoxyCode}
+
+
+\label{class_s_s_table_doc-variable-members}
+\Hypertarget{class_s_s_table_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_s_s_table_a036b1c4558e85d7f981ecc0d5fca8648}\index{SSTable@{SSTable}!bloom\_section@{bloom\_section}}
+\index{bloom\_section@{bloom\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{bloom\_section}{bloom\_section}}
+{\footnotesize\ttfamily \label{class_s_s_table_a036b1c4558e85d7f981ecc0d5fca8648} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section}{SSTable\+Entities::\+\+Bloom\+Section}} SSTable::\+bloom\+\_\+section \{\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00096\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a1c241395f098b1db21846873d012887e}\index{SSTable@{SSTable}!data\_section@{data\_section}}
+\index{data\_section@{data\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{data\_section}{data\_section}}
+{\footnotesize\ttfamily \label{class_s_s_table_a1c241395f098b1db21846873d012887e} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section}{SSTable\+Entities::\+\+Data\+Section}} SSTable::\+data\+\_\+section \{\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00093\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_aa9be799f7c3be816599958585233d3ef}\index{SSTable@{SSTable}!data\_section\_view@{data\_section\_view}}
+\index{data\_section\_view@{data\_section\_view}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{data\_section\_view}{data\_section\_view}}
+{\footnotesize\ttfamily \label{class_s_s_table_aa9be799f7c3be816599958585233d3ef} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view}{SSTable\+Entities::\+\+Data\+Section\+View}} SSTable::\+data\+\_\+section\+\_\+view \{\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00094\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_ab8aaea87b297388a44059e867ab4ad4d}\index{SSTable@{SSTable}!file\_footer\_section@{file\_footer\_section}}
+\index{file\_footer\_section@{file\_footer\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{file\_footer\_section}{file\_footer\_section}}
+{\footnotesize\ttfamily \label{class_s_s_table_ab8aaea87b297388a44059e867ab4ad4d} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_footer_section}{SSTable\+Entities::\+\+File\+Footer\+Section}} SSTable::\+file\+\_\+footer\+\_\+section \{\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00098\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a59d6518d900ab347f2b457f13733d22d}\index{SSTable@{SSTable}!file\_header\_section@{file\_header\_section}}
+\index{file\_header\_section@{file\_header\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{file\_header\_section}{file\_header\_section}}
+{\footnotesize\ttfamily \label{class_s_s_table_a59d6518d900ab347f2b457f13733d22d} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_header_section}{SSTable\+Entities::\+\+File\+Header\+Section}} SSTable::\+file\+\_\+header\+\_\+section \{\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00092\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a343a9eebbd25f84f81580d69de824475}\index{SSTable@{SSTable}!index\_section@{index\_section}}
+\index{index\_section@{index\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{index\_section}{index\_section}}
+{\footnotesize\ttfamily \label{class_s_s_table_a343a9eebbd25f84f81580d69de824475} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{SSTable\+Entities::\+\+Index\+Section}} SSTable::\+index\+\_\+section \{\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00095\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a23c397824018a807563a4dc38e1c9ce7}\index{SSTable@{SSTable}!meta\_section@{meta\_section}}
+\index{meta\_section@{meta\_section}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{meta\_section}{meta\_section}}
+{\footnotesize\ttfamily \label{class_s_s_table_a23c397824018a807563a4dc38e1c9ce7} 
+\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_meta_section}{SSTable\+Entities::\+\+Meta\+Section}} SSTable::\+meta\+\_\+section \{\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00097\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{class_s_s_table_a39b6c98639cd67efc034754a4a20c140}\index{SSTable@{SSTable}!state@{state}}
+\index{state@{state}!SSTable@{SSTable}}
+\doxysubsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily \label{class_s_s_table_a39b6c98639cd67efc034754a4a20c140} 
+State SSTable::\+state \{ State::\+\+Empty \}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00088\ \{\ State::Empty\ \};}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+sstable.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+sstable.\+cpp\end{DoxyCompactItemize}

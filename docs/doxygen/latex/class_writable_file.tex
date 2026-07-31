@@ -1,0 +1,52 @@
+\doxysection{Writable\+File Class Reference}
+\hypertarget{class_writable_file}{}\label{class_writable_file}\index{WritableFile@{WritableFile}}
+Inheritance diagram for Writable\+File:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.675675cm]{class_writable_file}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_writable_file_a30b8fe50516f78178adf7975de0bd485}\label{class_writable_file_a30b8fe50516f78178adf7975de0bd485} 
+virtual \doxymbox{\hyperlink{struct_status}{Status}} {\bfseries append} (const void \texorpdfstring{$\ast$}{*}data, std::\+size\+\_\+t size, std::\+uint64\+\_\+t \&track\+\_\+offset)=0
+\item 
+\Hypertarget{class_writable_file_a64ffe9bd2641630e31ad5f8d00540544}\label{class_writable_file_a64ffe9bd2641630e31ad5f8d00540544} 
+virtual \doxymbox{\hyperlink{struct_status}{Status}} {\bfseries sync} ()=0
+\item 
+\Hypertarget{class_writable_file_a143df0fa5cb12be264d9656232cf66bd}\label{class_writable_file_a143df0fa5cb12be264d9656232cf66bd} 
+virtual \doxymbox{\hyperlink{struct_status}{Status}} {\bfseries close} ()=0
+\item 
+\Hypertarget{class_writable_file_a33234a6b764d42d98574e35eb936ae67}\label{class_writable_file_a33234a6b764d42d98574e35eb936ae67} 
+virtual \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ {\bfseries current\+\_\+position} ()=0
+\item 
+\Hypertarget{class_writable_file_a765ebfdc7203dd323419454c5c081040}\label{class_writable_file_a765ebfdc7203dd323419454c5c081040} 
+virtual \doxymbox{\hyperlink{struct_status}{Status}} {\bfseries get\+\_\+file\+\_\+size} (std::\+uint64\+\_\+t \&size\+\_\+out)=0
+\item 
+\Hypertarget{class_writable_file_a8c73c0150ee87bce4c1299a4bb2349ad}\label{class_writable_file_a8c73c0150ee87bce4c1299a4bb2349ad} 
+virtual \doxymbox{\hyperlink{struct_status}{Status}} {\bfseries durable\+\_\+rename} (const std::\+filesystem::\+path \&to, bool replace\+\_\+existing)=0
+\item 
+\Hypertarget{class_writable_file_a56f297cd850cbb7bf411bcf849bfb832}\label{class_writable_file_a56f297cd850cbb7bf411bcf849bfb832} 
+virtual \doxymbox{\hyperlink{struct_status}{Status}} {\bfseries sync\+\_\+parent\+\_\+directory} ()=0
+\item 
+\Hypertarget{class_writable_file_abf29a0ff5ebb47ab2d3f05238bee3d74}\label{class_writable_file_abf29a0ff5ebb47ab2d3f05238bee3d74} 
+virtual std::\+filesystem::\+path {\bfseries parent\+\_\+directory} ()=0
+\item 
+\Hypertarget{class_writable_file_aef360f0276df9e2a2164139790b0e3f5}\label{class_writable_file_aef360f0276df9e2a2164139790b0e3f5} 
+virtual \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint64\+\_\+t $>$ {\bfseries seek\+\_\+to\+\_\+end} ()=0
+\item 
+\Hypertarget{class_writable_file_afd5545deccf2b0233d2140c2c0945601}\label{class_writable_file_afd5545deccf2b0233d2140c2c0945601} 
+virtual const int \& {\bfseries get\+\_\+descriptor} () const =0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2}\label{class_writable_file_afd39f8a1f9a4d71a163ce1536489f3e2} 
+std::\+filesystem::\+path {\bfseries path}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+file.\+h\end{DoxyCompactItemize}

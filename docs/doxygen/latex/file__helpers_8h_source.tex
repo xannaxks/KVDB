@@ -1,0 +1,46 @@
+\doxysection{file\+\_\+helpers.\+h}
+\hypertarget{file__helpers_8h_source}{}\label{file__helpers_8h_source}\index{C:/Users/user/KVDB/include/file\_helpers.h@{C:/Users/user/KVDB/include/file\_helpers.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}file.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \doxymbox{\hyperlink{struct_status}{Status}}\ fits\_in\_block(std::uint64\_t\ offset,}
+\DoxyCodeLine{00011\ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ BLOCK\_SIZE);}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \doxymbox{\hyperlink{struct_status}{Status}}\ ensure\_fits\_in\_block(\doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00016\ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{00017\ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ BLOCK\_SIZE);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \doxymbox{\hyperlink{struct_status}{Status}}\ align\_to\_block\_boundary(\doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00021\ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ BLOCK\_SIZE);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \doxymbox{\hyperlink{struct_status}{Status}}\ ensure\_fits\_in\_block(\doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00026\ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{00027\ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ BLOCK\_SIZE);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \doxymbox{\hyperlink{struct_status}{Status}}\ align\_to\_block\_boundary(\doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00031\ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ BLOCK\_SIZE);}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \doxymbox{\hyperlink{struct_status}{Status}}\ move\_g\_to\_next\_block(\doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00035\ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{const}\ std::uint32\_t\ BLOCK\_SIZE);}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \doxymbox{\hyperlink{struct_status}{Status}}\ can\_read\_range(std::uint64\_t\ offset,\ std::size\_t\ read\_size,\ std::uint64\_t\ file\_size);}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \doxymbox{\hyperlink{struct_status}{Status}}\ offset\_boundary\_check(std::uint64\_t\ offset,\ std::uint64\_t\ file\_size);}
+
+\end{DoxyCode}

@@ -1,0 +1,71 @@
+\doxysection{Murmur\+Hash3.\+h}
+\hypertarget{_murmur_hash3_8h_source}{}\label{_murmur_hash3_8h_source}\index{C:/Users/user/KVDB/include/MurmurHash3.h@{C:/Users/user/KVDB/include/MurmurHash3.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ MurmurHash3\ was\ written\ by\ Austin\ Appleby,\ and\ is\ placed\ in\ the\ public}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ domain.\ The\ author\ hereby\ disclaims\ copyright\ to\ this\ source\ code.}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ Note\ -\/\ The\ x86\ and\ x64\ versions\ do\ \_not\_\ produce\ the\ same\ results,\ as\ the}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ algorithms\ are\ optimized\ for\ their\ respective\ platforms.\ You\ can\ still}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ compile\ and\ run\ any\ of\ them\ on\ any\ platform,\ but\ your\ performance\ with\ the}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ non-\/native\ version\ will\ be\ less\ than\ optimal.}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#ifndef\ \_MURMURHASH3\_H\_}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#define\ \_MURMURHASH3\_H\_}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00016\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00017\ \textcolor{comment}{//\ Platform-\/specific\ functions\ and\ macros}}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{comment}{//\ Microsoft\ Visual\ Studio}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#if\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ FORCE\_INLINE\ \ \ \ \_\_forceinline}}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#include\ <stdlib.h>}}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ ROTL32(x,y)\ \_rotl(x,y)}}
+\DoxyCodeLine{00028\ \textcolor{preprocessor}{\#define\ ROTL64(x,y)\ \_rotl64(x,y)}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ BIG\_CONSTANT(x)\ (x)}}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \textcolor{comment}{//\ Other\ compilers}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \textcolor{preprocessor}{\#else\ \ \ }\textcolor{comment}{//\ defined(\_MSC\_VER)}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ FORCE\_INLINE\ \_\_attribute\_\_((always\_inline))}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \textcolor{keyword}{inline}\ uint32\_t\ rotl32(uint32\_t\ x,\ int8\_t\ r)}
+\DoxyCodeLine{00039\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{return}\ (x\ <<\ r)\ |\ (x\ >>\ (32\ -\/\ r));}
+\DoxyCodeLine{00041\ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{inline}\ uint64\_t\ rotl64(uint64\_t\ x,\ int8\_t\ r)}
+\DoxyCodeLine{00044\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{return}\ (x\ <<\ r)\ |\ (x\ >>\ (64\ -\/\ r));}
+\DoxyCodeLine{00046\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \textcolor{preprocessor}{\#define\ ROTL32(x,y)\ rotl32(x,y)}}
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ ROTL64(x,y)\ rotl64(x,y)}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \textcolor{preprocessor}{\#define\ BIG\_CONSTANT(x)\ (x\#\#LLU)}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ !defined(\_MSC\_VER)}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \textcolor{keywordtype}{void}\ MurmurHash3\_x86\_32(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ key,\ \textcolor{keywordtype}{int}\ len,\ uint32\_t\ seed,\ \textcolor{keywordtype}{void}*\ out);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \textcolor{keywordtype}{void}\ MurmurHash3\_x86\_128(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ key,\ \textcolor{keywordtype}{int}\ len,\ uint32\_t\ seed,\ \textcolor{keywordtype}{void}*\ out);}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \textcolor{keywordtype}{void}\ MurmurHash3\_x64\_128(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ key,\ \textcolor{keywordtype}{int}\ len,\ uint32\_t\ seed,\ \textcolor{keywordtype}{void}*\ out);}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \textcolor{comment}{//-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{//\ \_MURMURHASH3\_H\_}}
+
+\end{DoxyCode}

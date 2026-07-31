@@ -1,0 +1,260 @@
+\doxysection{kvdb::\+endian Namespace Reference}
+\hypertarget{namespacekvdb_1_1endian}{}\label{namespacekvdb_1_1endian}\index{kvdb::endian@{kvdb::endian}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{namespacekvdb_1_1endian_a1b8e24b1a0212392050fc360eb1dc975}{put\+\_\+u8}} (std::\+vector$<$ std::\+byte $>$ \&out, std::\+uint8\+\_\+t value)
+\item 
+void \doxymbox{\hyperlink{namespacekvdb_1_1endian_a35ccf149977fab5cce0fd90a53082cb2}{put\+\_\+u16\+\_\+le}} (std::\+vector$<$ std::\+byte $>$ \&out, std::\+uint16\+\_\+t value)
+\item 
+void \doxymbox{\hyperlink{namespacekvdb_1_1endian_a61e61f98973c548c266a452e76512c8a}{put\+\_\+u32\+\_\+le}} (std::\+vector$<$ std::\+byte $>$ \&out, std::\+uint32\+\_\+t value)
+\item 
+void \doxymbox{\hyperlink{namespacekvdb_1_1endian_afb4f7fb594b5279b19942ff9347610bb}{put\+\_\+u64\+\_\+le}} (std::\+vector$<$ std::\+byte $>$ \&out, std::\+uint64\+\_\+t value)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespacekvdb_1_1endian_acc9b4278ae97a587a9b611a884c3cc5b}{put\+\_\+bytes\+\_\+with\+\_\+u32\+\_\+size}} (std::\+vector$<$ std::\+byte $>$ \&out, std::\+span$<$ const std::\+byte $>$ bytes)
+\item 
+bool \doxymbox{\hyperlink{namespacekvdb_1_1endian_a9bb45978025ce4d7124180d5d1d2b1bf}{write\+\_\+u8}} (std::\+ostream \&out, std::\+uint8\+\_\+t value)
+\item 
+bool \doxymbox{\hyperlink{namespacekvdb_1_1endian_a4bd7910647a8509ad5fd51915820d328}{write\+\_\+u64\+\_\+le}} (std::\+ostream \&out, std::\+uint64\+\_\+t value)
+\item 
+bool \doxymbox{\hyperlink{namespacekvdb_1_1endian_a9f7b8c10f0c6a2fc9622142673cd2e1f}{write\+\_\+bytes\+\_\+with\+\_\+u32\+\_\+size}} (std::\+ostream \&out, std::\+span$<$ const std::\+byte $>$ bytes)
+\item 
+std::\+optional$<$ std::\+uint8\+\_\+t $>$ \doxymbox{\hyperlink{namespacekvdb_1_1endian_a9a1980fd8282a3466def0c8be06f3a10}{read\+\_\+u8}} (std::\+istream \&in)
+\item 
+std::\+optional$<$ std::\+uint64\+\_\+t $>$ \doxymbox{\hyperlink{namespacekvdb_1_1endian_ab91aab14152ae2e4fcd7e1ed1fabc3b3}{read\+\_\+u64\+\_\+le}} (std::\+istream \&in)
+\item 
+std::\+optional$<$ std::\+vector$<$ std::\+byte $>$ $>$ \doxymbox{\hyperlink{namespacekvdb_1_1endian_afc9a27d7af5a18ff0e71dc1387927846}{read\+\_\+bytes\+\_\+with\+\_\+u32\+\_\+size}} (std::\+istream \&in)
+\end{DoxyCompactItemize}
+
+
+\label{namespacekvdb_1_1endian_doc-func-members}
+\Hypertarget{namespacekvdb_1_1endian_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacekvdb_1_1endian_acc9b4278ae97a587a9b611a884c3cc5b}\index{kvdb::endian@{kvdb::endian}!put\_bytes\_with\_u32\_size@{put\_bytes\_with\_u32\_size}}
+\index{put\_bytes\_with\_u32\_size@{put\_bytes\_with\_u32\_size}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{put\_bytes\_with\_u32\_size()}{put\_bytes\_with\_u32\_size()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_acc9b4278ae97a587a9b611a884c3cc5b} 
+\doxymbox{\hyperlink{struct_status}{Status}} kvdb::\+endian::\+put\+\_\+bytes\+\_\+with\+\_\+u32\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+vector$<$ std::\+byte $>$ \&}]{out}{, }\item[{std::\+span$<$ const std::\+byte $>$}]{bytes}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00129\ \ \ \ \ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes.size()\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}byte\ sequence\ size\ cannot\ be\ represented\ by\ u32"{}}}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00136\ }
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ put\_u32\_le(out,\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(bytes.size()));}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ out.insert(out.end(),\ bytes.begin(),\ bytes.end());}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00140\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_a35ccf149977fab5cce0fd90a53082cb2}\index{kvdb::endian@{kvdb::endian}!put\_u16\_le@{put\_u16\_le}}
+\index{put\_u16\_le@{put\_u16\_le}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{put\_u16\_le()}{put\_u16\_le()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_a35ccf149977fab5cce0fd90a53082cb2} 
+void kvdb::\+endian::\+put\+\_\+u16\+\_\+le (\begin{DoxyParamCaption}\item[{std::\+vector$<$ std::\+byte $>$ \&}]{out}{, }\item[{std::\+uint16\+\_\+t}]{value}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00106\ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ out.push\_back(\textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}(value\ \&\ 0xFFu));}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ out.push\_back(\textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}((value\ >>\ 8u)\ \&\ 0xFFu));}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_a61e61f98973c548c266a452e76512c8a}\index{kvdb::endian@{kvdb::endian}!put\_u32\_le@{put\_u32\_le}}
+\index{put\_u32\_le@{put\_u32\_le}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{put\_u32\_le()}{put\_u32\_le()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_a61e61f98973c548c266a452e76512c8a} 
+void kvdb::\+endian::\+put\+\_\+u32\+\_\+le (\begin{DoxyParamCaption}\item[{std::\+vector$<$ std::\+byte $>$ \&}]{out}{, }\item[{std::\+uint32\+\_\+t}]{value}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00112\ \ \ \ \ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ shift\ =\ 0;\ shift\ <\ 32;\ shift\ +=\ 8)\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ out.push\_back(\textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}((value\ >>\ shift)\ \&\ 0xFFu));}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_afb4f7fb594b5279b19942ff9347610bb}\index{kvdb::endian@{kvdb::endian}!put\_u64\_le@{put\_u64\_le}}
+\index{put\_u64\_le@{put\_u64\_le}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{put\_u64\_le()}{put\_u64\_le()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_afb4f7fb594b5279b19942ff9347610bb} 
+void kvdb::\+endian::\+put\+\_\+u64\+\_\+le (\begin{DoxyParamCaption}\item[{std::\+vector$<$ std::\+byte $>$ \&}]{out}{, }\item[{std::\+uint64\+\_\+t}]{value}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00119\ \ \ \ \ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ shift\ =\ 0;\ shift\ <\ 64;\ shift\ +=\ 8)\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ out.push\_back(\textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}((value\ >>\ shift)\ \&\ 0xFFull));}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_a1b8e24b1a0212392050fc360eb1dc975}\index{kvdb::endian@{kvdb::endian}!put\_u8@{put\_u8}}
+\index{put\_u8@{put\_u8}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{put\_u8()}{put\_u8()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_a1b8e24b1a0212392050fc360eb1dc975} 
+void kvdb::\+endian::\+put\+\_\+u8 (\begin{DoxyParamCaption}\item[{std::\+vector$<$ std::\+byte $>$ \&}]{out}{, }\item[{std::\+uint8\+\_\+t}]{value}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00101\ \ \ \ \ \{}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ out.push\_back(\textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}(value));}
+\DoxyCodeLine{00103\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_afc9a27d7af5a18ff0e71dc1387927846}\index{kvdb::endian@{kvdb::endian}!read\_bytes\_with\_u32\_size@{read\_bytes\_with\_u32\_size}}
+\index{read\_bytes\_with\_u32\_size@{read\_bytes\_with\_u32\_size}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{read\_bytes\_with\_u32\_size()}{read\_bytes\_with\_u32\_size()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_afc9a27d7af5a18ff0e71dc1387927846} 
+std::\+optional$<$ std::\+vector$<$ std::\+byte $>$ $>$ kvdb::\+endian::\+read\+\_\+bytes\+\_\+with\+\_\+u32\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+istream \&}]{in}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00216\ \ \ \ \ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ std::array<std::byte,\ \textcolor{keyword}{sizeof}(std::uint32\_t)>\ encoded\_size\{\};}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_encoded(in,\ encoded\_size))\ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ std::uint32\_t\ size\ =\ 0;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ shift\ =\ 0;\ shift\ <\ 32;\ shift\ +=\ 8)\ \{}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ size\ |=\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_integer<std::uint8\_t>(encoded\_size[shift\ /\ 8])}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ )\ <<\ shift;}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ \ \ std::vector<std::byte>\ bytes(size);}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!bytes.empty())\ \{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ in.read(}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(bytes.data()),}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::streamsize\textcolor{keyword}{>}(bytes.size())}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!in)\ \{}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ bytes;}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)\ \{}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00245\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_ab91aab14152ae2e4fcd7e1ed1fabc3b3}\index{kvdb::endian@{kvdb::endian}!read\_u64\_le@{read\_u64\_le}}
+\index{read\_u64\_le@{read\_u64\_le}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{read\_u64\_le()}{read\_u64\_le()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_ab91aab14152ae2e4fcd7e1ed1fabc3b3} 
+std::\+optional$<$ std::\+uint64\+\_\+t $>$ kvdb::\+endian::\+read\+\_\+u64\+\_\+le (\begin{DoxyParamCaption}\item[{std::\+istream \&}]{in}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00199\ \ \ \ \ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ std::array<std::byte,\ \textcolor{keyword}{sizeof}(std::uint64\_t)>\ encoded\{\};}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_encoded(in,\ encoded))\ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \ \ std::uint64\_t\ value\ =\ 0;}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ shift\ =\ 0;\ shift\ <\ 64;\ shift\ +=\ 8)\ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \ \ \ \ value\ |=\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(}
+\DoxyCodeLine{00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_integer<std::uint8\_t>(encoded[shift\ /\ 8])}
+\DoxyCodeLine{00209\ \ \ \ \ \ \ \ \ \ \ \ \ )\ <<\ shift;}
+\DoxyCodeLine{00210\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ value;}
+\DoxyCodeLine{00212\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_a9a1980fd8282a3466def0c8be06f3a10}\index{kvdb::endian@{kvdb::endian}!read\_u8@{read\_u8}}
+\index{read\_u8@{read\_u8}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{read\_u8()}{read\_u8()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_a9a1980fd8282a3466def0c8be06f3a10} 
+std::\+optional$<$ std::\+uint8\+\_\+t $>$ kvdb::\+endian::\+read\+\_\+u8 (\begin{DoxyParamCaption}\item[{std::\+istream \&}]{in}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00190\ \ \ \ \ \{}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ std::array<std::byte,\ 1>\ encoded\{\};}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_encoded(in,\ encoded))\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::to\_integer<std::uint8\_t>(encoded.front());}
+\DoxyCodeLine{00196\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_a9f7b8c10f0c6a2fc9622142673cd2e1f}\index{kvdb::endian@{kvdb::endian}!write\_bytes\_with\_u32\_size@{write\_bytes\_with\_u32\_size}}
+\index{write\_bytes\_with\_u32\_size@{write\_bytes\_with\_u32\_size}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{write\_bytes\_with\_u32\_size()}{write\_bytes\_with\_u32\_size()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_a9f7b8c10f0c6a2fc9622142673cd2e1f} 
+bool kvdb::\+endian::\+write\+\_\+bytes\+\_\+with\+\_\+u32\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+ostream \&}]{out}{, }\item[{std::\+span$<$ const std::\+byte $>$}]{bytes}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00164\ \ \ \ \ \{}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes.size()\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ size\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(bytes.size());}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ std::array<std::byte,\ \textcolor{keyword}{sizeof}(size)>\ encoded\_size\{\};}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ shift\ =\ 0;\ shift\ <\ 32;\ shift\ +=\ 8)\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_size[shift\ /\ 8]\ =}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}((size\ >>\ shift)\ \&\ 0xFFu);}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!write\_encoded(out,\ encoded\_size))\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!bytes.empty())\ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ out.write(}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(bytes.data()),}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::streamsize\textcolor{keyword}{>}(bytes.size())}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{bool}\textcolor{keyword}{>}(out);}
+\DoxyCodeLine{00187\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_a4bd7910647a8509ad5fd51915820d328}\index{kvdb::endian@{kvdb::endian}!write\_u64\_le@{write\_u64\_le}}
+\index{write\_u64\_le@{write\_u64\_le}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{write\_u64\_le()}{write\_u64\_le()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_a4bd7910647a8509ad5fd51915820d328} 
+bool kvdb::\+endian::\+write\+\_\+u64\+\_\+le (\begin{DoxyParamCaption}\item[{std::\+ostream \&}]{out}{, }\item[{std::\+uint64\+\_\+t}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00151\ \ \ \ \ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ std::array<std::byte,\ \textcolor{keyword}{sizeof}(value)>\ encoded\{\};}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ shift\ =\ 0;\ shift\ <\ 64;\ shift\ +=\ 8)\ \{}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ encoded[shift\ /\ 8]\ =}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}((value\ >>\ shift)\ \&\ 0xFFull);}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_encoded(out,\ encoded);}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespacekvdb_1_1endian_a9bb45978025ce4d7124180d5d1d2b1bf}\index{kvdb::endian@{kvdb::endian}!write\_u8@{write\_u8}}
+\index{write\_u8@{write\_u8}!kvdb::endian@{kvdb::endian}}
+\doxysubsubsection{\texorpdfstring{write\_u8()}{write\_u8()}}
+{\footnotesize\ttfamily \label{namespacekvdb_1_1endian_a9bb45978025ce4d7124180d5d1d2b1bf} 
+bool kvdb::\+endian::\+write\+\_\+u8 (\begin{DoxyParamCaption}\item[{std::\+ostream \&}]{out}{, }\item[{std::\+uint8\+\_\+t}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00143\ \ \ \ \ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ write\_encoded(}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ out,}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ std::array\{\ \textcolor{keyword}{static\_cast<}std::byte\textcolor{keyword}{>}(value)\ \}}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00148\ \ \ \ \ \}}
+
+\end{DoxyCode}

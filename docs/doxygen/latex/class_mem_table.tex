@@ -1,0 +1,394 @@
+\doxysection{Mem\+Table Class Reference}
+\hypertarget{class_mem_table}{}\label{class_mem_table}\index{MemTable@{MemTable}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{struct_mem_table_1_1_immutable_snapshot}{Immutable\+Snapshot}}
+\item 
+struct \doxymbox{\hyperlink{struct_mem_table_1_1_immutable_table}{Immutable\+Table}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_mem_table_ac4b8e2aad87634e3c0852caa3e73e0e7}\label{class_mem_table_ac4b8e2aad87634e3c0852caa3e73e0e7} 
+{\bfseries Mem\+Table} (const \doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \&)=delete
+\item 
+\Hypertarget{class_mem_table_a8d23aebe947d27f41e9dcdf4bacecd35}\label{class_mem_table_a8d23aebe947d27f41e9dcdf4bacecd35} 
+\doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \& {\bfseries operator=} (const \doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \&)=delete
+\item 
+\Hypertarget{class_mem_table_a3db5f7fd408f66a10c036d8a0aa3d6e8}\label{class_mem_table_a3db5f7fd408f66a10c036d8a0aa3d6e8} 
+{\bfseries Mem\+Table} (\doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \&\&)=delete
+\item 
+\Hypertarget{class_mem_table_a9a4cd05916fde1c199f3b810987e1c22}\label{class_mem_table_a9a4cd05916fde1c199f3b810987e1c22} 
+\doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \& {\bfseries operator=} (\doxymbox{\hyperlink{class_mem_table}{Mem\+Table}} \&\&)=delete
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_mem_table_a6a6be71606e95baaa9fe8100dea78c0d}{apply}} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&entry)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_mem_table_a8d1ff4549e3851421b431a2216e55cfc}{put}} (\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} key, \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} value, std::\+uint64\+\_\+t sequence\+\_\+number)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_mem_table_a7fcede231cd45832c9343e007177b56d}{remove}} (\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} key, std::\+uint64\+\_\+t sequence\+\_\+number)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ $>$ \doxymbox{\hyperlink{class_mem_table_a8e2514179955068eed3240434dc71f5a}{get}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&key) const
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_mem_table_a25c00186d93b38930f30f2332e2661fa}{freeze\+\_\+mutable}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_mem_table_aba979209695bbea2ef53f4b93bd7359a}{manual\+\_\+freeze}} ()
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_mem_table_1_1_immutable_snapshot}{Immutable\+Snapshot}} $>$ \doxymbox{\hyperlink{class_mem_table_a0a3adf3fbc9b4344db05b6790d5456c1}{oldest\+\_\+immutable}} () const
+\item 
+bool \doxymbox{\hyperlink{class_mem_table_aef9ecb392d6beca24825c378a8232744}{retire\+\_\+oldest\+\_\+immutable}} (std::\+uint64\+\_\+t generation\+\_\+id)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_mem_table_a39ca7616d46566911f92b42ca63fe63a}{dump\+\_\+oldest\+\_\+immutable}} (std::\+vector$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \&out, std::\+uint64\+\_\+t \&generation\+\_\+id) const
+\item 
+bool \doxymbox{\hyperlink{class_mem_table_ae0a3ede11faa0f51831fb780231c4da2}{has\+\_\+immutable}} () const
+\item 
+std::\+size\+\_\+t \doxymbox{\hyperlink{class_mem_table_a13a92d1efbc346f8cdd0165a58344828}{immutable\+\_\+count}} () const
+\item 
+std::\+size\+\_\+t \doxymbox{\hyperlink{class_mem_table_aee131c2f48640097f147ad27c6d3928e}{mutable\+\_\+memory\+\_\+usage}} () const
+\item 
+std::\+size\+\_\+t \doxymbox{\hyperlink{class_mem_table_aeb412fa81325d918566f0f8b1e0af1b7}{approximate\+\_\+memory\+\_\+usage}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_mem_table_ae901741c005d7f32cf9ae84a06a28de2}\label{class_mem_table_ae901741c005d7f32cf9ae84a06a28de2} 
+std::\+shared\+\_\+mutex {\bfseries mutex\+\_\+}
+\item 
+\Hypertarget{class_mem_table_a4ef6930ce4b1680c131ac1a7494d51c1}\label{class_mem_table_a4ef6930ce4b1680c131ac1a7494d51c1} 
+std::\+shared\+\_\+ptr$<$ \doxymbox{\hyperlink{class_r_b_tree}{RBTree}} $>$ {\bfseries mutable\+\_\+table\+\_\+}
+\item 
+\Hypertarget{class_mem_table_a234fc67c664234876f4cc2e59b9bef55}\label{class_mem_table_a234fc67c664234876f4cc2e59b9bef55} 
+std::\+deque$<$ \doxymbox{\hyperlink{struct_mem_table_1_1_immutable_table}{Immutable\+Table}} $>$ {\bfseries immutable\+\_\+tables\+\_\+}
+\item 
+\Hypertarget{class_mem_table_ae195f65870af33338e5c6a6ec590387e}\label{class_mem_table_ae195f65870af33338e5c6a6ec590387e} 
+std::\+uint64\+\_\+t {\bfseries next\+\_\+generation\+\_\+id\+\_\+} = 1
+\end{DoxyCompactItemize}
+
+
+\label{class_mem_table_doc-constructors}
+\Hypertarget{class_mem_table_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_mem_table_aabdd490e19bde96397ec56e0b34e00f9}\index{MemTable@{MemTable}!MemTable@{MemTable}}
+\index{MemTable@{MemTable}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{MemTable()}{MemTable()}}
+{\footnotesize\ttfamily \label{class_mem_table_aabdd490e19bde96397ec56e0b34e00f9} 
+Mem\+Table::\+\+Mem\+Table (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00009\ \ \ \ \ :\ mutable\_table\_(std::make\_shared<RBTree>()) }
+\DoxyCodeLine{00010\ \{}
+\DoxyCodeLine{00011\ \}}
+
+\end{DoxyCode}
+
+
+\label{class_mem_table_doc-func-members}
+\Hypertarget{class_mem_table_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_mem_table_a6a6be71606e95baaa9fe8100dea78c0d}\index{MemTable@{MemTable}!apply@{apply}}
+\index{apply@{apply}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{apply()}{apply()}}
+{\footnotesize\ttfamily \label{class_mem_table_a6a6be71606e95baaa9fe8100dea78c0d} 
+\doxymbox{\hyperlink{struct_status}{Status}} Mem\+Table::\+apply (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&}]{entry}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ std::unique\_lock\ lock(mutex\_);}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordflow}{return}\ mutable\_table\_-\/>insert(entry);}
+\DoxyCodeLine{00017\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_aeb412fa81325d918566f0f8b1e0af1b7}\index{MemTable@{MemTable}!approximate\_memory\_usage@{approximate\_memory\_usage}}
+\index{approximate\_memory\_usage@{approximate\_memory\_usage}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{approximate\_memory\_usage()}{approximate\_memory\_usage()}}
+{\footnotesize\ttfamily \label{class_mem_table_aeb412fa81325d918566f0f8b1e0af1b7} 
+std::\+size\+\_\+t Mem\+Table::\+approximate\+\_\+memory\+\_\+usage (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00211\ \{}
+\DoxyCodeLine{00212\ \ \ \ \ std::shared\_lock\ lock(mutex\_);}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00214\ \ \ \ \ std::size\_t\ total\ =\ mutable\_table\_-\/>approximate\_memory\_usage();}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_mem_table_1_1_immutable_table}{ImmutableTable}}\&\ immutable\ :\ immutable\_tables\_)}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ total\ +=\ immutable.table-\/>approximate\_memory\_usage();}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordflow}{return}\ total;}
+\DoxyCodeLine{00219\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_a39ca7616d46566911f92b42ca63fe63a}\index{MemTable@{MemTable}!dump\_oldest\_immutable@{dump\_oldest\_immutable}}
+\index{dump\_oldest\_immutable@{dump\_oldest\_immutable}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{dump\_oldest\_immutable()}{dump\_oldest\_immutable()}}
+{\footnotesize\ttfamily \label{class_mem_table_a39ca7616d46566911f92b42ca63fe63a} 
+\doxymbox{\hyperlink{struct_status}{Status}} Mem\+Table::\+dump\+\_\+oldest\+\_\+immutable (\begin{DoxyParamCaption}\item[{std::\+vector$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \&}]{out}{, }\item[{std::\+uint64\+\_\+t \&}]{generation\+\_\+id}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00168\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ Result<ImmutableSnapshot>\ snapshot\_result\ =\ oldest\_immutable();}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordflow}{if}\ (!snapshot\_result.is\_ok())}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ snapshot\_result.status;}
+\DoxyCodeLine{00172\ }
+\DoxyCodeLine{00173\ \ \ \ \ std::vector<InternalRecord>\ dumped;}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{00176\ \ \ \ \ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ snapshot\_result.value.table-\/>dump\_inorder(dumped);}
+\DoxyCodeLine{00178\ \ \ \ \ \}}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)}
+\DoxyCodeLine{00180\ \ \ \ \ \{}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OutOfMemory,}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ materialize\ the\ immutable\ MemTable\ for\ flushing"{}}}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00185\ \ \ \ \ \}}
+\DoxyCodeLine{00186\ }
+\DoxyCodeLine{00187\ \ \ \ \ generation\_id\ =\ snapshot\_result.value.generation\_id;}
+\DoxyCodeLine{00188\ \ \ \ \ out\ =\ std::move(dumped);}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00190\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_a25c00186d93b38930f30f2332e2661fa}\index{MemTable@{MemTable}!freeze\_mutable@{freeze\_mutable}}
+\index{freeze\_mutable@{freeze\_mutable}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{freeze\_mutable()}{freeze\_mutable()}}
+{\footnotesize\ttfamily \label{class_mem_table_a25c00186d93b38930f30f2332e2661fa} 
+\doxymbox{\hyperlink{struct_status}{Status}} Mem\+Table::\+freeze\+\_\+mutable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00082\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ std::shared\_ptr<RBTree>\ replacement;}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{00086\ \ \ \ \ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Allocate\ before\ taking\ the\ lock.\ If\ allocation\ fails,\ the\ active}}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ table\ and\ immutable\ queue\ are\ unchanged.}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ replacement\ =\ std::make\_shared<RBTree>();}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)}
+\DoxyCodeLine{00092\ \ \ \ \ \{}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OutOfMemory,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ allocate\ a\ replacement\ mutable\ table"{}}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ std::unique\_lock\ lock(mutex\_);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keywordflow}{if}\ (mutable\_table\_-\/>empty())}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{00105\ \ \ \ \ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ immutable\_tables\_.push\_back(\doxymbox{\hyperlink{struct_mem_table_1_1_immutable_table}{ImmutableTable}}\{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ next\_generation\_id\_,}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<const\ RBTree>(mutable\_table\_)}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00110\ \ \ \ \ \}}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{catch}\ (\textcolor{keyword}{const}\ std::bad\_alloc\&)}
+\DoxyCodeLine{00112\ \ \ \ \ \{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OutOfMemory,}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ append\ the\ frozen\ table\ to\ the\ immutable\ queue"{}}}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00117\ \ \ \ \ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \ \ \ \ ++next\_generation\_id\_;}
+\DoxyCodeLine{00120\ \ \ \ \ mutable\_table\_\ =\ std::move(replacement);}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00122\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_a8e2514179955068eed3240434dc71f5a}\index{MemTable@{MemTable}!get@{get}}
+\index{get@{get}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \label{class_mem_table_a8e2514179955068eed3240434dc71f5a} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ $>$ Mem\+Table::\+get (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{key}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00047\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ std::shared\_lock\ lock(mutex\_);}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ Result<std::optional<InternalRecord>>\ latest\ =}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ mutable\_table\_-\/>find\_latest\_by\_key(key);}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{if}\ (!latest.is\_ok())}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::fail(std::move(latest.status));}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//\ Comparing\ sequence\ numbers\ makes\ the\ lookup\ correct\ even\ if\ recovery\ or}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{comment}{//\ tests\ insert\ records\ out\ of\ generation\ order.\ In\ the\ normal\ monotonic}}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//\ sequence-\/number\ case,\ the\ first\ hit\ is\ already\ the\ newest\ one.}}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ it\ =\ immutable\_tables\_.rbegin();}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ it\ !=\ immutable\_tables\_.rend();}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ ++it)}
+\DoxyCodeLine{00062\ \ \ \ \ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ Result<std::optional<InternalRecord>>\ candidate\_result\ =}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ it-\/>table-\/>find\_latest\_by\_key(key);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!candidate\_result.is\_ok())}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::fail(std::move(candidate\_result.status));}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ std::optional<InternalRecord>\ candidate\ =\ std::move(candidate\_result.value);}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (candidate.has\_value()\ \&\&}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ (!latest.value.has\_value()\ ||\ candidate-\/>seq\_num\ >\ latest.value-\/>seq\_num))}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ latest.value\ =\ std::move(candidate);}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<InternalRecord>>::ok(std::move(latest.value));}
+\DoxyCodeLine{00079\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_ae0a3ede11faa0f51831fb780231c4da2}\index{MemTable@{MemTable}!has\_immutable@{has\_immutable}}
+\index{has\_immutable@{has\_immutable}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{has\_immutable()}{has\_immutable()}}
+{\footnotesize\ttfamily \label{class_mem_table_ae0a3ede11faa0f51831fb780231c4da2} 
+bool Mem\+Table::\+has\+\_\+immutable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00193\ \{}
+\DoxyCodeLine{00194\ \ \ \ \ std::shared\_lock\ lock(mutex\_);}
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keywordflow}{return}\ !immutable\_tables\_.empty();}
+\DoxyCodeLine{00196\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_a13a92d1efbc346f8cdd0165a58344828}\index{MemTable@{MemTable}!immutable\_count@{immutable\_count}}
+\index{immutable\_count@{immutable\_count}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{immutable\_count()}{immutable\_count()}}
+{\footnotesize\ttfamily \label{class_mem_table_a13a92d1efbc346f8cdd0165a58344828} 
+std::\+size\+\_\+t Mem\+Table::\+immutable\+\_\+count (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00199\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ std::shared\_lock\ lock(mutex\_);}
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{return}\ immutable\_tables\_.size();}
+\DoxyCodeLine{00202\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_aba979209695bbea2ef53f4b93bd7359a}\index{MemTable@{MemTable}!manual\_freeze@{manual\_freeze}}
+\index{manual\_freeze@{manual\_freeze}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{manual\_freeze()}{manual\_freeze()}}
+{\footnotesize\ttfamily \label{class_mem_table_aba979209695bbea2ef53f4b93bd7359a} 
+\doxymbox{\hyperlink{struct_status}{Status}} Mem\+Table::\+manual\+\_\+freeze (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00125\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordflow}{return}\ freeze\_mutable();}
+\DoxyCodeLine{00127\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_aee131c2f48640097f147ad27c6d3928e}\index{MemTable@{MemTable}!mutable\_memory\_usage@{mutable\_memory\_usage}}
+\index{mutable\_memory\_usage@{mutable\_memory\_usage}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{mutable\_memory\_usage()}{mutable\_memory\_usage()}}
+{\footnotesize\ttfamily \label{class_mem_table_aee131c2f48640097f147ad27c6d3928e} 
+std::\+size\+\_\+t Mem\+Table::\+mutable\+\_\+memory\+\_\+usage (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00205\ \{}
+\DoxyCodeLine{00206\ \ \ \ \ std::shared\_lock\ lock(mutex\_);}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordflow}{return}\ mutable\_table\_-\/>approximate\_memory\_usage();}
+\DoxyCodeLine{00208\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_a0a3adf3fbc9b4344db05b6790d5456c1}\index{MemTable@{MemTable}!oldest\_immutable@{oldest\_immutable}}
+\index{oldest\_immutable@{oldest\_immutable}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{oldest\_immutable()}{oldest\_immutable()}}
+{\footnotesize\ttfamily \label{class_mem_table_a0a3adf3fbc9b4344db05b6790d5456c1} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_mem_table_1_1_immutable_snapshot}{Mem\+Table::\+\+Immutable\+Snapshot}} $>$ Mem\+Table::\+oldest\+\_\+immutable (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00130\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ std::shared\_lock\ lock(mutex\_);}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \ \ \textcolor{keywordflow}{if}\ (immutable\_tables\_.empty())}
+\DoxyCodeLine{00134\ \ \ \ \ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<ImmutableSnapshot>::fail(Status\{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NotFound,}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}No\ immutable\ MemTable\ is\ available\ for\ flushing"{}}}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00139\ \ \ \ \ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_mem_table_1_1_immutable_table}{ImmutableTable}}\&\ oldest\ =\ immutable\_tables\_.front();}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<ImmutableSnapshot>::ok(\doxymbox{\hyperlink{struct_mem_table_1_1_immutable_snapshot}{ImmutableSnapshot}}\{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ oldest.generation\_id,}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ oldest.table}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00146\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_a8d1ff4549e3851421b431a2216e55cfc}\index{MemTable@{MemTable}!put@{put}}
+\index{put@{put}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{put()}{put()}}
+{\footnotesize\ttfamily \label{class_mem_table_a8d1ff4549e3851421b431a2216e55cfc} 
+\doxymbox{\hyperlink{struct_status}{Status}} Mem\+Table::\+put (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}}}]{key}{, }\item[{\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}}}]{value}{, }\item[{std::\+uint64\+\_\+t}]{sequence\+\_\+number}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00024\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{return}\ apply(InternalRecord(}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ key,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ value,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ Type::Put,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ sequence\_number}
+\DoxyCodeLine{00030\ \ \ \ \ ));}
+\DoxyCodeLine{00031\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_a7fcede231cd45832c9343e007177b56d}\index{MemTable@{MemTable}!remove@{remove}}
+\index{remove@{remove}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{remove()}{remove()}}
+{\footnotesize\ttfamily \label{class_mem_table_a7fcede231cd45832c9343e007177b56d} 
+\doxymbox{\hyperlink{struct_status}{Status}} Mem\+Table::\+remove (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}}}]{key}{, }\item[{std::\+uint64\+\_\+t}]{sequence\+\_\+number}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{return}\ apply(InternalRecord(}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ key,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ ArenaEntry\{\},}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ Type::Tombstone,}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ sequence\_number}
+\DoxyCodeLine{00043\ \ \ \ \ ));}
+\DoxyCodeLine{00044\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_mem_table_aef9ecb392d6beca24825c378a8232744}\index{MemTable@{MemTable}!retire\_oldest\_immutable@{retire\_oldest\_immutable}}
+\index{retire\_oldest\_immutable@{retire\_oldest\_immutable}!MemTable@{MemTable}}
+\doxysubsubsection{\texorpdfstring{retire\_oldest\_immutable()}{retire\_oldest\_immutable()}}
+{\footnotesize\ttfamily \label{class_mem_table_aef9ecb392d6beca24825c378a8232744} 
+bool Mem\+Table::\+retire\+\_\+oldest\+\_\+immutable (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{generation\+\_\+id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00151\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ std::unique\_lock\ lock(mutex\_);}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordflow}{if}\ (immutable\_tables\_.empty()\ ||}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ immutable\_tables\_.front().generation\_id\ !=\ generation\_id)}
+\DoxyCodeLine{00156\ \ \ \ \ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00158\ \ \ \ \ \}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ immutable\_tables\_.pop\_front();}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00162\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+mem\+\_\+table.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+mem\+\_\+table.\+cpp\end{DoxyCompactItemize}

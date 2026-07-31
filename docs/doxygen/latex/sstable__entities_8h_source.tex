@@ -1,0 +1,36 @@
+\doxysection{sstable\+\_\+entities.\+h}
+\hypertarget{sstable__entities_8h_source}{}\label{sstable__entities_8h_source}\index{C:/Users/user/KVDB/include/sstable\_entities.h@{C:/Users/user/KVDB/include/sstable\_entities.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{namespace\ }\doxymbox{\hyperlink{namespace_s_s_table_entities}{SSTableEntities}}}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ FILE\_HEADER\_MAGIC\ =\ 0x53535431;\ \textcolor{comment}{//\ SST1}}
+\DoxyCodeLine{00008\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ FILE\_FOOTER\_MAGIC\ =\ 0x46545231;\ \textcolor{comment}{//\ FTR1}}
+\DoxyCodeLine{00009\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ LATEST\_SSTABLE\_VERSION\ =\ 1;}
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ BLOCK\_SIZE\ =\ 4096;}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ BLOOM\_HASH\_COUNT\ =\ 2;}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ BLOOM\_MASK\_BIT\_SIZE\ =\ 128;\ \textcolor{comment}{//\ number\ of\ byte-\/addressed\ Bloom\ slots}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_header_section}{FileHeaderSection}};}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section}{DataSection}};}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_data_section_view}{DataSectionView}};}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_index_section}{IndexSection}};}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section}{BloomSection}};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_meta_section}{MetaSection}};}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_s_s_table_entities_1_1_file_footer_section}{FileFooterSection}};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{enum\ class}\ BlockType\ :\ std::uint8\_t}
+\DoxyCodeLine{00023\ \ \ \ \ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ Data\ =\ 1,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ Index\ =\ 2,}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ Bloom\ =\ 3,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ Meta\ =\ 4}
+\DoxyCodeLine{00028\ \ \ \ \ \};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \}}
+
+\end{DoxyCode}

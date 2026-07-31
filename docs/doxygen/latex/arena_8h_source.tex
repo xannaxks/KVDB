@@ -1,0 +1,430 @@
+\doxysection{arena.\+h}
+\hypertarget{arena_8h_source}{}\label{arena_8h_source}\index{C:/Users/user/KVDB/include/arena.h@{C:/Users/user/KVDB/include/arena.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NOMINMAX}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <bit>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cassert>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <format>}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <new>}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ <type\_traits>}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_arena}{Arena}};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00024\ \doxymbox{\hyperlink{struct_result}{Result<T*>}}\ arena\_new(\doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena,\ Args\&\&...\ args);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00027\ \doxymbox{\hyperlink{struct_result}{Result<T*>}}\ arena\_new\_array(\doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena,\ std::size\_t\ count);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{keyword}{struct\ }ArenaEntry}
+\DoxyCodeLine{00030\ \{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}*\ data\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00032\ \ \ \ \ std::uint32\_t\ size\ =\ 0;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ ArenaEntry()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00035\ \ \ \ \ ArenaEntry(\textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ ptr,\ std::size\_t\ entry\_size);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ ArenaEntry(\textcolor{keyword}{const}\ ArenaEntry\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00038\ \ \ \ \ ArenaEntry\&\ operator=(\textcolor{keyword}{const}\ ArenaEntry\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ ArenaEntry(ArenaEntry\&\&\ other)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00041\ \ \ \ \ ArenaEntry\&\ operator=(ArenaEntry\&\&\ other)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ generate\_random\_key(}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ prefix,}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ std::size\_t\ length\ =\ 100,}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ fixed\ =\ \textcolor{keyword}{true}}
+\DoxyCodeLine{00047\ \ \ \ \ );}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{static}\ std::string\ generate\_random\_value(}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ prefix,}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ std::size\_t\ length\ =\ 1000,}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ fixed\ =\ \textcolor{keyword}{true}}
+\DoxyCodeLine{00053\ \ \ \ \ );}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ operator<(\textcolor{keyword}{const}\ ArenaEntry\&\ other)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00056\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ operator>(\textcolor{keyword}{const}\ ArenaEntry\&\ other)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00057\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ operator==(\textcolor{keyword}{const}\ ArenaEntry\&\ other)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00058\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ operator>=(\textcolor{keyword}{const}\ ArenaEntry\&\ other)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00059\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ operator<=(\textcolor{keyword}{const}\ ArenaEntry\&\ other)\ \textcolor{keyword}{const}\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<ArenaEntry>}}\ make\_entry(}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>\ bytes}
+\DoxyCodeLine{00064\ \ \ \ \ );}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<ArenaEntry>}}\ make\_entry(}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\&\ str}
+\DoxyCodeLine{00069\ \ \ \ \ );}
+\DoxyCodeLine{00070\ \};}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \textcolor{comment}{//\ arena\ entry\ formatter}}
+\DoxyCodeLine{00073\ \textcolor{keyword}{template}\ <>}
+\DoxyCodeLine{00074\ \textcolor{keyword}{struct\ }std::formatter<\doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}>\ :\ std::formatter<std::string\_view>}
+\DoxyCodeLine{00075\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keyword}{auto}\ format(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\&\ entry,\ std::format\_context\&\ ctx)\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00077\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\_view\ view(}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(entry.data),}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ entry.size}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::formatter<std::string\_view>::format(view,\ ctx);}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+\DoxyCodeLine{00085\ \};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \textcolor{keyword}{class\ }Arena}
+\DoxyCodeLine{00088\ \{}
+\DoxyCodeLine{00089\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keyword}{struct\ }Page}
+\DoxyCodeLine{00091\ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ base\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ std::size\_t\ cap\ =\ 0;}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ std::size\_t\ used\ =\ 0;}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ std::size\_t\ alignment\ =\ \textcolor{keyword}{alignof}(std::max\_align\_t);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ Page()\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ Page(}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ page\_base,}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ page\_capacity,}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ page\_used,}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ page\_alignment}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ )\ noexcept}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ :\ base(page\_base),}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ cap(page\_capacity),}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ used(page\_used),}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ alignment(page\_alignment)}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ Page(\textcolor{keyword}{const}\ Page\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ Page\&\ operator=(\textcolor{keyword}{const}\ Page\&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ Page(Page\&\&\ other)\ noexcept}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ :\ base(std::exchange(other.base,\ \textcolor{keyword}{nullptr})),}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ cap(std::exchange(other.cap,\ 0)),}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ used(std::exchange(other.used,\ 0)),}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ alignment(std::exchange(}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ other.alignment,}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{alignof}(std::max\_align\_t)}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ ))}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ Page\&\ operator=(Page\&\&\ other)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ !=\ \&other)}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ release();}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ base\ =\ std::exchange(other.base,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cap\ =\ std::exchange(other.cap,\ 0);}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ used\ =\ std::exchange(other.used,\ 0);}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ alignment\ =\ std::exchange(}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ other.alignment,}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{alignof}(std::max\_align\_t)}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \string~Page()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ release();}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ release()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (base\ !=\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ::operator\ \textcolor{keyword}{delete}(base,\ std::align\_val\_t\{\ alignment\ \});}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ base\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ cap\ =\ 0;}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ used\ =\ 0;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ alignment\ =\ \textcolor{keyword}{alignof}(std::max\_align\_t);}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00160\ \ \ \ \ \};}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keyword}{using\ }DestroyFunction\ =\ void\ (*)(\textcolor{keywordtype}{void}*,\ std::size\_t)\ \textcolor{keyword}{noexcept};}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_arena_1_1_destructor_entry}{DestructorEntry}}}
+\DoxyCodeLine{00165\ \ \ \ \ \{}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ \textcolor{keywordtype}{object}\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ std::size\_t\ count\ =\ 0;}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ DestroyFunction\ destroy\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00169\ \ \ \ \ \};}
+\DoxyCodeLine{00170\ }
+\DoxyCodeLine{00171\ \ \ \ \ std::size\_t\ page\_size\_;}
+\DoxyCodeLine{00172\ \ \ \ \ std::size\_t\ large\_threshold\_;}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ max\_page\_size\_\ =\ 1u\ <<\ 20;}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::byte\ poison\_byte\_\{\ 0xCD\ \};}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ std::vector<Page>\ pages\_;}
+\DoxyCodeLine{00178\ \ \ \ \ std::vector<Page>\ large\_;}
+\DoxyCodeLine{00179\ \ \ \ \ std::vector<DestructorEntry>\ destructors\_;}
+\DoxyCodeLine{00180\ }
+\DoxyCodeLine{00181\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Checkpoint}}}
+\DoxyCodeLine{00183\ \ \ \ \ \{}
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Arena*\ owner\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ std::size\_t\ page\_count\ =\ 0;}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ std::size\_t\ page\_used\ =\ 0;}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ std::size\_t\ large\_count\ =\ 0;}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ std::size\_t\ destructor\_count\ =\ 0;}
+\DoxyCodeLine{00189\ \ \ \ \ \};}
+\DoxyCodeLine{00190\ }
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keyword}{explicit}\ Arena(}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ std::size\_t\ page\_size\ =\ 64\ *\ 1024,}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ std::size\_t\ large\_threshold\ =\ 16\ *\ 1024}
+\DoxyCodeLine{00194\ \ \ \ \ );}
+\DoxyCodeLine{00195\ }
+\DoxyCodeLine{00196\ \ \ \ \ \string~Arena()\ noexcept;}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00198\ \ \ \ \ Arena(const\ Arena\&)\ =\ delete;}
+\DoxyCodeLine{00199\ \ \ \ \ Arena\&\ operator=(const\ Arena\&)\ =\ delete;}
+\DoxyCodeLine{00200\ \ \ \ \ Arena(Arena\&\&)\ =\ delete;}
+\DoxyCodeLine{00201\ \ \ \ \ Arena\&\ operator=(Arena\&\&)\ =\ delete;}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00203\ \ \ \ \ \textcolor{comment}{//\ Returns\ raw,\ uninitialized\ storage.\ Raw\ allocations\ do\ not\ register}}
+\DoxyCodeLine{00204\ \ \ \ \ \textcolor{comment}{//\ destructors.\ Use\ arena\_new/arena\_new\_array\ for\ arena-\/owned\ object\ lifetime.}}
+\DoxyCodeLine{00205\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<\textcolor{keywordtype}{void}*>\ alloc(}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ n,}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ alignment\ =\ alignof(std::max\_align\_t)}
+\DoxyCodeLine{00208\ \ \ \ \ );}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Checkpoint}}\ checkpoint()\ const\ noexcept;}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00212\ \ \ \ \ \textcolor{comment}{//\ Destroys\ arena-\/owned\ objects\ created\ after\ cp,\ then\ reclaims\ their\ storage.}}
+\DoxyCodeLine{00213\ \ \ \ \ \textcolor{comment}{//\ Throws\ std::invalid\_argument\ for\ a\ foreign\ or\ no-\/longer-\/reachable\ checkpoint.}}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keywordtype}{void}\ rollback(const\ \doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Checkpoint}}\&\ cp);}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{comment}{//\ Destroys\ every\ arena-\/owned\ object\ in\ reverse\ construction\ order.}}
+\DoxyCodeLine{00217\ \ \ \ \ \textcolor{comment}{//\ release\_all=false\ keeps\ the\ first\ normal\ page\ for\ reuse.}}
+\DoxyCodeLine{00218\ \ \ \ \ \textcolor{keywordtype}{void}\ reset(\textcolor{keywordtype}{bool}\ release\_all\ =\ false)\ noexcept;}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<std::uint64\_t>\ get\_used\_bytes()\ const;}
+\DoxyCodeLine{00221\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<std::uint64\_t>\ get\_reserved\_bytes()\ const;}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ [[nodiscard]]\ std::\textcolor{keywordtype}{size\_t}\ get\_pages\_size()\ const\ noexcept;}
+\DoxyCodeLine{00224\ \ \ \ \ [[nodiscard]]\ std::\textcolor{keywordtype}{size\_t}\ get\_large\_size()\ const\ noexcept;}
+\DoxyCodeLine{00225\ \ \ \ \ [[nodiscard]]\ std::\textcolor{keywordtype}{size\_t}\ get\_destructor\_count()\ const\ noexcept;}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<std::\textcolor{keywordtype}{size\_t}>\ get\_next\_page\_size(}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ n}
+\DoxyCodeLine{00229\ \ \ \ \ )\ const;}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ private:}
+\DoxyCodeLine{00232\ \ \ \ \ template\ <class\ T,\ class...\ Args>}
+\DoxyCodeLine{00233\ \ \ \ \ friend\ \doxymbox{\hyperlink{struct_result}{Result}}<T*>\ arena\_new(Arena\&\ arena,\ Args\&\&...\ args);}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \ \ \ \ template\ <class\ T>}
+\DoxyCodeLine{00236\ \ \ \ \ friend\ \doxymbox{\hyperlink{struct_result}{Result}}<T*>\ arena\_new\_array(Arena\&\ arena,\ std::\textcolor{keywordtype}{size\_t}\ count);}
+\DoxyCodeLine{00237\ }
+\DoxyCodeLine{00238\ \ \ \ \ [[nodiscard]]\ static\ \doxymbox{\hyperlink{struct_result}{Result}}<std::\textcolor{keywordtype}{size\_t}>\ align\_up(}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ x,}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ alignment}
+\DoxyCodeLine{00241\ \ \ \ \ );}
+\DoxyCodeLine{00242\ }
+\DoxyCodeLine{00243\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<\textcolor{keywordtype}{void}*>\ alloc\_small(}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ n,}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ alignment}
+\DoxyCodeLine{00246\ \ \ \ \ );}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<\textcolor{keywordtype}{void}*>\ alloc\_large(}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ n,}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ alignment}
+\DoxyCodeLine{00251\ \ \ \ \ );}
+\DoxyCodeLine{00252\ }
+\DoxyCodeLine{00253\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<\textcolor{keywordtype}{bool}>\ fits\_in(}
+\DoxyCodeLine{00254\ \ \ \ \ \ \ \ \ const\ \doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}\&\ page,}
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ n,}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ alignment}
+\DoxyCodeLine{00257\ \ \ \ \ )\ const;}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}<\doxymbox{\hyperlink{struct_arena_1_1_page}{Page}}>\ alloc\_page(}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ cap,}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ alignment}
+\DoxyCodeLine{00262\ \ \ \ \ );}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00264\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ register\_destructor(}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ \textcolor{keywordtype}{object},}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ std::\textcolor{keywordtype}{size\_t}\ count,}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ DestroyFunction\ destroy}
+\DoxyCodeLine{00268\ \ \ \ \ )\ noexcept;}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keywordtype}{void}\ destroy\_to(std::\textcolor{keywordtype}{size\_t}\ destructor\_count)\ noexcept;}
+\DoxyCodeLine{00271\ \ \ \ \ static\ \textcolor{keywordtype}{void}\ poison(\textcolor{keywordtype}{void}*\ memory,\ std::\textcolor{keywordtype}{size\_t}\ size)\ noexcept;}
+\DoxyCodeLine{00272\ \};}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00274\ namespace\ \doxymbox{\hyperlink{namespacearena__detail}{arena\_detail}}}
+\DoxyCodeLine{00275\ \{}
+\DoxyCodeLine{00276\ \ \ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00277\ \ \ \ \ \textcolor{keywordtype}{void}\ destroy\_objects(\textcolor{keywordtype}{void}*\ memory,\ std::size\_t\ count)\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00278\ \ \ \ \ \{}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_nothrow\_destructible\_v<T>);}
+\DoxyCodeLine{00280\ }
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}*\ objects\ =\ \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(memory);}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ count;\ i\ >\ 0;\ -\/-\/i)}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ std::destroy\_at(objects\ +\ (i\ -\/\ 1));}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00286\ \ \ \ \ \}}
+\DoxyCodeLine{00287\ \}\ \textcolor{comment}{//\ namespace\ arena\_detail}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class\ }T,\ \textcolor{keyword}{class}...\ Args>}
+\DoxyCodeLine{00290\ \doxymbox{\hyperlink{struct_result}{Result<T*>}}\ arena\_new(\doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena,\ Args\&\&...\ args)}
+\DoxyCodeLine{00291\ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_object\_v<T>,\ \textcolor{stringliteral}{"{}T\ must\ be\ an\ object\ type"{}});}
+\DoxyCodeLine{00293\ \ \ \ \ \textcolor{keyword}{static\_assert}(!std::is\_array\_v<T>,\ \textcolor{stringliteral}{"{}Use\ arena\_new\_array\ for\ arrays"{}});}
+\DoxyCodeLine{00294\ \ \ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ std::is\_nothrow\_destructible\_v<T>,}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena-\/managed\ destructors\ must\ be\ noexcept"{}}}
+\DoxyCodeLine{00297\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_arena_1_1_checkpoint}{Arena::Checkpoint}}\ cp\ =\ arena.checkpoint();}
+\DoxyCodeLine{00300\ }
+\DoxyCodeLine{00301\ \ \ \ \ \doxymbox{\hyperlink{struct_result}{Result<void*>}}\ allocation\ =\ arena.alloc(\textcolor{keyword}{sizeof}(T),\ \textcolor{keyword}{alignof}(T));}
+\DoxyCodeLine{00302\ \ \ \ \ \textcolor{keywordflow}{if}\ (!allocation.is\_ok())}
+\DoxyCodeLine{00303\ \ \ \ \ \{}
+\DoxyCodeLine{00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(std::move(allocation.status));}
+\DoxyCodeLine{00305\ \ \ \ \ \}}
+\DoxyCodeLine{00306\ }
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keyword}{auto}*\ object\_memory\ =\ \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(allocation.value);}
+\DoxyCodeLine{00308\ \ \ \ \ assert(object\_memory\ !=\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00309\ }
+\DoxyCodeLine{00310\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{00311\ \ \ \ \ \{}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ T*\ \textcolor{keywordtype}{object}\ =\ std::construct\_at(}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ object\_memory,}
+\DoxyCodeLine{00314\ \ \ \ \ \ \ \ \ \ \ \ \ std::forward<Args>(args)...}
+\DoxyCodeLine{00315\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00316\ }
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (!std::is\_trivially\_destructible\_v<T>)}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!arena.register\_destructor(}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{object},}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1,}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&arena\_detail::destroy\_objects<T>}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ ))}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::destroy\_at(\textcolor{keywordtype}{object});}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(cp);}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ register\ arena\ object\ destructor"{}}}
+\DoxyCodeLine{00332\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00336\ }
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::ok(\textcolor{keywordtype}{object});}
+\DoxyCodeLine{00338\ \ \ \ \ \}}
+\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordflow}{catch}\ (...)}
+\DoxyCodeLine{00340\ \ \ \ \ \{}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ arena.rollback(cp);}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw};}
+\DoxyCodeLine{00343\ \ \ \ \ \}}
+\DoxyCodeLine{00344\ \}}
+\DoxyCodeLine{00345\ }
+\DoxyCodeLine{00346\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ T>}
+\DoxyCodeLine{00347\ Result<T*>\ arena\_new\_array(Arena\&\ arena,\ std::size\_t\ count)}
+\DoxyCodeLine{00348\ \{}
+\DoxyCodeLine{00349\ \ \ \ \ \textcolor{keyword}{static\_assert}(std::is\_object\_v<T>,\ \textcolor{stringliteral}{"{}T\ must\ be\ an\ object\ type"{}});}
+\DoxyCodeLine{00350\ \ \ \ \ \textcolor{keyword}{static\_assert}(!std::is\_array\_v<T>,\ \textcolor{stringliteral}{"{}Nested\ arrays\ are\ not\ supported"{}});}
+\DoxyCodeLine{00351\ \ \ \ \ \textcolor{keyword}{static\_assert}(}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ std::is\_nothrow\_destructible\_v<T>,}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena-\/managed\ destructors\ must\ be\ noexcept"{}}}
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00355\ }
+\DoxyCodeLine{00356\ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ ==\ 0)}
+\DoxyCodeLine{00357\ \ \ \ \ \{}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{\ StatusCode::InvalidArgument,\ \textcolor{stringliteral}{"{}Array\ count\ is\ zero"{}}\ \}}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00361\ \ \ \ \ \}}
+\DoxyCodeLine{00362\ }
+\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ >\ std::numeric\_limits<std::size\_t>::max()\ /\ \textcolor{keyword}{sizeof}(T))}
+\DoxyCodeLine{00364\ \ \ \ \ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Arena\ array\ byte\ size\ overflows\ size\_t"{}}}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00371\ \ \ \ \ \}}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keyword}{const}\ Arena::Checkpoint\ cp\ =\ arena.checkpoint();}
+\DoxyCodeLine{00374\ }
+\DoxyCodeLine{00375\ \ \ \ \ Result<void*>\ allocation\ =\ arena.alloc(\textcolor{keyword}{sizeof}(T)\ *\ count,\ \textcolor{keyword}{alignof}(T));}
+\DoxyCodeLine{00376\ \ \ \ \ \textcolor{keywordflow}{if}\ (!allocation.is\_ok())}
+\DoxyCodeLine{00377\ \ \ \ \ \{}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(std::move(allocation.status));}
+\DoxyCodeLine{00379\ \ \ \ \ \}}
+\DoxyCodeLine{00380\ }
+\DoxyCodeLine{00381\ \ \ \ \ \textcolor{keyword}{auto}*\ objects\ =\ \textcolor{keyword}{static\_cast<}T*\textcolor{keyword}{>}(allocation.value);}
+\DoxyCodeLine{00382\ \ \ \ \ assert(objects\ !=\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00383\ }
+\DoxyCodeLine{00384\ \ \ \ \ \textcolor{keywordflow}{try}}
+\DoxyCodeLine{00385\ \ \ \ \ \{}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ count;\ ++i)}
+\DoxyCodeLine{00387\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00388\ \ \ \ \ \ \ \ \ \ \ \ \ T*\ \textcolor{keywordtype}{object}\ =\ std::construct\_at(objects\ +\ i);}
+\DoxyCodeLine{00389\ }
+\DoxyCodeLine{00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keyword}{constexpr}\ (!std::is\_trivially\_destructible\_v<T>)}
+\DoxyCodeLine{00391\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00392\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!arena.register\_destructor(}
+\DoxyCodeLine{00393\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{object},}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1,}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \&arena\_detail::destroy\_objects<T>}
+\DoxyCodeLine{00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ))}
+\DoxyCodeLine{00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::destroy\_at(\textcolor{keywordtype}{object});}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ arena.rollback(cp);}
+\DoxyCodeLine{00400\ }
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::fail(}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ register\ arena\ array\ destructor"{}}}
+\DoxyCodeLine{00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00408\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00409\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00410\ }
+\DoxyCodeLine{00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<T*>::ok(objects);}
+\DoxyCodeLine{00412\ \ \ \ \ \}}
+\DoxyCodeLine{00413\ \ \ \ \ \textcolor{keywordflow}{catch}\ (...)}
+\DoxyCodeLine{00414\ \ \ \ \ \{}
+\DoxyCodeLine{00415\ \ \ \ \ \ \ \ \ arena.rollback(cp);}
+\DoxyCodeLine{00416\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw};}
+\DoxyCodeLine{00417\ \ \ \ \ \}}
+\DoxyCodeLine{00418\ \}}
+\DoxyCodeLine{00419\ }
+\DoxyCodeLine{00420\ Result<ArenaEntry>\ arena\_copy\_bytes(}
+\DoxyCodeLine{00421\ \ \ \ \ Arena\&\ arena,}
+\DoxyCodeLine{00422\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ src,}
+\DoxyCodeLine{00423\ \ \ \ \ std::uint32\_t\ n}
+\DoxyCodeLine{00424\ );}
+
+\end{DoxyCode}

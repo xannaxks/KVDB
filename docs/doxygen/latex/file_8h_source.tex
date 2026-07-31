@@ -1,0 +1,107 @@
+\doxysection{file.\+h}
+\hypertarget{file_8h_source}{}\label{file_8h_source}\index{C:/Users/user/KVDB/include/file.h@{C:/Users/user/KVDB/include/file.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#define\ NOMINMAX}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#define\ WIN32\_LEAN\_AND\_MEAN}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_readable_file}{ReadableFile}}}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00016\ \ \ \ \ \ std::filesystem::path\ path;}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{class_readable_file}{\string~ReadableFile}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ read\_at(}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ buffer,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ std::size\_t\&\ bytes\_read}
+\DoxyCodeLine{00025\ \ \ \ \ )\ =\ 0;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ read\_exact\_at(}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ std::uint64\_t\ offset,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{void}*\ buffer,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ std::size\_t\ size,}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ track\_offset}
+\DoxyCodeLine{00032\ \ \ \ \ );}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ close()\ =\ 0;}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ get\_file\_size(std::uint64\_t\&\ size\_out)\ =\ 0;}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ get\_descriptor()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00039\ \textcolor{preprocessor}{\#else\ }}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ get\_descriptor()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00041\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_writable_file}{WritableFile}}}
+\DoxyCodeLine{00045\ \{}
+\DoxyCodeLine{00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00047\ \ \ \ \ std::filesystem::path\ path;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{class_writable_file}{\string~WritableFile}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ append(}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ data,}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ std::size\_t\ size,\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ track\_offset}
+\DoxyCodeLine{00055\ \ \ \ \ )\ =\ 0;}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync()\ =\ 0;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ close()\ =\ 0;}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ current\_position()\ =\ 0;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ get\_file\_size(std::uint64\_t\&\ size\_out)\ =\ 0;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ durable\_rename(\textcolor{keyword}{const}\ std::filesystem::path\&\ to,\ \textcolor{keywordtype}{bool}\ replace\_existing)\ =\ 0;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_status}{Status}}\ sync\_parent\_directory()\ =\ 0;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{virtual}\ std::filesystem::path\ parent\_directory()\ =\ 0;}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{virtual}\ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ seek\_to\_end()\ =\ 0;}
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{void}*\ get\_descriptor()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#else\ }}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\&\ get\_descriptor()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00076\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00077\ \};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>\ open\_readable\_file(}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path}
+\DoxyCodeLine{00081\ );}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>\ open\_writable\_file(}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path}
+\DoxyCodeLine{00085\ );}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<WritableFile>}}>\ open\_writable\_file(\textcolor{keyword}{const}\ std::filesystem::path\&\ path);}
+\DoxyCodeLine{00088\ \doxymbox{\hyperlink{struct_result}{Result<std::unique\_ptr<ReadableFile>}}>\ open\_readable\_file(\textcolor{keyword}{const}\ std::filesystem::path\&\ path);}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00090\ \textcolor{comment}{//\#ifdef\ \_WIN32}}
+\DoxyCodeLine{00091\ \textcolor{comment}{//}}
+\DoxyCodeLine{00092\ \textcolor{comment}{//class\ WindowsReadableFile\ :\ public\ ReadableFile;}}
+\DoxyCodeLine{00093\ \textcolor{comment}{//class\ WindowsWritableFile\ :\ public\ WritableFile;}}
+\DoxyCodeLine{00094\ \textcolor{comment}{//}}
+\DoxyCodeLine{00095\ \textcolor{comment}{//\#else}}
+\DoxyCodeLine{00096\ \textcolor{comment}{//}}
+\DoxyCodeLine{00097\ \textcolor{comment}{//class\ PosixReadableFile\ :\ public\ ReadableFile;}}
+\DoxyCodeLine{00098\ \textcolor{comment}{//class\ PoxisWriteableFile\ :\ public\ WritableFile;}}
+\DoxyCodeLine{00099\ \textcolor{comment}{//}}
+\DoxyCodeLine{00100\ \textcolor{comment}{//\#endif}}
+\DoxyCodeLine{00101\ }
+
+\end{DoxyCode}

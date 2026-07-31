@@ -1,0 +1,180 @@
+\doxysection{anonymous\+\_\+namespace\{table\+\_\+meta.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02table__meta_8cpp_03}{}\label{namespaceanonymous__namespace_02table__meta_8cpp_03}\index{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint32\+\_\+t $>$ \doxymbox{\hyperlink{namespaceanonymous__namespace_02table__meta_8cpp_03_a409209974a9380ab9caa10a1615e54f2}{checked\+\_\+u32\+\_\+size}} (std::\+uint64\+\_\+t value, const char \texorpdfstring{$\ast$}{*}name)
+\item 
+std::\+uint64\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02table__meta_8cpp_03_a830badb275bfbf992ff1e3a7cc5cc8b9}{variable\+\_\+payload\+\_\+size}} (std::\+uint32\+\_\+t path\+\_\+size, std::\+uint32\+\_\+t smallest\+\_\+key\+\_\+size, std::\+uint32\+\_\+t largest\+\_\+key\+\_\+size) noexcept
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02table__meta_8cpp_03_ae85a90d1de254a862b2dff16a53e1ed7}{validate\+\_\+variable\+\_\+payload\+\_\+size}} (std::\+uint32\+\_\+t path\+\_\+size, std::\+uint32\+\_\+t smallest\+\_\+key\+\_\+size, std::\+uint32\+\_\+t largest\+\_\+key\+\_\+size)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02table__meta_8cpp_03_a33bdaa4bb96b9c7f6cc387207be31370}{write\+\_\+raw\+\_\+bytes}} (\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&file, const void \texorpdfstring{$\ast$}{*}data, std::\+uint32\+\_\+t size, std::\+uint64\+\_\+t \&offset)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02table__meta_8cpp_03_ac6c2053e81192d7a7e1a743695ab1a9b}{read\+\_\+arena\+\_\+bytes}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint32\+\_\+t size, std::\+uint64\+\_\+t \&offset, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena, void \texorpdfstring{$\ast$}{*}\&out)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+constexpr std::\+uint64\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02table__meta_8cpp_03_ac5316d47cde65d3f58b473d5a20c8a54}{TABLE\+\_\+\+META\+\_\+\+FIXED\+\_\+\+DISK\+\_\+\+BYTES}}
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02table__meta_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02table__meta_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02table__meta_8cpp_03_a409209974a9380ab9caa10a1615e54f2}\index{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}!checked\_u32\_size@{checked\_u32\_size}}
+\index{checked\_u32\_size@{checked\_u32\_size}!anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{checked\_u32\_size()}{checked\_u32\_size()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02table__meta_8cpp_03_a409209974a9380ab9caa10a1615e54f2} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint32\+\_\+t $>$ anonymous\+\_\+namespace\{table\+\_\+meta.\+cpp\}::\+checked\+\_\+u32\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{value}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00024\ \ \ \ \ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::fail(}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(\textcolor{stringliteral}{"{}\{\}\ size\ \{\}\ exceeds\ uint32\_t"{}},\ name,\ value)}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::ok(\textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(value));}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02table__meta_8cpp_03_ac6c2053e81192d7a7e1a743695ab1a9b}\index{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}!read\_arena\_bytes@{read\_arena\_bytes}}
+\index{read\_arena\_bytes@{read\_arena\_bytes}!anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{read\_arena\_bytes()}{read\_arena\_bytes()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02table__meta_8cpp_03_ac6c2053e81192d7a7e1a743695ab1a9b} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{table\+\_\+meta.\+cpp\}::\+read\+\_\+arena\+\_\+bytes (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint32\+\_\+t}]{size}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{, }\item[{void \texorpdfstring{$\ast$}{*}\&}]{out}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00110\ \ \ \ \ \{}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ out\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ ==\ 0)\ \{}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_result}{Result<void*>}}\ alloc\_result\ =\ arena.alloc(size,\ \textcolor{keyword}{alignof}(std::byte));}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!alloc\_result.is\_ok())\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(alloc\_result.status);}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ out\ =\ alloc\_result.value;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (out\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationFailed,}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}arena\ returned\ null\ for\ non-\/empty\ allocation"{}}}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ kvdb::blockio::read\_bytes(}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}std::byte*\textcolor{keyword}{>}(out),}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ size,}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ MANIFEST\_BLOCK\_SIZE}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00137\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02table__meta_8cpp_03_ae85a90d1de254a862b2dff16a53e1ed7}\index{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}!validate\_variable\_payload\_size@{validate\_variable\_payload\_size}}
+\index{validate\_variable\_payload\_size@{validate\_variable\_payload\_size}!anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{validate\_variable\_payload\_size()}{validate\_variable\_payload\_size()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02table__meta_8cpp_03_ae85a90d1de254a862b2dff16a53e1ed7} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{table\+\_\+meta.\+cpp\}::\+validate\+\_\+variable\+\_\+payload\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{path\+\_\+size}{, }\item[{std::\+uint32\+\_\+t}]{smallest\+\_\+key\+\_\+size}{, }\item[{std::\+uint32\+\_\+t}]{largest\+\_\+key\+\_\+size}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00053\ \ \ \ \ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ bytes\ =\ variable\_payload\_size(}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ path\_size,}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ smallest\_key\_size,}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ largest\_key\_size}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes\ >\ MAX\_TABLE\_META\_VARIABLE\_BYTES)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}table\ meta\ variable\ payload\ \{\}\ bytes\ exceeds\ maximum\ \{\}"{}},}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MAX\_TABLE\_META\_VARIABLE\_BYTES}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00072\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02table__meta_8cpp_03_a830badb275bfbf992ff1e3a7cc5cc8b9}\index{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}!variable\_payload\_size@{variable\_payload\_size}}
+\index{variable\_payload\_size@{variable\_payload\_size}!anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{variable\_payload\_size()}{variable\_payload\_size()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02table__meta_8cpp_03_a830badb275bfbf992ff1e3a7cc5cc8b9} 
+std::\+uint64\+\_\+t anonymous\+\_\+namespace\{table\+\_\+meta.\+cpp\}::\+variable\+\_\+payload\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{path\+\_\+size}{, }\item[{std::\+uint32\+\_\+t}]{smallest\+\_\+key\+\_\+size}{, }\item[{std::\+uint32\+\_\+t}]{largest\+\_\+key\+\_\+size}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00042\ \ \ \ \ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(path\_size)\ +}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(smallest\_key\_size)\ +}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(largest\_key\_size);}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02table__meta_8cpp_03_a33bdaa4bb96b9c7f6cc387207be31370}\index{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}!write\_raw\_bytes@{write\_raw\_bytes}}
+\index{write\_raw\_bytes@{write\_raw\_bytes}!anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{write\_raw\_bytes()}{write\_raw\_bytes()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02table__meta_8cpp_03_a33bdaa4bb96b9c7f6cc387207be31370} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{table\+\_\+meta.\+cpp\}::\+write\+\_\+raw\+\_\+bytes (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&}]{file}{, }\item[{const void \texorpdfstring{$\ast$}{*}}]{data}{, }\item[{std::\+uint32\+\_\+t}]{size}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00080\ \ \ \ \ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ ==\ 0)\ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NullPointer,}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cannot\ write\ non-\/empty\ byte\ range\ from\ null\ pointer"{}}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ kvdb::blockio::write\_bytes(}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ std::span<std::byte>(}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}std::byte*\textcolor{keyword}{>}(\textcolor{keyword}{const\_cast<}\textcolor{keywordtype}{void}*\textcolor{keyword}{>}(data)),}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ size}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ MANIFEST\_BLOCK\_SIZE}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00101\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{namespaceanonymous__namespace_02table__meta_8cpp_03_doc-var-members}
+\Hypertarget{namespaceanonymous__namespace_02table__meta_8cpp_03_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceanonymous__namespace_02table__meta_8cpp_03_ac5316d47cde65d3f58b473d5a20c8a54}\index{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}!TABLE\_META\_FIXED\_DISK\_BYTES@{TABLE\_META\_FIXED\_DISK\_BYTES}}
+\index{TABLE\_META\_FIXED\_DISK\_BYTES@{TABLE\_META\_FIXED\_DISK\_BYTES}!anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{TABLE\_META\_FIXED\_DISK\_BYTES}{TABLE\_META\_FIXED\_DISK\_BYTES}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02table__meta_8cpp_03_ac5316d47cde65d3f58b473d5a20c8a54} 
+std::\+uint64\+\_\+t anonymous\+\_\+namespace\{table\+\_\+meta.\+cpp\}::\+\+TABLE\+\_\+\+META\+\_\+\+FIXED\+\_\+\+DISK\+\_\+\+BYTES\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{\textcolor{keyword}{sizeof}(std::uint64\_t)\ *\ 8ull\ +\ }
+\DoxyCodeLine{\textcolor{keyword}{sizeof}(std::uint32\_t)\ *\ 4ull}
+
+\end{DoxyCode}

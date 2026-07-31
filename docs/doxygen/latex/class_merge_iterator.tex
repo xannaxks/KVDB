@@ -1,0 +1,182 @@
+\doxysection{Merge\+Iterator Class Reference}
+\hypertarget{class_merge_iterator}{}\label{class_merge_iterator}\index{MergeIterator@{MergeIterator}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{Heap\+Item}}
+\item 
+struct \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_compare}{Heap\+Compare}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_merge_iterator_a480bcf19525e1a827046a22b293c7e1d}{build}} (std::\+vector$<$ \doxymbox{\hyperlink{class_s_s_table_iterator}{SSTable\+Iterator}} $>$ \&data)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_merge_iterator_a29648ab67410498f6e261a43b991a8fe}{next}} ()
+\item 
+bool \doxymbox{\hyperlink{class_merge_iterator_aebd6f48a1d2f287278bd4b4ac822f390}{valid}} () const
+\item 
+const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \& \doxymbox{\hyperlink{class_merge_iterator_aa3be76d16fc15e164c433802665f8c78}{record}} () const
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_merge_iterator_a7a0e55d3aa5cb6330818c84c6beb83da}{status}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_merge_iterator_aed672fe86775b6704815f728d80a5c89}\label{class_merge_iterator_aed672fe86775b6704815f728d80a5c89} 
+std::\+vector$<$ \doxymbox{\hyperlink{class_s_s_table_iterator}{SSTable\+Iterator}} $>$ \texorpdfstring{$\ast$}{*} {\bfseries inputs\+\_\+} = nullptr
+\item 
+\doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_compare}{Heap\+Compare}} \doxymbox{\hyperlink{class_merge_iterator_a5ac2d5e774a1bf987a084ec09e8d0589}{compare\+\_\+}} \{\}
+\item 
+\Hypertarget{class_merge_iterator_a263ff4be92ee8ea37f029d74637f3cf6}\label{class_merge_iterator_a263ff4be92ee8ea37f029d74637f3cf6} 
+std::\+priority\+\_\+queue$<$ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{Heap\+Item}}, std::\+vector$<$ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{Heap\+Item}} $>$, \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_compare}{Heap\+Compare}} $>$ {\bfseries heap\+\_\+}
+\item 
+\Hypertarget{class_merge_iterator_a020ee5817241c40f939d7c00b3f32853}\label{class_merge_iterator_a020ee5817241c40f939d7c00b3f32853} 
+bool {\bfseries valid\+\_\+} = false
+\item 
+\Hypertarget{class_merge_iterator_ac22687fd0181de4b5695e60c463bd958}\label{class_merge_iterator_ac22687fd0181de4b5695e60c463bd958} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries status\+\_\+} = Status::\+ok()
+\end{DoxyCompactItemize}
+
+
+\label{class_merge_iterator_doc-func-members}
+\Hypertarget{class_merge_iterator_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_merge_iterator_a480bcf19525e1a827046a22b293c7e1d}\index{MergeIterator@{MergeIterator}!build@{build}}
+\index{build@{build}!MergeIterator@{MergeIterator}}
+\doxysubsubsection{\texorpdfstring{build()}{build()}}
+{\footnotesize\ttfamily \label{class_merge_iterator_a480bcf19525e1a827046a22b293c7e1d} 
+\doxymbox{\hyperlink{struct_status}{Status}} Merge\+Iterator::\+build (\begin{DoxyParamCaption}\item[{std::\+vector$<$ \doxymbox{\hyperlink{class_s_s_table_iterator}{SSTable\+Iterator}} $>$ \&}]{data}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \ \ \ \ inputs\_\ =\ \&data;}
+\DoxyCodeLine{00008\ \ \ \ \ valid\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00009\ \ \ \ \ status\_\ =\ Status::ok();}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \ \ \ \ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_compare}{HeapCompare}}\ compare\{\};}
+\DoxyCodeLine{00012\ \ \ \ \ compare.inputs\ =\ inputs\_;}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \ \ \ \ heap\_\ =\ std::priority\_queue<}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{HeapItem}},}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ std::vector<HeapItem>,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_compare}{HeapCompare}}}
+\DoxyCodeLine{00018\ \ \ \ \ >(compare);}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ data.size();\ ++i)}
+\DoxyCodeLine{00021\ \ \ \ \ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ status\_\ =\ data[i].seek\_to\_first();}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status\_.is\_ok())\ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ valid\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status\_;}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (data[i].valid())\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ heap\_.push(\doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{HeapItem}}\{\ i\ \});}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00031\ \ \ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ valid\_\ =\ !heap\_.empty();}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00035\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_merge_iterator_a29648ab67410498f6e261a43b991a8fe}\index{MergeIterator@{MergeIterator}!next@{next}}
+\index{next@{next}!MergeIterator@{MergeIterator}}
+\doxysubsubsection{\texorpdfstring{next()}{next()}}
+{\footnotesize\ttfamily \label{class_merge_iterator_a29648ab67410498f6e261a43b991a8fe} 
+\doxymbox{\hyperlink{struct_status}{Status}} Merge\+Iterator::\+next (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00038\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{if}\ (!valid\_)}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00042\ \ \ \ \ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{HeapItem}}\ top\ =\ heap\_.top();}
+\DoxyCodeLine{00043\ \ \ \ \ heap\_.pop();}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00045\ \ \ \ \ SSTableIterator\&\ source\_it\ =\ (*inputs\_)[top.iterator\_index];}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ status\_\ =\ source\_it.next();}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status\_.is\_ok())\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ valid\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status\_;}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{if}\ (source\_it.valid())\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ heap\_.push(top);}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ valid\_\ =\ !heap\_.empty();}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00059\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_merge_iterator_aa3be76d16fc15e164c433802665f8c78}\index{MergeIterator@{MergeIterator}!record@{record}}
+\index{record@{record}!MergeIterator@{MergeIterator}}
+\doxysubsubsection{\texorpdfstring{record()}{record()}}
+{\footnotesize\ttfamily \label{class_merge_iterator_aa3be76d16fc15e164c433802665f8c78} 
+const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \& Merge\+Iterator::\+record (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00072\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ assert(valid\_);}
+\DoxyCodeLine{00074\ \ \ \ \ assert(!heap\_.empty());}
+\DoxyCodeLine{00075\ \ \ \ \ assert(inputs\_\ !=\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{HeapItem}}\&\ top\ =\ heap\_.top();}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{return}\ (*inputs\_)[top.iterator\_index].record();}
+\DoxyCodeLine{00079\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_merge_iterator_a7a0e55d3aa5cb6330818c84c6beb83da}\index{MergeIterator@{MergeIterator}!status@{status}}
+\index{status@{status}!MergeIterator@{MergeIterator}}
+\doxysubsubsection{\texorpdfstring{status()}{status()}}
+{\footnotesize\ttfamily \label{class_merge_iterator_a7a0e55d3aa5cb6330818c84c6beb83da} 
+\doxymbox{\hyperlink{struct_status}{Status}} Merge\+Iterator::\+status (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00067\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{return}\ status\_;}
+\DoxyCodeLine{00069\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_merge_iterator_aebd6f48a1d2f287278bd4b4ac822f390}\index{MergeIterator@{MergeIterator}!valid@{valid}}
+\index{valid@{valid}!MergeIterator@{MergeIterator}}
+\doxysubsubsection{\texorpdfstring{valid()}{valid()}}
+{\footnotesize\ttfamily \label{class_merge_iterator_aebd6f48a1d2f287278bd4b4ac822f390} 
+bool Merge\+Iterator::\+valid (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00062\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordflow}{return}\ valid\_;}
+\DoxyCodeLine{00064\ \}}
+
+\end{DoxyCode}
+
+
+\label{class_merge_iterator_doc-variable-members}
+\Hypertarget{class_merge_iterator_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{class_merge_iterator_a5ac2d5e774a1bf987a084ec09e8d0589}\index{MergeIterator@{MergeIterator}!compare\_@{compare\_}}
+\index{compare\_@{compare\_}!MergeIterator@{MergeIterator}}
+\doxysubsubsection{\texorpdfstring{compare\_}{compare\_}}
+{\footnotesize\ttfamily \label{class_merge_iterator_a5ac2d5e774a1bf987a084ec09e8d0589} 
+\doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_compare}{Heap\+Compare}} Merge\+Iterator::\+compare\+\_\+ \{\}\hspace{0.3cm}{\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00040\ \{\};}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+merge\+\_\+iterator.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+merge\+\_\+iterator.\+cpp\end{DoxyCompactItemize}

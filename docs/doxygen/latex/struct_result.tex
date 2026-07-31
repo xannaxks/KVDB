@@ -1,0 +1,75 @@
+\doxysection{Result\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{struct_result}{}\label{struct_result}\index{Result$<$ T $>$@{Result$<$ T $>$}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{struct_result_a5453e8089319a43ea9fc2dd790e76acb}{is\+\_\+ok}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}} \doxymbox{\hyperlink{struct_result_a070ba99aaaed07fe3cf3642e6c8b11c7}{ok}} (T v)
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}} \doxymbox{\hyperlink{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}{fail}} (\doxymbox{\hyperlink{struct_status}{Status}} s)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_result_a08cdc62a4daa93868d7971ae68eaacce}\label{struct_result_a08cdc62a4daa93868d7971ae68eaacce} 
+T {\bfseries value}
+\item 
+\Hypertarget{struct_result_a34cce226a35947a5bf7dc52160bbd10f}\label{struct_result_a34cce226a35947a5bf7dc52160bbd10f} 
+\doxymbox{\hyperlink{struct_status}{Status}} {\bfseries status}
+\end{DoxyCompactItemize}
+
+
+\label{struct_result_doc-func-members}
+\Hypertarget{struct_result_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c}\index{Result$<$ T $>$@{Result$<$ T $>$}!fail@{fail}}
+\index{fail@{fail}!Result$<$ T $>$@{Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{fail()}{fail()}}
+{\footnotesize\ttfamily \label{struct_result_a09a4b5fc4daea1a6372b560ab4a6995c} 
+template$<$typename T$>$ \\
+\doxymbox{\hyperlink{struct_result}{Result}} \doxymbox{\hyperlink{struct_result}{Result}}$<$ T $>$::\+fail (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_status}{Status}}}]{s}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00116\ \ \ \ \ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result}}\{\ \doxymbox{\hyperlink{struct_result}{T}}\{\},\ \doxymbox{\hyperlink{struct_result}{std::move}}(\doxymbox{\hyperlink{struct_result}{s}})\ \};}
+\DoxyCodeLine{00118\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_result_a5453e8089319a43ea9fc2dd790e76acb}\index{Result$<$ T $>$@{Result$<$ T $>$}!is\_ok@{is\_ok}}
+\index{is\_ok@{is\_ok}!Result$<$ T $>$@{Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{is\_ok()}{is\_ok()}}
+{\footnotesize\ttfamily \label{struct_result_a5453e8089319a43ea9fc2dd790e76acb} 
+template$<$typename T$>$ \\
+bool \doxymbox{\hyperlink{struct_result}{Result}}$<$ T $>$::\+is\+\_\+ok (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00121\ \ \ \ \ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>status.is\_ok();}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_result_a070ba99aaaed07fe3cf3642e6c8b11c7}\index{Result$<$ T $>$@{Result$<$ T $>$}!ok@{ok}}
+\index{ok@{ok}!Result$<$ T $>$@{Result$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ok()}{ok()}}
+{\footnotesize\ttfamily \label{struct_result_a070ba99aaaed07fe3cf3642e6c8b11c7} 
+template$<$typename T$>$ \\
+\doxymbox{\hyperlink{struct_result}{Result}} \doxymbox{\hyperlink{struct_result}{Result}}$<$ T $>$::\+ok (\begin{DoxyParamCaption}\item[{T}]{v}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00111\ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result}}\{\ \doxymbox{\hyperlink{struct_result}{std::move}}(\doxymbox{\hyperlink{struct_result}{v}}),\ \doxymbox{\hyperlink{struct_result}{Status::ok}}()\ \};}
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+status.\+h\end{DoxyCompactItemize}

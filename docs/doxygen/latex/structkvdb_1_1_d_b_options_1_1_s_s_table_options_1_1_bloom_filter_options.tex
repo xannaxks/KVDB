@@ -1,0 +1,50 @@
+\doxysection{kvdb::\+DBOptions::\+SSTable\+Options::\+Bloom\+Filter\+Options Struct Reference}
+\hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options}{}\label{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options}\index{kvdb::DBOptions::SSTableOptions::BloomFilterOptions@{kvdb::DBOptions::SSTableOptions::BloomFilterOptions}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options_a252d2ac9038031b8b86c4beb7c6f18d5}{validate}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options_a4642e9ccf4116bf9f148b787ea0d5330}\label{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options_a4642e9ccf4116bf9f148b787ea0d5330} 
+std::\+uint32\+\_\+t {\bfseries hash\+\_\+count} = 2
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options_a8288762205f05462d7d9c9e9851ce165}\label{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options_a8288762205f05462d7d9c9e9851ce165} 
+std::\+uint32\+\_\+t {\bfseries mask\+\_\+bit\+\_\+size} = 128
+\end{DoxyCompactItemize}
+
+
+\label{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options_doc-func-members}
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options_a252d2ac9038031b8b86c4beb7c6f18d5}\index{kvdb::DBOptions::SSTableOptions::BloomFilterOptions@{kvdb::DBOptions::SSTableOptions::BloomFilterOptions}!validate@{validate}}
+\index{validate@{validate}!kvdb::DBOptions::SSTableOptions::BloomFilterOptions@{kvdb::DBOptions::SSTableOptions::BloomFilterOptions}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_s_s_table_options_1_1_bloom_filter_options_a252d2ac9038031b8b86c4beb7c6f18d5} 
+\doxymbox{\hyperlink{struct_status}{Status}} kvdb::\+\+DBOptions::\+\+SSTable\+Options::\+\+Bloom\+Filter\+Options::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (hash\_count\ ==\ 0)\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bloom\ filter\ hash\_count\ must\ be\ greater\ than\ zero"{}}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (mask\_bit\_size\ ==\ 0\ ||\ mask\_bit\_size\ \%\ 8\ !=\ 0)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bloom\ filter\ mask\_bit\_size\ must\ be\ a\ non-\/zero\ multiple\ of\ 8"{}}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00060\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+db\+\_\+options.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+db\+\_\+options.\+cpp\end{DoxyCompactItemize}

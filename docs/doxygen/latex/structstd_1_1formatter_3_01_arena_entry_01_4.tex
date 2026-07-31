@@ -1,0 +1,41 @@
+\doxysection{std::\+formatter\texorpdfstring{$<$}{<} Arena\+Entry \texorpdfstring{$>$}{>} Struct Reference}
+\hypertarget{structstd_1_1formatter_3_01_arena_entry_01_4}{}\label{structstd_1_1formatter_3_01_arena_entry_01_4}\index{std::formatter$<$ ArenaEntry $>$@{std::formatter$<$ ArenaEntry $>$}}
+Inheritance diagram for std::\+formatter\texorpdfstring{$<$}{<} Arena\+Entry \texorpdfstring{$>$}{>}:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{structstd_1_1formatter_3_01_arena_entry_01_4}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+auto \doxymbox{\hyperlink{structstd_1_1formatter_3_01_arena_entry_01_4_a8579b03b4c320a6d3703e8f81c7696f0}{format}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&entry, std::\+format\+\_\+context \&ctx) const
+\end{DoxyCompactItemize}
+
+
+\label{structstd_1_1formatter_3_01_arena_entry_01_4_doc-func-members}
+\Hypertarget{structstd_1_1formatter_3_01_arena_entry_01_4_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structstd_1_1formatter_3_01_arena_entry_01_4_a8579b03b4c320a6d3703e8f81c7696f0}\index{std::formatter$<$ ArenaEntry $>$@{std::formatter$<$ ArenaEntry $>$}!format@{format}}
+\index{format@{format}!std::formatter$<$ ArenaEntry $>$@{std::formatter$<$ ArenaEntry $>$}}
+\doxysubsubsection{\texorpdfstring{format()}{format()}}
+{\footnotesize\ttfamily \label{structstd_1_1formatter_3_01_arena_entry_01_4_a8579b03b4c320a6d3703e8f81c7696f0} 
+auto std::\+formatter$<$ \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} $>$::\+format (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{entry}{, }\item[{std::\+format\+\_\+context \&}]{ctx}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00077\ \ \ \ \ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::string\_view\ view(}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(entry.data),}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ entry.size}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::formatter<std::string\_view>::format(view,\ ctx);}
+\DoxyCodeLine{00084\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+arena.\+h\end{DoxyCompactItemize}

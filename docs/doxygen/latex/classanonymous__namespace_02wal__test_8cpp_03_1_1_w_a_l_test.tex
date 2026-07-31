@@ -1,0 +1,86 @@
+\doxysection{anonymous\+\_\+namespace\{wal\+\_\+test.\+cpp\}::\+WALTest Class Reference}
+\hypertarget{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test}{}\label{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test}\index{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest@{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest}}
+Inheritance diagram for anonymous\+\_\+namespace\{wal\+\_\+test.\+cpp\}::\+WALTest:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_ac01f0ffe45e58dd59b11773350cac310}{Set\+Up}} () override
+\item 
+void \doxymbox{\hyperlink{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_abb8d307b43f72c1b9c9ffd220f58cbb8}{Tear\+Down}} () override
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_af96c1b3c9f89bb3da1ce38cf6ed205bb}\label{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_af96c1b3c9f89bb3da1ce38cf6ed205bb} 
+std::\+filesystem::\+path {\bfseries path\+\_\+}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static std::\+atomic$<$ std::\+uint64\+\_\+t $>$ \doxymbox{\hyperlink{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_a62dd30337786f6e6829a8310fbdb1776}{next\+\_\+id\+\_\+}} \{ 0 \}
+\end{DoxyCompactItemize}
+
+
+\label{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_doc-func-members}
+\Hypertarget{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_ac01f0ffe45e58dd59b11773350cac310}\index{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest@{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest}!SetUp@{SetUp}}
+\index{SetUp@{SetUp}!anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest@{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest}}
+\doxysubsubsection{\texorpdfstring{SetUp()}{SetUp()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_ac01f0ffe45e58dd59b11773350cac310} 
+void anonymous\+\_\+namespace\{wal\+\_\+test.\+cpp\}::\+\+WALTest::\+\+Set\+Up (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ ticks\ =\ std::chrono::steady\_clock::now()}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .time\_since\_epoch()}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .count();}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ \textcolor{keywordtype}{id}\ =\ next\_id\_.fetch\_add(1);}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \ \ \ \ \ \ \ \ \ \ \ \ path\_\ =\ std::filesystem::temp\_directory\_path()\ /}
+\DoxyCodeLine{00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}kvdb\_wal\_test\_"{}}\ +\ std::to\_string(ticks)\ +\ \textcolor{stringliteral}{"{}\_"{}}\ +}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(\textcolor{keywordtype}{id})\ +\ \textcolor{stringliteral}{"{}.wal"{}});}
+\DoxyCodeLine{00331\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_abb8d307b43f72c1b9c9ffd220f58cbb8}\index{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest@{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest}!TearDown@{TearDown}}
+\index{TearDown@{TearDown}!anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest@{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest}}
+\doxysubsubsection{\texorpdfstring{TearDown()}{TearDown()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_abb8d307b43f72c1b9c9ffd220f58cbb8} 
+void anonymous\+\_\+namespace\{wal\+\_\+test.\+cpp\}::\+\+WALTest::\+\+Tear\+Down (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \ \ \ \ std::error\_code\ error;}
+\DoxyCodeLine{00336\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::remove(path\_,\ error);}
+\DoxyCodeLine{00337\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_doc-variable-members}
+\Hypertarget{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_a62dd30337786f6e6829a8310fbdb1776}\index{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest@{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest}!next\_id\_@{next\_id\_}}
+\index{next\_id\_@{next\_id\_}!anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest@{anonymous\_namespace\lcurly{}wal\_test.cpp\rcurly{}::WALTest}}
+\doxysubsubsection{\texorpdfstring{next\_id\_}{next\_id\_}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02wal__test_8cpp_03_1_1_w_a_l_test_a62dd30337786f6e6829a8310fbdb1776} 
+std::\+atomic$<$std::\+uint64\+\_\+t$>$ anonymous\+\_\+namespace\{wal\+\_\+test.\+cpp\}::\+\+WALTest::\+next\+\_\+id\+\_\+ \{ 0 \}\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [private]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00342\ \{\ 0\ \};}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+wal\+\_\+test.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,218 @@
+\doxysection{SSTable\+Entities::\+Bloom\+Section::\+Header Struct Reference}
+\hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header}{}\label{struct_s_s_table_entities_1_1_bloom_section_1_1_header}\index{SSTableEntities::BloomSection::Header@{SSTableEntities::BloomSection::Header}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a8449218388055ce1dc323a54cc46335b}\label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a8449218388055ce1dc323a54cc46335b} 
+{\bfseries Header} (const Header \&)=default
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a025a9db40b427eaf14542a762f4ca3fc}\label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a025a9db40b427eaf14542a762f4ca3fc} 
+{\bfseries Header} (Header \&\&) noexcept=default
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a00950d9e866859147fc4a29ba4bc467f}\label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a00950d9e866859147fc4a29ba4bc467f} 
+Header \& {\bfseries operator=} (const Header \&)=default
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_affedab04b4464c0191fd65c8e84622c6}\label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_affedab04b4464c0191fd65c8e84622c6} 
+Header \& {\bfseries operator=} (Header \&\&) noexcept=default
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a7916b3c0ab2d0eeb5405f31da6d553c1}{validate}} () const
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a2da76b79391fd2fd5fe94a13a8a87b1d}{write}} (\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&file, std::\+uint64\+\_\+t \&offset) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr std::\+size\+\_\+t \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section_1_1_header_ae00354f0bcf8044365929590b5cc563d}{disk\+\_\+size}} () noexcept
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ Header $>$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a09fa7b3bb1ffbc7e484fe3eae5cc2dde}{load}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a1412e5c91051165ce6fc2c81892cc41e}\label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a1412e5c91051165ce6fc2c81892cc41e} 
+Block\+Type {\bfseries type} = Block\+Type::\+\+Bloom
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_afa13c28a41fd290cb0ff596d82f69069}\label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_afa13c28a41fd290cb0ff596d82f69069} 
+std::\+uint32\+\_\+t {\bfseries payload\+\_\+size} = 0
+\item 
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a7ce7cf49ada276e4483c9493934944ee}\label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a7ce7cf49ada276e4483c9493934944ee} 
+std::\+uint32\+\_\+t {\bfseries crc32} = 0
+\end{DoxyCompactItemize}
+
+
+\label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_doc-func-members}
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_ae00354f0bcf8044365929590b5cc563d}\index{SSTableEntities::BloomSection::Header@{SSTableEntities::BloomSection::Header}!disk\_size@{disk\_size}}
+\index{disk\_size@{disk\_size}!SSTableEntities::BloomSection::Header@{SSTableEntities::BloomSection::Header}}
+\doxysubsubsection{\texorpdfstring{disk\_size()}{disk\_size()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_ae00354f0bcf8044365929590b5cc563d} 
+constexpr std::\+size\+\_\+t SSTable\+Entities::\+\+Bloom\+Section::\+\+Header::\+disk\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [nodiscard]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(std::uint8\_t)\ +}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t);}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a09fa7b3bb1ffbc7e484fe3eae5cc2dde}\index{SSTableEntities::BloomSection::Header@{SSTableEntities::BloomSection::Header}!load@{load}}
+\index{load@{load}!SSTableEntities::BloomSection::Header@{SSTableEntities::BloomSection::Header}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a09fa7b3bb1ffbc7e484fe3eae5cc2dde} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_s_s_table_entities_1_1_bloom_section_1_1_header}{Bloom\+Section::\+\+Header}} $>$ SSTable\+Entities::\+\+Bloom\+Section::\+\+Header::\+load (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00495\ \ \ \ \ \{}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ initial\_offset\ =\ offset;}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ Header\ result;}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ std::uint8\_t\ encoded\_type\ =\ 0;}
+\DoxyCodeLine{00499\ }
+\DoxyCodeLine{00500\ \ \ \ \ \ \ \ \ Status\ status\ =\ fits\_in\_block(offset,\ disk\_size(),\ BLOCK\_SIZE);}
+\DoxyCodeLine{00501\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00502\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(std::move(status));}
+\DoxyCodeLine{00503\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00504\ }
+\DoxyCodeLine{00505\ \ \ \ \ \ \ \ \ status\ =\ kvdb::blockio::read\_u8\_t(}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ encoded\_type,}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00510\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00511\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00512\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00513\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(std::move(status));}
+\DoxyCodeLine{00514\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00516\ \ \ \ \ \ \ \ \ result.type\ =\ \textcolor{keyword}{static\_cast<}BlockType\textcolor{keyword}{>}(encoded\_type);}
+\DoxyCodeLine{00517\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.type\ !=\ BlockType::Bloom)\ \{}
+\DoxyCodeLine{00518\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00519\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(Status\{}
+\DoxyCodeLine{00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidBlockType,}
+\DoxyCodeLine{00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}expected\ a\ Bloom\ block\ header"{}}}
+\DoxyCodeLine{00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00523\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00524\ }
+\DoxyCodeLine{00525\ \ \ \ \ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00526\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ result.payload\_size,}
+\DoxyCodeLine{00528\ \ \ \ \ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00529\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00530\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(std::move(status));}
+\DoxyCodeLine{00534\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00535\ }
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (result.payload\_size\ !=\ Payload::disk\_size())\ \{}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(Status\{}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bloom\ payload\ size\ is\ not\ valid\ for\ the\ version-\/1\ format"{}}}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00542\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00543\ }
+\DoxyCodeLine{00544\ \ \ \ \ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00545\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \ \ \ \ result.crc32,}
+\DoxyCodeLine{00547\ \ \ \ \ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00548\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::fail(std::move(status));}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00554\ }
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<Header>::ok(std::move(result));}
+\DoxyCodeLine{00556\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a7916b3c0ab2d0eeb5405f31da6d553c1}\index{SSTableEntities::BloomSection::Header@{SSTableEntities::BloomSection::Header}!validate@{validate}}
+\index{validate@{validate}!SSTableEntities::BloomSection::Header@{SSTableEntities::BloomSection::Header}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a7916b3c0ab2d0eeb5405f31da6d553c1} 
+\doxymbox{\hyperlink{struct_status}{Status}} SSTable\+Entities::\+\+Bloom\+Section::\+\+Header::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00140\ \ \ \ \ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (type\ !=\ BlockType::Bloom)\ \{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidBlockType,}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bloom\ header\ has\ an\ invalid\ block\ type"{}}}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload\_size\ !=\ Payload::disk\_size())\ \{}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bloom\ header\ payload\ size\ does\ not\ match\ the\ version-\/1\ format"{}}}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00156\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a2da76b79391fd2fd5fe94a13a8a87b1d}\index{SSTableEntities::BloomSection::Header@{SSTableEntities::BloomSection::Header}!write@{write}}
+\index{write@{write}!SSTableEntities::BloomSection::Header@{SSTableEntities::BloomSection::Header}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily \label{struct_s_s_table_entities_1_1_bloom_section_1_1_header_a2da76b79391fd2fd5fe94a13a8a87b1d} 
+\doxymbox{\hyperlink{struct_status}{Status}} SSTable\+Entities::\+\+Bloom\+Section::\+\+Header::\+write (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00338\ \ \ \ \ \{}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ Status\ status\ =\ validate();}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00344\ \ \ \ \ \ \ \ \ status\ =\ validate\_cursor(file,\ offset);}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00348\ }
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \ \ status\ =\ fits\_in\_block(offset,\ disk\_size(),\ BLOCK\_SIZE);}
+\DoxyCodeLine{00350\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00351\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00352\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \ \ \ \ \ \ status\ =\ kvdb::blockio::write\_u8\_t(}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint8\_t\textcolor{keyword}{>}(type),}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00359\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00360\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00361\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00363\ }
+\DoxyCodeLine{00364\ \ \ \ \ \ \ \ \ status\ =\ kvdb::blockio::write\_u32\_t\_le(}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \ \ payload\_size,}
+\DoxyCodeLine{00367\ \ \ \ \ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00370\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00371\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00372\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ kvdb::blockio::write\_u32\_t\_le(}
+\DoxyCodeLine{00375\ \ \ \ \ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00376\ \ \ \ \ \ \ \ \ \ \ \ \ crc32,}
+\DoxyCodeLine{00377\ \ \ \ \ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ \ \ \ \ \ \ BLOCK\_SIZE}
+\DoxyCodeLine{00379\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00380\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+sstable\+\_\+entities/\+bloom\+\_\+section.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+sstable\+\_\+entities/\+bloom\+\_\+section.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,35 @@
+\doxysection{anonymous\+\_\+namespace\{data\+\_\+section\+\_\+test.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02data__section__test_8cpp_03}{}\label{namespaceanonymous__namespace_02data__section__test_8cpp_03}\index{anonymous\_namespace\lcurly{}data\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \doxymbox{\hyperlink{classanonymous__namespace_02data__section__test_8cpp_03_1_1_memory_writable_file}{Memory\+Writable\+File}}
+\item 
+struct \doxymbox{\hyperlink{structanonymous__namespace_02data__section__test_8cpp_03_1_1_stored_record}{Stored\+Record}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std::\+uint32\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02data__section__test_8cpp_03_af24ec7a20d63cfa9257b87c4a6e7ad8d}{read\+\_\+u32\+\_\+le}} (const std::\+vector$<$ std::\+byte $>$ \&bytes, std::\+size\+\_\+t offset)
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02data__section__test_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02data__section__test_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02data__section__test_8cpp_03_af24ec7a20d63cfa9257b87c4a6e7ad8d}\index{anonymous\_namespace\lcurly{}data\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_test.cpp\rcurly{}}!read\_u32\_le@{read\_u32\_le}}
+\index{read\_u32\_le@{read\_u32\_le}!anonymous\_namespace\lcurly{}data\_section\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}data\_section\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{read\_u32\_le()}{read\_u32\_le()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02data__section__test_8cpp_03_af24ec7a20d63cfa9257b87c4a6e7ad8d} 
+std::\+uint32\+\_\+t anonymous\+\_\+namespace\{data\+\_\+section\+\_\+test.\+cpp\}::\+read\+\_\+u32\+\_\+le (\begin{DoxyParamCaption}\item[{const std::\+vector$<$ std::\+byte $>$ \&}]{bytes}{, }\item[{std::\+size\+\_\+t}]{offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00192\ \ \ \ \ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::to\_integer<std::uint32\_t>(bytes.at(offset))\ |}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \ \ \ \ (std::to\_integer<std::uint32\_t>(bytes.at(offset\ +\ 1))\ <<\ 8u)\ |}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ (std::to\_integer<std::uint32\_t>(bytes.at(offset\ +\ 2))\ <<\ 16u)\ |}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ (std::to\_integer<std::uint32\_t>(bytes.at(offset\ +\ 3))\ <<\ 24u);}
+\DoxyCodeLine{00197\ \ \ \ \ \}}
+
+\end{DoxyCode}

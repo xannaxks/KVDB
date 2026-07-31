@@ -1,0 +1,153 @@
+\doxysection{kvdb::\+DBOptions::\+Compaction\+Options Struct Reference}
+\hypertarget{structkvdb_1_1_d_b_options_1_1_compaction_options}{}\label{structkvdb_1_1_d_b_options_1_1_compaction_options}\index{kvdb::DBOptions::CompactionOptions@{kvdb::DBOptions::CompactionOptions}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_compaction_options_a76ce315708355888dbce47093005e2b7}{validate}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_compaction_options_a4e4126485244f6915a6a3193a8a05963}\label{structkvdb_1_1_d_b_options_1_1_compaction_options_a4e4126485244f6915a6a3193a8a05963} 
+bool {\bfseries enable\+\_\+background\+\_\+compaction} = true
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_compaction_options_a8786825535161c27e5e3c8e987676cde}\label{structkvdb_1_1_d_b_options_1_1_compaction_options_a8786825535161c27e5e3c8e987676cde} 
+std::\+uint32\+\_\+t {\bfseries max\+\_\+levels} = 7
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_compaction_options_a0d7e10f3d7242abdf18e44e079fd1722}\label{structkvdb_1_1_d_b_options_1_1_compaction_options_a0d7e10f3d7242abdf18e44e079fd1722} 
+std::\+size\+\_\+t {\bfseries l0\+\_\+file\+\_\+count\+\_\+trigger} = 4
+\item 
+std::\+vector$<$ std::\+uint64\+\_\+t $>$ \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_compaction_options_aec0099a4f45c293a4fcf29362a3bf7d1}{max\+\_\+bytes\+\_\+per\+\_\+level}}
+\item 
+std::\+vector$<$ std::\+uint64\+\_\+t $>$ \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_compaction_options_a76933f65647378c64c1105a11b56bd34}{target\+\_\+file\+\_\+size\+\_\+per\+\_\+level}}
+\end{DoxyCompactItemize}
+
+
+\label{structkvdb_1_1_d_b_options_1_1_compaction_options_doc-func-members}
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_compaction_options_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_compaction_options_a76ce315708355888dbce47093005e2b7}\index{kvdb::DBOptions::CompactionOptions@{kvdb::DBOptions::CompactionOptions}!validate@{validate}}
+\index{validate@{validate}!kvdb::DBOptions::CompactionOptions@{kvdb::DBOptions::CompactionOptions}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_compaction_options_a76ce315708355888dbce47093005e2b7} 
+\doxymbox{\hyperlink{struct_status}{Status}} kvdb::\+\+DBOptions::\+\+Compaction\+Options::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (max\_levels\ <\ 2)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}compaction\ max\_levels\ must\ be\ at\ least\ 2"{}}}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (l0\_file\_count\_trigger\ ==\ 0\ ||}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ l0\_file\_count\_trigger\ >}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}compaction\ l0\_file\_count\_trigger\ is\ outside\ the\ supported\ range"{}}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (max\_bytes\_per\_level.size()\ <\ max\_levels\ ||}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ target\_file\_size\_per\_level.size()\ <\ max\_levels)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}compaction\ level\ option\ arrays\ must\ cover\ every\ level"{}}}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::uint32\_t\ level\ =\ 1;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ level\ +\ 1\ <\ max\_levels;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ ++level)\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (max\_bytes\_per\_level[level]\ ==\ 0)\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}every\ compactable\ L1+\ level\ needs\ a\ non-\/zero\ byte\ limit"{}}}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::uint32\_t\ level\ =\ 1;}
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ \ \ \ \ level\ <\ max\_levels;}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \ \ \ \ ++level)\ \{}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (target\_file\_size\_per\_level[level]\ ==\ 0)\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}every\ output\ level\ needs\ a\ non-\/zero\ target\ file\ size"{}}}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00107\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{structkvdb_1_1_d_b_options_1_1_compaction_options_doc-variable-members}
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_compaction_options_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_compaction_options_aec0099a4f45c293a4fcf29362a3bf7d1}\index{kvdb::DBOptions::CompactionOptions@{kvdb::DBOptions::CompactionOptions}!max\_bytes\_per\_level@{max\_bytes\_per\_level}}
+\index{max\_bytes\_per\_level@{max\_bytes\_per\_level}!kvdb::DBOptions::CompactionOptions@{kvdb::DBOptions::CompactionOptions}}
+\doxysubsubsection{\texorpdfstring{max\_bytes\_per\_level}{max\_bytes\_per\_level}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_compaction_options_aec0099a4f45c293a4fcf29362a3bf7d1} 
+std::\+vector$<$std::\+uint64\+\_\+t$>$ kvdb::\+\+DBOptions::\+\+Compaction\+Options::\+max\+\_\+bytes\+\_\+per\+\_\+level}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \{}
+\DoxyCodeLine{\ \ \ \ 0,}
+\DoxyCodeLine{\ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 640ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 6400ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 64000ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 640000ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 0}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0,}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 640ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 6400ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 64000ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 640000ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+
+\end{DoxyCode}
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_compaction_options_a76933f65647378c64c1105a11b56bd34}\index{kvdb::DBOptions::CompactionOptions@{kvdb::DBOptions::CompactionOptions}!target\_file\_size\_per\_level@{target\_file\_size\_per\_level}}
+\index{target\_file\_size\_per\_level@{target\_file\_size\_per\_level}!kvdb::DBOptions::CompactionOptions@{kvdb::DBOptions::CompactionOptions}}
+\doxysubsubsection{\texorpdfstring{target\_file\_size\_per\_level}{target\_file\_size\_per\_level}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_compaction_options_a76933f65647378c64c1105a11b56bd34} 
+std::\+vector$<$std::\+uint64\+\_\+t$>$ kvdb::\+\+DBOptions::\+\+Compaction\+Options::\+target\+\_\+file\+\_\+size\+\_\+per\+\_\+level}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =\ \{}
+\DoxyCodeLine{\ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 16ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 32ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 128ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{\ \ \ \ 256ull\ *\ 1024\ *\ 1024}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 16ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 32ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 128ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 256ull\ *\ 1024\ *\ 1024}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+db\+\_\+options.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+db\+\_\+options.\+cpp\end{DoxyCompactItemize}

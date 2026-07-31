@@ -1,0 +1,148 @@
+\doxysection{endian\+\_\+io.\+h}
+\hypertarget{endian__io_8h_source}{}\label{endian__io_8h_source}\index{C:/Users/user/KVDB/include/endian\_io.h@{C:/Users/user/KVDB/include/endian\_io.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NOMINMAX}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <iosfwd>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <span>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}file.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }\doxymbox{\hyperlink{namespacekvdb_1_1endian}{kvdb::endian}}}
+\DoxyCodeLine{00015\ \{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{void}\ put\_u8(std::vector<std::byte>\&\ out,\ std::uint8\_t\ value);}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{void}\ put\_u16\_le(std::vector<std::byte>\&\ out,\ std::uint16\_t\ value);}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{void}\ put\_u32\_le(std::vector<std::byte>\&\ out,\ std::uint32\_t\ value);}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{void}\ put\_u64\_le(std::vector<std::byte>\&\ out,\ std::uint64\_t\ value);}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{comment}{//\ Appends\ a\ u32\ little-\/endian\ size\ prefix\ followed\ by\ bytes.}}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ Returns\ InvalidArgument\ when\ bytes.size()\ cannot\ be\ represented\ by\ u32.}}
+\DoxyCodeLine{00023\ \ \ \ \ Status\ put\_bytes\_with\_u32\_size(}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ std::vector<std::byte>\&\ out,}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>\ bytes}
+\DoxyCodeLine{00026\ \ \ \ \ );}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ write\_u8(}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ std::ostream\&\ out,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ std::uint8\_t\ value}
+\DoxyCodeLine{00031\ \ \ \ \ );}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ write\_u64\_le(}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ std::ostream\&\ out,}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ std::uint64\_t\ value}
+\DoxyCodeLine{00036\ \ \ \ \ );}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ write\_bytes\_with\_u32\_size(}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ std::ostream\&\ out,}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>\ bytes}
+\DoxyCodeLine{00041\ \ \ \ \ );}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ [[nodiscard]]\ std::optional<std::uint8\_t>\ read\_u8(}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ std::istream\&\ in}
+\DoxyCodeLine{00045\ \ \ \ \ );}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ [[nodiscard]]\ std::optional<std::uint64\_t>\ read\_u64\_le(}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ std::istream\&\ in}
+\DoxyCodeLine{00049\ \ \ \ \ );}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ [[nodiscard]]\ std::optional<std::vector<std::byte>>}
+\DoxyCodeLine{00052\ \ \ \ \ read\_bytes\_with\_u32\_size(std::istream\&\ in);}
+\DoxyCodeLine{00053\ \}}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{namespace\ }\doxymbox{\hyperlink{namespacekvdb_1_1blockio}{kvdb::blockio}}}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ Status\ write\_u8\_t(}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ WritableFile\&\ file,}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ std::uint8\_t\ value,}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00062\ \ \ \ \ );}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ Status\ write\_u16\_t\_le(}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ WritableFile\&\ file,}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ std::uint16\_t\ value,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00069\ \ \ \ \ );}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ Status\ write\_u32\_t\_le(}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ WritableFile\&\ file,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ std::uint32\_t\ value,}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00076\ \ \ \ \ );}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ Status\ write\_u64\_t\_le(}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ WritableFile\&\ file,}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ std::uint64\_t\ value,}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00083\ \ \ \ \ );}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ Status\ write\_bytes(}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ WritableFile\&\ file,}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>\ data,}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00090\ \ \ \ \ );}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ Status\ write\_bytes\_with\_u32\_size(}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ WritableFile\&\ file,}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>\ data,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00097\ \ \ \ \ );}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ Status\ read\_u8\_t(}
+\DoxyCodeLine{00100\ \ \ \ \ \ \ \ \ ReadableFile\&\ file,}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ std::uint8\_t\&\ value,}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00104\ \ \ \ \ );}
+\DoxyCodeLine{00105\ }
+\DoxyCodeLine{00106\ \ \ \ \ Status\ read\_u16\_t\_le(}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ ReadableFile\&\ file,}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ std::uint16\_t\&\ value,}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00111\ \ \ \ \ );}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ Status\ read\_u32\_t\_le(}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ ReadableFile\&\ file,}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ std::uint32\_t\&\ value,}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00118\ \ \ \ \ );}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ Status\ read\_u64\_t\_le(}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ ReadableFile\&\ file,}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ value,}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00125\ \ \ \ \ );}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ Status\ read\_bytes(}
+\DoxyCodeLine{00128\ \ \ \ \ \ \ \ \ ReadableFile\&\ file,}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ std::byte*\ buffer,}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ std::uint32\_t\ size,}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00133\ \ \ \ \ );}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ Status\ read\_bytes\_with\_u32\_size(}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ ReadableFile\&\ file,}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ std::span<std::byte>\ buffer,}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ std::uint32\_t\&\ bytes\_read,}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ std::uint32\_t\ block\_size}
+\DoxyCodeLine{00141\ \ \ \ \ );}
+\DoxyCodeLine{00142\ \}}
+
+\end{DoxyCode}

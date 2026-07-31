@@ -1,0 +1,163 @@
+\doxysection{RBTree::\+Node Struct Reference}
+\hypertarget{struct_r_b_tree_1_1_node}{}\label{struct_r_b_tree_1_1_node}\index{RBTree::Node@{RBTree::Node}}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class {\bfseries Color} \{ {\bfseries Red}
+, {\bfseries Black}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_r_b_tree_1_1_node_a77b4f6387e2f7430da0e985c007a9d7f}{Node}} (\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} key\+\_\+entry, \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} value\+\_\+entry, Type type, uint64\+\_\+t seq\+\_\+num)
+\item 
+bool \doxymbox{\hyperlink{struct_r_b_tree_1_1_node_a3c9a15ce4f267c1009e9e3a523ff20c9}{operator$<$}} (const Node \&other) const
+\item 
+bool \doxymbox{\hyperlink{struct_r_b_tree_1_1_node_ad2364b081d34b4f89a455bed595583ac}{operator$>$}} (const Node \&other) const
+\item 
+bool \doxymbox{\hyperlink{struct_r_b_tree_1_1_node_a0de23679af52e9c46648076e9953590c}{operator==}} (const Node \&other) const
+\item 
+size\+\_\+t \doxymbox{\hyperlink{struct_r_b_tree_1_1_node_aa0087f41807bdf37a0440537cae697b5}{approximate\+\_\+memory\+\_\+usage}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_r_b_tree_1_1_node_a31fc9075ae7063a2c0678de409afd5c8}\label{struct_r_b_tree_1_1_node_a31fc9075ae7063a2c0678de409afd5c8} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} {\bfseries key\+\_\+entry}
+\item 
+\Hypertarget{struct_r_b_tree_1_1_node_a545c737af4522896daa0e22402638d7c}\label{struct_r_b_tree_1_1_node_a545c737af4522896daa0e22402638d7c} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} {\bfseries value\+\_\+entry}
+\item 
+\Hypertarget{struct_r_b_tree_1_1_node_ac78c6773cc86d90c4b8e7c7c832f9706}\label{struct_r_b_tree_1_1_node_ac78c6773cc86d90c4b8e7c7c832f9706} 
+const uint64\+\_\+t {\bfseries seq\+\_\+number}
+\item 
+\Hypertarget{struct_r_b_tree_1_1_node_ad7a143c31a776743ed8dad833fdededf}\label{struct_r_b_tree_1_1_node_ad7a143c31a776743ed8dad833fdededf} 
+Type {\bfseries type}
+\item 
+\Hypertarget{struct_r_b_tree_1_1_node_ae0feb930f3d3ce07f658f5b18ca75202}\label{struct_r_b_tree_1_1_node_ae0feb930f3d3ce07f658f5b18ca75202} 
+Color {\bfseries color}
+\item 
+\Hypertarget{struct_r_b_tree_1_1_node_ab2ed08bbac4434750ea529866351789b}\label{struct_r_b_tree_1_1_node_ab2ed08bbac4434750ea529866351789b} 
+Node \texorpdfstring{$\ast$}{*} {\bfseries left}
+\item 
+\Hypertarget{struct_r_b_tree_1_1_node_a218ecee937a478fbae4224b9204de60f}\label{struct_r_b_tree_1_1_node_a218ecee937a478fbae4224b9204de60f} 
+Node \texorpdfstring{$\ast$}{*} {\bfseries right}
+\item 
+\Hypertarget{struct_r_b_tree_1_1_node_a2d19bc0a52acc2615198e9e14d040769}\label{struct_r_b_tree_1_1_node_a2d19bc0a52acc2615198e9e14d040769} 
+Node \texorpdfstring{$\ast$}{*} {\bfseries parent}
+\end{DoxyCompactItemize}
+
+
+\label{struct_r_b_tree_1_1_node_doc-enum-members}
+\Hypertarget{struct_r_b_tree_1_1_node_doc-enum-members}
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{struct_r_b_tree_1_1_node_ace7c560581111c898cc512f5dce6d18d}\index{RBTree::Node@{RBTree::Node}!Color@{Color}}
+\index{Color@{Color}!RBTree::Node@{RBTree::Node}}
+\doxysubsubsection{\texorpdfstring{Color}{Color}}
+{\footnotesize\ttfamily \label{struct_r_b_tree_1_1_node_ace7c560581111c898cc512f5dce6d18d} 
+enum class RBTree::\+\+Node::\+\+Color\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ Red,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ Black}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \};}
+
+\end{DoxyCode}
+
+
+\label{struct_r_b_tree_1_1_node_doc-constructors}
+\Hypertarget{struct_r_b_tree_1_1_node_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_r_b_tree_1_1_node_a77b4f6387e2f7430da0e985c007a9d7f}\index{RBTree::Node@{RBTree::Node}!Node@{Node}}
+\index{Node@{Node}!RBTree::Node@{RBTree::Node}}
+\doxysubsubsection{\texorpdfstring{Node()}{Node()}}
+{\footnotesize\ttfamily \label{struct_r_b_tree_1_1_node_a77b4f6387e2f7430da0e985c007a9d7f} 
+RBTree::\+\+Node::\+\+Node (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}}}]{key\+\_\+entry}{, }\item[{\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}}}]{value\+\_\+entry}{, }\item[{Type}]{type}{, }\item[{uint64\+\_\+t}]{seq\+\_\+num}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00019\ \ \ \ \ :\ key\_entry(key),}
+\DoxyCodeLine{00020\ \ \ \ \ value\_entry(value),}
+\DoxyCodeLine{00021\ \ \ \ \ seq\_number(sequence\_number),}
+\DoxyCodeLine{00022\ \ \ \ \ type(record\_type),}
+\DoxyCodeLine{00023\ \ \ \ \ color(Color::Red),}
+\DoxyCodeLine{00024\ \ \ \ \ left(\textcolor{keyword}{nullptr}),}
+\DoxyCodeLine{00025\ \ \ \ \ right(\textcolor{keyword}{nullptr}),}
+\DoxyCodeLine{00026\ \ \ \ \ parent(\textcolor{keyword}{nullptr}) }
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00028\ \}}
+
+\end{DoxyCode}
+
+
+\label{struct_r_b_tree_1_1_node_doc-func-members}
+\Hypertarget{struct_r_b_tree_1_1_node_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_r_b_tree_1_1_node_aa0087f41807bdf37a0440537cae697b5}\index{RBTree::Node@{RBTree::Node}!approximate\_memory\_usage@{approximate\_memory\_usage}}
+\index{approximate\_memory\_usage@{approximate\_memory\_usage}!RBTree::Node@{RBTree::Node}}
+\doxysubsubsection{\texorpdfstring{approximate\_memory\_usage()}{approximate\_memory\_usage()}}
+{\footnotesize\ttfamily \label{struct_r_b_tree_1_1_node_aa0087f41807bdf37a0440537cae697b5} 
+size\+\_\+t RBTree::\+\+Node::\+approximate\+\_\+memory\+\_\+usage (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00052\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{sizeof}(Node)\ +\ this-\/>key\_entry.size\ +\ this-\/>value\_entry.size;}
+\DoxyCodeLine{00054\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_r_b_tree_1_1_node_a3c9a15ce4f267c1009e9e3a523ff20c9}\index{RBTree::Node@{RBTree::Node}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!RBTree::Node@{RBTree::Node}}
+\doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily \label{struct_r_b_tree_1_1_node_a3c9a15ce4f267c1009e9e3a523ff20c9} 
+bool RBTree::\+\+Node::\+operator$<$ (\begin{DoxyParamCaption}\item[{const Node \&}]{other}{}\end{DoxyParamCaption}) const}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00031\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>key\_entry\ ==\ other.key\_entry)}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>seq\_number\ >\ other.seq\_number;\ \textcolor{comment}{//\ For\ the\ same\ keys,\ the\ one\ with\ higher\ seq\_number\ is\ considered\ "{}less"{}\ to\ ensure\ it\ comes\ first\ in\ the\ search}}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>key\_entry\ <\ other.key\_entry;}
+\DoxyCodeLine{00035\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_r_b_tree_1_1_node_a0de23679af52e9c46648076e9953590c}\index{RBTree::Node@{RBTree::Node}!operator==@{operator==}}
+\index{operator==@{operator==}!RBTree::Node@{RBTree::Node}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily \label{struct_r_b_tree_1_1_node_a0de23679af52e9c46648076e9953590c} 
+bool RBTree::\+\+Node::\+operator== (\begin{DoxyParamCaption}\item[{const Node \&}]{other}{}\end{DoxyParamCaption}) const}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00042\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{comment}{//return\ this-\/>key\_entry\ ==\ other.key\_entry\ \&\&\ this-\/>seq\_number\ ==\ other.seq\_number\ \&\&\ this-\/>value\_entry\ ==\ other.value\_entry;}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//return\ this-\/>key\_entry\ ==\ other.key\_entry\ \&\&\ this-\/>seq\_number\ ==\ other.seq\_number\ \&\&\ this-\/>value\_entry\ ==\ other.value\_entry;}}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \textcolor{comment}{//\ Comparator\ equivalence\ and\ duplicate\ identity\ are\ key\ +\ sequence.}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Value\ and\ type\ are\ payload\ and\ must\ not\ change\ node\ identity.}}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>key\_entry\ ==\ other.key\_entry\ \&\&}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ this-\/>seq\_number\ ==\ other.seq\_number;}
+\DoxyCodeLine{00049\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_r_b_tree_1_1_node_ad2364b081d34b4f89a455bed595583ac}\index{RBTree::Node@{RBTree::Node}!operator$>$@{operator$>$}}
+\index{operator$>$@{operator$>$}!RBTree::Node@{RBTree::Node}}
+\doxysubsubsection{\texorpdfstring{operator$>$()}{operator>()}}
+{\footnotesize\ttfamily \label{struct_r_b_tree_1_1_node_ad2364b081d34b4f89a455bed595583ac} 
+bool RBTree::\+\+Node::\+operator$>$ (\begin{DoxyParamCaption}\item[{const Node \&}]{other}{}\end{DoxyParamCaption}) const}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00037\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordflow}{return}\ other\ <\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00039\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+red\+\_\+black\+\_\+tree.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+red\+\_\+black\+\_\+tree.\+cpp\end{DoxyCompactItemize}

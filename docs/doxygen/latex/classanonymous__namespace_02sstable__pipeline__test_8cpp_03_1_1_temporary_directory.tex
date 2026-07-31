@@ -1,0 +1,105 @@
+\doxysection{anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+Temporary\+Directory Class Reference}
+\hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory}{}\label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_a4749fb1dfaa9c3ee63d63c1d253e86ae}\label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_a4749fb1dfaa9c3ee63d63c1d253e86ae} 
+{\bfseries Temporary\+Directory} (const Temporary\+Directory \&)=delete
+\item 
+\Hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_acfa3920e9e7a4cef5d679eb06621f4e3}\label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_acfa3920e9e7a4cef5d679eb06621f4e3} 
+Temporary\+Directory \& {\bfseries operator=} (const Temporary\+Directory \&)=delete
+\item 
+const std::\+filesystem::\+path \& \doxymbox{\hyperlink{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_a122cdba66f0f0ab5cd26106cf0e2c5b6}{root}} () const noexcept
+\item 
+std::\+filesystem::\+path \doxymbox{\hyperlink{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_ab21452d65ad169d2aabb87a4ee6ca85c}{path}} (const std::\+filesystem::\+path \&child) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_ad176886727f66bd4526d76e065271f02}\label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_ad176886727f66bd4526d76e065271f02} 
+std::\+filesystem::\+path {\bfseries root\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_doc-constructors}
+\Hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_a1ec16e8dbe68ce70b225d4a1cfd2168e}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory}!TemporaryDirectory@{TemporaryDirectory}}
+\index{TemporaryDirectory@{TemporaryDirectory}!anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory}}
+\doxysubsubsection{\texorpdfstring{TemporaryDirectory()}{TemporaryDirectory()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_a1ec16e8dbe68ce70b225d4a1cfd2168e} 
+anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+\+Temporary\+Directory::\+\+Temporary\+Directory (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::atomic<std::uint64\_t>\ next\_id\{\ 0\ \};}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ timestamp\ =\ std::chrono::steady\_clock::now()}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .time\_since\_epoch()}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .count();}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ root\_\ =\ std::filesystem::temp\_directory\_path()\ /}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}kvdb\_sstable\_pipeline\_test\_"{}}\ +}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(timestamp)\ +\ \textcolor{stringliteral}{"{}\_"{}}\ +}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(next\_id.fetch\_add(1)));}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \ \ \ \ std::error\_code\ ec;}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::create\_directories(root\_,\ ec);}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ec)\ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::runtime\_error(}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Failed\ to\ create\ test\ directory:\ "{}}\ +\ ec.message()}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_ae125909bf07357f6223404afc681cb92}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory}!````~TemporaryDirectory@{\texorpdfstring{$\sim$}{\string~}TemporaryDirectory}}
+\index{````~TemporaryDirectory@{\texorpdfstring{$\sim$}{\string~}TemporaryDirectory}!anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}TemporaryDirectory()}{\string~TemporaryDirectory()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_ae125909bf07357f6223404afc681cb92} 
+anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+\+Temporary\+Directory::\+\texorpdfstring{$\sim$}{\string~}\+Temporary\+Directory (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ std::error\_code\ ignored;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::remove\_all(root\_,\ ignored);}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_doc-func-members}
+\Hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_ab21452d65ad169d2aabb87a4ee6ca85c}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory}!path@{path}}
+\index{path@{path}!anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory}}
+\doxysubsubsection{\texorpdfstring{path()}{path()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_ab21452d65ad169d2aabb87a4ee6ca85c} 
+std::\+filesystem::\+path anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+\+Temporary\+Directory::\+path (\begin{DoxyParamCaption}\item[{const std::\+filesystem::\+path \&}]{child}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ root\_\ /\ child;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_a122cdba66f0f0ab5cd26106cf0e2c5b6}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory}!root@{root}}
+\index{root@{root}!anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}::TemporaryDirectory}}
+\doxysubsubsection{\texorpdfstring{root()}{root()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory_a122cdba66f0f0ab5cd26106cf0e2c5b6} 
+const std::\+filesystem::\+path \& anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+\+Temporary\+Directory::\+root (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ root\_;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+sstable\+\_\+pipeline\+\_\+test.\+cpp\end{DoxyCompactItemize}

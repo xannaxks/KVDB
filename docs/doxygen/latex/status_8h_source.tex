@@ -1,0 +1,140 @@
+\doxysection{status.\+h}
+\hypertarget{status_8h_source}{}\label{status_8h_source}\index{C:/Users/user/KVDB/include/status.h@{C:/Users/user/KVDB/include/status.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NOMINMAX}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <utility>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{enum\ class}\ StatusCode\ :\ std::uint8\_t\ \{}
+\DoxyCodeLine{00009\ \ \ \ \ }
+\DoxyCodeLine{00010\ \ \ \ \ Ok\ =\ 0,}
+\DoxyCodeLine{00011\ \ \ \ \ UseAfterClose,}
+\DoxyCodeLine{00012\ \ \ \ \ InvalidState,}
+\DoxyCodeLine{00013\ \ \ \ \ DataTypeOverflow,}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{comment}{//\ Compaction}}
+\DoxyCodeLine{00015\ \ \ \ \ OverlappingKeys,}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{comment}{//\ Generic}}
+\DoxyCodeLine{00018\ \ \ \ \ BadAccess,}
+\DoxyCodeLine{00019\ \ \ \ \ Underflow,}
+\DoxyCodeLine{00020\ \ \ \ \ InvalidArgument,}
+\DoxyCodeLine{00021\ \ \ \ \ FailedPrecondition,}
+\DoxyCodeLine{00022\ \ \ \ \ NotFound,}
+\DoxyCodeLine{00023\ \ \ \ \ AlreadyExists,}
+\DoxyCodeLine{00024\ \ \ \ \ NotSupported,}
+\DoxyCodeLine{00025\ \ \ \ \ InternalError,}
+\DoxyCodeLine{00026\ \ \ \ \ InvariantViolation,}
+\DoxyCodeLine{00027\ \ \ \ \ Duplicate,}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//\ Memory}}
+\DoxyCodeLine{00030\ \ \ \ \ OutOfMemory,}
+\DoxyCodeLine{00031\ \ \ \ \ AllocationFailed,}
+\DoxyCodeLine{00032\ \ \ \ \ InvalidAlignment,}
+\DoxyCodeLine{00033\ \ \ \ \ AllocationTooLarge,}
+\DoxyCodeLine{00034\ \ \ \ \ BufferTooSmall,}
+\DoxyCodeLine{00035\ \ \ \ \ NullPointer,}
+\DoxyCodeLine{00036\ \ \ \ \ BadAlloc,}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{//\ File\ helpers}}
+\DoxyCodeLine{00039\ \ \ \ \ InvalidOffset,}
+\DoxyCodeLine{00040\ \ \ \ \ InvalidReadSize,}
+\DoxyCodeLine{00041\ \ \ \ \ SizeExceedsBlockSize,}
+\DoxyCodeLine{00042\ \ \ \ \ SizeExceedsBlockBoundary,}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//\ IO\ /\ syscalls}}
+\DoxyCodeLine{00045\ \ \ \ \ IOError,}
+\DoxyCodeLine{00046\ \ \ \ \ OpenFailed,}
+\DoxyCodeLine{00047\ \ \ \ \ ReadFailed,}
+\DoxyCodeLine{00048\ \ \ \ \ WriteFailed,}
+\DoxyCodeLine{00049\ \ \ \ \ SyncFailed,}
+\DoxyCodeLine{00050\ \ \ \ \ CloseFailed,}
+\DoxyCodeLine{00051\ \ \ \ \ RenameFailed,}
+\DoxyCodeLine{00052\ \ \ \ \ DirectorySyncFailed,}
+\DoxyCodeLine{00053\ \ \ \ \ GetPositionFailed,}
+\DoxyCodeLine{00054\ \ \ \ \ GetSizeFailed,}
+\DoxyCodeLine{00055\ \ \ \ \ PermissionDenied,}
+\DoxyCodeLine{00056\ \ \ \ \ SeekFailed,}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{comment}{//\ File\ format}}
+\DoxyCodeLine{00059\ \ \ \ \ Corruption,}
+\DoxyCodeLine{00060\ \ \ \ \ BadMagic,}
+\DoxyCodeLine{00061\ \ \ \ \ UnsupportedVersion,}
+\DoxyCodeLine{00062\ \ \ \ \ UnsupportedBlockSize,}
+\DoxyCodeLine{00063\ \ \ \ \ ChecksumMismatch,}
+\DoxyCodeLine{00064\ \ \ \ \ InvalidHeader,}
+\DoxyCodeLine{00065\ \ \ \ \ InvalidFooter,}
+\DoxyCodeLine{00066\ \ \ \ \ InvalidBlockType,}
+\DoxyCodeLine{00067\ \ \ \ \ InvalidBlockAlignment,}
+\DoxyCodeLine{00068\ \ \ \ \ InvalidSectionOffset,}
+\DoxyCodeLine{00069\ \ \ \ \ InvalidSectionSize,}
+\DoxyCodeLine{00070\ \ \ \ \ InvalidPayloadSize,}
+\DoxyCodeLine{00071\ \ \ \ \ OffsetOutOfRange,}
+\DoxyCodeLine{00072\ \ \ \ \ OffsetOverlap,}
+\DoxyCodeLine{00073\ \ \ \ \ UnexpectedEOF,}
+\DoxyCodeLine{00074\ \ \ \ \ BadFileDescriptor}
+\DoxyCodeLine{00075\ \};}
+\DoxyCodeLine{00076\ \textcolor{keyword}{struct\ }Status\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ Status()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00078\ \ \ \ \ Status(\textcolor{keyword}{const}\ Status\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00079\ \ \ \ \ Status(Status\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ Status(StatusCode\ code,\ std::string\ message\ =\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ :\ code(code),\ message(std::move(message))\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \}}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ Status(StatusCode\ code,\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ message)}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ :\ code(code),\ message(message)\ \{}
+\DoxyCodeLine{00087\ \ \ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ StatusCode\ code\ =\ StatusCode::Ok;}
+\DoxyCodeLine{00090\ \ \ \ \ std::string\ message;}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keyword}{static}\ Status\ ok();}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keyword}{static}\ Status\ invalid\_argument(std::string\ message)}
+\DoxyCodeLine{00094\ \ \ \ \ \{}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{\ StatusCode::InvalidArgument,\ std::move(message)\ \};}
+\DoxyCodeLine{00096\ \ \ \ \ \}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_ok()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ Status\&\ operator=(\textcolor{keyword}{const}\ Status\&)\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00101\ \ \ \ \ Status\&\ operator=(Status\&\&)\ \textcolor{keyword}{noexcept}\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00102\ \};}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ T>}
+\DoxyCodeLine{00105\ \textcolor{keyword}{struct\ }[[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result}}}
+\DoxyCodeLine{00106\ \{}
+\DoxyCodeLine{00107\ \ \ \ \ T\ value;}
+\DoxyCodeLine{00108\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ status;}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result}}\ ok(T\ v)}
+\DoxyCodeLine{00111\ \ \ \ \ \{}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result}}\{\ std::move(v),\ Status::ok()\ \};}
+\DoxyCodeLine{00113\ \ \ \ \ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result}}\ fail(\doxymbox{\hyperlink{struct_status}{Status}}\ s)}
+\DoxyCodeLine{00116\ \ \ \ \ \{}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_result}{Result}}\{\ T\{\},\ std::move(s)\ \};}
+\DoxyCodeLine{00118\ \ \ \ \ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordtype}{bool}\ is\_ok()\textcolor{keyword}{\ const}}
+\DoxyCodeLine{00121\ \textcolor{keyword}{\ \ \ \ }\{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>status.is\_ok();}
+\DoxyCodeLine{00123\ \ \ \ \ \}}
+\DoxyCodeLine{00124\ \};}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \textcolor{preprocessor}{\#include\ <system\_error>}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#ifdef\ \_WIN32}}
+\DoxyCodeLine{00129\ \textcolor{preprocessor}{\#include\ <windows.h>}}
+\DoxyCodeLine{00130\ \textcolor{preprocessor}{\#else}}
+\DoxyCodeLine{00131\ \textcolor{preprocessor}{\#include\ <cerrno>}}
+\DoxyCodeLine{00132\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \doxymbox{\hyperlink{struct_status}{Status}}\ syscall\_error(StatusCode\ code,\ std::string\ op);}
+
+\end{DoxyCode}

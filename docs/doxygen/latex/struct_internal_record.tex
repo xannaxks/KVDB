@@ -1,0 +1,259 @@
+\doxysection{Internal\+Record Struct Reference}
+\hypertarget{struct_internal_record}{}\label{struct_internal_record}\index{InternalRecord@{InternalRecord}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+std::\+uint32\+\_\+t \doxymbox{\hyperlink{struct_internal_record_aec7100ec24f02ed4ddf2ac804cad2393}{disk\+\_\+size}} () const noexcept
+\item 
+\Hypertarget{struct_internal_record_ab377f1ada49ff38717e27a5ced88b112}\label{struct_internal_record_ab377f1ada49ff38717e27a5ced88b112} 
+{\bfseries Internal\+Record} (\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&\&other) noexcept=default
+\item 
+\Hypertarget{struct_internal_record_adf94ce96606bb07ddebd4704a5946124}\label{struct_internal_record_adf94ce96606bb07ddebd4704a5946124} 
+{\bfseries Internal\+Record} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&other) noexcept=default
+\item 
+\doxymbox{\hyperlink{struct_internal_record_acd23778a7b2f8be6067bf81dc6c64d27}{Internal\+Record}} (\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} key\+\_\+entry, \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} value\+\_\+entry, Type type, uint64\+\_\+t seq\+\_\+num)
+\item 
+bool \doxymbox{\hyperlink{struct_internal_record_a19c5915330974159d1055a95ed0c46fb}{write}} (std::\+ofstream \&file) const
+\item 
+bool \doxymbox{\hyperlink{struct_internal_record_a4bcdfe0dda63ed29b814eec9b48ae39a}{operator==}} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&other) const noexcept
+\item 
+\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \& \doxymbox{\hyperlink{struct_internal_record_aca0190103fe15c9f27e068e7343109c0}{operator=}} (const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&) noexcept
+\item 
+\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \& \doxymbox{\hyperlink{struct_internal_record_adfa284ec07ba72d41b3cda91300532fc}{operator=}} (\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&\&) noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std::\+optional$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ \doxymbox{\hyperlink{struct_internal_record_af06c09e7fbe39185750a62d97f52e8a3}{read}} (std::\+ifstream \&file, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_internal_record_a0f42f2f5788932e538546c9ef34a4983}\label{struct_internal_record_a0f42f2f5788932e538546c9ef34a4983} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} {\bfseries key\+\_\+entry}
+\item 
+\Hypertarget{struct_internal_record_a744b5484e11307c9517304c250a30765}\label{struct_internal_record_a744b5484e11307c9517304c250a30765} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} {\bfseries value\+\_\+entry}
+\item 
+\Hypertarget{struct_internal_record_a28c82d4a8dbd7c68fca6d3d8d935e236}\label{struct_internal_record_a28c82d4a8dbd7c68fca6d3d8d935e236} 
+Type {\bfseries type}
+\item 
+\Hypertarget{struct_internal_record_a99de327dcce4f7c9c3bfa6bef8263fa7}\label{struct_internal_record_a99de327dcce4f7c9c3bfa6bef8263fa7} 
+uint64\+\_\+t {\bfseries seq\+\_\+num}
+\end{DoxyCompactItemize}
+
+
+\label{struct_internal_record_doc-constructors}
+\Hypertarget{struct_internal_record_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_internal_record_acd23778a7b2f8be6067bf81dc6c64d27}\index{InternalRecord@{InternalRecord}!InternalRecord@{InternalRecord}}
+\index{InternalRecord@{InternalRecord}!InternalRecord@{InternalRecord}}
+\doxysubsubsection{\texorpdfstring{InternalRecord()}{InternalRecord()}}
+{\footnotesize\ttfamily \label{struct_internal_record_acd23778a7b2f8be6067bf81dc6c64d27} 
+Internal\+Record::\+\+Internal\+Record (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}}}]{key\+\_\+entry}{, }\item[{\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}}}]{value\+\_\+entry}{, }\item[{Type}]{type}{, }\item[{uint64\+\_\+t}]{seq\+\_\+num}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00012\ \ \ \ \ :\ key\_entry(key\_entry),\ value\_entry(value\_entry),\ type(type),\ seq\_num(seq\_num) }
+\DoxyCodeLine{00013\ \{\}}
+
+\end{DoxyCode}
+
+
+\label{struct_internal_record_doc-func-members}
+\Hypertarget{struct_internal_record_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_internal_record_aec7100ec24f02ed4ddf2ac804cad2393}\index{InternalRecord@{InternalRecord}!disk\_size@{disk\_size}}
+\index{disk\_size@{disk\_size}!InternalRecord@{InternalRecord}}
+\doxysubsubsection{\texorpdfstring{disk\_size()}{disk\_size()}}
+{\footnotesize\ttfamily \label{struct_internal_record_aec7100ec24f02ed4ddf2ac804cad2393} 
+std::\+uint32\+\_\+t Internal\+Record::\+disk\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00027\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keyword}{constexpr}\ std::uint32\_t\ fixed\_size\ =}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +\ \textcolor{comment}{//\ key\ size}}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +\ \textcolor{comment}{//\ value\ size}}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint8\_t)\ +\ \ \textcolor{comment}{//\ type}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +\ \textcolor{comment}{//\ flags}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint32\_t)\ +\ \textcolor{comment}{//\ reserved}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keyword}{sizeof}(std::uint64\_t);\ \ \textcolor{comment}{//\ sequence\ number}}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordflow}{return}\ fixed\_size\ +\ key\_entry.size\ +\ value\_entry.size;}
+\DoxyCodeLine{00037\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_internal_record_aca0190103fe15c9f27e068e7343109c0}\index{InternalRecord@{InternalRecord}!operator=@{operator=}}
+\index{operator=@{operator=}!InternalRecord@{InternalRecord}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{struct_internal_record_aca0190103fe15c9f27e068e7343109c0} 
+\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \& Internal\+Record::\+operator= (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00139\ \{}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ ==\ \&other)}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00143\ \ \ \ \ key\_entry\ =\ other.key\_entry;}
+\DoxyCodeLine{00144\ \ \ \ \ value\_entry\ =\ other.value\_entry;}
+\DoxyCodeLine{00145\ \ \ \ \ type\ =\ other.type;}
+\DoxyCodeLine{00146\ \ \ \ \ seq\_num\ =\ other.seq\_num;}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00149\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_internal_record_adfa284ec07ba72d41b3cda91300532fc}\index{InternalRecord@{InternalRecord}!operator=@{operator=}}
+\index{operator=@{operator=}!InternalRecord@{InternalRecord}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{struct_internal_record_adfa284ec07ba72d41b3cda91300532fc} 
+\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \& Internal\+Record::\+operator= (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&\&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00151\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ ==\ \&other)}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ key\_entry\ =\ std::move(other.key\_entry);}
+\DoxyCodeLine{00156\ \ \ \ \ value\_entry\ =\ std::move(other.value\_entry);}
+\DoxyCodeLine{00157\ \ \ \ \ type\ =\ other.type;}
+\DoxyCodeLine{00158\ \ \ \ \ seq\_num\ =\ other.seq\_num;}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00161\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_internal_record_a4bcdfe0dda63ed29b814eec9b48ae39a}\index{InternalRecord@{InternalRecord}!operator==@{operator==}}
+\index{operator==@{operator==}!InternalRecord@{InternalRecord}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily \label{struct_internal_record_a4bcdfe0dda63ed29b814eec9b48ae39a} 
+bool Internal\+Record::\+operator== (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} \&}]{other}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00130\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordflow}{return}\ (}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ this-\/>key\_entry\ ==\ other.key\_entry\ \&\&}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ this-\/>value\_entry\ ==\ other.value\_entry\ \&\&}
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ this-\/>type\ ==\ other.type\ \&\&}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ this-\/>seq\_num\ ==\ other.seq\_num}
+\DoxyCodeLine{00136\ \ \ \ \ );}
+\DoxyCodeLine{00137\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_internal_record_af06c09e7fbe39185750a62d97f52e8a3}\index{InternalRecord@{InternalRecord}!read@{read}}
+\index{read@{read}!InternalRecord@{InternalRecord}}
+\doxysubsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily \label{struct_internal_record_af06c09e7fbe39185750a62d97f52e8a3} 
+std::\+optional$<$ \doxymbox{\hyperlink{struct_internal_record}{Internal\+Record}} $>$ Internal\+Record::\+read (\begin{DoxyParamCaption}\item[{std::\+ifstream \&}]{file}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00073\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keyword}{const}\ Arena::Checkpoint\ checkpoint\ =\ arena.checkpoint();}
+\DoxyCodeLine{00075\ \ \ \ \ InternalRecord\ result;}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keyword}{auto}\ seq\_num\_opt\ =\ kvdb::endian::read\_u64\_le(file);}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{if}\ (!seq\_num\_opt.has\_value())}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \ \ \ \ result.seq\_num\ =\ *seq\_num\_opt;}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{auto}\ type\_opt\ =\ kvdb::endian::read\_u8(file);}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{if}\ (!type\_opt.has\_value())}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ type\_raw\ =\ *type\_opt;}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordflow}{if}\ (type\_raw\ !=\ \textcolor{keyword}{static\_cast<}std::uint8\_t\textcolor{keyword}{>}(Type::Put)\ \&\&}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ type\_raw\ !=\ \textcolor{keyword}{static\_cast<}std::uint8\_t\textcolor{keyword}{>}(Type::Tombstone))}
+\DoxyCodeLine{00091\ \ \ \ \ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00093\ \ \ \ \ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ result.type\ =\ \textcolor{keyword}{static\_cast<}Type\textcolor{keyword}{>}(type\_raw);}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keyword}{auto}\ key\_bytes\_opt\ =\ kvdb::endian::read\_bytes\_with\_u32\_size(file);}
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordflow}{if}\ (!key\_bytes\_opt.has\_value())}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{auto}\ value\_bytes\_opt\ =\ kvdb::endian::read\_bytes\_with\_u32\_size(file);}
+\DoxyCodeLine{00102\ \ \ \ \ \textcolor{keywordflow}{if}\ (!value\_bytes\_opt.has\_value())}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00105\ \ \ \ \ Result<ArenaEntry>\ key\_result\ =\ ArenaEntry::make\_entry(}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ arena,}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>(key\_bytes\_opt-\/>data(),\ key\_bytes\_opt-\/>size())}
+\DoxyCodeLine{00108\ \ \ \ \ );}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordflow}{if}\ (!key\_result.is\_ok())\ \{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ arena.rollback(checkpoint);}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00112\ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ Result<ArenaEntry>\ value\_result\ =\ ArenaEntry::make\_entry(}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ arena,}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>(value\_bytes\_opt-\/>data(),\ value\_bytes\_opt-\/>size())}
+\DoxyCodeLine{00117\ \ \ \ \ );}
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keywordflow}{if}\ (!value\_result.is\_ok())\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ arena.rollback(checkpoint);}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::nullopt;}
+\DoxyCodeLine{00121\ \ \ \ \ \}}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00123\ \ \ \ \ result.key\_entry\ =\ key\_result.value;}
+\DoxyCodeLine{00124\ \ \ \ \ result.value\_entry\ =\ value\_result.value;}
+\DoxyCodeLine{00125\ }
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{keywordflow}{return}\ std::optional<InternalRecord>\{std::move(result)\};}
+\DoxyCodeLine{00127\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_internal_record_a19c5915330974159d1055a95ed0c46fb}\index{InternalRecord@{InternalRecord}!write@{write}}
+\index{write@{write}!InternalRecord@{InternalRecord}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily \label{struct_internal_record_a19c5915330974159d1055a95ed0c46fb} 
+bool Internal\+Record::\+write (\begin{DoxyParamCaption}\item[{std::\+ofstream \&}]{file}{}\end{DoxyParamCaption}) const}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00040\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{if}\ ((key\_entry.size\ >\ 0\ \&\&\ key\_entry.data\ ==\ \textcolor{keyword}{nullptr})\ ||}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ (value\_entry.size\ >\ 0\ \&\&\ value\_entry.data\ ==\ \textcolor{keyword}{nullptr})\ ||}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ (type\ !=\ Type::Put\ \&\&\ type\ !=\ Type::Tombstone))}
+\DoxyCodeLine{00044\ \ \ \ \ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordflow}{if}\ (!kvdb::endian::write\_u64\_le(file,\ seq\_num))}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordflow}{if}\ (!kvdb::endian::write\_u8(file,\ \textcolor{keyword}{static\_cast<}std::uint8\_t\textcolor{keyword}{>}(type)))}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}*\ key\_bytes\ =}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }std::byte*\textcolor{keyword}{>}(key\_entry.data);}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}*\ value\_bytes\ =}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \textcolor{keyword}{reinterpret\_cast<}\textcolor{keyword}{const\ }std::byte*\textcolor{keyword}{>}(value\_entry.data);}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (!kvdb::endian::write\_bytes\_with\_u32\_size(}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>(key\_bytes,\ key\_entry.size)))}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordflow}{if}\ (!kvdb::endian::write\_bytes\_with\_u32\_size(}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ std::span<const\ std::byte>(value\_bytes,\ value\_entry.size)))}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00071\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+record.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+record.\+cpp\end{DoxyCompactItemize}

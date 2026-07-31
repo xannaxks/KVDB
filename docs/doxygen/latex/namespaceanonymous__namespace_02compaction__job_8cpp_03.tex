@@ -1,0 +1,95 @@
+\doxysection{anonymous\+\_\+namespace\{compaction\+\_\+job.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02compaction__job_8cpp_03}{}\label{namespaceanonymous__namespace_02compaction__job_8cpp_03}\index{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02compaction__job_8cpp_03_a4b584bc245e84c003041c874852746e7}{level\+\_\+contains\+\_\+table}} (const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&manager, std::\+uint32\+\_\+t level, std::\+uint64\+\_\+t table\+\_\+id) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02compaction__job_8cpp_03_a9629c43f2f6cf9facad72a07591ee560}{plan\+\_\+is\+\_\+current}} (const \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&plan, const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&manager) noexcept
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02compaction__job_8cpp_03_a5c4bbe5c4c1dd0cc24ffbcc3a84cfd66}{is\+\_\+bottommost\+\_\+destination}} (const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&manager, std::\+uint32\+\_\+t target\+\_\+level) noexcept
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02compaction__job_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02compaction__job_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02compaction__job_8cpp_03_a5c4bbe5c4c1dd0cc24ffbcc3a84cfd66}\index{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}}!is\_bottommost\_destination@{is\_bottommost\_destination}}
+\index{is\_bottommost\_destination@{is\_bottommost\_destination}!anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{is\_bottommost\_destination()}{is\_bottommost\_destination()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02compaction__job_8cpp_03_a5c4bbe5c4c1dd0cc24ffbcc3a84cfd66} 
+bool anonymous\+\_\+namespace\{compaction\+\_\+job.\+cpp\}::\+is\+\_\+bottommost\+\_\+destination (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{manager}{, }\item[{std::\+uint32\+\_\+t}]{target\+\_\+level}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00061\ \ \ \ \ \{}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (target\_level\ ==\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::uint32\_t\ level\ =\ target\_level\ +\ 1;\ ;\ ++level)\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}*\ tables\ =\ manager.get\_lx\_tables(level);}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tables\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!tables-\/>empty())\ \{}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (level\ ==\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02compaction__job_8cpp_03_a4b584bc245e84c003041c874852746e7}\index{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}}!level\_contains\_table@{level\_contains\_table}}
+\index{level\_contains\_table@{level\_contains\_table}!anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{level\_contains\_table()}{level\_contains\_table()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02compaction__job_8cpp_03_a4b584bc245e84c003041c874852746e7} 
+bool anonymous\+\_\+namespace\{compaction\+\_\+job.\+cpp\}::\+level\+\_\+contains\+\_\+table (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{manager}{, }\item[{std::\+uint32\+\_\+t}]{level}{, }\item[{std::\+uint64\+\_\+t}]{table\+\_\+id}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00022\ \ \ \ \ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}*\ tables\ =\ manager.get\_lx\_tables(level);}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (tables\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::any\_of(}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ tables-\/>begin(),}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ tables-\/>end(),}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ [table\_id](\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_table_meta}{TableMeta}}\&\ table)\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ table.table\_id\ ==\ table\_id;}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02compaction__job_8cpp_03_a9629c43f2f6cf9facad72a07591ee560}\index{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}}!plan\_is\_current@{plan\_is\_current}}
+\index{plan\_is\_current@{plan\_is\_current}!anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}@{anonymous\_namespace\lcurly{}compaction\_job.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{plan\_is\_current()}{plan\_is\_current()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02compaction__job_8cpp_03_a9629c43f2f6cf9facad72a07591ee560} 
+bool anonymous\+\_\+namespace\{compaction\+\_\+job.\+cpp\}::\+plan\+\_\+is\+\_\+current (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&}]{plan}{, }\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{manager}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00041\ \ \ \ \ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ plan.source\_tables)\ \{}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!level\_contains\_table(manager,\ plan.source\_level,\ table.table\_id))\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ plan.overlapping\_tables)\ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!level\_contains\_table(manager,\ plan.target\_level,\ table.table\_id))\ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+
+\end{DoxyCode}

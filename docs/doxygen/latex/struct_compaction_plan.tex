@@ -1,0 +1,136 @@
+\doxysection{Compaction\+Plan Struct Reference}
+\hypertarget{struct_compaction_plan}{}\label{struct_compaction_plan}\index{CompactionPlan@{CompactionPlan}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{struct_compaction_plan_a189bfe7e6b5db88652862850c14df1b8}{validate}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_compaction_plan_a7dc20e78a2a533926ca25e74d5be23b2}\label{struct_compaction_plan_a7dc20e78a2a533926ca25e74d5be23b2} 
+Compaction\+Reason {\bfseries reason} = Compaction\+Reason::\+\+Manual
+\item 
+\Hypertarget{struct_compaction_plan_a0b43c201d85628ddc82cf195b1bff9cc}\label{struct_compaction_plan_a0b43c201d85628ddc82cf195b1bff9cc} 
+std::\+uint32\+\_\+t {\bfseries source\+\_\+level} = 0
+\item 
+\Hypertarget{struct_compaction_plan_a14a94ea94bb663b87e652f03b8a07048}\label{struct_compaction_plan_a14a94ea94bb663b87e652f03b8a07048} 
+std::\+uint32\+\_\+t {\bfseries target\+\_\+level} = 0
+\item 
+\Hypertarget{struct_compaction_plan_a7808ef168a2a28821de7f36241bc4bf9}\label{struct_compaction_plan_a7808ef168a2a28821de7f36241bc4bf9} 
+std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ {\bfseries source\+\_\+tables}
+\item 
+\Hypertarget{struct_compaction_plan_ac9aeaa3407f0ece8b7a632b6d7674f9a}\label{struct_compaction_plan_ac9aeaa3407f0ece8b7a632b6d7674f9a} 
+std::\+vector$<$ \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} $>$ {\bfseries overlapping\+\_\+tables}
+\item 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \doxymbox{\hyperlink{struct_compaction_plan_a215655a2965f73dca1d9fe3db31cbb6c}{smallest\+\_\+key}} \{\}
+\item 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \doxymbox{\hyperlink{struct_compaction_plan_a4ed9359cbdab3667ed95d715b3a30cde}{largest\+\_\+key}} \{\}
+\item 
+\Hypertarget{struct_compaction_plan_a8763e413b5862512e7c42b4439a2aee1}\label{struct_compaction_plan_a8763e413b5862512e7c42b4439a2aee1} 
+std::\+uint64\+\_\+t {\bfseries max\+\_\+output\+\_\+file\+\_\+size} = 4ull \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024
+\end{DoxyCompactItemize}
+
+
+\label{struct_compaction_plan_doc-func-members}
+\Hypertarget{struct_compaction_plan_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_compaction_plan_a189bfe7e6b5db88652862850c14df1b8}\index{CompactionPlan@{CompactionPlan}!validate@{validate}}
+\index{validate@{validate}!CompactionPlan@{CompactionPlan}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily \label{struct_compaction_plan_a189bfe7e6b5db88652862850c14df1b8} 
+bool Compaction\+Plan::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00025\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordflow}{if}\ (source\_tables.empty())\ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00028\ \ \ \ \ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordflow}{if}\ (source\_level\ ==\ std::numeric\_limits<std::uint32\_t>::max()\ ||}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ target\_level\ !=\ source\_level\ +\ 1)\ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordflow}{if}\ (max\_output\_file\_size\ ==\ 0)\ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00037\ \ \ \ \ \}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordflow}{if}\ (largest\_key\ <\ smallest\_key)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00041\ \ \ \ \ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{if}\ (reason\ ==\ CompactionReason::L0ReachedLimit\ \&\&\ source\_level\ !=\ 0)\ \{}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{if}\ (reason\ ==\ CompactionReason::LxReachedLimit\ \&\&\ source\_level\ ==\ 0)\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00049\ \ \ \ \ \}}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ std::unordered\_set<std::uint64\_t>\ table\_ids;}
+\DoxyCodeLine{00052\ \ \ \ \ table\_ids.reserve(source\_tables.size()\ +\ overlapping\_tables.size());}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ validate\_table\ =\ [\&](\textcolor{keyword}{const}\ TableMeta\&\ table,\ std::uint32\_t\ expected\_level)\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.table\_id\ ==\ 0\ ||\ table.level\ !=\ expected\_level)\ \{}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!table\_range\_is\_valid(table)\ ||}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ !range\_contains(smallest\_key,\ largest\_key,\ table))\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ table\_ids.insert(table.table\_id).second;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ source\_tables)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!validate\_table(table,\ source\_level))\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00071\ \ \ \ \ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ overlapping\_tables)\ \{}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!validate\_table(table,\ target\_level))\ \{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00077\ \ \ \ \ \}}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00080\ \}}
+
+\end{DoxyCode}
+
+
+\label{struct_compaction_plan_doc-variable-members}
+\Hypertarget{struct_compaction_plan_doc-variable-members}
+\doxysubsection{Member Data Documentation}
+\Hypertarget{struct_compaction_plan_a4ed9359cbdab3667ed95d715b3a30cde}\index{CompactionPlan@{CompactionPlan}!largest\_key@{largest\_key}}
+\index{largest\_key@{largest\_key}!CompactionPlan@{CompactionPlan}}
+\doxysubsubsection{\texorpdfstring{largest\_key}{largest\_key}}
+{\footnotesize\ttfamily \label{struct_compaction_plan_a4ed9359cbdab3667ed95d715b3a30cde} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} Compaction\+Plan::\+largest\+\_\+key \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00028\ \{\};}
+
+\end{DoxyCode}
+\Hypertarget{struct_compaction_plan_a215655a2965f73dca1d9fe3db31cbb6c}\index{CompactionPlan@{CompactionPlan}!smallest\_key@{smallest\_key}}
+\index{smallest\_key@{smallest\_key}!CompactionPlan@{CompactionPlan}}
+\doxysubsubsection{\texorpdfstring{smallest\_key}{smallest\_key}}
+{\footnotesize\ttfamily \label{struct_compaction_plan_a215655a2965f73dca1d9fe3db31cbb6c} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} Compaction\+Plan::\+smallest\+\_\+key \{\}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00027\ \{\};}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+compaction\+\_\+plan.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+compaction\+\_\+plan.\+cpp\end{DoxyCompactItemize}

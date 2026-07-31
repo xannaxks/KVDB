@@ -1,0 +1,72 @@
+\doxysection{anonymous\+\_\+namespace\{manifest\+\_\+test.\+cpp\}::\+Temp\+Manifest\+Path Class Reference}
+\hypertarget{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path}{}\label{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path}\index{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath@{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+const std::\+filesystem::\+path \& \doxymbox{\hyperlink{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_a0a8211099f5854956146b8d6daa320b6}{get}} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_a222d27a21a429ad39c18c1ad214ce3c1}\label{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_a222d27a21a429ad39c18c1ad214ce3c1} 
+std::\+filesystem::\+path {\bfseries path\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\label{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_doc-constructors}
+\Hypertarget{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_a1b202b0e1ce60e73154d16b8eadc17f8}\index{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath@{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath}!TempManifestPath@{TempManifestPath}}
+\index{TempManifestPath@{TempManifestPath}!anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath@{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath}}
+\doxysubsubsection{\texorpdfstring{TempManifestPath()}{TempManifestPath()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_a1b202b0e1ce60e73154d16b8eadc17f8} 
+anonymous\+\_\+namespace\{manifest\+\_\+test.\+cpp\}::\+\+Temp\+Manifest\+Path::\+\+Temp\+Manifest\+Path (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ nonce\ =\ std::chrono::steady\_clock::now()}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .time\_since\_epoch()}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .count();}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ path\_\ =\ std::filesystem::temp\_directory\_path()\ /}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (\textcolor{stringliteral}{"{}kvdb-\/manifest-\/test-\/"{}}\ +\ std::to\_string(nonce));}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_a90d37ed580e1df23912268d35ecf3d16}\index{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath@{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath}!````~TempManifestPath@{\texorpdfstring{$\sim$}{\string~}TempManifestPath}}
+\index{````~TempManifestPath@{\texorpdfstring{$\sim$}{\string~}TempManifestPath}!anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath@{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}TempManifestPath()}{\string~TempManifestPath()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_a90d37ed580e1df23912268d35ecf3d16} 
+anonymous\+\_\+namespace\{manifest\+\_\+test.\+cpp\}::\+\+Temp\+Manifest\+Path::\+\texorpdfstring{$\sim$}{\string~}\+Temp\+Manifest\+Path (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ std::error\_code\ ignored;}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::remove(path\_,\ ignored);}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_doc-func-members}
+\Hypertarget{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_a0a8211099f5854956146b8d6daa320b6}\index{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath@{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath}!get@{get}}
+\index{get@{get}!anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath@{anonymous\_namespace\lcurly{}manifest\_test.cpp\rcurly{}::TempManifestPath}}
+\doxysubsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02manifest__test_8cpp_03_1_1_temp_manifest_path_a0a8211099f5854956146b8d6daa320b6} 
+const std::\+filesystem::\+path \& anonymous\+\_\+namespace\{manifest\+\_\+test.\+cpp\}::\+\+Temp\+Manifest\+Path::\+get (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ path\_;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+manifest\+\_\+test.\+cpp\end{DoxyCompactItemize}

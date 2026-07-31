@@ -1,0 +1,303 @@
+\doxysection{Arena\+Entry Struct Reference}
+\hypertarget{struct_arena_entry}{}\label{struct_arena_entry}\index{ArenaEntry@{ArenaEntry}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_arena_entry_a26200d87602c1b532cb486ff3b888c21}{Arena\+Entry}} (const void \texorpdfstring{$\ast$}{*}ptr, std::\+size\+\_\+t entry\+\_\+size)
+\item 
+\Hypertarget{struct_arena_entry_a26676c3fd4c153e912b79a3518b3808f}\label{struct_arena_entry_a26676c3fd4c153e912b79a3518b3808f} 
+{\bfseries Arena\+Entry} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&) noexcept=default
+\item 
+\Hypertarget{struct_arena_entry_a44459bffa7cd63799cbe764f060ac799}\label{struct_arena_entry_a44459bffa7cd63799cbe764f060ac799} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \& {\bfseries operator=} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&) noexcept=default
+\item 
+\doxymbox{\hyperlink{struct_arena_entry_a97e850e0055ad5a5327deb6be0d22935}{Arena\+Entry}} (\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&\&other) noexcept
+\item 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \& \doxymbox{\hyperlink{struct_arena_entry_a3948c5977e3896c382e0f9ab1faad91d}{operator=}} (\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&\&other) noexcept
+\item 
+bool \doxymbox{\hyperlink{struct_arena_entry_aae12904f479e90672d814c2c4714e7d0}{operator$<$}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&other) const noexcept
+\item 
+bool \doxymbox{\hyperlink{struct_arena_entry_aeda2234b2ba42a31bac62bcc75365562}{operator$>$}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&other) const noexcept
+\item 
+bool \doxymbox{\hyperlink{struct_arena_entry_abbd0bdaf15d1ffb784dd8700598398c3}{operator==}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&other) const noexcept
+\item 
+bool \doxymbox{\hyperlink{struct_arena_entry_af46c0e1fbb6d5b4bb56560a7957a69a8}{operator$>$=}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&other) const noexcept
+\item 
+bool \doxymbox{\hyperlink{struct_arena_entry_a95c508b5215917d87b4fb455545bcdde}{operator$<$=}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&other) const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std::\+string \doxymbox{\hyperlink{struct_arena_entry_ae048b81e12c00921cbc8d3c6e54637fb}{generate\+\_\+random\+\_\+key}} (const std::\+string \&prefix, std::\+size\+\_\+t length=100, bool fixed=true)
+\item 
+static std::\+string \doxymbox{\hyperlink{struct_arena_entry_a9b6a7a6aa4cd2504201f97263b94c223}{generate\+\_\+random\+\_\+value}} (const std::\+string \&prefix, std::\+size\+\_\+t length=1000, bool fixed=true)
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} $>$ \doxymbox{\hyperlink{struct_arena_entry_a11dbbb914371b1b9d65ad7cac3a8f347}{make\+\_\+entry}} (\doxymbox{\hyperlink{class_arena}{Arena}} \&arena, std::\+span$<$ const std::\+byte $>$ bytes)
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} $>$ \doxymbox{\hyperlink{struct_arena_entry_a9c719ff389d376838d5e371aeccc3df9}{make\+\_\+entry}} (\doxymbox{\hyperlink{class_arena}{Arena}} \&arena, const std::\+string \&str)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_arena_entry_abed5de83d348e088e7b5d234e0368d24}\label{struct_arena_entry_abed5de83d348e088e7b5d234e0368d24} 
+void \texorpdfstring{$\ast$}{*} {\bfseries data} = nullptr
+\item 
+\Hypertarget{struct_arena_entry_a35f6f72184c8103f343f66242c3a188e}\label{struct_arena_entry_a35f6f72184c8103f343f66242c3a188e} 
+std::\+uint32\+\_\+t {\bfseries size} = 0
+\end{DoxyCompactItemize}
+
+
+\label{struct_arena_entry_doc-constructors}
+\Hypertarget{struct_arena_entry_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_arena_entry_a26200d87602c1b532cb486ff3b888c21}\index{ArenaEntry@{ArenaEntry}!ArenaEntry@{ArenaEntry}}
+\index{ArenaEntry@{ArenaEntry}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{ArenaEntry()}{ArenaEntry()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{struct_arena_entry_a26200d87602c1b532cb486ff3b888c21} 
+Arena\+Entry::\+\+Arena\+Entry (\begin{DoxyParamCaption}\item[{const void \texorpdfstring{$\ast$}{*}}]{ptr}{, }\item[{std::\+size\+\_\+t}]{entry\+\_\+size}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00641\ \ \ \ \ :\ data(\textcolor{keyword}{const\_cast<}\textcolor{keywordtype}{void}*\textcolor{keyword}{>}(ptr)) }
+\DoxyCodeLine{00642\ \{}
+\DoxyCodeLine{00643\ \ \ \ \ \textcolor{keywordflow}{if}\ (entry\_size\ >\ std::numeric\_limits<std::uint32\_t>::max())}
+\DoxyCodeLine{00644\ \ \ \ \ \{}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Entry\ size\ exceeds\ uint32\_t::max"{}});}
+\DoxyCodeLine{00646\ \ \ \ \ \}}
+\DoxyCodeLine{00647\ }
+\DoxyCodeLine{00648\ \ \ \ \ size\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(entry\_size);}
+\DoxyCodeLine{00649\ }
+\DoxyCodeLine{00650\ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ >\ 0\ \&\&\ data\ ==\ \textcolor{keyword}{nullptr})}
+\DoxyCodeLine{00651\ \ \ \ \ \{}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}A\ non-\/empty\ ArenaEntry\ cannot\ have\ a\ null\ data\ pointer"{}}}
+\DoxyCodeLine{00654\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00655\ \ \ \ \ \}}
+\DoxyCodeLine{00656\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_a97e850e0055ad5a5327deb6be0d22935}\index{ArenaEntry@{ArenaEntry}!ArenaEntry@{ArenaEntry}}
+\index{ArenaEntry@{ArenaEntry}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{ArenaEntry()}{ArenaEntry()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{struct_arena_entry_a97e850e0055ad5a5327deb6be0d22935} 
+Arena\+Entry::\+\+Arena\+Entry (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&\&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00659\ \ \ \ \ :\ data(std::exchange(other.data,\ \textcolor{keyword}{nullptr})),}
+\DoxyCodeLine{00660\ \ \ \ \ size(std::exchange(other.size,\ 0)) }
+\DoxyCodeLine{00661\ \{}
+\DoxyCodeLine{00662\ \}}
+
+\end{DoxyCode}
+
+
+\label{struct_arena_entry_doc-func-members}
+\Hypertarget{struct_arena_entry_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_arena_entry_ae048b81e12c00921cbc8d3c6e54637fb}\index{ArenaEntry@{ArenaEntry}!generate\_random\_key@{generate\_random\_key}}
+\index{generate\_random\_key@{generate\_random\_key}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{generate\_random\_key()}{generate\_random\_key()}}
+{\footnotesize\ttfamily \label{struct_arena_entry_ae048b81e12c00921cbc8d3c6e54637fb} 
+std::\+string Arena\+Entry::\+generate\+\_\+random\+\_\+key (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{prefix}{, }\item[{std::\+size\+\_\+t}]{length}{ = {\ttfamily 100}, }\item[{bool}]{fixed}{ = {\ttfamily true}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00056\ \{}
+\DoxyCodeLine{00057\ \ \ \ \ assert(fixed\ ||\ length\ >\ 0);}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ generated\_length\ =\ fixed}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ ?\ length}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ :\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(std::rand())\ \%\ length\ +\ 1;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ std::string\ result\ =\ prefix;}
+\DoxyCodeLine{00064\ \ \ \ \ result.reserve(prefix.size()\ +\ generated\_length);}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ generated\_length;\ ++i)}
+\DoxyCodeLine{00067\ \ \ \ \ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ result.push\_back(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}\textcolor{keyword}{>}(std::rand()\ \%\ 256));}
+\DoxyCodeLine{00069\ \ \ \ \ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00072\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_a9b6a7a6aa4cd2504201f97263b94c223}\index{ArenaEntry@{ArenaEntry}!generate\_random\_value@{generate\_random\_value}}
+\index{generate\_random\_value@{generate\_random\_value}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{generate\_random\_value()}{generate\_random\_value()}}
+{\footnotesize\ttfamily \label{struct_arena_entry_a9b6a7a6aa4cd2504201f97263b94c223} 
+std::\+string Arena\+Entry::\+generate\+\_\+random\+\_\+value (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{prefix}{, }\item[{std::\+size\+\_\+t}]{length}{ = {\ttfamily 1000}, }\item[{bool}]{fixed}{ = {\ttfamily true}}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00079\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordflow}{return}\ generate\_random\_key(prefix,\ length,\ fixed);}
+\DoxyCodeLine{00081\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_a9c719ff389d376838d5e371aeccc3df9}\index{ArenaEntry@{ArenaEntry}!make\_entry@{make\_entry}}
+\index{make\_entry@{make\_entry}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{make\_entry()}{make\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{struct_arena_entry_a9c719ff389d376838d5e371aeccc3df9} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} $>$ Arena\+Entry::\+make\+\_\+entry (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{, }\item[{const std::\+string \&}]{str}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00033\ \{}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordflow}{if}\ (str.size()\ >\ std::numeric\_limits<std::uint32\_t>::max())}
+\DoxyCodeLine{00035\ \ \ \ \ \{}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<ArenaEntry>::fail(}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Allocation\ size\ exceeds\ uint32\_t\ limit"{}}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{return}\ arena\_copy\_bytes(}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ arena,}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ str.data(),}
+\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(str.size())}
+\DoxyCodeLine{00048\ \ \ \ \ );}
+\DoxyCodeLine{00049\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_a11dbbb914371b1b9d65ad7cac3a8f347}\index{ArenaEntry@{ArenaEntry}!make\_entry@{make\_entry}}
+\index{make\_entry@{make\_entry}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{make\_entry()}{make\_entry()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{struct_arena_entry_a11dbbb914371b1b9d65ad7cac3a8f347} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} $>$ Arena\+Entry::\+make\+\_\+entry (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{, }\item[{std::\+span$<$ const std::\+byte $>$}]{bytes}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes.size()\ >\ std::numeric\_limits<std::uint32\_t>::max())}
+\DoxyCodeLine{00013\ \ \ \ \ \{}
+\DoxyCodeLine{00014\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<ArenaEntry>::fail(}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Allocation\ size\ exceeds\ uint32\_t\ limit"{}}}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00020\ \ \ \ \ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordflow}{return}\ arena\_copy\_bytes(}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ arena,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ bytes.data(),}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(bytes.size())}
+\DoxyCodeLine{00026\ \ \ \ \ );}
+\DoxyCodeLine{00027\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_aae12904f479e90672d814c2c4714e7d0}\index{ArenaEntry@{ArenaEntry}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily \label{struct_arena_entry_aae12904f479e90672d814c2c4714e7d0} 
+bool Arena\+Entry::\+operator$<$ (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{other}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00676\ \{}
+\DoxyCodeLine{00677\ \ \ \ \ assert(data\ !=\ \textcolor{keyword}{nullptr}\ ||\ size\ ==\ 0);}
+\DoxyCodeLine{00678\ \ \ \ \ assert(other.data\ !=\ \textcolor{keyword}{nullptr}\ ||\ other.size\ ==\ 0);}
+\DoxyCodeLine{00679\ }
+\DoxyCodeLine{00680\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ common\ =\ std::min<std::size\_t>(size,\ other.size);}
+\DoxyCodeLine{00681\ \ \ \ \ \textcolor{keywordflow}{if}\ (common\ >\ 0)}
+\DoxyCodeLine{00682\ \ \ \ \ \{}
+\DoxyCodeLine{00683\ }
+\DoxyCodeLine{00684\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ comparison\ =\ std::memcmp(data,\ other.data,\ common);}
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (comparison\ !=\ 0)}
+\DoxyCodeLine{00686\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00687\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ comparison\ <\ 0;}
+\DoxyCodeLine{00688\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00689\ \ \ \ \ \}}
+\DoxyCodeLine{00690\ }
+\DoxyCodeLine{00691\ \ \ \ \ \textcolor{keywordflow}{return}\ size\ <\ other.size;}
+\DoxyCodeLine{00692\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_a95c508b5215917d87b4fb455545bcdde}\index{ArenaEntry@{ArenaEntry}!operator$<$=@{operator$<$=}}
+\index{operator$<$=@{operator$<$=}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{operator$<$=()}{operator<=()}}
+{\footnotesize\ttfamily \label{struct_arena_entry_a95c508b5215917d87b4fb455545bcdde} 
+bool Arena\+Entry::\+operator$<$= (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{other}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00718\ \{}
+\DoxyCodeLine{00719\ \ \ \ \ \textcolor{keywordflow}{return}\ !(other\ <\ *\textcolor{keyword}{this});}
+\DoxyCodeLine{00720\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_a3948c5977e3896c382e0f9ab1faad91d}\index{ArenaEntry@{ArenaEntry}!operator=@{operator=}}
+\index{operator=@{operator=}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \label{struct_arena_entry_a3948c5977e3896c382e0f9ab1faad91d} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \& Arena\+Entry::\+operator= (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&\&}]{other}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00665\ \{}
+\DoxyCodeLine{00666\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{this}\ !=\ \&other)}
+\DoxyCodeLine{00667\ \ \ \ \ \{}
+\DoxyCodeLine{00668\ \ \ \ \ \ \ \ \ data\ =\ std::exchange(other.data,\ \textcolor{keyword}{nullptr});}
+\DoxyCodeLine{00669\ \ \ \ \ \ \ \ \ size\ =\ std::exchange(other.size,\ 0);}
+\DoxyCodeLine{00670\ \ \ \ \ \}}
+\DoxyCodeLine{00671\ }
+\DoxyCodeLine{00672\ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00673\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_abbd0bdaf15d1ffb784dd8700598398c3}\index{ArenaEntry@{ArenaEntry}!operator==@{operator==}}
+\index{operator==@{operator==}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily \label{struct_arena_entry_abbd0bdaf15d1ffb784dd8700598398c3} 
+bool Arena\+Entry::\+operator== (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{other}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00700\ \{}
+\DoxyCodeLine{00701\ \ \ \ \ assert(data\ !=\ \textcolor{keyword}{nullptr}\ ||\ size\ ==\ 0);}
+\DoxyCodeLine{00702\ \ \ \ \ assert(other.data\ !=\ \textcolor{keyword}{nullptr}\ ||\ other.size\ ==\ 0);}
+\DoxyCodeLine{00703\ }
+\DoxyCodeLine{00704\ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ !=\ other.size)}
+\DoxyCodeLine{00705\ \ \ \ \ \{}
+\DoxyCodeLine{00706\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00707\ \ \ \ \ \}}
+\DoxyCodeLine{00708\ }
+\DoxyCodeLine{00709\ \ \ \ \ \textcolor{keywordflow}{return}\ size\ ==\ 0\ ||\ std::memcmp(data,\ other.data,\ size)\ ==\ 0;}
+\DoxyCodeLine{00710\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_aeda2234b2ba42a31bac62bcc75365562}\index{ArenaEntry@{ArenaEntry}!operator$>$@{operator$>$}}
+\index{operator$>$@{operator$>$}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{operator$>$()}{operator>()}}
+{\footnotesize\ttfamily \label{struct_arena_entry_aeda2234b2ba42a31bac62bcc75365562} 
+bool Arena\+Entry::\+operator$>$ (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{other}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00695\ \{}
+\DoxyCodeLine{00696\ \ \ \ \ \textcolor{keywordflow}{return}\ other\ <\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00697\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_arena_entry_af46c0e1fbb6d5b4bb56560a7957a69a8}\index{ArenaEntry@{ArenaEntry}!operator$>$=@{operator$>$=}}
+\index{operator$>$=@{operator$>$=}!ArenaEntry@{ArenaEntry}}
+\doxysubsubsection{\texorpdfstring{operator$>$=()}{operator>=()}}
+{\footnotesize\ttfamily \label{struct_arena_entry_af46c0e1fbb6d5b4bb56560a7957a69a8} 
+bool Arena\+Entry::\+operator$>$= (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{other}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00713\ \{}
+\DoxyCodeLine{00714\ \ \ \ \ \textcolor{keywordflow}{return}\ !(*\textcolor{keyword}{this}\ <\ other);}
+\DoxyCodeLine{00715\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+arena.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+arena.\+cpp\end{DoxyCompactItemize}

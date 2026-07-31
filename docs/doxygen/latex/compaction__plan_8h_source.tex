@@ -1,0 +1,39 @@
+\doxysection{compaction\+\_\+plan.\+h}
+\hypertarget{compaction__plan_8h_source}{}\label{compaction__plan_8h_source}\index{C:/Users/user/KVDB/include/compaction\_plan.h@{C:/Users/user/KVDB/include/compaction\_plan.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstddef>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}table\_meta.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{enum\ class}\ CompactionReason\ :\ std::uint8\_t}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ Manual,}
+\DoxyCodeLine{00013\ \ \ \ \ L0ReachedLimit,}
+\DoxyCodeLine{00014\ \ \ \ \ LxReachedLimit,}
+\DoxyCodeLine{00015\ \};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_compaction_plan}{CompactionPlan}}}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ CompactionReason\ reason\ =\ CompactionReason::Manual;}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \ \ \ \ std::uint32\_t\ source\_level\ =\ 0;}
+\DoxyCodeLine{00022\ \ \ \ \ std::uint32\_t\ target\_level\ =\ 0;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ std::vector<TableMeta>\ source\_tables;}
+\DoxyCodeLine{00025\ \ \ \ \ std::vector<TableMeta>\ overlapping\_tables;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ smallest\_key\{\};}
+\DoxyCodeLine{00028\ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ largest\_key\{\};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ std::uint64\_t\ max\_output\_file\_size\ =\ 4ull\ *\ 1024\ *\ 1024;}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ validate()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ \};}
+
+\end{DoxyCode}

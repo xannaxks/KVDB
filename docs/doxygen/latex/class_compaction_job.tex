@@ -1,0 +1,309 @@
+\doxysection{Compaction\+Job Class Reference}
+\hypertarget{class_compaction_job}{}\label{class_compaction_job}\index{CompactionJob@{CompactionJob}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} $>$ $>$ \doxymbox{\hyperlink{class_compaction_job_a31190f2c20db0cbd1a75d823bf9e4c2d}{run}} (const \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&plan, const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&level\+\_\+manager, const \doxymbox{\hyperlink{class_manifest}{Manifest}} \&manifest, \doxymbox{\hyperlink{class_s_s_table_manager}{SSTable\+Manager}} \&sstable\+\_\+manager, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena) const
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} $>$ $>$ \doxymbox{\hyperlink{class_compaction_job_a123f91e57d4d46bb8bb8dace342d4875}{run}} (const \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&plan, const \doxymbox{\hyperlink{class_manifest}{Manifest}} \&manifest, \doxymbox{\hyperlink{class_s_s_table_manager}{SSTable\+Manager}} \&sstable\+\_\+manager, \doxymbox{\hyperlink{class_arena}{Arena}} \&arena) const
+\end{DoxyCompactItemize}
+
+
+\label{class_compaction_job_doc-func-members}
+\Hypertarget{class_compaction_job_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_compaction_job_a31190f2c20db0cbd1a75d823bf9e4c2d}\index{CompactionJob@{CompactionJob}!run@{run}}
+\index{run@{run}!CompactionJob@{CompactionJob}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{class_compaction_job_a31190f2c20db0cbd1a75d823bf9e4c2d} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} $>$ $>$ Compaction\+Job::\+run (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&}]{plan}{, }\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{level\+\_\+manager}{, }\item[{const \doxymbox{\hyperlink{class_manifest}{Manifest}} \&}]{manifest}{, }\item[{\doxymbox{\hyperlink{class_s_s_table_manager}{SSTable\+Manager}} \&}]{sstable\+\_\+manager}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00090\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordflow}{if}\ (!plan.validate())\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<VersionEdit>>::fail(}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Compaction\ plan\ is\ not\ valid"{}}}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00098\ \ \ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordflow}{if}\ (!plan\_is\_current(plan,\ level\_manager))\ \{}
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<VersionEdit>>::fail(}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Compaction\ plan\ is\ stale;\ one\ or\ more\ input\ tables\ changed"{}}}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00107\ \ \ \ \ \}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ VersionEdit\ edit;}
+\DoxyCodeLine{00110\ \ \ \ \ std::vector<std::shared\_ptr<SSTable>>\ pinned\_tables;}
+\DoxyCodeLine{00111\ \ \ \ \ std::vector<SSTableIterator>\ iterators;}
+\DoxyCodeLine{00112\ }
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ input\_count\ =}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ plan.source\_tables.size()\ +\ plan.overlapping\_tables.size();}
+\DoxyCodeLine{00115\ \ \ \ \ pinned\_tables.reserve(input\_count);}
+\DoxyCodeLine{00116\ \ \ \ \ iterators.reserve(input\_count);}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \ \ \ \ \textcolor{keyword}{auto}\ cleanup\_finished\_outputs\ =\ [\&]()\ \textcolor{keyword}{noexcept}\ \{}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ edit.payload.new\_tables)\ \{}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table.path.empty())\ \{}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ \ \ \ \ std::error\_code\ ignored;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \ std::filesystem::remove(table.path,\ ignored);}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ edit.payload.new\_tables.clear();}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{auto}\ fail\ =\ [\&](Status\ status)}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ -\/>\ Result<std::optional<VersionEdit>>\ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ cleanup\_finished\_outputs();}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<VersionEdit>>::fail(std::move(status));}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keyword}{auto}\ add\_input\_table\ =\ [\&](\textcolor{keyword}{const}\ TableMeta\&\ table\_meta,}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ std::uint32\_t\ level)\ -\/>\ Status\ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (table\_meta.table\_id\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTableManager\ currently\ supports\ only\ 32-\/bit\ input\ table\ IDs"{}}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ \ \ \ \ Result<std::shared\_ptr<SSTable>>\ sstable\_result\ =}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sstable\_manager.get(}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(table\_meta.table\_id),}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ arena}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!sstable\_result.is\_ok())\ \{}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(sstable\_result.status);}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!sstable\_result.value)\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::NotFound,}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTable\ not\ found\ during\ compaction"{}}}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ pinned\_tables.push\_back(std::move(sstable\_result.value));}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ SSTable\&\ sstable\ =\ *pinned\_tables.back();}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ Result<std::unique\_ptr<ReadableFile>>\ file\_result\ =}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ open\_readable\_file(sstable.get\_final\_path());}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!file\_result.is\_ok())\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(file\_result.status);}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ iterators.emplace\_back(}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sstable,}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::move(file\_result.value),}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ arena}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ SSTableIterator\ starts\ invalid.\ Initialize\ it\ explicitly\ rather\ than}}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ relying\ on\ undocumented\ MergeIterator::build\ behavior.}}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \ \ \ \ Status\ seek\_status\ =\ iterators.back().seek\_to\_first();}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!seek\_status.is\_ok())\ \{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ iterators.pop\_back();}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pinned\_tables.pop\_back();}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ seek\_status;}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ edit.payload.deleted\_tables.push\_back(DeletedTable\{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ level,}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ table\_meta.table\_id}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ plan.source\_tables)\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ Status\ status\ =\ add\_input\_table(table,\ plan.source\_level);}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(status));}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00197\ \ \ \ \ \}}
+\DoxyCodeLine{00198\ }
+\DoxyCodeLine{00199\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ table\ :\ plan.overlapping\_tables)\ \{}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \ \ Status\ status\ =\ add\_input\_table(table,\ plan.target\_level);}
+\DoxyCodeLine{00201\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(status));}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00204\ \ \ \ \ \}}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ \textcolor{keywordflow}{if}\ (iterators.empty())\ \{}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<VersionEdit>>::ok(std::nullopt);}
+\DoxyCodeLine{00208\ \ \ \ \ \}}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \ \ \ \ MergeIterator\ merge\_iterator;}
+\DoxyCodeLine{00211\ \ \ \ \ merge\_iterator.build(iterators);}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \ \ \ \ std::unique\_ptr<SSTableStreamingBuilder>\ builder;}
+\DoxyCodeLine{00214\ \ \ \ \ std::uint64\_t\ next\_output\_table\_id\ =\ manifest.next\_table\_id();}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keyword}{auto}\ start\_new\_output\ =\ [\&]()\ -\/>\ Status\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (builder)\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tried\ to\ start\ an\ output\ while\ another\ builder\ is\ active"{}}}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (next\_output\_table\_id\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTableManager\ currently\ supports\ only\ 32-\/bit\ table\ IDs"{}}}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ builder\ =\ sstable\_manager.create\_streaming\_builder(}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(next\_output\_table\_id)}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!builder)\ \{}
+\DoxyCodeLine{00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}SSTableManager\ returned\ a\ null\ streaming\ builder"{}}}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00240\ }
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ ++next\_output\_table\_id;}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keyword}{auto}\ finish\_current\_output\ =\ [\&]()\ -\/>\ Status\ \{}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!builder)\ \{}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00248\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (builder-\/>empty())\ \{}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \ \ \ \ \ \ builder.reset();}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \ \ \ \ Result<std::optional<TableMeta>>\ meta\_result\ =}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ \ \ \ \ builder-\/>finish(plan.target\_level,\ arena);}
+\DoxyCodeLine{00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!meta\_result.is\_ok())\ \{}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::move(meta\_result.status);}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!meta\_result.value.has\_value())\ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Non-\/empty\ compaction\ output\ produced\ no\ TableMeta"{}}}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00267\ }
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ edit.payload.new\_tables.push\_back(}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(meta\_result.value.value())}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00271\ \ \ \ \ \ \ \ \ builder.reset();}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ bottommost\ =\ is\_bottommost\_destination(}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ level\_manager,}
+\DoxyCodeLine{00277\ \ \ \ \ \ \ \ \ plan.target\_level}
+\DoxyCodeLine{00278\ \ \ \ \ );}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \ \ \ \ \textcolor{keywordflow}{while}\ (merge\_iterator.valid())\ \{}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ InternalRecord\&\ newest\ =\ merge\_iterator.record();}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ ArenaEntry\ current\_key\ =\ newest.key\_entry;}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (compaction\_keep\_newest\_record(newest.type,\ bottommost))\ \{}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!builder)\ \{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\ start\_status\ =\ start\_new\_output();}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!start\_status.is\_ok())\ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(start\_status));}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00292\ \ \ \ \ \ \ \ \ \ \ \ \ Status\ add\_status\ =\ builder-\/>add(newest);}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!add\_status.is\_ok())\ \{}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(add\_status));}
+\DoxyCodeLine{00295\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00297\ }
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ No-\/snapshot\ policy:\ discard\ every\ older\ version\ of\ this\ user\ key.}}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ merge\_iterator.next();}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (merge\_iterator.valid()\ \&\&}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ \ \ merge\_iterator.record().key\_entry\ ==\ current\_key)\ \{}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \ \ \ \ merge\_iterator.next();}
+\DoxyCodeLine{00303\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (builder\ \&\&}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ !builder-\/>empty()\ \&\&}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ builder-\/>approximate\_disk\_space()\ >=\ plan.max\_output\_file\_size)\ \{}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \ \ \ \ \ \ Status\ finish\_status\ =\ finish\_current\_output();}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!finish\_status.is\_ok())\ \{}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(finish\_status));}
+\DoxyCodeLine{00311\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00313\ \ \ \ \ \}}
+\DoxyCodeLine{00314\ }
+\DoxyCodeLine{00315\ \ \ \ \ \textcolor{comment}{//\ If\ MergeIterator\ stopped\ because\ an\ underlying\ iterator\ failed,\ do\ not}}
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{comment}{//\ commit\ a\ partial\ compaction.}}
+\DoxyCodeLine{00317\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ iterator\ :\ iterators)\ \{}
+\DoxyCodeLine{00318\ \ \ \ \ \ \ \ \ Status\ iterator\_status\ =\ iterator.status();}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!iterator\_status.is\_ok())\ \{}
+\DoxyCodeLine{00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(iterator\_status));}
+\DoxyCodeLine{00321\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00322\ \ \ \ \ \}}
+\DoxyCodeLine{00323\ }
+\DoxyCodeLine{00324\ \ \ \ \ Status\ finish\_status\ =\ finish\_current\_output();}
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keywordflow}{if}\ (!finish\_status.is\_ok())\ \{}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ fail(std::move(finish\_status));}
+\DoxyCodeLine{00327\ \ \ \ \ \}}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordflow}{if}\ (next\_output\_table\_id\ !=\ manifest.next\_table\_id())\ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ edit.payload.next\_table\_id\ =\ next\_output\_table\_id;}
+\DoxyCodeLine{00331\ \ \ \ \ \}}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \ \ \ \ \textcolor{keywordflow}{if}\ (edit.payload.deleted\_tables.empty()\ \&\&}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ edit.payload.new\_tables.empty())\ \{}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<VersionEdit>>::ok(std::nullopt);}
+\DoxyCodeLine{00336\ \ \ \ \ \}}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{comment}{//\ Pick/run/Manifest::commit\ must\ be\ serialized.\ The\ job\ reserves\ IDs\ from}}
+\DoxyCodeLine{00339\ \ \ \ \ \textcolor{comment}{//\ manifest.next\_table\_id()\ and\ records\ the\ next\ value\ in\ this\ edit.}}
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<VersionEdit>>::ok(std::move(edit));}
+\DoxyCodeLine{00341\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_compaction_job_a123f91e57d4d46bb8bb8dace342d4875}\index{CompactionJob@{CompactionJob}!run@{run}}
+\index{run@{run}!CompactionJob@{CompactionJob}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{class_compaction_job_a123f91e57d4d46bb8bb8dace342d4875} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_version_edit}{Version\+Edit}} $>$ $>$ Compaction\+Job::\+run (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} \&}]{plan}{, }\item[{const \doxymbox{\hyperlink{class_manifest}{Manifest}} \&}]{manifest}{, }\item[{\doxymbox{\hyperlink{class_s_s_table_manager}{SSTable\+Manager}} \&}]{sstable\+\_\+manager}{, }\item[{\doxymbox{\hyperlink{class_arena}{Arena}} \&}]{arena}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00349\ \{}
+\DoxyCodeLine{00350\ \ \ \ \ (void)manifest;}
+\DoxyCodeLine{00351\ \ \ \ \ (void)sstable\_manager;}
+\DoxyCodeLine{00352\ \ \ \ \ (void)arena;}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \ \ \ \ \textcolor{keywordflow}{if}\ (!plan.validate())\ \{}
+\DoxyCodeLine{00355\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<VersionEdit>>::fail(Status\{}
+\DoxyCodeLine{00356\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::Corruption,}
+\DoxyCodeLine{00357\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Compaction\ plan\ is\ not\ valid"{}}}
+\DoxyCodeLine{00358\ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00359\ \ \ \ \ \}}
+\DoxyCodeLine{00360\ }
+\DoxyCodeLine{00361\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<VersionEdit>>::fail(Status\{}
+\DoxyCodeLine{00362\ \ \ \ \ \ \ \ \ StatusCode::InvalidState,}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Compaction\ requires\ the\ current\ LevelManager\ snapshot"{}}}
+\DoxyCodeLine{00364\ \ \ \ \ \});}
+\DoxyCodeLine{00365\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+compaction\+\_\+job.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+compaction\+\_\+job.\+cpp\end{DoxyCompactItemize}

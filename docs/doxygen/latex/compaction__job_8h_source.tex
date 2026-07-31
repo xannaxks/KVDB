@@ -1,0 +1,37 @@
+\doxysection{compaction\+\_\+job.\+h}
+\hypertarget{compaction__job_8h_source}{}\label{compaction__job_8h_source}\index{C:/Users/user/KVDB/include/compaction\_job.h@{C:/Users/user/KVDB/include/compaction\_job.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}compaction\_plan.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}manifest.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}sstable\_manager.h"{}}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{class\ }\doxymbox{\hyperlink{class_compaction_job}{CompactionJob}}}
+\DoxyCodeLine{00012\ \{}
+\DoxyCodeLine{00013\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00014\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<VersionEdit>}}>\ run(}
+\DoxyCodeLine{00015\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_compaction_plan}{CompactionPlan}}\&\ plan,}
+\DoxyCodeLine{00016\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_level_manager}{LevelManager}}\&\ level\_manager,}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_manifest}{Manifest}}\&\ manifest,}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_s_s_table_manager}{SSTableManager}}\&\ sstable\_manager,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00020\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ Compatibility\ overload\ for\ callers\ that\ only\ need\ plan\ validation.}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//\ A\ plan\ containing\ table\ inputs\ is\ necessarily\ stale\ without\ a\ level}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{comment}{//\ snapshot\ and\ is\ rejected\ before\ any\ I/O.}}
+\DoxyCodeLine{00025\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::optional<VersionEdit>}}>\ run(}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_compaction_plan}{CompactionPlan}}\&\ plan,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_manifest}{Manifest}}\&\ manifest,}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_s_s_table_manager}{SSTableManager}}\&\ sstable\_manager,}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00030\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00031\ \};}
+
+\end{DoxyCode}

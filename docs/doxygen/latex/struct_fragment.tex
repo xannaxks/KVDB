@@ -1,0 +1,364 @@
+\doxysection{Fragment Struct Reference}
+\hypertarget{struct_fragment}{}\label{struct_fragment}\index{Fragment@{Fragment}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \doxymbox{\hyperlink{struct_fragment_1_1_header}{Header}}
+\item 
+struct \doxymbox{\hyperlink{struct_fragment_1_1_payload}{Payload}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum class {\bfseries Type} :\+ std::\+uint8\+\_\+t \{ {\bfseries FULL} = 0
+, {\bfseries FIRST} = 1
+, {\bfseries MIDDLE} = 2
+, {\bfseries LAST} = 3
+ \}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_fragment_a5de1884715f264baa09d438e289823ef}{compute\+\_\+crc32}} ()
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_fragment_a903f0a36cc648a0090b328d518c7384e}{write}} (\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&file, std::\+uint64\+\_\+t \&offset)
+\item 
+std::\+size\+\_\+t \doxymbox{\hyperlink{struct_fragment_a5df0e18a58512d7db7c9f8e6a54b14d9}{disk\+\_\+size}} () const noexcept
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_fragment_a5fd43d7d75ab0dc4fc184cd3ee2114f5}{compute\+\_\+crc32}} (std::\+uint32\+\_\+t \&crc32\+\_\+out, const \doxymbox{\hyperlink{struct_fragment}{Fragment}} \&fragment)
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_fragment}{Fragment}} $>$ $>$ \doxymbox{\hyperlink{struct_fragment_a945b3aec0b32dd09c2c8bf8b2715b948}{load}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint64\+\_\+t \&offset)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_fragment_ac3898bd389ee00ae62c62e72f620b002}\label{struct_fragment_ac3898bd389ee00ae62c62e72f620b002} 
+\doxymbox{\hyperlink{struct_fragment_1_1_header}{Header}} {\bfseries header}
+\item 
+\Hypertarget{struct_fragment_a1142f9edffd2f5451fc1198e4bff89be}\label{struct_fragment_a1142f9edffd2f5451fc1198e4bff89be} 
+\doxymbox{\hyperlink{struct_fragment_1_1_payload}{Payload}} {\bfseries payload}
+\end{DoxyCompactItemize}
+
+
+\label{struct_fragment_doc-enum-members}
+\Hypertarget{struct_fragment_doc-enum-members}
+\doxysubsection{Member Enumeration Documentation}
+\Hypertarget{struct_fragment_a3056b2bae812cb6c729d9ccdfd7c326f}\index{Fragment@{Fragment}!Type@{Type}}
+\index{Type@{Type}!Fragment@{Fragment}}
+\doxysubsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily \label{struct_fragment_a3056b2bae812cb6c729d9ccdfd7c326f} 
+enum class Fragment::\+\+Type :\+ std::\+uint8\+\_\+t\hspace{0.3cm}{\ttfamily [strong]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00060\ \ \ \ \ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ FULL\ =\ 0,}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ FIRST\ =\ 1,}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ MIDDLE\ =\ 2,}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ LAST\ =\ 3,}
+\DoxyCodeLine{00065\ \ \ \ \ \};}
+
+\end{DoxyCode}
+
+
+\label{struct_fragment_doc-func-members}
+\Hypertarget{struct_fragment_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_fragment_a5de1884715f264baa09d438e289823ef}\index{Fragment@{Fragment}!compute\_crc32@{compute\_crc32}}
+\index{compute\_crc32@{compute\_crc32}!Fragment@{Fragment}}
+\doxysubsubsection{\texorpdfstring{compute\_crc32()}{compute\_crc32()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{struct_fragment_a5de1884715f264baa09d438e289823ef} 
+\doxymbox{\hyperlink{struct_status}{Status}} Fragment::\+compute\+\_\+crc32 (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00843\ \{}
+\DoxyCodeLine{00844\ \ \ \ \ \textcolor{keywordflow}{return}\ Fragment::compute\_crc32(}
+\DoxyCodeLine{00845\ \ \ \ \ \ \ \ \ header.fragment\_crc32,}
+\DoxyCodeLine{00846\ \ \ \ \ \ \ \ \ *\textcolor{keyword}{this}}
+\DoxyCodeLine{00847\ \ \ \ \ );}
+\DoxyCodeLine{00848\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_fragment_a5fd43d7d75ab0dc4fc184cd3ee2114f5}\index{Fragment@{Fragment}!compute\_crc32@{compute\_crc32}}
+\index{compute\_crc32@{compute\_crc32}!Fragment@{Fragment}}
+\doxysubsubsection{\texorpdfstring{compute\_crc32()}{compute\_crc32()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{struct_fragment_a5fd43d7d75ab0dc4fc184cd3ee2114f5} 
+\doxymbox{\hyperlink{struct_status}{Status}} Fragment::\+compute\+\_\+crc32 (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t \&}]{crc32\+\_\+out}{, }\item[{const \doxymbox{\hyperlink{struct_fragment}{Fragment}} \&}]{fragment}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00795\ \{}
+\DoxyCodeLine{00796\ \ \ \ \ \textcolor{keywordflow}{if}\ (fragment.header.header\_size\ !=\ Header::disk\_size())\ \{}
+\DoxyCodeLine{00797\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00798\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidHeader,}
+\DoxyCodeLine{00799\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}fragment\ header\_size\ is\ invalid"{}}}
+\DoxyCodeLine{00800\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00801\ \ \ \ \ \}}
+\DoxyCodeLine{00802\ }
+\DoxyCodeLine{00803\ \ \ \ \ \textcolor{keywordflow}{if}\ (!is\_valid\_fragment\_type(fragment.header.fragment\_type))\ \{}
+\DoxyCodeLine{00804\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00805\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidBlockType,}
+\DoxyCodeLine{00806\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}fragment\ type\ is\ invalid"{}}}
+\DoxyCodeLine{00807\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00808\ \ \ \ \ \}}
+\DoxyCodeLine{00809\ }
+\DoxyCodeLine{00810\ \ \ \ \ \textcolor{keywordflow}{if}\ (!is\_valid\_record\_type(fragment.header.type))\ \{}
+\DoxyCodeLine{00811\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00812\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidArgument,}
+\DoxyCodeLine{00813\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}record\ type\ in\ fragment\ header\ is\ invalid"{}}}
+\DoxyCodeLine{00814\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00815\ \ \ \ \ \}}
+\DoxyCodeLine{00816\ }
+\DoxyCodeLine{00817\ \ \ \ \ \textcolor{keywordflow}{if}\ (fragment.header.fragment\_size\ !=}
+\DoxyCodeLine{00818\ \ \ \ \ \ \ \ \ fragment.payload.bytes.size())\ \{}
+\DoxyCodeLine{00819\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00820\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{00821\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}fragment\_size\ does\ not\ match\ payload\ size"{}}}
+\DoxyCodeLine{00822\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00823\ \ \ \ \ \}}
+\DoxyCodeLine{00824\ }
+\DoxyCodeLine{00825\ \ \ \ \ crc32\_out\ =\ ::crc32(0L,\ Z\_NULL,\ 0);}
+\DoxyCodeLine{00826\ \ \ \ \ crc32\_add\_pod<std::uint32\_t>(crc32\_out,\ fragment.header.header\_size);}
+\DoxyCodeLine{00827\ \ \ \ \ crc32\_add\_pod<std::uint8\_t>(}
+\DoxyCodeLine{00828\ \ \ \ \ \ \ \ \ crc32\_out,}
+\DoxyCodeLine{00829\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint8\_t\textcolor{keyword}{>}(fragment.header.fragment\_type)}
+\DoxyCodeLine{00830\ \ \ \ \ );}
+\DoxyCodeLine{00831\ \ \ \ \ crc32\_add\_pod<std::uint8\_t>(}
+\DoxyCodeLine{00832\ \ \ \ \ \ \ \ \ crc32\_out,}
+\DoxyCodeLine{00833\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint8\_t\textcolor{keyword}{>}(fragment.header.type)}
+\DoxyCodeLine{00834\ \ \ \ \ );}
+\DoxyCodeLine{00835\ \ \ \ \ crc32\_add\_pod<std::uint64\_t>(crc32\_out,\ fragment.header.seq\_num);}
+\DoxyCodeLine{00836\ \ \ \ \ crc32\_add\_pod<std::uint32\_t>(crc32\_out,\ fragment.header.fragment\_size);}
+\DoxyCodeLine{00837\ \ \ \ \ ::compute\_crc32(crc32\_out,\ fragment.payload.bytes.data(),\ fragment.payload.bytes.size());}
+\DoxyCodeLine{00838\ }
+\DoxyCodeLine{00839\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00840\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_fragment_a5df0e18a58512d7db7c9f8e6a54b14d9}\index{Fragment@{Fragment}!disk\_size@{disk\_size}}
+\index{disk\_size@{disk\_size}!Fragment@{Fragment}}
+\doxysubsubsection{\texorpdfstring{disk\_size()}{disk\_size()}}
+{\footnotesize\ttfamily \label{struct_fragment_a5df0e18a58512d7db7c9f8e6a54b14d9} 
+std::\+size\+\_\+t Fragment::\+disk\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00140\ \ \ \ \ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Header::disk\_size()\ +\ payload.disk\_size();}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_fragment_a945b3aec0b32dd09c2c8bf8b2715b948}\index{Fragment@{Fragment}!load@{load}}
+\index{load@{load}!Fragment@{Fragment}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \label{struct_fragment_a945b3aec0b32dd09c2c8bf8b2715b948} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_fragment}{Fragment}} $>$ $>$ Fragment::\+load (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{01160\ \{}
+\DoxyCodeLine{01161\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ initial\_offset\ =\ offset;}
+\DoxyCodeLine{01162\ }
+\DoxyCodeLine{01163\ \ \ \ \ std::uint64\_t\ file\_size\ =\ 0;}
+\DoxyCodeLine{01164\ \ \ \ \ Status\ status\ =\ file.get\_file\_size(file\_size);}
+\DoxyCodeLine{01165\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{01166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01167\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(status)}
+\DoxyCodeLine{01168\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01169\ \ \ \ \ \}}
+\DoxyCodeLine{01170\ }
+\DoxyCodeLine{01171\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ ==\ file\_size)\ \{}
+\DoxyCodeLine{01172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::ok(std::nullopt);}
+\DoxyCodeLine{01173\ \ \ \ \ \}}
+\DoxyCodeLine{01174\ }
+\DoxyCodeLine{01175\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ >\ file\_size)\ \{}
+\DoxyCodeLine{01176\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01177\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{01178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
+\DoxyCodeLine{01179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ fragment\ offset\ is\ beyond\ end\ of\ file"{}}}
+\DoxyCodeLine{01180\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01181\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01182\ \ \ \ \ \}}
+\DoxyCodeLine{01183\ }
+\DoxyCodeLine{01184\ \ \ \ \ status\ =\ ensure\_fits\_in\_block(}
+\DoxyCodeLine{01185\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{01186\ \ \ \ \ \ \ \ \ Header::disk\_size()\ +\ 1u,}
+\DoxyCodeLine{01187\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{01188\ \ \ \ \ \ \ \ \ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{01189\ \ \ \ \ );}
+\DoxyCodeLine{01190\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{01191\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{01192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01193\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(status)}
+\DoxyCodeLine{01194\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01195\ \ \ \ \ \}}
+\DoxyCodeLine{01196\ }
+\DoxyCodeLine{01197\ \ \ \ \ \textcolor{comment}{//\ The\ old\ offset\ may\ have\ pointed\ into\ block\ padding.}}
+\DoxyCodeLine{01198\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ >=\ file\_size)\ \{}
+\DoxyCodeLine{01199\ \ \ \ \ \ \ \ \ offset\ =\ file\_size;}
+\DoxyCodeLine{01200\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::ok(std::nullopt);}
+\DoxyCodeLine{01201\ \ \ \ \ \}}
+\DoxyCodeLine{01202\ }
+\DoxyCodeLine{01203\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_size\ -\/\ offset\ <\ Header::disk\_size())\ \{}
+\DoxyCodeLine{01204\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{01205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01206\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{01207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
+\DoxyCodeLine{01208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ file\ ended\ inside\ a\ fragment\ header"{}}}
+\DoxyCodeLine{01209\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01210\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01211\ \ \ \ \ \}}
+\DoxyCodeLine{01212\ }
+\DoxyCodeLine{01213\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ fragment\_start\ =\ offset;}
+\DoxyCodeLine{01214\ }
+\DoxyCodeLine{01215\ \ \ \ \ Result<Header>\ header\_result\ =\ Header::load(file,\ offset);}
+\DoxyCodeLine{01216\ \ \ \ \ \textcolor{keywordflow}{if}\ (!header\_result.is\_ok())\ \{}
+\DoxyCodeLine{01217\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{01218\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01219\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(header\_result.status)}
+\DoxyCodeLine{01220\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01221\ \ \ \ \ \}}
+\DoxyCodeLine{01222\ }
+\DoxyCodeLine{01223\ \ \ \ \ \doxymbox{\hyperlink{struct_fragment_1_1_header}{Header}}\ header\ =\ std::move(header\_result.value);}
+\DoxyCodeLine{01224\ }
+\DoxyCodeLine{01225\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ in\_block\ =\ offset\ \%\ WAL\_FILE\_BLOCK\_SIZE;}
+\DoxyCodeLine{01226\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ available\_in\_block\ =}
+\DoxyCodeLine{01227\ \ \ \ \ \ \ \ \ WAL\_FILE\_BLOCK\_SIZE\ -\/\ in\_block;}
+\DoxyCodeLine{01228\ }
+\DoxyCodeLine{01229\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.fragment\_size\ >\ available\_in\_block)\ \{}
+\DoxyCodeLine{01230\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{01231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01232\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{01233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{01234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ fragment\ payload\ crosses\ a\ block\ boundary"{}}}
+\DoxyCodeLine{01235\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01236\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01237\ \ \ \ \ \}}
+\DoxyCodeLine{01238\ }
+\DoxyCodeLine{01239\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.fragment\_size\ >}
+\DoxyCodeLine{01240\ \ \ \ \ \ \ \ \ WAL\_FILE\_BLOCK\_SIZE\ -\/\ Header::disk\_size())\ \{}
+\DoxyCodeLine{01241\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{01242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01243\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{01244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{01245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ fragment\ payload\ is\ larger\ than\ a\ block\ can\ hold"{}}}
+\DoxyCodeLine{01246\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01247\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01248\ \ \ \ \ \}}
+\DoxyCodeLine{01249\ }
+\DoxyCodeLine{01250\ \ \ \ \ \textcolor{keywordflow}{if}\ (file\_size\ -\/\ offset\ <\ header.fragment\_size)\ \{}
+\DoxyCodeLine{01251\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{01252\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01253\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{01254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
+\DoxyCodeLine{01255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ file\ ended\ inside\ a\ fragment\ payload"{}}}
+\DoxyCodeLine{01256\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01257\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01258\ \ \ \ \ \}}
+\DoxyCodeLine{01259\ }
+\DoxyCodeLine{01260\ \ \ \ \ Result<Payload>\ payload\_result\ =\ Payload::load(}
+\DoxyCodeLine{01261\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{01262\ \ \ \ \ \ \ \ \ header.fragment\_size,}
+\DoxyCodeLine{01263\ \ \ \ \ \ \ \ \ offset}
+\DoxyCodeLine{01264\ \ \ \ \ );}
+\DoxyCodeLine{01265\ \ \ \ \ \textcolor{keywordflow}{if}\ (!payload\_result.is\_ok())\ \{}
+\DoxyCodeLine{01266\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{01267\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01268\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(payload\_result.status)}
+\DoxyCodeLine{01269\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01270\ \ \ \ \ \}}
+\DoxyCodeLine{01271\ }
+\DoxyCodeLine{01272\ \ \ \ \ Fragment\ fragment\{\};}
+\DoxyCodeLine{01273\ \ \ \ \ fragment.header\ =\ std::move(header);}
+\DoxyCodeLine{01274\ \ \ \ \ fragment.payload\ =\ std::move(payload\_result.value);}
+\DoxyCodeLine{01275\ }
+\DoxyCodeLine{01276\ \ \ \ \ std::uint32\_t\ expected\_crc\ =\ 0;}
+\DoxyCodeLine{01277\ \ \ \ \ status\ =\ Fragment::compute\_crc32(expected\_crc,\ fragment);}
+\DoxyCodeLine{01278\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{01279\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{01280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01281\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(status)}
+\DoxyCodeLine{01282\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01283\ \ \ \ \ \}}
+\DoxyCodeLine{01284\ }
+\DoxyCodeLine{01285\ \ \ \ \ \textcolor{keywordflow}{if}\ (expected\_crc\ !=\ fragment.header.fragment\_crc32)\ \{}
+\DoxyCodeLine{01286\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{01287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::fail(}
+\DoxyCodeLine{01288\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{01289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::ChecksumMismatch,}
+\DoxyCodeLine{01290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ fragment\ CRC\ mismatch\ at\ offset\ "{}}\ +}
+\DoxyCodeLine{01291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(fragment\_start)}
+\DoxyCodeLine{01292\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{01293\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{01294\ \ \ \ \ \}}
+\DoxyCodeLine{01295\ }
+\DoxyCodeLine{01296\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<Fragment>>::ok(}
+\DoxyCodeLine{01297\ \ \ \ \ \ \ \ \ std::optional<Fragment>\{std::move(fragment)\}}
+\DoxyCodeLine{01298\ \ \ \ \ );}
+\DoxyCodeLine{01299\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_fragment_a903f0a36cc648a0090b328d518c7384e}\index{Fragment@{Fragment}!write@{write}}
+\index{write@{write}!Fragment@{Fragment}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily \label{struct_fragment_a903f0a36cc648a0090b328d518c7384e} 
+\doxymbox{\hyperlink{struct_status}{Status}} Fragment::\+write (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{01111\ \{}
+\DoxyCodeLine{01112\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.fragment\_size\ !=\ payload.bytes.size())\ \{}
+\DoxyCodeLine{01113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{01114\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{01115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}fragment\ header\ size\ and\ payload\ size\ differ"{}}}
+\DoxyCodeLine{01116\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{01117\ \ \ \ \ \}}
+\DoxyCodeLine{01118\ }
+\DoxyCodeLine{01119\ \ \ \ \ \textcolor{keywordflow}{if}\ (disk\_size()\ >\ WAL\_FILE\_BLOCK\_SIZE)\ \{}
+\DoxyCodeLine{01120\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{01121\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::SizeExceedsBlockSize,}
+\DoxyCodeLine{01122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ fragment\ exceeds\ one\ block"{}}}
+\DoxyCodeLine{01123\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{01124\ \ \ \ \ \}}
+\DoxyCodeLine{01125\ }
+\DoxyCodeLine{01126\ \ \ \ \ Status\ status\ =\ check\_writer\_offset(file,\ offset);}
+\DoxyCodeLine{01127\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{01128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{01129\ \ \ \ \ \}}
+\DoxyCodeLine{01130\ }
+\DoxyCodeLine{01131\ \ \ \ \ \textcolor{comment}{//\ Ensure\ the\ header\ and\ payload\ move\ together.\ Calling\ ensure\ separately}}
+\DoxyCodeLine{01132\ \ \ \ \ \textcolor{comment}{//\ for\ each\ part\ could\ otherwise\ align\ the\ payload\ into\ the\ next\ block.}}
+\DoxyCodeLine{01133\ \ \ \ \ status\ =\ ensure\_fits\_in\_block(}
+\DoxyCodeLine{01134\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{01135\ \ \ \ \ \ \ \ \ disk\_size(),}
+\DoxyCodeLine{01136\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{01137\ \ \ \ \ \ \ \ \ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{01138\ \ \ \ \ );}
+\DoxyCodeLine{01139\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{01140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{01141\ \ \ \ \ \}}
+\DoxyCodeLine{01142\ }
+\DoxyCodeLine{01143\ \ \ \ \ status\ =\ header.write(file,\ offset);}
+\DoxyCodeLine{01144\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{01145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{01146\ \ \ \ \ \}}
+\DoxyCodeLine{01147\ }
+\DoxyCodeLine{01148\ \ \ \ \ status\ =\ payload.write(file,\ offset);}
+\DoxyCodeLine{01149\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{01150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{01151\ \ \ \ \ \}}
+\DoxyCodeLine{01152\ }
+\DoxyCodeLine{01153\ \ \ \ \ \textcolor{keywordflow}{return}\ check\_writer\_offset(file,\ offset);}
+\DoxyCodeLine{01154\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+wal.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+wal.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,56 @@
+\doxysection{anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03}{}\label{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \doxymbox{\hyperlink{classanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_temporary_directory}{Temporary\+Directory}}
+\item 
+struct \doxymbox{\hyperlink{structanonymous__namespace_02sstable__pipeline__test_8cpp_03_1_1_owned_internal_record}{Owned\+Internal\+Record}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03_ad641611570e17c6243510bc1db422e07}{make\+\_\+key}} (std::\+string \&storage)
+\item 
+std::\+string\+\_\+view \doxymbox{\hyperlink{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03_a5c807cb13451cb45ce1b70fd955fe8d7}{entry\+\_\+view}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&entry)
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03_a5c807cb13451cb45ce1b70fd955fe8d7}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}}!entry\_view@{entry\_view}}
+\index{entry\_view@{entry\_view}!anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{entry\_view()}{entry\_view()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03_a5c807cb13451cb45ce1b70fd955fe8d7} 
+std::\+string\+\_\+view anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+entry\+\_\+view (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{entry}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00114\ \ \ \ \ \{}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.size\ ==\ 0)\ \{}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::string\_view(}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(entry.data),}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \ \ \ \ entry.size}
+\DoxyCodeLine{00121\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00122\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03_ad641611570e17c6243510bc1db422e07}\index{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}}!make\_key@{make\_key}}
+\index{make\_key@{make\_key}!anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}sstable\_pipeline\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{make\_key()}{make\_key()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02sstable__pipeline__test_8cpp_03_ad641611570e17c6243510bc1db422e07} 
+\doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} anonymous\+\_\+namespace\{sstable\+\_\+pipeline\+\_\+test.\+cpp\}::\+make\+\_\+key (\begin{DoxyParamCaption}\item[{std::\+string \&}]{storage}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00106\ \ \ \ \ \{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_arena_entry}{ArenaEntry}}\ result\{\};}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ result.data\ =\ storage.empty()\ ?\ nullptr\ :\ storage.data();}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ result.size\ =\ storage.size();}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ result;}
+\DoxyCodeLine{00111\ \ \ \ \ \}}
+
+\end{DoxyCode}

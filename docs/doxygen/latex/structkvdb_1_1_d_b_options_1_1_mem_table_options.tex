@@ -1,0 +1,50 @@
+\doxysection{kvdb::\+DBOptions::\+Mem\+Table\+Options Struct Reference}
+\hypertarget{structkvdb_1_1_d_b_options_1_1_mem_table_options}{}\label{structkvdb_1_1_d_b_options_1_1_mem_table_options}\index{kvdb::DBOptions::MemTableOptions@{kvdb::DBOptions::MemTableOptions}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{structkvdb_1_1_d_b_options_1_1_mem_table_options_a9095928c0ed33fe79b210dc1e33117e7}{validate}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_mem_table_options_a1245b1467c4cd80ac4e0af4f829c4e35}\label{structkvdb_1_1_d_b_options_1_1_mem_table_options_a1245b1467c4cd80ac4e0af4f829c4e35} 
+std::\+size\+\_\+t {\bfseries size\+\_\+limit} = 64 \texorpdfstring{$\ast$}{*} 1024 \texorpdfstring{$\ast$}{*} 1024
+\item 
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_mem_table_options_a391b67b3ce33ddf35486be18ade1cded}\label{structkvdb_1_1_d_b_options_1_1_mem_table_options_a391b67b3ce33ddf35486be18ade1cded} 
+std::\+size\+\_\+t {\bfseries immutable\+\_\+tables\+\_\+limit} = 1
+\end{DoxyCompactItemize}
+
+
+\label{structkvdb_1_1_d_b_options_1_1_mem_table_options_doc-func-members}
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_mem_table_options_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structkvdb_1_1_d_b_options_1_1_mem_table_options_a9095928c0ed33fe79b210dc1e33117e7}\index{kvdb::DBOptions::MemTableOptions@{kvdb::DBOptions::MemTableOptions}!validate@{validate}}
+\index{validate@{validate}!kvdb::DBOptions::MemTableOptions@{kvdb::DBOptions::MemTableOptions}}
+\doxysubsubsection{\texorpdfstring{validate()}{validate()}}
+{\footnotesize\ttfamily \label{structkvdb_1_1_d_b_options_1_1_mem_table_options_a9095928c0ed33fe79b210dc1e33117e7} 
+\doxymbox{\hyperlink{struct_status}{Status}} kvdb::\+\+DBOptions::\+\+Mem\+Table\+Options::\+validate (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00023\ \ \ \ \ \{}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\_limit\ ==\ 0)\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}memtable\ size\_limit\ must\ be\ greater\ than\ zero"{}}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (immutable\_tables\_limit\ ==\ 0)\ \{}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::invalid\_argument(}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}memtable\ immutable\_tables\_limit\ must\ be\ greater\ than\ zero"{}}}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00035\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+db\+\_\+options.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+db\+\_\+options.\+cpp\end{DoxyCompactItemize}

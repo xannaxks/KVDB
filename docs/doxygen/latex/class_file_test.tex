@@ -1,0 +1,74 @@
+\doxysection{File\+Test Class Reference}
+\hypertarget{class_file_test}{}\label{class_file_test}\index{FileTest@{FileTest}}
+Inheritance diagram for File\+Test:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_file_test}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \doxymbox{\hyperlink{class_file_test_a003ca76c3a85005341dc0b34a6a935a2}{Set\+Up}} () override
+\item 
+void \doxymbox{\hyperlink{class_file_test_a9c750fdb8c328c2c98658f89ecbb44da}{Tear\+Down}} () override
+\item 
+fs::\+path \doxymbox{\hyperlink{class_file_test_aee1a1fe392fab14f82a9d576a02801ca}{path}} (const std::\+string \&name)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_file_test_aa158635b21bb4621c0d8fc124ce620a8}\label{class_file_test_aa158635b21bb4621c0d8fc124ce620a8} 
+fs::\+path {\bfseries dir}
+\end{DoxyCompactItemize}
+
+
+\label{class_file_test_doc-func-members}
+\Hypertarget{class_file_test_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_file_test_aee1a1fe392fab14f82a9d576a02801ca}\index{FileTest@{FileTest}!path@{path}}
+\index{path@{path}!FileTest@{FileTest}}
+\doxysubsubsection{\texorpdfstring{path()}{path()}}
+{\footnotesize\ttfamily \label{class_file_test_aee1a1fe392fab14f82a9d576a02801ca} 
+fs::\+path File\+Test::\+path (\begin{DoxyParamCaption}\item[{const std::\+string \&}]{name}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ dir\ /\ name;}
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_file_test_a003ca76c3a85005341dc0b34a6a935a2}\index{FileTest@{FileTest}!SetUp@{SetUp}}
+\index{SetUp@{SetUp}!FileTest@{FileTest}}
+\doxysubsubsection{\texorpdfstring{SetUp()}{SetUp()}}
+{\footnotesize\ttfamily \label{class_file_test_a003ca76c3a85005341dc0b34a6a935a2} 
+void File\+Test::\+\+Set\+Up (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00019\ \ \ \ \ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ dir\ =\ fs::temp\_directory\_path()\ /\ \textcolor{stringliteral}{"{}kvdb\_file\_testing"{}};}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ fs::remove\_all(dir);}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ fs::create\_directories(dir);}
+\DoxyCodeLine{00023\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_file_test_a9c750fdb8c328c2c98658f89ecbb44da}\index{FileTest@{FileTest}!TearDown@{TearDown}}
+\index{TearDown@{TearDown}!FileTest@{FileTest}}
+\doxysubsubsection{\texorpdfstring{TearDown()}{TearDown()}}
+{\footnotesize\ttfamily \label{class_file_test_a9c750fdb8c328c2c98658f89ecbb44da} 
+void File\+Test::\+\+Tear\+Down (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [protected]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00026\ \ \ \ \ \{}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ fs::remove\_all(dir);}
+\DoxyCodeLine{00028\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+file\+\_\+test.\+cpp\end{DoxyCompactItemize}

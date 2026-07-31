@@ -1,0 +1,190 @@
+\doxysection{anonymous\+\_\+namespace\{bloom\+\_\+section\+\_\+test.\+cpp\}::\+Memory\+Readable\+File Class Reference}
+\hypertarget{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file}{}\label{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file}\index{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}}
+Inheritance diagram for anonymous\+\_\+namespace\{bloom\+\_\+section\+\_\+test.\+cpp\}::\+Memory\+Readable\+File:\+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a96b286a22a307efb33378f40b81eeb7e}{Memory\+Readable\+File}} (std::\+vector$<$ std::\+byte $>$ bytes)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a54bf7c8202c9a5b5463ee6059ded69cc}{read\+\_\+at}} (std::\+uint64\+\_\+t offset, void \texorpdfstring{$\ast$}{*}buffer, std::\+size\+\_\+t size, std::\+size\+\_\+t \&bytes\+\_\+read) override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_abf8088792210016c1d256165652ecabe}{close}} () override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a63719669052a6d915ffc14fb20d347a3}{get\+\_\+file\+\_\+size}} (std::\+uint64\+\_\+t \&size\+\_\+out) override
+\item 
+const int \& \doxymbox{\hyperlink{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a97cdb1b5dbfb9c6a50cca13e209c6b83}{get\+\_\+descriptor}} () const override
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{class_readable_file_a3962bd261041d2514cef4e0460574052}{read\+\_\+exact\+\_\+at}} (std::\+uint64\+\_\+t offset, void \texorpdfstring{$\ast$}{*}buffer, std::\+size\+\_\+t size, std::\+uint64\+\_\+t \&track\+\_\+offset)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5}\label{class_readable_file_a43a324e91583b7a7d9f58a292f19a9e5} 
+std::\+filesystem::\+path {\bfseries path}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a3e0c06145f916ca65056f209957afa12}\label{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a3e0c06145f916ca65056f209957afa12} 
+std::\+vector$<$ std::\+byte $>$ {\bfseries bytes\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\label{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_doc-constructors}
+\Hypertarget{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a96b286a22a307efb33378f40b81eeb7e}\index{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}!MemoryReadableFile@{MemoryReadableFile}}
+\index{MemoryReadableFile@{MemoryReadableFile}!anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}}
+\doxysubsubsection{\texorpdfstring{MemoryReadableFile()}{MemoryReadableFile()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a96b286a22a307efb33378f40b81eeb7e} 
+anonymous\+\_\+namespace\{bloom\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Readable\+File::\+\+Memory\+Readable\+File (\begin{DoxyParamCaption}\item[{std::\+vector$<$ std::\+byte $>$}]{bytes}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00135\ \ \ \ \ \ \ \ \ \ \ \ \ :\ bytes\_(std::move(bytes)) }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_doc-func-members}
+\Hypertarget{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_abf8088792210016c1d256165652ecabe}\index{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}!close@{close}}
+\index{close@{close}!anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}}
+\doxysubsubsection{\texorpdfstring{close()}{close()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_abf8088792210016c1d256165652ecabe} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{bloom\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Readable\+File::\+close (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_readable_file}{Readable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00166\ \{\ \textcolor{keywordflow}{return}\ Status::ok();\ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a97cdb1b5dbfb9c6a50cca13e209c6b83}\index{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}!get\_descriptor@{get\_descriptor}}
+\index{get\_descriptor@{get\_descriptor}!anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}}
+\doxysubsubsection{\texorpdfstring{get\_descriptor()}{get\_descriptor()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a97cdb1b5dbfb9c6a50cca13e209c6b83} 
+const int \& anonymous\+\_\+namespace\{bloom\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Readable\+File::\+get\+\_\+descriptor (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_readable_file}{Readable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ descriptor\ =\ -\/1;}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ descriptor;}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a63719669052a6d915ffc14fb20d347a3}\index{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}!get\_file\_size@{get\_file\_size}}
+\index{get\_file\_size@{get\_file\_size}!anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}}
+\doxysubsubsection{\texorpdfstring{get\_file\_size()}{get\_file\_size()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a63719669052a6d915ffc14fb20d347a3} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{bloom\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Readable\+File::\+get\+\_\+file\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t \&}]{size\+\_\+out}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_readable_file}{Readable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ \ \ size\_out\ =\ bytes\_.size();}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a54bf7c8202c9a5b5463ee6059ded69cc}\index{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}!read\_at@{read\_at}}
+\index{read\_at@{read\_at}!anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}}
+\doxysubsubsection{\texorpdfstring{read\_at()}{read\_at()}}
+{\footnotesize\ttfamily \label{classanonymous__namespace_02bloom__section__test_8cpp_03_1_1_memory_readable_file_a54bf7c8202c9a5b5463ee6059ded69cc} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{bloom\+\_\+section\+\_\+test.\+cpp\}::\+\+Memory\+Readable\+File::\+read\+\_\+at (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{offset}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{buffer}{, }\item[{std::\+size\+\_\+t}]{size}{, }\item[{std::\+size\+\_\+t \&}]{bytes\+\_\+read}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \doxymbox{\hyperlink{class_readable_file}{Readable\+File}}.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_read\ =\ 0;}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (size\ >\ 0\ \&\&\ buffer\ ==\ \textcolor{keyword}{nullptr})\ \{}
+\DoxyCodeLine{00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{\ StatusCode::NullPointer,\ \textcolor{stringliteral}{"{}null\ read\ buffer"{}}\ \};}
+\DoxyCodeLine{00149\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ >=\ bytes\_.size())\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ available\ =}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_.size()\ -\/\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(offset);}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_read\ =\ std::min(size,\ available);}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \ \ \ \ std::memcpy(}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ buffer,}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_.data()\ +\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(offset),}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_read}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_readable_file_a3962bd261041d2514cef4e0460574052}\index{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}!read\_exact\_at@{read\_exact\_at}}
+\index{read\_exact\_at@{read\_exact\_at}!anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile@{anonymous\_namespace\lcurly{}bloom\_section\_test.cpp\rcurly{}::MemoryReadableFile}}
+\doxysubsubsection{\texorpdfstring{read\_exact\_at()}{read\_exact\_at()}}
+{\footnotesize\ttfamily \label{class_readable_file_a3962bd261041d2514cef4e0460574052} 
+\doxymbox{\hyperlink{struct_status}{Status}} Readable\+File::\+read\+\_\+exact\+\_\+at (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{offset}{, }\item[{void \texorpdfstring{$\ast$}{*}}]{buffer}{, }\item[{std::\+size\+\_\+t}]{size}{, }\item[{std::\+uint64\+\_\+t \&}]{track\+\_\+offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inherited]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00032\ \{}
+\DoxyCodeLine{00033\ \ \ \ \ std::size\_t\ total\_read\ =\ 0;}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{char}*\ out\ =\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(buffer);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{while}\ (total\_read\ <\ size)}
+\DoxyCodeLine{00038\ \ \ \ \ \{}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ std::size\_t\ bytes\_read\ =\ 0;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Status\ read\_result\ =\ read\_at(}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \ \ \ \ offset\ +\ total\_read,}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ out\ +\ total\_read,}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ size\ -\/\ total\_read,}
+\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ bytes\_read}
+\DoxyCodeLine{00046\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!read\_result.is\_ok())\ \textcolor{comment}{//\ os\ read\ failed}}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ read\_result;}
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes\_read\ ==\ 0)\ \textcolor{comment}{//\ eof\ before\ reading\ enough\ bytes}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Unexpected\ end\ of\ file\ during\ read\ of\ "{}}\ +\ std::to\_string(size)\ +\ \textcolor{stringliteral}{"{}\ bytes\ on\ "{}}\ +\ this-\/>path.string()}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ total\_read\ +=\ bytes\_read;}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ track\_offset\ =\ offset\ +\ total\_read;}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00063\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following file:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+tests/\+sstable\+\_\+entities/\+bloom\+\_\+section\+\_\+test.\+cpp\end{DoxyCompactItemize}

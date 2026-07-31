@@ -1,0 +1,79 @@
+\doxysection{Compaction\+Scheduler Class Reference}
+\hypertarget{class_compaction_scheduler}{}\label{class_compaction_scheduler}\index{CompactionScheduler@{CompactionScheduler}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{class_compaction_scheduler_a8cc31955c6937e8bc1c27940606ef05e}{should\+\_\+compact}} (const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&levels, const \doxymbox{\hyperlink{struct_compaction_options}{Compaction\+Options}} \&options) const
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} $>$ $>$ \doxymbox{\hyperlink{class_compaction_scheduler_a11af11c07c29c242005b74753ddcca12}{pick\+\_\+compaction}} (const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&levels, const \doxymbox{\hyperlink{struct_compaction_options}{Compaction\+Options}} \&options) const
+\end{DoxyCompactItemize}
+
+
+\label{class_compaction_scheduler_doc-func-members}
+\Hypertarget{class_compaction_scheduler_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_compaction_scheduler_a11af11c07c29c242005b74753ddcca12}\index{CompactionScheduler@{CompactionScheduler}!pick\_compaction@{pick\_compaction}}
+\index{pick\_compaction@{pick\_compaction}!CompactionScheduler@{CompactionScheduler}}
+\doxysubsubsection{\texorpdfstring{pick\_compaction()}{pick\_compaction()}}
+{\footnotesize\ttfamily \label{class_compaction_scheduler_a11af11c07c29c242005b74753ddcca12} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_compaction_plan}{Compaction\+Plan}} $>$ $>$ Compaction\+Scheduler::\+pick\+\_\+compaction (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{levels}{, }\item[{const \doxymbox{\hyperlink{struct_compaction_options}{Compaction\+Options}} \&}]{options}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00157\ \{}
+\DoxyCodeLine{00158\ \ \ \ \ Status\ options\_status\ =\ options.validate();}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordflow}{if}\ (!options\_status.is\_ok())\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<CompactionPlan>>::fail(}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(options\_status)}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00163\ \ \ \ \ \}}
+\DoxyCodeLine{00164\ }
+\DoxyCodeLine{00165\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}*\ l0\ =\ tables\_at(manager,\ 0);}
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordflow}{if}\ (l0\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ l0-\/>size()\ >=\ options.l0\_file\_count\_trigger)\ \{}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pick\_level\_compaction(manager,\ 0,\ options);}
+\DoxyCodeLine{00168\ \ \ \ \ \}}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::uint32\_t\ level\ =\ 1;\ level\ +\ 1\ <\ options.max\_levels;\ ++level)\ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (level\_size\_bytes(manager,\ level)\ >\ options.max\_bytes\_per\_level[level])\ \{}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ pick\_level\_compaction(manager,\ level,\ options);}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00174\ \ \ \ \ \}}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<CompactionPlan>>::ok(std::nullopt);}
+\DoxyCodeLine{00177\ \}}
+
+\end{DoxyCode}
+\Hypertarget{class_compaction_scheduler_a8cc31955c6937e8bc1c27940606ef05e}\index{CompactionScheduler@{CompactionScheduler}!should\_compact@{should\_compact}}
+\index{should\_compact@{should\_compact}!CompactionScheduler@{CompactionScheduler}}
+\doxysubsubsection{\texorpdfstring{should\_compact()}{should\_compact()}}
+{\footnotesize\ttfamily \label{class_compaction_scheduler_a8cc31955c6937e8bc1c27940606ef05e} 
+bool Compaction\+Scheduler::\+should\+\_\+compact (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{class_level_manager}{Level\+Manager}} \&}]{levels}{, }\item[{const \doxymbox{\hyperlink{struct_compaction_options}{Compaction\+Options}} \&}]{options}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00134\ \{}
+\DoxyCodeLine{00135\ \ \ \ \ \textcolor{keywordflow}{if}\ (!options.validate().is\_ok())\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00137\ \ \ \ \ \}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00139\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}*\ l0\ =\ tables\_at(manager,\ 0);}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{if}\ (l0\ !=\ \textcolor{keyword}{nullptr}\ \&\&\ l0-\/>size()\ >=\ options.l0\_file\_count\_trigger)\ \{}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00142\ \ \ \ \ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::uint32\_t\ level\ =\ 1;\ level\ +\ 1\ <\ options.max\_levels;\ ++level)\ \{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (level\_size\_bytes(manager,\ level)\ >\ options.max\_bytes\_per\_level[level])\ \{}
+\DoxyCodeLine{00146\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00147\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00148\ \ \ \ \ \}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00151\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this class was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+compaction\+\_\+scheduler.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+compaction\+\_\+scheduler.\+cpp\end{DoxyCompactItemize}

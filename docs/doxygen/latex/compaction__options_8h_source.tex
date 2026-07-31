@@ -1,0 +1,45 @@
+\doxysection{compaction\+\_\+options.\+h}
+\hypertarget{compaction__options_8h_source}{}\label{compaction__options_8h_source}\index{C:/Users/user/KVDB/include/compaction\_options.h@{C:/Users/user/KVDB/include/compaction\_options.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_compaction_options}{CompactionOptions}}}
+\DoxyCodeLine{00009\ \{}
+\DoxyCodeLine{00010\ \ \ \ \ std::uint32\_t\ max\_levels\ =\ 7;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{comment}{//\ L0\ is\ special\ because\ its\ files\ may\ overlap.}}
+\DoxyCodeLine{00013\ \ \ \ \ std::uint32\_t\ l0\_file\_count\_trigger\ =\ 4;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{comment}{//\ L1..L(max\_levels-\/2)\ limits.\ The\ bottommost\ level\ is\ not\ compacted}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{comment}{//\ further,\ so\ its\ entry\ is\ retained\ only\ to\ keep\ indexing\ simple.}}
+\DoxyCodeLine{00017\ \ \ \ \ std::vector<std::uint64\_t>\ max\_bytes\_per\_level\ =\ \{}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ 0,}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ 640ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ 6400ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ 64000ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ 640000ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ 0}
+\DoxyCodeLine{00025\ \ \ \ \ \};}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{comment}{//\ Target\ output\ SSTable\ sizes\ for\ each\ destination\ level.}}
+\DoxyCodeLine{00028\ \ \ \ \ std::vector<std::uint64\_t>\ target\_file\_size\_per\_level\ =\ \{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ 8ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ 16ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ 32ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ 64ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ 128ull\ *\ 1024\ *\ 1024,}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ 256ull\ *\ 1024\ *\ 1024}
+\DoxyCodeLine{00036\ \ \ \ \ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ \};}
+
+\end{DoxyCode}

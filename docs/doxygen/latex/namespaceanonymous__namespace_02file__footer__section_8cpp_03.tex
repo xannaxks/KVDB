@@ -1,0 +1,173 @@
+\doxysection{anonymous\+\_\+namespace\{file\+\_\+footer\+\_\+section.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03}{}\label{namespaceanonymous__namespace_02file__footer__section_8cpp_03}\index{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \doxymbox{\hyperlink{namespaceanonymous__namespace_02file__footer__section_8cpp_03_ab23cc4b55bf78025b16f1054aaa50cec}{is\+\_\+block\+\_\+aligned}} (std::\+uint64\+\_\+t value) noexcept
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02file__footer__section_8cpp_03_add6960e03ca2f3ab8bee24f381b311ec}{validate\+\_\+section\+\_\+span}} (std::\+uint64\+\_\+t section\+\_\+offset, std::\+uint32\+\_\+t logical\+\_\+size, std::\+uint64\+\_\+t next\+\_\+section\+\_\+offset, const char \texorpdfstring{$\ast$}{*}section\+\_\+name)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a6e468694ca8dc26bb05404b30af4ab79}{checked\+\_\+u32\+\_\+size}} (std::\+size\+\_\+t value, const char \texorpdfstring{$\ast$}{*}field\+\_\+name, std::\+uint32\+\_\+t \&output)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+constexpr std::\+size\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a25faca49b17beaae5c3ffab25b3ebff3}{k\+Section\+Header\+Disk\+Size}}
+\item 
+constexpr std::\+size\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a2b6020246faeab46eff4a220ed07f38f}{k\+Bloom\+Payload\+Disk\+Size\+V1}}
+\item 
+constexpr std::\+size\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02file__footer__section_8cpp_03_afcef74d366b584ea27a6549c21d4b169}{k\+Bloom\+Section\+Disk\+Size\+V1}}
+\item 
+constexpr std::\+size\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02file__footer__section_8cpp_03_ae51274c92f971bfbbece4ff610e2b48d}{k\+Meta\+Fixed\+Payload\+Disk\+Size\+V1}}
+\item 
+constexpr std::\+size\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a1e0bc82e0bf1c224e27137d3a6d19efa}{k\+Meta\+Minimum\+Disk\+Size\+V1}}
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a6e468694ca8dc26bb05404b30af4ab79}\index{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}!checked\_u32\_size@{checked\_u32\_size}}
+\index{checked\_u32\_size@{checked\_u32\_size}!anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{checked\_u32\_size()}{checked\_u32\_size()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a6e468694ca8dc26bb05404b30af4ab79} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{file\+\_\+footer\+\_\+section.\+cpp\}::\+checked\+\_\+u32\+\_\+size (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{value}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{field\+\_\+name}{, }\item[{std::\+uint32\+\_\+t \&}]{output}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00083\ \ \ \ \ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::DataTypeOverflow,}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\{\}\ cannot\ be\ represented\ by\ the\ footer's\ u32\ size\ field"{}},}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ field\_name}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ output\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(value);}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00096\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_ab23cc4b55bf78025b16f1054aaa50cec}\index{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}!is\_block\_aligned@{is\_block\_aligned}}
+\index{is\_block\_aligned@{is\_block\_aligned}!anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{is\_block\_aligned()}{is\_block\_aligned()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_ab23cc4b55bf78025b16f1054aaa50cec} 
+bool anonymous\+\_\+namespace\{file\+\_\+footer\+\_\+section.\+cpp\}::\+is\+\_\+block\+\_\+aligned (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{value}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00041\ \ \ \ \ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ value\ \%\ BLOCK\_SIZE\ ==\ 0;}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_add6960e03ca2f3ab8bee24f381b311ec}\index{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}!validate\_section\_span@{validate\_section\_span}}
+\index{validate\_section\_span@{validate\_section\_span}!anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{validate\_section\_span()}{validate\_section\_span()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_add6960e03ca2f3ab8bee24f381b311ec} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{file\+\_\+footer\+\_\+section.\+cpp\}::\+validate\+\_\+section\+\_\+span (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{section\+\_\+offset}{, }\item[{std::\+uint32\+\_\+t}]{logical\+\_\+size}{, }\item[{std::\+uint64\+\_\+t}]{next\+\_\+section\+\_\+offset}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{section\+\_\+name}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00051\ \ \ \ \ \{}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (section\_offset\ >=\ next\_section\_offset)\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OffsetOverlap,}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\{\}\ section\ does\ not\ begin\ before\ the\ following\ section"{}},}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ section\_name}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ physical\_span\ =}
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \ \ \ \ next\_section\_offset\ -\/\ section\_offset;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{static\_cast<}std::uint64\_t\textcolor{keyword}{>}(logical\_size)\ >\ physical\_span)\ \{}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::OffsetOverlap,}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\{\}\ logical\ size\ exceeds\ the\ physical\ span\ before\ the\ following\ section"{}},}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ section\_name}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00076\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_doc-var-members}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a2b6020246faeab46eff4a220ed07f38f}\index{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}!kBloomPayloadDiskSizeV1@{kBloomPayloadDiskSizeV1}}
+\index{kBloomPayloadDiskSizeV1@{kBloomPayloadDiskSizeV1}!anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{kBloomPayloadDiskSizeV1}{kBloomPayloadDiskSizeV1}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a2b6020246faeab46eff4a220ed07f38f} 
+std::\+size\+\_\+t anonymous\+\_\+namespace\{file\+\_\+footer\+\_\+section.\+cpp\}::\+k\+Bloom\+Payload\+Disk\+Size\+V1\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{\textcolor{keyword}{sizeof}(std::uint64\_t)\ +}
+\DoxyCodeLine{\textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{\textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{BLOOM\_MASK\_BIT\_SIZE}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_afcef74d366b584ea27a6549c21d4b169}\index{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}!kBloomSectionDiskSizeV1@{kBloomSectionDiskSizeV1}}
+\index{kBloomSectionDiskSizeV1@{kBloomSectionDiskSizeV1}!anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{kBloomSectionDiskSizeV1}{kBloomSectionDiskSizeV1}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_afcef74d366b584ea27a6549c21d4b169} 
+std::\+size\+\_\+t anonymous\+\_\+namespace\{file\+\_\+footer\+\_\+section.\+cpp\}::\+k\+Bloom\+Section\+Disk\+Size\+V1\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{kSectionHeaderDiskSize\ +\ kBloomPayloadDiskSizeV1}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_ae51274c92f971bfbbece4ff610e2b48d}\index{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}!kMetaFixedPayloadDiskSizeV1@{kMetaFixedPayloadDiskSizeV1}}
+\index{kMetaFixedPayloadDiskSizeV1@{kMetaFixedPayloadDiskSizeV1}!anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{kMetaFixedPayloadDiskSizeV1}{kMetaFixedPayloadDiskSizeV1}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_ae51274c92f971bfbbece4ff610e2b48d} 
+std::\+size\+\_\+t anonymous\+\_\+namespace\{file\+\_\+footer\+\_\+section.\+cpp\}::\+k\+Meta\+Fixed\+Payload\+Disk\+Size\+V1\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{6u\ *\ \textcolor{keyword}{sizeof}(std::uint64\_t)\ +}
+\DoxyCodeLine{2u\ *\ \textcolor{keyword}{sizeof}(std::uint32\_t)}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a1e0bc82e0bf1c224e27137d3a6d19efa}\index{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}!kMetaMinimumDiskSizeV1@{kMetaMinimumDiskSizeV1}}
+\index{kMetaMinimumDiskSizeV1@{kMetaMinimumDiskSizeV1}!anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{kMetaMinimumDiskSizeV1}{kMetaMinimumDiskSizeV1}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a1e0bc82e0bf1c224e27137d3a6d19efa} 
+std::\+size\+\_\+t anonymous\+\_\+namespace\{file\+\_\+footer\+\_\+section.\+cpp\}::\+k\+Meta\+Minimum\+Disk\+Size\+V1\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{kSectionHeaderDiskSize\ +\ kMetaFixedPayloadDiskSizeV1}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a25faca49b17beaae5c3ffab25b3ebff3}\index{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}!kSectionHeaderDiskSize@{kSectionHeaderDiskSize}}
+\index{kSectionHeaderDiskSize@{kSectionHeaderDiskSize}!anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}@{anonymous\_namespace\lcurly{}file\_footer\_section.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{kSectionHeaderDiskSize}{kSectionHeaderDiskSize}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02file__footer__section_8cpp_03_a25faca49b17beaae5c3ffab25b3ebff3} 
+std::\+size\+\_\+t anonymous\+\_\+namespace\{file\+\_\+footer\+\_\+section.\+cpp\}::\+k\+Section\+Header\+Disk\+Size\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{\textcolor{keyword}{sizeof}(std::uint8\_t)\ +}
+\DoxyCodeLine{\textcolor{keyword}{sizeof}(std::uint32\_t)\ +}
+\DoxyCodeLine{\textcolor{keyword}{sizeof}(std::uint32\_t)}
+
+\end{DoxyCode}

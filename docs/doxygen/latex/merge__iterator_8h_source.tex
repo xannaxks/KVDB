@@ -1,0 +1,61 @@
+\doxysection{merge\+\_\+iterator.\+h}
+\hypertarget{merge__iterator_8h_source}{}\label{merge__iterator_8h_source}\index{C:/Users/user/KVDB/include/merge\_iterator.h@{C:/Users/user/KVDB/include/merge\_iterator.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#include\ "{}sstable.h"{}}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}record.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}table\_meta.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}sstable\_iterator.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ internal\_before(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ a,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ b)}
+\DoxyCodeLine{00011\ \{}
+\DoxyCodeLine{00012\ \ \ \ \ \textcolor{keywordflow}{if}\ (a.key\_entry\ <\ b.key\_entry)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00013\ \ \ \ \ \textcolor{keywordflow}{if}\ (b.key\_entry\ <\ a.key\_entry)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{comment}{//\ Same\ user\ key:\ newer\ sequence\ comes\ first.}}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordflow}{return}\ a.seq\_num\ >\ b.seq\_num;}
+\DoxyCodeLine{00017\ \}}
+\DoxyCodeLine{00018\ \textcolor{keyword}{class\ }MergeIterator}
+\DoxyCodeLine{00019\ \{}
+\DoxyCodeLine{00020\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{HeapItem}}\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ std::size\_t\ iterator\_index;}
+\DoxyCodeLine{00023\ \ \ \ \ \};}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_compare}{HeapCompare}}\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<SSTableIterator>*\ inputs\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ operator()(\textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{HeapItem}}\&\ a,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_item}{HeapItem}}\&\ b)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ ra\ =\ (*inputs)[a.iterator\_index].record();}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ rb\ =\ (*inputs)[b.iterator\_index].record();}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ priority\_queue\ puts\ "{}highest\ priority"{}\ first.}}
+\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Return\ true\ if\ a\ should\ come\ AFTER\ b.}}
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ internal\_before(rb,\ ra);}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00036\ \ \ \ \ \};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00038\ \ \ \ \ std::vector<SSTableIterator>*\ inputs\_\ =\ \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \doxymbox{\hyperlink{struct_merge_iterator_1_1_heap_compare}{HeapCompare}}\ compare\_\{\};}
+\DoxyCodeLine{00041\ \ \ \ \ std::priority\_queue<HeapItem,\ std::vector<HeapItem>,\ HeapCompare>\ heap\_;}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{bool}\ valid\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00044\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ status\_\ =\ Status::ok();}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00047\ \ \ \ \ \doxymbox{\hyperlink{class_merge_iterator}{MergeIterator}}()\ noexcept;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ build(std::vector<\doxymbox{\hyperlink{class_s_s_table_iterator}{SSTableIterator}}>\&\ data);}
+\DoxyCodeLine{00050\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ next();}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{bool}\ valid()\ const;}
+\DoxyCodeLine{00053\ \ \ \ \ const\ \doxymbox{\hyperlink{struct_internal_record}{InternalRecord}}\&\ record()\ const;}
+\DoxyCodeLine{00054\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ status()\ const;}
+\DoxyCodeLine{00055\ \};}
+
+\end{DoxyCode}

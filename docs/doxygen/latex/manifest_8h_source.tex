@@ -1,0 +1,229 @@
+\doxysection{manifest.\+h}
+\hypertarget{manifest_8h_source}{}\label{manifest_8h_source}\index{C:/Users/user/KVDB/include/manifest.h@{C:/Users/user/KVDB/include/manifest.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <cstdint>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <filesystem>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <optional>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}arena.h"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}file.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}level\_manager.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}status.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}table\_meta.h"{}}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ MANIFEST\_MAGIC\ =\ 0x4D414E49;\ \textcolor{comment}{//\ "{}MANI"{}}}
+\DoxyCodeLine{00016\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ MANIFEST\_VERSION\ =\ 1;}
+\DoxyCodeLine{00017\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ MANIFEST\_MAX\_EDIT\_SIZE\ =\ 64u\ *\ 1024u\ *\ 1024u;}
+\DoxyCodeLine{00018\ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ MANIFEST\_MAX\_TABLES\_PER\_EDIT\ =\ 1'000'000u;}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_deleted_table}{DeletedTable}}}
+\DoxyCodeLine{00021\ \{}
+\DoxyCodeLine{00022\ \ \ \ \ std::uint32\_t\ level\ =\ 0;}
+\DoxyCodeLine{00023\ \ \ \ \ std::uint64\_t\ table\_id\ =\ 0;}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<DeletedTable>}}\ load(}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00028\ \ \ \ \ );}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00033\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00036\ \ \ \ \ \{}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4u\ +\ 8u;}
+\DoxyCodeLine{00038\ \ \ \ \ \}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ calculate\_crc(}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ std::uint32\_t\&\ crc\_buffer,}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ init\ =\ \textcolor{keyword}{false}}
+\DoxyCodeLine{00043\ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00044\ \};}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_version_edit}{VersionEdit}}}
+\DoxyCodeLine{00047\ \{}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_version_edit_1_1_header}{Header}}}
+\DoxyCodeLine{00049\ \ \ \ \ \{}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ std::uint32\_t\ crc32\ =\ 0;}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ std::uint32\_t\ payload\_size\ =\ 0;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 4u\ +\ 4u;}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Header>}}\ load(}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00067\ \ \ \ \ \};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_version_edit_1_1_payload}{Payload}}}
+\DoxyCodeLine{00070\ \ \ \ \ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ std::optional<std::uint64\_t>\ next\_table\_id;}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ std::optional<std::uint64\_t>\ next\_sequence\_number;}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ std::optional<std::uint64\_t>\ current\_wal\_id;}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ std::vector<DeletedTable>\ deleted\_tables;}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ std::vector<TableMeta>\ new\_tables;}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::uint32\_t>}}\ encoded\_size()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00084\ }
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Payload>}}\ load(}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint32\_t\ payload\_size,}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ compute\_crc32(std::uint32\_t\&\ crc\_buffer)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ validate()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00094\ \ \ \ \ \};}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00096\ \ \ \ \ \doxymbox{\hyperlink{struct_version_edit_1_1_header}{Header}}\ header\{\};}
+\DoxyCodeLine{00097\ \ \ \ \ Payload\ payload\{\};}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ [[nodiscard]]\ Result<std::uint32\_t>\ encoded\_size()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ Status\ add\_table(\textcolor{keyword}{const}\ TableMeta\&\ meta);}
+\DoxyCodeLine{00102\ \ \ \ \ Status\ prepare();}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ Status\ write(}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ WritableFile\&\ file,}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00107\ \ \ \ \ );}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{static}\ Result<VersionEdit>\ load(}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ ReadableFile\&\ file,}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset,}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ std::uint64\_t\ file\_size,}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ Arena\&\ arena}
+\DoxyCodeLine{00114\ \ \ \ \ );}
+\DoxyCodeLine{00115\ \};}
+\DoxyCodeLine{00116\ }
+\DoxyCodeLine{00117\ \textcolor{keyword}{class\ }Manifest}
+\DoxyCodeLine{00118\ \{}
+\DoxyCodeLine{00119\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{struct\ }\doxymbox{\hyperlink{struct_manifest_1_1_header}{Header}}}
+\DoxyCodeLine{00121\ \ \ \ \ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \ \ \ \ std::uint32\_t\ magic\ =\ MANIFEST\_MAGIC;}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ std::uint32\_t\ version\ =\ MANIFEST\_VERSION;}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ std::uint32\_t\ header\_size\ =\ Header::disk\_size();}
+\DoxyCodeLine{00125\ \ \ \ \ \ \ \ \ std::uint32\_t\ flags\ =\ 0;}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ std::uint32\_t\ reserved\ =\ 0;}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ \ \ std::uint32\_t\ crc32\ =\ 0;}
+\DoxyCodeLine{00128\ }
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::uint32\_t\ disk\_size()\ \textcolor{keyword}{noexcept}}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 6u\ *\ 4u;}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ compute\_crc32();}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ write(}
+\DoxyCodeLine{00137\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_writable_file}{WritableFile}}\&\ file,}
+\DoxyCodeLine{00138\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ )\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Header>}}\ load(}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_readable_file}{ReadableFile}}\&\ file,}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ \ \ \ \ \ \ std::uint64\_t\&\ offset}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00145\ \ \ \ \ \};}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00147\ \ \ \ \ Manifest()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keyword}{explicit}\ Manifest(std::filesystem::path\ path);}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00150\ \ \ \ \ \textcolor{comment}{//\ Recovery\ is\ transactional\ with\ respect\ to\ level\_manager:\ on\ failure,}}
+\DoxyCodeLine{00151\ \ \ \ \ \textcolor{comment}{//\ the\ caller's\ LevelManager\ is\ left\ unchanged.}}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_result}{Result<Manifest>}}\ load(}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_level_manager}{LevelManager}}\&\ level\_manager,}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::filesystem::path\&\ path,}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_arena}{Arena}}\&\ arena}
+\DoxyCodeLine{00156\ \ \ \ \ );}
+\DoxyCodeLine{00157\ }
+\DoxyCodeLine{00158\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ open\_or\_create();}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{comment}{//\ A\ loaded\ manifest\ deliberately\ has\ no\ writer\ attached.\ First\ close\ its}}
+\DoxyCodeLine{00161\ \ \ \ \ \textcolor{comment}{//\ reader/truncate\ a\ torn\ tail,\ then\ attach\ a\ WritableFile\ already}}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{comment}{//\ positioned\ exactly\ at\ append\_offset().}}
+\DoxyCodeLine{00163\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ prepare\_for\_append();}
+\DoxyCodeLine{00164\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ attach\_writer(std::unique\_ptr<WritableFile>\ writable);}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{comment}{//\ Applies\ an\ edit\ atomically\ in\ memory.\ Mainly\ useful\ during\ recovery\ and}}
+\DoxyCodeLine{00167\ \ \ \ \ \textcolor{comment}{//\ tests;\ normal\ runtime\ changes\ should\ use\ commit().}}
+\DoxyCodeLine{00168\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ apply(\doxymbox{\hyperlink{class_level_manager}{LevelManager}}\&\ level\_manager,\ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_version_edit}{VersionEdit}}\&\ edit);}
+\DoxyCodeLine{00169\ }
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{comment}{//\ Validates/stages\ in\ memory\ first,\ writes\ and\ syncs\ second,\ then\ publishes}}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{comment}{//\ the\ staged\ state.\ A\ write/sync\ failure\ poisons\ this\ object;\ reload\ it.}}
+\DoxyCodeLine{00172\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ commit(\doxymbox{\hyperlink{class_level_manager}{LevelManager}}\&\ level\_manager,\ \doxymbox{\hyperlink{struct_version_edit}{VersionEdit}}\&\ edit);}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ sync();}
+\DoxyCodeLine{00175\ }
+\DoxyCodeLine{00176\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_result}{Result<std::uint64\_t>}}\ allocate\_table\_id();}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00178\ \ \ \ \ [[nodiscard]]\ std::uint64\_t\ current\_wal\_id()\ const\ noexcept;}
+\DoxyCodeLine{00179\ \ \ \ \ [[nodiscard]]\ std::uint64\_t\ next\_sequence\_number()\ const\ noexcept;}
+\DoxyCodeLine{00180\ \ \ \ \ [[nodiscard]]\ std::uint64\_t\ next\_table\_id()\ const\ noexcept;}
+\DoxyCodeLine{00181\ \ \ \ \ [[nodiscard]]\ std::uint64\_t\ append\_offset()\ const\ noexcept;}
+\DoxyCodeLine{00182\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ has\_recoverable\_tail()\ const\ noexcept;}
+\DoxyCodeLine{00183\ \ \ \ \ [[nodiscard]]\ \textcolor{keywordtype}{bool}\ write\_poisoned()\ const\ noexcept;}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ private:}
+\DoxyCodeLine{00186\ \ \ \ \ struct\ \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{StagedCounters}}}
+\DoxyCodeLine{00187\ \ \ \ \ \{}
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ std::uint64\_t\ next\_table\_id\ =\ 1;}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ std::uint64\_t\ current\_wal\_id\ =\ 1;}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ std::uint64\_t\ next\_sequence\_number\ =\ 1;}
+\DoxyCodeLine{00191\ \ \ \ \ \};}
+\DoxyCodeLine{00192\ }
+\DoxyCodeLine{00193\ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\ append\_prepared(\doxymbox{\hyperlink{struct_version_edit}{VersionEdit}}\&\ edit);}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_status}{Status}}\ stage\_apply(}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{class_level_manager}{LevelManager}}\&\ level\_manager,}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{StagedCounters}}\&\ counters,}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_version_edit}{VersionEdit}}\&\ edit}
+\DoxyCodeLine{00199\ \ \ \ \ );}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keyword}{static}\ \doxymbox{\hyperlink{struct_status}{Status}}\ check\_invariants(}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{class_level_manager}{LevelManager}}\&\ level\_manager,}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{StagedCounters}}\&\ counters}
+\DoxyCodeLine{00204\ \ \ \ \ );}
+\DoxyCodeLine{00205\ }
+\DoxyCodeLine{00206\ \ \ \ \ [[nodiscard]]\ \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{StagedCounters}}\ counters()\ const\ noexcept;}
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordtype}{void}\ publish\_counters(const\ \doxymbox{\hyperlink{struct_manifest_1_1_staged_counters}{StagedCounters}}\&\ counters)\ noexcept;}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ private:}
+\DoxyCodeLine{00210\ \ \ \ \ std::filesystem::path\ path\_;}
+\DoxyCodeLine{00211\ \ \ \ \ \doxymbox{\hyperlink{struct_manifest_1_1_header}{Header}}\ header\_\{\};}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \ \ \ \ std::uint64\_t\ next\_table\_id\_\ =\ 1;}
+\DoxyCodeLine{00214\ \ \ \ \ std::uint64\_t\ current\_wal\_id\_\ =\ 1;}
+\DoxyCodeLine{00215\ \ \ \ \ std::uint64\_t\ next\_sequence\_number\_\ =\ 1;}
+\DoxyCodeLine{00216\ }
+\DoxyCodeLine{00217\ \ \ \ \ std::unique\_ptr<WritableFile>\ writable\_;}
+\DoxyCodeLine{00218\ \ \ \ \ std::unique\_ptr<ReadableFile>\ readable\_;}
+\DoxyCodeLine{00219\ \ \ \ \ std::uint64\_t\ append\_offset\_\ =\ 0;}
+\DoxyCodeLine{00220\ }
+\DoxyCodeLine{00221\ \ \ \ \ \textcolor{keywordtype}{bool}\ recoverable\_tail\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keywordtype}{bool}\ write\_poisoned\_\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00223\ \};}
+
+\end{DoxyCode}

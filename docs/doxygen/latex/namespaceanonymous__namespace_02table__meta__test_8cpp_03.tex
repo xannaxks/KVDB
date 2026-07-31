@@ -1,0 +1,105 @@
+\doxysection{anonymous\+\_\+namespace\{table\+\_\+meta\+\_\+test.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02table__meta__test_8cpp_03}{}\label{namespaceanonymous__namespace_02table__meta__test_8cpp_03}\index{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \doxymbox{\hyperlink{classanonymous__namespace_02table__meta__test_8cpp_03_1_1_temp_file_path}{Temp\+File\+Path}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02table__meta__test_8cpp_03_ae762e60f42545db7ed3ff986a80b1ab7}{make\+\_\+valid\+\_\+meta}} ()
+\item 
+std::\+string \doxymbox{\hyperlink{namespaceanonymous__namespace_02table__meta__test_8cpp_03_aac59c95d3fc5aa1d8ed8e76211915eb6}{entry\+\_\+bytes}} (const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&entry)
+\item 
+void \doxymbox{\hyperlink{namespaceanonymous__namespace_02table__meta__test_8cpp_03_a0d61aad5616cd5cbcb06553b9c237af6}{expect\+\_\+same\+\_\+meta}} (const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&lhs, const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&rhs)
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02table__meta__test_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02table__meta__test_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02table__meta__test_8cpp_03_aac59c95d3fc5aa1d8ed8e76211915eb6}\index{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}}!entry\_bytes@{entry\_bytes}}
+\index{entry\_bytes@{entry\_bytes}!anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{entry\_bytes()}{entry\_bytes()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02table__meta__test_8cpp_03_aac59c95d3fc5aa1d8ed8e76211915eb6} 
+std::\+string anonymous\+\_\+namespace\{table\+\_\+meta\+\_\+test.\+cpp\}::\+entry\+\_\+bytes (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_arena_entry}{Arena\+Entry}} \&}]{entry}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00081\ \ \ \ \ \{}
+\DoxyCodeLine{00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (entry.size\ ==\ 0)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\};}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ std::string(}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}\textcolor{keyword}{const\ }\textcolor{keywordtype}{char}*\textcolor{keyword}{>}(entry.data),}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(entry.size)}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00090\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02table__meta__test_8cpp_03_a0d61aad5616cd5cbcb06553b9c237af6}\index{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}}!expect\_same\_meta@{expect\_same\_meta}}
+\index{expect\_same\_meta@{expect\_same\_meta}!anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{expect\_same\_meta()}{expect\_same\_meta()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02table__meta__test_8cpp_03_a0d61aad5616cd5cbcb06553b9c237af6} 
+void anonymous\+\_\+namespace\{table\+\_\+meta\+\_\+test.\+cpp\}::\+expect\+\_\+same\+\_\+meta (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&}]{lhs}{, }\item[{const \doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} \&}]{rhs}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00093\ \ \ \ \ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.table\_id,\ rhs.table\_id);}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.level,\ rhs.level);}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.path,\ rhs.path);}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00098\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.min\_seq,\ rhs.min\_seq);}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.max\_seq,\ rhs.max\_seq);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.file\_size,\ rhs.file\_size);}
+\DoxyCodeLine{00102\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.record\_count,\ rhs.record\_count);}
+\DoxyCodeLine{00103\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.tombstone\_count,\ rhs.tombstone\_count);}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.data\_block\_count,\ rhs.data\_block\_count);}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ EXPECT\_EQ(lhs.data\_bytes,\ rhs.data\_bytes);}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ EXPECT\_EQ(entry\_bytes(lhs.smallest\_key),\ entry\_bytes(rhs.smallest\_key));}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ EXPECT\_EQ(entry\_bytes(lhs.largest\_key),\ entry\_bytes(rhs.largest\_key));}
+\DoxyCodeLine{00109\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02table__meta__test_8cpp_03_ae762e60f42545db7ed3ff986a80b1ab7}\index{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}}!make\_valid\_meta@{make\_valid\_meta}}
+\index{make\_valid\_meta@{make\_valid\_meta}!anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}@{anonymous\_namespace\lcurly{}table\_meta\_test.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{make\_valid\_meta()}{make\_valid\_meta()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02table__meta__test_8cpp_03_ae762e60f42545db7ed3ff986a80b1ab7} 
+\doxymbox{\hyperlink{struct_table_meta}{Table\+Meta}} anonymous\+\_\+namespace\{table\+\_\+meta\+\_\+test.\+cpp\}::\+make\+\_\+valid\+\_\+meta (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00052\ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ Static\ storage\ keeps\ these\ shallow\ ArenaEntry\ pointers\ valid\ throughout}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ each\ test\ without\ coupling\ construction\ to\ an\ Arena.}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ smallest\ =\ \textcolor{stringliteral}{"{}alpha"{}};}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static}\ std::string\ largest\ =\ \textcolor{stringliteral}{"{}omega"{}};}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_table_meta}{TableMeta}}\ meta\{\};}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ meta.table\_id\ =\ 42;}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ meta.level\ =\ 3;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ meta.path\ =\ std::filesystem::path(\textcolor{stringliteral}{"{}sst"{}})\ /\ \textcolor{stringliteral}{"{}000042.sst"{}};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ meta.min\_seq\ =\ 100;}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ meta.max\_seq\ =\ 900;}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \ \ meta.file\_size\ =\ 32\ *\ 1024;}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \ \ meta.record\_count\ =\ 300;}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \ \ meta.tombstone\_count\ =\ 17;}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ meta.data\_block\_count\ =\ 9;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ meta.data\_bytes\ =\ 24\ *\ 1024;}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ meta.smallest\_key.data\ =\ smallest.data();}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ meta.smallest\_key.size\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(smallest.size());}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ meta.largest\_key.data\ =\ largest.data();}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ meta.largest\_key.size\ =\ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(largest.size());}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ meta;}
+\DoxyCodeLine{00078\ \ \ \ \ \}}
+
+\end{DoxyCode}

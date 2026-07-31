@@ -1,0 +1,423 @@
+\doxysection{WALFile\+Header Struct Reference}
+\hypertarget{struct_w_a_l_file_header}{}\label{struct_w_a_l_file_header}\index{WALFileHeader@{WALFileHeader}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\doxymbox{\hyperlink{struct_w_a_l_file_header_aff9a76ca61b911ea7358b7f35bbcb542}{WALFile\+Header}} (std::\+uint32\+\_\+t wal\+\_\+id, std::\+uint64\+\_\+t start\+\_\+seq)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{struct_w_a_l_file_header_a519fcc3ecc3c1ae4e0e1d0a0e94c6867}{write}} (\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&file, std::\+uint64\+\_\+t \&offset) const
+\item 
+bool \doxymbox{\hyperlink{struct_w_a_l_file_header_ab9392072857c47da2cfcc93f8b56c77d}{self\+\_\+check}} () const
+\item 
+void \doxymbox{\hyperlink{struct_w_a_l_file_header_a20217f86abdfbef789af57bb93aa53e8}{compute\+\_\+crc32}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_w_a_l_file_header}{WALFile\+Header}} $>$ $>$ \doxymbox{\hyperlink{struct_w_a_l_file_header_a0838b4c82b02c121ddbf8f0261bf8985}{load}} (\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&file, std::\+uint32\+\_\+t expected\+\_\+wal\+\_\+id, std::\+uint64\+\_\+t \&offset)
+\item 
+static constexpr std::\+uint32\+\_\+t \doxymbox{\hyperlink{struct_w_a_l_file_header_ace60e21e1123f610541e211fbe283d84}{disk\+\_\+size}} () noexcept
+\item 
+static std::\+uint32\+\_\+t \doxymbox{\hyperlink{struct_w_a_l_file_header_a0848c382853caed3617641f76058bf99}{compute\+\_\+crc32}} (const \doxymbox{\hyperlink{struct_w_a_l_file_header}{WALFile\+Header}} \&wal\+\_\+file\+\_\+header)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{struct_w_a_l_file_header_a27286c3bb8fc6c57806680a6eb041246}\label{struct_w_a_l_file_header_a27286c3bb8fc6c57806680a6eb041246} 
+std::\+uint32\+\_\+t {\bfseries magic} = 0
+\item 
+\Hypertarget{struct_w_a_l_file_header_a774625b5f29d1e0e863d4ad7b6b6fe04}\label{struct_w_a_l_file_header_a774625b5f29d1e0e863d4ad7b6b6fe04} 
+std::\+uint32\+\_\+t {\bfseries version} = 0
+\item 
+\Hypertarget{struct_w_a_l_file_header_a706377e69f8409f1e89b8e0f33697df4}\label{struct_w_a_l_file_header_a706377e69f8409f1e89b8e0f33697df4} 
+std::\+uint32\+\_\+t {\bfseries header\+\_\+size} = 0
+\item 
+\Hypertarget{struct_w_a_l_file_header_a73bafad54ee4861b8612c4b050fa9bcb}\label{struct_w_a_l_file_header_a73bafad54ee4861b8612c4b050fa9bcb} 
+std::\+uint64\+\_\+t {\bfseries wal\+\_\+id} = 0
+\item 
+\Hypertarget{struct_w_a_l_file_header_a6d41394ef2989b3ae43831c06dda1db2}\label{struct_w_a_l_file_header_a6d41394ef2989b3ae43831c06dda1db2} 
+std::\+uint64\+\_\+t {\bfseries start\+\_\+seq} = 0
+\item 
+\Hypertarget{struct_w_a_l_file_header_aaf6b167eaa4b05b64f1a342818b10bdb}\label{struct_w_a_l_file_header_aaf6b167eaa4b05b64f1a342818b10bdb} 
+std::\+uint32\+\_\+t {\bfseries block\+\_\+size} = 0
+\item 
+\Hypertarget{struct_w_a_l_file_header_ade7657694ad1872fe3608c87e055f450}\label{struct_w_a_l_file_header_ade7657694ad1872fe3608c87e055f450} 
+std::\+uint32\+\_\+t {\bfseries reserved} = 0
+\item 
+\Hypertarget{struct_w_a_l_file_header_a7eacdd3963d0e26bd5dfcfcd95b7400b}\label{struct_w_a_l_file_header_a7eacdd3963d0e26bd5dfcfcd95b7400b} 
+std::\+uint32\+\_\+t {\bfseries header\+\_\+crc32} = 0
+\end{DoxyCompactItemize}
+
+
+\label{struct_w_a_l_file_header_doc-constructors}
+\Hypertarget{struct_w_a_l_file_header_doc-constructors}
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{struct_w_a_l_file_header_aff9a76ca61b911ea7358b7f35bbcb542}\index{WALFileHeader@{WALFileHeader}!WALFileHeader@{WALFileHeader}}
+\index{WALFileHeader@{WALFileHeader}!WALFileHeader@{WALFileHeader}}
+\doxysubsubsection{\texorpdfstring{WALFileHeader()}{WALFileHeader()}}
+{\footnotesize\ttfamily \label{struct_w_a_l_file_header_aff9a76ca61b911ea7358b7f35bbcb542} 
+WALFile\+Header::\+\+WALFile\+Header (\begin{DoxyParamCaption}\item[{std::\+uint32\+\_\+t}]{wal\+\_\+id}{, }\item[{std::\+uint64\+\_\+t}]{start\+\_\+seq}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00522\ \ \ \ \ :\ magic(WAL\_FILE\_MAGIC),}
+\DoxyCodeLine{00523\ \ \ \ \ version(WAL\_VERSION),}
+\DoxyCodeLine{00524\ \ \ \ \ header\_size(WALFileHeader::disk\_size()),}
+\DoxyCodeLine{00525\ \ \ \ \ wal\_id(new\_wal\_id),}
+\DoxyCodeLine{00526\ \ \ \ \ start\_seq(new\_start\_seq),}
+\DoxyCodeLine{00527\ \ \ \ \ block\_size(WAL\_FILE\_BLOCK\_SIZE),}
+\DoxyCodeLine{00528\ \ \ \ \ reserved(0),}
+\DoxyCodeLine{00529\ \ \ \ \ header\_crc32(0) }
+\DoxyCodeLine{00530\ \{}
+\DoxyCodeLine{00531\ \ \ \ \ this-\/>compute\_crc32();}
+\DoxyCodeLine{00532\ \}}
+
+\end{DoxyCode}
+
+
+\label{struct_w_a_l_file_header_doc-func-members}
+\Hypertarget{struct_w_a_l_file_header_doc-func-members}
+\doxysubsection{Member Function Documentation}
+\Hypertarget{struct_w_a_l_file_header_a20217f86abdfbef789af57bb93aa53e8}\index{WALFileHeader@{WALFileHeader}!compute\_crc32@{compute\_crc32}}
+\index{compute\_crc32@{compute\_crc32}!WALFileHeader@{WALFileHeader}}
+\doxysubsubsection{\texorpdfstring{compute\_crc32()}{compute\_crc32()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \label{struct_w_a_l_file_header_a20217f86abdfbef789af57bb93aa53e8} 
+void WALFile\+Header::\+compute\+\_\+crc32 (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \ \ \ \ this-\/>header\_crc32\ =\ ::crc32(0,\ Z\_NULL,\ NULL);}
+\DoxyCodeLine{00020\ \ \ \ }
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(this-\/>header\_crc32,\ magic);}
+\DoxyCodeLine{00023\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(this-\/>header\_crc32,\ version);}
+\DoxyCodeLine{00024\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(this-\/>header\_crc32,\ header\_size);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ ::crc32\_add\_pod<std::uint64\_t>(this-\/>header\_crc32,\ wal\_id);}
+\DoxyCodeLine{00027\ \ \ \ \ ::crc32\_add\_pod<std::uint64\_t>(this-\/>header\_crc32,\ start\_seq);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(this-\/>header\_crc32,\ block\_size);}
+\DoxyCodeLine{00030\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(this-\/>header\_crc32,\ reserved);}
+\DoxyCodeLine{00031\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_w_a_l_file_header_a0848c382853caed3617641f76058bf99}\index{WALFileHeader@{WALFileHeader}!compute\_crc32@{compute\_crc32}}
+\index{compute\_crc32@{compute\_crc32}!WALFileHeader@{WALFileHeader}}
+\doxysubsubsection{\texorpdfstring{compute\_crc32()}{compute\_crc32()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \label{struct_w_a_l_file_header_a0848c382853caed3617641f76058bf99} 
+std::\+uint32\+\_\+t WALFile\+Header::\+compute\+\_\+crc32 (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_w_a_l_file_header}{WALFile\+Header}} \&}]{wal\+\_\+file\+\_\+header}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00034\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ std::uint32\_t\ result\ =\ ::crc32(0,\ Z\_NULL,\ NULL);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(result,\ wal\_file\_header.magic);}
+\DoxyCodeLine{00038\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(result,\ wal\_file\_header.version);}
+\DoxyCodeLine{00039\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(result,\ wal\_file\_header.header\_size);}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00041\ \ \ \ \ ::crc32\_add\_pod<std::uint64\_t>(result,\ wal\_file\_header.wal\_id);}
+\DoxyCodeLine{00042\ \ \ \ \ ::crc32\_add\_pod<std::uint64\_t>(result,\ wal\_file\_header.start\_seq);}
+\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(result,\ wal\_file\_header.block\_size);}
+\DoxyCodeLine{00045\ \ \ \ \ ::crc32\_add\_pod<std::uint32\_t>(result,\ wal\_file\_header.reserved);}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordflow}{return}\ result;\ \ }
+\DoxyCodeLine{00048\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_w_a_l_file_header_ace60e21e1123f610541e211fbe283d84}\index{WALFileHeader@{WALFileHeader}!disk\_size@{disk\_size}}
+\index{disk\_size@{disk\_size}!WALFileHeader@{WALFileHeader}}
+\doxysubsubsection{\texorpdfstring{disk\_size()}{disk\_size()}}
+{\footnotesize\ttfamily \label{struct_w_a_l_file_header_ace60e21e1123f610541e211fbe283d84} 
+constexpr std::\+uint32\+\_\+t WALFile\+Header::\+disk\+\_\+size (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [nodiscard]}, {\ttfamily [constexpr]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00048\ \ \ \ \ \{}
+\DoxyCodeLine{00049\ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ u32\ +\ u32\ +\ u32\ +\ u64\ +\ u64\ +\ u32\ +\ u32\ +\ u32}}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 40;}
+\DoxyCodeLine{00051\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_w_a_l_file_header_a0838b4c82b02c121ddbf8f0261bf8985}\index{WALFileHeader@{WALFileHeader}!load@{load}}
+\index{load@{load}!WALFileHeader@{WALFileHeader}}
+\doxysubsubsection{\texorpdfstring{load()}{load()}}
+{\footnotesize\ttfamily \label{struct_w_a_l_file_header_a0838b4c82b02c121ddbf8f0261bf8985} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+optional$<$ \doxymbox{\hyperlink{struct_w_a_l_file_header}{WALFile\+Header}} $>$ $>$ WALFile\+Header::\+load (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_readable_file}{Readable\+File}} \&}]{file}{, }\item[{std::\+uint32\+\_\+t}]{expected\+\_\+wal\+\_\+id}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00619\ \{}
+\DoxyCodeLine{00620\ \ \ \ \ \textcolor{keyword}{const}\ std::uint64\_t\ initial\_offset\ =\ offset;}
+\DoxyCodeLine{00621\ }
+\DoxyCodeLine{00622\ \ \ \ \ std::uint64\_t\ file\_size\ =\ 0;}
+\DoxyCodeLine{00623\ \ \ \ \ Status\ status\ =\ file.get\_file\_size(file\_size);}
+\DoxyCodeLine{00624\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(status)}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00628\ \ \ \ \ \}}
+\DoxyCodeLine{00629\ }
+\DoxyCodeLine{00630\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ ==\ file\_size)\ \{}
+\DoxyCodeLine{00631\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::ok(std::nullopt);}
+\DoxyCodeLine{00632\ \ \ \ \ \}}
+\DoxyCodeLine{00633\ }
+\DoxyCodeLine{00634\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ >\ file\_size)\ \{}
+\DoxyCodeLine{00635\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00636\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidOffset,}
+\DoxyCodeLine{00638\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ header\ offset\ is\ beyond\ end\ of\ file"{}}}
+\DoxyCodeLine{00639\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00640\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00641\ \ \ \ \ \}}
+\DoxyCodeLine{00642\ }
+\DoxyCodeLine{00643\ \ \ \ \ status\ =\ ensure\_fits\_in\_block(}
+\DoxyCodeLine{00644\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00645\ \ \ \ \ \ \ \ \ WALFileHeader::disk\_size(),}
+\DoxyCodeLine{00646\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00647\ \ \ \ \ \ \ \ \ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00648\ \ \ \ \ );}
+\DoxyCodeLine{00649\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00650\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00651\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00652\ \ \ \ \ \ \ \ \ \ \ \ \ std::move(status)}
+\DoxyCodeLine{00653\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00654\ \ \ \ \ \}}
+\DoxyCodeLine{00655\ }
+\DoxyCodeLine{00656\ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ >\ file\_size\ ||}
+\DoxyCodeLine{00657\ \ \ \ \ \ \ \ \ file\_size\ -\/\ offset\ <\ WALFileHeader::disk\_size())\ \{}
+\DoxyCodeLine{00658\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00659\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00660\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00661\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnexpectedEOF,}
+\DoxyCodeLine{00662\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ file\ ended\ inside\ its\ file\ header"{}}}
+\DoxyCodeLine{00663\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00664\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00665\ \ \ \ \ \}}
+\DoxyCodeLine{00666\ }
+\DoxyCodeLine{00667\ \ \ \ \ WALFileHeader\ header\{\};}
+\DoxyCodeLine{00668\ }
+\DoxyCodeLine{00669\ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00670\ \ \ \ \ \ \ \ \ file,\ header.magic,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00671\ \ \ \ \ );}
+\DoxyCodeLine{00672\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{goto}\ read\_failure;}
+\DoxyCodeLine{00673\ }
+\DoxyCodeLine{00674\ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00675\ \ \ \ \ \ \ \ \ file,\ header.version,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00676\ \ \ \ \ );}
+\DoxyCodeLine{00677\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{goto}\ read\_failure;}
+\DoxyCodeLine{00678\ }
+\DoxyCodeLine{00679\ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00680\ \ \ \ \ \ \ \ \ file,\ header.header\_size,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00681\ \ \ \ \ );}
+\DoxyCodeLine{00682\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{goto}\ read\_failure;}
+\DoxyCodeLine{00683\ }
+\DoxyCodeLine{00684\ \ \ \ \ status\ =\ kvdb::blockio::read\_u64\_t\_le(}
+\DoxyCodeLine{00685\ \ \ \ \ \ \ \ \ file,\ header.wal\_id,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00686\ \ \ \ \ );}
+\DoxyCodeLine{00687\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{goto}\ read\_failure;}
+\DoxyCodeLine{00688\ }
+\DoxyCodeLine{00689\ \ \ \ \ status\ =\ kvdb::blockio::read\_u64\_t\_le(}
+\DoxyCodeLine{00690\ \ \ \ \ \ \ \ \ file,\ header.start\_seq,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00691\ \ \ \ \ );}
+\DoxyCodeLine{00692\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{goto}\ read\_failure;}
+\DoxyCodeLine{00693\ }
+\DoxyCodeLine{00694\ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00695\ \ \ \ \ \ \ \ \ file,\ header.block\_size,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00696\ \ \ \ \ );}
+\DoxyCodeLine{00697\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{goto}\ read\_failure;}
+\DoxyCodeLine{00698\ }
+\DoxyCodeLine{00699\ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00700\ \ \ \ \ \ \ \ \ file,\ header.reserved,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00701\ \ \ \ \ );}
+\DoxyCodeLine{00702\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{goto}\ read\_failure;}
+\DoxyCodeLine{00703\ }
+\DoxyCodeLine{00704\ \ \ \ \ status\ =\ kvdb::blockio::read\_u32\_t\_le(}
+\DoxyCodeLine{00705\ \ \ \ \ \ \ \ \ file,\ header.header\_crc32,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00706\ \ \ \ \ );}
+\DoxyCodeLine{00707\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{goto}\ read\_failure;}
+\DoxyCodeLine{00708\ }
+\DoxyCodeLine{00709\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.magic\ !=\ WAL\_FILE\_MAGIC)\ \{}
+\DoxyCodeLine{00710\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00711\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00712\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{\ StatusCode::BadMagic,\ \textcolor{stringliteral}{"{}invalid\ WAL\ file\ magic"{}}\ \}}
+\DoxyCodeLine{00713\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00714\ \ \ \ \ \}}
+\DoxyCodeLine{00715\ }
+\DoxyCodeLine{00716\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.version\ !=\ WAL\_VERSION)\ \{}
+\DoxyCodeLine{00717\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00718\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00719\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00720\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnsupportedVersion,}
+\DoxyCodeLine{00721\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}unsupported\ WAL\ version\ "{}}\ +}
+\DoxyCodeLine{00722\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(header.version)}
+\DoxyCodeLine{00723\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00724\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00725\ \ \ \ \ \}}
+\DoxyCodeLine{00726\ }
+\DoxyCodeLine{00727\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.header\_size\ !=\ WALFileHeader::disk\_size())\ \{}
+\DoxyCodeLine{00728\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00729\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00730\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00731\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidHeader,}
+\DoxyCodeLine{00732\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ header\_size\ does\ not\ match\ the\ supported\ layout"{}}}
+\DoxyCodeLine{00733\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00734\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00735\ \ \ \ \ \}}
+\DoxyCodeLine{00736\ }
+\DoxyCodeLine{00737\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.wal\_id\ !=\ expected\_wal\_id)\ \{}
+\DoxyCodeLine{00738\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00739\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00740\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00741\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidHeader,}
+\DoxyCodeLine{00742\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ id\ mismatch:\ expected\ "{}}\ +}
+\DoxyCodeLine{00743\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(expected\_wal\_id)\ +}
+\DoxyCodeLine{00744\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{},\ found\ "{}}\ +\ std::to\_string(header.wal\_id)}
+\DoxyCodeLine{00745\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00746\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00747\ \ \ \ \ \}}
+\DoxyCodeLine{00748\ }
+\DoxyCodeLine{00749\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.block\_size\ !=\ WAL\_FILE\_BLOCK\_SIZE)\ \{}
+\DoxyCodeLine{00750\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00751\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00752\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00753\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::UnsupportedBlockSize,}
+\DoxyCodeLine{00754\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}unsupported\ WAL\ block\ size\ "{}}\ +}
+\DoxyCodeLine{00755\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(header.block\_size)}
+\DoxyCodeLine{00756\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00757\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00758\ \ \ \ \ \}}
+\DoxyCodeLine{00759\ }
+\DoxyCodeLine{00760\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.reserved\ !=\ 0)\ \{}
+\DoxyCodeLine{00761\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00762\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00763\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00764\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidHeader,}
+\DoxyCodeLine{00765\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ reserved\ header\ field\ must\ be\ zero"{}}}
+\DoxyCodeLine{00766\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00767\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00768\ \ \ \ \ \}}
+\DoxyCodeLine{00769\ }
+\DoxyCodeLine{00770\ \ \ \ \ \textcolor{keywordflow}{if}\ (header.header\_crc32\ !=\ WALFileHeader::compute\_crc32(header))\ \{}
+\DoxyCodeLine{00771\ \ \ \ \ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00772\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00773\ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00774\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::ChecksumMismatch,}
+\DoxyCodeLine{00775\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}WAL\ file-\/header\ CRC\ mismatch"{}}}
+\DoxyCodeLine{00776\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00777\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00778\ \ \ \ \ \}}
+\DoxyCodeLine{00779\ }
+\DoxyCodeLine{00780\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::ok(}
+\DoxyCodeLine{00781\ \ \ \ \ \ \ \ \ std::optional<WALFileHeader>\{std::move(header)\}}
+\DoxyCodeLine{00782\ \ \ \ \ );}
+\DoxyCodeLine{00783\ }
+\DoxyCodeLine{00784\ read\_failure:}
+\DoxyCodeLine{00785\ \ \ \ \ offset\ =\ initial\_offset;}
+\DoxyCodeLine{00786\ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::optional<WALFileHeader>>::fail(}
+\DoxyCodeLine{00787\ \ \ \ \ \ \ \ \ std::move(status)}
+\DoxyCodeLine{00788\ \ \ \ \ );}
+\DoxyCodeLine{00789\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_w_a_l_file_header_ab9392072857c47da2cfcc93f8b56c77d}\index{WALFileHeader@{WALFileHeader}!self\_check@{self\_check}}
+\index{self\_check@{self\_check}!WALFileHeader@{WALFileHeader}}
+\doxysubsubsection{\texorpdfstring{self\_check()}{self\_check()}}
+{\footnotesize\ttfamily \label{struct_w_a_l_file_header_ab9392072857c47da2cfcc93f8b56c77d} 
+bool WALFile\+Header::\+self\+\_\+check (\begin{DoxyParamCaption}{}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00535\ \{}
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{keywordflow}{return}\ magic\ ==\ WAL\_FILE\_MAGIC\ \&\&}
+\DoxyCodeLine{00537\ \ \ \ \ \ \ \ \ version\ ==\ WAL\_VERSION\ \&\&}
+\DoxyCodeLine{00538\ \ \ \ \ \ \ \ \ header\_size\ ==\ WALFileHeader::disk\_size()\ \&\&}
+\DoxyCodeLine{00539\ \ \ \ \ \ \ \ \ block\_size\ ==\ WAL\_FILE\_BLOCK\_SIZE\ \&\&}
+\DoxyCodeLine{00540\ \ \ \ \ \ \ \ \ reserved\ ==\ 0\ \&\&}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ header\_crc32\ ==\ WALFileHeader::compute\_crc32(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00542\ \}}
+
+\end{DoxyCode}
+\Hypertarget{struct_w_a_l_file_header_a519fcc3ecc3c1ae4e0e1d0a0e94c6867}\index{WALFileHeader@{WALFileHeader}!write@{write}}
+\index{write@{write}!WALFileHeader@{WALFileHeader}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily \label{struct_w_a_l_file_header_a519fcc3ecc3c1ae4e0e1d0a0e94c6867} 
+\doxymbox{\hyperlink{struct_status}{Status}} WALFile\+Header::\+write (\begin{DoxyParamCaption}\item[{\doxymbox{\hyperlink{class_writable_file}{Writable\+File}} \&}]{file}{, }\item[{std::\+uint64\+\_\+t \&}]{offset}{}\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00548\ \{}
+\DoxyCodeLine{00549\ \ \ \ \ \textcolor{keywordflow}{if}\ (!self\_check())\ \{}
+\DoxyCodeLine{00550\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status\{}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidHeader,}
+\DoxyCodeLine{00552\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}refusing\ to\ write\ an\ invalid\ WAL\ file\ header"{}}}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00554\ \ \ \ \ \}}
+\DoxyCodeLine{00555\ }
+\DoxyCodeLine{00556\ \ \ \ \ Status\ status\ =\ check\_writer\_offset(file,\ offset);}
+\DoxyCodeLine{00557\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00558\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00559\ \ \ \ \ \}}
+\DoxyCodeLine{00560\ }
+\DoxyCodeLine{00561\ \ \ \ \ status\ =\ ensure\_fits\_in\_block(}
+\DoxyCodeLine{00562\ \ \ \ \ \ \ \ \ file,}
+\DoxyCodeLine{00563\ \ \ \ \ \ \ \ \ WALFileHeader::disk\_size(),}
+\DoxyCodeLine{00564\ \ \ \ \ \ \ \ \ offset,}
+\DoxyCodeLine{00565\ \ \ \ \ \ \ \ \ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00566\ \ \ \ \ );}
+\DoxyCodeLine{00567\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \{}
+\DoxyCodeLine{00568\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00569\ \ \ \ \ \}}
+\DoxyCodeLine{00570\ }
+\DoxyCodeLine{00571\ \ \ \ \ status\ =\ kvdb::blockio::write\_u32\_t\_le(}
+\DoxyCodeLine{00572\ \ \ \ \ \ \ \ \ file,\ magic,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00573\ \ \ \ \ );}
+\DoxyCodeLine{00574\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00575\ }
+\DoxyCodeLine{00576\ \ \ \ \ status\ =\ kvdb::blockio::write\_u32\_t\_le(}
+\DoxyCodeLine{00577\ \ \ \ \ \ \ \ \ file,\ version,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00578\ \ \ \ \ );}
+\DoxyCodeLine{00579\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00580\ }
+\DoxyCodeLine{00581\ \ \ \ \ status\ =\ kvdb::blockio::write\_u32\_t\_le(}
+\DoxyCodeLine{00582\ \ \ \ \ \ \ \ \ file,\ header\_size,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00583\ \ \ \ \ );}
+\DoxyCodeLine{00584\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00585\ }
+\DoxyCodeLine{00586\ \ \ \ \ status\ =\ kvdb::blockio::write\_u64\_t\_le(}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \ \ file,\ wal\_id,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00588\ \ \ \ \ );}
+\DoxyCodeLine{00589\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00590\ }
+\DoxyCodeLine{00591\ \ \ \ \ status\ =\ kvdb::blockio::write\_u64\_t\_le(}
+\DoxyCodeLine{00592\ \ \ \ \ \ \ \ \ file,\ start\_seq,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00593\ \ \ \ \ );}
+\DoxyCodeLine{00594\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00595\ }
+\DoxyCodeLine{00596\ \ \ \ \ status\ =\ kvdb::blockio::write\_u32\_t\_le(}
+\DoxyCodeLine{00597\ \ \ \ \ \ \ \ \ file,\ block\_size,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00598\ \ \ \ \ );}
+\DoxyCodeLine{00599\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00600\ }
+\DoxyCodeLine{00601\ \ \ \ \ status\ =\ kvdb::blockio::write\_u32\_t\_le(}
+\DoxyCodeLine{00602\ \ \ \ \ \ \ \ \ file,\ reserved,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00603\ \ \ \ \ );}
+\DoxyCodeLine{00604\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00605\ }
+\DoxyCodeLine{00606\ \ \ \ \ status\ =\ kvdb::blockio::write\_u32\_t\_le(}
+\DoxyCodeLine{00607\ \ \ \ \ \ \ \ \ file,\ header\_crc32,\ offset,\ WAL\_FILE\_BLOCK\_SIZE}
+\DoxyCodeLine{00608\ \ \ \ \ );}
+\DoxyCodeLine{00609\ \ \ \ \ \textcolor{keywordflow}{if}\ (!status.is\_ok())\ \textcolor{keywordflow}{return}\ status;}
+\DoxyCodeLine{00610\ }
+\DoxyCodeLine{00611\ \ \ \ \ \textcolor{keywordflow}{return}\ check\_writer\_offset(file,\ offset);}
+\DoxyCodeLine{00612\ \}}
+
+\end{DoxyCode}
+
+
+The documentation for this struct was generated from the following files:\+\begin{DoxyCompactItemize}
+\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+include/\+wal.\+h\item 
+C:\+/\+\+Users/\+user/\+\+KVDB/\+src/\+wal.\+cpp\end{DoxyCompactItemize}

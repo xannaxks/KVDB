@@ -1,0 +1,174 @@
+\doxysection{anonymous\+\_\+namespace\{manifest.\+cpp\} Namespace Reference}
+\hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03}{}\label{namespaceanonymous__namespace_02manifest_8cpp_03}\index{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std::\+uint32\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02manifest_8cpp_03_ae99a0bc5623ef59a057f56248668b664}{payload\+\_\+flags}} (const \doxymbox{\hyperlink{struct_version_edit_1_1_payload}{Version\+Edit::\+\+Payload}} \&payload) noexcept
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02manifest_8cpp_03_af440a33590de8be43ad04c738670d9f7}{checked\+\_\+add\+\_\+u64}} (std::\+uint64\+\_\+t \&destination, std::\+uint64\+\_\+t value, const char \texorpdfstring{$\ast$}{*}what)
+\item 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint32\+\_\+t $>$ \doxymbox{\hyperlink{namespaceanonymous__namespace_02manifest_8cpp_03_a7be6e7f31d43150bdbd9863e337f5a49}{checked\+\_\+u32\+\_\+count}} (std::\+size\+\_\+t value, const char \texorpdfstring{$\ast$}{*}name)
+\item 
+\doxymbox{\hyperlink{struct_status}{Status}} \doxymbox{\hyperlink{namespaceanonymous__namespace_02manifest_8cpp_03_a1964a84a3c1504051e1adf757e25a88a}{require\+\_\+remaining}} (std::\+uint64\+\_\+t offset, std::\+uint64\+\_\+t end, std::\+uint64\+\_\+t bytes, const char \texorpdfstring{$\ast$}{*}field)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_a98abcf0458d468bdc0ef70f4c33a6ef4}\label{namespaceanonymous__namespace_02manifest_8cpp_03_a98abcf0458d468bdc0ef70f4c33a6ef4} 
+constexpr std::\+uint32\+\_\+t {\bfseries VERSION\+\_\+\+EDIT\+\_\+\+HAS\+\_\+\+NEXT\+\_\+\+TABLE\+\_\+\+ID} = 1u $<$$<$ 0
+\item 
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_a5a272627681e5c63a4b8a67c38cea374}\label{namespaceanonymous__namespace_02manifest_8cpp_03_a5a272627681e5c63a4b8a67c38cea374} 
+constexpr std::\+uint32\+\_\+t {\bfseries VERSION\+\_\+\+EDIT\+\_\+\+HAS\+\_\+\+NEXT\+\_\+\+SEQUENCE\+\_\+\+NUMBER} = 1u $<$$<$ 1
+\item 
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_ac199d8d7436dbce38f9cd8ca62fa0423}\label{namespaceanonymous__namespace_02manifest_8cpp_03_ac199d8d7436dbce38f9cd8ca62fa0423} 
+constexpr std::\+uint32\+\_\+t {\bfseries VERSION\+\_\+\+EDIT\+\_\+\+HAS\+\_\+\+CURRENT\+\_\+\+WAL\+\_\+\+ID} = 1u $<$$<$ 2
+\item 
+constexpr std::\+uint32\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02manifest_8cpp_03_a0e20ca3db40153b72683d70cc4bb61fd}{VERSION\+\_\+\+EDIT\+\_\+\+KNOWN\+\_\+\+FLAGS}}
+\item 
+constexpr std::\+uint32\+\_\+t \doxymbox{\hyperlink{namespaceanonymous__namespace_02manifest_8cpp_03_a779c748bee438fb4562a25a4c6ae4112}{MIN\+\_\+\+PAYLOAD\+\_\+\+SIZE}}
+\end{DoxyCompactItemize}
+
+
+\label{namespaceanonymous__namespace_02manifest_8cpp_03_doc-func-members}
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_af440a33590de8be43ad04c738670d9f7}\index{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}!checked\_add\_u64@{checked\_add\_u64}}
+\index{checked\_add\_u64@{checked\_add\_u64}!anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{checked\_add\_u64()}{checked\_add\_u64()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02manifest_8cpp_03_af440a33590de8be43ad04c738670d9f7} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{manifest.\+cpp\}::\+checked\+\_\+add\+\_\+u64 (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t \&}]{destination}{, }\item[{std::\+uint64\+\_\+t}]{value}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{what}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00052\ \ \ \ \ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ >\ std::numeric\_limits<std::uint64\_t>::max()\ -\/\ destination)\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(\textcolor{stringliteral}{"{}\{\}\ size\ overflow"{}},\ what)}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ destination\ +=\ value;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00062\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_a7be6e7f31d43150bdbd9863e337f5a49}\index{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}!checked\_u32\_count@{checked\_u32\_count}}
+\index{checked\_u32\_count@{checked\_u32\_count}!anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{checked\_u32\_count()}{checked\_u32\_count()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02manifest_8cpp_03_a7be6e7f31d43150bdbd9863e337f5a49} 
+\doxymbox{\hyperlink{struct_result}{Result}}$<$ std::\+uint32\+\_\+t $>$ anonymous\+\_\+namespace\{manifest.\+cpp\}::\+checked\+\_\+u32\+\_\+count (\begin{DoxyParamCaption}\item[{std::\+size\+\_\+t}]{value}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{name}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00068\ \ \ \ \ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ >\ MANIFEST\_MAX\_TABLES\_PER\_EDIT)\ \{}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::fail(}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\{\}\ \{\}\ exceeds\ manifest\ limit\ \{\}"{}},}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name,}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value,}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ MANIFEST\_MAX\_TABLES\_PER\_EDIT}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (value\ >\ std::numeric\_limits<std::uint32\_t>::max())\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::fail(}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Status\{}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::AllocationTooLarge,}
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(\textcolor{stringliteral}{"{}\{\}\ \{\}\ exceeds\ uint32\_t"{}},\ name,\ value)}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Result<std::uint32\_t>::ok(}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::uint32\_t\textcolor{keyword}{>}(value)}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ );}
+\DoxyCodeLine{00095\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_ae99a0bc5623ef59a057f56248668b664}\index{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}!payload\_flags@{payload\_flags}}
+\index{payload\_flags@{payload\_flags}!anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{payload\_flags()}{payload\_flags()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02manifest_8cpp_03_ae99a0bc5623ef59a057f56248668b664} 
+std::\+uint32\+\_\+t anonymous\+\_\+namespace\{manifest.\+cpp\}::\+payload\+\_\+flags (\begin{DoxyParamCaption}\item[{const \doxymbox{\hyperlink{struct_version_edit_1_1_payload}{Version\+Edit::\+\+Payload}} \&}]{payload}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}, {\ttfamily [noexcept]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00031\ \ \ \ \ \{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ std::uint32\_t\ flags\ =\ 0;}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.next\_table\_id.has\_value())\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \ \ \ \ \ \ flags\ |=\ VERSION\_EDIT\_HAS\_NEXT\_TABLE\_ID;}
+\DoxyCodeLine{00036\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.next\_sequence\_number.has\_value())\ \{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ \ \ \ \ flags\ |=\ VERSION\_EDIT\_HAS\_NEXT\_SEQUENCE\_NUMBER;}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (payload.current\_wal\_id.has\_value())\ \{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ \ \ \ \ flags\ |=\ VERSION\_EDIT\_HAS\_CURRENT\_WAL\_ID;}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ flags;}
+\DoxyCodeLine{00045\ \ \ \ \ \}}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_a1964a84a3c1504051e1adf757e25a88a}\index{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}!require\_remaining@{require\_remaining}}
+\index{require\_remaining@{require\_remaining}!anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{require\_remaining()}{require\_remaining()}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02manifest_8cpp_03_a1964a84a3c1504051e1adf757e25a88a} 
+\doxymbox{\hyperlink{struct_status}{Status}} anonymous\+\_\+namespace\{manifest.\+cpp\}::\+require\+\_\+remaining (\begin{DoxyParamCaption}\item[{std::\+uint64\+\_\+t}]{offset}{, }\item[{std::\+uint64\+\_\+t}]{end}{, }\item[{std::\+uint64\+\_\+t}]{bytes}{, }\item[{const char \texorpdfstring{$\ast$}{*}}]{field}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [nodiscard]}}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00103\ \ \ \ \ \{}
+\DoxyCodeLine{00104\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (offset\ >\ end\ ||\ bytes\ >\ end\ -\/\ offset)\ \{}
+\DoxyCodeLine{00105\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \doxymbox{\hyperlink{struct_status}{Status}}\{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ StatusCode::InvalidPayloadSize,}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::format(}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}\{\}\ does\ not\ fit\ in\ declared\ version-\/edit\ payload"{}},}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ field}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \};}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ Status::ok();}
+\DoxyCodeLine{00115\ \ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+\label{namespaceanonymous__namespace_02manifest_8cpp_03_doc-var-members}
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_doc-var-members}
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_a779c748bee438fb4562a25a4c6ae4112}\index{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}!MIN\_PAYLOAD\_SIZE@{MIN\_PAYLOAD\_SIZE}}
+\index{MIN\_PAYLOAD\_SIZE@{MIN\_PAYLOAD\_SIZE}!anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{MIN\_PAYLOAD\_SIZE}{MIN\_PAYLOAD\_SIZE}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02manifest_8cpp_03_a779c748bee438fb4562a25a4c6ae4112} 
+std::\+uint32\+\_\+t anonymous\+\_\+namespace\{manifest.\+cpp\}::\+\+MIN\+\_\+\+PAYLOAD\+\_\+\+SIZE\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{4u\ +\ }
+\DoxyCodeLine{4u\ +\ }
+\DoxyCodeLine{4u}
+
+\end{DoxyCode}
+\Hypertarget{namespaceanonymous__namespace_02manifest_8cpp_03_a0e20ca3db40153b72683d70cc4bb61fd}\index{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}!VERSION\_EDIT\_KNOWN\_FLAGS@{VERSION\_EDIT\_KNOWN\_FLAGS}}
+\index{VERSION\_EDIT\_KNOWN\_FLAGS@{VERSION\_EDIT\_KNOWN\_FLAGS}!anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}@{anonymous\_namespace\lcurly{}manifest.cpp\rcurly{}}}
+\doxysubsubsection{\texorpdfstring{VERSION\_EDIT\_KNOWN\_FLAGS}{VERSION\_EDIT\_KNOWN\_FLAGS}}
+{\footnotesize\ttfamily \label{namespaceanonymous__namespace_02manifest_8cpp_03_a0e20ca3db40153b72683d70cc4bb61fd} 
+std::\+uint32\+\_\+t anonymous\+\_\+namespace\{manifest.\+cpp\}::\+\+VERSION\+\_\+\+EDIT\+\_\+\+KNOWN\+\_\+\+FLAGS\hspace{0.3cm}{\ttfamily [constexpr]}}
+
+{\bfseries Initial value:\+}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ =}
+\DoxyCodeLine{VERSION\_EDIT\_HAS\_NEXT\_TABLE\_ID\ |}
+\DoxyCodeLine{VERSION\_EDIT\_HAS\_NEXT\_SEQUENCE\_NUMBER\ |}
+\DoxyCodeLine{VERSION\_EDIT\_HAS\_CURRENT\_WAL\_ID}
+
+\end{DoxyCode}
