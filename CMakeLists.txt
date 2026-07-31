@@ -483,6 +483,7 @@ kvdb_add_component(meta_section
         kvdb_status
         kvdb_endian_io
         kvdb_crc32_helpers
+        kvdb_data_section
 )
 
 kvdb_add_component(sstable
@@ -662,6 +663,7 @@ kvdb_add_component(compaction_scheduler
         kvdb_compaction_plan
         kvdb_table_meta
         kvdb_db_options
+        kvdb_compaction_options
 )
 
 # NOTE:
@@ -690,6 +692,7 @@ kvdb_add_component(sstable_builder
         kvdb_sstable
         kvdb_file
         kvdb_file_helpers
+        kvdb_mem_table
         kvdb_sstable_iterator
 )
 
