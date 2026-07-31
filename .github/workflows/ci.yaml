@@ -1,0 +1,93 @@
+name: CMake CI
+
+on:
+  push:
+    branches: [main]
+
+  pull_request:
+    branches: [main]
+
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: ${{ matrix.os }} / ${{ matrix.build_type }}
+
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+        build_type:
+          - Debug
+          - Release
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Show tool versions
+        run: |
+          cmake --version
+          ctest --version
+
+      - name: Configure
+        run: >
+          cmake
+          -S .
+          -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DKVDB_ENABLE_TESTS=ON
+          -DKVDB_ENABLE_ASAN=OFF
+          -DKVDB_ENABLE_UBSAN=OFF
+
+      - name: Build
+        run: >
+          cmake
+          --build build
+          --config ${{ matrix.build_type }}
+          --parallel
+
+      - name: Run tests
+        run: >
+          ctest
+          --test-dir build
+          --build-config ${{ matrix.build_type }}
+          --output-on-failure
+
+  sanitizer-test:
+    name: Ubuntu / Debug / ASan + UBSan
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Configure
+        run: >
+          cmake
+          -S .
+          -B build-sanitized
+          -DCMAKE_BUILD_TYPE=Debug
+          -DKVDB_ENABLE_TESTS=ON
+          -DKVDB_ENABLE_ASAN=ON
+          -DKVDB_ENABLE_UBSAN=ON
+
+      - name: Build
+        run: >
+          cmake
+          --build build-sanitized
+          --parallel
+
+      - name: Run tests
+        run: >
+          ctest
+          --test-dir build-sanitized
+          --output-on-failure
