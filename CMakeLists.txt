@@ -354,18 +354,20 @@ kvdb_add_component(arena
         kvdb_status
 )
 
-kvdb_add_component(endian_io
-    SOURCES
-        src/endian_io.cpp
-    PUBLIC_DEPS
-        kvdb_status
-)
-
 kvdb_add_component(file
     SOURCES
         src/file.cpp
     PUBLIC_DEPS
         kvdb_status
+)
+
+kvdb_add_component(endian_io
+    SOURCES
+        src/endian_io.cpp
+    PUBLIC_DEPS
+        kvdb_status
+        kvdb_file
+        kvdb_file_helpers
 )
 
 kvdb_add_component(file_helpers
@@ -433,6 +435,7 @@ kvdb_add_component(data_section_view
         kvdb_status
         kvdb_endian_io
         kvdb_crc32_helpers
+        kvdb_data_section
 )
 
 kvdb_add_component(index_section
@@ -444,6 +447,7 @@ kvdb_add_component(index_section
         kvdb_status
         kvdb_endian_io
         kvdb_crc32_helpers
+        kvdb_arena
 )
 
 kvdb_add_component(bloom_section
@@ -457,20 +461,22 @@ kvdb_add_component(bloom_section
         kvdb_crc32_helpers
 )
 
-kvdb_add_component(meta_section
+kvdb_add_component(file_footer_section
     SOURCES
-        src/sstable_entities/meta_section.cpp
+        src/sstable_entities/file_footer_section.cpp
     PUBLIC_DEPS
         kvdb_file_helpers
         kvdb_file
         kvdb_status
         kvdb_endian_io
         kvdb_crc32_helpers
+        kvdb_index_section
+        kvdb_meta_section
 )
 
-kvdb_add_component(file_footer_section
+kvdb_add_component(meta_section
     SOURCES
-        src/sstable_entities/file_footer_section.cpp
+        src/sstable_entities/meta_section.cpp
     PUBLIC_DEPS
         kvdb_file_helpers
         kvdb_file
@@ -533,6 +539,7 @@ kvdb_add_component(sstable_manager
         kvdb_file_helpers
         kvdb_sstable_loader
         kvdb_sstable_writer
+        kvdb_sstable_builder
 )
 
 kvdb_add_component(table_meta
@@ -642,6 +649,7 @@ kvdb_add_component(compaction_job
         kvdb_sstable_iterator
         kvdb_sstable_manager
         kvdb_manifest
+        kvdb_sstable_builder
 )
 
 kvdb_add_component(compaction_scheduler
@@ -653,6 +661,7 @@ kvdb_add_component(compaction_scheduler
         kvdb_compaction_job
         kvdb_compaction_plan
         kvdb_table_meta
+        kvdb_db_options
 )
 
 # NOTE:
