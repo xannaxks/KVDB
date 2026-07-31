@@ -415,6 +415,18 @@ kvdb_add_component(file_header_section
         kvdb_crc32_helpers
 )
 
+kvdb_add_component(index_section
+    SOURCES
+        src/sstable_entities/index_section.cpp
+    PUBLIC_DEPS
+        kvdb_file_helpers
+        kvdb_file
+        kvdb_status
+        kvdb_endian_io
+        kvdb_crc32_helpers
+        kvdb_arena
+)
+
 kvdb_add_component(data_section
     SOURCES
         src/sstable_entities/data_section.cpp
@@ -424,6 +436,7 @@ kvdb_add_component(data_section
         kvdb_status
         kvdb_endian_io
         kvdb_crc32_helpers
+        kvdb_index_section
 )
 
 kvdb_add_component(data_section_view
@@ -436,18 +449,6 @@ kvdb_add_component(data_section_view
         kvdb_endian_io
         kvdb_crc32_helpers
         kvdb_data_section
-)
-
-kvdb_add_component(index_section
-    SOURCES
-        src/sstable_entities/index_section.cpp
-    PUBLIC_DEPS
-        kvdb_file_helpers
-        kvdb_file
-        kvdb_status
-        kvdb_endian_io
-        kvdb_crc32_helpers
-        kvdb_arena
 )
 
 kvdb_add_component(bloom_section
@@ -694,6 +695,7 @@ kvdb_add_component(sstable_builder
         kvdb_file_helpers
         kvdb_mem_table
         kvdb_sstable_iterator
+        kvdb_table_meta
 )
 
 kvdb_add_component(api
