@@ -1,4 +1,5 @@
 .vs/
+.codex-gcc14-repro/
 
 # CMake build directories
 out/
