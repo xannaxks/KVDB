@@ -8,7 +8,6 @@
 #include <vector>
 #include <string>
 #include <cstdint>
-#include "bytes.h"
 #include "status.h"
 #include <stack>
 #include <functional>
