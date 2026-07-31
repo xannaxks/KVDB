@@ -88,7 +88,6 @@ jobs:
         run: >
           cmake
           --build build-sanitized
-          --parallel
 
       - name: Run tests
         run: >
