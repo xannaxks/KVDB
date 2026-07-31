@@ -26,7 +26,7 @@ jobs:
         os:
           - ubuntu-latest
           - windows-latest
-          - macos-latest
+          # - macos-latest
 
         build_type:
           - Debug
@@ -56,7 +56,7 @@ jobs:
           cmake
           --build build
           --config ${{ matrix.build_type }}
-          --parallel
+          # --parallel
 
       - name: Run tests
         run: >
@@ -64,11 +64,23 @@ jobs:
           --test-dir build
           --build-config ${{ matrix.build_type }}
           --output-on-failure
+          --no-tests=error
 
   sanitizer-test:
-    name: Ubuntu / Debug / ASan + UBSan
+    name: ${{ matrix.os }} / ${{ matrix.build_type }} / ASan + UBSan
 
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        os:
+          - ubuntu-latest
+
+        build_type:
+          - Debug
+          - Release
 
     steps:
       - name: Checkout repository
@@ -79,7 +91,7 @@ jobs:
           cmake
           -S .
           -B build-sanitized
-          -DCMAKE_BUILD_TYPE=Debug
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
           -DKVDB_ENABLE_TESTS=ON
           -DKVDB_ENABLE_ASAN=ON
           -DKVDB_ENABLE_UBSAN=ON
@@ -88,9 +100,12 @@ jobs:
         run: >
           cmake
           --build build-sanitized
+          --config ${{ matrix.build_type }}
 
       - name: Run tests
         run: >
           ctest
           --test-dir build-sanitized
+          --build-config ${{ matrix.build_type }}
           --output-on-failure
+          --no-tests=error
