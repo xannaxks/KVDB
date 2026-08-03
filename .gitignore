@@ -4,6 +4,7 @@
 # CMake build directories
 out/
 build/
+build-bench/
 cmake-build-*/
 out/
 

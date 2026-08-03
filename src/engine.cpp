@@ -710,6 +710,11 @@ Status Engine::flush_oldest_immutable()
         };
     }
 
+    if (statistics_.flush_count !=
+        std::numeric_limits<std::uint64_t>::max()) {
+        ++statistics_.flush_count;
+    }
+
     if (replacement) {
         status = wal_->close();
         if (!status.is_ok()) {
@@ -800,6 +805,11 @@ Status Engine::run_compaction(const CompactionPlan& plan)
     );
     if (!status.is_ok()) {
         return status;
+    }
+
+    if (statistics_.compaction_count !=
+        std::numeric_limits<std::uint64_t>::max()) {
+        ++statistics_.compaction_count;
     }
 
     for (const auto& path : obsolete_paths) {
@@ -990,6 +1000,12 @@ Status Engine::close()
     opened_ = false;
     closed_ = true;
     return Status::ok();
+}
+
+EngineStatistics Engine::statistics() const
+{
+    std::lock_guard lock(mutex_);
+    return statistics_;
 }
 
 Status Engine::ensure_open() const

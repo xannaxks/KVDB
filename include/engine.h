@@ -26,6 +26,19 @@
 #include <mutex>
 
 /**
+ * @brief Monotonic maintenance counters for one Engine instance.
+ *
+ * A flush is counted after an immutable MemTable generation is published and
+ * retired. A compaction is counted after its VersionEdit is committed. Empty
+ * flush requests and compaction attempts that produce no edit are not counted.
+ */
+struct EngineStatistics
+{
+    std::uint64_t flush_count = 0;
+    std::uint64_t compaction_count = 0;
+};
+
+/**
  * @brief Concrete LSM-tree implementation of the KVDB interface.
  *
  * Engine owns the WAL, mutable/immutable MemTables, manifest, level metadata,
@@ -72,6 +85,9 @@ public:
     /** @copydoc KVDB::close */
     Status close() override;
 
+    /** @brief Returns a consistent snapshot of maintenance counters. */
+    [[nodiscard]] EngineStatistics statistics() const;
+
 private:
     Status ensure_open() const;
     Status prepare_dirs();
@@ -111,6 +127,8 @@ private:
 
     std::uint64_t next_sequence_ = 1;
     std::uint32_t current_wal_id_ = 1;
+
+    EngineStatistics statistics_{};
 
     bool opened_ = false;
     bool closed_ = false;

@@ -844,6 +844,7 @@ function(kvdb_discover_component_benchmarks)
 
         target_link_libraries("${benchmark_target}" PRIVATE
             "${package_target}"
+            kvdb_benchmark_timer
         )
 
         kvdb_configure_target("${benchmark_target}")
@@ -860,5 +861,30 @@ function(kvdb_discover_component_benchmarks)
 endfunction()
 
 if(KVDB_ENABLE_BENCHMARKS)
+    add_library(kvdb_benchmark_timer
+        benchmarks/timer.cpp
+        benchmarks/benchmark_config.cpp
+        benchmarks/process_io.cpp
+    )
+    target_include_directories(kvdb_benchmark_timer PUBLIC
+        "${PROJECT_SOURCE_DIR}/benchmarks"
+    )
+    kvdb_configure_target(kvdb_benchmark_timer)
+    set_target_properties(kvdb_benchmark_timer PROPERTIES
+        FOLDER "benchmarks"
+    )
+
     kvdb_discover_component_benchmarks()
+
+    add_executable(kvdb_workload_benchmark
+        benchmarks/workload_benchmark.cpp
+    )
+    target_link_libraries(kvdb_workload_benchmark PRIVATE
+        kvdb_engine
+        kvdb_benchmark_timer
+    )
+    kvdb_configure_target(kvdb_workload_benchmark)
+    set_target_properties(kvdb_workload_benchmark PROPERTIES
+        FOLDER "benchmarks"
+    )
 endif()
