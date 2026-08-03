@@ -26,13 +26,13 @@ It can store this as a pointer or as an offset inside the current memory page.
 
 > Other metadata can also be stored, such as allocation count, previous allocation offset, page count, or debug information.
 
-![Allocator pointer visualization](./assets/allocator-pointer-visualization.svg)
+![Allocator pointer visualization](../assets/allocator-pointer-visualization.svg)
 
 ### Allocation
 
 When the user asks for memory, the arena checks the current position, aligns it if needed, returns that address, and then moves the current position forward.
 
-![Allocation process](./assets/allocation-process.svg)
+![Allocation process](../assets/allocation-process.svg)
 
 The important part is that the allocator does not search for a free block.
 
@@ -58,7 +58,7 @@ we cannot safely free only `B` while keeping `A`, `C`, and `D` in place.
 
 However, we can roll back the arena to an earlier checkpoint. This means we can free a suffix of allocations.
 
-![Memory freeing using checkpoints](./assets/memory-freeing-using-checkpoints.png)
+![Memory freeing using checkpoints](../assets/memory-freeing-using-checkpoints.png)
 
 For example:
 
