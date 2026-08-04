@@ -20,7 +20,7 @@ You can help by:
 
 Required tools:
 
-* C++20 compatible compiler
+* C++23 compatible compiler
 * CMake
 * GoogleTest
 

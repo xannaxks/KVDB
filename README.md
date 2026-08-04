@@ -1,6 +1,6 @@
 # KVDB
 
-KVDB is an experimental C++20 key-value storage engine based on the
+KVDB is an experimental C++23 key-value storage engine based on the
 Log-Structured Merge Tree architecture.
 
 The project started as a mini LSM database implementation and is evolving into
@@ -32,7 +32,7 @@ Current / planned components:
 * [x] Compaction
 * [x] Bloom filter integration
 * [ ] Background compaction
-* [ ] Benchmarks
+* [x] Benchmarks
 * [ ] Additional MemTable data structures
 
 ---
@@ -287,13 +287,10 @@ int main(int argc, char** argv)
 
 Important documents:
 
-* [`docs/architecture.md`](./docs/architecture.md)
-* [`docs/wal.md`](./docs/wal.md)
-* [`docs/memtable.md`](./docs/memtable.md)
-* [`docs/sstable.md`](./docs/sstable.md)
-* [`docs/manifest.md`](./docs/manifest.md)
-* [`RESEARCH.md`](./research.md)
-* [`ROADMAP.md`](./roadmap.md)
+* [`Docs`](./docs/README.md)
+* [`Benchmarks`](./benchmarks/README.md)
+* [`Research`](./RESEARCH.md)
+* [`Roadmap`](./ROADMAP.md)
 
 ---
 

@@ -83,7 +83,7 @@ KVDB is still experimental and not production-ready.
 
 ### Helpers
 
-- [ ] Unit tests:
+- [x] Unit tests:
 	- [x] Little Endian helpers 
 	- [x] File helpers
 	- [x] Arena helpers
@@ -97,26 +97,26 @@ KVDB is still experimental and not production-ready.
 
 ## Phase 4: Benchmarking
 
-- [ ] Benchmark write throughput
-- [ ] Benchmark read latency
+- [x] Benchmark write throughput
+- [x] Benchmark read latency
 - [ ] Benchmark memory usage
-- [ ] Benchmark flush performance
-- [ ] Benchmark recovery time
-- [ ] Define benchmark methodology
-- [ ] Add reproducible benchmark scripts
+- [x] Benchmark flush performance
+- [x] Benchmark recovery time
+- [x] Define benchmark methodology
+- [x] Add reproducible benchmark scripts
 
 ## Phase 5: Documentation
 
 - [x] Arena allocator documentation
 - [x] Red-Black Tree documentation
-- [ ] MemTable documentation
-- [ ] WAL documentation
+- [x] MemTable documentation
+- [x] WAL documentation
 - [x] SSTable documentation
 - [x] Manifest documentation
 - [x] Level manager documentation
 - [x] Table meta documentation
-- [ ] Compaction documentation
-- [ ] Benchmark methodology
+- [x] Compaction documentation
+- [x] Benchmark methodology
 
 ## Phase 6: MemTable Experiments
 

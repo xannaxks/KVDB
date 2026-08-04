@@ -18,7 +18,7 @@ If you find a security issue, please do not open a public GitHub issue.
 
 Instead, contact the maintainer privately:
 
-- Email: your-email@example.com
+- Email: xannaxks@gmail.com
 
 Please include:
 
