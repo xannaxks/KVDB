@@ -101,12 +101,12 @@ Currently implemented:
 | Data Structure | Status      |
 | -------------- | ----------- |
 | Red-Black Tree | Implemented |
-| Skip List      | Implemented |
 
 Planned / experimental:
 
 | Data Structure                   | Status   |
 | -------------------------------- | -------- |
+| Skip List                        | In progress|
 | AVL Tree                         | Planned  |
 | Treap                            | Planned  |
 | Splay Tree                       | Planned  |
