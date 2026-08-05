@@ -30,7 +30,8 @@ Current / planned components:
 * [x] Manifest / version edits
 * [x] Point lookup API
 * [x] Compaction
-* [x] Bloom filter integration
+* [x] Bloom filter implementation
+* [ ] Bloom filter integration
 * [ ] Background compaction
 * [x] Benchmarks
 * [ ] Additional MemTable data structures
@@ -152,17 +153,24 @@ Requirements:
 * CMake
 * GoogleTest
 
+Configure:
+
+```bash
+cmake -S . -B out/build \
+  -DCMAKE_BUILD_TYPE=Debug \
+  -DKVDB_ENABLE_TESTS=ON
+```
+
 Build:
 
 ```bash
-cmake -S . -B out/build
-cmake --build out/build
+cmake --build out/build --parallel
 ```
 
 Run tests:
 
 ```bash
-ctest --test-dir out/build
+ctest --test-dir out/build --output-on-failure
 ```
 
 ---
@@ -318,13 +326,33 @@ KVDB is under active development.
 
 The current focus is:
 
-* Completing the core database API
-* Finishing manifest/version management
-* Implementing compaction
-* Stabilizing SSTable iteration and lookup
+* Integration of Bloom filters
+* Clear ownership
+* Adding atomicity and durability tests
+* Fixing v0.1.0 release bugs
+* Fixing v0.1.0 release limitations
+* Improving layout of SSTable
+* Adding Skip list as underlying Memtable data structure
 * Adding benchmarks
-* Expanding MemTable implementations
 * Improving documentation
+
+---
+
+### Correctness
+- 415 unit and integration tests
+- WAL torn-tail recovery
+- Checksummed Manifest and SSTable sections
+- Transactional Arena rollback during failed decoding
+- Linux (GCC) and Windows (MSVC) CI
+- ASan and UBSan builds
+
+### Current limitations
+- Synchronous maintenance under one engine mutex
+- No snapshots, transactions, or range API
+- SSTable v1 index limited to one 4 KiB block
+- Experimental file format; no compatibility guarantee
+- No stable Mac (Clang) CI
+- Enough repeated manifest edits can expose a payload-size mismatch
 
 ---
 

@@ -175,6 +175,65 @@ and should report the storage device and filesystem. Do not label the first run
 "cold" merely because it is first: creating or copying the fixture has already
 warmed it.
 
+## Benchmark results on test machine
+
+These results were produced by an optimized build with `NDEBUG` defined.
+
+### Characteristics
+CPU: AMD Ryzen 5 5600H, 6 cores, 12 threads, 3.3 GHz base, 4.2 GHz boost 
+
+Memory: 16 GB DDR4, 3200 MHz
+
+Storage: Micron 2300 NVMe SSD, 512 GB, PCIe Gen3 x4 (protocol NVMe 1.3)
+
+OS: Windows 11 Pro , 64-bit, version 25H2, build 26200.8875, NTFS
+
+Compiler: MSVC 19.51.36252 for x86
+
+Build: Release, -O3 -DNDEBUG
+
+KVDB: v0.1.0, commit acabae2
+
+
+### Isolated WAL recovery
+
+Source: `results/wal_benchmark.csv`. The benchmark used two warmup iterations
+and seven measured iterations with a warm cache.
+
+| Scenario | Records | Key bytes | Value bytes | WAL MiB | Min ms | Median ms | p95 ms | p99 ms | Max ms | Mean ms | Stddev ms | Records/s | MiB/s | ns/record | Arena used MiB | Arena reserved MiB |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| small | 50,000 | 16 | 100 | 6.976 | 895.219 | 943.728 | 1,101.378 | 1,142.818 | 1,153.177 | 966.897 | 80.782 | 52,981.379 | 7.392 | 18,874.556 | 5.531 | 5.938 |
+| medium | 10,000 | 16 | 1,024 | 10.259 | 227.210 | 234.744 | 258.035 | 258.729 | 258.903 | 240.521 | 11.381 | 42,599.670 | 43.702 | 23,474.360 | 9.918 | 9.938 |
+| fragmented | 1,000 | 16 | 16,384 | 15.753 | 106.873 | 116.347 | 122.244 | 123.946 | 124.371 | 114.861 | 5.674 | 8,595.001 | 135.401 | 116,346.700 | 15.640 | 15.688 |
+
+### End-to-end engine recovery
+
+Source: `results/engine_benchmark.csv`. The benchmark used two warmup
+iterations and seven measured iterations. Each timed run used a fresh fixture
+copy with a warm cache; fixture copying was not timed.
+
+| Scenario | Records | Key bytes | Value bytes | WAL MiB | Min ms | Median ms | p95 ms | p99 ms | Max ms | Mean ms | Stddev ms | Records/s | MiB/s | ns/record |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| small | 50,000 | 16 | 100 | 6.976 | 3,682.971 | 3,739.077 | 3,767.076 | 3,772.480 | 3,773.831 | 3,731.673 | 28.737 | 13,372.283 | 1.866 | 74,781.546 |
+| medium | 10,000 | 16 | 1,024 | 10.259 | 976.588 | 993.639 | 1,002.559 | 1,004.389 | 1,004.847 | 992.608 | 8.206 | 10,064.014 | 10.325 | 99,363.930 |
+| fragmented | 1,000 | 16 | 16,384 | 15.753 | 455.656 | 474.313 | 479.965 | 480.262 | 480.336 | 471.709 | 8.923 | 2,108.314 | 33.213 | 474,312.600 |
+
+### Operation workloads
+
+Source: `results/workload_benchmark.csv`. The benchmark used 10,000 operations,
+200 dataset records, 200 maintenance operations, 16-byte keys, 256-byte values,
+seed `1263944770`, and 15 recovery iterations.
+
+| Workload | Dataset records | Operations | Operations/s | p50 us | p95 us | p99 us | Bytes written | Flushes | Compactions |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| sequential_insert | 10,000 | 10,000 | 7,756.458 | 112.400 | 227.110 | 336.201 | 3,034,174 | 0 | 0 |
+| random_insert | 10,000 | 10,000 | 6,471.494 | 147.900 | 260.700 | 387.201 | 3,034,174 | 0 | 0 |
+| random_read | 200 | 10,000 | 39,667.397 | 19.000 | 58.605 | 92.101 | 0 | 0 | 0 |
+| missing_read | 200 | 10,000 | 1,420,293.149 | 0.700 | 0.800 | 1.100 | 0 | 0 | 0 |
+| mixed_95_5 | 200 | 10,000 | 54,914.731 | 13.400 | 71.610 | 85.803 | 151,814 | 0 | 0 |
+| wal_recovery | 10,000 | 15 | 1.113 | 820,898.100 | 1,236,071.950 | 1,266,243.910 | 45,513,750 | 0 | 0 |
+| flush_compaction | 200 | 200 | 1,426.900 | 66.800 | 266.475 | 25,348.825 | 404,101 | 6 | 3 |
+
 ## Getting useful numbers
 
 1. Use the same Release compiler, flags, machine, filesystem, and power mode for
