@@ -190,7 +190,7 @@ OS: Windows 11 Pro , 64-bit, version 25H2, build 26200.8875, NTFS
 
 Compiler: MSVC 19.51.36252 for x86
 
-Build: Release, -O3 -DNDEBUG
+Build: CMake Release, /O2 /DNDEBUG
 
 KVDB: v0.1.0, commit acabae2
 
