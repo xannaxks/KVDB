@@ -66,21 +66,7 @@ private:
     ::Status bst_insert(Node* v);
     void destroy(Node* node);
 
-    template<typename Collection>
-    void inorder_traverse(Collection& collect) const
-    {
-        std::function<void(const Node*)> traverse = [&](const Node* current)
-        {
-            if (current == nullptr)
-                return;
-
-            traverse(current->left);
-            collect.emplace_back(current); 
-            traverse(current->right);
-        };
-
-        traverse(root);
-    }
+    void inorder_traverse(std::vector<Node*>& collect) const;
 
 public:
     RBTree();

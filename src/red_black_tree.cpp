@@ -224,6 +224,22 @@ size_t RBTree::approximate_subtree_memory_usage(Node* node) const
     return approximate_subtree_memory_usage(node->left) + approximate_subtree_memory_usage(node->right) + node->approximate_memory_usage();
 }
 
+void RBTree::inorder_traverse(std::vector<Node*>& collect) const
+{
+    std::function<void(const Node*)> traverse = [&](const Node* current)
+        {
+            if (current == nullptr)
+                return;
+
+            traverse(current->left);
+            collect.emplace_back(current);
+            traverse(current->right);
+        };
+
+    traverse(root);
+}
+
+
 size_t RBTree::approximate_memory_usage() const
 {
     return approximate_subtree_memory_usage(root);
