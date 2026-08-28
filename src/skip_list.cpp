@@ -94,6 +94,19 @@ Result<std::optional<InternalRecord>> SkipList::find_latest_by_key(ArenaEntry ke
 	return Result<std::optional<InternalRecord>>::ok(InternalRecord(current->key_entry, current->value_entry, current->type, current->seq_number));
 }
 
+void SkipList::inorder_traverse(std::vector<const Node*>& collect) const
+{
+	for (std::int32_t level = current_level - 1; level >= 0; level--)
+	{
+		Node* current = head->next[level];
+		while (current)
+		{
+			collect.emplace_back(current);
+			current = current->next[level];
+		}
+	}
+}
+
 void SkipList::destroy()
 {
 	Node* current = head;
@@ -119,51 +132,6 @@ std::uint32_t SkipList::random_height()
 		height++;
 	}
 	return height;
-}
-
-bool SkipList::Node::operator<(const Node& other) const
-{
-	if (this->key_entry == other.key_entry)
-		return this->seq_number > other.seq_number; // For the same keys, the one with higher seq_number is considered "less" to ensure it comes first in the search
-	return this->key_entry < other.key_entry;
-}
-bool SkipList::Node::operator>(const SkipList::Node& other) const
-{
-	return other < *this;
-}
-
-bool SkipList::Node::operator==(const SkipList::Node& other) const
-{
-	//return this->key_entry == other.key_entry && this->seq_number == other.seq_number && this->value_entry == other.value_entry;
-	//return this->key_entry == other.key_entry && this->seq_number == other.seq_number && this->value_entry == other.value_entry;
-	   // Comparator equivalence and duplicate identity are key + sequence.
-		  // Value and type are payload and must not change node identity.
-	return this->key_entry == other.key_entry &&
-		this->seq_number == other.seq_number;
-}
-
-bool SkipList::Node::operator<(const ::InternalRecord& other) const
-{
-	if (this->key_entry == other.key_entry)
-		return this->seq_number > other.seq_num; // For the same keys, the one with higher seq_number is considered "less" to ensure it comes first in the search
-	return this->key_entry < other.key_entry;
-}
-
-bool SkipList::Node::operator>(const ::InternalRecord& other) const
-{
-	if(this->key_entry == other.key_entry)
-		return this->seq_number < other.seq_num; // For the same keys, the one with higher seq_number is considered "less" to ensure it comes first in the search
-	return  this->key_entry > other.key_entry;
-}
-
-bool SkipList::Node::operator==(const ::InternalRecord& other) const
-{
-	//return this->key_entry == other.key_entry && this->seq_number == other.seq_num && this->value_entry == other.value_entry;
-	//return this->key_entry == other.key_entry && this->seq_number == other.seq_num && this->value_entry == other.value_entry;
-	   // Comparator equivalence and duplicate identity are key + sequence.
-		  // Value and type are payload and must not change node identity.
-	return this->key_entry == other.key_entry &&
-		this->seq_number == other.seq_num;
 }
 
 std::size_t SkipList::Node::approximate_memory_usage() const

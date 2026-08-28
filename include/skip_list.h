@@ -12,6 +12,7 @@
 #include <stack>
 #include <functional>
 #include "type.h"
+#include "driver.h"
 #include "record.h"
 #include <random>
 #include "arena.h"
@@ -30,31 +31,20 @@ class MemTable;
  * @todo Implement abstract class for underlying MemTable driver, allowing for pluggable backends (e.g., RBTree, SkipList, etc.).
  *		 All the drivers/backend should implement the same interface, so that MemTable can use any of them interchangeably.
  */
-class SkipList
+class SkipList : public Driver
 {
 public:
-	struct Node
+	struct Node : public ::VirtualNode
 	{
-		ArenaEntry key_entry;
-		ArenaEntry value_entry;
-		const std::uint64_t seq_number;
-		::Type type;
 		std::vector<Node*> next; // next pointers for each level
 		std::uint32_t height;
 
 		Node(ArenaEntry key, ArenaEntry value, std::uint64_t seq, ::Type t, std::uint32_t height)
-			: key_entry(key), value_entry(value), seq_number(seq), type(t), next(height, nullptr), height(height)
+			: ::VirtualNode(key, value, t, seq), next(height, nullptr), height(height)
 		{
 		}
-
-		bool operator<(const Node& other) const;
-		bool operator>(const Node& other) const;
-		bool operator==(const Node& other) const;
-		bool operator<(const ::InternalRecord& other) const;
-		bool operator>(const ::InternalRecord& other) const;
-		bool operator==(const ::InternalRecord& other) const;
 		
-		std::size_t approximate_memory_usage() const;
+		std::size_t approximate_memory_usage() const override;
 	};
 
 private:
@@ -75,32 +65,17 @@ private:
 
 	void destroy();
 
-	template<typename Collection>
-	void inorder_traverse(Collection& collect) const
-	{
-		for (std::int32_t level = current_level - 1; level >= 0; level --)
-		{
-			Node* current = head->next[level];
-			while (current)
-			{
-				collect.emplace_back(current);
-				current = current->next[level];
-			}
-		}
-	}
+	void inorder_traverse(std::vector<const Node*>& collect) const;
 
 	/** @brief Dumps all records at a specific level in internal-key order. */
 	void dump_level_inorder(std::vector<InternalRecord>& out, int level) const;
 
 public:
 	SkipList();
-	~SkipList();
-
-	SkipList(const SkipList&) = delete;
-	SkipList& operator=(const SkipList&) = delete;
+	~SkipList() override;
 
 	/** @brief Non-owning iterator over records in internal-key order. */
-	class InorderIterator
+	class InorderIterator : public ::VirtualInorderIterator
 	{
 	private:
 		Node* current;
@@ -108,25 +83,25 @@ public:
 	public:
 	    InorderIterator(Node* head);
 	
-	    bool has_next();
-	    Node* next();
+	    bool has_next() override;
+	    Node* next() override;
 	};
 
 	/**
 	* @brief Inserts one versioned record and restores red-black invariants.
 	* @callgraph
 	*/
-	::Status insert(const InternalRecord& entry);
+	::Status insert(const InternalRecord& entry) override;
 
 	/** @brief Returns the highest-sequence record for @p key, if present. */
-	Result<std::optional<InternalRecord>> find_latest_by_key(ArenaEntry key) const;
+	Result<std::optional<InternalRecord>> find_latest_by_key(ArenaEntry key) const override;
 
-	bool validate() const;
-	std::size_t approximate_memory_usage() const;
-    bool empty() const noexcept;
+	bool validate() const override;
+	std::size_t approximate_memory_usage() const override;
+    bool empty() const noexcept override;
 
 	/** @brief Appends all records to @p out in internal-key order. */
-	void dump_inorder(std::vector<InternalRecord>& out) const;
+	void dump_inorder(std::vector<InternalRecord>& out) const override;
 
 	friend class MemTable;
 };

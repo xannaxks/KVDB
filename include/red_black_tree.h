@@ -14,6 +14,7 @@
 #include "type.h"
 #include "record.h"
 #include "arena.h"
+#include "driver.h"
 
 class MemTable;
 
@@ -26,12 +27,12 @@ class MemTable;
  *
  * @note Nodes reference ArenaEntry storage but do not own those bytes.
  */
-class RBTree
+class RBTree : public Driver
 {
 public:
     //inline static uint64_t seq_cnt = 1;
 
-    struct Node
+    struct Node : public ::VirtualNode
     {
         enum class Color
         {
@@ -39,22 +40,14 @@ public:
             Black
         };
 
-        ArenaEntry key_entry;
-        ArenaEntry value_entry;
-        const uint64_t seq_number;
-        Type type;
         Color color;
         Node* left;
         Node* right;
         Node* parent;
 
         Node(ArenaEntry key_entry, ArenaEntry value_entry, Type type, uint64_t seq_num);
-
-        bool operator<(const Node& other) const;
-        bool operator>(const Node& other) const;
-        bool operator==(const Node& other) const;
-
-        size_t approximate_memory_usage() const;
+    
+        std::size_t approximate_memory_usage() const override;
     };
 
 private:
@@ -70,13 +63,10 @@ private:
 
 public:
     RBTree();
-    ~RBTree();
-
-    RBTree(const RBTree&) = delete;
-    RBTree& operator=(const RBTree&) = delete;
+    ~RBTree() override;
 
     /** @brief Non-owning iterator over records in internal-key order. */
-    class InorderIterator
+	class InorderIterator : public ::VirtualInorderIterator
     {
     private:
         std::stack<Node*> st;
@@ -86,17 +76,17 @@ public:
     public:
         InorderIterator(Node* root);
 
-        bool has_next();
-        Node* next();
+        bool has_next() override;
+        Node* next() override;
     };
 
     /**
      * @brief Inserts one versioned record and restores red-black invariants.
      * @callgraph
      */
-    ::Status insert(const InternalRecord& entry);
+    ::Status insert(const InternalRecord& entry) override;
     /** @brief Returns the highest-sequence record for @p key, if present. */
-    Result<std::optional<InternalRecord>> find_latest_by_key(ArenaEntry key) const;
+    Result<std::optional<InternalRecord>> find_latest_by_key(ArenaEntry key) const override;
     //[[nodiscard]] std::optional<InternalRecord> try_find_latest_by_key(
     //    const ArenaEntry & key
     //) const;
@@ -107,15 +97,15 @@ public:
     bool black_height_is_consistent() const;
     std::pair<bool,int> subtree_black_height_info(Node* v) const;
     /** @brief Checks ordering, parent links, colors, and black-height invariants. */
-    bool validate() const;
+    bool validate() const override;
     bool subtree_has_no_red_node_with_red_child(Node* node) const;
     size_t approximate_subtree_memory_usage(Node* node) const;
-    size_t approximate_memory_usage() const;
-    bool empty() const noexcept;
+    size_t approximate_memory_usage() const override;
+    bool empty() const noexcept override;
 
     Node* root_getter();
     /** @brief Appends all records to @p out in internal-key order. */
-    void dump_inorder(std::vector<InternalRecord>& out) const; 
+    void dump_inorder(std::vector<InternalRecord>& out) const override; 
 
     static bool expect_parent_links_valid(RBTree::Node* node, RBTree::Node* expected_parent);
 

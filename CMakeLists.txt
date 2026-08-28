@@ -396,6 +396,15 @@ kvdb_add_component(record
         kvdb_status
 )
 
+kvdb_add_component(driver
+    SOURCES
+        src/driver.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_record
+        kvdb_status
+)
+
 kvdb_add_component(red_black_tree
     SOURCES
         src/red_black_tree.cpp
@@ -403,6 +412,7 @@ kvdb_add_component(red_black_tree
         kvdb_arena
         kvdb_record
         kvdb_status
+        kvdb_driver
 )
 
 kvdb_add_component(skip_list
@@ -412,6 +422,7 @@ kvdb_add_component(skip_list
         kvdb_arena
         kvdb_record
         kvdb_status
+        kvdb_driver
 )
 
 kvdb_add_component(file_header_section

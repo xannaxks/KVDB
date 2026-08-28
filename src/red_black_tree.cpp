@@ -20,10 +20,7 @@
 //}
 
 RBTree::Node::Node(ArenaEntry key, ArenaEntry value, Type record_type, uint64_t sequence_number)
-    : key_entry(key),
-    value_entry(value),
-    seq_number(sequence_number),
-    type(record_type),
+    : VirtualNode(key, value, record_type, sequence_number),
     color(Color::Red),
     left(nullptr),
     right(nullptr),
@@ -31,28 +28,8 @@ RBTree::Node::Node(ArenaEntry key, ArenaEntry value, Type record_type, uint64_t 
 {
 }
 
-bool RBTree::Node::operator<(const Node& other) const
-{
-    if (this->key_entry == other.key_entry)
-        return this->seq_number > other.seq_number; // For the same keys, the one with higher seq_number is considered "less" to ensure it comes first in the search
-    return this->key_entry < other.key_entry;
-}
-bool RBTree::Node::operator>(const Node& other) const
-{
-    return other < *this;
-}
 
-bool RBTree::Node::operator==(const Node& other) const
-{
-    //return this->key_entry == other.key_entry && this->seq_number == other.seq_number && this->value_entry == other.value_entry;
-    //return this->key_entry == other.key_entry && this->seq_number == other.seq_number && this->value_entry == other.value_entry;
-       // Comparator equivalence and duplicate identity are key + sequence.
-          // Value and type are payload and must not change node identity.
-        return this->key_entry == other.key_entry &&
-        this->seq_number == other.seq_number;
-}
-
-size_t RBTree::Node::approximate_memory_usage() const
+std::size_t RBTree::Node::approximate_memory_usage() const
 {
     return sizeof(Node) + this->key_entry.size + this->value_entry.size;
 }
@@ -244,7 +221,8 @@ size_t RBTree::approximate_memory_usage() const
 }
 
 RBTree::RBTree()
-    : root(nullptr) {
+    : root(nullptr)
+{
 }
 
 RBTree::~RBTree()
