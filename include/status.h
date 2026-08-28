@@ -85,7 +85,9 @@ enum class StatusCode : std::uint8_t {
     OffsetOutOfRange, ///< offset points over eof.
     OffsetOverlap, ///< offset overlap
     UnexpectedEOF, ///< unexpected end of file, not necessarily fatal.
-    BadFileDescriptor ///< bad file descriptor, might mean that file alrady closed.
+    BadFileDescriptor, ///< bad file descriptor, might mean that file alrady closed.
+
+	InsertionFailed, ///< insertion failed, might be due to memory allocation failure or other reasons.
 };
 
 /**
