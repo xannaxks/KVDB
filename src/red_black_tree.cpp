@@ -257,6 +257,10 @@ Status RBTree::insert(const InternalRecord& entry)
     {
         return Status{ StatusCode::OutOfMemory, "Failed to allocate memory for new node" };
     }
+    catch(...)
+    {
+        return Status{ StatusCode::InsertionFailed, "An unknown error occurred" };
+    }
 }
 
 Result<std::optional<InternalRecord>> RBTree::find_latest_by_key(ArenaEntry key) const
