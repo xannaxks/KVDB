@@ -39,18 +39,22 @@ public:
 		ArenaEntry value_entry;
 		const std::uint64_t seq_number;
 		::Type type;
-		std::vector<std::unique_ptr<Node>> forward; // Forward pointers for each level
+		std::vector<Node*> next; // next pointers for each level
+		std::uint32_t height;
 
-		Node(ArenaEntry key, ArenaEntry value, std::uint64_t seq, ::Type t)
-			: key_entry(key), value_entry(value), seq_number(seq), type(t), forward(MAX_LEVEL, nullptr)
+		Node(ArenaEntry key, ArenaEntry value, std::uint64_t seq, ::Type t, std::uint32_t height)
+			: key_entry(key), value_entry(value), seq_number(seq), type(t), next(height, nullptr), height(height)
 		{
 		}
 
 		bool operator<(const Node& other) const;
 		bool operator>(const Node& other) const;
 		bool operator==(const Node& other) const;
+		bool operator<(const ::InternalRecord& other) const;
+		bool operator>(const ::InternalRecord& other) const;
+		bool operator==(const ::InternalRecord& other) const;
 		
-		size_t approximate_memory_usage() const;
+		std::size_t approximate_memory_usage() const;
 	};
 
 private:
@@ -61,7 +65,7 @@ private:
 	static constexpr std::uint32_t MAX_LEVEL = 20;
 	static constexpr double PROBABILITY = 0.5; // Probability for promoting a node to the next level
 
-	std::unique_ptr<Node> head{ nullptr };
+	Node* head{ nullptr };
 	std::uint32_t current_level = 1;
 
 	std::mt19937 rng{ std::random_device{}() };
@@ -74,11 +78,15 @@ private:
 	template<typename Collection>
 	void inorder_traverse(Collection& collect) const
 	{
-	    std::function<void(const Node*)> traverse = [&](const Node* current)
-	        {
-	        };
-	
-	    traverse(root);
+		for (std::int32_t level = current_level - 1; level >= 0; level --)
+		{
+			Node* current = head->next[level];
+			while (current)
+			{
+				collect.emplace_back(current);
+				current = current->next[level];
+			}
+		}
 	}
 
 	/** @brief Dumps all records at a specific level in internal-key order. */
@@ -95,12 +103,10 @@ public:
 	class InorderIterator
 	{
 	private:
-	    //std::stack<Node*> st;
-	
-	    //void push_left(Node* node);
+		Node* current;
 	
 	public:
-	    InorderIterator(Node* root);
+	    InorderIterator(Node* head);
 	
 	    bool has_next();
 	    Node* next();
@@ -116,8 +122,7 @@ public:
 	Result<std::optional<InternalRecord>> find_latest_by_key(ArenaEntry key) const;
 
 	bool validate() const;
-    size_t approximate_level_memory_usage(Node* node) const;
-	size_t approximate_memory_usage() const;
+	std::size_t approximate_memory_usage() const;
     bool empty() const noexcept;
 
 	/** @brief Appends all records to @p out in internal-key order. */
