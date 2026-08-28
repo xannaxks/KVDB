@@ -405,6 +405,15 @@ kvdb_add_component(red_black_tree
         kvdb_status
 )
 
+kvdb_add_component(skip_list
+    SOURCES
+        src/skip_list.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_record
+        kvdb_status
+)
+
 kvdb_add_component(file_header_section
     SOURCES
         src/sstable_entities/file_header_section.cpp
