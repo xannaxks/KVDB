@@ -66,7 +66,7 @@ private:
     ::Status bst_insert(Node* v);
     void destroy(Node* node);
 
-    void inorder_traverse(std::vector<Node*>& collect) const;
+    void inorder_traverse(std::vector<const Node*>& collect) const;
 
 public:
     RBTree();
