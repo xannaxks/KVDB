@@ -12,15 +12,15 @@ jobs:
     name: ${{ matrix.os }} / ${{ matrix.build_type }}
     runs-on: ${{ matrix.os }}
 
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
     strategy:
       matrix:
-        os:
-          - ubuntu-latest
-          # - windows-latest
-          # - macos-latest
-
-        build_type:
-          - Release
+        os: [ubuntu-latest]
+        build_type: [Release]
 
     steps:
       - name: Checkout
@@ -30,6 +30,7 @@ jobs:
         uses: github/codeql-action/init@v3
         with:
           languages: cpp
+          build-mode: manual
 
       - name: Configure
         run: cmake -S . -B build -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
