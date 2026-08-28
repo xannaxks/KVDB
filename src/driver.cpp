@@ -45,7 +45,7 @@ bool ::VirtualNode::operator==(const ::InternalRecord& other) const
 		this->seq_number == other.seq_num;
 }
 
-std::size_t ::VirtualNode::approximate_memory_usage() const
+std::size_t VirtualNode::approximate_memory_usage() const
 {
     return sizeof(::VirtualNode) + this->key_entry.size + this->value_entry.size;
 }
