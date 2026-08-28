@@ -53,6 +53,11 @@ Result<ArenaEntry> ArenaEntry::make_entry(
     );
 }
 
+std::size_t ArenaEntry::approximate_memory_usage() const noexcept
+{
+	return sizeof(ArenaEntry) + size;
+}
+
 std::string ArenaEntry::generate_random_key(
     const std::string& prefix,
     std::size_t length,

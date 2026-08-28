@@ -62,6 +62,8 @@ struct ArenaEntry
     ArenaEntry(ArenaEntry&& other) noexcept;
     ArenaEntry& operator=(ArenaEntry&& other) noexcept;
 
+	std::size_t approximate_memory_usage() const noexcept;
+
     static std::string generate_random_key(
         const std::string& prefix,
         std::size_t length = 100,
