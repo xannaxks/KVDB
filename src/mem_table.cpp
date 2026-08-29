@@ -10,8 +10,10 @@
 #include <optional>
 #include <utility>
 
-MemTable::MemTable()
-    : mutable_table_(std::make_shared<RBTree>())
+MemTable::MemTable(DriverFactory driver_factory)
+    : driver_factory(std::move(driver_factory)),
+	mutable_table_(this->driver_factory()),
+    next_generation_id_(1)
 {
 }
 
@@ -85,13 +87,13 @@ Result<std::optional<InternalRecord>> MemTable::get(const ArenaEntry& key) const
 
 Status MemTable::freeze_mutable()
 {
-    std::shared_ptr<RBTree> replacement;
+    std::shared_ptr<Driver> replacement;
 
     try
     {
         // Allocate before taking the lock. If allocation fails, the active
         // table and immutable queue are unchanged.
-        replacement = std::make_shared<RBTree>();
+        replacement = this->driver_factory();
     }
     catch (const std::bad_alloc&)
     {
@@ -110,7 +112,7 @@ Status MemTable::freeze_mutable()
     {
         immutable_tables_.push_back(ImmutableTable{
             next_generation_id_,
-            std::shared_ptr<const RBTree>(mutable_table_)
+            std::shared_ptr<const Driver>(mutable_table_)
             });
     }
     catch (const std::bad_alloc&)

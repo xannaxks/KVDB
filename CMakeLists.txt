@@ -145,7 +145,27 @@ elseif(KVDB_ENABLE_ASAN OR KVDB_ENABLE_UBSAN OR KVDB_ENABLE_TSAN)
         "Sanitizers requested, but compiler '${CMAKE_CXX_COMPILER_ID}' "
         "is not supported by this CMake configuration."
     )
+
 endif()
+
+# ==============================================================================
+# MemTable driver
+# ==============================================================================
+
+set(KVDB_DRIVER "RBTREE" CACHE STRING "MemTable driver")
+set_property(CACHE KVDB_DRIVER PROPERTY STRINGS RBTREE SKIPLIST)
+
+if(NOT KVDB_DRIVER MATCHES "^(RBTREE|SKIPLIST)$")
+    message(FATAL_ERROR
+        "Invalid KVDB_DRIVER='${KVDB_DRIVER}'. "
+        "Expected RBTREE or SKIPLIST."
+    )
+endif()
+
+target_compile_definitions(kvdb_build_options INTERFACE
+    KVDB_DRIVER_${KVDB_DRIVER}
+)
+
 
 # ==============================================================================
 # LTO / IPO
@@ -292,6 +312,7 @@ function(kvdb_add_component component_name)
     kvdb_configure_target("${target_name}")
 
     set_property(GLOBAL APPEND PROPERTY KVDB_COMPONENT_TARGETS "${target_name}")
+    set(CMAKE)
 endfunction()
 
 # ==============================================================================
@@ -624,6 +645,10 @@ kvdb_add_component(mem_table
         kvdb_file
         kvdb_file_helpers
         kvdb_arena
+        kvdb_driver
+        kvdb_db_options
+        kvdb_skip_list
+        kvdb_red_black_tree
 )
 
 kvdb_add_component(engine
@@ -642,6 +667,8 @@ kvdb_add_component(engine
         kvdb_compaction_options
         kvdb_compaction_job
         kvdb_compaction_scheduler
+        kvdb_red_black_tree
+        kvdb_skip_list
 )
 
 kvdb_add_component(compaction_options

@@ -11,7 +11,6 @@
 #include "manifest.h"
 #include "sstable_manager.h"
 #include "status.h"
-
 /**
  * @brief Merges selected SSTables into replacement tables.
  *

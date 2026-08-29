@@ -40,7 +40,7 @@ SkipList::SkipList()
 
 	if (height > this->current_level)
 	{
-		for (std::int32_t level = this->current_level; level < height; level++)
+		for (std::uint32_t level = this->current_level; level < height; level++)
 			update[level] = head;
 	}
 	try
@@ -56,7 +56,7 @@ SkipList::SkipList()
 			); // used smart pointer to manage memory and avoid leaks. memory gets released when exception is thrown. if no exception is thrown, we release the pointer and use it as raw pointer.
 		new_node = new_node_owner.get();
 
-		for (int level = 0; level < height; level++)
+		for(std::uint32_t level = 0; level < height; level++)
 		{
 			new_node->next[level] = update[level]->next[level];
 			update[level]->next[level] = new_node;
@@ -66,6 +66,8 @@ SkipList::SkipList()
 			current_level = height;
 
 		new_node_owner.release();
+		
+		return ::Status::ok();
 	}catch(const std::bad_alloc& )
 	{
 		return ::Status{StatusCode::BadAlloc, "Failed to allocate memory for new node"};

@@ -12,9 +12,12 @@
 #include <algorithm>
 #include <format>
 #include <limits>
+#include <memory>
 #include <system_error>
 #include <utility>
 #include <vector>
+#include "red_black_tree.h"
+#include "skip_list.h"
 
 namespace
 {
@@ -405,7 +408,13 @@ Status Engine::open()
         level_manager_ = std::make_unique<LevelManager>(
             options_.compaction.max_levels
         );
-        mem_table_ = std::make_unique<MemTable>();
+        mem_table_ =
+            std::make_unique<MemTable>(
+                []() -> std::shared_ptr<Driver>
+                {
+                    return std::make_shared<MemTableDriver>();
+                }
+            );
         compaction_scheduler_ =
             std::make_unique<CompactionScheduler>();
         sstable_manager_ =

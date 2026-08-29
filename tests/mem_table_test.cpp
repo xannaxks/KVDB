@@ -5,19 +5,28 @@
 #include <string>
 #include <thread>
 #include <utility>
+#include <memory>
 #include <vector>
 
+#include "db_options.h"
 #include "arena.h"
 #include "mem_table.h"
+#include "red_black_tree.h"
+#include "skip_list.h"
 
 namespace
 {
-
+    
     class MemTableTest : public ::testing::Test
     {
     protected:
         Arena arena_;
         MemTable table_;
+        MemTableTest() : table_([]() -> std::shared_ptr<Driver> {
+            return std::make_shared<MemTableDriver>();
+            }) {
+        }
+
 
         ArenaEntry make_entry(const std::string& text)
         {

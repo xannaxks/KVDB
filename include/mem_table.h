@@ -10,8 +10,13 @@
 #include <memory>
 #include <shared_mutex>
 #include <vector>
+#include <functional>
 
-#include "red_black_tree.h"
+#include "driver.h"
+
+
+// @brief Factory function type for creating new Driver instances.
+using DriverFactory = std::function<std::shared_ptr<Driver>()>;
 
 /**
  * @brief Thread-safe owner of the active RBTree and its immutable generations.
@@ -31,10 +36,11 @@ public:
     struct ImmutableSnapshot
     {
         std::uint64_t generation_id = 0;
-        std::shared_ptr<const RBTree> table;
+        std::shared_ptr<const Driver> table;
     };
 
-    MemTable();
+    MemTable() = default;
+    MemTable(DriverFactory driver_factory);
     ~MemTable() = default;
 
     MemTable(const MemTable&) = delete;
@@ -110,11 +116,13 @@ private:
     struct ImmutableTable
     {
         std::uint64_t generation_id = 0;
-        std::shared_ptr<const RBTree> table;
+        std::shared_ptr<const Driver> table;
     };
 
+    DriverFactory driver_factory;
+
     mutable std::shared_mutex mutex_;
-    std::shared_ptr<RBTree> mutable_table_;
+    std::shared_ptr<Driver> mutable_table_;
     std::deque<ImmutableTable> immutable_tables_;
     std::uint64_t next_generation_id_ = 1;
 };

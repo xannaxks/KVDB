@@ -11,6 +11,17 @@
 #include <filesystem>
 #include <vector>
 
+class RBTree;
+class SkipList;
+
+#if defined(KVDB_DRIVER_RBTREE)
+using MemTableDriver = RBTree;
+#elif defined(KVDB_DRIVER_SKIPLIST)
+using MemTableDriver = SkipList;
+#else
+#error "No Memtable driver defined. Please define either RBTree or SkipList." 
+#endif
+
 namespace kvdb {
 
     /**
