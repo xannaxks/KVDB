@@ -1,4 +1,4 @@
-name: CMake CI
+name: Treap Driver CI
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: CMake CI
+name: SkipList Driver CI
 
 on:
   push:
