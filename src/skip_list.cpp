@@ -202,8 +202,9 @@ std::size_t SkipList::approximate_memory_usage() const
 
 	while (current)
 	{
-		total_size += current->approximate_memory_usage();
 		current = current->next[0];
+		if (!current) break;
+		total_size += current->approximate_memory_usage();
 	}
 	return total_size;
 }
