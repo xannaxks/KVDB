@@ -14,6 +14,7 @@
 #include "status.h"
 #include "red_black_tree.h"
 #include "skip_list.h"
+#include "treap.h"
 #include "arena.h"
 #include "db_options.h"
 #include "compaction_scheduler.h"

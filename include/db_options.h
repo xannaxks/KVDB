@@ -13,11 +13,14 @@
 
 class RBTree;
 class SkipList;
+class Treap;
 
 #if defined(KVDB_DRIVER_RBTREE)
 using MemTableDriver = RBTree;
 #elif defined(KVDB_DRIVER_SKIPLIST)
 using MemTableDriver = SkipList;
+#elif defined(KVDB_DRIVER_TREAP)
+using MemTableDriver = Treap;
 #else
 #error "No Memtable driver defined. Please define either RBTree or SkipList." 
 #endif
