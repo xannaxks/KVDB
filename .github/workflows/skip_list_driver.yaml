@@ -50,6 +50,7 @@ jobs:
           -DKVDB_ENABLE_TESTS=ON
           -DKVDB_ENABLE_ASAN=OFF
           -DKVDB_ENABLE_UBSAN=OFF
+          -DKVDB_DRIVER=SKIPLIST
 
       - name: Build
         run: >
@@ -95,6 +96,7 @@ jobs:
           -DKVDB_ENABLE_TESTS=ON
           -DKVDB_ENABLE_ASAN=ON
           -DKVDB_ENABLE_UBSAN=ON
+          -DKVDB_DRIVER=SKIPLIST
 
       - name: Build
         run: >
