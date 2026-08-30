@@ -7,18 +7,6 @@
 #include <cassert>
 #include <format>
 
-//RBTree::Node::Node(const Bytes& key, const Bytes& value, Type type)
-//    : key(key),
-//    seq_number(RBTree::seq_cnt),
-//    value(value),
-//    type(type),
-//    color(Color::Red),
-//    left(nullptr),
-//    right(nullptr),
-//    parent(nullptr)
-//{
-//}
-
 RBTree::Node::Node(ArenaEntry key, ArenaEntry value, Type record_type, uint64_t sequence_number)
     : VirtualNode(key, value, record_type, sequence_number),
     color(Color::Red),
@@ -194,7 +182,7 @@ void RBTree::destroy(Node* node)
     delete node;
 }
 
-size_t RBTree::approximate_subtree_memory_usage(Node* node) const
+std::size_t RBTree::approximate_subtree_memory_usage(Node* node) const
 {
     if (node == nullptr)
         return 0;
@@ -215,7 +203,7 @@ void RBTree::inorder_traverse(std::vector<const Node*>& collect) const
 
     traverse(root);
 }
-size_t RBTree::approximate_memory_usage() const
+std::size_t RBTree::approximate_memory_usage() const
 {
     return approximate_subtree_memory_usage(root);
 }
@@ -287,9 +275,9 @@ bool RBTree::validate() const
         RBTree::root_is_black() &&
         RBTree::no_red_node_has_red_child() &&
         RBTree::bst_ordering_correct() &&
-        +RBTree::subtree_black_height_info(root).first &&
-        +RBTree::expect_parent_links_valid(root, nullptr)
-        );
+        RBTree::subtree_black_height_info(root).first &&
+        RBTree::expect_parent_links_valid(root, nullptr)
+    );
 }
 
 bool RBTree::subtree_has_no_red_node_with_red_child(Node* node) const
@@ -385,7 +373,7 @@ RBTree::Node* RBTree::InorderIterator::next()
     return cur;
 }
 
-RBTree::Node* RBTree::root_getter()
+RBTree::Node* RBTree::root_getter() noexcept
 {
     return this->root;
 }

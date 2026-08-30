@@ -87,9 +87,6 @@ public:
     ::Status insert(const InternalRecord& entry) override;
     /** @brief Returns the highest-sequence record for @p key, if present. */
     Result<std::optional<InternalRecord>> find_latest_by_key(ArenaEntry key) const override;
-    //[[nodiscard]] std::optional<InternalRecord> try_find_latest_by_key(
-    //    const ArenaEntry & key
-    //) const;
 
     bool root_is_black() const;
     bool no_red_node_has_red_child() const;
@@ -103,7 +100,7 @@ public:
     size_t approximate_memory_usage() const override;
     bool empty() const noexcept override;
 
-    Node* root_getter();
+    Node* root_getter() noexcept;
     /** @brief Appends all records to @p out in internal-key order. */
     void dump_inorder(std::vector<InternalRecord>& out) const override; 
 
