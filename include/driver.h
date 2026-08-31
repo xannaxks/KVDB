@@ -52,6 +52,9 @@ public:
     virtual ::Status insert(const InternalRecord& entry) = 0;
 
     virtual Result<std::optional<InternalRecord>>
+        find_latest_by_key(ArenaEntry key) = 0;
+
+    virtual Result<std::optional<InternalRecord>>
         find_latest_by_key(ArenaEntry key) const = 0;
 
     virtual bool validate() const = 0;
