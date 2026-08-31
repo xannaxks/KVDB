@@ -94,6 +94,7 @@ public:
 	::Status insert(const InternalRecord& entry) override;
 
 	/** @brief Returns the highest-sequence record for @p key, if present. */
+	Result<std::optional<InternalRecord>> find_latest_by_key(ArenaEntry key) override;
 	Result<std::optional<InternalRecord>> find_latest_by_key(ArenaEntry key) const override;
 
 	bool validate() const override;

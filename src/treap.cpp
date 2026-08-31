@@ -186,6 +186,31 @@ Status Treap::insert(const InternalRecord& entry)
     }
 }
 
+Result<std::optional<InternalRecord>> Treap::find_latest_by_key(ArenaEntry key)
+{
+    Node* current = root;
+    Node* result = nullptr;
+
+    while (current != nullptr)
+    {
+        if (current->key_entry < key)
+        {
+            current = current->right;
+        }
+        else
+        {
+            if (current->key_entry == key)
+                result = current;
+            current = current->left;
+        }
+    }
+
+    if (result == nullptr)
+        return Result<std::optional<InternalRecord>>::ok(std::nullopt);
+
+    return Result<std::optional<InternalRecord>>::ok(InternalRecord(result->key_entry, result->value_entry, result->type, result->seq_number));
+}
+
 Result<std::optional<InternalRecord>> Treap::find_latest_by_key(ArenaEntry key) const
 {
     Node* current = root;

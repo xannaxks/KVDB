@@ -78,6 +78,24 @@ SkipList::SkipList()
 
 }
 
+Result<std::optional<InternalRecord>> SkipList::find_latest_by_key(ArenaEntry key)
+{
+	Node* current = head;
+
+	for (std::int32_t level = current_level - 1; level >= 0; level--)
+	{
+		while (current->next[level] && current->next[level]->key_entry < key)
+			current = current->next[level];
+	}
+
+	current = current->next[0];
+
+	if (!current || current->key_entry != key)
+		return Result<std::optional<InternalRecord>>::ok(std::nullopt);
+
+	return Result<std::optional<InternalRecord>>::ok(InternalRecord(current->key_entry, current->value_entry, current->type, current->seq_number));
+}
+
 Result<std::optional<InternalRecord>> SkipList::find_latest_by_key(ArenaEntry key) const
 {
 	Node* current = head;
