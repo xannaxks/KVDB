@@ -153,12 +153,12 @@ endif()
 # ==============================================================================
 
 set(KVDB_DRIVER "RBTREE" CACHE STRING "MemTable driver")
-set_property(CACHE KVDB_DRIVER PROPERTY STRINGS RBTREE SKIPLIST TREAP)
+set_property(CACHE KVDB_DRIVER PROPERTY STRINGS RBTREE SKIPLIST TREAP SPLAYTREE)
 
-if(NOT KVDB_DRIVER MATCHES "^(RBTREE|SKIPLIST|TREAP)$")
+if(NOT KVDB_DRIVER MATCHES "^(RBTREE|SKIPLIST|TREAP|SPLAYTREE)$")
     message(FATAL_ERROR
         "Invalid KVDB_DRIVER='${KVDB_DRIVER}'. "
-        "Expected RBTREE, SKIPLIST OR TREAP."
+        "Expected RBTREE, SKIPLIST, TREAP or SPLAYTREE."
     )
 endif()
 
@@ -456,6 +456,16 @@ kvdb_add_component(treap
         kvdb_driver
 )
 
+kvdb_add_component(splay_tree
+    SOURCES
+        src/splay_tree.cpp
+    PUBLIC_DEPS
+        kvdb_arena
+        kvdb_record
+        kvdb_status
+        kvdb_driver
+)
+
 kvdb_add_component(file_header_section
     SOURCES
         src/sstable_entities/file_header_section.cpp
@@ -546,7 +556,10 @@ kvdb_add_component(sstable
         kvdb_crc32_helpers
         kvdb_file_helpers
         kvdb_arena
-        kvdb_red_black_tree
+       # kvdb_red_black_tree
+       # kvdb_skip_list
+       # kvdb_treap
+       # kvdb_splay_tree
         kvdb_endian_io
         kvdb_record
         kvdb_status
@@ -660,6 +673,7 @@ kvdb_add_component(mem_table
         kvdb_skip_list
         kvdb_red_black_tree
         kvdb_treap
+        kvdb_splay_tree
 )
 
 kvdb_add_component(engine
@@ -681,6 +695,7 @@ kvdb_add_component(engine
         kvdb_red_black_tree
         kvdb_skip_list
         kvdb_treap
+        kvdb_splay_tree
 )
 
 kvdb_add_component(compaction_options

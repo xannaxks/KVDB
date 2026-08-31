@@ -12,13 +12,15 @@
 #include "mem_table.h"
 #include "sstable_manager.h"
 #include "status.h"
-#include "red_black_tree.h"
-#include "skip_list.h"
-#include "treap.h"
 #include "arena.h"
 #include "db_options.h"
 #include "compaction_scheduler.h"
 #include "level_manager.h"
+
+#include "red_black_tree.h"
+#include "skip_list.h"
+#include "treap.h"
+#include "splay_tree.h"
 
 #include <memory>
 #include <optional>

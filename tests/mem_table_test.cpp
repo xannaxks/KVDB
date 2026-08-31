@@ -14,6 +14,7 @@
 #include "treap.h"
 #include "red_black_tree.h"
 #include "skip_list.h"
+#include "splay_tree.h"
 
 namespace
 {
