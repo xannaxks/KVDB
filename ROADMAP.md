@@ -124,9 +124,9 @@ Initial candidates:
 
 - [x] Red-Black Tree
 - [ ] AVL Tree
-- [ ] Skip List
-- [ ] Treap
-- [ ] Splay Tree
+- [x] Skip List
+- [x] Treap
+- [x] Splay Tree
 
 Extended candidates:
 
