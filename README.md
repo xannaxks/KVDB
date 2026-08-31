@@ -34,7 +34,7 @@ Current / planned components:
 * [ ] Bloom filter integration
 * [ ] Background compaction
 * [x] Benchmarks
-* [ ] Additional MemTable data structures
+* [x] Additional MemTable data structures
 
 ---
 
@@ -101,16 +101,16 @@ Currently implemented:
 
 | Data Structure | Status      |
 | -------------- | ----------- |
-| Red-Black Tree | Implemented |
+| Red-Black Tree | Done |
 
 Planned / experimental:
 
 | Data Structure                   | Status   |
 | -------------------------------- | -------- |
-| Skip List                        | In progress|
+| Skip List                        | Implemented|
 | AVL Tree                         | Planned  |
-| Treap                            | Planned  |
-| Splay Tree                       | Planned  |
+| Treap                            | Implemented  |
+| Splay Tree                       | Implemented  |
 | B+ Tree / Buffered Tree variants | Research |
 | Hash-based structures            | Research |
 
