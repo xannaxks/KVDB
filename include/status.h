@@ -88,6 +88,12 @@ enum class StatusCode : std::uint8_t {
     BadFileDescriptor, ///< bad file descriptor, might mean that file alrady closed.
 
 	InsertionFailed, ///< insertion failed, might be due to memory allocation failure or other reasons.
+
+    // Socket
+    SocketCreationFailed, ///< failed to create socket
+    SocketFailure, ///< general socket failure
+    SocketOptionFailed, ///< failed to set socket options
+    SocketBindFailed ///< failed to bind socket to port address
 };
 
 /**
