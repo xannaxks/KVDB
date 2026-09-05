@@ -15,21 +15,29 @@
 #endif
 
 #include <cerrno>
+#include <optional>
 #include <vector>
+
+#ifdef _WIN32
+using Socket = SOCKET;
+using InvalidSocket = INVALID_SOCKET;
+using SocketError = SOCKET_ERROR;
+#else
+using Socket = int;
+using InvalidSocket = -1;
+using SocketError = -1;
+#endif
+
 
 class Listener
 {
 private:
-
-#ifdef _WIN32
-	SOCKET fd_ = INVALID_SOCKET;
-#else
-	int fd_ = -1;
-#endif
-
+	Socket fd_ = InvalidSocket;
 	std::uint16_t port;
 
 	void close_socket();
+	void close_socket_noexcept() noexcept;
+
 public:
 	Listener(std::uint16_t port)
 		: port(port)
@@ -43,12 +51,8 @@ public:
 	* @brief Accept one pending connection.
 	* @return The newly connected socket.
 	*/
-	int accept();
+	std::optional<Socket> accept_connection();
 
 	// @brief descriptor getters
-#ifdef _WIN32
-	const SOCKET& socket() const noexcept;
-#else
-	int fd() const noexcept;
-#endif
+	Socket get_fd() const noexcept;
 };
