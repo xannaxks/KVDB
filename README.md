@@ -35,6 +35,7 @@ Current / planned components:
 * [ ] Background compaction
 * [x] Benchmarks
 * [x] Additional MemTable data structures
+* [ ] Client-server model (in progress)
 
 ---
 
