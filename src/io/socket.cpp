@@ -84,7 +84,7 @@ int socket_send(Socket fd, const std::byte* data, std::size_t size) noexcept
 int socket_receive(Socket fd, std::byte* buffer, std::size_t size)
 {
 
-	ssize_t bytes_received = ::recv(fd_, buffer, sizeof(buffer), 0);
+	ssize_t bytes_received = ::recv(fd, buffer, sizeof(buffer), 0);
 
 	return static_cast<int>(bytes_received);
 }
