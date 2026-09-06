@@ -1,32 +1,10 @@
 #pragma once
 
-#ifdef _WIN32
-
-#include <winsock2.h>
-#include <ws2tcpip.h>
-
-#else
-
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-
-#endif
-
 #include <cerrno>
 #include <optional>
 #include <vector>
 
-#ifdef _WIN32
-using Socket = SOCKET;
-using InvalidSocket = INVALID_SOCKET;
-using SocketError = SOCKET_ERROR;
-#else
-using Socket = int;
-using InvalidSocket = -1;
-using SocketError = -1;
-#endif
+#include "socket.h"
 
 
 class Listener

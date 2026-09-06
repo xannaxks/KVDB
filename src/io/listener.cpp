@@ -100,49 +100,12 @@ Listener::Listener(std::uint16_t port)
 
 void Listener::close_socket()
 {
-	if (fd_ == InvalidSocket)
-		return;
-
-#ifdef _WIN32
-	const int result = ::closesocket(fd_);
-#else
-	const int result = ::close(fd_);
-#endif
-
-	if (result == -1)
-	{
-		const int error = get_last_socket_error();
-
-		fd_ = InvalidSocket;
-
-#ifndef _WIN32
-		if (error == EINTR)
-			return;
-#endif
-
-		throw std::system_error(
-			error,
-			std::system_category(),
-			"failed to close socket"
-		);
-	}
-
-	fd_ = InvalidSocket;
+	::close_socket(this->fd_);
 }
 
 void Listener::close_socket_noexcept() noexcept
 {
-	if (fd_ == InvalidSocket)
-		return;
-
-	// consider logging into logging system in case of failure, but don't throw
-#ifdef _WIN32
-	::closesocket(fd_);
-#else
-	::close(fd_);
-#endif
-
-	fd_ = InvalidSocket;
+	::close_socket_noexcept(this->fd_);
 }
 
 Listener::~Listener()
@@ -153,24 +116,6 @@ Listener::~Listener()
 Socket Listener::get_fd() const noexcept
 {
 	return this->fd_;
-}
-
-int get_last_os_error()
-{
-#ifdef _WIN32
-	return static_cast<int>(::GetLastError());
-#else
-	return errno;
-#endif
-}
-
-int get_last_socket_error()
-{
-#ifdef _WIN32
-	return static_cast<int>(::WSAGetLastError());
-#else
-	return errno;
-#endif
 }
 
 std::optional<Socket> Listener::accept_connection()
@@ -198,7 +143,8 @@ std::optional<Socket> Listener::accept_connection()
 	{
 		int current_error = get_last_socket_error();
 
-		::closesocket(client); // we dont care about potential errors produced by closesocket, cuz we throw top layer error
+		// close client socket in case of failure, ::close_socket_noexcept() will not throw, consider log error in case of failure
+		::close_socket_noexcept(client);
 
 		throw std::system_error(
 			current_error,
