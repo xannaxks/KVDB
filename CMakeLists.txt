@@ -364,6 +364,34 @@ kvdb_add_component(db_options
         kvdb_status
 )
 
+kvdb_add_component(socket
+    SOURCES
+        src/io/socket.cpp
+)
+
+kvdb_add_component(listener
+    SOURCES
+        src/io/listener.cpp
+    PUBLIC_DEPS
+        kvdb_socket
+        kvdb_connection
+        kvdb_status
+)
+
+kvdb_add_component(connection
+    SOURCES
+        src/io/connection.cpp
+    PUBLIC_DEPS
+        kvdb_socket
+)
+
+kvdb_add_component(connection_manager
+    SOURCES
+        src/io/connection_manager.cpp
+    PUBLIC_DEPS
+        kvdb_connection
+)
+
 kvdb_add_component(murmur_hash
     SOURCES
         src/MurmurHash3.cpp
