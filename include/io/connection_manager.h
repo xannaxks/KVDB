@@ -2,17 +2,27 @@
 
 #include "connection.h"
 #include <vector>
-#include <byte>
-#include <unordered_map>
+#include <cstdint>
+#include <unordered_set>
+#include <optional>
 
 class ConnectionManager
 {
 public:
-	void add(int fd);
-	void remove(int fd);
+	ConnectionManager() = default;
+	~ConnectionManager() = default;
 
-	Connection& get(int fd);
+	ConnectionManager(const ConnectionManager&) = delete;
+	ConnectionManager& operator=(const ConnectionManager&) = delete;
+
+	Status add(Socket fd);
+	Status add(Connection&& connection);
+
+	Status remove(Socket fd);
+
+	const Connection* get(Socket fd) const;
+	const Connection* get(Socket fd);
 
 private:
-	std::unordered_map<int, Connection> connections_;
+	std::unordered_set<Connection, ConnectionHash, ConnectionEqual> connections_;
 };
