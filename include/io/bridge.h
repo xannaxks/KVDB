@@ -27,6 +27,6 @@ private:
 	std::vector<WorkerResult> results_;
 	std::mutex mutex_;
 
-	int event_fd_ = -1;
+	Socket event_fd_ = -1;
 	bool has_data_ = false;
 };

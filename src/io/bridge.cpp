@@ -1,4 +1,4 @@
-#include "bridge.h"
+#include "io/bridge.h"
 #include <assert.h>
 
 #ifndef _WIN32
@@ -10,6 +10,7 @@
 Bridge::Bridge()
 	: has_data_(false)
 {
+#ifndef _WIN32
 	event_fd_ = ::eventfd(0, EFD_CLOEXEC | EFD_NONBLOCK);
 
 	if (event_fd_ == -1)
@@ -21,6 +22,7 @@ Bridge::Bridge()
 			"failed to create eventfd"
 		);
 	}
+#endif
 }
 
 Bridge::~Bridge()
@@ -40,8 +42,12 @@ void Bridge::push(WorkerResult&& result)
 
 	for (;;)
 	{
+#ifndef _WIN32
 		ssize_t bytes_written = ::write(event_fd_, &increment, sizeof(increment));
-		if (bytes_written == -1)
+#else
+		int bytes_written;
+#endif
+		if (bytes_written == SocketError)
 		{
 			int last_error = ::get_last_socket_error();
 
@@ -86,8 +92,12 @@ void Bridge::push(WorkerResult& result)
 
 	for (;;)
 	{
+#ifndef _WIN32
 		ssize_t bytes_written = ::write(event_fd_, &increment, sizeof(increment));
-		if (bytes_written == -1)
+#else
+		int bytes_written;
+#endif
+		if (bytes_written == SocketError)
 		{
 			int last_error = ::get_last_socket_error();
 
