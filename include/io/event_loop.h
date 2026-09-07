@@ -1,27 +1,15 @@
 #pragma once
 
-#include "connection_manager.h"
-#include "listener.h"
-
-enum class EventFlag : std::uint32_t
-{
-	None = 0,
-	Readable = 1 << 0, // EPOLLIN
-	Writable = 1 << 1, // EPOLLOUT
-	Error = 1 << 2, // EPOLLERR
-	Hangup = 1 << 3, // EPOLLHUP
-};
-
-struct Event
-{
-	Socket fd;
-	EventFlag flags;
-};
+#include "io/connection_manager.h"
+#include "io/listener.h"
+#include "io/event.h"
+#include "io/poller.h"
+#include "io/bridge.h"
 
 class EventLoop
 {
 public:
-	void run(); // delegates to poller_ and handles events
+	void run(); // delegates to epolling to poller_, handles events itself
 
 	void handle_event(const Event& event);
 
