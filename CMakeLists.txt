@@ -385,6 +385,13 @@ kvdb_add_component(connection
         kvdb_socket
 )
 
+kvdb_add_component(bridge
+    SOURCES
+        src/io/bridge.cpp
+    PUBLIC_DEPS
+        kvdb_socket
+)
+
 kvdb_add_component(connection_manager
     SOURCES
         src/io/connection_manager.cpp
