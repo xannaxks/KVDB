@@ -369,6 +369,14 @@ kvdb_add_component(socket
         src/io/socket.cpp
 )
 
+kvdb_add_component(poller
+    SOURCES
+        src/io/poller.cpp
+    PUBLIC_DEPS
+        kvdb_status
+        kvdb_socket
+)
+
 kvdb_add_component(listener
     SOURCES
         src/io/listener.cpp
