@@ -96,6 +96,7 @@ enum class StatusCode : std::uint8_t {
     SocketBindFailed, ///< failed to bind socket to port address
 	ConnectionClosed, ///< connection closed by peer
 	WouldBlock, ///< socket is not ready for reading/writing, consider using select/poll/epoll to wait for readiness.
+    PartialOperation,
 };
 
 /**

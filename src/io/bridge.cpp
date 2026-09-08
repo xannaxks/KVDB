@@ -130,15 +130,56 @@ void Bridge::push(WorkerResult& result)
 	has_data_ = true;
 }
 
-std::vector<WorkerResult> Bridge::drain()
+std::optional<std::vector<WorkerResult>> Bridge::drain()
 {
+	static std::uint64_t buff = 0;
+
 	std::vector<WorkerResult> drained_results;
 	
 	{
 		std::lock_guard<std::mutex> lock(mutex_);
+
 		drained_results.swap(results_);
 		has_data_ = false;
-	}
+
+		for (;;)
+		{
+			int read;
+
+#ifndef _WIN32
+			read = static_cast<int>(::read(this->event_fd_, &buff, sizeof(buff)));
+#endif
+
+			if (read == SocketError)
+			{
+				int last_error = get_last_socket_error();
+
+				if (last_error == EINTR)
+					continue;
+
+				if (last_error == EAGAIN || last_error == EWOULDBLOCK)
+				{
+					results_.swap(drained_results);
+					has_data_ = true;
+
+					return std::nullopt;
+				}
+
+
+				results_.swap(drained_results);
+				has_data_ = true;
+
+				throw std::system_error(
+					last_error,
+					std::system_category(),
+					"failed to read data from event_fd; "
+				);
+			}
+
+			break; // can not result in partial reads
+		}
+
+	} // Lock RAII
 
 	return drained_results;
 }

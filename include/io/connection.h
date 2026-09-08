@@ -29,6 +29,8 @@ public:
 	Status on_readable();
 	Status on_writable();
 
+	Status append_data(std::vector<std::byte>& data);
+
 	Socket get_fd() const;
 	Socket get_fd();
 	

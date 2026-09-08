@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <queue>
 #include <mutex>
+#include <optional>
 
 struct WorkerResult
 {
@@ -19,7 +20,7 @@ public:
 	void push(WorkerResult& result);
 	void push(WorkerResult&& result);
 
-	std::vector<WorkerResult> drain();
+	std::optional<std::vector<WorkerResult>> drain();
 
 	int get_event_fd() const;
 

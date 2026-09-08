@@ -55,6 +55,7 @@ const Connection* ConnectionManager::get(Socket fd)
 
 Status ConnectionManager::remove(Socket fd)
 {
+    // .find doesn't throw by itself, but Has or KeyEqual might throw
     auto it = connections_.find(fd);
 
     if (it == connections_.end())

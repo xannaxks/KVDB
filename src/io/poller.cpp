@@ -23,13 +23,13 @@ Poller::~Poller()
 	::close_socket_noexcept(this->epoll_fd_);
 }
 
-void Poller::register_fd(Connection& connection)
+Status Poller::register_fd(Connection& connection)
 {
 #ifndef _WIN32
 
 	// Don't enable EPOLLOUT on level triggering, use dynamic flag setting.
 	epoll_event event{
-		EPOLLIN | EPOLLRDHUP | EPOLLPRI,
+		EPOLLIN | EPOLLRDHUP,
 		{ .ptr = &connection }
 	};
 
@@ -38,7 +38,7 @@ void Poller::register_fd(Connection& connection)
 		int last_error = ::get_last_socket_error();
 
 		if (last_error == EEXIST)
-			return;
+			return Status{ StatusCode::Duplicate, "File descriptor already registered" };
 
 		throw std::system_error(
 			last_error,
@@ -47,10 +47,11 @@ void Poller::register_fd(Connection& connection)
 		);
 	}
 
+	return Status::ok();
 #endif
 }
 
-void Poller::remove_fd(Socket fd)
+Status Poller::remove_fd(Socket fd)
 {
 #ifndef _WIN32
 
@@ -67,7 +68,7 @@ void Poller::remove_fd(Socket fd)
 		int last_error = ::get_last_socket_error();
 
 		if (last_error == ENOENT)
-			return;
+			return Status{ StatusCode::NotFound, "File descriptor not found" };
 
 		throw std::system_error(
 			last_error,
@@ -76,6 +77,7 @@ void Poller::remove_fd(Socket fd)
 		);
 	}
 
+	return Status::ok();
 #endif
 }
 
@@ -115,6 +117,8 @@ std::vector<Event> Poller::wait()
 				flags = static_cast<EventFlag>(static_cast<std::uint32_t>(flags) | static_cast<std::uint32_t>(EventFlag::Error));
 			if (events[i].events & EPOLLHUP)
 				flags = static_cast<EventFlag>(static_cast<std::uint32_t>(flags) | static_cast<std::uint32_t>(EventFlag::Hangup));
+			if (events[i].events & EPOLLRDHUP)
+				flags = static_cast<EventFlag>(static_cast<std::uint32_t>(flags) | static_cast<std::uint32_t>(EventFlag::RemoteHangup));
 			
 			Connection* connection = reinterpret_cast<Connection*>(events[i].data.ptr);
 			result.push_back({ connection->get_fd(), flags });
@@ -125,7 +129,7 @@ std::vector<Event> Poller::wait()
 #endif
 }
 
-void Poller::alter_fd_events(Connection& connection, std::uint32_t new_events)
+Status Poller::alter_fd_events(Connection& connection, std::uint32_t new_events)
 {
 #ifndef _WIN32
 
@@ -139,7 +143,7 @@ void Poller::alter_fd_events(Connection& connection, std::uint32_t new_events)
 		int last_error = ::get_last_socket_error();
 
 		if (last_error == ENOENT)
-			return;
+			return Status{ StatusCode::NotFound, "File descriptor not found" };
 
 		throw std::system_error(
 			last_error,
@@ -147,6 +151,17 @@ void Poller::alter_fd_events(Connection& connection, std::uint32_t new_events)
 			"failed to modify fd events in epoll"
 		);
 	}
-
+	
+	return Status::ok();
 #endif
+}
+
+Socket Poller::get_fd() const
+{
+	return this->epoll_fd_;
+}
+
+Socket Poller::get_fd()
+{
+	return this->epoll_fd_;
 }

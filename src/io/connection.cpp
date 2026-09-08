@@ -52,6 +52,11 @@ void Connection::erase_sent_data(std::size_t offset)
 	}
 }
 
+Status Connection::append_data(std::vector<std::byte>& data)
+{
+	this->output_buffer_.insert(this->output_buffer_.end(), data.begin(), data.end());
+}
+
 Status Connection::on_writable()
 {
 	std::size_t offset = 0;

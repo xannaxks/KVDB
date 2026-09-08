@@ -8,6 +8,7 @@ enum class EventFlag : std::uint32_t
 	Writable = 1 << 1, // EPOLLOUT
 	Error = 1 << 2, // EPOLLERR
 	Hangup = 1 << 3, // EPOLLHUP
+	RemoteHangup = 1 << 4, // EPOLLRDHUP
 };
 
 struct Event
