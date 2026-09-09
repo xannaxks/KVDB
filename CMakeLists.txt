@@ -825,6 +825,8 @@ kvdb_add_component(api
         kvdb_status
 )
 
+
+
 get_property(
     kvdb_component_targets
     GLOBAL
@@ -846,6 +848,15 @@ add_executable(kvdb_cli
 target_link_libraries(kvdb_cli PRIVATE
     kvdb
 )
+
+kvdb_add_component(worker
+    SOURCES
+        src/worker.cpp
+    PUBLIC_DEPS
+        kvdb
+        
+)
+
 kvdb_configure_target(kvdb_cli)
 
 # ==============================================================================
