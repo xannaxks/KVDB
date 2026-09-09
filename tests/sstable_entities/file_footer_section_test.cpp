@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-#include "sstable_entities/file_footer_section.h"
+#include "core/sstable_entities/file_footer_section.h"
 
 namespace
 {

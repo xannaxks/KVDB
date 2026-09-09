@@ -11,7 +11,7 @@
 #include <utility>
 #include <vector>
 
-#include "sstable_entities/file_header_section.h"
+#include "core/sstable_entities/file_header_section.h"
 
 using SSTableEntities::BLOCK_SIZE;
 using SSTableEntities::FILE_HEADER_MAGIC;

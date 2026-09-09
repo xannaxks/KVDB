@@ -10,11 +10,12 @@
 #include <utility>
 #include <vector>
 
-#include "crc32_helpers.h"
-#include "record.h"
-#include "sstable_entities.h"
-#include "sstable_entities/data_section.h"
-#include "sstable_entities/index_section.h"
+#include "utils/crc32_helpers.h"
+#include "utils/record.h"
+
+#include "core/sstable_entities/sstable_entities.h"
+#include "core/sstable_entities/data_section.h"
+#include "core/sstable_entities/index_section.h"
 
 namespace
 {

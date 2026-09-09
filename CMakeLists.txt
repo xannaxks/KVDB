@@ -297,18 +297,6 @@ function(kvdb_add_component component_name)
         )
     endif()
 
-    if(KVDB_COMPONENT_PRIVATE_ZLIB_DEP)
-        target_link_libraries("${target_name}" PRIVATE
-            kvdb_zlib
-        )
-    endif()
-
-    if(KVDB_COMPONENT_PUBLIC_ZLIB_DEP)
-        target_link_libraries("${target_name}" PUBLIC
-            kvdb_zlib
-        )
-    endif()
-
     kvdb_configure_target("${target_name}")
 
     set_property(GLOBAL APPEND PROPERTY KVDB_COMPONENT_TARGETS "${target_name}")
@@ -318,34 +306,15 @@ endfunction()
 # ==============================================================================
 # Dependencies
 # ==============================================================================
+include(FetchContent)
 
-add_library(kvdb_zlib STATIC
-    third_party/zlib/adler32.c
-    third_party/zlib/compress.c
-    third_party/zlib/crc32.c
-    third_party/zlib/deflate.c
-    third_party/zlib/gzclose.c
-    third_party/zlib/gzlib.c
-    third_party/zlib/gzread.c
-    third_party/zlib/gzwrite.c
-    third_party/zlib/infback.c
-    third_party/zlib/inffast.c
-    third_party/zlib/inflate.c
-    third_party/zlib/inftrees.c
-    third_party/zlib/trees.c
-    third_party/zlib/uncompr.c
-    third_party/zlib/zutil.c
+FetchContent_Declare(
+    zlib
+    GIT_REPOSITORY https://github.com/madler/zlib.git
+    GIT_TAG v1.3.1
 )
 
-target_include_directories(kvdb_zlib PUBLIC
-    "${PROJECT_SOURCE_DIR}/third_party/zlib"
-)
-
-set_target_properties(kvdb_zlib PROPERTIES
-    C_STANDARD 90
-    C_STANDARD_REQUIRED ON
-    C_EXTENSIONS ON
-)
+FetchContent_MakeAvailable(zlib)
 
 
 # ==============================================================================
@@ -354,12 +323,12 @@ set_target_properties(kvdb_zlib PROPERTIES
 
 kvdb_add_component(status
     SOURCES
-        src/status.cpp
+        src/utils/status.cpp
 )
 
 kvdb_add_component(db_options
     SOURCES
-        src/db_options.cpp
+        src/config/db_options.cpp
     PUBLIC_DEPS
         kvdb_status
 )
@@ -371,21 +340,21 @@ kvdb_add_component(murmur_hash
 
 kvdb_add_component(arena
     SOURCES
-        src/arena.cpp
+        src/core/allocator/arena.cpp
     PUBLIC_DEPS
         kvdb_status
 )
 
 kvdb_add_component(file
     SOURCES
-        src/file.cpp
+        src/abstractions/file.cpp
     PUBLIC_DEPS
         kvdb_status
 )
 
 kvdb_add_component(endian_io
     SOURCES
-        src/endian_io.cpp
+        src/utils/endian_io.cpp
     PUBLIC_DEPS
         kvdb_status
         kvdb_file
@@ -394,23 +363,23 @@ kvdb_add_component(endian_io
 
 kvdb_add_component(file_helpers
     SOURCES
-        src/file_helpers.cpp
+        src/utils/file_helpers.cpp
     PUBLIC_DEPS
         kvdb_status
 )
 
 kvdb_add_component(crc32_helpers
     SOURCES
-        src/crc32_helpers.cpp
+        src/utils/crc32_helpers.cpp
     PUBLIC_DEPS
         kvdb_endian_io
         kvdb_status
-    PUBLIC_ZLIB_DEP
 )
+target_link_libraries(kvdb_crc32_helpers PUBLIC zlibstatic)
 
 kvdb_add_component(record
     SOURCES
-        src/record.cpp
+        src/utils/record.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_endian_io
@@ -419,7 +388,7 @@ kvdb_add_component(record
 
 kvdb_add_component(driver
     SOURCES
-        src/driver.cpp
+        src/core/engine/driver.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_record
@@ -428,7 +397,7 @@ kvdb_add_component(driver
 
 kvdb_add_component(red_black_tree
     SOURCES
-        src/red_black_tree.cpp
+        src/data_structures/red_black_tree.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_record
@@ -438,7 +407,7 @@ kvdb_add_component(red_black_tree
 
 kvdb_add_component(skip_list
     SOURCES
-        src/skip_list.cpp
+        src/data_structures/skip_list.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_record
@@ -448,7 +417,7 @@ kvdb_add_component(skip_list
 
 kvdb_add_component(treap
     SOURCES
-        src/treap.cpp
+        src/data_structures/treap.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_record
@@ -458,7 +427,7 @@ kvdb_add_component(treap
 
 kvdb_add_component(splay_tree
     SOURCES
-        src/splay_tree.cpp
+        src/data_structures/splay_tree.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_record
@@ -468,7 +437,7 @@ kvdb_add_component(splay_tree
 
 kvdb_add_component(file_header_section
     SOURCES
-        src/sstable_entities/file_header_section.cpp
+        src/core/sstable_entities/file_header_section.cpp
     PUBLIC_DEPS
         kvdb_file_helpers
         kvdb_file
@@ -476,10 +445,11 @@ kvdb_add_component(file_header_section
         kvdb_endian_io
         kvdb_crc32_helpers
 )
+target_link_libraries(kvdb_file_header_section PRIVATE zlibstatic)
 
 kvdb_add_component(index_section
     SOURCES
-        src/sstable_entities/index_section.cpp
+        src/core/sstable_entities/index_section.cpp
     PUBLIC_DEPS
         kvdb_file_helpers
         kvdb_file
@@ -488,10 +458,11 @@ kvdb_add_component(index_section
         kvdb_crc32_helpers
         kvdb_arena
 )
+target_link_libraries(kvdb_crc32_helpers PUBLIC zlibstatic)
 
 kvdb_add_component(data_section
     SOURCES
-        src/sstable_entities/data_section.cpp
+        src/core/sstable_entities/data_section.cpp
     PUBLIC_DEPS
         kvdb_file_helpers
         kvdb_file
@@ -503,7 +474,7 @@ kvdb_add_component(data_section
 
 kvdb_add_component(data_section_view
     SOURCES
-        src/sstable_entities/data_section_view.cpp
+        src/core/sstable_entities/data_section_view.cpp
     PUBLIC_DEPS
         kvdb_file_helpers
         kvdb_file
@@ -515,7 +486,7 @@ kvdb_add_component(data_section_view
 
 kvdb_add_component(bloom_section
     SOURCES
-        src/sstable_entities/bloom_section.cpp
+        src/core/sstable_entities/bloom_section.cpp
     PUBLIC_DEPS
         kvdb_file_helpers
         kvdb_file
@@ -523,10 +494,11 @@ kvdb_add_component(bloom_section
         kvdb_endian_io
         kvdb_crc32_helpers
 )
+target_link_libraries(kvdb_bloom_section PUBLIC zlibstatic)
 
 kvdb_add_component(file_footer_section
     SOURCES
-        src/sstable_entities/file_footer_section.cpp
+        src/core/sstable_entities/file_footer_section.cpp
     PUBLIC_DEPS
         kvdb_file_helpers
         kvdb_file
@@ -539,7 +511,7 @@ kvdb_add_component(file_footer_section
 
 kvdb_add_component(meta_section
     SOURCES
-        src/sstable_entities/meta_section.cpp
+        src/core/sstable_entities/meta_section.cpp
     PUBLIC_DEPS
         kvdb_file_helpers
         kvdb_file
@@ -551,7 +523,7 @@ kvdb_add_component(meta_section
 
 kvdb_add_component(sstable
     SOURCES
-        src/sstable.cpp
+        src/core/engine/sstable.cpp
     PUBLIC_DEPS
         kvdb_crc32_helpers
         kvdb_file_helpers
@@ -575,7 +547,7 @@ kvdb_add_component(sstable
 
 kvdb_add_component(sstable_writer
     SOURCES
-        src/sstable_writer.cpp
+        src/core/sstable_infra/sstable_writer.cpp
     PUBLIC_DEPS
         kvdb_status
         kvdb_arena
@@ -586,7 +558,7 @@ kvdb_add_component(sstable_writer
 
 kvdb_add_component(sstable_loader
     SOURCES
-        src/sstable_loader.cpp
+        src/core/sstable_infra/sstable_loader.cpp
     PUBLIC_DEPS
         kvdb_status
         kvdb_arena
@@ -597,7 +569,7 @@ kvdb_add_component(sstable_loader
 
 kvdb_add_component(sstable_manager
     SOURCES
-        src/sstable_manager.cpp
+        src/core/engine/sstable_manager.cpp
     PUBLIC_DEPS
         kvdb_status
         kvdb_arena
@@ -611,7 +583,7 @@ kvdb_add_component(sstable_manager
 
 kvdb_add_component(table_meta
     SOURCES
-        src/table_meta.cpp
+        src/core/engine/table_meta.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_status
@@ -620,7 +592,7 @@ kvdb_add_component(table_meta
 
 kvdb_add_component(level_manager
     SOURCES
-        src/level_manager.cpp
+        src/core/engine/level_manager.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_status
@@ -629,7 +601,7 @@ kvdb_add_component(level_manager
 
 kvdb_add_component(merge_iterator
     SOURCES
-        src/merge_iterator.cpp
+        src/utils/merge_iterator.cpp
     PUBLIC_DEPS
         kvdb_status
         kvdb_arena
@@ -640,7 +612,7 @@ kvdb_add_component(merge_iterator
 
 kvdb_add_component(manifest
     SOURCES
-        src/manifest.cpp
+        src/core/engine/manifest.cpp
     PUBLIC_DEPS
         kvdb_level_manager
         kvdb_table_meta
@@ -651,7 +623,7 @@ kvdb_add_component(manifest
 
 kvdb_add_component(wal
     SOURCES
-        src/wal.cpp
+        src/core/engine/wal.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_file
@@ -662,7 +634,7 @@ kvdb_add_component(wal
 
 kvdb_add_component(mem_table
     SOURCES
-        src/mem_table.cpp
+        src/core/engine/mem_table.cpp
     PUBLIC_DEPS
         kvdb_wal
         kvdb_file
@@ -678,7 +650,7 @@ kvdb_add_component(mem_table
 
 kvdb_add_component(engine
     SOURCES
-        src/engine.cpp
+        src/core/engine/engine.cpp
     PUBLIC_DEPS
         kvdb_sstable
         kvdb_manifest
@@ -700,14 +672,14 @@ kvdb_add_component(engine
 
 kvdb_add_component(compaction_options
     SOURCES
-        src/compaction_options.cpp
+        src/core/compaction/compaction_options.cpp
     PUBLIC_DEPS
         kvdb_status
 )
 
 kvdb_add_component(compaction_plan
     SOURCES
-        src/compaction_plan.cpp
+        src/core/compaction/compaction_plan.cpp
     PUBLIC_DEPS
         kvdb_status
         kvdb_arena
@@ -716,7 +688,7 @@ kvdb_add_component(compaction_plan
 
 kvdb_add_component(compaction_job
     SOURCES
-        src/compaction_job.cpp
+        src/core/compaction/compaction_job.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_status
@@ -731,7 +703,7 @@ kvdb_add_component(compaction_job
 
 kvdb_add_component(compaction_scheduler
     SOURCES
-        src/compaction_scheduler.cpp
+        src/core/compaction/compaction_scheduler.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_status
@@ -749,7 +721,7 @@ kvdb_add_component(compaction_scheduler
 # or remove this dependency if the iterator is actually header-only.
 kvdb_add_component(sstable_iterator
     SOURCES
-        src/sstable_iterator.cpp
+        src/core/sstable_infra/sstable_iterator.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_file
@@ -761,7 +733,7 @@ kvdb_add_component(sstable_iterator
 
 kvdb_add_component(sstable_builder
     SOURCES
-        src/sstable_builder.cpp
+        src/core/sstable_infra/sstable_builder.cpp
     PUBLIC_DEPS
         kvdb_arena
         kvdb_status
@@ -775,7 +747,7 @@ kvdb_add_component(sstable_builder
 
 kvdb_add_component(api
     SOURCES
-        src/kvdb.cpp
+        src/core/kvdb.cpp
     PUBLIC_DEPS
         kvdb_db_options
         kvdb_engine

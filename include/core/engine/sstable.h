@@ -1,0 +1,182 @@
+/**
+ * @file sstable.h
+ * @brief Immutable sorted-table aggregate, lookup path, and file lifecycle.
+ *
+ * An SSTable is built at a temporary path, serialized section by section, made
+ * durable, and atomically renamed to its final path. Loaded tables retain only
+ * section metadata and read record bytes lazily through DataSectionView.
+ */
+#pragma once
+
+#ifdef _WIN32
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+
+#endif
+
+#include <algorithm>
+#include <bitset>
+#include <cstdint>
+#include <filesystem>
+#include <format>
+#include <fstream>
+#include <limits>
+#include <memory>
+#include <optional>
+#include <stdexcept>
+#include <string>
+#include <utility>
+
+#include "MurmurHash3.h"
+
+#include "utils/crc32_helpers.h"
+#include "utils/endian_io.h"
+#include "utils/file_helpers.h"
+#include "utils/record.h"
+#include "utils/status.h"
+
+#include "abstractions/file.h"
+
+#include "core/engine/mem_table.h"
+
+#include "core/sstable_entities/sstable_entities.h"
+#include "core/sstable_entities/bloom_section.h"
+#include "core/sstable_entities/data_section.h"
+#include "core/sstable_entities/data_section_view.h"
+#include "core/sstable_entities/file_footer_section.h"
+#include "core/sstable_entities/file_header_section.h"
+#include "core/sstable_entities/index_section.h"
+#include "core/sstable_entities/meta_section.h"
+
+
+/**
+ * @brief State-checked aggregate of all sections in one SSTable file.
+ *
+ * Records are globally ordered by user key ascending and sequence descending.
+ * Lookup first consults the Bloom filter, narrows the search with the index,
+ * validates candidate data blocks, and materializes the newest matching record
+ * into the caller's Arena.
+ */
+class SSTable
+{
+private:
+    enum class State : std::uint8_t
+    {
+        Empty,
+        Building,
+        Loaded,
+        Published
+    };
+
+public:
+    SSTable() noexcept = default;
+
+    SSTable(
+        std::filesystem::path temporary_path,
+        std::filesystem::path destination_path,
+        std::uint32_t table_id = 0
+    )
+        : path(std::move(temporary_path)),
+        final_path(std::move(destination_path)),
+        state(State::Building),
+        file_header_section(table_id)
+    {
+    }
+
+    explicit SSTable(std::filesystem::path existing_path)
+        : path(existing_path),
+        final_path(std::move(existing_path)),
+        state(State::Loaded)
+    {
+    }
+
+    SSTable(const SSTable&) = delete;
+    SSTable& operator=(const SSTable&) = delete;
+
+    SSTable(SSTable&&) noexcept = default;
+    SSTable& operator=(SSTable&&) noexcept = default;
+
+private:
+    std::filesystem::path path;
+    std::filesystem::path final_path;
+
+    State state{ State::Empty };
+
+    std::unique_ptr<ReadableFile> file_in;
+
+    SSTableEntities::FileHeaderSection file_header_section{};
+    SSTableEntities::DataSection data_section{};
+    SSTableEntities::DataSectionView data_section_view{};
+    SSTableEntities::IndexSection index_section{};
+    SSTableEntities::BloomSection bloom_section{};
+    SSTableEntities::MetaSection meta_section{};
+    SSTableEntities::FileFooterSection file_footer_section{};
+
+    [[nodiscard]] Status fsync(WritableFile& file_out);
+
+    friend class SSTableManager;
+    friend class SSTableWriter;
+    friend class SSTableLoader;
+    friend class SSTableIterator;
+
+public:
+    /**
+     * @brief Serializes, synchronizes, and publishes a building table.
+     * @callgraph
+     */
+    [[nodiscard]] Status write();
+
+    /**
+     * @brief Opens and validates an existing SSTable's structural metadata.
+     * @callgraph
+     */
+    [[nodiscard]] static Result<SSTable> load(
+        const std::filesystem::path& path,
+        Arena& arena
+    );
+
+    [[nodiscard]] const std::filesystem::path& get_path() const;
+    [[nodiscard]] const std::filesystem::path& get_final_path() const;
+
+    [[nodiscard]] const SSTableEntities::FileHeaderSection&
+        get_file_header_section() const;
+
+    [[nodiscard]] const SSTableEntities::DataSection&
+        get_data_section() const;
+
+    [[nodiscard]] const SSTableEntities::DataSectionView&
+        get_data_section_view() const;
+
+    [[nodiscard]] const SSTableEntities::IndexSection&
+        get_index_section() const;
+
+    [[nodiscard]] const SSTableEntities::BloomSection&
+        get_bloom_section() const;
+
+    [[nodiscard]] const SSTableEntities::MetaSection&
+        get_meta_section() const;
+
+    [[nodiscard]] const SSTableEntities::FileFooterSection&
+        get_file_footer_section() const;
+
+    /** @brief Adds one sorted record to a table in the Building state. */
+    [[nodiscard]] Status append_record(const InternalRecord& record);
+
+    [[nodiscard]] static std::size_t fixed_disk_size() noexcept;
+
+    /**
+     * @brief Finds the newest stored version of @p key.
+     * @return Empty when the Bloom/index/data path proves the key is absent.
+     * @callgraph
+     */
+    [[nodiscard]] Result<std::optional<InternalRecord>> get(
+        const ArenaEntry& key,
+        Arena& arena
+    ) const;
+};

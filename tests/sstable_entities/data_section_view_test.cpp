@@ -16,7 +16,7 @@
 
 #include <zlib.h>
 
-#include "sstable_entities/data_section_view.h"
+#include "core/sstable_entities/data_section_view.h"
 
 namespace
 {

@@ -11,9 +11,9 @@
 #include <utility>
 #include <vector>
 
-#include "crc32_helpers.h"
-#include "sstable_entities/bloom_section.h"
-#include "sstable_entities/data_section.h"
+#include "utils/crc32_helpers.h"
+#include "core/sstable_entities/bloom_section.h"
+#include "core/sstable_entities/data_section.h"
 
 namespace
 {
