@@ -323,7 +323,12 @@ the results and connect them to real storage-engine behavior.
 
 ## Current Status
 
-KVDB is under active development.
+Development of KVDB is currently on hold. The project is open to ownership transfer. Please contact the author for inquiries.
+
+- Email: [temirbekovmaksat576@gmail.com](mailto:temirbekovmaksat576@gmail.com)
+- GitHub: [@xannaxks](https://github.com/xannaxks)
+- LinkedIn: [Maksat Temirbekov](https://www.linkedin.com/in/maksat-temirbekov-b544182b8/)
+
 
 The current focus is:
 
@@ -354,6 +359,16 @@ The current focus is:
 - Experimental file format; no compatibility guarantee
 - No stable Mac (Clang) CI
 - Enough repeated manifest edits can expose a payload-size mismatch
+
+---
+
+## Ownership transfer
+
+Development of KVDB is currently on hold. The project is open to ownership transfer. Please contact the author for inquiries.
+
+- Email: [temirbekovmaksat576@gmail.com](mailto:temirbekovmaksat576@gmail.com)
+- GitHub: [@xannaxks](https://github.com/xannaxks)
+- LinkedIn: [Maksat Temirbekov](https://www.linkedin.com/in/maksat-temirbekov-b544182b8/)
 
 ---
 
